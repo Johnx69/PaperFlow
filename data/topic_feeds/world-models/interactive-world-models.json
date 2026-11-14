@@ -1,6 +1,2177 @@
 {
   "days": [
     {
+      "date": "2026-11-12",
+      "paper_count": 13,
+      "papers": [
+        {
+          "abstract": "Within the CG animation production pipeline, the challenges artists tackle in Lighting can be immense. Even minor adjustments require re-rendering massive scenes with slow offline renderers; global illumination has to be sampled and complex shaders have to be evaluated, leading to iteration times of minutes to hours per frame. To accelerate this process, we introduce a novel neural render proxy (NRP) that enables differentiable relighting of static scenes with fixed camera and materials at interactive rates. Our main insight is the decoupling of traditional rendering into path sampling and emission computation. From a single, light-agnostic render pass, we collect light transport data in the form of path samples. This enables rapidly sampling lighting conditions on the fly, and training a scene-specific lightweight neural network that learns how light is transported from any scene location to any image pixel. This approach is compatible with non-differentiable production renderers, induces minimal memory requirements during inference, and scales only with resolution and the number of light sources and parameters, but independently of scene and appearance complexity. Our evaluation demonstrates interactive frame rates for relighting (~30-60 Hz) while closely approximating the visual fidelity of ground-truth path tracing. In addition, the differentiable NRP enables fast, gradient-based inverse workflows, allowing artists to efficiently solve for lighting parameters from intuitive image-space edits or generative targets.",
+          "arxiv_id": "2611.17185",
+          "arxiv_url": "https://arxiv.org/abs/2611.17185",
+          "authors": [
+            "Sergio Sancho, Alexander Rath, Marco Manzi, Pascal Chang, Amit H. Bermano, Derek Nowrouzezahrai, Markus Gross, Marios Papas"
+          ],
+          "bullets": [
+            "Targets slow lighting iteration caused by global-illumination sampling and complex shader evaluation.",
+            "Decouples rendering into path sampling and emission computation using a light-agnostic render pass.",
+            "Trains a scene-specific neural network to predict light transport from scene locations to image pixels.",
+            "Supports relighting at approximately 30–60 Hz with inference cost tied to resolution and lighting parameters, not scene complexity.",
+            "Enables gradient-based inverse lighting workflows from image edits or generative targets."
+          ],
+          "categories": [
+            "cs.GR",
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 12: Controllable relighting using our optimization pipeline. Left two columns (Art-directed edits): Lighting parameters are optimized to adhere to hand-drawn scribbles depicting desired illumination phenomena. Right two columns (Generative edits): We leverage generative image models (Qwen-Image-Edit) to create relighting targets. In both cases, given an initial image and a target, we optimize through our NRP to extract physically plausible lighting parameters that accurately reconstruct the prompted appearance. © Disney",
+              "figure_id": "figure-12-2",
+              "figure_number": "12",
+              "height": 387,
+              "image_path": "figures/2611.17185/figure-001.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 1042
+            },
+            {
+              "caption": "Figure 2: Our Pipeline. Training (left): We collect lighting agnostic paths from path tracing the scene before generating denoised image with random lighting conditions to serve as training data. Our neural render proxy (NRP; middle) is a lightweight MLP with hashgrid positional encoding that predicts light transport to a sensor pixel from an input light. To reduce training time and avoid spectral bias, we condition the NRP on auxiliary features (albedo, depth and normals) at sensor image coordinates. At inference time (top right), we can relight the scene at interactive rates by inserting virtual light sources into the scene. Since the NRP is also differentiable, we can optimize for lighting parameters (bottom right) using gradient descent, driven by any number of image-space guidance approaches.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 530,
+              "image_path": "figures/2611.17185/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1031
+            },
+            {
+              "caption": "Figure 5: Qualitative image-based relighting comparison. Our relighting setting matches that of image-based relighting using generative networks. Two leading approaches with similar input settings (image, auxiliary features, and lighting condition) are presented. Generative models do not preserve scene geometry, do not adhere to material appearance behavior, and produce lighting that is plausible, but is not physically reasonable. Our method produces high-quality and high-fidelity appearance in real-time. Note that the aspect ratio is different since the generative models used consider squared images.",
+              "figure_id": "figure-5-1",
+              "figure_number": "5",
+              "height": 302,
+              "image_path": "figures/2611.17185/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1045
+            },
+            {
+              "caption": "Figure 4: Production scenes. Interactive relighting results created by artists using our neural render proxy on large-scale production scenes. Each row shows three different light configurations for the same scene. Our method faithfully captures complex light transport effects including fur (top), translucency (middle), and volumetric lighting (bottom). © Disney",
+              "figure_id": "figure-4-21",
+              "figure_number": "4",
+              "height": 442,
+              "image_path": "figures/2611.17185/figure-004.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1047
+            },
+            {
+              "caption": "Figure 4: Qualitative comparison of component ablation variants on the Kitchen scene. Top row: tonemapped renderings under the same light position. Bottom row: FLIP error maps (HDR mode) against the ground truth, with shared scale. Our full pipeline (rightmost) produces the lowest perceptual error.",
+              "figure_id": "figure-4-13",
+              "figure_number": "4",
+              "height": 442,
+              "image_path": "figures/2611.17185/figure-005.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 1047
+            },
+            {
+              "caption": "Figure 1: Quality metrics vs. samples per pixel (left) and vs. network size (right) Prediction quality (blue) and Monte Carlo reconstruction reference (red) across three scenes. Left: Higher spp improves reconstruction quality and prediction quality. Interestingly, at low spp regimes, the model prediction can perform better than the data it was trained on. Right: Bigger models improve prediction quality. We use 256 neurons with 8 layers by default.",
+              "figure_id": "figure-1-15",
+              "figure_number": "1",
+              "height": 618,
+              "image_path": "figures/2611.17185/figure-006.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 1039
+            },
+            {
+              "caption": "Figure 10: Multi-view lighting edits. By training an NRP for each view, our method enables interactive and consistent lighting edits across multiple views simultaneously.",
+              "figure_id": "figure-10-7",
+              "figure_number": "10",
+              "height": 302,
+              "image_path": "figures/2611.17185/figure-007.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 502
+            },
+            {
+              "caption": "Figure 6: Path-based training. PSNR (dB) in tonemapped space, averaged across three scenes. Each bar is a network trained on N images at S spp with NEE (N×S). Blue: increasing dataset size at 1 spp. Orange: fixed budget of 1024 total samples per pixel, redistributed across images. Dashed red line: our method, trained on light-agnostic path data from a 64 spp render. Despite 16× fewer sampled paths, our approach outperforms all image-based configurations.",
+              "figure_id": "figure-6-5",
+              "figure_number": "6",
+              "height": 244,
+              "image_path": "figures/2611.17185/figure-008.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 495
+            },
+            {
+              "caption": "Figure 9: Inverse optimization comparison. A light source is optimized from a random initial position to match a target appearance. Error maps (middle) show the relative squared error of path-traced re-renders against the target. Our NRP approach converges to lower parameter error in less time than traditional (Mitsuba) and neural (ZeroGrads) baselines (right). This comparison serves as validation: Baselines operate at low spp for tractable runtimes, and their accuracy could improve with higher sample counts at proportionally longer optimization times.",
+              "figure_id": "figure-9-17",
+              "figure_number": "9",
+              "height": 446,
+              "image_path": "figures/2611.17185/figure-009.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 1041
+            },
+            {
+              "caption": "Figure 7: Quality metrics vs. samples per pixel. Mean prediction quality for network size 256×8 (blue) and denoised reconstruction from the GATHERLIGHT pass (red), averaged across three scenes. Higher spp improves both reconstruction and prediction quality. Notably, at low spp the learned model can outperform the reconstruction it was trained on. Unless stated otherwise, we use 512 spp for training.",
+              "figure_id": "figure-7-12",
+              "figure_number": "7",
+              "height": 373,
+              "image_path": "figures/2611.17185/figure-010.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 489
+            },
+            {
+              "caption": "Figure 14: Limitations in narrow regions. When queried in undersampled spaces, our NRP can struggle to accurately model occlusions. As shown here, placing the light source inside the narrow cavity of the lamp results in incorrect light propagation.",
+              "figure_id": "figure-14-16",
+              "figure_number": "14",
+              "height": 170,
+              "image_path": "figures/2611.17185/figure-011.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 502
+            },
+            {
+              "caption": "Figure 3: Convergence for different network sizes wrt. wall-clock time",
+              "figure_id": "figure-3-10",
+              "figure_number": "3",
+              "height": 531,
+              "image_path": "figures/2611.17185/figure-012.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 1031
+            },
+            {
+              "caption": "Figure 2: Convergence for different network sizes wrt. training step (100k)",
+              "figure_id": "figure-2-9",
+              "figure_number": "2",
+              "height": 530,
+              "image_path": "figures/2611.17185/figure-013.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 1031
+            },
+            {
+              "caption": "Figure 11: Compositing Application. Our NRP can be seamlessly combined with standard compositing workflows by training it for specific layers. In this Arcade example, an NRP is trained on the foreground layer only, allowing to relight it while leaving the background untouched. © Disney",
+              "figure_id": "figure-11-6",
+              "figure_number": "11",
+              "height": 321,
+              "image_path": "figures/2611.17185/figure-014.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 499
+            },
+            {
+              "caption": "Figure 8: Effect of network size on prediction quality (SMAPE). Left: average over the three Mitsuba scenes; right: production scene (Cave). The dashed line indicates the Monte Carlo reconstruction at the same sample budget. Larger networks consistently improve quality, with diminishing returns beyond 256×8.",
+              "figure_id": "figure-8-11",
+              "figure_number": "8",
+              "height": 282,
+              "image_path": "figures/2611.17185/figure-015.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 493
+            },
+            {
+              "caption": "Figure 13: Our formulation extends to dense participating media (left) and alternative light parameterizations, such as quad lights with adjustable size, position, and orientation (right).",
+              "figure_id": "figure-13-3",
+              "figure_number": "13",
+              "height": 246,
+              "image_path": "figures/2611.17185/figure-016.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 501
+            },
+            {
+              "caption": "Table 5: Quality metrics across different spp — prediction (Pred.) vs. Monte Carlo reference (Ref.), median over 2000 light configurations",
+              "figure_id": "table-5-14",
+              "figure_number": "5",
+              "height": 412,
+              "image_path": "figures/2611.17185/table-017.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 935
+            },
+            {
+              "caption": "Table 10: Quality metrics across different network sizes (median)",
+              "figure_id": "table-10-20",
+              "figure_number": "10",
+              "height": 493,
+              "image_path": "figures/2611.17185/table-018.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 996
+            },
+            {
+              "caption": "Table 9: Quality metrics across different spp (inference median)",
+              "figure_id": "table-9-19",
+              "figure_number": "9",
+              "height": 348,
+              "image_path": "figures/2611.17185/table-019.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 941
+            },
+            {
+              "caption": "Table 8: Quality metrics across different spp (inference mean)",
+              "figure_id": "table-8-18",
+              "figure_number": "8",
+              "height": 347,
+              "image_path": "figures/2611.17185/table-020.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 941
+            },
+            {
+              "caption": "Table 3: Reconstruction GPU memory (GB) by spp",
+              "figure_id": "table-3-23",
+              "figure_number": "3",
+              "height": 160,
+              "image_path": "figures/2611.17185/table-021.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 352
+            },
+            {
+              "caption": "Table 1: Inference time (ms) by network size",
+              "figure_id": "table-1-4",
+              "figure_number": "1",
+              "height": 36,
+              "image_path": "figures/2611.17185/table-022.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 467
+            },
+            {
+              "caption": "Table 4: Rendering time and memory usage for some production scenes. Data rendered at 512 spp (960×402), using 32 threads of an Intel Xeon Gold 6342 @ 2.8 GHz.",
+              "figure_id": "table-4-22",
+              "figure_number": "4",
+              "height": 94,
+              "image_path": "figures/2611.17185/table-023.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 425
+            },
+            {
+              "caption": "Table 2: Reconstruction time (ms) by spp",
+              "figure_id": "table-2-24",
+              "figure_number": "2",
+              "height": 35,
+              "image_path": "figures/2611.17185/table-024.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 477
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.17185/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.17185",
+          "relevance": 7,
+          "selection_reason": "Introduces Neural Render Proxies (NRP) for differentiable relighting, enabling interactive simulation of lighting conditions in static scenes. This acts as an interactive world model for light transport dynamics.",
+          "summary_status": "generated",
+          "title": "Neural Render Proxies for Interactive and Differentiable Lighting",
+          "tldr": "A lightweight neural render proxy enables interactive, differentiable relighting of static scenes while closely matching path-traced quality.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Actions in expert demonstrations exhibit temporal structure. An ordered-versus-shuffled analysis across five environments confirms this dependence. We ask whether action proposals that better reflect expert continuity can improve visual world-model planning. Rather than imposing generic smoothness, we learn continuations from the temporal structure of demonstrated actions. Our locality-gated deep-kernel Gaussian-process prior, LG-DKGP, combines recent and longer-range executed action history, predicts a neural continuation, and learns a temporal Gaussian-process (GP) residual. A training-derived exploration scale initializes search around the corrected mean; a frozen world model evaluates progress toward the goal. Training first fits the neural mean, then jointly optimizes the prior with the GP residual using expert future actions. The resulting planner achieves 87.07\\% macro success across five simulated tasks spanning native and fragment-level goal attainment, compared with 71.03\\% for INTACT, 61.66\\% for PRISM, and 58.66\\% for LeWM. Component interventions and expert-relative action-structure comparisons support demonstration-informed continuations and reveal task-dependent effects of visual conditioning, history length, and planning horizon.",
+          "arxiv_id": "2611.16645",
+          "arxiv_url": "https://arxiv.org/abs/2611.16645",
+          "authors": [
+            "Shaobo Yang, Zichen Ai, Ziyang Ma, Qian Yang, Bin Fang"
+          ],
+          "bullets": [
+            "Expert actions show meaningful temporal dependence: ordered demonstrations outperform shuffled ones.",
+            "LG-DKGP combines recent and long-range action history with a neural continuation and temporal Gaussian-process residual.",
+            "A training-derived exploration scale initializes planning, while a frozen world model evaluates goal progress.",
+            "The planner reaches 87.07% macro success, compared with 71.03% for INTACT, 61.66% for PRISM, and 58.66% for LeWM.",
+            "Component studies indicate task-dependent effects from visual conditioning, history length, and planning horizon."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Matched PushT executions. Both methods share the start and goal. LG-DKGP succeeds at step 24; LeWM fails within 50 steps. Lines follow the actual circular pusher, dots mark controlstep positions, and T shapes show initial, goal, and final object poses.",
+              "figure_id": "figure-2-2",
+              "figure_number": "2",
+              "height": 203,
+              "image_path": "figures/2611.16645/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 421
+            },
+            {
+              "caption": "Figure 3. Continuity-aware action prior and planning. Frozen visual features query a two-layer history encoder. Learned gating combines global and recency-biased local attention over executed actions. A neural mean and GP residual form the continuation mean supplied to CEM, which explores its neighborhood using the training-derived scalar scale.",
+              "figure_id": "figure-3-5",
+              "figure_number": "3",
+              "height": 295,
+              "image_path": "figures/2611.16645/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 982
+            },
+            {
+              "caption": "Figure 4. Two-stage prior learning. A history encoder and neural mean are pretrained using expert future-action targets, then warmstart joint prior fitting with a GP residual. The second stage also updates the history encoder. The visual encoder remains frozen. Future expert actions supervise the losses and are unavailable as online conditioning inputs.",
+              "figure_id": "figure-4-7",
+              "figure_number": "4",
+              "height": 226,
+              "image_path": "figures/2611.16645/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 492
+            },
+            {
+              "caption": "Figure 10. Expert-relative structure on a matched PushT query. Left: expert, LeWM, and LG-DKGP executions at common control steps, with the same start and goal. Right: adjacent-increment error to the expert and MMD2 from the first complete optimized 25-step plans. Example MMD2 values are 0.2926 for LeWM and 0.0079 for LG-DKGP.",
+              "figure_id": "figure-10-6",
+              "figure_number": "10",
+              "height": 194,
+              "image_path": "figures/2611.16645/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 494
+            },
+            {
+              "caption": "Figure 6. Paired execution examples. PushT and Caddy use matched starts and goals for LeWM and LG-DKGP. Columns show step 10 and the recorded final state, with step counts indicated. LGDKGP reaches the native PushT criterion and the Caddy fragment goal; LeWM fails within 50 steps.",
+              "figure_id": "figure-6-8",
+              "figure_number": "6",
+              "height": 164,
+              "image_path": "figures/2611.16645/figure-005.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 495
+            },
+            {
+              "caption": "Figure 5. Five evaluation environments. Current observations ot and goal observations og illustrate the visual planning inputs for PushT, Cube, LIBERO Caddy, LIBERO Scene2, and RoboTwin.",
+              "figure_id": "figure-5-10",
+              "figure_number": "5",
+              "height": 115,
+              "image_path": "figures/2611.16645/figure-006.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1036
+            },
+            {
+              "caption": "Table 3. Search initialization with the same learned prior (%). Five-seed means. Fixed uses 0.32I; Diag. uses expert-derived coordinatewise scales after subtracting the mean continuation’s increment energy; +Bounds additionally applies action bounds and a training-derived increment budget. Ours uses the expertderived isotropic scale without these bounds. Exact SDs are in Supplementary Table S9.",
+              "figure_id": "table-3-4",
+              "figure_number": "3",
+              "height": 174,
+              "image_path": "figures/2611.16645/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 4. Paired expert-relative structure. Closer counts queries where LG-DKGP has lower MMD2 than LeWM. ∆ is LeWM minus LG-DKGP; intervals use 1,000 source-episode-cluster bootstrap resamples. Query counts include both successful and failed control episodes.",
+              "figure_id": "table-4-3",
+              "figure_number": "4",
+              "height": 145,
+              "image_path": "figures/2611.16645/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 1. Expert actions have local temporal structure. Held-out successful episodes; 95% intervals use episode bootstrap. ∆ord is shuffled minus ordered adjacent difference.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 144,
+              "image_path": "figures/2611.16645/table-009.webp",
+              "kind": "table",
+              "page": 2,
+              "width": 496
+            },
+            {
+              "caption": "Table 2. Main performance across five environments (%). Task cells are five-seed means ± sample SD; Macro is their unweighted mean. Caddy, Scene2, and RoboTwin use the fragment-level criteria described in the text. Bold numeric entries highlight the highest task mean. Five purple shades rank each column from higher (darker) to lower success (lighter).",
+              "figure_id": "table-2-9",
+              "figure_number": "2",
+              "height": 162,
+              "image_path": "figures/2611.16645/table-010.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1046
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.16645/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.16645",
+          "relevance": 8,
+          "selection_reason": "Continuity-aware action priors for visual world-model planning in embodied goal-directed tasks.",
+          "summary_status": "generated",
+          "title": "Rethinking Actions: Continuity-Aware Priors for World-Model Planning",
+          "tldr": "A continuity-aware action prior learned from expert demonstrations improves visual world-model planning across five simulated tasks.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Joint-Embedding Predictive Architectures (JEPAs) enable future prediction in latent space without pixel reconstruction. However, latent predictive consistency alone does not establish the relative driving quality of candidate plans. We present ActWorld-JEPA, a joint-embedding formulation for candidate-based driving. Where Plan-Conditioned JEPA (PC-JEPA) uses global and step-wise trajectory intentions to guide recurrent latent prediction, then combines the predicted future with the current scene through gated cross-attention; Relational Residual Reranking ($R^3$) models agreement and discrepancy between plan and future representations under planning supervision, yielding bounded, gated residual corrections to the base planning scores. This formulation connects latent prediction to candidate selection using only observed context and proposed trajectories at inference. Benchmark-specific implementations report 94.1 PDMS on NAVSIM v1 navtest, with the final selector calibrated using aggregate NAVTEST feedback, and 91.6 and 42.7 EPDMS on NAVSIM v2 navtest and navhard, respectively. The nuScenes evaluation reports a mean $L_2$ error of 1.20 m and a predicted collision rate of 0.76% over 1--6 s. This work provides an effective path from JEPA's predictive representations to driving decisions informed by anticipated consequences.",
+          "arxiv_id": "2611.16579",
+          "arxiv_url": "https://arxiv.org/abs/2611.16579",
+          "authors": [
+            "Ziying Song, Shengkai Zhang, Caiyan Jia, Lei Yang, Lin Liu, Yuchen Liu, Ziyang Liu, Zirui Li, Gang Wang, Peiliang Wu, Li Wang, Yadan Luo, Chen Lv"
+          ],
+          "bullets": [
+            "Addresses the gap between latent future-prediction consistency and the relative quality of candidate driving plans.",
+            "Uses Plan-Conditioned JEPA to predict future latent states from scene context and global/step-wise trajectory intentions.",
+            "Applies Relational Residual Reranking to model plan–future agreement and discrepancy, producing gated corrections to base planning scores.",
+            "Reports 94.1 PDMS on NAVSIM v1, 91.6/42.7 EPDMS on NAVSIM v2 navtest/navhard, and 1.20 m mean L2 error with 0.76% predicted collision rate on nuScenes.",
+            "Inference uses only observed context and proposed trajectories; the reported selector is calibrated using aggregate NAVTEST feedback."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. The overall architecture of ActWorld-JEPA. The driving encoder extracts the current representation, and the planner produces candidate trajectories. PC-JEPA encodes global and step-wise plan conditions, initializes plan-modulated latents, and rolls out candidatespecific futures. Cross-attention and gated residual interaction fuse predicted future evidence with the current scene. R3 combines plan and fused-future features to rank the original candidates. The rightmost trajectory panel illustrates future-guided selection.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 327,
+              "image_path": "figures/2611.16579/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1022
+            },
+            {
+              "caption": "Figure 4. Qualitative comparison of trajectory selection by Drive-JEPA (top) and ActWorld-JEPA (bottom) across five challenging driving scenarios. Selected trajectories are shown in red.",
+              "figure_id": "figure-4-10",
+              "figure_number": "4",
+              "height": 397,
+              "image_path": "figures/2611.16579/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1028
+            },
+            {
+              "caption": "Figure 1. From predictive representations to candidate-conditioned planning. (a) JEPA-style representation learning predicts target features from observed context, as in V-JEPA [3]. (b) Drive-JEPA [50] combines video-JEPA representations with multimodal trajectory distillation and momentum-aware selection. (c) ActWorld-JEPA conditions latent prediction on candidate plans and relates the predicted futures to trajectory ranking through PC-JEPA and R3. Both observed scene context and candidate intention contribute to the decision. (d) Planning performance. PDMS on NAVSIM v1 navtest [10], comparing ActWorld-JEPA with Epona [65], DiffusionDrive [30], DIVER [43], GraphWorld [45], GoalFlow [57], DriveFuture [16], and Drive-JEPA [50].",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 314,
+              "image_path": "figures/2611.16579/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1030
+            },
+            {
+              "caption": "Figure 3. Details of latent prediction and trajectory reranking. (a) Plan-future compatibility modeling combines projected features and their agreement and discrepancy to predict a score correction ∆skt and confidence logit ρkt . (b) Future-consistent candidate ranking gates the bounded correction, adds the baseline score bkt , and selects an original trajectory. (c) JEPA rollout predicts latent futures conditioned on step-wise trajectory intentions over the planning horizon.",
+              "figure_id": "figure-3-9",
+              "figure_number": "3",
+              "height": 402,
+              "image_path": "figures/2611.16579/figure-004.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 492
+            },
+            {
+              "caption": "Table 1. Planning performance on NAVSIM v1 navtest. Protocols: cited studies and Sec. 4.1. Dark rules separate blocks, each sorted by increasing PDMS with column maxima in bold. ‘mmt’: multimodal TransFuser; TF: TransFuser; ∗: re-implementation.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 813,
+              "image_path": "figures/2611.16579/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 500
+            },
+            {
+              "caption": "Table 4. Planning results for 6-second long-horizon planning on the nuScenes validation set.",
+              "figure_id": "table-4-3",
+              "figure_number": "4",
+              "height": 217,
+              "image_path": "figures/2611.16579/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1031
+            },
+            {
+              "caption": "Table 8. Model parameter size, inference speed, and performance. FPS covers perception, planning, and selection on one RTX 4090 (batch size 1; 64 shared navtrain inputs), excluding preprocessing, transfers, and scoring. Dim is the planning latent width; bold marks the best PDMS and FPS within each block. Baseline PDMS is published; ours uses aggregate navtest calibration, not an untouched-test estimate.",
+              "figure_id": "table-8-6",
+              "figure_number": "8",
+              "height": 110,
+              "image_path": "figures/2611.16579/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 5. Comparison of the two core module configurations on the NAVSIM v1 and v2 navtest splits. PC-JEPA denotes Plan-Conditioned JEPA, and R3 denotes Relational Residual Reranking.",
+              "figure_id": "table-5-5",
+              "figure_number": "5",
+              "height": 127,
+              "image_path": "figures/2611.16579/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1031
+            },
+            {
+              "caption": "Table 6. Ablation of core PC-JEPA designs on the NAVSIM v1 and v2 navtest splits. The PC-JEPA variants are compared with Full PC-JEPA while keeping R3 fixed. Baseline and Full match the reference and full configurations in Table 5, respectively. Bold indicates the best PC-JEPA variant. C–F denotes current–future interaction.",
+              "figure_id": "table-6-7",
+              "figure_number": "6",
+              "height": 135,
+              "image_path": "figures/2611.16579/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 491
+            },
+            {
+              "caption": "Table 7. Ablation of R3 designs on the NAVSIM v1 and v2 navtest splits. PC-JEPA is fixed across the R3 variants. Baseline and Full match Table 6; w/o R3 matches PC-JEPA-only in Table 5. Bold indicates the best result at the displayed precision.",
+              "figure_id": "table-7-4",
+              "figure_number": "7",
+              "height": 73,
+              "image_path": "figures/2611.16579/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 491
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.16579/hero.webp",
+          "novelty": 9,
+          "pdf_url": "https://arxiv.org/pdf/2611.16579",
+          "relevance": 9,
+          "selection_reason": "Action-conditioned JEPA world model for latent planning in autonomous driving, directly matching interactive world models and learned navigation.",
+          "summary_status": "generated",
+          "title": "ActWorld-JEPA: Action-Conditioned JEPA World Models Meet Latent Planning for End-to-End Autonomous Driving",
+          "tldr": "ActWorld-JEPA links action-conditioned latent world modeling with residual plan reranking to select safer, more effective autonomous-driving trajectories.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Generating diverse robot videos requires control over scene geometry, robot motion, and viewpoints. End-to-end video generation offers limited direct access to these variables, making targeted edits and reuse across tasks difficult. We present BWM-Forge, a code-driven framework for controllable video generation in robotics. Given robot assets and a task description, the framework accepts an initial image, an image with motion data, or a human demonstration video. A coding agent constructs editable Blender scene programs that specify objects, robot motion, and cameras. The resulting proxy videos provide structural and motion references for a video generation model, which adds visual detail. A multi-agent harness coordinates input processing, scene construction, review, and rendering. Automated evaluation and user feedback support iterative refinement, while an experience repository stores and retrieves reusable modeling and rendering rules. This design supports multiple robot embodiments, synchronized viewpoints, and appearance variation from a shared scene program. We evaluate the framework on 15 tasks covering five robot types. Compared with LingBot-World Base Cam on these tasks, BWM-Forge achieves higher aesthetic quality, imaging quality, subject and background consistency, motion smoothness, and RoboJudge-9B physical adherence and instruction alignment scores. The baseline scores higher in dynamic degree. Qualitative cases illustrate viewpoint control, scene variation, feedback-driven edits, and experience reuse across scenes. These results demonstrate a practical approach to generating controllable robot videos through editable, executable scene representations.",
+          "arxiv_id": "2611.16221",
+          "arxiv_url": "https://arxiv.org/abs/2611.16221",
+          "authors": [
+            "BWM Team"
+          ],
+          "bullets": [
+            "Addresses the limited controllability and reusability of end-to-end robot video generation.",
+            "Converts robot assets, task descriptions, images, motion data, or demonstrations into executable scene programs.",
+            "Uses proxy renders to guide a video generation model, while multi-agent review and feedback support refinement.",
+            "Supports multiple robot embodiments, synchronized viewpoints, appearance variation, and reusable modeling rules.",
+            "Across 15 tasks and five robot types, it outperformed the compared baseline on most quality, consistency, smoothness, and physical-adherence measures, but had lower dynamic degree."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2 Overview of BWM-Forge. The Harness coordinates input validation, scene construction, robot import, scene and robot composition, review, and video rendering. Task records and reusable experience connect the stages and support iterative refinement.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 634,
+              "image_path": "figures/2611.16221/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 758
+            },
+            {
+              "caption": "Figure 3 Scene-state representation produced by the Preprocessing Agent. Frame-level states organize entity metadata, inter-entity relationships, and camera information. Entity identity, classification, mesh associations, and visual evidence support subsequent scene construction.",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 490,
+              "image_path": "figures/2611.16221/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 986
+            },
+            {
+              "caption": "Figure 4 Building and review workflow. The Review Agent inspects the current project and identifies defects, which guide local corrections. The updated preview is checked again before user review. User feedback can trigger another Building Agent round, while acceptance advances to the next stage or final rendering. The example illustrates a local adjustment to the placement of foreground objects.",
+              "figure_id": "figure-4-14",
+              "figure_number": "4",
+              "height": 482,
+              "image_path": "figures/2611.16221/figure-003.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 963
+            },
+            {
+              "caption": "Figure 1 Code-driven embodied video generation. Left: direct video prediction. Right: BWM-Forge uses editable scene programs and proxy videos to guide appearance generation, supporting scene edits, synchronized viewpoints, and reuse across robot embodiments.",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 292,
+              "image_path": "figures/2611.16221/figure-004.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 982
+            },
+            {
+              "caption": "Figure 14 Multiple scene appearances from one proxy video. From top to bottom: proxy model, market, industrial warehouse, and vertical farm.",
+              "figure_id": "figure-14-16",
+              "figure_number": "14",
+              "height": 317,
+              "image_path": "figures/2611.16221/figure-005.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 790
+            },
+            {
+              "caption": "Figure 5 Experience-library update and retrieval. Stage documents provide candidate rules for creation, update, deactivation, or no-op decisions. Before generation, scope filtering and LLM selection retrieve applicable experience to guide the Building and Rendering Agents; the illustrated grasping rule addresses mesh interpenetration.",
+              "figure_id": "figure-5-9",
+              "figure_number": "5",
+              "height": 521,
+              "image_path": "figures/2611.16221/figure-006.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 784
+            },
+            {
+              "caption": "Figure 6 Proxy and final rendered frames for kitchen drawer retrieval.",
+              "figure_id": "figure-6-12",
+              "figure_number": "6",
+              "height": 302,
+              "image_path": "figures/2611.16221/figure-007.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 886
+            },
+            {
+              "caption": "Figure 8 Proxy and final rendered frames for quadruped locomotion in a furnished office.",
+              "figure_id": "figure-8-11",
+              "figure_number": "8",
+              "height": 302,
+              "image_path": "figures/2611.16221/figure-008.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 886
+            },
+            {
+              "caption": "Figure 7 Proxy and final rendered frames for quadruped locomotion in a meeting room.",
+              "figure_id": "figure-7-13",
+              "figure_number": "7",
+              "height": 300,
+              "image_path": "figures/2611.16221/figure-009.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 886
+            },
+            {
+              "caption": "Figure 11 Proxy and final rendered frames for dexterous-hand suture manipulation.",
+              "figure_id": "figure-11-6",
+              "figure_number": "11",
+              "height": 302,
+              "image_path": "figures/2611.16221/figure-010.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 886
+            },
+            {
+              "caption": "Figure 9 Proxy and final rendered frames for humanoid locomotion in a furnished office.",
+              "figure_id": "figure-9-7",
+              "figure_number": "9",
+              "height": 302,
+              "image_path": "figures/2611.16221/figure-011.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 886
+            },
+            {
+              "caption": "Figure 10 Proxy and final rendered frames for dual-arm filtration.",
+              "figure_id": "figure-10-8",
+              "figure_number": "10",
+              "height": 300,
+              "image_path": "figures/2611.16221/figure-012.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 886
+            },
+            {
+              "caption": "Figure 13 Three views of the same GO2W factory task. The top, middle, and bottom pairs show the original, following third-person, and approximate first-person views, respectively.",
+              "figure_id": "figure-13-17",
+              "figure_number": "13",
+              "height": 562,
+              "image_path": "figures/2611.16221/figure-013.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 790
+            },
+            {
+              "caption": "Figure 15 User feedback on layout, motion, and appearance. Both rendering revisions share one proxy video.",
+              "figure_id": "figure-15-2",
+              "figure_number": "15",
+              "height": 491,
+              "image_path": "figures/2611.16221/figure-014.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 790
+            },
+            {
+              "caption": "Figure 16 Harness experience reuse from workshop A to laboratory B and kitchen C; full rules are in Appendix B.",
+              "figure_id": "figure-16-3",
+              "figure_number": "16",
+              "height": 475,
+              "image_path": "figures/2611.16221/figure-015.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 790
+            },
+            {
+              "caption": "Figure 12 Proxy and final rendered frames for a humanoid robot opening a door and sitting down.",
+              "figure_id": "figure-12-10",
+              "figure_number": "12",
+              "height": 944,
+              "image_path": "figures/2611.16221/figure-016.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 886
+            },
+            {
+              "caption": "Table 2 RoboJudge-9B automatic scores in this study and official human scores for reference.",
+              "figure_id": "table-2-19",
+              "figure_number": "2",
+              "height": 393,
+              "image_path": "figures/2611.16221/table-017.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 986
+            },
+            {
+              "caption": "Table 1 Six VBench-Long metrics for 15 tasks.",
+              "figure_id": "table-1-18",
+              "figure_number": "1",
+              "height": 129,
+              "image_path": "figures/2611.16221/table-018.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 986
+            },
+            {
+              "caption": "Table C.1 Resolutions of the three groups of evaluation videos.",
+              "figure_id": "table-C.1-15",
+              "figure_number": "C.1",
+              "height": 254,
+              "image_path": "figures/2611.16221/table-019.webp",
+              "kind": "table",
+              "page": 31,
+              "width": 986
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.16221/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.16221",
+          "relevance": 7,
+          "selection_reason": "Code-driven controllable robot video generation with scene programs, aligns with interactive world models.",
+          "summary_status": "generated",
+          "title": "BWM-Forge: Agentic World Programming for Embodied Intelligence",
+          "tldr": "BWM-Forge uses agent-generated, editable Blender scene programs to create controllable robot videos with coordinated motion, geometry, and viewpoints.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Multimodal coding agents decouple 4D world construction from visual generation, repurposing video models from world generators toward generative renderers. This division of labor raises a fundamental question: if code builds the world, can video models just render it? A reliable generative renderer hinges on two complementary criteria: (i) world preservation, retaining prescribed 4D kinematics and camera paths; and (ii) visual realization, persistently binding text-specified target attributes over time. To evaluate this capability, we introduce WorldDraft, a benchmark of $432$ strictly paired test cases across $48$ executable 4D world families spanning six dynamic challenge categories. Under a $3 \\times 3$ factorial design, WorldDraft orthogonally crosses draft granularity (abstract proxy to previs) and appearance alignment (neutral to conflicting) under identical dynamics. Extensive evaluations across $12$ representative models reveal that: (I) world preservation and visual realization remain in stark operational tension; (II) richer draft scaffolding anchors structure but paradoxically impairs appearance fidelity; and (III) conflicting source cues trigger severe source leakage (up to $64\\%$), exposing fragile cross-modal disentanglement. To mitigate these bottlenecks, we propose WorldDraft-Primer, a plug-and-play visual prompting strategy that consistently improves both objectives across frozen video renderers. Together, WorldDraft and WorldDraft-Primer lay a foundation for bridging programmatic 4D simulation with video generation, advancing physically grounded generative rendering.",
+          "arxiv_id": "2611.16217",
+          "arxiv_url": "https://arxiv.org/abs/2611.16217",
+          "authors": [
+            "Zhiyu Hou, Wen-Jie Shu, Harold Haodong Chen, Weilin Ruan, Chenfei Liao, Liuzhou Zhang, Disen Lan, Xiaogang Xu, Qi Chen, Ser-Nam Lim"
+          ],
+          "bullets": [
+            "Introduces 432 paired test cases across 48 executable 4D world families and six dynamic challenge categories.",
+            "Evaluates 12 models across draft granularity and appearance-alignment conditions.",
+            "Finds a strong tension between preserving world dynamics and realizing requested appearance.",
+            "Richer visual drafts improve structural anchoring but can reduce appearance fidelity; conflicting cues cause source leakage of up to 64%.",
+            "WorldDraft-Primer improves both preservation and visual realization for frozen video renderers."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1 Performance overview of 12 video models on WorldDraft across 3 dimensions.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 1208,
+              "image_path": "figures/2611.16217/figure-001.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 1075
+            },
+            {
+              "caption": "Figure 3 Overview of our proposed (Top) WorldDraft benchmark and (Bottom) WorldDraft-Primer strategy.",
+              "figure_id": "figure-3-15",
+              "figure_number": "3",
+              "height": 459,
+              "image_path": "figures/2611.16217/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 979
+            },
+            {
+              "caption": "Figure 2 Overview of WorldDraft. (a) Six challenge categories across 48 executable 4D worlds (shown at P1, AA). (b) 3 × 3 factorial grid crossing draft granularity (P0 → P2) and appearance alignment (AN , AA, AC). (c) Full benchmark totaling 48 × 3 × 3 = 432 cases.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 426,
+              "image_path": "figures/2611.16217/figure-003.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 979
+            },
+            {
+              "caption": "Figure 4 Failure cases demonstration of LynnReal-Omni and Seedance 2.5 across the 3 × 3 grid on: (a) C05 (Occlusion & Reappearance, warehouse forklift) and (b) A04 (Multi-Entity Orchestration, 12-sailboat fleet). More case studies are in https://haroldchen19.github.io/WorldDraft-site.",
+              "figure_id": "figure-4-13",
+              "figure_number": "4",
+              "height": 765,
+              "image_path": "figures/2611.16217/figure-004.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 976
+            },
+            {
+              "caption": "Figure 6 Data demonstration of II. Multi-Stage Dynamics.",
+              "figure_id": "figure-6-16",
+              "figure_number": "6",
+              "height": 738,
+              "image_path": "figures/2611.16217/figure-005.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 881
+            },
+            {
+              "caption": "Figure 5 Data demonstration of I. Multi-Entity Orchestration.",
+              "figure_id": "figure-5-3",
+              "figure_number": "5",
+              "height": 796,
+              "image_path": "figures/2611.16217/figure-006.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 881
+            },
+            {
+              "caption": "Figure 7 Data demonstration of III. Occlusion & Reappearance.",
+              "figure_id": "figure-7-11",
+              "figure_number": "7",
+              "height": 769,
+              "image_path": "figures/2611.16217/figure-007.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 881
+            },
+            {
+              "caption": "Figure 8 Data demonstration of IV. Camera Motion.",
+              "figure_id": "figure-8-7",
+              "figure_number": "8",
+              "height": 782,
+              "image_path": "figures/2611.16217/figure-008.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 881
+            },
+            {
+              "caption": "Figure 9 Data demonstration of V. Non-Rigid Deformation.",
+              "figure_id": "figure-9-10",
+              "figure_number": "9",
+              "height": 767,
+              "image_path": "figures/2611.16217/figure-009.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 881
+            },
+            {
+              "caption": "Figure 12 Component ablation of WorldDraft-Primer on MiniMax-H3.",
+              "figure_id": "figure-12-8",
+              "figure_number": "12",
+              "height": 334,
+              "image_path": "figures/2611.16217/figure-010.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 783
+            },
+            {
+              "caption": "Figure 10 Data demonstration of VI. Hybrid Interactions.",
+              "figure_id": "figure-10-14",
+              "figure_number": "10",
+              "height": 782,
+              "image_path": "figures/2611.16217/figure-011.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 881
+            },
+            {
+              "caption": "Figure 13 Case study on of WorldDraft-Primer.",
+              "figure_id": "figure-13-2",
+              "figure_number": "13",
+              "height": 1237,
+              "image_path": "figures/2611.16217/figure-012.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 888
+            },
+            {
+              "caption": "Figure 14 Case study on of WorldDraft-Primer.",
+              "figure_id": "figure-14-12",
+              "figure_number": "14",
+              "height": 1237,
+              "image_path": "figures/2611.16217/figure-013.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 888
+            },
+            {
+              "caption": "Figure 11 Metric-human alignment. Agreement between automated VLM judgments and five-annotator human consensus across sampled cases, averaging 91.0% across all six metrics.",
+              "figure_id": "figure-11-4",
+              "figure_number": "11",
+              "height": 235,
+              "image_path": "figures/2611.16217/figure-014.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 531
+            },
+            {
+              "caption": "Table 1 Main results on WorldDraft. We highlight the best and second best scores (↑ / ↓: higher/lower is better). Rendering Performance averages the full 3 × 3 grid; Granularity Gains measure P0 → P2 changes under AN ; Conflict Robustness is evaluated at P1 under AC . Overall weights the three perspectives by 0.50/0.25/0.25 (details in Section B).",
+              "figure_id": "table-1-9",
+              "figure_number": "1",
+              "height": 331,
+              "image_path": "figures/2611.16217/table-015.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 980
+            },
+            {
+              "caption": "Table 2 Evaluation on WorldDraft with WorldDraft-Primer. We bold the best results. Qualitative results are in Figures 13 and 14.",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 217,
+              "image_path": "figures/2611.16217/table-016.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 980
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.16217/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.16217",
+          "relevance": 8,
+          "selection_reason": "Introduces WorldDraft, a benchmark evaluating video models as generative renderers for 4D worlds constructed by code, investigating the tension between world preservation and visual realization in multimodal generative systems.",
+          "summary_status": "generated",
+          "title": "WorldDraft: If Code Builds the World, Can Video Models Just Render It?",
+          "tldr": "WorldDraft benchmarks whether video models can faithfully render code-built 4D worlds while preserving motion and camera paths and following target visual attributes.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "multimodal-large-language-models"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Turbulence modeling relies on human choices of closure form, physical inputs, and tunable parameters. Training closures a posteriori is efficient only with gradients through long chaotic rollouts, which few solvers provide. Most a posteriori approaches therefore resort to gradient-free optimization, and nearly all fix the closure form in advance, learning only its parameters. In this work, we introduce a gradient-aware agentic framework that poses closure discovery as a bilevel problem: a multi-agent large language model (LLM) system searches over closure forms, while a GPU-native differentiable computational fluid dynamics (CFD) solver supplies gradients, making differentiable a posteriori learning an action of the autonomous AI agent. For each proposal, the agents construct a differentiable training program by embedding the analytical, neural, or hybrid closure in the solver, implementing a differentiable objective, and validating the gradient path. They then decide whether to evaluate the closure, compute its parameter sensitivities, or train it a posteriori, select the optimization settings, and revise subsequent proposals using the simulation outcomes and returned gradients. Truncated-horizon gradients make this training usable under chaotic dynamics for closures with tens of thousands of parameters. Demonstrations include dissipation-law and subgrid-scale closure discovery in two-dimensional turbulence and wall-model discovery for large-eddy simulation of three-dimensional channel flow. With gradient-based training, the agent recovers reference coefficients that forward evaluation alone does not reach within the same budget, and autonomously discovers and trains analytical and neural closures that improve agreement with the targeted reference statistics. These results demonstrate the feasibility of end-to-end autonomous turbulence model development in time-resolved flows.",
+          "arxiv_id": "2611.16082",
+          "arxiv_url": "https://arxiv.org/abs/2611.16082",
+          "authors": [
+            "Yi Liu, Xiantao Fan, Mingqi Xu, Jian-Xun Wang"
+          ],
+          "bullets": [
+            "Recasts turbulence-closure discovery as a bilevel search over closure forms and parameters.",
+            "Agents generate differentiable CFD training programs, validate gradient paths, choose evaluations or training actions, and revise proposals from simulation feedback.",
+            "Truncated-horizon gradients enable a posteriori training under chaotic dynamics, including closures with tens of thousands of parameters.",
+            "Demonstrations cover 2D turbulence dissipation and subgrid-scale closures, plus 3D channel-flow wall models.",
+            "The approach recovers reference coefficients and discovers analytical and neural closures with improved agreement to target statistics compared with forward evaluation alone under the same budget."
+          ],
+          "categories": [
+            "physics.flu-dyn",
+            "cs.LG",
+            "cs.MA",
+            "physics.comp-ph"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Overview of the gradient-aware agentic framework, illustrated on a subgrid-scale model discovery task.",
+              "figure_id": "figure-1-10",
+              "figure_number": "1",
+              "height": 723,
+              "image_path": "figures/2611.16082/figure-001.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 812
+            },
+            {
+              "caption": "Figure A.10: Node-and-edge structure of the agent workflow: the simulation pipeline that produces a verified solver script, and the auto-research loop that proposes, trains, and analyzes closures.",
+              "figure_id": "figure-A.10-6",
+              "figure_number": "A.10",
+              "height": 631,
+              "image_path": "figures/2611.16082/figure-002.webp",
+              "kind": "figure",
+              "page": 34,
+              "width": 812
+            },
+            {
+              "caption": "Table 1: Comparison of the present framework with existing closure-discovery approaches in turbulence modeling. Columns denote method families or individual systems. ✓: present; ✓: partial (see notes); –: absent or not applicable.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 440,
+              "image_path": "figures/2611.16082/table-003.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 804
+            },
+            {
+              "caption": "Figure 2: (a) Case 1 discovery trajectories from three runs (analytical-only, neural-only, and unrestricted): dots, experiments; step lines, best objective to date; crosses, rejected or failed experiments. (b–e) Comparison of three representative discovered closures of Case 1 with the base model and the reference in terms of (b) energy spectra, (c) log-spectrum error, (d) normalized enstrophy flux, and (e) damping rate D(k).",
+              "figure_id": "figure-2-7",
+              "figure_number": "2",
+              "height": 529,
+              "image_path": "figures/2611.16082/figure-004.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 787
+            },
+            {
+              "caption": "Figure 3: Instantaneous fields for Case 1 in the statistically stationary state, for the reference, the base model, and three agent-discovered closures. Top: vorticity normalized by its RMS. Bottom: vorticity-gradient magnitude. Snapshots are from independent realizations, so individual structures are not expected to coincide across panels.",
+              "figure_id": "figure-3-9",
+              "figure_number": "3",
+              "height": 342,
+              "image_path": "figures/2611.16082/figure-005.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 785
+            },
+            {
+              "caption": "Figure 5: Instantaneous fields for Case 2, for the reference, the base model, and three agentdiscovered closures. Top: vorticity normalized by its RMS. Bottom: vorticity-gradient magnitude. Snapshots are from independent realizations, so individual structures are not expected to coincide across panels.",
+              "figure_id": "figure-5-5",
+              "figure_number": "5",
+              "height": 342,
+              "image_path": "figures/2611.16082/figure-006.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 785
+            },
+            {
+              "caption": "Figure 9: Comparison of solver modes. (a) Discovery trajectories, three runs per mode (line, median; band, range; dotted, base model). (b) Parameter trajectories for one representative run per mode, overlaid on the objective evaluated on a coefficient grid (lighter shading indicates lower values; square, base model; large circles, best experiments). (c) Loss by epoch for the optimization run used in the gradient-feedback ablation. Labels above the plot indicate experiment numbers and final reported gradients; blanks indicate experiments with fixed hyperviscosity.",
+              "figure_id": "figure-9-4",
+              "figure_number": "9",
+              "height": 615,
+              "image_path": "figures/2611.16082/figure-007.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 714
+            },
+            {
+              "caption": "Figure 8: (a) Discovery trajectory for an unrestricted Case 3 run: dots, experiments; step line, best objective to date; crosses, experiments with wall-stress collapse, divergence, or other failures. (b–e) Comparison of three agent-discovered closures (power law, nearconstant stress law, and hybrid convolutional closure) with the equilibrium wall model and the DNS reference in terms of (b) mean streamwise velocity profiles, (c) profile error, (d) root-mean-square velocity fluctuations, and (e) wall stress as a function of the matchingcell velocity, with the mean operating points (filled symbols) and the DNS operating point (star); for the hybrid closure the curve is the conditional median of its applied stress, with shading indicating the 5th–95th percentile range.",
+              "figure_id": "figure-8-2",
+              "figure_number": "8",
+              "height": 532,
+              "image_path": "figures/2611.16082/figure-008.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 787
+            },
+            {
+              "caption": "Figure 4: (a) Case 2 discovery trajectories from three runs (analytical-only, neural-only, and unrestricted): dots, experiments; step lines, best objective to date; crosses, rejected or failed experiments. (b–d) Comparison of three representative discovered closures of Case 2 with the base model and the DNS reference in terms of (b) energy spectra, (c) log-spectrum error, and (d) probability density function (PDF) of the vorticity-gradient magnitude.",
+              "figure_id": "figure-4-3",
+              "figure_number": "4",
+              "height": 621,
+              "image_path": "figures/2611.16082/figure-009.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 663
+            },
+            {
+              "caption": "Figure 7: Instantaneous streamwise velocity u/Ub in the WMLES of turbulent channel flow (Case 3) with the hybrid convolutional closure, the agent-discovered wall model with the lowest objective value (described later in this section).",
+              "figure_id": "figure-7-11",
+              "figure_number": "7",
+              "height": 241,
+              "image_path": "figures/2611.16082/figure-010.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 495
+            },
+            {
+              "caption": "Figure 6: Energy spectra of the frozen Case 2 SGS closures at (a) the training condition (642, A = 1.5), (b) a finer grid (1282), (c) a coarser grid (322), (d) half the training forcing amplitude (A = 0.75), and (e) twice the training forcing amplitude (A = 3.0). All closure parameters remain fixed at their trained values.",
+              "figure_id": "figure-6-8",
+              "figure_number": "6",
+              "height": 192,
+              "image_path": "figures/2611.16082/figure-011.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 791
+            },
+            {
+              "caption": "Table 2: Configuration of the three discovery studies.",
+              "figure_id": "table-2-12",
+              "figure_number": "2",
+              "height": 757,
+              "image_path": "figures/2611.16082/table-012.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 816
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.16082/hero.webp",
+          "novelty": 9,
+          "pdf_url": "https://arxiv.org/pdf/2611.16082",
+          "relevance": 8,
+          "selection_reason": "Introduces a gradient-aware agent framework for discovering turbulence models using a differentiable CFD solver, fitting the 'Interactive World Models' category where agents interact with a differentiable environment to learn dynamics.",
+          "summary_status": "generated",
+          "title": "Gradient-Aware AI Agents for Autonomous Turbulence Model Discovery via Differentiable CFD",
+          "tldr": "A gradient-aware multi-agent LLM system autonomously discovers and trains turbulence closures by using gradients from a differentiable CFD solver.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "In active object search, a robot must decide where to look and when to stop. Imperfect detection complicates both decisions: a non-detection may indicate occlusion, an out-of-view target, or a false negative, while a detection may be a false positive. This raises the question of which representations a world model needs to support reliable search under imperfect detection. We introduce Bayesian Active Miss-aware Object Search (BAMOS) to investigate how target belief, occupancy belief, and detector errors affect search decisions. Through comprehensive ablations in Isaac Sim and HSSD houses, we examine the roles of these representations and their update mechanisms across different detector configurations. Notably, target belief and its update mechanisms are critical to search performance, with their contribution generally increasing as detection errors become more prevalent. These findings highlight the importance of maintaining and updating target beliefs to support reliable active search under uncertain detector observations, providing insights into the design of world models for embodied agents. Code is available in https://github.com/gokyeongryeol/BAMOS.",
+          "arxiv_id": "2611.15689",
+          "arxiv_url": "https://arxiv.org/abs/2611.15689",
+          "authors": [
+            "Kyeongryeol Go"
+          ],
+          "bullets": [
+            "Imperfect detections make both search-location and stopping decisions uncertain.",
+            "The method models target belief, occupancy belief, and detector errors in a Bayesian active-search framework.",
+            "Ablations in Isaac Sim and HSSD houses evaluate these representations and their update mechanisms across detector configurations.",
+            "Target belief and its updates are critical, especially as false detections and missed detections become more prevalent.",
+            "The work informs world-model design for embodied agents operating under uncertain observations."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.SY",
+            "eess.SY"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: One step of BAMOS. The observation model links both beliefs to the view-selection and stopping decisions.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 231,
+              "image_path": "figures/2611.15689/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 590
+            },
+            {
+              "caption": "Figure 2: Success within k views. Top: Isaac Sim (B = 60). Bottom: HSSD houses (B = 200). The value at k = B is the success@B of Table 1.",
+              "figure_id": "figure-2-9",
+              "figure_number": "2",
+              "height": 540,
+              "image_path": "figures/2611.15689/figure-002.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 820
+            },
+            {
+              "caption": "Figure 3: One search with SAM 3 in Isaac Sim. Top: the frame at five views (green border: DET; cyan: the reported mask). Middle: the target belief from above, summed over heights and sizes, on one log scale for all views. Grey outlines: furniture. White ring: the target. Orange wedge: the camera’s field of view. White line: the path. Once the belief has concentrated, the inset enlarges a 1.6 m window around the target, and its ring is the 0.2 m success radius. Bottom: the entropy of the belief over cells after each view, with the five views ringed.",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 390,
+              "image_path": "figures/2611.15689/figure-003.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 797
+            },
+            {
+              "caption": "Table 4: Fitted constants. The occupancy constants are shared by all detectors in an environment. †: fixed at the oracle’s detection threshold.",
+              "figure_id": "table-4-3",
+              "figure_number": "4",
+              "height": 288,
+              "image_path": "figures/2611.15689/table-004.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 768
+            },
+            {
+              "caption": "Table 6: The two environments.",
+              "figure_id": "table-6-5",
+              "figure_number": "6",
+              "height": 358,
+              "image_path": "figures/2611.15689/table-005.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 806
+            },
+            {
+              "caption": "Table 1: Contribution of each component. Success@B. Best in bold, second underlined.",
+              "figure_id": "table-1-7",
+              "figure_number": "1",
+              "height": 234,
+              "image_path": "figures/2611.15689/table-006.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 698
+            },
+            {
+              "caption": "Table 2: View and stop rules. Success@B in Isaac Sim. Best in bold, second underlined.",
+              "figure_id": "table-2-8",
+              "figure_number": "2",
+              "height": 183,
+              "image_path": "figures/2611.15689/table-007.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 614
+            },
+            {
+              "caption": "Table 5: Varied and fixed factors. Variants are paired by episode. HSSD houses run all factors except the crossed view and stop rules.",
+              "figure_id": "table-5-1",
+              "figure_number": "5",
+              "height": 246,
+              "image_path": "figures/2611.15689/table-008.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 732
+            },
+            {
+              "caption": "Table 3: Effect of injected detector errors. Success@B with errors injected into the oracle.",
+              "figure_id": "table-3-6",
+              "figure_number": "3",
+              "height": 121,
+              "image_path": "figures/2611.15689/table-009.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 602
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.15689/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.15689",
+          "relevance": 8,
+          "selection_reason": "Investigates the requirements of world models for active object search under imperfect detection, focusing on target belief and occupancy belief updates.",
+          "summary_status": "generated",
+          "title": "What World Model Does Active Object Search Need? A Study under Imperfect Detection",
+          "tldr": "BAMOS studies which world-model representations enable reliable active object search when detections are imperfect.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Multiplayer generative world models must produce observations that agree on shared entities despite different camera motions and occlusions. Explicit world representations provide spatial control, but precise modeling of individual game maps limits scene diversity, while shared geometry alone cannot ensure consistent appearance across views. We present CoCode-World, a shared 3D proxy framework that separates structural control from visual synthesis for two-player video generation. Programmable proxies specify scene layout, motion, and occlusion, while RGB references guide character and scene appearance. To coordinate visual details across players, we concatenate paired proxy videos, appearance references, and target views in a consistent spatial layout and generate both views jointly with a pretrained video model. This formulation uses the model's native attention for cross-view communication within a single generation branch, with LoRA adaptation learning proxy adherence and appearance correspondence from paired observations. We construct a two-player GTA~V dataset that pairs synchronized RGB observations with proxy videos derived from shared map geometry and game-engine state. Experiments demonstrate appearance transfer to characters and scene styles unseen during training, with improvements in video quality and cross-view player identity over the evaluated baseline. Ablations further examine how proxy construction and cross-view communication affect generation. Project page: https://iapple233.github.io/CCW/.",
+          "arxiv_id": "2611.15602",
+          "arxiv_url": "https://arxiv.org/abs/2611.15602",
+          "authors": [
+            "Qirui Li, Xin Zhang, Yabo Chen, Jinkun Hao, Paul L Rosin, Yu-Kun Lai, Haibin Huang, Yin Chen, Ran Yi, Chi Zhang"
+          ],
+          "bullets": [
+            "Addresses inconsistent shared entities caused by different camera motions and occlusions in multiplayer world models.",
+            "Uses programmable 3D proxies for scene layout, motion, and occlusion, while RGB references control character and scene appearance.",
+            "Generates both player views jointly by concatenating proxy videos, references, and target views, enabling native attention-based cross-view communication.",
+            "Applies LoRA adaptation to improve proxy adherence and appearance correspondence from paired observations.",
+            "On a two-player GTA V dataset, transfers unseen character and scene styles and improves video quality and cross-view player identity over the evaluated baseline; ablations study proxy design and communication."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 6 Dual Branch and Joint (Ours) on a mosaic-courtyard case at two matched times. Both methods use step2,000 checkpoints. Outlines and enlarged crops highlight player B in player A’s view for comparison with player B’s appearance in their own view.",
+              "figure_id": "figure-6-6",
+              "figure_number": "6",
+              "height": 325,
+              "image_path": "figures/2611.15602/figure-001.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 860
+            },
+            {
+              "caption": "Figure 1 Two-player views of a shared game world. Paired views illustrate environment interaction, combat, exploration, and vehicle riding. Each pair shows the scene from the two players’ perspectives.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 590,
+              "image_path": "figures/2611.15602/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 976
+            },
+            {
+              "caption": "Figure 4 Comparison with Seedance 2.5 across two player views. Boxes highlight the compared player regions.",
+              "figure_id": "figure-4-3",
+              "figure_number": "4",
+              "height": 589,
+              "image_path": "figures/2611.15602/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 868
+            },
+            {
+              "caption": "Figure 5 Effect of proxy construction. Rows compare Raw, Detail & Lighting, and Skeleton, with the corresponding proxy shown in each inset.",
+              "figure_id": "figure-5-5",
+              "figure_number": "5",
+              "height": 589,
+              "image_path": "figures/2611.15602/figure-004.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 868
+            },
+            {
+              "caption": "Figure 2 Joint two-player rendering. Map geometry and entity observations produce a proxy for each camera. The two proxy views share a fixed left–right layout with the RGB appearance reference and target video. The H3 transformer jointly denoises both target views through its native reference interface, with full attention across the context and LoRA adaptation of the frozen backbone.",
+              "figure_id": "figure-2-4",
+              "figure_number": "2",
+              "height": 384,
+              "image_path": "figures/2611.15602/figure-005.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 957
+            },
+            {
+              "caption": "Figure 3 Gameplay categories and examples. The donut shows clip proportions across four categories, with colored connectors linking each category to paired gameplay views. Each of the 7,846 approximately five-second clips receives one primary category from caption-described temporal coverage across both views; ties follow fight, riding, interaction, then exploration. Proportions are automatic caption-derived estimates.",
+              "figure_id": "figure-3-7",
+              "figure_number": "3",
+              "height": 290,
+              "image_path": "figures/2611.15602/figure-006.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 979
+            },
+            {
+              "caption": "Table 1 Quantitative comparison. The first five metrics follow SolarRenderer: visual quality (DOVER and LAION), temporal appearance stability (DINO Adj.), proxy contour agreement (Edge F1), and reference preservation (Firstframe). Cross-view reports the player-identity score on a 0–5 scale. Higher is better for every metric.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 182,
+              "image_path": "figures/2611.15602/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 978
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.15602/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.15602",
+          "relevance": 8,
+          "selection_reason": "Presents a shared 3D proxy world model for multi-player video generation, fitting world models and video generation.",
+          "summary_status": "generated",
+          "title": "CoCode-World: Shared 3D Proxy Representation for Multi-Player World Models",
+          "tldr": "CoCode-World generates synchronized two-player videos by combining shared 3D proxies with appearance references and joint cross-view synthesis.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-world-models",
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "World Action Models (WAMs) can improve robot learning by jointly predicting future visual states and actions, but generating a visual future at every replanning step is expensive and sometimes unnecessary. This raises a critical question: when should a robot policy imagine the future? In this paper, we propose Bind-WAM, a binding-uncertainty-guided WAM for selective future imagination. Bind-WAM introduces language-object binding uncertainty, selectively invoking joint future-action generation when the current observation does not support stable task-relevant action generation. An offline labeling pipeline uses complete demonstrations and action context to identify task-relevant objects and detect reference mismatch, invisibility, and identity drift. The resulting pseudo-labels supervise a lightweight router that predicts binding uncertainty from the current observation and language instruction. At inference, a shared WAM policy invokes selective future imagination according to the predicted uncertainty and its change between consecutive replanning steps. Simulation and real-world experiments demonstrate that Bind-WAM can establish binding uncertainty as a strong, interpretable signal for selective future imagination.",
+          "arxiv_id": "2611.15368",
+          "arxiv_url": "https://arxiv.org/abs/2611.15368",
+          "authors": [
+            "Chenhao Qiu, Shuyi Chen, Songen Gu, Shufeng Nan, Tianyu Wang, Siyu Lin, Yifan Li, Bingwen Zhu, Yanwei Fu"
+          ],
+          "bullets": [
+            "Addresses the high cost and unnecessary use of generating visual futures at every replanning step in World Action Models.",
+            "Uses offline demonstrations and action context to label task-relevant objects and detect reference mismatch, invisibility, and identity drift.",
+            "Trains a lightweight router to predict binding uncertainty from the current observation and language instruction.",
+            "A shared WAM policy triggers future imagination based on predicted uncertainty and its change across replanning steps.",
+            "Simulation and real-world experiments support binding uncertainty as an interpretable signal for selective imagination."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 2. Overview of Bind-WAM. Offline binding labels capture reference mismatch, invisibility, and identity drift and supervise a lightweight predictor. At inference, the predictor estimates binding uncertainty Ut from the current observation and instruction. The router selects direct action prediction when uncertainty is low and stable, or joint future–action denoising when Ut or its change ∆Ut exceeds a threshold. The inset summarizes action-to-visual attention: direct attends only to current visual tokens, whereas joint also attends to future visual tokens. Only the selected path executes and produces the action chunk. The offline labeling models are absent from online inference.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 422,
+              "image_path": "figures/2611.15368/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1052
+            },
+            {
+              "caption": "Fig. 3. Offline binding-label construction pipeline for a typical LIBERO front-view image. From left to right, the RGB observation is passed to Qwen3-VL-32B grounding, which assigns role-specific boxes to the stove (red) and moka pot (magenta). SAM 3.1 produces tracked instance masks, DINOv3 measures their cosine consistency with reference features, and Qwen verification aggregates votes across temporal context. In this example, both roles are visible, their reference IoUs are 0.860/0.378, their DINO similarities are 1.000/1.000, and Qwen verification gives 4/4 votes with zero entropy. These values yield the certain frame target yt = 0.",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 207,
+              "image_path": "figures/2611.15368/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1033
+            },
+            {
+              "caption": "Fig. 8. Comparison of different methods on the LIBERO wine-rack task. Each row shows five selected keyframes with policy steps labeled; “Joint Path” labels identify selected Bind-WAM joint-inference steps.",
+              "figure_id": "figure-8-8",
+              "figure_number": "8",
+              "height": 250,
+              "image_path": "figures/2611.15368/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 508
+            },
+            {
+              "caption": "Fig. 4. Representative binding-uncertainty predictions. The low-uncertainty examples show a clear relational cue, arms holding separated objects, and towel edges visible between grippers. The high-uncertainty examples show multiple similar objects, an arm obscuring the mug rim, and two grippers around a bottle. Each panel reports the task instruction and predicted binding uncertainty.",
+              "figure_id": "figure-4-11",
+              "figure_number": "4",
+              "height": 304,
+              "image_path": "figures/2611.15368/figure-004.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1052
+            },
+            {
+              "caption": "Fig. 1. Illustration and main results of Bind-WAM. (a) Fast-WAM predicts actions without future generation, whereas Joint-WAM predicts future visual observations and actions. Bind-WAM uses binding uncertainty to selectively invoke joint future-action prediction. (b) Success rates across simulation and real-world tasks, future-imagination ratios, and LIBERO completion times. Bind-WAM achieves generally higher success rates than Fast-WAM and Fast-WAM-Joint, with a minority of future imagination and much less completion time than Fast-WAM-Joint.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 683,
+              "image_path": "figures/2611.15368/figure-005.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 475
+            },
+            {
+              "caption": "Fig. 6. Representative successful executions of the three real-world tasks. Each row shows five selected frames in temporal order from left to right. Each frame shows the overhead camera view. Frames are selected by manipulation stage rather than at uniform time intervals.",
+              "figure_id": "figure-6-3",
+              "figure_number": "6",
+              "height": 270,
+              "image_path": "figures/2611.15368/figure-006.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 502
+            },
+            {
+              "caption": "Fig. 5. Binding uncertainty varies throughout task execution. Each row shows one selected LIBERO episode, with frame indices t and uncertainty values U . Unstable states include high uncertainties or jumps between frames.",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 79,
+              "image_path": "figures/2611.15368/figure-007.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 494
+            },
+            {
+              "caption": "TABLE II LIBERO EVALUATION RESULTS. SUCCESS RATES ARE PERCENTAGES AND TIME DENOTES COMPLETION TIME AVERAGED OVER SUCCESSFUL EPISODES. † DENOTES RESULTS REPRODUCED UNDER OUR MATCHED SETUP.",
+              "figure_id": "table-II-4",
+              "figure_number": "II",
+              "height": 263,
+              "image_path": "figures/2611.15368/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 906
+            },
+            {
+              "caption": "TABLE IV REAL-WORLD BIMANUAL TASK SUCCESS RATES. SUCCESS RATES ARE PERCENTAGES AND TIME DENOTES COMPLETION TIME AVERAGED OVER SUCCESSFUL EPISODES.",
+              "figure_id": "table-IV-7",
+              "figure_number": "IV",
+              "height": 183,
+              "image_path": "figures/2611.15368/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 504
+            },
+            {
+              "caption": "TABLE I BINDING UNCERTAINTY PREDICTOR PERFORMANCE ON EPISODE-DISJOINT TEST SETS FROM LIBERO AND ROBOTWIN.",
+              "figure_id": "table-I-10",
+              "figure_number": "I",
+              "height": 186,
+              "image_path": "figures/2611.15368/table-010.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 412
+            },
+            {
+              "caption": "TABLE V ROUTING ABLATION ON LIBERO. SUCCESS RATES ARE PERCENTAGES AND TIME DENOTES COMPLETION TIME AVERAGED OVER SUCCESSFUL EPISODES.",
+              "figure_id": "table-V-9",
+              "figure_number": "V",
+              "height": 133,
+              "image_path": "figures/2611.15368/table-011.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 442
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.15368/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.15368",
+          "relevance": 8,
+          "selection_reason": "Proposes selective future imagination in world action models, directly relevant to interactive and video world models.",
+          "summary_status": "generated",
+          "title": "Bind-WAM: Binding-Uncertainty-Guided Selective Future Imagination in World Action Models",
+          "tldr": "Bind-WAM selectively imagines visual futures only when language–object binding uncertainty suggests the robot’s current action prediction may be unreliable.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-world-models",
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "In this report, we introduce the Reciprocal World Model (RWM) and present Duo v1, a full-duplex world model that continuously perceives audiovisual inputs while responding to users in real time. The RWM treats intelligence and physical reality as equally fundamental to what constitutes a world. Existing world models largely focus on simulating the latter, leaving reasoning and decision-making as external controls rather than intrinsic parts of the world itself. In RWM, we identify two equally fundamental capabilities: Intent, which provides the cognition underlying world interactions, and Realization, which generates coherent audio-visual behavior. To realize this formulation, Duo v1 introduces three key technical designs: (1) Leveraging autoregressive modeling for continuous interaction reasoning and participation decisions, rather than restricting it to instruction understanding for diffusion models. (2) Constructing chunk-specific conditions and synchronize tokens across Intent and Realization on a unified timeline. Module-specific attention masks enforce causal dependencies both within and across chunks, preventing access to future inputs. (3) Mitigating distribution shift in both modules through dual rollout distillation, training on autoregressively generated Intent tokens and synthesized audiovisual histories from Realization. Both modules continuously perceive real-time audio, video, and text, enabling full-duplex interaction with spontaneous conversations and interruptions. Beyond conversation, users can share real objects, reshape virtual scenes, guide assistants, or play audiovisual games without mouse or keyboard controls. The release of Duo v1 makes our first step, with the next version coming soon. We look forward to broader exploration of this emerging field.",
+          "arxiv_id": "2611.15131",
+          "arxiv_url": "https://arxiv.org/abs/2611.15131",
+          "authors": [
+            "Hengyuan Cao, Biao Gong, Guoshan Lu, Qiyuan Zhang, Lin Liu, Yiding Tian, Yilei Jiang, Yuxin Ma, Chengzhang Wu, Kun Chen, Yiqian Xie, Ting Liu, Xin Zheng, Xijun Gu, Tianren Ma, Jiancheng Pan, Chi Zhang, Xuzhe Zheng, Siyi Li, Zhenzhong Lan"
+          ],
+          "bullets": [
+            "The Reciprocal World Model treats cognition and physical reality as equally fundamental components of an interactive world.",
+            "Its Intent module handles interaction reasoning and participation decisions, while Realization produces coherent audio-visual responses.",
+            "Chunk-specific conditions, synchronization tokens, and causal attention masks coordinate both modules without access to future inputs.",
+            "Dual rollout distillation reduces distribution shift by training on generated intent tokens and synthesized audiovisual histories.",
+            "Duo supports spontaneous conversation, interruptions, object sharing, virtual-scene manipulation, and audiovisual games without mouse or keyboard controls."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.SD"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: The framework of Duo v1. A joint causal diffusion transformer is conditioned on hidden states from the Intent Module, directly encoded user video and audio, a visual reference, and previously generated assistant media. The conversation media illustrate an offline, script-conditioned example.",
+              "figure_id": "figure-2-13",
+              "figure_number": "2",
+              "height": 702,
+              "image_path": "figures/2611.15131/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 968
+            },
+            {
+              "caption": "Figure 4: Overview of Stage 1 (Intent Training) and Stage 2 (Realization Training).",
+              "figure_id": "figure-4-12",
+              "figure_number": "4",
+              "height": 508,
+              "image_path": "figures/2611.15131/figure-002.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 968
+            },
+            {
+              "caption": "Figure 6: DMD training with dual rollout. The frozen Intent Module replays recorded assistant text and generates the final assistant turn from chunk k0 onward. Its hidden states ĥk condition the Realization Module Gθ , which generates the latent window zgen chunk by chunk. The frozen real score model µreal and the trainable fake score model µfake evaluate the corrupted latent window to construct the target zDMD. Red arrows indicate gradients to Gθ . Orange arrows indicate gradients to µfake and D. Dashed outlines indicate optional components.",
+              "figure_id": "figure-6-10",
+              "figure_number": "6",
+              "height": 419,
+              "image_path": "figures/2611.15131/figure-003.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 968
+            },
+            {
+              "caption": "Figure 1: Illustrative scenarios for full-duplex interaction with Reciprocal World Model.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 1028,
+              "image_path": "figures/2611.15131/figure-004.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 1064
+            },
+            {
+              "caption": "Figure 3: ASR-aligned chunk construction and causal supervision. On a shared audiovisual timeline, user text is assigned to chunks by aligned token end times, while assistant text targets are assigned by speech onset. The token <blank> marks the absence of newly available user text. An assistant chunk with no new speech onset uses <wait>, even if speech from the preceding chunk continues. At chunk k, the Intent Module predicts yk from Cϕ k , using user inputs available through chunk k − 1. The initial output y0 is fixed to <wait>. Only subsequent assistant targets contribute to the loss.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 810,
+              "image_path": "figures/2611.15131/figure-005.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 948
+            },
+            {
+              "caption": "Figure 7: Screenplay-driven dual-view generation. Stage I turns sampled control cards into a validated structured screenplay and renders it, without another LLM call, into one t2v prompt per block. Stage II generates one split-screen audio-video block by block. Each later block starts from the previous block’s final frame (orange) and is anchored to the same opening segment of block 0 (blue), so identity and voice references are never re-chained through earlier continuations. Frames and dialogue in this figure come from one generated 30 s sample.",
+              "figure_id": "figure-7-6",
+              "figure_number": "7",
+              "height": 652,
+              "image_path": "figures/2611.15131/figure-006.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 986
+            },
+            {
+              "caption": "Figure 5: Training sequence, positional encoding, and attention mask of the Realization Module. (a) The training context CR contains the reference, the shared global instruction, clean media of all chunks, and, for each chunk, the Intent Module hidden states followed by the noisy media. (b) Temporal RoPE positions in chunk k follow playback time in 25 ms units from the chunk start sk: text tokens and audio latents advance by one unit per index, and each video latent takes the start time of its frame span. (c) Causal attention mask. The noisy media of chunk k read the reference, the shared instruction, clean media of earlier chunks, the hidden states of chunk k, and themselves, but not the clean media of chunk k or any later chunk.",
+              "figure_id": "figure-5-5",
+              "figure_number": "5",
+              "height": 473,
+              "image_path": "figures/2611.15131/figure-007.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 952
+            },
+            {
+              "caption": "Figure 8: Screenplay and t2v prompt. (a) The screenplay written by the LLM for the sample in Fig. 7. (b) The t2v prompt rendered from it for a continuation block. Shaded sentences are fixed text shared by all samples, grouped as [1]-[3] in the main text. ⟨·⟩ marks screenplay fields copied into the prompt, and the remaining lines are abridged template text.",
+              "figure_id": "figure-8-2",
+              "figure_number": "8",
+              "height": 812,
+              "image_path": "figures/2611.15131/figure-008.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 979
+            },
+            {
+              "caption": "Figure 9: Error accumulation over a 60 s, ten-block rollout. Top: mean luma Y′ (0–255) of the full split-screen frame per block (table) and per frame (plot). Bottom: the split-screen frame at the middle of blocks 0, 3, 6, and 9. Base conditions each block only on the previous final frame, and Ours adds the fixed block-0 picture-quality reference. Both runs share the same block 0 and screenplay.",
+              "figure_id": "figure-9-14",
+              "figure_number": "9",
+              "height": 612,
+              "image_path": "figures/2611.15131/figure-009.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 969
+            },
+            {
+              "caption": "Figure 11: Streaming inference on eight GPUs. Time advances from left to right. The Intent Module runs its VLM with four-way tensor parallelism (TP4) on GPU 0-3, alongside auxiliary ASR. The Realization Module executes the DiT on GPU 0-7 using tensor or sequence parallelism (TP/SP), while the streaming VAE uses 4-way spatial tiling on GPU 4-7. The first visible execution of the Intent Module processes input k, which is omitted from the figure. The second execution processes input k + 1. Hidden states hk from the Intent Module condition the Realization Module, which performs 4 denoising steps followed by a clean forward that commits the KV state. The unified KV manager uses a sliding window for Intent Module KV and periodic resets for Realization Module KV. Chunk k + 1 skips history reads but retains the clean write. Decoding overlaps intent inference on separate GPUs before generation resumes. KV boxes mark manager operations.",
+              "figure_id": "figure-11-8",
+              "figure_number": "11",
+              "height": 544,
+              "image_path": "figures/2611.15131/figure-010.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 972
+            },
+            {
+              "caption": "Figure 13: Decisions and coordination. Six additional script-conditioned paired-video examples illustrate how the user and assistant question a proposal, revise a plan, reason through constraints, explain visible evidence, and coordinate a shared task.",
+              "figure_id": "figure-13-7",
+              "figure_number": "13",
+              "height": 760,
+              "image_path": "figures/2611.15131/figure-011.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 986
+            },
+            {
+              "caption": "Figure 10: Recorded data sources, interaction formats The six categories describe the recorded sources, with selected categories requiring further processing or synthesis to construct training examples.",
+              "figure_id": "figure-10-9",
+              "figure_number": "10",
+              "height": 1026,
+              "image_path": "figures/2611.15131/figure-012.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 984
+            },
+            {
+              "caption": "Figure 12: Five functions of user–assistant interaction. Examples connect dialogue to plans, visible actions, shared solutions, social responses, and interactive customization. Panels (a)-(d) show offline, script-conditioned paired-video data. Panel (e) shows successive moments from a provided project demo.",
+              "figure_id": "figure-12-4",
+              "figure_number": "12",
+              "height": 1374,
+              "image_path": "figures/2611.15131/figure-013.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 990
+            },
+            {
+              "caption": "Figure 14: Grounded and social responses. Seven additional script-conditioned conversations connect visible context and dialogue to creative, instructional, and supportive behavior. Panels (a)-(f) show different conversations. Panel (g) shows two moments from one conversation.",
+              "figure_id": "figure-14-11",
+              "figure_number": "14",
+              "height": 1044,
+              "image_path": "figures/2611.15131/figure-014.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 986
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.15131/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.15131",
+          "relevance": 8,
+          "selection_reason": "Presents a full-duplex reciprocal world model that interactively perceives audiovisual input and generates real-time behavior.",
+          "summary_status": "generated",
+          "title": "Duo: A Reciprocal World Model for Full-Duplex Interaction",
+          "tldr": "Duo v1 is a full-duplex world model that jointly reasons about user intent and generates audiovisual behavior for continuous, real-time interaction.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Embodied world models (WMs) are implicit learning systems that predict the next future latent state directly from observations and actions. Unique from other end-to-end learning systems, the dynamics predictor of WMs can simulate the environment's response to alternative actions without physical deployment nor pre-specifying states of the dynamical system. Current metrics focus on the quality of model outputs, e.g., clarity of reconstructions or task success, but fail to assess the fidelity of modeling consequences of counterfactual actions. Inspecting the forced response to action perturbations through sensitivity analysis is one way to audit how well WMs can predict the consequences of counterfactual actions. Deploying WMs on hardware will require new evaluation frameworks to analyze the tradeoffs between state error and accurate sensitivity prediction.",
+          "arxiv_id": "2611.15048",
+          "arxiv_url": "https://arxiv.org/abs/2611.15048",
+          "authors": [
+            "Ayush Gaggar, Jared Berry, Todd D. Murphey"
+          ],
+          "bullets": [
+            "Existing metrics overlook fidelity to counterfactual action consequences.",
+            "Sensitivity analysis can audit model responses to perturbed actions.",
+            "Evaluation should assess the tradeoff between state-prediction error and sensitivity accuracy.",
+            "The framework is motivated by reliable deployment of world models on physical hardware."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4: Designing world models will often involve a tradeoff between low state error and low error in predicted action sensitivity. For four example scenarios: a) Structured environments, like open-loop pick and place, only require low state error. b) High accuracy in both action sensitivity and state prediction is only possible when robot motion can be modeled and is repeatable. c) Poor performance in both dimensions is acceptable with effectively unlimited time and compute for non-critical tasks. d) Action sensitivity is more relevant than state error in unstructured, unknown environments, where environmental uncertainty dominates error.",
+              "figure_id": "figure-4-4",
+              "figure_number": "4",
+              "height": 452,
+              "image_path": "figures/2611.15048/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 818
+            },
+            {
+              "caption": "Figure 1: The dynamics predictor of world models uniquely enables roboticists to audit end to end learning systems through observables alone. However, current metrics measure planning utility through one isolated component of the WM stack. Thus, new metrics that evaluate a system’s dynamics fidelity of counterfactual actions are needed.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 109,
+              "image_path": "figures/2611.15048/figure-002.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 828
+            },
+            {
+              "caption": "Figure 2: Current metrics give false signals of planning utility. Left: Visualizing ground truth interactions from an underfit decoder shows planning fidelity and reconstruction accuracy are distinct evaluations. Right: An overfit, brittle action policy shows task performance and planning utility are distinct evaluations.",
+              "figure_id": "figure-2-2",
+              "figure_number": "2",
+              "height": 219,
+              "image_path": "figures/2611.15048/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 819
+            },
+            {
+              "caption": "Table 2: State error and AP score for the Peg task on 50 on-policy trajectories, for ∥δ∥ ∈ {0.1, 0.2, 0.5, 1.0} and H ∈ {1, 2, 3, 4, 5, 10}. Unreliable world models, characterized by predictive action sensitivity worse than simply predicting the unperturbed action, are shaded in red. Best models, if outside confidence intervals, are highlighted in bold.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 710,
+              "image_path": "figures/2611.15048/table-004.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 706
+            },
+            {
+              "caption": "Table 1: State error and AP score for the Push task on 50 on-policy trajectories, for ∥δ∥ ∈ {0.1, 0.2, 0.5, 1.0} and H ∈ {1, 2, 3, 4, 5, 10}. Unreliable world models, characterized by predictive action sensitivity worse than simply predicting the unperturbed action, are shaded in red. Best models, if outside confidence intervals, are highlighted in bold.",
+              "figure_id": "table-1-5",
+              "figure_number": "1",
+              "height": 709,
+              "image_path": "figures/2611.15048/table-005.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 706
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.15048/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.15048",
+          "relevance": 7,
+          "selection_reason": "Proposes sensitivity-analysis evaluation of world models' counterfactual action predictions, directly relevant to interactive world models.",
+          "summary_status": "generated",
+          "title": "Does Your World Model Know Actions Have Consequences?",
+          "tldr": "The paper argues that embodied world models should be evaluated on whether they accurately predict the consequences of alternative actions, not just on output quality or task success.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Autonomous cyber defense is widely studied with deep reinforcement learning, but most work trains policies inside simulators because learning requires many trial-and-error interactions. Simulator-based training carries a fidelity gap: trained policies face authentication delays, partial action failures, service dependencies, and user traffic patterns that the simulator did not represent, and degrade on transfer. Training directly in the network being defended removes the gap but makes every interaction slow and costly, so sample efficiency becomes the binding constraint. Model-based reinforcement learning has reduced sample requirements on games and physical robots by orders of magnitude by planning inside a learned world model, but it has not been applied to defenders trained in operational networks. We present FOE-Dreamer (Factored Opponent-Enhanced Dreamer), a model-based reinforcement learning framework that trains a defender online and directly in a network on cloud infrastructure, without a simulator stage. FOE-Dreamer separates three sources of variation in the latent state: a controllable component driven by defender actions, an exogenous component driven by benign user activity, and an opponent embedding inferred from defender-observable signals alone. Separating the components reduces the variance in policy gradients during planning in imagination. Against two scripted attacker profiles with user activity emulated by the GHOSTS framework on an 8-host OpenStack testbed, FOE-Dreamer trains within a 3-day budget on a single GPU and achieves about 2$\\times$ better episode loss than Rainbow and IQN baselines under matched compute. Both the factoring and the opponent model contribute to the gain, and the learned latents are consistent with the intended separation.",
+          "arxiv_id": "2611.14880",
+          "arxiv_url": "https://arxiv.org/abs/2611.14880",
+          "authors": [
+            "Yinuo Du, Christopher Kiekintveld"
+          ],
+          "bullets": [
+            "Addresses the simulator-to-network fidelity gap while avoiding the high interaction cost of online training.",
+            "Separates latent state variation into defender-controllable, benign-user, and opponent-related components.",
+            "Infers the opponent component only from signals observable to the defender and uses the model for imagined planning.",
+            "On an 8-host OpenStack testbed with two scripted attackers, it trained within a 3-day single-GPU budget.",
+            "Achieved about 2× better episode loss than Rainbow and IQN under matched compute; both factoring and opponent modeling contributed."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.CR"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. FOE-Dreamer architecture overview.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 421,
+              "image_path": "figures/2611.14880/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 433
+            },
+            {
+              "caption": "Figure 3. Episode loss vs. training day across baselines and FOE-Dreamer, under both attacker profiles.",
+              "figure_id": "figure-3-5",
+              "figure_number": "3",
+              "height": 298,
+              "image_path": "figures/2611.14880/figure-002.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 844
+            },
+            {
+              "caption": "Figure 4. t-SNE projection of the opponent embedding τ at a fixed step in each episode, colored by attacker profile. The two profiles occupy clearly separated regions of the embedding space.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 383,
+              "image_path": "figures/2611.14880/figure-003.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 458
+            },
+            {
+              "caption": "Figure 5. Action-prediction accuracy of the opponent encoder over training, by attacker profile. Accuracy rises monotonically as the encoder learns to summarize defender-observable signals.",
+              "figure_id": "figure-5-3",
+              "figure_number": "5",
+              "height": 327,
+              "image_path": "figures/2611.14880/figure-004.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 458
+            },
+            {
+              "caption": "Figure 1. Agent-environment interface. The C2 server provides bidirectional translation: abstract defensive tactics become concrete network operations (downward), and distributed sensor data becomes structured observations (upward). Communication occurs over gRPC with Protocol Buffers.",
+              "figure_id": "figure-1-12",
+              "figure_number": "1",
+              "height": 324,
+              "image_path": "figures/2611.14880/figure-005.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 442
+            },
+            {
+              "caption": "TABLE 1. CVE-CLASS VULNERABILITIES DEPLOYED IN THE TESTBED.",
+              "figure_id": "table-1-13",
+              "figure_number": "1",
+              "height": 236,
+              "image_path": "figures/2611.14880/table-006.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 504
+            },
+            {
+              "caption": "TABLE 2. OBJECTIVES AND DIRECTLY SUPERVISED PARAMETER BLOCKS.",
+              "figure_id": "table-2-8",
+              "figure_number": "2",
+              "height": 172,
+              "image_path": "figures/2611.14880/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 504
+            },
+            {
+              "caption": "TABLE 3. FINAL EPISODE LOSS (MEAN ± STD OVER 5 SEEDS) AFTER 3 DAYS OF LIVE TRAINING. LOWER IS WORSE. SLEEP, RANDOM, AND EXPERT-INSPIRED HEURISTIC ARE REFERENCE BASELINES; RAINBOW AND IQN ARE LEARNED BASELINES.",
+              "figure_id": "table-3-11",
+              "figure_number": "3",
+              "height": 173,
+              "image_path": "figures/2611.14880/table-008.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 366
+            },
+            {
+              "caption": "TABLE 7. NOTATION SUMMARY.",
+              "figure_id": "table-7-7",
+              "figure_number": "7",
+              "height": 506,
+              "image_path": "figures/2611.14880/table-009.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 429
+            },
+            {
+              "caption": "TABLE 8. FOE-DREAMER HYPERPARAMETERS: SEARCH RANGE AND SELECTED VALUE.",
+              "figure_id": "table-8-6",
+              "figure_number": "8",
+              "height": 446,
+              "image_path": "figures/2611.14880/table-010.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 498
+            },
+            {
+              "caption": "TABLE 6. DEFENDER-ACTION PREDICTION ACCURACY FROM EACH LATENT.",
+              "figure_id": "table-6-4",
+              "figure_number": "6",
+              "height": 81,
+              "image_path": "figures/2611.14880/table-011.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 196
+            },
+            {
+              "caption": "TABLE 4. ABLATION MATRIX. FINAL EPISODE LOSS (MEAN ± STD OVER 5 SEEDS) AFTER 3 DAYS. LOWER IS WORSE. FULL−FACTOR−OPPONENT IS THE SINGLE-LATENT DREAMER BASELINE.",
+              "figure_id": "table-4-9",
+              "figure_number": "4",
+              "height": 101,
+              "image_path": "figures/2611.14880/table-012.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 383
+            },
+            {
+              "caption": "TABLE 5. LINEAR-DECODING R2 FOR USER ACTIVITY FROM EACH LATENT. HIGHER MEANS STRONGER LINEAR RELATIONSHIP.",
+              "figure_id": "table-5-10",
+              "figure_number": "5",
+              "height": 83,
+              "image_path": "figures/2611.14880/table-013.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 333
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.14880/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.14880",
+          "relevance": 6,
+          "selection_reason": "Model-based RL uses a factored learned world model for action-conditioned planning in a network environment; relevant to interactive world models.",
+          "summary_status": "generated",
+          "title": "FOE-Dreamer: Deployment-Efficient Learning of Cyber Defense Policies in Operational Networks",
+          "tldr": "FOE-Dreamer enables sample-efficient cyber defense policy learning directly in operational networks by planning with a factored latent world model.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Driving world models aim to simulate how a scene unfolds under different ego actions. This requires plausible motion of surrounding vehicles as well as precise ego-trajectory control. Learning vehicle motion from perspective video alone is challenging because motion is entangled with appearance and vehicles can be occluded. Prior work therefore conditions video generation on layouts that specify vehicle motion, providing control over surrounding vehicles but requiring their future trajectories as inputs. We introduce BirdDreams, an autoregressive driving world model that jointly generates perspective video and a schematic bird's-eye-view (BEV) video, making scene layout part of the predicted future. The BEV, rendered from scene annotations for training, depicts roads and vehicles as simple shapes at a fixed metric scale, providing a top-down view of their positions and motion with reduced occlusion between vehicles. Perspective video, by contrast, retains scene details that the BEV omits, such as traffic signals and object appearance. Joint attention between two video diffusion transformers, one per stream, lets each stream inform the other during generation. The predicted BEV also provides a geometric interface for ego control: we translate and rotate its latest frame along an input ego trajectory and use the resulting frames as a soft condition that shows how the scene would appear to move if only the ego vehicle moved. At inference, BirdDreams generates both videos from a single camera image without requiring an HD map or vehicle-state inputs. On PhysicalAI-AV and nuScenes, BirdDreams follows input ego trajectories more faithfully than prior driving world models and generates more plausible ego motion without ego-action conditioning. Human evaluation shows that BirdDreams outperforms a perspective-only baseline in generating realistic surrounding-vehicle behavior.",
+          "arxiv_id": "2611.14815",
+          "arxiv_url": "https://arxiv.org/abs/2611.14815",
+          "authors": [
+            "Junyoung Seo, Jaewoo Seo, Seungryong Kim, Laura Leal-Taix\\'e, Xiuming Zhang, Seung Wook Kim"
+          ],
+          "bullets": [
+            "Addresses the challenge of modeling surrounding-vehicle motion and precise ego control from perspective video, where appearance and occlusion confound motion learning.",
+            "Uses two autoregressive video diffusion transformers with joint attention: one generates detailed perspective video, while the other generates a metric-scale schematic BEV video.",
+            "Uses the predicted BEV as a geometric interface for ego control by transforming its latest frame along a requested ego trajectory as a soft condition.",
+            "At inference, requires neither an HD map nor vehicle-state inputs.",
+            "On PhysicalAI-AV and nuScenes, it follows ego trajectories more faithfully, produces more plausible ego motion without ego-action conditioning, and improves surrounding-vehicle realism in human evaluation versus a perspective-only baseline."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of BirdDreams. Two causal video diffusion transformers jointly generate perspective and schematic bird’s-eye-view (BEV) videos from an initial camera image, with joint attention over tokens from both streams. Noise levels are sampled independently across streams during training. For ego-action conditioning, the latest predicted BEV frame is reprojected along the input ego trajectory to form a soft condition for the BEV branch. Joint attention conveys this condition to the perspective branch, and cached history supports generation of successive chunks. The VAE encoder and decoder are omitted for clarity.",
+              "figure_id": "figure-2-12",
+              "figure_number": "2",
+              "height": 398,
+              "image_path": "figures/2611.14815/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 973
+            },
+            {
+              "caption": "Figure 5: Reactive behavior with and without ego-action conditioning. (a) Without ego-action conditioning, the ego and surrounding vehicles respond to one another. (b) In both examples with ego-action conditioning, the ego follows the input trajectory while surrounding vehicles react to its motion.",
+              "figure_id": "figure-5-13",
+              "figure_number": "5",
+              "height": 531,
+              "image_path": "figures/2611.14815/figure-002.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 981
+            },
+            {
+              "caption": "Figure 3: Flexible conditioning. We show example rollouts from an initial RGB frame (a) and an initial BEV frame (b), generating both perspective and BEV videos in each case. In (c), we generate BEV video conditioned on a full RGB video.",
+              "figure_id": "figure-3-1",
+              "figure_number": "3",
+              "height": 489,
+              "image_path": "figures/2611.14815/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 979
+            },
+            {
+              "caption": "Figure 6: Surrounding-vehicle behavior under counterfactual ego actions. We compare HD-map-conditioned variants of OmniDreams and BirdDreams using the same initial observations, without surrounding-vehicle-state conditions. The schematics summarize vehicle motion, with faded-to-solid symbols indicating earlier-to-later positions and solid arrows showing motion directions. Compared with the OmniDreams baseline, BirdDreams generates more realistic driving maneuvers while maintaining spatially coherent vehicle motion over time.",
+              "figure_id": "figure-6-7",
+              "figure_number": "6",
+              "height": 1218,
+              "image_path": "figures/2611.14815/figure-004.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 833
+            },
+            {
+              "caption": "Figure 11: Scenario editing in BEV. The schematic top view makes it easy to customize driving scenarios by adding vehicles and adjusting their positions and headings. BirdDreams then jointly generates perspective and BEV videos from this initial layout, synthesizing scene appearance and subsequent vehicle motion without requiring a corresponding perspective image.",
+              "figure_id": "figure-11-2",
+              "figure_number": "11",
+              "height": 319,
+              "image_path": "figures/2611.14815/figure-005.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 979
+            },
+            {
+              "caption": "Figure 7: Diverse futures from the same initial observation and ego action. We show RGB and BEV rollouts from BirdDreams (HDMap) to examine surrounding-vehicle responses to counterfactual ego actions that may lead to collisions. Each pair uses the same initial RGB observation, counterfactual ego trajectory, and static road geometry, but different random seeds. Different surrounding-vehicle motions yield a collision in one rollout and no collision in the other.",
+              "figure_id": "figure-7-9",
+              "figure_number": "7",
+              "height": 1220,
+              "image_path": "figures/2611.14815/figure-006.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 718
+            },
+            {
+              "caption": "Figure 8: Human evaluation of surrounding-vehicle behavior. BirdDreams (HDMap) and OmniDreams (HDMap) receive the same initial observations, counterfactual ego actions, and static road geometry, without surrounding-vehicle-state conditions. (a) Overall preference from 375 judgments by 25 participants. (b) Issues flagged for the non-preferred video, with percentages over all 375 judgments and multiple selections allowed.",
+              "figure_id": "figure-8-8",
+              "figure_number": "8",
+              "height": 258,
+              "image_path": "figures/2611.14815/figure-007.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 921
+            },
+            {
+              "caption": "Figure 10: Ego-trajectory prediction after WAM post-training. Best-of-six minADE over 3 s on 100 held-out RDS-HQ-1M clips. GT BEV (hatched) is a separate diagnostic with additional ground-truth BEV input.",
+              "figure_id": "figure-10-4",
+              "figure_number": "10",
+              "height": 261,
+              "image_path": "figures/2611.14815/figure-008.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 556
+            },
+            {
+              "caption": "Figure 9: Per-stream noise sampling. (a) Shared noise levels across perspective and BEV streams; (b) independent noise levels (BirdDreams).",
+              "figure_id": "figure-9-3",
+              "figure_number": "9",
+              "height": 275,
+              "image_path": "figures/2611.14815/figure-009.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 365
+            },
+            {
+              "caption": "Figure 1: Motivation: scene structure as a prediction target. (a) OmniDreams conditions RGB video generation on schematic views rendered from external road geometry and future vehicle states. (b) BirdDreams jointly generates perspective and schematic BEV videos, predicting scene structure and surrounding-vehicle motion without HD-map or layout inputs at inference. Schematic BEV targets supervise vehicle motion during training, while the predicted BEV provides a geometric interface for ego-trajectory control.",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 188,
+              "image_path": "figures/2611.14815/figure-010.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 979
+            },
+            {
+              "caption": "Figure 4: Training procedure. Starting from pretrained vanilla OmniDreams, we train with Diffusion Forcing (DF) using noise levels sampled independently across chunks and streams. During Resampling Forcing (RF) fine-tuning, noisy ground-truth chunks are autoregressively denoised with one Euler step per chunk to form the conditioning history. Both stages retain independent noise sampling across chunks and streams for target denoising.",
+              "figure_id": "figure-4-6",
+              "figure_number": "4",
+              "height": 185,
+              "image_path": "figures/2611.14815/figure-011.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 979
+            },
+            {
+              "caption": "Table 1: Quantitative comparison without ego-action conditioning. Each entry reports PhysicalAIAV / nuScenes. Trajectory metrics use ego motion reconstructed from generated perspective videos; minADE and minDTW report the minimum over three samples per scene against the logged trajectory. *OmniDreams (Vanilla) uses no external scene-layout conditioning and is post-trained on the same dataset as BirdDreams.",
+              "figure_id": "table-1-10",
+              "figure_number": "1",
+              "height": 248,
+              "image_path": "figures/2611.14815/table-012.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 983
+            },
+            {
+              "caption": "Table 2: Quantitative comparison with ego-action conditioning. Each entry reports PhysicalAI-AV / nuScenes. OmniDreams (Plücker) conditions perspective video on ego motion through Plücker ray embeddings.",
+              "figure_id": "table-2-11",
+              "figure_number": "2",
+              "height": 240,
+              "image_path": "figures/2611.14815/table-013.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 983
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.14815/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.14815",
+          "relevance": 9,
+          "selection_reason": "Driving world model that jointly generates perspective and BEV video, action-conditioned for ego control, directly fits world models and video prediction.",
+          "summary_status": "generated",
+          "title": "BirdDreams: Joint Perspective and BEV Video Generation for a Plausible, Reactive Driving World Model",
+          "tldr": "BirdDreams jointly predicts perspective and BEV videos to create a controllable, plausible driving world model from a single camera image.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-world-models",
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-10",
       "paper_count": 11,
       "papers": [
@@ -11,7 +2182,13 @@
           "authors": [
             "Guoqiang Liang, Yiqi Lin, Yanzhe Chen, Kevin Yuchen Ma, Mike Zheng Shou"
           ],
-          "bullets": [],
+          "bullets": [
+            "Frames signal injection as a distribution-alignment problem rather than a formatting choice.",
+            "Uses frozen-denoiser reconstruction error to show frequency-domain encodings better match the pretrained video latent prior than conventional spatial encodings.",
+            "Packs proprioception, actions, and values into disjoint frequency bands, lifted by inverse DCT without adding modules or changing architecture.",
+            "Supports policy, world-model, and value prediction through a fixed band layout and slot-aware routing.",
+            "Reports 68.9% success on RoboCasa with 39% lower inference latency, and 85.0% success across three real-world Franka tasks."
+          ],
           "categories": [
             "cs.CV",
             "cs.RO"
@@ -205,9 +2382,9 @@
           "pdf_url": "https://arxiv.org/pdf/2611.14365",
           "relevance": 9,
           "selection_reason": "Proposes MetaWAM, a framework for World Action Models that uses frequency-domain packing to inject robot signals into a video diffusion latent space. This directly bridges World Models and Embodied AI with a novel interface design.",
-          "summary_status": "failed",
+          "summary_status": "generated",
           "title": "From Video Frames to Robot Meta-Frames: A Unified Latent Interface for World Action Models",
-          "tldr": null,
+          "tldr": "MetaWAM unifies robot signals in a single frequency-domain latent meta-frame, aligning them with pretrained video diffusion priors for efficient world action modeling.",
           "topic_assignments": [
             {
               "subtopic_ids": [
@@ -230,7 +2407,13 @@
           "authors": [
             "Xuheng Zhang, Yiming Zhang, Jialin Gao, Hao Chen, Jiaming Liu, Ji Li, Runzhong Huang, Yinxi Wang, Chenyang Gu, Zihan Yang, Yaowei Liu, Zhonghao Yan, Ziyu Guo, Renrui Zhang, Peng Jia, Pheng-Ann Heng, Shanghang Zhang"
           ],
-          "bullets": [],
+          "bullets": [
+            "Addresses the mismatch between global world representations and the local robot–object interactions needed for manipulation.",
+            "Uses a latent expert within a Mixture-of-Transformers to connect world and action experts through interaction-focused physical reasoning.",
+            "Adaptively transfers world predictions to actions by jointly predicting future representations and progress values, enabling execution adjustment and future resampling.",
+            "Pretrained on over 14k hours of robotic data; achieves 99.5% on LIBERO, exceeds prior state of the art on ten RLBench tasks, and performs robustly in real-world long-horizon and dexterous manipulation.",
+            "Scope: evaluated across benchmark and real-world robotic manipulation tasks, with the abstract not specifying broader domains."
+          ],
           "categories": [
             "cs.RO"
           ],
@@ -423,9 +2606,9 @@
           "pdf_url": "https://arxiv.org/pdf/2611.14048",
           "relevance": 9,
           "selection_reason": "Generalist world action model with interaction-centric latent reasoning for manipulation, combining world modeling and action generation.",
-          "summary_status": "failed",
+          "summary_status": "generated",
           "title": "LaST0.5: A Generalist World Action Model with Interaction-Centric Latent Reasoning",
-          "tldr": null,
+          "tldr": "LaST0.5 improves robotic manipulation by inserting a compact interaction-centric latent reasoning space between world modeling and action generation.",
           "topic_assignments": [
             {
               "subtopic_ids": [
@@ -1027,7 +3210,13 @@
           "authors": [
             "Yikun Zhang, Minghao Guo, Guangxue Xu, Peter Yichen Chen, Wojciech Matusik, Wengong Jin, Jingjing Chai, Kaiyi Jiang"
           ],
-          "bullets": [],
+          "bullets": [
+            "Addresses the challenge of exploring vast, rugged protein fitness landscapes when experiments can test only a small fraction of variants.",
+            "Uses MutationFormer to jointly represent sequence, evolutionary, and structural information from deep mutational scanning data.",
+            "Models variants as latent-space states and mutations as actions with predicted functional consequences.",
+            "Includes a physics-constrained all-atom structure predictor reported as over 10× faster than AlphaFold3 while maintaining physical validity.",
+            "Outperformed established mutation-prediction models and produced variants with over 10× wild-type activity in two closed-loop campaigns on aldehyde dehydrogenase and levansucrase."
+          ],
           "categories": [
             "q-bio.BM",
             "cs.AI"
@@ -1040,9 +3229,9 @@
           "pdf_url": "https://arxiv.org/pdf/2611.13348",
           "relevance": 8,
           "selection_reason": "ProTEUS is a mutation-resolved world model for closed-loop protein evolution, using a physics-constrained predictor and feedback loops. This fits World Models (Latent Action Models, Interactive World Models).",
-          "summary_status": "failed",
+          "summary_status": "generated",
           "title": "ProTEUS: A mutation-resolved world model for closed-loop protein evolution",
-          "tldr": null,
+          "tldr": "ProTEUS is a closed-loop protein evolution framework that predicts mutation effects, rapidly evaluates structures, and uses experimental feedback to guide engineering toward desired phenotypes.",
           "topic_assignments": [
             {
               "subtopic_ids": [
@@ -1060,7 +3249,13 @@
           "authors": [
             "Daniel Campa, Spandan Das, Srinjoy Das"
           ],
-          "bullets": [],
+          "bullets": [
+            "Addresses the inefficiency and inflexibility of monolithic diffusion models for offline RL transition synthesis.",
+            "Uses a chain-rule factorization into state, action, dynamics, reward, and terminal stages, with estimators suited to each factor.",
+            "Matches the SynthER baseline across 12 D4RL locomotion and maze benchmarks while substantially reducing generation cost.",
+            "Best-of-10 targeted action synthesis improves over real-data training on 11 of 12 medium and medium-replay settings, averaging +8.9 D4RL points.",
+            "Performance degrades on expert mixtures because of inaccurate advantage estimates, not the synthesis mechanisms themselves."
+          ],
           "categories": [
             "cs.LG"
           ],
@@ -1233,9 +3428,9 @@
           "pdf_url": "https://arxiv.org/pdf/2611.13013",
           "relevance": 8,
           "selection_reason": "Factored transition synthesis for offline RL; action-conditioned world model and robot learning relevance.",
-          "summary_status": "failed",
+          "summary_status": "generated",
           "title": "FaST: Factored Synthesis of Transitions for Offline Reinforcement Learning",
-          "tldr": null,
+          "tldr": "FaST factors transition generation into specialized stages, matching diffusion-based quality while generating over 90× faster and enabling targeted action synthesis.",
           "topic_assignments": [
             {
               "subtopic_ids": [
@@ -1393,7 +3588,13 @@
             "Songchang Jin",
             "Dianxi Shi"
           ],
-          "bullets": [],
+          "bullets": [
+            "Targets the difficulty of translating distant navigation goals into coherent local decisions in large, complex environments.",
+            "Maintains persistent medium-horizon subgoals and relevant experience through a navigation memory module.",
+            "Uses an action-conditioned world model to predict candidate movement outcomes in a visual sandbox.",
+            "A vision-language reasoner evaluates predictions, while real observations update memory and revise actions or subgoals.",
+            "Evaluations report stronger gains on longer routes and routes with more turns."
+          ],
           "categories": [
             "cs.RO",
             "cs.AI"
@@ -1567,9 +3768,9 @@
           "pdf_url": "https://arxiv.org/pdf/2610.04916",
           "relevance": 9,
           "selection_reason": "Urban navigation with anticipatory VLM reasoning, an action-conditioned world model, and navigation memory.",
-          "summary_status": "failed",
+          "summary_status": "generated",
           "title": "PreAct-Nav: Agentic Reasoning Before Action for Urban Navigation",
-          "tldr": null,
+          "tldr": "PreAct-Nav improves long-horizon urban navigation by reasoning about subgoals, predicted action consequences, and observed outcomes before and after acting.",
           "topic_assignments": [
             {
               "subtopic_ids": [
@@ -1601,7 +3802,12 @@
             "Muhammad Burhan Hafez",
             "Stefan Wermter"
           ],
-          "bullets": [],
+          "bullets": [
+            "Learns a task-agnostic world model from unstructured play data, then optimizes task behavior in imagined rollouts aligned with expert demonstrations.",
+            "On-policy training within imagination exposes the policy to its own errors, reducing offline behavioral-cloning covariate shift.",
+            "Compresses high-resolution multi-view observations into a single token to keep long-horizon Transformer imagination tractable.",
+            "On CALVIN, completes more tasks than LUMOS in single-environment evaluation (2.52 vs. 2.34) and nearly doubles HULC’s zero-shot transfer performance (1.30 vs. 0.67)."
+          ],
           "categories": [
             "cs.RO"
           ],
@@ -1684,9 +3890,9 @@
           "pdf_url": "https://arxiv.org/pdf/2610.04540",
           "relevance": 9,
           "selection_reason": "Language-conditioned robotic manipulation via a Transformer world model and imagination-based policy learning.",
-          "summary_status": "failed",
+          "summary_status": "generated",
           "title": "DreamFormer: Dream Imitation with a Transformer World Model for Language-Conditioned Robotic Manipulation",
-          "tldr": null,
+          "tldr": "DreamFormer uses a compact Transformer world model and latent-space imitation to learn language-conditioned, long-horizon robotic manipulation while improving robustness to policy errors and unseen environments.",
           "topic_assignments": [
             {
               "subtopic_ids": [
@@ -135589,5 +137795,5 @@
   "schema_version": 1,
   "subtopic_id": "interactive-world-models",
   "topic_id": "world-models",
-  "total_paper_count": 662
+  "total_paper_count": 675
 }

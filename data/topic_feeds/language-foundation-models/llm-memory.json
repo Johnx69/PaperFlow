@@ -1,6 +1,2372 @@
 {
   "days": [
     {
+      "date": "2026-11-12",
+      "paper_count": 14,
+      "papers": [
+        {
+          "abstract": "Coding agents tackle successive tasks on an evolving repository, carrying forward edits and writing memory before the next task is known. Selecting memory for unknown next tasks requires balancing future usefulness against the costs of writing and reading it. The actor must also decide when acting on available memory saves effort as the task unfolds. We introduce Coding-Repository Memory (CoReMem), a cost-internalizing framework that guides memory design and actor adaptation through measured memory value on the next task. Prospective segment valuation compares runs of the next task with and without individual trajectory segments from the same inherited repository state, guiding a compact memory built around anchors: repository locations and executable checks. Actor adaptation estimates on-policy memory value within rollout groups with and without memory, using a reward that prioritizes resolution and penalizes step count in successful runs. Provenance-gated value credit assigns the additional value term to steps identified as using memory-supplied anchors, while every step retains outcome credit. On ChainSWE, CoReMem raises the 27B actor's resolve rate from 21.0% to 25.7%, with 17% fewer steps and 11% fewer total cache-aware tokens, including memory-module calls, relative to the untrained actor model without memory.",
+          "arxiv_id": "2611.17316",
+          "arxiv_url": "https://arxiv.org/abs/2611.17316",
+          "authors": [
+            "Peiwen Li (Yale University), Harshit Verma (Yale University), Sophia Zhou (Yale University), Haiwen Wang (Yale University), Ngoc Bui (Yale University), Heng Chang (Tsinghua University), Fei Fei (Goodvision AI), David van Dijk (Yale University), Rex Ying (Yale University)"
+          ],
+          "bullets": [
+            "Targets memory selection when future tasks are unknown and repositories evolve.",
+            "Builds compact memory from repository-location and executable-check anchors using segment-level prospective valuation.",
+            "Adapts the actor with rollout-based memory valuation, provenance-gated credit, and rewards favoring resolution with fewer steps.",
+            "On ChainSWE, raises resolve rate from 21.0% to 25.7%, while reducing steps by 17% and cache-aware tokens by 11% versus an untrained actor without memory."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.CL",
+            "cs.SE"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4: Overview of CoReMem. (a) Prospective segment valuation of memory. A memory m written from the trajectory τk is valued by the change ∆y(m | bk) it causes on task k+1, run from the inherited tree Sk with and without m. Removing each of the seven segments of τk gives its value νc, and the segments that pay are kept as anchors A(m). (b) Cost-internalizing on-policy valuation. A group of G sessions mixes sessions with their own memory (m), no memory (∅) and a misplaced memory (m̃) under the reward Ri, and V̂b = R̄m − R̄∅ is the memory’s value on-policy. (c) Step-level provenance-gated value credit. Only the steps that the gate ωt marks as acting on an anchor from the memory receive the value credit.",
+              "figure_id": "figure-4-12",
+              "figure_number": "4",
+              "height": 470,
+              "image_path": "figures/2611.17316/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 943
+            },
+            {
+              "caption": "Figure 7: Evidence for M2 and M3. Top, steps per task and resolve rate of the with-memory arms in training order, where up and to the left is better and the larger marker is the full method. Bottom, paired differences in the memory benefit to resolve rate and in the step cost of a misplaced memory, blue for 27B and green for 9B as above, with 95% intervals.",
+              "figure_id": "figure-7-10",
+              "figure_number": "7",
+              "height": 326,
+              "image_path": "figures/2611.17316/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 413
+            },
+            {
+              "caption": "Figure 2: What crosses coding-task boundaries and where memory is valued and optimized. Existing settings keep memory within one task, transfer general experience across independent tasks, or carry memory while resetting the repository. Our setting carries both repository state and memory to unseen future tasks. The ⟲ and ↓ symbols indicate whether memory is valued and optimized on its source task or on future tasks.",
+              "figure_id": "figure-2-4",
+              "figure_number": "2",
+              "height": 359,
+              "image_path": "figures/2611.17316/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 896
+            },
+            {
+              "caption": "Figure 6: Steps, resolve per token and resolve per dollar against no memory for the API-served models. Top, each point is one memory layer on one model, and the shaded quadrant is where a memory lowers steps and raises resolve per thousand total tokens, which CoReMem w/o training reaches on all three models. Bottom, the change in resolve per dollar at list prices, with full numbers in Table 3 of App. D.",
+              "figure_id": "figure-6-5",
+              "figure_number": "6",
+              "height": 353,
+              "image_path": "figures/2611.17316/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 439
+            },
+            {
+              "caption": "Figure 1: Memory on the next task. A memory written at the end of one flake8-simplify task hands two anchors, a location (WHERE) and a check (VERIFY), to the next task on the same repository; the post-trained actor model acts on them at steps 1 and 6 and skips the exploration it would otherwise start with (step counts illustrative).",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 287,
+              "image_path": "figures/2611.17316/figure-005.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 388
+            },
+            {
+              "caption": "Figure 5: From segment values to the memory design. The median change in steps (νc) and in thousand actor tokens (κc) when one segment is removed from the current task’s trajectory (Eq. (3); 27B actor model). Blue bars mark segments whose removal adds steps. The right columns give the field each segment becomes in the memory design, kept as a main field (blue), in reduced form (light blue) or dropped (gray), and what the next task gets from each of them.",
+              "figure_id": "figure-5-13",
+              "figure_number": "5",
+              "height": 208,
+              "image_path": "figures/2611.17316/figure-006.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 444
+            },
+            {
+              "caption": "Figure 10: A real memory and its anchors. The memory has 889 characters and 18 anchors.",
+              "figure_id": "figure-10-9",
+              "figure_number": "10",
+              "height": 365,
+              "image_path": "figures/2611.17316/figure-007.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 950
+            },
+            {
+              "caption": "Figure 8: Training dynamics of the 27B actor on the test sessions with the memory. Lines are means over three replays and bands their standard deviation. Update 0 is the untrained actor, also drawn as the dashed line. The number beside each panel is the paired difference at update 20.",
+              "figure_id": "figure-8-2",
+              "figure_number": "8",
+              "height": 265,
+              "image_path": "figures/2611.17316/figure-008.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 950
+            },
+            {
+              "caption": "Figure 9: A real trajectory split into segments (flake8-simplify, training split, frozen 27B actor). Verbatim except [...] cuts and the omitted command fences; segment labels and step numbers are ours.",
+              "figure_id": "figure-9-3",
+              "figure_number": "9",
+              "height": 1360,
+              "image_path": "figures/2611.17316/figure-009.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 950
+            },
+            {
+              "caption": "Figure 11: The instruction under which the actor writes its memory, verbatim from the deployed file. It states what the next session can see, fixes the memory’s two blocks and five line types, sets the rules and shows the finished shape. Bold, shading and gray placeholders are ours.",
+              "figure_id": "figure-11-16",
+              "figure_number": "11",
+              "height": 1037,
+              "image_path": "figures/2611.17316/figure-010.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 950
+            },
+            {
+              "caption": "Table 3: Cost and outcome of each memory layer for the API-served models on the test set. Overall columns as in Table 1, with the list-price cost per session and resolve per dollar.",
+              "figure_id": "table-3-15",
+              "figure_number": "3",
+              "height": 469,
+              "image_path": "figures/2611.17316/table-011.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 950
+            },
+            {
+              "caption": "Table 2: Anchors the next task can act on, per memory layer. 27B frozen actor model, test set; an anchor is used when it occurs only in the memory and appears in a message of the next task’s session; brackets give 95% intervals over the test chains.",
+              "figure_id": "table-2-11",
+              "figure_number": "2",
+              "height": 178,
+              "image_path": "figures/2611.17316/table-012.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 454
+            },
+            {
+              "caption": "Table 7: The seven segments of a trajectory. The first five partition the transcript, and the last two come from the boundary.",
+              "figure_id": "table-7-6",
+              "figure_number": "7",
+              "height": 392,
+              "image_path": "figures/2611.17316/table-013.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 926
+            },
+            {
+              "caption": "Table 8: From segments to lines. Results of the segment study (App. I). Counts are boundaries where the segment helped and hurt the next task. BH marks the multiplicity correction across segments.",
+              "figure_id": "table-8-8",
+              "figure_number": "8",
+              "height": 476,
+              "image_path": "figures/2611.17316/table-014.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 941
+            },
+            {
+              "caption": "Table 4: The post-trained actor on SWE-bench Verified. All 500 instances, one task each, no memory, 3 replays per row. The untrained row serves the zero-update adapter on the same path, and tags give the change against it (∗∗ for a paired 99% interval that excludes zero). Raw counts tokens with no credit for caching, and Limit hit is the share of instances that end at the step limit.",
+              "figure_id": "table-4-14",
+              "figure_number": "4",
+              "height": 167,
+              "image_path": "figures/2611.17316/table-015.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 950
+            },
+            {
+              "caption": "Table 5: The memory layer off the training distribution: successive tasks of one repository on an external dataset. SWEContextBench (SCB) pairs are two-task chains of one repository in one image, the next task opening at an independent checkout from the first, so only memory crosses the border. CoReMem w/o training writes its memory under the instruction of Figure 11; we updated the writer instructions by adding that the next session starts from a new checkout without the earlier changes, that the memory should not include a summary of or reason for the changes, and that the memory should only include one clause per DID line. The adapted instructions were written after observing the first runs on the set, whose memories were getting cut off because of note length.",
+              "figure_id": "table-5-7",
+              "figure_number": "5",
+              "height": 62,
+              "image_path": "figures/2611.17316/table-016.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 950
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.17316/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.17316",
+          "relevance": 7,
+          "selection_reason": "Cost-aware persistent memory for coding agents, fitting LLM agent memory and retrieval beyond context.",
+          "summary_status": "generated",
+          "title": "CoReMem: Cost-Internalizing Memory for Successive Coding Tasks with Prospective Valuation",
+          "tldr": "CoReMem improves coding-agent performance on successive repository tasks by valuing memory prospectively and internalizing its writing, reading, and action costs.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "State space models (SSMs) are an emerging alternative to Transformers. SSMs offer linear-time inference and parallel training, but most implementations make the parallel scan efficient by making the recurrence diagonal: each channel of the hidden state is multiplied by an input-dependent real or complex number. These numbers commute, so the state records which inputs occurred but not their order. We formalize this with representation theory, which explains and fixes the state-tracking failures previously reported for SSMs. The state update defines a linear representation of the monoid of input sequences, and we show that an SSM tracks a group at every sequence length exactly when that group is a quotient of the group generated by its transition matrices. Two consequences follow. Diagonal real- and complex-valued SSMs can track only commutative groups, while the transition matrices of any SSM that can track a group must split into independent blocks over the real, complex, and quaternion numbers. We then introduce HyperSSM, which adds quaternion channels while keeping linear-time inference and parallel training. Trained only on final answers, HyperSSM solves the group tasks of recent state-tracking benchmarks exactly with at most five state numbers. This includes $S_5$ with 32 generators, where previous SSMs are at chance, and HyperSSM generalizes to sequences 25 times longer than those seen in training. Because the theory says what the transitions must encode, the learned weights of the linear recurrence can be interpreted directly. We demonstrate this by recovering the calibration of a real gyroscope, the rotations of imperfect qubit gates and the geometry of protein backbones.",
+          "arxiv_id": "2611.17162",
+          "arxiv_url": "https://arxiv.org/abs/2611.17162",
+          "authors": [
+            "Anif N. Shikder, Ramit Dey, Jan Minac, Lyle E. Muller"
+          ],
+          "bullets": [
+            "Diagonal real- or complex-valued SSM transitions commute, so they cannot represent noncommutative group structure or reliably track input order.",
+            "The paper characterizes exactly when an SSM tracks a group: the group must be a quotient of the group generated by its transition matrices.",
+            "Any SSM capable of tracking a group must decompose into real, complex, and quaternionic blocks; this motivates HyperSSM.",
+            "HyperSSM solves group-tracking benchmark tasks exactly using at most five state numbers, including an $S_5$ task where prior SSMs perform at chance, and extrapolates to sequences 25× longer than training.",
+            "The learned recurrence weights are directly interpretable and recover structure from gyroscope calibration, imperfect qubit-gate rotations, and protein-backbone geometry."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.NE",
+            "math.RT"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "FIG. 4. Applications: Physical systems in which the state is represented as an ordered product of rotations. Median error as a function of sequence length; training lengths are shaded; mean ± standard deviation over three random seeds. (a) Orientation of a moving body measured by a real gyroscope (BROAD; held-out recordings); physical model: integration of the sensor readings. (b) Bloch vector of a qubit following a gate sequence, with imperfect gates (2% under-rotation and 2◦ axis tilt); physical model: simulation using ideal gates; HyperSSM achieves errors below the lower axis limit (10−3 degrees) at all sequence lengths; complex diagonal SSM uses three layers. Details on Clifford gates and ideal Clifford+T gates are provided in SM S11. (c) Orientation of residue j relative to the frame of residue i, computed from the torsion angles, on held-out PDB proteins; physical model: reconstruction using standard bond geometry. In all three cases, HyperSSM uses a single quaternion channel (four state variables); the complex diagonal SSM uses 128 state variables.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 632,
+              "image_path": "figures/2611.17162/figure-001.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1049
+            },
+            {
+              "caption": "FIG. 1. Order in a linear memory. (a) One step of a selective SSM; shaded, the tracking regime (no decay, x0 = 1, one transition per symbol). (b) After a word w, a channel holds the ordered product Q(w); it tracks the group if a continuous readout recovers π(w) from Q(w) at every length. (c) A complex channel stores a phase; turns add, and order is lost. (d) A quaternion channel stores a 3D orientation; 90◦ turns about x and z in either order give different states. (e) q and −q are the same rotation; a sign-invariant readout tracks A5, a sign-aware one tracks Q8. (f) H tracks A5 but not S5; M2(H) tracks S5.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 633,
+              "image_path": "figures/2611.17162/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1062
+            },
+            {
+              "caption": "FIG. 3. A HyperSSM layer. Each channel follows the linear recurrence of a diagonal SSM, with input uk, hidden state x (j) k , transition a(j)(uk) and input term B̄(j)(uk)uk, with multiplication in its own algebra A(j). Channels evolve independently, mix only in the readout C, and are computed by the same parallel scan.",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 509,
+              "image_path": "figures/2611.17162/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1053
+            },
+            {
+              "caption": "TABLE I. Regular languages. Accuracy (%) on lengths 40–256 after training on 3–40, mean ± s.d. over 5 runs. Baselines from [19]. HyperSSM algebras, with numbers of state: R± (1), C (2), M16(C) (32). Discovered n: the smallest n for which snapping each complex transition to an n-th root of unity is exact on validation, found after training without being told the task. Details in SM S9.",
+              "figure_id": "table-I-1",
+              "figure_number": "I",
+              "height": 513,
+              "image_path": "figures/2611.17162/table-004.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1035
+            },
+            {
+              "caption": "TABLE II. Group word problems. Accuracy (%) on lengths 40–256 and, for HyperSSM, 256–1000, after training on 3–40; best of 3 runs. Chance: 1.67% (A5), 0.83% (S5); –: not reported. Baselines from [19] (PD-SSM: 128 complex numbers of state). HyperSSM: H (4), R±→H (5). All runs in SM S9.",
+              "figure_id": "table-II-3",
+              "figure_number": "II",
+              "height": 396,
+              "image_path": "figures/2611.17162/table-005.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1035
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.17162/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.17162",
+          "relevance": 7,
+          "selection_reason": "Introduces a quaternion state-space model with representation-theoretic analysis of recurrent memory, directly relevant to LLM architectures and recurrent memory mechanisms.",
+          "summary_status": "generated",
+          "title": "Symmetry in Time: A Representation Theory of Linear Recurrent Memory",
+          "tldr": "A representation-theoretic analysis shows why diagonal SSMs lose sequence order, and HyperSSM fixes this with quaternion-valued state channels while preserving efficient inference and training.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "large-language-models",
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Long-horizon language agents accumulate tool results and replies until the history no longer fits the context window. Current agents shrink this history by having a model summarize it, so each compaction rereads and rewrites the history it replaces, and cache-aware triggers decide when to compact while taking the size of the result as given. We present Folio, a context manager that records, folds, and recovers history through one set of handles. While the agent runs, Folio records three linked levels: a short turn note the model writes as part of its ordinary reply (L1), an event manifest of every call written by the runtime (L2), and the captured source records (L3). Because these views already exist, the runtime folds the context programmatically, selecting coarser views for older turns. The fold prints the handles that index L2 and L3, so recovery tools that read bounded pages, compute over full text in files, and keep findings in a persistent dossier reach the evidence the agent needs with little added input. The fold trigger prices an explicit landing point that includes the retained budget. On 75 LOCA-bench tasks with DeepSeek-V4-Pro behind every system, Folio solves 66 tasks against 54 for the same runtime with model-written compaction and 49-59 for Claude Code, Codex, and SoL-Pi, in about half their working time, at 2.4 times lower cost than that runtime; each fold takes a median of 0.6 seconds.",
+          "arxiv_id": "2611.16627",
+          "arxiv_url": "https://arxiv.org/abs/2611.16627",
+          "authors": [
+            "Yubo Ruan, Tao Peng, Jiao Zhang, Chuanguo Ma, Lei Xu, Han Zhou, Wenwu Wang, Xiafei Lv, Xingjie Zhou, Guiju Fan, Hao Wang, Fenghui Zhang, Mao Miao, Shuo Li"
+          ],
+          "bullets": [
+            "Addresses context-window overflow from accumulating tool results and replies in long-running agents.",
+            "Records linked history views: model-written turn notes (L1), runtime event manifests (L2), and source records (L3).",
+            "Programmatically folds older turns into coarser views while preserving handles for bounded, evidence-focused recovery.",
+            "Uses a fold trigger that accounts for an explicit retained-context budget and landing point.",
+            "On 75 LOCA-bench tasks, solved 66 versus 54 for model-written compaction, with roughly half the working time and 2.4× lower cost; folds took a median of 0.6 seconds."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Overview of FOLIO. Record: the runtime turns tool events into a three-level indexed history. Fold: the cost-aware trigger selects views of this history to build the active context. Recover: the handle in the outline (t3.12) is passed to scan for a bounded read or to ctx to compute over the full text, and the result is kept in the dossier.",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 479,
+              "image_path": "figures/2611.16627/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 950
+            },
+            {
+              "caption": "Figure 2: Folding and recovery on one example. (a) Turn t3 exists as a turn note (L1), the manifest row of call t3.12 (L2), and the 900-row table it returned (L3). Within the layout budget L, the fold shows t1 briefly, t2 with its full note, and t3 with the row of t3.12; the open turn t4 keeps a raw head and tail. (b) Through the same handle, scan checks one value and ctx counts every row; the finding and its source go to the dossier, which the next fold carries.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 473,
+              "image_path": "figures/2611.16627/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 950
+            },
+            {
+              "caption": "Figure 6: One FOLIO session (fifth chain, 1M window, 432 requests). Top: input tokens of each request and the landing point S; red dots mark the 17 folds. Bottom: carried excess relative to the fold price; a fold occurs when it reaches 1.",
+              "figure_id": "figure-6-3",
+              "figure_number": "6",
+              "height": 359,
+              "image_path": "figures/2611.16627/figure-003.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 938
+            },
+            {
+              "caption": "Figure 3: (a) Cumulative successes along the 15-task session, averaged over the five chains; the dotted line solves every task. (b) Distribution of working time per task over all 75 tasks.",
+              "figure_id": "figure-3-7",
+              "figure_number": "3",
+              "height": 309,
+              "image_path": "figures/2611.16627/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 931
+            },
+            {
+              "caption": "Figure 5: Landing-budget sweep on the fifth chain (15 tasks; mean of an ascending and a descending run, one run at L = 10K). Recoveries are scan and ctx calls that reach content removed by the last fold. In the shaded region the raw area hits its 60K cap, so the effective budget is 78–90K (hollow markers).",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 273,
+              "image_path": "figures/2611.16627/figure-005.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 937
+            },
+            {
+              "caption": "Figure 4: Successes per LOCA-bench environment (out of 5 seeds). Rows are sorted by the mean of Claude Code, Codex, and SoL-Pi, hardest first.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 408,
+              "image_path": "figures/2611.16627/figure-006.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 408
+            },
+            {
+              "caption": "Table 5: Comparison with the closest systems.",
+              "figure_id": "table-5-9",
+              "figure_number": "5",
+              "height": 476,
+              "image_path": "figures/2611.16627/table-007.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 950
+            },
+            {
+              "caption": "Table 1: LOCA-bench, 5 chains × 15 tasks, DeepSeekV4-Pro for every system. Per chain: mean ± s.d. of successes out of 15. Flag.: runs flagged by the benchmark’s contamination scan.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 219,
+              "image_path": "figures/2611.16627/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 422
+            },
+            {
+              "caption": "Table 4: Folds of the main FOLIO runs and compactions of Piki-Classic. Latency, context sizes, and ratios are medians. Compression is the folded source history over the rendered outline.",
+              "figure_id": "table-4-10",
+              "figure_number": "4",
+              "height": 227,
+              "image_path": "figures/2611.16627/table-009.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 454
+            },
+            {
+              "caption": "Table 2: Usage per task (means over 75 tasks). Normalized cost is h + 30u + 90o in cached-read token equivalents; for Piki-Classic it includes its summary requests.",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 247,
+              "image_path": "figures/2611.16627/table-010.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 348
+            },
+            {
+              "caption": "Table 3: Ablations (1M window, L = 50K). Top: all 75 tasks. Bottom: the first chain, on which C and D were run. Cost: normalized tokens per task (M); Min: minutes per task. Each of B–D removes one more component than the row above. †Two timeouts and one agent error.",
+              "figure_id": "table-3-11",
+              "figure_number": "3",
+              "height": 208,
+              "image_path": "figures/2611.16627/table-011.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 343
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.16627/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.16627",
+          "relevance": 8,
+          "selection_reason": "Context folding and recovery for long-horizon language agents directly targets LLM memory and long-context management.",
+          "summary_status": "generated",
+          "title": "Folio: Recoverable Multi-Resolution Context Folding for Long-Horizon Language Agents",
+          "tldr": "Folio manages long-horizon agent context by programmatically folding multi-resolution history and enabling targeted recovery, improving task completion while reducing time and cost in the reported evaluation.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "llm-memory",
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "We argue that a binding constraint for personal agents is not model capacity but the form in which context is represented: the agent does not know which entity a phrase denotes, when a fact held, or which source record licenses a claim. We call the missing representation spatio-temporal context (STC) and define it on two axes. The temporal axis carries event time, validity intervals and ingestion time. The spatial axis is a relational space in which entities are points, typed relations are edges, and distance is semantic rather than geographic; physical places are one entity type among many. Every relation is anchored to immutable source records, and every answer must be closed over those records. We formalise the substrate and six invariants, a context operator that composes temporal intersection with relational expansion, an ambiguity-preserving resolution state machine, a conflict detector that converts mutually exclusive facts into user adjudication rather than silent overwrite, and a four-regime consumption taxonomy spanning query, insight, triage and proactive reminder. We describe a local-first prototype of the retrieval layer built on SQLite with on-device embeddings and hybrid lexical-dense recall, report measurements from a deployed store of 341 documents, 340,079 chunks and 190,271 embedded vectors, and specify, but do not yet implement, the analytic layer on which the framework depends. We close with an evaluation protocol with per-invariant metrics for evidence coverage, temporal correctness, conflict precision and interruption cost. The proposal targets the representation of context rather than the volume of it.",
+          "arxiv_id": "2611.16492",
+          "arxiv_url": "https://arxiv.org/abs/2611.16492",
+          "authors": [
+            "Haitao Cheng, Jerry Hu, Longdong Mao, Dong Huang, Dongming Li, Lijuan Zhang, Mengting Zhang"
+          ],
+          "bullets": [
+            "Motivates STC as a solution to unresolved entity references, temporal validity, and unsupported claims—not insufficient model capacity.",
+            "Represents context across temporal dimensions and a semantic relational space, with every relation anchored to immutable source records.",
+            "Defines six invariants, temporal-relational context composition, ambiguity-preserving resolution, and conflict handling through user adjudication.",
+            "Introduces four consumption modes: query, insight, triage, and proactive reminder.",
+            "Describes a local-first SQLite retrieval prototype and an evaluation protocol covering evidence coverage, temporal correctness, conflict precision, and interruption cost; the analytic layer remains unimplemented."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: A semantic-space demonstrator built for this paper, shown for one Chinese prefix with English glosses in the text. Positions were laid out by semantic neighbourhood, not by projecting a model’s embeddings. Each dot is a token at a fixed schematic position, and nearby dots are semantically related. Candidates for the next word are enlarged and coloured by rank with preset probabilities (65%, 25%, 10%); the arrow points to their probability-weighted centre, which lands near, but not on, the top candidate. (a) \"I\": like 65%, want 25%, need 10%. (b) \"I like\": eat 65%, drink 25%, watch 10%. (c) \"I like eating\": apple 65%, banana 25%, pear 10%. (d) \"I like eating apples\": and 65%, also 25%, because 10%. Positions, probabilities and arrow lengths are schematic: the figure illustrates the geometry of the claim, not the output of a model.",
+              "figure_id": "figure-2-7",
+              "figure_number": "2",
+              "height": 640,
+              "image_path": "figures/2611.16492/figure-001.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 943
+            },
+            {
+              "caption": "Figure 3: Relation status state machine. Edges are labelled with the evidence that licenses them; no transition deletes a record.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 646,
+              "image_path": "figures/2611.16492/figure-002.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 943
+            },
+            {
+              "caption": "Figure 1: The substrate. Source artefacts become immutable records that keep event time and ingestion time apart. Entities and relations form the relational space, with validity intervals on the temporal axis. The context operator composes neighbourhood expansion with interval intersection, and four consumption regimes apply different policies to the same representation.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 396,
+              "image_path": "figures/2611.16492/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 943
+            },
+            {
+              "caption": "Table 1: Qualitative comparison of representative memory systems. Space names the unit over which proximity is defined; scope names the boundary within which facts are retrieved.",
+              "figure_id": "table-1-8",
+              "figure_number": "1",
+              "height": 579,
+              "image_path": "figures/2611.16492/table-004.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 943
+            },
+            {
+              "caption": "Table 3: Retrieval pipeline stages, cost profile and implementation status.",
+              "figure_id": "table-3-6",
+              "figure_number": "3",
+              "height": 41,
+              "image_path": "figures/2611.16492/table-005.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 941
+            },
+            {
+              "caption": "Table 2: The six invariants and the failure each prevents.",
+              "figure_id": "table-2-9",
+              "figure_number": "2",
+              "height": 38,
+              "image_path": "figures/2611.16492/table-006.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 943
+            },
+            {
+              "caption": "Table 4: Four consumption regimes over one substrate.",
+              "figure_id": "table-4-4",
+              "figure_number": "4",
+              "height": 41,
+              "image_path": "figures/2611.16492/table-007.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 941
+            },
+            {
+              "caption": "Table 5: Proposed analytic schema for the entity-and-relation layer.",
+              "figure_id": "table-5-2",
+              "figure_number": "5",
+              "height": 41,
+              "image_path": "figures/2611.16492/table-008.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 943
+            },
+            {
+              "caption": "Table 6: The operators traced over the constructed vignette.",
+              "figure_id": "table-6-10",
+              "figure_number": "6",
+              "height": 41,
+              "image_path": "figures/2611.16492/table-009.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 941
+            },
+            {
+              "caption": "Table 7: Evaluation metrics and instruments.",
+              "figure_id": "table-7-5",
+              "figure_number": "7",
+              "height": 37,
+              "image_path": "figures/2611.16492/table-010.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 943
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.16492/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.16492",
+          "relevance": 6,
+          "selection_reason": "Proposes an evidence-grounded spatio-temporal context substrate with retrieval and conflict resolution for personal agents, directly relevant to agent and LLM memory.",
+          "summary_status": "generated",
+          "title": "Time and Space: A Dual-Axis, Evidence-Grounded Context Substrate for Personal Agents",
+          "tldr": "The paper proposes spatio-temporal context (STC), an evidence-grounded representation for personal agents that links entities, time, relations, and source records to support reliable answers and actions.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "It is common to train Large Language Models (LLMs) for agentic tasks with Reinforcement Learning (RL) from scalar rewards. However, this throws away the fine-grained information about the environment that the agent experienced during the trial (e.g., error logs). To utilize this rich information, recent works wrap the agent in a harness that refines its own inputs through reflection or compaction and hands past experience to future rollouts, but the construction of the handed-off artifacts (e.g., a playbook) is itself not learned. We want the best of both worlds: gradient updates from a scalar reward, while also utilizing environment information to hand off experience. As a concrete testbed, we fix the Agentic Context Engineering (\\ace{}) harness and train one model to act, reflect, and curate task-local playbooks. Our method, \\acerl{}, evaluates candidate experience-handoff artifacts by their downstream effect on future actor rollouts, and co-optimizes the role-specific behaviors (action generator, insight reflector, and playbook curator) under a fixed scaffold. Across agentic benchmarks, \\acerl{} achieves higher held-out performance than baseline methods. The results suggest that agent training should optimize not only the actions in the current rollout, but also the model-written experience that future rollouts inherit.",
+          "arxiv_id": "2611.16409",
+          "arxiv_url": "https://arxiv.org/abs/2611.16409",
+          "authors": [
+            "Doyoung Kim, Byeongguk Jeon, Kailin Zhang, Sherry Yang"
+          ],
+          "bullets": [
+            "Scalar-reward RL overlooks useful trial information such as error logs.",
+            "The work learns experience handoff within a fixed Agentic Context Engineering harness.",
+            "ACERL evaluates artifacts by their downstream impact on future actor rollouts.",
+            "One model jointly learns to act, reflect on insights, and curate task-specific playbooks.",
+            "Experiments report higher held-out performance than baseline methods across agentic benchmarks."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.CL"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Experience-Handoff RL. (a) Outcome-only RL compresses each trial into a scalar reward. (b) A harness runs several calls to the same model (cis; in ACE, actor, reflector, and curator) and preserves experience as a model-written context, such as a playbook, handed to the next attempt (blue), but the model never learns to write better playbooks. (c) Experience-handoff RL trains the model for the harness it runs in, from task outcomes alone. For example, ACE-RL rewards each handoff artifact for what it does to a future rollout: (i) each new context is scored by a fresh rollout, and (ii) each role is compared within its own group (stacked boxes), which lowers the variance of its credit.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 737,
+              "image_path": "figures/2611.16409/figure-001.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 995
+            },
+            {
+              "caption": "Figure 4: Held-out test reward against training compute (cumulative update FLOPs, including the critic for PPO-based methods): pass@3 for PPO, GRPO, and ERL; RSI@3 for delayed-joint PPO and ACE-RL. Curves end at the compute budget (Appendix F.1). Each curve starts at the base model at 0 EFLOPs, evaluated the same way, except GRPO on MiniSWEBench; there ACE-RL’s steps 5, 15, 25, and 35 are from a second seed (Appendix F.1). Bands: 1 SEM over tasks.",
+              "figure_id": "figure-4-7",
+              "figure_number": "4",
+              "height": 194,
+              "image_path": "figures/2611.16409/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 807
+            },
+            {
+              "caption": "Figure 9: RSI@K of both designs at the checkpoints of Table 4, and of the untrained base model (gray). Error bars: 1 SEM over tasks.",
+              "figure_id": "figure-9-11",
+              "figure_number": "9",
+              "height": 476,
+              "image_path": "figures/2611.16409/figure-003.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 759
+            },
+            {
+              "caption": "Figure 2: Rollout of Qwen3-4B-Instruct-2507 (or checkpoints trained from it) on AppWorld, with eight consecutive attempts per held-out task in the ACE harness. GRPO and ACE-RL checkpoints are those of Table 2, within the same training compute. (a) Fraction of tasks solved by attempt k (RSI@k). Dashed lines: the same GRPO checkpoint without the harness, with one sample (pass@1) and the best of eight independent samples (pass@8). (b) One held-out task through the first three attempts of each checkpoint, with the playbook change its curator makes after each attempt.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 325,
+              "image_path": "figures/2611.16409/figure-004.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 815
+            },
+            {
+              "caption": "Figure 3: Sampling tree of ACE-RL with group sizes N +M + C − 1, M , C for actor, reflector, and curator. (a) Shaded boxes are comparison groups: M reflections of a uniformly chosen seed τj⋆ and C edits of a uniformly chosen reflection zh share an input; every other reflection receives one edit. Each edit is applied to a copy of P and executed once, and these rollouts join the N seed rollouts of (q, P ) in the actor group (purple). (b) Candidate values reward the edit that produced them and, averaged, its reflection; advantages are normalized within each group and all roles share one update.",
+              "figure_id": "figure-3-15",
+              "figure_number": "3",
+              "height": 299,
+              "image_path": "figures/2611.16409/figure-005.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 818
+            },
+            {
+              "caption": "Figure 5: Actor-only GRPO run in the harness: test RSI@3 against training compute, with ACE-RL’s role prompts. Bands: 1 SEM over tasks.",
+              "figure_id": "figure-5-10",
+              "figure_number": "5",
+              "height": 279,
+              "image_path": "figures/2611.16409/figure-006.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 827
+            },
+            {
+              "caption": "Figure 6: Best reward after K attempts at the checkpoints of Table 2. Dashed: independent GRPO pass@K; solid: sequential RSI@K in the harness. Error bars: 1 SEM over tasks.",
+              "figure_id": "figure-6-13",
+              "figure_number": "6",
+              "height": 275,
+              "image_path": "figures/2611.16409/figure-007.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 827
+            },
+            {
+              "caption": "Figure 8: Delayed-joint ACE-RL versus ACE-RL: held-out test reward (RSI@3) against training EFLOPs, up to the compute budget. Both curves start at the base model (0 EFLOPs). Bands: 1 SEM over tasks.",
+              "figure_id": "figure-8-17",
+              "figure_number": "8",
+              "height": 197,
+              "image_path": "figures/2611.16409/figure-008.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 808
+            },
+            {
+              "caption": "Figure 11: Critic diagnostics of PPO and delayed-joint PPO from the training logs (ten-step centered mean), against training EFLOPs up to the compute budget. Top: explained variance of the value function on the training batch, clipped below at −1. Bottom: value loss (log scale). Delayed-joint PPO’s explained variance is above 0.95 late in each run, after its reward has collapsed (Section 5.1), so a well-fit critic does not prevent the collapse.",
+              "figure_id": "figure-11-9",
+              "figure_number": "11",
+              "height": 282,
+              "image_path": "figures/2611.16409/figure-009.webp",
+              "kind": "figure",
+              "page": 45,
+              "width": 808
+            },
+            {
+              "caption": "Figure 7: Edits-discarded control. ACE-RL’s RSI@K with edits applied minus discarded (each visit then reads the empty playbook), paired over tasks; above zero, the playbook helps. At K = 1 both read the empty playbook, so the difference is drawn at zero; dotted: training horizon F = 3. Checkpoints as in Table 2. Error bars: 1 SEM over tasks.",
+              "figure_id": "figure-7-14",
+              "figure_number": "7",
+              "height": 128,
+              "image_path": "figures/2611.16409/figure-010.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 814
+            },
+            {
+              "caption": "Figure 10: Training reward: mean reward of the rows in each trainer’s update batch (centered mean over five steps). Actor-only methods act with an empty playbook. For ACE-RL and delayed-joint PPO the batch also contains reflector and curator outputs, scored by candidate values; ERL’s batch contains its guided retries. Values are therefore not comparable across methods. The x-axis is training EFLOPs, up to the compute budget; stopped runs end at their last logged step.",
+              "figure_id": "figure-10-12",
+              "figure_number": "10",
+              "height": 194,
+              "image_path": "figures/2611.16409/figure-011.webp",
+              "kind": "figure",
+              "page": 44,
+              "width": 808
+            },
+            {
+              "caption": "Table 2: Test reward at equal training compute: pass@3 without the harness (top) and RSI@3 in it (bottom), three actor episodes per task either way. Checkpoints as in Appendix F.1; bold: column maximum.",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 255,
+              "image_path": "figures/2611.16409/table-012.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 790
+            },
+            {
+              "caption": "Table 1: Compared methods, all trained with the same task verifier reward Rq from 8 actor rollouts per task. Section 5.1 compares all of them at equal compute.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 151,
+              "image_path": "figures/2611.16409/table-013.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 977
+            },
+            {
+              "caption": "Table 3: Sampling per task and training step: ACE-RL with (N,M,C) = (4, 2, 3) and delayedjoint ACE-RL with N = 8.",
+              "figure_id": "table-3-5",
+              "figure_number": "3",
+              "height": 255,
+              "image_path": "figures/2611.16409/table-014.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 764
+            },
+            {
+              "caption": "Table 5: Shared training hyperparameters. Baseline-specific settings: PPO and delayed-joint PPO add a critic initialized from the policy (learning rate 10−5, GAE with γ = 1, λ = 0.95, 10 warm-up steps) and disable group filtering so the critic sees constant-reward batches.",
+              "figure_id": "table-5-3",
+              "figure_number": "5",
+              "height": 328,
+              "image_path": "figures/2611.16409/table-015.webp",
+              "kind": "table",
+              "page": 43,
+              "width": 830
+            },
+            {
+              "caption": "Table 4: Test reward (RSI@3) at equal training compute, chosen as in Table 2: delayed-joint ACE-RL at steps 160, 170, 340, and 40. Mean ± SEM over tasks; bold: column maximum.",
+              "figure_id": "table-4-16",
+              "figure_number": "4",
+              "height": 89,
+              "image_path": "figures/2611.16409/table-016.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 686
+            },
+            {
+              "caption": "Table 6: Benchmark settings. Turn limits are per actor episode; timeouts are per training trajectory.",
+              "figure_id": "table-6-4",
+              "figure_number": "6",
+              "height": 178,
+              "image_path": "figures/2611.16409/table-017.webp",
+              "kind": "table",
+              "page": 43,
+              "width": 830
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.16409/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.16409",
+          "relevance": 7,
+          "selection_reason": "Learns and optimizes experience-handoff artifacts/playbooks that persist across LLM agent rollouts, directly relevant to agent memory.",
+          "summary_status": "generated",
+          "title": "Experience-Handoff Reinforcement Learning for Recursive Self-Improvement",
+          "tldr": "ACERL trains agents to improve both their current actions and the experience artifacts handed to future rollouts, yielding higher held-out performance across agentic benchmarks.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "As large language models (LLMs) advance toward increasingly long inputs, soft context compression offers a promising approach to efficient inference by converting long inputs into compact memory slots. Under limited memory budgets, effective context compression remains challenging because task-relevant evidence varies substantially across queries, ranging from localized evidence to multiple distant spans or information dispersed throughout the full document. Instead of compressing everything indiscriminately, we propose CoMem, a query-guided selective context compression framework that learns memory representations conditioned on both the document and the query. CoMem develops Contrastive Compressor Learning to achieve query-sensitive yet context-preserving memory representations. To inject a strong prior over query-dependent evidence distributions, we devise a same-context hard negative mining strategy by pairing a single document with multiple queries, requiring the compressor to selectively retain information according to each query's distinct evidence needs. To address the restricted information flow imposed by causal masking, we further enable bidirectional attention among memory slots. Experiments demonstrate that CoMem consistently outperforms existing context compression methods across compression ratios on question answering and RULER-NIAH benchmarks. Our code is available at https://github.com/scar-on/CoMem.",
+          "arxiv_id": "2611.16384",
+          "arxiv_url": "https://arxiv.org/abs/2611.16384",
+          "authors": [
+            "Sikui Zhang, Haowei Liu, Ziyun Gan, Chunfeng Yuan, Guangze Gao, Nian Liu, Boyu Cai, Bo Li, Xiaolei Lv, Jun Gao, Bing Li, Weiming Hu"
+          ],
+          "bullets": [
+            "Addresses context compression when relevant evidence may be local, scattered, or distributed across a document.",
+            "Uses query-guided memory representations conditioned on both the document and the query.",
+            "Applies contrastive compressor learning with same-document, multi-query hard negatives to distinguish differing evidence needs.",
+            "Enables bidirectional attention among memory slots to improve information flow despite causal masking.",
+            "Outperforms existing compression methods across compression ratios on question answering and RULER-NIAH benchmarks."
+          ],
+          "categories": [
+            "cs.CL",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3: Overview of CoMem. The QA objective LQA provides an end-task generation signal, while the contrastive learning objective Lcl imposes a more explicit representation-level signal, aligning memory slots with their source context while using same-context, different-query examples as hard negatives to encourage query-guided memory representations.",
+              "figure_id": "figure-3-12",
+              "figure_number": "3",
+              "height": 485,
+              "image_path": "figures/2611.16384/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 982
+            },
+            {
+              "caption": "Figure 2: Similarity patterns of compressed memory slots. (a) and (b) show memory slots from different contexts, (c) and (d) show memory slots from the same context under different queries. In both settings, our method achieves lower inter-slot similarity, demonstrating more discriminative query-guided compression.",
+              "figure_id": "figure-2-7",
+              "figure_number": "2",
+              "height": 269,
+              "image_path": "figures/2611.16384/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1031
+            },
+            {
+              "caption": "Figure 1: Comparison between the query-agnostic compression and CoMem. (a) The query-agnosticmethod learnsmemory slots supervised by the QA loss. (b) Our method further introduces contrastive compressor learning and trains on different queries from the same context.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 446,
+              "image_path": "figures/2611.16384/figure-003.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 492
+            },
+            {
+              "caption": "Figure 4: Optimization dynamics for same-context and different-context negatives.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 312,
+              "image_path": "figures/2611.16384/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 478
+            },
+            {
+              "caption": "Figure 5: Needle-signal retention under different compression ratios.",
+              "figure_id": "figure-5-9",
+              "figure_number": "5",
+              "height": 286,
+              "image_path": "figures/2611.16384/figure-005.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 486
+            },
+            {
+              "caption": "Table 1: Overall performance on four question-answering benchmarks and RULER-NIAH. All rows use Mistral-7B except the final two CoMem rows, which use Qwen3-4B. SeleCom-82×∗ denotes the best-performing configuration reported in the original paper, and △ marks query-aware methods. Bold and underlined numbers denote the best and second-best results within each Mistral-7B compression setting.",
+              "figure_id": "table-1-14",
+              "figure_number": "1",
+              "height": 658,
+              "image_path": "figures/2611.16384/table-006.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 814
+            },
+            {
+              "caption": "Table 9: Qualitative examples where lexical ACC marks the Qwen3-4B original output as correct because the gold answer is mentioned, while LLM-as-a-Judge rejects it due to refusal, contradiction, or over-qualification. In contrast, CoMem produces a direct answer that is accepted by both ACC and LLM-as-a-Judge.",
+              "figure_id": "table-9-11",
+              "figure_number": "9",
+              "height": 777,
+              "image_path": "figures/2611.16384/table-007.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 950
+            },
+            {
+              "caption": "Table 8: A same-context example from the contrastive data. One context about the history of Azerbaijani press supports eight different queries and answers.",
+              "figure_id": "table-8-10",
+              "figure_number": "8",
+              "height": 296,
+              "image_path": "figures/2611.16384/table-008.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 1014
+            },
+            {
+              "caption": "Table 7: Training hyperparameters.",
+              "figure_id": "table-7-13",
+              "figure_number": "7",
+              "height": 356,
+              "image_path": "figures/2611.16384/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 418
+            },
+            {
+              "caption": "Table 3: Ablation study on Stage I and Stage II training components.",
+              "figure_id": "table-3-5",
+              "figure_number": "3",
+              "height": 240,
+              "image_path": "figures/2611.16384/table-010.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 492
+            },
+            {
+              "caption": "Table 6: Efficiency comparison of CoMem across different compression ratios.",
+              "figure_id": "table-6-8",
+              "figure_number": "6",
+              "height": 288,
+              "image_path": "figures/2611.16384/table-011.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 410
+            },
+            {
+              "caption": "Table 2: Accuracy (ACC) of CoMem across different compression ratios.",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 221,
+              "image_path": "figures/2611.16384/table-012.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 382
+            },
+            {
+              "caption": "Table 4: Ablation study on same-context hard negatives and different-context negatives.",
+              "figure_id": "table-4-3",
+              "figure_number": "4",
+              "height": 94,
+              "image_path": "figures/2611.16384/table-013.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 490
+            },
+            {
+              "caption": "Table 5: ACC with the true downstream query or a generalpurpose query at 32× compression ratios.",
+              "figure_id": "table-5-4",
+              "figure_number": "5",
+              "height": 85,
+              "image_path": "figures/2611.16384/table-014.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 490
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.16384/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.16384",
+          "relevance": 7,
+          "selection_reason": "Query-guided selective context compression for efficient inference and memory.",
+          "summary_status": "generated",
+          "title": "Beyond Compressing Everything: Contrastive Memory Learning for Selective Context Compression",
+          "tldr": "CoMem selectively compresses long documents into query-specific memory slots, preserving the evidence each query needs more effectively than indiscriminate compression.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Language models rely on finite token contexts, limiting access to earlier interactions. We introduce Recursive State-Augmented Language Models (Recursive SALM), a framework in which a persistent latent state evolves with each observation and generates adaptations of a pretrained language model. A modular read-transition-write architecture separates observation encoding, latent dynamics, and predictor adaptation. We develop deterministic and stochastic formulations. The experiments evaluate only deterministic SALM with frozen GPT-2 small and exclude earlier evidence from its decoder context. On a four-turn hypothesis-inference task, latent-gated LoRA reaches 89.1% accuracy, comparable to 88.0% for a trained full-context LoRA baseline, with earlier evidence available solely through a 64-dimensional state. Zeroing or shuffling the state substantially reduces accuracy. In a two-turn task with codewords unseen in training, several interfaces improve candidate ranking over chance, but rarely generate the exact codeword under the evaluated training schedule. These experiments show that persistent latent-conditioned adaptation can support sequential inference when earlier evidence is absent from the decoder context.",
+          "arxiv_id": "2611.16375",
+          "arxiv_url": "https://arxiv.org/abs/2611.16375",
+          "authors": [
+            "Omer Haq"
+          ],
+          "bullets": [
+            "Addresses the limited memory of finite-token contexts by maintaining a state that evolves with each observation.",
+            "Uses a modular read–transition–write architecture to encode observations, update latent dynamics, and adapt the predictor.",
+            "In deterministic experiments with frozen GPT-2 small, latent-gated LoRA achieved 89.1% accuracy on a four-turn hypothesis-inference task, close to the 88.0% full-context baseline.",
+            "Removing or shuffling the 64-dimensional state substantially reduced accuracy, supporting its role in retaining earlier evidence.",
+            "On unseen-codeword tasks, interfaces improved candidate ranking over chance but rarely generated the exact codeword under the tested training schedule."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.AI",
+            "cs.CL",
+            "stat.ML"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1. Memory dependence on the test split. Panels (a) and (b) show candidate-ranking accuracy and panel (c) shows KL divergence to the HCM oracle. Bars show the normal model, its initial state, and a shuffled state. For full-context LoRA, the interventions remove or shuffle the history. Dots show individual seeds and error bars show ± s.d. over three seeds. Vertical lines mark the uniform predictor, frozen GPT-2 with or without history, and the exact posterior. Some reference values coincide.",
+              "figure_id": "figure-1-6",
+              "figure_number": "1",
+              "height": 456,
+              "image_path": "figures/2611.16375/figure-001.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 986
+            },
+            {
+              "caption": "Figure 2. Validation learning curves (thick: mean over seeds; band: ± s.d.; thin: individual seeds). (a, b) Predictive NLL of the answer token over the full vocabulary. (c, d) Oracle KL of the candidate-normalized prediction. On two-turn, token NLL and candidate KL diverge as training proceeds. HCM means are drawn only while every seed of an arm is still training.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 566,
+              "image_path": "figures/2611.16375/figure-002.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 986
+            },
+            {
+              "caption": "Table 2. Four-turn HCM, test split, mean ± s.d. over model seeds 0, 1, 2 (complete three-seed groups only). Zero/shuffled: state interventions for SALM; no-history/shuffled-history context interventions for full-context LoRA. Chance 25.0%; constant prediction of the majority code scores 34.4%.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 317,
+              "image_path": "figures/2611.16375/table-003.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 962
+            },
+            {
+              "caption": "Table 3. Two-turn recall of codes never seen in training, test split, mean ± s.d. over seeds 0, 1, 2. 64 candidates; chance 1.6%. Acc. is candidate-ranking accuracy and Gen. is exact greedy match. Each code occurs in one episode, so class-balanced accuracy equals accuracy.",
+              "figure_id": "table-3-3",
+              "figure_number": "3",
+              "height": 318,
+              "image_path": "figures/2611.16375/table-004.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 862
+            },
+            {
+              "caption": "Table 4. Two-turn test candidate-ranking accuracy (%) at the validation-selected, minimum-validation-NLL, and final checkpoints. Checkpoint epochs are shown as mean ± s.d.",
+              "figure_id": "table-4-2",
+              "figure_number": "4",
+              "height": 175,
+              "image_path": "figures/2611.16375/table-005.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 487
+            },
+            {
+              "caption": "Table 1. Trainable parameters by component, from the optimizer’s parameter groups. The frozen GPT-2 (124M) is excluded. ∆ is relative to the Generated LoRA anchor.",
+              "figure_id": "table-1-5",
+              "figure_number": "1",
+              "height": 171,
+              "image_path": "figures/2611.16375/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 487
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.16375/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.16375",
+          "relevance": 7,
+          "selection_reason": "Persistent latent-state adaptation for sequential inference, relevant to LLM memory.",
+          "summary_status": "generated",
+          "title": "Recursive State-Augmented Language Models: Persistent Latent-State Adaptation of Pretrained Language Models",
+          "tldr": "Recursive SALM lets a pretrained language model carry earlier interaction information through a persistent latent state rather than its token context, enabling sequential inference.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Shared history in human dialogue is not merely a repository of facts, but the foundation of evolving relationships and mutual understanding. However, mainstream conversational memory systems rely on passive semantic similarity over external fact stores, frequently retrieving topically similar records while missing relationally pivotal experiences. Inspired by cognitive psychology's Self-Memory System (SMS), we propose MindMem, a mental-state-driven memory framework that asynchronously consolidates shared experiences into source-linked mental states of the character, the user, and their relationship. At each turn, a specialized mental-state reasoner (Mind) contextualizes these persistent states to anticipate latent user needs, form proactive intentions, and recover supporting episodic evidence that surface-level matching overlooks. To evaluate history-sensitive adaptation beyond factual recall, we introduce MemReal-Bench, a longitudinal benchmark grounded in month-long real-user interactions across dyadic and group scenes. By pairing Direct Question Answering (DQA) with Situated Memory Realization (SMR), it tests whether agents bridge the gap between knowing past facts and naturally using shared history, world rules, and relational trajectories. On MemReal-Bench, MindMem reaches 59.03% SMR and 82.58% DQA, exceeding the strongest memory baseline by 24.19 and 9.19 percentage points, respectively, and outperforming oracle target-memory injection on SMR. Code and dataset are available at https://github.com/jiazhicheng7-ctrl/MindMem.",
+          "arxiv_id": "2611.16223",
+          "arxiv_url": "https://arxiv.org/abs/2611.16223",
+          "authors": [
+            "Zhicheng Jia, Shuchen Wu, Zhuoshi Tong, Haisen Liao, Sicheng Zhou"
+          ],
+          "bullets": [
+            "Targets the limits of similarity-based memory, which often retrieves topical facts but misses relationship-critical experiences.",
+            "Asynchronously consolidates interactions into source-linked mental states for the character, user, and their relationship.",
+            "Uses a mental-state reasoner to anticipate user needs, form proactive intentions, and retrieve relevant episodic evidence.",
+            "Introduces MemReal-Bench, a longitudinal benchmark evaluating factual recall and situated use of shared history in dyadic and group conversations.",
+            "Achieves 59.03% SMR and 82.58% DQA, outperforming the strongest baseline by 24.19 and 9.19 percentage points, respectively."
+          ],
+          "categories": [
+            "cs.CL"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of MindMem. Asynchronous consolidation maintains source-linked state slots across 40 dimensions. At query time, given current context, persistent states, and vector candidates, Mind reasons over the interaction to anticipate user needs and select memories for source-linked retrieval. Dashed arrows denote asynchronous updates; the flame marks the trainable reasoner.",
+              "figure_id": "figure-2-13",
+              "figure_number": "2",
+              "height": 398,
+              "image_path": "figures/2611.16223/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 950
+            },
+            {
+              "caption": "Figure 1: An illustrative comparison under identical dialogue histories and current input. Passive similarity matching favors an earlier solitude preference, whereas MindMem reasons over evolving relational states to anticipate user needs, recover source-linked interview episodes, and offer a tentative, supportive check-in.",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 538,
+              "image_path": "figures/2611.16223/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 950
+            },
+            {
+              "caption": "Figure 3: Illustrative examples of knowing versus using memory. DQA tests explicit factual recall, whereas SMR evaluates whether responses naturally enact history-specific details or actions under natural triggers across FR, WC, RR, RoR, and PI.",
+              "figure_id": "figure-3-12",
+              "figure_number": "3",
+              "height": 360,
+              "image_path": "figures/2611.16223/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 950
+            },
+            {
+              "caption": "Table 2: Main results on MemReal-Bench, LoCoMo (Maharana et al., 2024), and LongMemEval-S (Wu et al., 2025b) under the shared protocols in Section 4.2. GroundTruth is an oracle-memory reference, not a strict upper bound. Bold marks the best memory-system score per column; “—” denotes unavailable results.",
+              "figure_id": "table-2-7",
+              "figure_number": "2",
+              "height": 264,
+              "image_path": "figures/2611.16223/table-004.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 950
+            },
+            {
+              "caption": "Table 3: Diagnostics on MemReal-Bench. Real. (%): SMR on system-specific probes with all linked DQA answers correct. Gap (pp): question-micro DQA minus probe-micro SMR over 176 linked FR/WC probes. History (%): SMR by cutoff session (the three buckets partition the same 310 SMR probes: n = 84, 112, and 114 probes for sessions 1–15, 16–30, and 31–43, respectively). Definitions: Section 4.4 and Appendix C.1. Bold marks the best memory-system rate or gap.",
+              "figure_id": "table-3-6",
+              "figure_number": "3",
+              "height": 208,
+              "image_path": "figures/2611.16223/table-005.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 461
+            },
+            {
+              "caption": "Table A12: User prompt for situated responses, supplying relevant history, local context, and the current utterance.",
+              "figure_id": "table-A12-15",
+              "figure_number": "A12",
+              "height": 273,
+              "image_path": "figures/2611.16223/table-006.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 950
+            },
+            {
+              "caption": "Table A11: System prompt for situated character responses.",
+              "figure_id": "table-A11-14",
+              "figure_number": "A11",
+              "height": 194,
+              "image_path": "figures/2611.16223/table-007.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 950
+            },
+            {
+              "caption": "Table A13: System prompt for direct question answering from recalled history.",
+              "figure_id": "table-A13-2",
+              "figure_number": "A13",
+              "height": 172,
+              "image_path": "figures/2611.16223/table-008.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 950
+            },
+            {
+              "caption": "Table A15: System prompt for evaluating situated memory realization.",
+              "figure_id": "table-A15-4",
+              "figure_number": "A15",
+              "height": 110,
+              "image_path": "figures/2611.16223/table-009.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 950
+            },
+            {
+              "caption": "Table A16: User prompt for evaluating situated memory realization against private target annotations.",
+              "figure_id": "table-A16-8",
+              "figure_number": "A16",
+              "height": 887,
+              "image_path": "figures/2611.16223/table-010.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 950
+            },
+            {
+              "caption": "Table 1: Comparison with prior conversational memory benchmarks: LoCoMo (Maharana et al., 2024), LongMemEval (Wu et al., 2025b), MemUse (Sumida et al., 2026), and EverMemBench (Hu et al., 2026). ✓ / ×: coverage / no coverage. DQA and SMR dimensions are defined in Section 4.1.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 190,
+              "image_path": "figures/2611.16223/table-011.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 950
+            },
+            {
+              "caption": "Table A17: System prompt for binary direct-answer evaluation.",
+              "figure_id": "table-A17-9",
+              "figure_number": "A17",
+              "height": 89,
+              "image_path": "figures/2611.16223/table-012.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 950
+            },
+            {
+              "caption": "Table A14: User prompt for direct question answering.",
+              "figure_id": "table-A14-3",
+              "figure_number": "A14",
+              "height": 231,
+              "image_path": "figures/2611.16223/table-013.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 950
+            },
+            {
+              "caption": "Table A18: User prompt for comparing a direct answer with its expected facts.",
+              "figure_id": "table-A18-10",
+              "figure_number": "A18",
+              "height": 251,
+              "image_path": "figures/2611.16223/table-014.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 950
+            },
+            {
+              "caption": "Table A19: Decoding settings for active recall, response generation, and automated evaluation on MemReal-Bench.",
+              "figure_id": "table-A19-11",
+              "figure_number": "A19",
+              "height": 142,
+              "image_path": "figures/2611.16223/table-015.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 950
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.16223/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.16223",
+          "relevance": 7,
+          "selection_reason": "Proposes a persistent, mental-state-driven memory mechanism for LLM-based dialogue agents.",
+          "summary_status": "generated",
+          "title": "We Are What We Remember: Mental-State-Driven Memory for Long-Term Character Dialogue",
+          "tldr": "MindMem uses psychologically inspired mental-state memory to help dialogue agents understand and naturally apply long-term shared history.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Enterprise agents accumulate memory across dozens of sessions in which facts contradict, get superseded, and blur as similarly named entities collide in embedding space. The field treats this as a retrieval problem; we show it is not. On ENT-310, a synthetic enterprise sales-agent memory benchmark of 310 queries (210 answerable, 100 unanswerable), a vanilla Retrieval-Augmented Generation (RAG) reader over a memory store already matches strong memory systems on the recall pillars. Retention and currency are near-saturated, roughly 0.93 to 0.98 for every competent system, so recall is essentially solved. What remains unsolved is resolution: which entity a query refers to, which time-state is current, and whether to commit an answer at all or decline when evidence is insufficient. We propose DISCERN (DISambiguation and Cross-session Episodic memoRy Navigation), an agent-memory framework built on a single rule: preserve at write, resolve at read. At write time DISCERN builds a strictly additive bi-temporal provenance graph that never merges confusable entities and never drops superseded values. At read time a zero-LLM tool surface drives an agentic loop that navigates this graph and commits exactly one of four gated terminal actions. A four-judge LLM-as-a-Judge council scores two axes: answer correctness on answerable questions, and the answer-versus-abstain decision as a classification problem. On ENT-310, DISCERN is the best-calibrated system on abstention (F1 0.924 versus at most 0.802 across eight baselines) and leads macro answer correctness under equal pillar weighting (0.861 versus 0.806 for the strongest baseline), a lead driven by entity resolution (0.800, where no baseline exceeds 0.40). Applied with zero tuning to the full LoCoMo corpus, the same pipeline again leads macro answer correctness (0.663 versus 0.638) and stays among the best-calibrated on false-premise abstention.",
+          "arxiv_id": "2611.15729",
+          "arxiv_url": "https://arxiv.org/abs/2611.15729",
+          "authors": [
+            "Chirag Ahuja, Vladislav Tanov, Ramcharan Kakarla, Jonathan Taws"
+          ],
+          "bullets": [
+            "Frames persistent memory as a resolution problem—not primarily retrieval—because retention and currency are already near-saturated.",
+            "Builds an additive bi-temporal provenance graph that keeps confusable entities separate and preserves superseded values.",
+            "Uses a zero-LLM tool surface and agentic read loop with four gated terminal actions, including abstention when evidence is insufficient.",
+            "On ENT-310, achieves abstention F1 of 0.924 and macro answer correctness of 0.861, driven by substantially better entity resolution than baselines.",
+            "Also leads macro answer correctness on LoCoMo without tuning, while remaining well calibrated for false-premise abstention."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: The DISCERN memory graph. (a) Changed values are kept as bi-temporal edges so both history and current state remain recoverable. (b) Confusable entities are kept co-equal and merely linked, never merged. (c) Episodic turns are preserved and linked to entity nodes.",
+              "figure_id": "figure-2-13",
+              "figure_number": "2",
+              "height": 270,
+              "image_path": "figures/2611.15729/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 927
+            },
+            {
+              "caption": "Figure 3: DISCERN read-time routing. The agent orients (Phase 1, read_profile_summary), runs a mandatory ambiguity check for underspecified queries (Phase 2, find_similar_entities), gathers targeted or raw evidence (Phases 3–4), and commits one of four terminal actions. The EarnedAbstainGate abstains only on demonstrated absence, a DeclineRouter sends a surviving decline to CLARIFY when confusable candidates remain and to ABSTAIN when none do, and a citation-or-abstain renderer requires every committed answer to cite its evidence. This procedure realizes the predicates of Eq. 1.",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 732,
+              "image_path": "figures/2611.15729/figure-002.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 682
+            },
+            {
+              "caption": "Figure 1: DISCERN end to end. Left: the per-actor event log is the immutable, append-only source of truth. Center (write time preserves): background consolidation materializes rebuildable derived views over the log, an entity-family graph that links confusable entities without merging them, a bitemporal fact store that soft-invalidates superseded values, and an episodic/profile layer; the cards show real benchmark cases (supersession, entity resolution, contamination isolation). Right (read time resolves): an adaptive policy navigates the views with a small read-only tool surface and commits one of four governed actions (answer, update, clarify, abstain) under the EarnedAnswerGate and EarnedAbstainGate, the DeclineRouter, and the near-miss guard.",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 707,
+              "image_path": "figures/2611.15729/figure-003.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 706
+            },
+            {
+              "caption": "Table 8: ENT-310 answerable-set overview (the 210 answerable questions).",
+              "figure_id": "table-8-10",
+              "figure_number": "8",
+              "height": 213,
+              "image_path": "figures/2611.15729/table-004.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 618
+            },
+            {
+              "caption": "Table 5: Read-time navigation ablation (ENT-310, Sonnet backbone, shared judge, single-seed). Overall accuracy, the entity-resolution pillar, the unanswerable pillar, and over-commit rate (lower better). “Full” = 8 turns, 3 tools/turn, all operators.",
+              "figure_id": "table-5-11",
+              "figure_number": "5",
+              "height": 403,
+              "image_path": "figures/2611.15729/table-005.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 510
+            },
+            {
+              "caption": "Table 3: LoCoMo answer correctness, four-judge council. The average is the macro (equal-weight) mean over the four answerable categories (single-hop, temporal, multi-hop, open-domain; adversarial excluded). Best per column in bold.",
+              "figure_id": "table-3-9",
+              "figure_number": "3",
+              "height": 255,
+              "image_path": "figures/2611.15729/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 640
+            },
+            {
+              "caption": "Table 4: LoCoMo answer-versus-abstain as classification, four-judge council: the 446 adversarial false-premise questions are the positive class (should not commit), the answerable questions (n = 1,540) the negative class. Precision is derived from recall and the false-decline rate over these class sizes. False-decline is the fraction of answerable questions wrongly declined (lower is better). Rows sorted by F1.",
+              "figure_id": "table-4-8",
+              "figure_number": "4",
+              "height": 254,
+              "image_path": "figures/2611.15729/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 614
+            },
+            {
+              "caption": "Table 1: ENT-310 answer correctness on the 210 answerable queries, four-judge council. The average is the macro (equal-weight) mean over the four pillars, so each capability counts equally rather than being dominated by the near-saturated recall pillars. Ret.: retention, Curr.: currency, Cont.: contamination, Ent.Res.: entity resolution. Best per column in bold.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 234,
+              "image_path": "figures/2611.15729/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 544
+            },
+            {
+              "caption": "Table 2: ENT-310 answer-versus-abstain as classification, four-judge council: the 100 unanswerable queries are the positive class (should not commit), the 210 answerable the negative class. Falsedecline is the fraction of answerable queries wrongly declined (lower is better). Rows sorted by F1.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 236,
+              "image_path": "figures/2611.15729/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 522
+            },
+            {
+              "caption": "Table 7: ENT-310 store composition over the 210 answerable queries (10 actors; LLM fact extraction, stub episodes/topics).",
+              "figure_id": "table-7-1",
+              "figure_number": "7",
+              "height": 276,
+              "image_path": "figures/2611.15729/table-010.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 560
+            },
+            {
+              "caption": "Table 6: Backbone sensitivity on ENT-310 (overall accuracy). DISCERN is single-seed under the shared judge; the graph and agent-based baselines are under a three-judge council (Opus 4.8, Qwen3235B, open-weight OpenAI GPT-oss-120B).",
+              "figure_id": "table-6-12",
+              "figure_number": "6",
+              "height": 130,
+              "image_path": "figures/2611.15729/table-011.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 632
+            },
+            {
+              "caption": "Table 9: Question composition by pillar (ENT-310 answerable set).",
+              "figure_id": "table-9-6",
+              "figure_number": "9",
+              "height": 171,
+              "image_path": "figures/2611.15729/table-012.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 722
+            },
+            {
+              "caption": "Table 10: Representative confusable entity pairs (disambiguation targets). All company names are fictitious.",
+              "figure_id": "table-10-7",
+              "figure_number": "10",
+              "height": 150,
+              "image_path": "figures/2611.15729/table-013.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 602
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.15729/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.15729",
+          "relevance": 9,
+          "selection_reason": "Persistent LLM-agent memory with bi-temporal provenance graph and resolve-at-read entity/time disambiguation, directly on agent memory.",
+          "summary_status": "generated",
+          "title": "DISCERN: Preserve at Write, Resolve at Read for Persistent LLM-Agent Memory",
+          "tldr": "DISCERN improves persistent LLM-agent memory by preserving all potentially conflicting facts at write time and resolving entities, time states, and abstention decisions at read time.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "As memory-augmented agents increasingly support long-term and personalized interactions, reliable recall of emotional experiences while preserving their associated affect becomes necessary. However, existing evaluations usually assess emotion accuracy and factual memory grounding separately, overlooking event-affect correspondence. In this work, we formulate Affective-Episodic Retrospection (AER) as a task that explicitly evaluates the recovery of past events, associated affects, and their correspondence, and define Event-Affect Decoupling as a failure mode where the correct emotion is recalled but associated with the wrong episode. To diagnose Event-Affect Decoupling, we propose EM-TRACE, a stage-wise framework that decomposes AER into retrieval, affect recovery, and realization. On a controlled GoEmotions-based benchmark, Emotion-only retrieval achieves 28.65% affect recovery but retrieves the target episode for only 4.44% of queries, yielding a UAR of 24.21%. Further analysis reveals that event retrieval and affect assignment introduce distinct binding failures. These findings show that reliable AER requires grounded recall of emotional experiences, where episode retrieval, affect recovery, event-affect binding, and generation quality should be evaluated jointly. Our code is available at https://anonymous.4open.science/r/A412/.",
+          "arxiv_id": "2611.15655",
+          "arxiv_url": "https://arxiv.org/abs/2611.15655",
+          "authors": [
+            "Tingna Xie, Ming Wang, Shi Feng, Yongkang Liu"
+          ],
+          "bullets": [
+            "Defines Affective-Episodic Retrospection (AER) as jointly recovering past events, their affects, and event–affect correspondence.",
+            "Identifies Event-Affect Decoupling as a distinct failure mode missed by separate emotion and factual-memory evaluations.",
+            "Proposes EM-TRACE, a stage-wise diagnostic covering retrieval, affect recovery, and realization.",
+            "On a controlled GoEmotions-based benchmark, emotion-only retrieval achieved 28.65% affect recovery but only 4.44% target-episode retrieval, with a 24.21% UAR.",
+            "Finds distinct binding failures in event retrieval and affect assignment, motivating joint evaluation of grounded emotional recall."
+          ],
+          "categories": [
+            "cs.CL"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: EM-TRACE decomposes episodic emotion recall into Episode Retrieval, Affect Recovery and Assignment, and Emotion Realization, with oracle interventions and diagnostic signals for stage-wise analysis.",
+              "figure_id": "figure-2-9",
+              "figure_number": "2",
+              "height": 529,
+              "image_path": "figures/2611.15655/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 938
+            },
+            {
+              "caption": "Figure 3: Retrieval and Event-Affect Binding results across five strategies. Panel (a) shows metric estimates with 95% bootstrap confidence intervals, and panel (b) shows the four event-affect outcome proportions.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 395,
+              "image_path": "figures/2611.15655/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 926
+            },
+            {
+              "caption": "Figure 5: Mean gains over the Normal setting for different oracle interventions. Results are reported as absolute changes in percentage points (pp).",
+              "figure_id": "figure-5-11",
+              "figure_number": "5",
+              "height": 388,
+              "image_path": "figures/2611.15655/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 937
+            },
+            {
+              "caption": "Figure 1: An emotion-correct response can rest on the wrong stored experience.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 277,
+              "image_path": "figures/2611.15655/figure-004.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 458
+            },
+            {
+              "caption": "Table 5: Means over five retrieval methods, with emotion accuracy in percent. Changes in the text use unrounded means.",
+              "figure_id": "table-5-12",
+              "figure_number": "5",
+              "height": 274,
+              "image_path": "figures/2611.15655/table-005.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 937
+            },
+            {
+              "caption": "Table 12: Oracle Emotion results for the three realization mechanisms and five retrieval methods.",
+              "figure_id": "table-12-20",
+              "figure_number": "12",
+              "height": 340,
+              "image_path": "figures/2611.15655/table-006.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 887
+            },
+            {
+              "caption": "Table 6: Means over five retrieval methods. Acc. is emotion accuracy in percent, Tgt. the target emotion score, Sim. the emotion similarity, and Ent. the originaltext entailment.",
+              "figure_id": "table-6-13",
+              "figure_number": "6",
+              "height": 173,
+              "image_path": "figures/2611.15655/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 461
+            },
+            {
+              "caption": "Table 13: Oracle Event results for the three realization mechanisms and five retrieval methods. Values are point estimates over 1,103 test questions.",
+              "figure_id": "table-13-16",
+              "figure_number": "13",
+              "height": 373,
+              "image_path": "figures/2611.15655/table-008.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 896
+            },
+            {
+              "caption": "Table 7: Data flow and split-specific processing.",
+              "figure_id": "table-7-21",
+              "figure_number": "7",
+              "height": 335,
+              "image_path": "figures/2611.15655/table-009.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 937
+            },
+            {
+              "caption": "Table 8: Model aliases and decoding settings for data construction. A temperature of 0.0 invokes deterministic greedy decoding for the local Qwen model. “Not sent” means that the corresponding API-provider default was used.",
+              "figure_id": "table-8-10",
+              "figure_number": "8",
+              "height": 251,
+              "image_path": "figures/2611.15655/table-010.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 950
+            },
+            {
+              "caption": "Table 17: All 25 formal emotion-accuracy hypotheses for Emotion Label (EL) realization. Intervals use 5,000 paired percentile-bootstrap resamples with seed 20260929.",
+              "figure_id": "table-17-24",
+              "figure_number": "17",
+              "height": 568,
+              "image_path": "figures/2611.15655/table-011.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 950
+            },
+            {
+              "caption": "Table 10: Per-emotion retrieval and event-affect binding results. Rates are computed within each target-emotion class. Event denotes Event Recall@1, Affect denotes Affect Recovery Accuracy, Bind. denotes Binding@1, and UAR is the event-wrong/affect-correct rate. The macro average is the unweighted mean over the 11 emotion classes; the micro average is weighted by test-query count.",
+              "figure_id": "table-10-26",
+              "figure_number": "10",
+              "height": 314,
+              "image_path": "figures/2611.15655/table-012.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 950
+            },
+            {
+              "caption": "Table 18: All 25 formal emotion-accuracy hypotheses for Multilayer Steering (MS) realization. Intervals use 5,000 paired percentile-bootstrap resamples with seed 20260929.",
+              "figure_id": "table-18-5",
+              "figure_number": "18",
+              "height": 559,
+              "image_path": "figures/2611.15655/table-013.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 950
+            },
+            {
+              "caption": "Table 11: Main generation conditions. Emotion accuracy includes 95% bootstrap intervals for retrieval-conditioned units; Bare Query is a shared point estimate.",
+              "figure_id": "table-11-19",
+              "figure_number": "11",
+              "height": 462,
+              "image_path": "figures/2611.15655/table-014.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 896
+            },
+            {
+              "caption": "Table 19: All 25 formal emotion-accuracy hypotheses for NPTI realization. Intervals use 5,000 paired percentilebootstrap resamples with seed 20260929.",
+              "figure_id": "table-19-7",
+              "figure_number": "19",
+              "height": 559,
+              "image_path": "figures/2611.15655/table-015.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 950
+            },
+            {
+              "caption": "Table 23: Two Emotion Label cases across the four oracle conditions.",
+              "figure_id": "table-23-22",
+              "figure_number": "23",
+              "height": 693,
+              "image_path": "figures/2611.15655/table-016.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 937
+            },
+            {
+              "caption": "Table 9: Two-stage with Full-memory and Train-only prototypes.",
+              "figure_id": "table-9-4",
+              "figure_number": "9",
+              "height": 213,
+              "image_path": "figures/2611.15655/table-017.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 463
+            },
+            {
+              "caption": "Table 4: Main retrieval and binding metrics across five strategies, reported as percentages over 1,103 test queries with 95% bootstrap confidence intervals.",
+              "figure_id": "table-4-2",
+              "figure_number": "4",
+              "height": 126,
+              "image_path": "figures/2611.15655/table-018.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 950
+            },
+            {
+              "caption": "Table 1: Normal retrieval-conditioned generation settings.",
+              "figure_id": "table-1-14",
+              "figure_number": "1",
+              "height": 108,
+              "image_path": "figures/2611.15655/table-019.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 462
+            },
+            {
+              "caption": "Table 2: Oracle decomposition by event and affect sources.",
+              "figure_id": "table-2-15",
+              "figure_number": "2",
+              "height": 111,
+              "image_path": "figures/2611.15655/table-020.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 406
+            },
+            {
+              "caption": "Table 3: Quadrants of event and affect correctness.",
+              "figure_id": "table-3-25",
+              "figure_number": "3",
+              "height": 108,
+              "image_path": "figures/2611.15655/table-021.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 402
+            },
+            {
+              "caption": "Table 15: Holm-significant McNemar comparisons in emotion accuracy at α = 0.05.",
+              "figure_id": "table-15-17",
+              "figure_number": "15",
+              "height": 131,
+              "image_path": "figures/2611.15655/table-022.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 415
+            },
+            {
+              "caption": "Table 21: Emotion-specific residual-stream layers and steering coefficients. Total α is the sum of the layerspecific coefficients and is reported only as a configuration summary; inference injects each pre-scaled layer vector separately.",
+              "figure_id": "table-21-6",
+              "figure_number": "21",
+              "height": 296,
+              "image_path": "figures/2611.15655/table-023.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 414
+            },
+            {
+              "caption": "Table 14: The three retrieval-independent Full Oracle units. Emotion accuracy is reported in percent.",
+              "figure_id": "table-14-18",
+              "figure_number": "14",
+              "height": 113,
+              "image_path": "figures/2611.15655/table-024.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 950
+            },
+            {
+              "caption": "Table 16: The two retrieval hypotheses in the unified Holm family. Their paired percentile-bootstrap intervals use 10,000 query-level resamples with seed 20260928.",
+              "figure_id": "table-16-23",
+              "figure_number": "16",
+              "height": 82,
+              "image_path": "figures/2611.15655/table-025.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 950
+            },
+            {
+              "caption": "Table 20: Protocol audit.",
+              "figure_id": "table-20-8",
+              "figure_number": "20",
+              "height": 379,
+              "image_path": "figures/2611.15655/table-026.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 423
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.15655/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.15655",
+          "relevance": 6,
+          "selection_reason": "Diagnoses event-affect decoupling in memory-augmented agents' episodic recall, directly relevant to agent memory evaluation.",
+          "summary_status": "generated",
+          "title": "Can Agents Relive Past Experiences? Diagnosing Event-Affect Decoupling in Affective-Episodic Retrospection",
+          "tldr": "The paper introduces a framework for diagnosing when agents recall the right emotion but attach it to the wrong past event.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Language-model agents can share conversational history across sessions, but persistence does not guarantee retrieval of current decisions and their provenance. This engineering study presents Memory-TCG, a Conversation ESAA extension inspired by ringing, resonance and renormalization (RRR), and an exploratory synthetic evaluation comparing chronological retrieval, two simplified baselines (B, recency-aware, and B', authority-aware), full RRR, and variants under three output budgets. With 480 facts and 1,024 tokens, full RRR recalled 0.44 of current decisions, versus 0.06 for chronological retrieval and 0.58 for the oracle ceiling; with 4,096 tokens it recalled all of them. B' and the no-resonance variant matched full RRR in decision recall across all nine scale-budget combinations, as expected when the active decision set and the adapter ordering are the same. The isolated contribution of ringing to decisions was not measured: comparator D1 cuts facts before the graph is built, and the product retains active decisions by rule. Before the output limit, full-RRR conflict F1 was 0.615 at all three scales; after it, at 480 facts and 1,024 tokens, it was 0.000. Reserving 20% of the budget for conflicts raised that F1 to 0.431 in that scenario, at the cost of lowering decision recall from 0.44 to 0.34, and to 0.930 at 4,096 tokens without decision loss. Fixtures are repetitive, comparators are simplified, and the evaluation was not independently replicated; the results support an engineering analysis, not a claim of selectionist superiority.",
+          "arxiv_id": "2611.15644",
+          "arxiv_url": "https://arxiv.org/abs/2611.15644",
+          "authors": [
+            "Elzo Brito dos Santos Filho"
+          ],
+          "bullets": [
+            "Persistent conversation history does not ensure retrieval of current decisions and their provenance.",
+            "The study compares chronological retrieval, recency- and authority-aware baselines, full RRR, and variants across three output budgets using synthetic conversations.",
+            "At 1,024 tokens and 480 facts, full RRR recalled 0.44 of current decisions, compared with 0.06 for chronological retrieval; at 4,096 tokens, it recalled all decisions.",
+            "Simplified baselines and the no-resonance variant matched full RRR in decision recall, so the isolated contribution of ringing was not established.",
+            "Conflict F1 fell to 0.000 after the output limit in the 480-fact, 1,024-token setting; reserving 20% of the budget improved it to 0.431 but reduced decision recall to 0.34."
+          ],
+          "categories": [
+            "cs.SE",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Table 2: Decision recall by budget and oracle ceiling",
+              "figure_id": "table-2-2",
+              "figure_number": "2",
+              "height": 422,
+              "image_path": "figures/2611.15644/table-001.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 906
+            },
+            {
+              "caption": "Table 4: Conflict precision, recall, and F1 by budget (identical values across all five seeds)",
+              "figure_id": "table-4-3",
+              "figure_number": "4",
+              "height": 1146,
+              "image_path": "figures/2611.15644/table-002.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 918
+            },
+            {
+              "caption": "Table 1: Output under 1,024 tokens (identical values across all five seeds)",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 145,
+              "image_path": "figures/2611.15644/table-003.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 893
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.15644/hero.webp",
+          "novelty": 5,
+          "pdf_url": "https://arxiv.org/pdf/2611.15644",
+          "relevance": 6,
+          "selection_reason": "Studies memory consolidation and retrieval of decisions in language-model agents, fitting persistent agent memory mechanisms.",
+          "summary_status": "generated",
+          "title": "When Agents Need to Consolidate Memories: What RRR Consolidation Explains, and What It Does Not Explain, in Conversation ESAA",
+          "tldr": "Memory-TCG’s RRR-inspired consolidation retrieves current conversational decisions well under sufficient output budget, but conflict preservation remains a key limitation and RRR’s isolated benefit was not measured.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Large language model (LLM) agents increasingly operate over long Web interaction histories, making memory management critical for reliable and efficient decision making. Existing methods primarily optimize storage, retrieval, or compression, but the memories most semantically relevant to the current state are not necessarily those that most improve the agent's action. We introduce MemCredit, a decision-centric memory framework that shifts memory selection from semantic relevance to decision utility. MemCredit estimates the state-, reference-context-, and policy-conditional marginal contribution of individual memories through controlled counterfactual interventions, and distills these intervention-derived credits into a lightweight utility estimator. At inference time, semantic relevance is used only for high-recall candidate generation, while predicted utility arbitrates which memories are retained under a fixed token budget, without modifying the underlying agent policy or requiring additional environment interaction. We evaluate MemCredit on ALFWorld and WebShop against representative memory baselines. On ALFWorld, MemCredit achieves 86.57 SR@50 under a 500-token historical-memory budget, compared with 65.67% for BM25 retrieval. Counterfactual analysis further shows that memory utility is sparse, strongly state dependent, and poorly captured by semantic relevance. These results suggest that decision utility provides a more effective principle than relevance alone for long-horizon agent memory management.",
+          "arxiv_id": "2611.15600",
+          "arxiv_url": "https://arxiv.org/abs/2611.15600",
+          "authors": [
+            "Quanjiang Guo, Sijie Wang, Qianyang Zhu, Ben Zhang, Jinchuan Zhang, Ke Yan, Zhao Kang"
+          ],
+          "bullets": [
+            "Targets the mismatch between semantically relevant memories and memories that actually improve actions.",
+            "Uses controlled counterfactual interventions to estimate each memory’s state-, context-, and policy-conditional utility.",
+            "Distills intervention-derived credits into a lightweight utility estimator; relevance only generates high-recall candidates.",
+            "Retains memories by predicted utility without changing the agent policy or requiring extra environment interaction.",
+            "On ALFWorld, reaches 86.57 SR@50 with a 500-token memory budget versus 65.67% for BM25; utility is sparse and state dependent."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3: Overview of MemCredit. Interaction histories are organized into atomic memories, whose policy-conditional decision utility is estimated through controlled counterfactual interventions and distilled into a lightweight utility estimator. At inference time, semantic relevance provides high-recall candidates, while predicted utility arbitrates memory selection under a fixed token budget for the unchanged agent policy.",
+              "figure_id": "figure-3-10",
+              "figure_number": "3",
+              "height": 362,
+              "image_path": "figures/2611.15600/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1051
+            },
+            {
+              "caption": "Figure 6: ALFWorld performance across baseline failure density. Tasks are partitioned into terciles using failure density measured from frozen BM25 trajectories, and the same partition is used for both methods. MemCredit consistently improves over BM25 across all three groups. Error bars denote task-bootstrap 95% confidence intervals; annotations report paired SR@50 differences and their 95% confidence intervals.",
+              "figure_id": "figure-6-3",
+              "figure_number": "6",
+              "height": 397,
+              "image_path": "figures/2611.15600/figure-002.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 481
+            },
+            {
+              "caption": "Figure 5: Counterfactual analysis of memory decision utility. (a) Relevance–utility association changes across task coverage and is near zero on the combined set. (b) Mean memory credit varies substantially across decision states, with the strongest effect after failures. (c) Decision utility is highly sparse: most interventions produce no measurable change. Error bars denote task-clustered 95% bootstrap confidence intervals.",
+              "figure_id": "figure-5-11",
+              "figure_number": "5",
+              "height": 347,
+              "image_path": "figures/2611.15600/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 926
+            },
+            {
+              "caption": "Figure 4: Cross-model generalization on ALFWorld. Crossmodel comparison under a fixed 500-token memory budget for (a) SR@15 and (b) SR@50. Only the action-generation model is changed; all other agent components and evaluation settings remain fixed.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 232,
+              "image_path": "figures/2611.15600/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 506
+            },
+            {
+              "caption": "Figure 1: Motivation of MemCredit. Semantic relevance does not necessarily imply decision utility. A memory that appears less related to the current observation may be critical for avoiding an incorrect action, whereas a highly relevant memory can be redundant.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 472,
+              "image_path": "figures/2611.15600/figure-005.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 504
+            },
+            {
+              "caption": "Figure 2: Performance–memory Pareto comparison on WebShop. MemCredit achieves the highest task score while using only 152.1memory tokens per decision, about 2.8× fewer than MemArbiter and approximately 3.9× fewer than retrievalbased alternatives. The desirable region is the upper left: higher task performance with lower memory cost.",
+              "figure_id": "figure-2-4",
+              "figure_number": "2",
+              "height": 297,
+              "image_path": "figures/2611.15600/figure-006.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 495
+            },
+            {
+              "caption": "Table 1: Performance on 134 unseen ALFWorld tasks under two historical-memory budgets. We report SR@50 (%) overall and across six task categories, with category sizes shown in parentheses. Recovery and failed-action repetition characterize post-failure behavior.",
+              "figure_id": "table-1-5",
+              "figure_number": "1",
+              "height": 588,
+              "image_path": "figures/2611.15600/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 990
+            },
+            {
+              "caption": "Table 2: Overall performance on WebShop. Score denotes the official WebShop task score, and memory tokens are averaged over decision steps. Lower memory usage, repeated-search rate, invalid-action rate, and trajectory length are better.",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 373,
+              "image_path": "figures/2611.15600/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 818
+            },
+            {
+              "caption": "Table 4: Task-disjoint prediction of intervention-derived decision utility using 5-fold GroupKFold by task ID. The shuffledlabel model serves as a negative control for spurious fitting.",
+              "figure_id": "table-4-12",
+              "figure_number": "4",
+              "height": 163,
+              "image_path": "figures/2611.15600/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 414
+            },
+            {
+              "caption": "Table 7: Decision-utility causal statistics (combined set). “Decision utility” is the credit of including one memory item relative to the reference context; positive means inclusion improves the decision, and the reported statistics use the single-removal reference context 𝑆 =𝐶𝑡 \\ {𝑚𝑖 }.",
+              "figure_id": "table-7-7",
+              "figure_number": "7",
+              "height": 232,
+              "image_path": "figures/2611.15600/table-010.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 527
+            },
+            {
+              "caption": "Table 6: ALFWorld budget-500 comparison relative to BM25 (65.67% SR@50). All 134 tasks have valid paired records. Recovery denotes the post-failure recovery rate and Failed Rep. the failed-action repetition rate; both are taken from the main comparison.",
+              "figure_id": "table-6-9",
+              "figure_number": "6",
+              "height": 210,
+              "image_path": "figures/2611.15600/table-011.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 502
+            },
+            {
+              "caption": "Table 3: Summary of counterfactual memory-utility analysis. Confidence intervals are obtained by task-clustered bootstrap.",
+              "figure_id": "table-3-14",
+              "figure_number": "3",
+              "height": 250,
+              "image_path": "figures/2611.15600/table-012.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 368
+            },
+            {
+              "caption": "Table 5: Ablation of MemCredit on ALFWorld under a 500- token memory budget. Δ is measured relative to utility-only ranking with full features.",
+              "figure_id": "table-5-13",
+              "figure_number": "5",
+              "height": 206,
+              "image_path": "figures/2611.15600/table-013.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 418
+            },
+            {
+              "caption": "Table 8: Mean memory credit by state type (combined set).",
+              "figure_id": "table-8-8",
+              "figure_number": "8",
+              "height": 169,
+              "image_path": "figures/2611.15600/table-014.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 440
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.15600/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.15600",
+          "relevance": 8,
+          "selection_reason": "Shifts LLM-agent memory selection from semantic relevance to decision utility via counterfactual credit, directly relevant to agent memory management.",
+          "summary_status": "generated",
+          "title": "MemCredit: From Relevance to Utility for Decision-Time Memory in Long-Horizon Web Agents",
+          "tldr": "MemCredit selects memories by their estimated impact on an agent’s decisions rather than semantic relevance alone, improving long-horizon Web-agent performance under a fixed token budget.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Language models evolve, but the observations, revisions, and context accumulated through user interactions should remain usable. Each new model must be able to retrieve past evidence, track revisions, and add new observations. We present MIGRO, a decoupled long-term memory system that treats experience as a persistent state shared across successive language models. MIGRO follows a simple principle: preserve historical evidence exactly, organize it approximately, and decide what to retrieve only when the question is known. We call this asymmetric fidelity with deferred selectivity. A shared semantic index supports retrieval, while exact records retain observations and their historical relationships. Because models differ in vocabulary and tokenization, host-specific interfaces convert selected evidence into inputs the receiving model can use. Reversible encoding reduces archival storage while enabling exact recovery. The shared state and its access interfaces let successive hosts read and extend the accumulated experience. On matched LoCoMo states, MIGRO scores 7.3% higher and uses 99.3% less private memory than the strongest quality baseline. After handoff, continued writing retains 99.9% of full-history rebuilding quality by extending the inherited state. On million-token BEAM histories, MIGRO uses 57.5% less private storage on average than the most compact baseline. MIGRO combines high answer quality, continued memory growth across hosts, and low storage cost. Code is available at https://github.com/zOUMINGXI/MIGRO.",
+          "arxiv_id": "2611.15315",
+          "arxiv_url": "https://arxiv.org/abs/2611.15315",
+          "authors": [
+            "Mingxi Zou, Yinghui Xu, Jiaxiang Chen, Langzhang Liang, Wei Zhu, Peng Ye, Runkai Zhao, Ruoxi Jiang, Sijin Chen, Song Wang, Zhuo Wang, Lizhen Qu, Zenglin Xu"
+          ],
+          "bullets": [
+            "Addresses the challenge of retaining observations, revisions, and context as language models are replaced.",
+            "Uses asymmetric fidelity: exact historical records, approximate semantic organization, and query-time retrieval selection.",
+            "Combines a shared semantic index, reversible archival encoding, and host-specific interfaces for differing vocabularies and tokenization.",
+            "On reported benchmarks, improves quality and reduces private memory/storage versus baselines, while preserving continued memory growth after handoff."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. One experience state across writing, reading, persistence, and model handoff. Writing adds evidence and addresses; reading constructs a bounded evidence packet; persistence preserves the saved state for recovery. A receiving host reads and extends the inherited history. The diagram uses row vectors; equations use column vectors.",
+              "figure_id": "figure-3-17",
+              "figure_number": "3",
+              "height": 564,
+              "image_path": "figures/2611.15315/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 965
+            },
+            {
+              "caption": "Figure 6. LoCoMo quality on two cross-family paths from Qwen 4B. (a) Handoff to Mistral 7B and then Phi. (b) Scale-up to Ministral 14B and then Gemma 26B-A4B. Solid curves show inherited-state transfer and dashed curves show full-history rebuilding. Each method starts at its Table 1 score.",
+              "figure_id": "figure-6-1",
+              "figure_number": "6",
+              "height": 330,
+              "image_path": "figures/2611.15315/figure-002.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 913
+            },
+            {
+              "caption": "Figure 2. An illustrative model-bound approach repeats training or adaptation after host replacement (left). MIGRO lets successive hosts read and extend one persistent experience state (right).",
+              "figure_id": "figure-2-9",
+              "figure_number": "2",
+              "height": 360,
+              "image_path": "figures/2611.15315/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 962
+            },
+            {
+              "caption": "Figure 4. Ablations across performance (a,d), transfer (b,e), and storage (c,f). Local ablations use separately evaluated control states with a Qwen reference of 54.21; Table 1 reports 54.13 for the main-quality evaluation. Higher LoCoMo and lower storage are better; upper left is preferred in (f). Dashed bars in (e) denote target rebuilding; percentages in (c) show savings against the uncompressed archive. A + R denotes Anchor + Residual.",
+              "figure_id": "figure-4-12",
+              "figure_number": "4",
+              "height": 603,
+              "image_path": "figures/2611.15315/figure-004.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 956
+            },
+            {
+              "caption": "Figure 12. Joint frontier on matched memory states after Qwen-to-Mistral handoff and continued writing. Higher answer quality and smaller private memory place a method farther toward the upper right. The ink stroke connects the two observed frontier points. Marker color shows quality retained relative to same-method rebuilding. Squares mark target-native references, shading follows QA/MB, and whiskers show 95% conversation-bootstrap quality intervals where available.",
+              "figure_id": "figure-12-18",
+              "figure_number": "12",
+              "height": 628,
+              "image_path": "figures/2611.15315/figure-005.webp",
+              "kind": "figure",
+              "page": 33,
+              "width": 920
+            },
+            {
+              "caption": "Figure 8. LoCoMo quality and storage: (a) quality versus matched-state bytes; (b) state growth; (c) later-history marginal cost; (d) second-half mean. TransMem and Doc-to-LoRA summary measurements enter (a,d). Counts above (b,c) identify eligible conversations; available bands and bars are 95% bootstrap intervals. Fixed assets are accounted for separately.",
+              "figure_id": "figure-8-15",
+              "figure_number": "8",
+              "height": 561,
+              "image_path": "figures/2611.15315/figure-006.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 924
+            },
+            {
+              "caption": "Figure 5. LoCoMo quality as Qwen hosts grow. (a) Each host constructs and reads its own memory. (b) Solid curves follow one 4B state through successive upgrades, while dashed curves show full-history rebuilding at each receiver. Both panels use the 4B references from Table 1. Tables 2 and 3 give the full comparisons.",
+              "figure_id": "figure-5-13",
+              "figure_number": "5",
+              "height": 324,
+              "image_path": "figures/2611.15315/figure-007.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 893
+            },
+            {
+              "caption": "Figure 7. Continuity of memory evolution after handoff. (a) MIGRO’s quality on inherited, new-history, and cross-boundary questions. (b) Overall quality under three memory conditions; numbers label continued-writing scores. The continuation operations and source-state pairing are detailed in Appendix D.8.",
+              "figure_id": "figure-7-23",
+              "figure_number": "7",
+              "height": 349,
+              "image_path": "figures/2611.15315/figure-008.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 960
+            },
+            {
+              "caption": "Figure 9. Million-token BEAM storage: (a) absolute state growth; (b) the same measurements on a logarithmic axis; (c) added bytes per token over successive windows. Curves show complete prefix series; the Doc-to-LoRA marker shows its measured million-token endpoint; late-half averages appear in Table 5. Available bands are 95% history-bootstrap intervals.",
+              "figure_id": "figure-9-16",
+              "figure_number": "9",
+              "height": 277,
+              "image_path": "figures/2611.15315/figure-009.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 950
+            },
+            {
+              "caption": "Figure 11. Core LoCoMo transfer controls, with 1,986 questions in each of 14 conditions. Host-specific panels compare direct state reuse, BM25 simple memory, recent history, no memory, and target-side rebuilding; the last is inapplicable to the Qwen source reference. Axes span 15–60. Direct reuse exceeds BM25 by the reported paired estimates of 11.74 points on Phi and 3.93 on Mistral, with paired intervals above zero. Reported direct-minus-rebuilding estimates are +0.07 and +0.28, with intervals crossing zero; plotted scores are displayed to two decimals. Each target avoids 740 memory-building forwards through direct reuse; answer generation is performed normally.",
+              "figure_id": "figure-11-4",
+              "figure_number": "11",
+              "height": 354,
+              "image_path": "figures/2611.15315/figure-010.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 955
+            },
+            {
+              "caption": "Figure 10. Shared-resource estimates for independent million-token memories. Panels (a,b) show average MB per memory, and (c,d) show total method-system footprint. Panels (a,c) count current deployed resources, and (b,d) count required resources, including estimates for TransMem and Doc-to-LoRA. Each method shares one fixed asset bundle. Available bands propagate state-mean intervals.",
+              "figure_id": "figure-10-6",
+              "figure_number": "10",
+              "height": 50,
+              "image_path": "figures/2611.15315/figure-011.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 747
+            },
+            {
+              "caption": "Table 3. LoCoMo migration QA by execution mode. MIGRO, PlugMem and Mem0 use State Transfer; TiMem, A-MEM, LSTMem, TransMem and Doc-to-LoRA use Full-History Rebuilding at each receiver. TransMem’s Qwen references come from Table 2. Doc-to-LoRA’s Ministral and Gemma results each cover all 1,986 questions. Appendix C gives exact checkpoints. Bold marks the highest score in rows with method comparisons.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 369,
+              "image_path": "figures/2611.15315/table-012.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 978
+            },
+            {
+              "caption": "Figure 10 distinguishes the current deployed inventory, including unused weights, from required method resources. Both exclude the common Qwen backbone and runtime. Bands propagate uncertainty in the five-history state mean through the shared-resource arithmetic.",
+              "figure_id": "figure-10-26",
+              "figure_number": "10",
+              "height": 50,
+              "image_path": "figures/2611.15315/figure-013.webp",
+              "kind": "figure",
+              "page": 31,
+              "width": 747
+            },
+            {
+              "caption": "Table 13. Implementation specifications, not empirical results or architecture-wide optimal settings.",
+              "figure_id": "table-13-24",
+              "figure_number": "13",
+              "height": 689,
+              "image_path": "figures/2611.15315/table-014.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 978
+            },
+            {
+              "caption": "Table 1. Qwen quality under method-native readers and budgets. The arrow spans the trajectory-length progression from LoCoMo through BEAM-1M. LSTMem uses state-only reading on LoCoMo. MemoryAgentBench reports the fourcompetency macro-average. Metric definitions appear in Table 11.",
+              "figure_id": "table-1-25",
+              "figure_number": "1",
+              "height": 269,
+              "image_path": "figures/2611.15315/table-015.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 948
+            },
+            {
+              "caption": "Table 4. LoCoMo quality and native storage from the same evaluated states, under the Qwen reference host and each method’s native reader. These storage replicas are evaluated separately from Table 1. LSTMem uses the retained-history reader for this paired quality–storage measurement. Storage is summed across ten conversations; intervals cluster by conversation.",
+              "figure_id": "table-4-21",
+              "figure_number": "4",
+              "height": 266,
+              "image_path": "figures/2611.15315/table-016.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 1000
+            },
+            {
+              "caption": "Table 5. Million-token state sizes and 500K–1M marginal cost. Means and 95% history-bootstrap intervals use the same five paired histories for every method; rates use actual source-token boundaries.",
+              "figure_id": "table-5-22",
+              "figure_number": "5",
+              "height": 260,
+              "image_path": "figures/2611.15315/table-017.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 1000
+            },
+            {
+              "caption": "Table 6. Estimated average storage in MB per independent million-token memory, using required method resources shared once. The private-state term uses the reported million-token endpoints.",
+              "figure_id": "table-6-5",
+              "figure_number": "6",
+              "height": 281,
+              "image_path": "figures/2611.15315/table-018.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 1000
+            },
+            {
+              "caption": "Table 14. System contracts separate exact preservation, structural access rules, and claims requiring experiments.",
+              "figure_id": "table-14-10",
+              "figure_number": "14",
+              "height": 429,
+              "image_path": "figures/2611.15315/table-019.webp",
+              "kind": "table",
+              "page": 29,
+              "width": 978
+            },
+            {
+              "caption": "Table 2. Same-host Qwen LoCoMo quality scaling with the complete baseline set from Table 1. Each method constructs a fresh memory for each checkpoint and reads with that same host. The 4B row reuses Table 1; target-native rebuilding scores are also used in Table 3 where applicable. LSTMem writes the full history and reads only its persistent state at every size. Bold marks the best available score at each host.",
+              "figure_id": "table-2-14",
+              "figure_number": "2",
+              "height": 146,
+              "image_path": "figures/2611.15315/table-020.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 978
+            },
+            {
+              "caption": "Table 9. Checkpoint identities for the reference comparisons and Qwen scaling and cross-family transfer. All conditions use text-only inputs.",
+              "figure_id": "table-9-11",
+              "figure_number": "9",
+              "height": 382,
+              "image_path": "figures/2611.15315/table-021.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 978
+            },
+            {
+              "caption": "Table 11. Task coverage and reported metrics. LongMemEval-S and MemOps use the project’s auxiliary judges. BEAM uses its category-specific aggregation, with auxiliary judging where required. All scores in the main comparison are on a 0–100 scale.",
+              "figure_id": "table-11-19",
+              "figure_number": "11",
+              "height": 358,
+              "image_path": "figures/2611.15315/table-022.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 978
+            },
+            {
+              "caption": "Table 10. Running revision trace, adapted from the implementation’s versioned-budget observations. Logical answer requirements are not accuracy measurements.",
+              "figure_id": "table-10-20",
+              "figure_number": "10",
+              "height": 285,
+              "image_path": "figures/2611.15315/table-023.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 978
+            },
+            {
+              "caption": "Table 12. MIGRO operation and capability scores under the Qwen reference configuration. Intervals cluster by MemOps identity or BEAM history. Revision, trajectory reasoning and multi-record synthesis remain more difficult than individual recall or following tasks.",
+              "figure_id": "table-12-3",
+              "figure_number": "12",
+              "height": 425,
+              "image_path": "figures/2611.15315/table-024.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 978
+            },
+            {
+              "caption": "Table 8. Unified symbols. Address approximation occurs at writing; exact archival recovery is defined over the saved representation.",
+              "figure_id": "table-8-8",
+              "figure_number": "8",
+              "height": 200,
+              "image_path": "figures/2611.15315/table-025.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 979
+            },
+            {
+              "caption": "Table 7. Selected recent mechanisms across MIGRO’s lifecycle boundaries. Paired columns identify the retained object and access structure, the consuming interface and growth operation, and the preservation criterion and resource object.",
+              "figure_id": "table-7-7",
+              "figure_number": "7",
+              "height": 160,
+              "image_path": "figures/2611.15315/table-026.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 996
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.15315/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.15315",
+          "relevance": 9,
+          "selection_reason": "Introduces a decoupled, portable long-term memory system for language models, directly matching the LLM memory subtopic.",
+          "summary_status": "generated",
+          "title": "MIGRO: A Decoupled and Portable Long-Term Memory System for Language Models",
+          "tldr": "MIGRO is a portable long-term memory system that preserves exact experience across successive language models while enabling efficient, host-specific retrieval and updates.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Tool-using language-model agents accumulate histories of their own mistakes, and a system that compacts, repairs or hands off such a history decides what it says about those mistakes while their effects stay in the world. Prior work cleans the history at a fixed world, where showing a corrected step and saying it is done move together. We ask whether the same correct content helps or hurts depending on how the history states it and what the world holds. We freeze an agent mid-task with its exact world state, edit the history or the world, and let a receiver model continue. On AgentCE-Bench, after the agent commits a wrong value, we hold the world fixed and add the correct value by two natural edits: a truthful note beside the preserved error or the agent's own completed action. The note raises recovery, the share of remaining targets the receiver gets right, from 51% under a matched neutral note to 66%. The completed action lowers it below the unedited history, from 50% to 44%, so the value's presence alone does not predict the effect. On AppWorld, after a database write, we vary whether its receipt reports success or failure and whether its effect is present. A success receipt lowers whole-task success from 45% to 28% while the effect is absent and raises it from 38% to 49% once present. The two effects differ by 27 points pooled over two receivers, a difference positive in six of eight receivers at 97.5% and seven at 95%. A history edit's effect thus depends on the world it describes, and a history made to look clean while the world still holds the error can leave an agent worse off than no edit at all.",
+          "arxiv_id": "2611.14654",
+          "arxiv_url": "https://arxiv.org/abs/2611.14654",
+          "authors": [
+            "Egor Pakhomov, Anurag Koul, Hongjun Liu, Bo Pang, Shafiq Joty, Erik Nijkamp"
+          ],
+          "bullets": [
+            "The study tests whether identical information helps differently depending on how it is represented in history and whether the world reflects it.",
+            "With the world fixed after a wrong value, a truthful note improved recovery from 51% to 66%, while presenting the correction as a completed action reduced it from 50% to 44%.",
+            "In AppWorld, success receipts helped when their effects were present (38% to 49%) but hurt when effects were absent (45% to 28%).",
+            "History edits and world state interacted across receivers, showing that the value alone does not determine recovery.",
+            "Scope: results concern mid-task, tool-using agents and history/world edits evaluated on AgentCE-Bench and AppWorld."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.CL",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4: Figure 3’s interaction for each of eight receivers, grouped by provider. Left: unadjusted 95% (thick) and 97.5% (thin) task-family bootstrap intervals; †marks the six of eight excluding zero at 97.5%; seven exclude it at 95%. Black: the reported frame, 65 task families for §5.4’s two receivers and the 63 all six added receivers completed for the rest. Grey: an added receiver’s own 65-family frame (none for grok-4.6). Right: each receiver’s two record effects on whole-task success, effect absent (squares) and present (circles), at 95%; orange a loss, blue a gain; both resolve with opposite signs in five receivers. Hollow: the 95% interval includes zero.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 439,
+              "image_path": "figures/2611.14654/figure-001.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1050
+            },
+            {
+              "caption": "Figure 1: The two designs, record above the line and world below. Left, AgentCE-Bench: a world holding a committed error under two records carrying the same correct value, on recovery. Right, AppWorld: one original success receipt over two worlds, on whole-task success. Each mark is an effect pooled over gpt-5.5 and claude-sonnet-5, with its 95% interval against the comparator it names; blue is a gain and orange a loss, in every figure. In each design the effect’s sign changes with the half varied.",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 349,
+              "image_path": "figures/2611.14654/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 894
+            },
+            {
+              "caption": "Figure 2: The sign reversal at a fixed world, on AgentCEBench, pooled over gpt-5.5 and claude-sonnet-5 (top) and per receiver. T−N (blue): the truthful note against a matched neutral note. F−O (orange): the same value as the agent’s own completed action, against the unedited record. The grey band spans the twomarks; the blackmark is their gap, D = (T−N) − (F−O). The T−O and F−N rows compare each edit against the other edit’s comparator; the bottom row is the control N−O. Hollow marks an interval that includes zero. Recovery on the look-ahead targets; 95% task-cluster bootstrap intervals.",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 438,
+              "image_path": "figures/2611.14654/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 501
+            },
+            {
+              "caption": "Figure 3: A success receipt’s effect flips sign with the world on AppWorld. Each point is the success receipt minus the failure receipt onwhole-task success, with the database step’s effect independently absent or present; the arrow is their interaction, read at 97.5%. 95% task-family bootstrap intervals on the two effects; 1,040 continuations over 65 task families, pooled over gpt-5.5 and claude-sonnet-5. Per receiver: Figure 4; cell means: Figure S1.",
+              "figure_id": "figure-3-1",
+              "figure_number": "3",
+              "height": 249,
+              "image_path": "figures/2611.14654/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 497
+            },
+            {
+              "caption": "Table 1: Where the gain and the loss fall on AgentCE-Bench, on the three-slot look-ahead endpoint of §4.1; unadjusted 95% task-cluster bootstrap intervals. Each 319-state total, T−N then F−O, is split between the slot the edit names and the other look-ahead slots; “renormalised” is T−N as a rate over only the slots the note does not name. The last four rows restrict to the 47 states whose committed error lies outside the look-ahead targets. All but the two totals are descriptive.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 316,
+              "image_path": "figures/2611.14654/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 470
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.14654/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.14654",
+          "relevance": 7,
+          "selection_reason": "Studies how editing an agent's history affects recovery, directly relevant to LLM agent memory.",
+          "summary_status": "generated",
+          "title": "Cleaning an Agent's History Hurts When the World Still Holds the Error",
+          "tldr": "Cleaning an agent’s history can hurt recovery when the real-world state still contains the original mistake.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-11",
       "paper_count": 1,
       "papers": [
@@ -1054,7 +3420,12 @@
           "authors": [
             "Lirui Luo, Kelong Mao, Xinwei Yang, Rongqing Li, Luyu Chen, Kieran Wong, Yudong Guo, Xinrui Wang, Jiayin Zhu, Gu Simiu, Sulong Xu, Cong Fang"
           ],
-          "bullets": [],
+          "bullets": [
+            "Long-horizon agents need to decide what information to save, retrieve, and when, as histories exceed active context.",
+            "CAMG-II evaluates memory behavior across Shop, Coding, AutoResearch, General, and Visual environments using Bash and persistent workspaces.",
+            "CAMP-II jointly trains one policy across all five environments with a frozen teacher that already understands file operations.",
+            "The learned file-based memory behavior transfers to Terminal-Bench 2.1 and SWE-Bench Pro V2 with improved success rates."
+          ],
           "categories": [
             "cs.LG",
             "cs.AI",
@@ -1309,9 +3680,9 @@
           "pdf_url": "https://arxiv.org/pdf/2611.14009",
           "relevance": 8,
           "selection_reason": "Directly addresses persistent file-based memory for long-horizon LLM agents, fitting the LLM memory subtopic.",
-          "summary_status": "failed",
+          "summary_status": "generated",
           "title": "Coding Agent Memory Post-Training II: Unlocking the Memory Potential of Pre-trained File Operations for Long-Horizon Tasks via On-Policy Distillation",
-          "tldr": null,
+          "tldr": "CAMP-II uses asynchronous on-policy distillation to teach agents file-based memory for long-horizon tasks, achieving 2.97× the gain of the strongest OPD baseline and improving performance on two external benchmarks.",
           "topic_assignments": [
             {
               "subtopic_ids": [
@@ -1447,7 +3818,13 @@
           "authors": [
             "Vicen\\c{c} Torra, Maria Bras-Amor\\'os"
           ],
-          "bullets": [],
+          "bullets": [
+            "Focuses on attacks that manipulate agents’ semantic memory and alter their behavior.",
+            "Uses signed knowledge-base entries to prevent unauthorized or malicious knowledge manipulation.",
+            "Combines a local Prolog-like Horn-clause inference system with private access to an external knowledge base.",
+            "Describes Python implementations offering privacy levels including k-anonymity and information-theoretical privacy via IT-PIR.",
+            "Scope is semantic memory; episodic and short-term memory attacks are not addressed."
+          ],
           "categories": [
             "cs.CR",
             "cs.AI"
@@ -1511,9 +3888,9 @@
           "pdf_url": "https://arxiv.org/pdf/2611.13696",
           "relevance": 7,
           "selection_reason": "Discusses memory poisoning attacks and mitigation strategies for multi-agent systems, focusing on semantic memory and secure knowledge retrieval for agents.",
-          "summary_status": "failed",
+          "summary_status": "generated",
           "title": "On Private Knowledge Retrieval and Private Inference for secure multi-agent systems",
-          "tldr": null,
+          "tldr": "The paper proposes privacy-preserving knowledge retrieval and inference mechanisms to protect multi-agent LLM systems from semantic-memory poisoning attacks.",
           "topic_assignments": [
             {
               "subtopic_ids": [
@@ -1842,7 +4219,13 @@
           "authors": [
             "Mingchen Li, Yongkang Xiao, Rumeng Li, Rui Zhang, Hong Yu"
           ],
-          "bullets": [],
+          "bullets": [
+            "Evaluates five memory approaches across four LLMs in biomedical reasoning, clinical prediction, and long-term conversation settings.",
+            "Analyzes task effectiveness, retrieval quality, information fidelity, and long-term robustness.",
+            "Finds that memory construction, evidence relevance, and conversational history strongly affect downstream performance.",
+            "HMRU improves results by an average of 8.6%, reduces conversational answer errors by 24.9%, and closes 48.0% of the gap to full-context inference.",
+            "The study highlights persistent challenges in retrieving relevant information, preserving fidelity, and using memory effectively for biomedical reasoning."
+          ],
           "categories": [
             "cs.CL"
           ],
@@ -2005,9 +4388,9 @@
           "pdf_url": "https://arxiv.org/pdf/2611.13426",
           "relevance": 7,
           "selection_reason": "Directly studies persistent memory mechanisms for LLM agents, fitting the LLM memory subtopic.",
-          "summary_status": "failed",
+          "summary_status": "generated",
           "title": "BioMem: Agentic Memory for Biomedical LLM Agents",
-          "tldr": null,
+          "tldr": "BioMem systematically evaluates biomedical agentic memory and introduces HMRU, a training-free retrieval-and-utilization framework that improves reasoning and long-term conversational memory.",
           "topic_assignments": [
             {
               "subtopic_ids": [
@@ -162889,5 +165272,5 @@
   "schema_version": 1,
   "subtopic_id": "llm-memory",
   "topic_id": "language-foundation-models",
-  "total_paper_count": 836
+  "total_paper_count": 850
 }

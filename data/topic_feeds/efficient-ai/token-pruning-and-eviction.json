@@ -1,6 +1,1414 @@
 {
   "days": [
     {
+      "date": "2026-11-12",
+      "paper_count": 7,
+      "papers": [
+        {
+          "abstract": "Multimodal diffusion large language models (dLLMs) generate text through iterative masked denoising with bidirectional attention, offering a compelling alternative to autoregressive vision-language modeling. However, each denoising step requires a full forward pass over long multimodal sequences in which visual tokens dominate the sequence length, and a fixed step budget further compounds this quadratic per-step cost. Existing inference acceleration approaches for multimodal dLLMs characterize attention redundancy implicitly, motivating designs from isolated attention visualizations rather than from measurement. We close this gap with DRAMA, a training-free acceleration framework grounded in a systematic dissection of attention redundancy in multimodal dLLMs. By probing attention tensors along spatial and temporal axes, we reveal two persistent redundancy structures: (i) attention mass consistently concentrates on a sparse subset of visual tokens, and (ii) attention distributions rapidly stabilize across denoising steps after an initial formation phase. These findings motivate two complementary mechanisms: Spatial-Redundancy-Aware Visual Token Pruning (SVTP) and Sufficiency-Guided Adaptive Stopping (SGAS). Together, DRAMA achieves an average 18.67 times inference speedup across six vision-language benchmarks without training, architectural modification, or attention caching, while maintaining competitive accuracy. Our results establish a strong, measurement-grounded acceleration baseline for multimodal dLLM inference.",
+          "arxiv_id": "2611.16345",
+          "arxiv_url": "https://arxiv.org/abs/2611.16345",
+          "authors": [
+            "Yi-Hsin Hung, Fangfu Liu, Shao-Yuan Lo, Chu-Song Chen"
+          ],
+          "bullets": [
+            "Identifies two redundancy patterns: attention concentrates on a sparse subset of visual tokens and stabilizes across denoising steps.",
+            "Introduces SVTP for spatially aware visual-token pruning.",
+            "Introduces SGAS for sufficiency-guided adaptive stopping of denoising.",
+            "Training-free and requires no architectural changes or attention caching.",
+            "Reports an average 18.67× inference speedup across six vision-language benchmarks while maintaining competitive accuracy."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4: Overview of DRAMA. DRAMA applies Spatial-Redundancy-Aware Visual Token Pruning (SVTP) to select a compact patch subset once before denoising. Sufficiency-Guided Adaptive Stopping (SGAS) terminates the denoising trajectory early.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 348,
+              "image_path": "figures/2611.16345/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 826
+            },
+            {
+              "caption": "Figure 1: Accuracy-latency Pareto frontier. DRAMA variants (diamonds) dominate the Pareto front, achieving higher accuracy at lower latency than all fixed-budget baselines (triangles).",
+              "figure_id": "figure-1-10",
+              "figure_number": "1",
+              "height": 489,
+              "image_path": "figures/2611.16345/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 829
+            },
+            {
+              "caption": "Figure 5: Distribution of actual denoising steps under SGAS across six benchmarks. Each subplot shows the histogram and KDE for one SGAS variant. FG Uni concentrates most samples at very early steps (µ≈8–12), while CK variants cluster around the first eligible checkpoint (step 16). Progressive scheduling shifts the distribution rightward, reflecting its stricter early-step requirements.",
+              "figure_id": "figure-5-27",
+              "figure_number": "5",
+              "height": 363,
+              "image_path": "figures/2611.16345/figure-003.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 818
+            },
+            {
+              "caption": "Figure 13: Averaged accuracy–latency Pareto frontier across all benchmarks. Each point represents a method’s mean accuracy and mean latency. DRAMA variants occupy the Pareto front, achieving superior accuracy at substantially lower latency than fixed-budget baselines.",
+              "figure_id": "figure-13-2",
+              "figure_number": "13",
+              "height": 586,
+              "image_path": "figures/2611.16345/figure-004.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 806
+            },
+            {
+              "caption": "Figure 11: Temporal redundancy analysis for all benchmarks. (a) Per-layer inter-step JSD across denoising steps. (b) Layer×step redundancy heatmap.",
+              "figure_id": "figure-11-16",
+              "figure_number": "11",
+              "height": 339,
+              "image_path": "figures/2611.16345/figure-005.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 826
+            },
+            {
+              "caption": "Figure 12: DRAMA achieves an average 18.67× inference speedup over fixed-budget baselines across six benchmarks (MMMU [54], AI2D [22], MME [13], MM-Star [8], SEED-Bench [26], and MMBench [33]) while maintaining competitive accuracy.",
+              "figure_id": "figure-12-26",
+              "figure_number": "12",
+              "height": 461,
+              "image_path": "figures/2611.16345/figure-006.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 829
+            },
+            {
+              "caption": "Figure 15: Step distribution – MMBench. The diverse visual content of MMBench leads to a slightly broader stopping distribution compared to simpler benchmarks.",
+              "figure_id": "figure-15-3",
+              "figure_number": "15",
+              "height": 312,
+              "image_path": "figures/2611.16345/figure-007.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 821
+            },
+            {
+              "caption": "Figure 18: Step distribution – MM-Star. Knowledge-intensive queries show stopping patterns similar to MMMU, confirming that task difficulty correlates with stopping behaviour.",
+              "figure_id": "figure-18-24",
+              "figure_number": "18",
+              "height": 312,
+              "image_path": "figures/2611.16345/figure-008.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 819
+            },
+            {
+              "caption": "Figure 16: Step distribution – MME. Perceptual yes/no tasks converge rapidly, with most samples stopping within the first 15–20 steps.",
+              "figure_id": "figure-16-5",
+              "figure_number": "16",
+              "height": 311,
+              "image_path": "figures/2611.16345/figure-009.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 821
+            },
+            {
+              "caption": "Figure 19: Step distribution – SEED-Bench. The diverse scene understanding tasks in SEED-Bench produce a broad stopping distribution, yet SGAS still achieves substantial step savings.",
+              "figure_id": "figure-19-23",
+              "figure_number": "19",
+              "height": 311,
+              "image_path": "figures/2611.16345/figure-010.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 821
+            },
+            {
+              "caption": "Figure 14: Step distribution – AI2D. FG Uni achieves 85%/79% step saving (w/o SVTP / DRAMA) owing to the concentrated spatial attention on diagram elements.",
+              "figure_id": "figure-14-4",
+              "figure_number": "14",
+              "height": 311,
+              "image_path": "figures/2611.16345/figure-011.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 819
+            },
+            {
+              "caption": "Figure 17: Step distribution – MMMU. Multi-discipline knowledge questions exhibit moderate step savings, with progressive scheduling providing a useful accuracy safeguard.",
+              "figure_id": "figure-17-25",
+              "figure_number": "17",
+              "height": 311,
+              "image_path": "figures/2611.16345/figure-012.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 819
+            },
+            {
+              "caption": "Figure 3: Temporal redundancy analysis across the denoising trajectory (averaged over six benchmarks). (a) Per-layer inter-step JSD (J̄l) between consecutive denoising steps; peaks highlight steps of greatest attention change. (b) Redundancy heatmap Rl(t) across layers and steps; bright regions indicate high redundancy (Rl→1). (c) Distribution of actual stopping steps of our proposed DRAMA, whose concentration aligns with the plateau onset in (a).",
+              "figure_id": "figure-3-28",
+              "figure_number": "3",
+              "height": 209,
+              "image_path": "figures/2611.16345/figure-013.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 828
+            },
+            {
+              "caption": "Figure 2: Spatial redundancy analysis. (a) Per-sample attention share of each image patch ranked by dominance. (b) Per-sample attention share distribution of the most-attended patch across the dataset. (c) Cumulative attention coverage by top-k% visual key tokens, stratified by query-key modality pair. (d) Minimum visual tokens needed for 90% attention coverage (κ(0.9)) across denoising steps",
+              "figure_id": "figure-2-19",
+              "figure_number": "2",
+              "height": 170,
+              "image_path": "figures/2611.16345/figure-014.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 826
+            },
+            {
+              "caption": "Figure 6: Spatial redundancy analysis – AI2D. The diagram-centric nature of AI2D leads to highly concentrated attention on a single informative patch.",
+              "figure_id": "figure-6-8",
+              "figure_number": "6",
+              "height": 142,
+              "image_path": "figures/2611.16345/figure-015.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 825
+            },
+            {
+              "caption": "Figure 7: Spatial redundancy analysis – MMBench. Despite diverse image content, the top 2–3 patches consistently capture the majority of output→image attention.",
+              "figure_id": "figure-7-9",
+              "figure_number": "7",
+              "height": 141,
+              "image_path": "figures/2611.16345/figure-016.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 825
+            },
+            {
+              "caption": "Figure 8: Spatial redundancy analysis – MME. Perceptual tasks in MME yield concentrated attention patterns, with κ(0.9) remaining stable across all denoising steps.",
+              "figure_id": "figure-8-11",
+              "figure_number": "8",
+              "height": 142,
+              "image_path": "figures/2611.16345/figure-017.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 825
+            },
+            {
+              "caption": "Figure 9: Spatial redundancy analysis – MM-Star. Knowledge-intensive queries in MM-Star show similar spatial concentration to MMMU.",
+              "figure_id": "figure-9-12",
+              "figure_number": "9",
+              "height": 142,
+              "image_path": "figures/2611.16345/figure-018.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 825
+            },
+            {
+              "caption": "Figure 10: Spatial redundancy analysis – SEED-Bench. SEED-Bench exhibits slightly broader spatial distributions due to its diverse scene understanding tasks, yet the dominant patch still captures ≥40% of attention.",
+              "figure_id": "figure-10-17",
+              "figure_number": "10",
+              "height": 141,
+              "image_path": "figures/2611.16345/figure-019.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 823
+            },
+            {
+              "caption": "Table 1: Results on six benchmarks. Metrics: Acc (%, ↑), Latency (s/sample, ↓), TPS (tokens/s, ↑), Speedup vs. Baseline 64 steps (↑). w/o SGAS uses 32 denoising steps; its Speedup is normalized",
+              "figure_id": "table-1-18",
+              "figure_number": "1",
+              "height": 762,
+              "image_path": "figures/2611.16345/table-020.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 830
+            },
+            {
+              "caption": "Table 3: An example of prompt template",
+              "figure_id": "table-3-7",
+              "figure_number": "3",
+              "height": 320,
+              "image_path": "figures/2611.16345/table-021.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 829
+            },
+            {
+              "caption": "Table 5: Lexical coherence thresholds for all SGAS variants (T =64).",
+              "figure_id": "table-5-29",
+              "figure_number": "5",
+              "height": 427,
+              "image_path": "figures/2611.16345/table-022.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 828
+            },
+            {
+              "caption": "Table 8: Same-backbone wall-clock speedup comparison with RedVTP on LaViDa. RedVTP reports only r = 75% on LaViDa, since LaViDa’s built-in 2× 2 visual-token pooling already retains 25% of the original tokens. RedVTP LaViDa numbers are taken from Xu et al. [50]",
+              "figure_id": "table-8-15",
+              "figure_number": "8",
+              "height": 337,
+              "image_path": "figures/2611.16345/table-023.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 813
+            },
+            {
+              "caption": "Table 7: Per-benchmark comparison with RedVTP on LLaDA-V, both reproduced by us. RedVTP runs at its most aggressive operating point (r=0.25) under the same 32-step think-mode regime as DRAMA.",
+              "figure_id": "table-7-14",
+              "figure_number": "7",
+              "height": 264,
+              "image_path": "figures/2611.16345/table-024.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 829
+            },
+            {
+              "caption": "Table 6: Benchmark results on LaViDa (128 denoising steps, think mode). Sample counts are given in the benchmark headers. Latency is wall-clock seconds per sample and TPS is computed from the fixed generation length of 128 tokens under the measured latency. Metrics: Acc (%, ↑), Latency (s/sample, ↓), TPS (tokens/s, ↑), Speedup vs. the 128-step baseline (↑), Acc Retention (↑).",
+              "figure_id": "table-6-22",
+              "figure_number": "6",
+              "height": 877,
+              "image_path": "figures/2611.16345/table-025.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 830
+            },
+            {
+              "caption": "Table 2: Evaluation splits used in our experiments.",
+              "figure_id": "table-2-13",
+              "figure_number": "2",
+              "height": 165,
+              "image_path": "figures/2611.16345/table-026.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 448
+            },
+            {
+              "caption": "Table 10: Held-out evaluation on POPE and TextVQA, both on LLaDA-V. Neither benchmark was used when setting any threshold. Speedup is wall-clock against the 64-step baseline of the same benchmark. POPE reports F1 on 500 samples; TextVQA reports accuracy on 100 samples. “SGAS only” is DRAMA with SVTP disabled.",
+              "figure_id": "table-10-21",
+              "figure_number": "10",
+              "height": 230,
+              "image_path": "figures/2611.16345/table-027.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 544
+            },
+            {
+              "caption": "Table 4: SGAS configuration variants. All variants share T =64, Tmin=1.",
+              "figure_id": "table-4-6",
+              "figure_number": "4",
+              "height": 125,
+              "image_path": "figures/2611.16345/table-028.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 468
+            },
+            {
+              "caption": "Table 9: Comparison with D3ToM on LaViDa. All rows are re-run by us under 128-step think mode, D3ToM included, so that accuracy and speedup are measured under one regime against one baseline; retention is accuracy divided by that baseline. Rows use the full set for AI2D, MME, MMMU,",
+              "figure_id": "table-9-20",
+              "figure_number": "9",
+              "height": 195,
+              "image_path": "figures/2611.16345/table-029.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 830
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.16345/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.16345",
+          "relevance": 8,
+          "selection_reason": "Accelerates multimodal dLLM inference via visual token pruning and adaptive stopping.",
+          "summary_status": "generated",
+          "title": "DRAMA: Dissecting Attention Redundancy for Accelerating Multimodal Diffusion Large Language Models",
+          "tldr": "DRAMA accelerates multimodal diffusion LLM inference by pruning redundant visual tokens and adaptively stopping denoising once attention stabilizes.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Deploying real-time object detection on power-constrained edge platforms is challenging as processing full-resolution frames is often computationally redundant. Inspired by biological foveation which assigns variable resolution based on visual saliency, we propose a novel software-hardware co-design framework called FoveaDet. On the software side, FoveaDet dynamically identifies salient regions to predict fixation points, followed by aggressive patch pruning in Vision Transformers (ViT) to discard irrelevant background data. To mitigate slowdowns from sequential patch generation, we implement optimized interpolation and patch selection algorithms. Evaluated on standard GPUs, this foveated approach reduces floating-point operations by 65.4% to 92.2% and accelerates inference by 4.76x, while suffering a negligible mAP drop compared to dense baselines. To eliminate hardware bottlenecks, we complement the algorithm with a custom RISC-V core featuring specialized instructions to accelerate the foveated processing pipeline. FoveaDet provides a scalable, efficient architecture capable of unlocking advanced vision processing on severely constrained mobile platforms.",
+          "arxiv_id": "2611.15579",
+          "arxiv_url": "https://arxiv.org/abs/2611.15579",
+          "authors": [
+            "Deepak Mewada, Apporva Saraf, Ashwin Lele"
+          ],
+          "bullets": [
+            "Targets the redundant computation and hardware bottlenecks of full-resolution object detection on power-constrained platforms.",
+            "Dynamically predicts salient fixation points and prunes irrelevant background patches in Vision Transformers.",
+            "Uses optimized interpolation and patch-selection algorithms to reduce sequential patch-generation overhead.",
+            "On standard GPUs, reduces floating-point operations by 65.4%–92.2% and achieves 4.76× faster inference with negligible mAP loss.",
+            "Adds a custom RISC-V core with specialized instructions for the foveated processing pipeline."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 1. A. Challenge of redundant processing and biological counterpart B. Overview of proposed solution",
+              "figure_id": "figure-1-9",
+              "figure_number": "1",
+              "height": 297,
+              "image_path": "figures/2611.15579/figure-001.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 1201
+            },
+            {
+              "caption": "Fig. 4. Empirical Pareto optimality curve describing the improvement provided by foveated object detection pipeline.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 329,
+              "image_path": "figures/2611.15579/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 515
+            },
+            {
+              "caption": "Fig. 2. FoveaDet: (Step 1) A lightweight CNN guidance head generates fixation heatmap to sample K diverse foveal fixations. (Step 2) K highresolution foveal patches are assembled with coarse global context tokens into a compact sequence. (Step 3) A standard ViT backbone and detection heads predict final class labels and bounding boxes.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 301,
+              "image_path": "figures/2611.15579/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 538
+            },
+            {
+              "caption": "Fig. 6. Block diagram of RISC-V CPU core with token selection acceleration and cycle count for each hardware configuration.",
+              "figure_id": "figure-6-8",
+              "figure_number": "6",
+              "height": 286,
+              "image_path": "figures/2611.15579/figure-004.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 540
+            },
+            {
+              "caption": "Fig. 5. Stage-wise latency breakdown (ms) of the dense ViT and FoveaDet before and after software optimization on an NVIDIA GTX 1650.",
+              "figure_id": "figure-5-6",
+              "figure_number": "5",
+              "height": 209,
+              "image_path": "figures/2611.15579/figure-005.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 502
+            },
+            {
+              "caption": "Fig. 3. Example of (a) Identified fixation centres (b) Foveated image (c) FoveaDet detection",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 169,
+              "image_path": "figures/2611.15579/figure-006.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 540
+            },
+            {
+              "caption": "TABLE III COMPARISON WITH OBJECT DETECTORS ON MS-COCO",
+              "figure_id": "table-III-7",
+              "figure_number": "III",
+              "height": 289,
+              "image_path": "figures/2611.15579/table-007.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 523
+            },
+            {
+              "caption": "TABLE I PERFORMANCE WITH CONVNEXT-FEMTO GUIDANCE",
+              "figure_id": "table-I-2",
+              "figure_number": "I",
+              "height": 258,
+              "image_path": "figures/2611.15579/table-008.webp",
+              "kind": "table",
+              "page": 3,
+              "width": 529
+            },
+            {
+              "caption": "TABLE II PERFORMANCE WITH MOBILENETV3-SMALL GUIDANCE",
+              "figure_id": "table-II-3",
+              "figure_number": "II",
+              "height": 256,
+              "image_path": "figures/2611.15579/table-009.webp",
+              "kind": "table",
+              "page": 3,
+              "width": 529
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.15579/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.15579",
+          "relevance": 8,
+          "selection_reason": "Proposes token/patch pruning in ViT for efficient object detection, fitting efficient AI and token pruning.",
+          "summary_status": "generated",
+          "title": "FoveaDet: Software-Hardware Co-Design of Foveated CNN-Transformer for Object Detection",
+          "tldr": "FoveaDet co-designs foveated vision algorithms and specialized hardware to make object detection substantially more efficient on constrained edge devices with minimal accuracy loss.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Visual token pruning reduces the inference cost of multimodal large language models, but answer accuracy only partly reflects its effect. Pruning can change the probabilities of alternative response tokens even when greedy answers remain correct and unchanged. We compare full and pruned response distributions under shared reference prefixes. Average predictive drift grows with compression on fixed correctly answered samples. Separate analyses associate larger drift with more confidence-decision disagreements and sampling failures. We propose DiFiT (Distribution-Fidelity-guided Token pruning) to learn discrete selection from reference answers and full-token response distributions. Dual-View Distillation matches probabilities across the vocabulary, while answer supervision supports task quality. A learned scorer and differentiable Top-$K$ learn which visual evidence to retain. A multi-budget mask objective supports different retention ratios through one shared ranking over a frozen model. On Qwen2.5-VL-7B, DiFiT reduces sampling-induced negative flips by 30.3% relative to FastV at 10% retention on four-task greedy-correct controls. It preserves 98.74% of baseline performance on MME at 30% retention.",
+          "arxiv_id": "2611.15069",
+          "arxiv_url": "https://arxiv.org/abs/2611.15069",
+          "authors": [
+            "Jingyuan Zhang, Nihao Niu, Xinyang Lv, Beibei Han, Xiaoyun Wang, Yanning Hou, Ke Xu"
+          ],
+          "bullets": [
+            "Visual token pruning can alter alternative-token probabilities even when greedy answers stay unchanged.",
+            "DiFiT learns which visual tokens to retain using full-model response distributions and reference-answer supervision.",
+            "Dual-View Distillation aligns vocabulary-level probabilities, while differentiable Top-K selection supports discrete pruning.",
+            "A shared ranking supports multiple retention budgets with one frozen model.",
+            "On Qwen2.5-VL-7B, it reduces sampling-induced negative flips by 30.3% versus FastV at 10% retention and preserves 98.74% of baseline MME performance at 30% retention."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 4. Confidence-threshold results on the full set, averaged over five splits and equally across four tasks. AURC evaluates selective prediction across confidence thresholds; the remaining panels transfer a threshold calibrated to 80% full-model coverage. Coverage gap is plotted by magnitude. Lower is better in all panels, and lines connect the 20% and 10% budgets for the same method. DiFiT gives the lowest AURC and most closely preserves the full model’s decisions at the same confidence threshold.",
+              "figure_id": "figure-4-10",
+              "figure_number": "4",
+              "height": 414,
+              "image_path": "figures/2611.15069/figure-001.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 492
+            },
+            {
+              "caption": "Fig. 7. DocVQA performance–efficiency trade-off. The horizontal axis shows prefill speedup relative to the full-token model, and the vertical axis shows performance retention. Bubble sizes and annotations indicate peak GPU memory. Token-selection overhead can increase peak memory despite a smaller retained sequence.",
+              "figure_id": "figure-7-4",
+              "figure_number": "7",
+              "height": 394,
+              "image_path": "figures/2611.15069/figure-002.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 509
+            },
+            {
+              "caption": "Fig. 6. Decision disagreements and sampling errors increase with predictive drift on correct, output-matched samples. Five equal-sized groups run from low to high JS within each method, task, and budget. Q1 and Q5 are the lowest- and highest-drift groups. Both rates increase from the lowest- to the highest-drift group for every pruning method.",
+              "figure_id": "figure-6-8",
+              "figure_number": "6",
+              "height": 335,
+              "image_path": "figures/2611.15069/figure-003.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 474
+            },
+            {
+              "caption": "Fig. 5. Separate DocVQA results at different token budgets on the full evaluation set for DiFiT. ANLS includes standard-error bars; performance retention uses the full-token ANLS of 94.78% as its denominator. Predictive divergences use the full evaluation set without requiring identical answers. In the top panel, dashed denotes retention and solid denotes ANLS.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 589,
+              "image_path": "figures/2611.15069/figure-004.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 498
+            },
+            {
+              "caption": "Fig. 3. Predictive divergence under output matching. Panels (a,b) use fourtask output-matched sets containing 9,189, 7,201, and 4,383 samples at 30%, 20%, and 10%. Panels (c,d) track fixed output-matched sets: AI2D (1,665), DocVQA (674), OCRBench (20), and TextVQA (1,755). Points are equally weighted task averages; lower is better. The small OCRBench fixed sample set limits interpretation. The stricter three-task fixed correct output-matched set appears in Table VI(B); it is distinct from panels (c,d).",
+              "figure_id": "figure-3-13",
+              "figure_number": "3",
+              "height": 191,
+              "image_path": "figures/2611.15069/figure-005.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 493
+            },
+            {
+              "caption": "TABLE I IMAGE-LANGUAGE RESULTS ON QWEN2.5-VL-7B. AVG. IS THE MEAN OF EIGHT TASK SCORES DIVIDED BY THEIR FULL-TOKEN SCORES (%). BOLD AND UNDERLINED VALUES MARK THE BEST AND SECOND-BEST PRUNING RESULTS; † MARKS TRAINING-BASED METHODS.",
+              "figure_id": "table-I-14",
+              "figure_number": "I",
+              "height": 792,
+              "image_path": "figures/2611.15069/table-006.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE II IMAGE-LANGUAGE RESULTS ON QWEN2.5-VL-3B. FULL TOKENS DEFINE 100% RETENTION. BOLD AND UNDERLINED VALUES MARK THE BEST AND SECOND-BEST PRUNING RESULTS; † DENOTES TRAINING-BASED METHODS THAT USE THE SAME TRAINING DATA.",
+              "figure_id": "table-II-1",
+              "figure_number": "II",
+              "height": 763,
+              "image_path": "figures/2611.15069/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE III IMAGE-LANGUAGE RESULTS ON LLAVA-ONEVISION-1.5-8B. FULL TOKENS DEFINE 100% RETENTION. BOLD AND UNDERLINED VALUES MARK THE BEST AND SECOND-BEST PRUNING RESULTS; † DENOTES TRAINING-BASED METHODS THAT USE THE SAME TRAINING DATA.",
+              "figure_id": "table-III-5",
+              "figure_number": "III",
+              "height": 436,
+              "image_path": "figures/2611.15069/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE VII RESULTS FROM REUSING A FIXED THRESHOLD SET FOR 90% FULL-MODEL COVERAGE, AVERAGED OVER FIVE SPLITS AND FOUR TASKS. COVERAGE GAP IS THE ABSOLUTE PRUNED-MINUS-FULL DIFFERENCE; RISK GAP REMAINS SIGNED (PP). A/R IS ACCEPT/REJECT DISAGREEMENT. BOLD VALUES MARK THE BEST RESULT AMONG PRUNING METHODS WITHIN EACH TOKEN BUDGET.",
+              "figure_id": "table-VII-11",
+              "figure_number": "VII",
+              "height": 334,
+              "image_path": "figures/2611.15069/table-009.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 529
+            },
+            {
+              "caption": "TABLE IV MVBENCH PERFORMANCE AND EFFICIENCY AT 20% RETENTION. QWEN2.5-VL-7B IS USED FOR ALL METHODS IN THIS COMPARISON.",
+              "figure_id": "table-IV-6",
+              "figure_number": "IV",
+              "height": 185,
+              "image_path": "figures/2611.15069/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 529
+            },
+            {
+              "caption": "TABLE VI PREDICTIVE FIDELITY UNDER STRICT OUTPUT CONTROLS ON QWEN2.5-VL-7B. ALL METRICS ARE EQUALLY WEIGHTED TASK AVERAGES EVALUATED UNDER SHARED REFERENCE PREFIXES. LOWER JS/KL AND HIGHER VOCABULARY OVERLAP INDICATE GREATER FIDELITY.",
+              "figure_id": "table-VI-9",
+              "figure_number": "VI",
+              "height": 352,
+              "image_path": "figures/2611.15069/table-011.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 1090
+            },
+            {
+              "caption": "TABLE VIII ACCEPT/REJECT DISAGREEMENT (%) AT 90% TARGET COVERAGE ON COMMON-CORRECT AND OUTPUT-MATCHED SETS, AVERAGED ACROSS FIVE SPLITS AND FOUR TASKS. LOWER VALUES INDICATE CLOSER AGREEMENT WITH THE FULL MODEL’S ACCEPTANCE DECISIONS.",
+              "figure_id": "table-VIII-12",
+              "figure_number": "VIII",
+              "height": 221,
+              "image_path": "figures/2611.15069/table-012.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 529
+            },
+            {
+              "caption": "TABLE XII TRAINING-DATA MIXTURES AT 20% RETENTION FROM EARLIER INDEPENDENT CHECKPOINTS, DISTINCT FROM TABLE I. RATIOS DENOTE CHARTQA/OCR-VQA/COCO.",
+              "figure_id": "table-XII-2",
+              "figure_number": "XII",
+              "height": 201,
+              "image_path": "figures/2611.15069/table-013.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 529
+            },
+            {
+              "caption": "TABLE XI HYPERPARAMETER SENSITIVITY ON QWEN2.5-VL-7B AT 20% TOKEN RETENTION. EACH VARIANT CHANGES ONE SETTING FROM λ : 0.1–2.0, γ = 0.5, τ = 2. AVG. RET. AVERAGES THE FIVE SCORES NORMALIZED BY FULL IN TABLE I. THE LAST ROW USES OUR SCORES FROM THAT TABLE.",
+              "figure_id": "table-XI-3",
+              "figure_number": "XI",
+              "height": 193,
+              "image_path": "figures/2611.15069/table-014.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 492
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.15069/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.15069",
+          "relevance": 8,
+          "selection_reason": "Presents visual token pruning for multimodal LLMs guided by distribution fidelity, directly fitting token pruning and multimodal LLM interests.",
+          "summary_status": "generated",
+          "title": "DiFiT: Distribution-Fidelity-guided Visual Token Pruning for Multimodal Large Language Models",
+          "tldr": "DiFiT prunes visual tokens for multimodal LLMs while preserving response distributions, reducing sampling errors under aggressive compression.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "multimodal-large-language-models"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Deep neural networks typically realize dense computation by propagating information through all intermediate channels, while many approximation methods rank and retain individual computational components. We ask whether dense neural computation can instead be represented exactly as an expectation over a combinatorial state space, and approximated by evaluating only its most probable configurations. We introduce a novel probabilistic state-space framework for Transformer MLPs. The framework partitions the intermediate dimension into channel groups, defines an input-dependent distribution over binary inclusion states, and uses importance-corrected masked outputs such that the full expectation exactly recovers the dense MLP output. The key algorithmic novelty is NORDER-II, which enumerates complete joint states in decreasing probability without constructing or sorting the exponentially large state space. Truncating this ordering yields an anytime approximation governed by cumulative probability mass and a state budget. On Llama-3.2-1B and Gemma-2-2B, NORDER-II at a state budget of B=2048 achieves 92.4% and 93.8% MLP-output approximation accuracy, compared with 76.9% and 79.8% for Channel Top-k. When the first, middle, and last MLP layers are approximated jointly, WikiText-2 perplexity remains within 0.06% and 0.54% of dense inference. Relative to expected-count Grouped Top-k, NORDER-II yields 82.6% to 126.4% relative accuracy gains with only 0.18% to 0.19% additional local analytic FLOPs. These results establish the significance of joint-state structure beyond atomic salience and point to a new paradigm for neural computation: dense layers can be viewed as structured probabilistic inference over combinatorial computational states. This framework opens a path toward adaptive, probability-mass-controlled computation in pretrained neural networks.",
+          "arxiv_id": "2611.15062",
+          "arxiv_url": "https://arxiv.org/abs/2611.15062",
+          "authors": [
+            "Victor O. K. Li, Yang Han, Jacqueline C. K. Lam"
+          ],
+          "bullets": [
+            "Partitions MLP channels into groups and defines input-dependent binary inclusion states with importance-corrected outputs.",
+            "NORDER-II enumerates complete joint states in decreasing probability without materializing the exponential state space.",
+            "At budget B=2048, it achieves 92.4% and 93.8% MLP-output accuracy on Llama-3.2-1B and Gemma-2-2B, outperforming Channel Top-k.",
+            "Joint approximation of selected MLP layers keeps WikiText-2 perplexity within 0.06% and 0.54% of dense inference.",
+            "Results support probability-mass-controlled, adaptive computation based on joint-state structure rather than individual channel salience."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Controlled trained-network illustration. Probability-ordered joint prefixes reduce logit KL (lower is better) relative to random prefixes as the joint-state budget increases.",
+              "figure_id": "figure-1-3",
+              "figure_number": "1",
+              "height": 431,
+              "image_path": "figures/2611.15062/figure-001.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 706
+            },
+            {
+              "caption": "Table 1: Local transformer MLP comparisons at G = 12 and τ = 0.95. Budget denotes states for joint-state methods and channels for Channel Top-k; Grouped Top-k has no joint-state budget. Acc. is approximation accuracy; Cos. is cosine similarity. Mass is cumulative joint-state prefix mass and is not defined for Channel or Grouped Top-k. Ch./grp. frac. is the retained channel or group fraction.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 411,
+              "image_path": "figures/2611.15062/table-002.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 682
+            },
+            {
+              "caption": "Table 3: Local per-token-layer FLOP accounting at G = 12. Total FLOPs include shared groupcontribution computation and method-specific aggregation. Relative gains and FLOP increases use expected-count Grouped Top-k as the within-model baseline; mass is cumulative joint-state prefix mass.",
+              "figure_id": "table-3-6",
+              "figure_number": "3",
+              "height": 204,
+              "image_path": "figures/2611.15062/table-003.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 826
+            },
+            {
+              "caption": "Table 2: Next-token NLL and perplexity on 4,096 WIKITEXT-2 targets when the first, middle, and last MLP layers are approximated jointly. Grouped Top-k is the expected-count baseline.",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 224,
+              "image_path": "figures/2611.15062/table-004.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 360
+            },
+            {
+              "caption": "Table 4: Controlled exhaustive-enumeration check at τ = 0.95. NORDER-II selects the same ordered states as exhaustive sorting in all rows.",
+              "figure_id": "table-4-4",
+              "figure_number": "4",
+              "height": 133,
+              "image_path": "figures/2611.15062/table-005.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 348
+            },
+            {
+              "caption": "Table 8: Atomic probability-mass truncation applied to feed-forward layers in GPT-2-XL using WIKITEXT-2.",
+              "figure_id": "table-8-8",
+              "figure_number": "8",
+              "height": 225,
+              "image_path": "figures/2611.15062/table-006.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 440
+            },
+            {
+              "caption": "Table 7: Atomic probability-mass truncation applied to self-attention layers in GPT-2-XL using WIKITEXT-2.",
+              "figure_id": "table-7-7",
+              "figure_number": "7",
+              "height": 224,
+              "image_path": "figures/2611.15062/table-007.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 418
+            },
+            {
+              "caption": "Table 6: Selected joint-state local transformer MLP approximation results at τ = 0.95 for G = 12 and G = 16. Acc. is approximation accuracy. Mass is covered joint probability mass.",
+              "figure_id": "table-6-1",
+              "figure_number": "6",
+              "height": 413,
+              "image_path": "figures/2611.15062/table-008.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 456
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.15062/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.15062",
+          "relevance": 7,
+          "selection_reason": "Introduces NORDER-II to approximate dense MLP computation via probabilistic state enumeration, offering a new efficiency mechanism for LLMs.",
+          "summary_status": "generated",
+          "title": "Probabilistic State Space Enumeration in Neural Network Computation",
+          "tldr": "NORDER-II represents dense Transformer MLPs exactly as expectations over probabilistic joint channel states and efficiently approximates them by enumerating the most likely states.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "large-language-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Many advances in ML systems came from breaking an assumption that earlier methods took for granted: speculative decoding dropped the assumption that a model needs one forward pass per token. Yet algorithms rarely state their assumptions, so experts and discovery harnesses search over programs, where one edit changes several design choices and gains are difficult to attribute. Searching over the assumptions themselves remains largely unexplored. Writing algorithms as proofs makes their assumptions explicit and turns algorithm design into a search over a small, structured space that an LLM can explore and a proof checker can audit. We formalize 89 algorithms from KV-cache eviction, weight pruning and speculative decoding as proof graphs with explicit assumptions, checked in Lean. Our harness, AutoAssumption, relaxes one assumption of a published method, re-derives and re-proves it, and generates its code. In KV-cache eviction and weight pruning, this search improved on every published algorithm we ran and produced state-of-the-art algorithms. The eviction algorithm has the highest RULER-4K score of the published methods we ran, and the pruning algorithm the lowest perplexity of thirteen on four LLaMA models. At equal budget, the harness scores within a point of OpenEvolve, an open-source implementation of AlphaEvolve, with a lower standard deviation across repeats. Future work will formalize more fields and combine them through the principal assumptions they share.",
+          "arxiv_id": "2611.14844",
+          "arxiv_url": "https://arxiv.org/abs/2611.14844",
+          "authors": [
+            "Igor Sadalski, Minghao Guo, Benjamin Jones, Wojciech Matusik"
+          ],
+          "bullets": [
+            "Recasts algorithms as proof graphs whose assumptions are explicit and auditable.",
+            "Uses an LLM to relax one assumption, re-derive and re-prove the algorithm in Lean, then generate code.",
+            "Formalizes 89 algorithms spanning KV-cache eviction, weight pruning, and speculative decoding.",
+            "Improved on every evaluated published algorithm in KV-cache eviction and weight pruning.",
+            "Matched OpenEvolve within a point at equal budget, with lower repeat-to-repeat variability."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 7. Our three variants rank at or near the top of their fields, hold up across each field’s sweep and remain practical to run. AutoAssumption pushes the state of the art in KV-cache eviction and LLM weight pruning and creates a competitive speculative decoding algorithm (A, D, G). The three variants match or outperform the published algorithms shown at every point of the sweep each field reports, except at 64× KV-cache compression on Llama, where KVGrad leads by 0.8 points (B, E, H). Our variants take about as much time as their parents in all three fields (C, F, I). Error bars as in Table 1; in D, a paired bootstrap SE over the WikiText-2 windows.",
+              "figure_id": "figure-7-7",
+              "figure_number": "7",
+              "height": 694,
+              "image_path": "figures/2611.14844/figure-001.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1003
+            },
+            {
+              "caption": "Figure 2. Records in KV-cache eviction coincide with new assumptions. Top: mean RULER-4K score of published algorithms by release date (KVPress, Llama-3.1-8B-Instruct and Qwen3-8B, 2×–64× compression, subsampled questions). The step line is the best score so far, bold labels name records, and squares mark query-aware algorithms. Bottom: one row per assumption shared by at least two algorithms; a dot marks an algorithm that makes it, and a ring the first algorithm to do so. The Foundational row holds the assumptions of H2O.",
+              "figure_id": "figure-2-10",
+              "figure_number": "2",
+              "height": 512,
+              "image_path": "figures/2611.14844/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1014
+            },
+            {
+              "caption": "Figure 9. Our runs reproduce the published leaderboards. Each point is one published algorithm, in (a) at one model and compression ratio (2×–32×). (a) Horizontal bars: ±1 bootstrap standard deviation of our score over questions (the leaderboard publishes no perquestion data); inset: the boxed region, enlarged. (b) Vicuna-7B-v1.3 target, greedy decoding (T = 0); each published value is a mean of three runs.",
+              "figure_id": "figure-9-18",
+              "figure_number": "9",
+              "height": 530,
+              "image_path": "figures/2611.14844/figure-003.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 971
+            },
+            {
+              "caption": "Figure 11. Formalizing a published algorithm with two agents. Top: the files each agent reads and writes for one algorithm, and the pool merged over all algorithms. Bottom: each agent box expanded into the workflow of its prompt (Appendices D.1 and D.2), with steps numbered as in the prompt. Grey: files a step starts from; blue: files it writes; red: checks, with arrows to the step a failure returns to.",
+              "figure_id": "figure-11-9",
+              "figure_number": "11",
+              "height": 815,
+              "image_path": "figures/2611.14844/figure-004.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 1013
+            },
+            {
+              "caption": "Figure 8. AutoAssumption finishes level with the code-level LLM harnesses and improves more steadily, with a smaller spread across repeats. OpenEvolve and AIDE jump early and then gain little; AutoAssumption, changing one assumption per step, rises at almost every step and ends at 79.3, against 79.7 and 78.5. All three start from RestoreKV; Fable from scratch has no parent. Scores average 200 RULER-4K questions, Llama-3.1-8BInstruct and Qwen3-8B, and 2×–64× compression. Lines: mean of three repeats; error bars: minimum to maximum.",
+              "figure_id": "figure-8-15",
+              "figure_number": "8",
+              "height": 855,
+              "image_path": "figures/2611.14844/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 494
+            },
+            {
+              "caption": "Figure 5. A search chain in KV-cache eviction: each accepted variant changes one assumption of the current best and becomes the next parent. The best of the three repeats of Figure 8, starting from RestoreKV, on a fixed draw of 200 RULER-4K questions. Above: the proof graphs of variants 1, 4 and 9. The line is the best variant score so far (RestoreKV itself, 72.9, is not plotted); filled triangles mark variants that set a new best and became the next parent, hollow ones variants that did not. Error bars (±1 SD over question bootstraps, about 0.5; Appendix G.1) barely extend beyond the markers.",
+              "figure_id": "figure-5-17",
+              "figure_number": "5",
+              "height": 741,
+              "image_path": "figures/2611.14844/figure-006.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 493
+            },
+            {
+              "caption": "Figure 3. The exactness proof of speculative sampling (Leviathan et al., 2023) can be represented as a proof graph. The graph contains every node of Appendix H. Its columns hold the assumptions A, the definitions D and the theorems T ; open discs are lemmas L. Each call-out paraphrases the highlighted node of the same colour, and the badge marks that the proof compiles in Lean.",
+              "figure_id": "figure-3-11",
+              "figure_number": "3",
+              "height": 189,
+              "image_path": "figures/2611.14844/figure-007.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 492
+            },
+            {
+              "caption": "Figure 12. Making one variant. Top: the files the agent with Prompt 3 (Appendix D.3) reads and writes. Bottom: the agent box opened into the workflow of Prompt 3, numbered as in the prompt. Grey: files a step starts from; blue: files it writes and the scores returning to the agent; red: checks and the step a failure returns to, as in Figure 11.",
+              "figure_id": "figure-12-13",
+              "figure_number": "12",
+              "height": 827,
+              "image_path": "figures/2611.14844/figure-008.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 1013
+            },
+            {
+              "caption": "Figure 10. Stage 1 selects a field’s reproducible algorithms and finds one problem that all of them can be proved to solve. Black discs number the steps, and boxes with a blue border are outputs. Red marks the algorithms dropped at a step and the request for a new formulation when the Lean file of a sampled algorithm does not build.",
+              "figure_id": "figure-10-5",
+              "figure_number": "10",
+              "height": 447,
+              "image_path": "figures/2611.14844/figure-009.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 989
+            },
+            {
+              "caption": "Figure 13. KVGrad EA (ours) lies above every prior design at 16×–64× compression, where it gains 6.9 points on average over its parent KVGrad (3.7 points over 2×–64×). RULER-4K, mean of Llama-3.1-8B-Instruct and Qwen3-8B. The 33 query-agnostic prior designs (grey unless the legend names them) are each drawn at the largest number of questions both models finished (300 or 6,500); KVGrad EA (ours) and KVGrad use 6,500. Table 5 lists the named prior algorithms per model.",
+              "figure_id": "figure-13-22",
+              "figure_number": "13",
+              "height": 461,
+              "image_path": "figures/2611.14844/figure-010.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 495
+            },
+            {
+              "caption": "Figure 3. The proof graph of this appendix, repeated from Figure 3. Lines are drawn after transitive reduction, so indirect citations are omitted; the arrows into P come from the claims that answer the problem. Enlarged discs mark Assumption A5, which SVIP relaxes, and the exactness and token-count claims; the dark curve along the bottom is the only citation of Assumption A5, by Theorem T2.",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 189,
+              "image_path": "figures/2611.14844/figure-011.webp",
+              "kind": "figure",
+              "page": 47,
+              "width": 492
+            },
+            {
+              "caption": "Table 3. The two best discovered variants hold beyond the search setting. Top: RestoreKV GM (ours) against its parent, score averaged over 2×–64×; the search used 200 RULER-4K questions, and 8K and 16K contexts and LongBench are settings it never saw. ∆: variant minus parent, computed from unrounded means, ±1 SD from bootstrapping the questions. Bottom: WikiText-2 perplexity at 50 % sparsity divided by the dense model’s, lower is better; the search used only LLaMA-7B. The ranking holds across all thirteen pruning algorithms we ran; the table shows a selection, and Appendix Table 9 gives every algorithm.",
+              "figure_id": "table-3-16",
+              "figure_number": "3",
+              "height": 215,
+              "image_path": "figures/2611.14844/table-012.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 458
+            },
+            {
+              "caption": "Table 13. The best variant of each of the 26 parent algorithms on its field’s search benchmark. Variants: how many the harness derived from the parent; Better: how many score above it. Gain: best variant minus parent, in RULER-4K points (200 questions, mean of both models and six compression ratios), WikiText-2 perplexity of LLaMA-7B at 50 % sparsity (sign flipped, so positive is better) and speedup over autoregressive decoding (Vicuna-7B, mean of five temperatures); Gain (%): relative to the parent.",
+              "figure_id": "table-13-8",
+              "figure_number": "13",
+              "height": 669,
+              "image_path": "figures/2611.14844/table-013.webp",
+              "kind": "table",
+              "page": 29,
+              "width": 808
+            },
+            {
+              "caption": "Table 4. GPU, NVIDIA driver, CPU, Python, PyTorch, libraries and precision of the machine behind each field’s experiments (KV-cache eviction, weight pruning, speculative decoding). One GPU per job. Driver column: highest CUDA version the driver supports; brackets: CUDA runtime PyTorch was built against.",
+              "figure_id": "table-4-12",
+              "figure_number": "4",
+              "height": 288,
+              "image_path": "figures/2611.14844/table-014.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 1004
+            },
+            {
+              "caption": "Table 8. Time to first token of no eviction, KVGrad, RestoreKV, KVzip, KVzip+ and RestoreKV GM (ours) at 4K to 64K tokens. Seconds, mean ± SD over seven timing passes of two fixed RULER prompts, Llama-3.1-8B-Instruct on one H100, no eviction at full cache and every other method at 16× compression; the first row is the KV-cache size reduction of the compressing methods. Ours in bold.",
+              "figure_id": "table-8-2",
+              "figure_number": "8",
+              "height": 237,
+              "image_path": "figures/2611.14844/table-015.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 731
+            },
+            {
+              "caption": "Table 12. Running best RULER-4k score after 1 to 10 algorithms of Fable from scratch, AIDE, OpenEvolve and our harness (the numbers of Figure 8). Score: the mean of the 12 cells, Llama-3.1-8B-Instruct and Qwen3-8B at 2×–64× (200 questions); each cell is the mean over three repeats per search, with the minimum and maximum across the repeats beneath it in small grey print. OpenEvolve, AIDE and ours start from RestoreKV, whose own score is excluded. Per column, bold: the highest mean; underlined: the second highest, ranked before rounding. ⋆: found by our harness.",
+              "figure_id": "table-12-14",
+              "figure_number": "12",
+              "height": 321,
+              "image_path": "figures/2611.14844/table-016.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 867
+            },
+            {
+              "caption": "Table 9. WikiText-2 test perplexity of eleven published pruners and Pruner-Zero LG (ours) on LLaMA 7B, 13B and 30B and LLaMA-2 7B at 50 % unstructured sparsity. The values behind the bottom of Table 3 and Figure 7D; lower is better. Rows: the two baselines, the eleven published algorithms and ours, Pruner-Zero LG (ours), in bold. Bold = best, underlined = second best in the column, Dense excluded. One seed-0 run per cell, 128 C4 calibration windows of 2,048 tokens, fp16, H100.",
+              "figure_id": "table-9-4",
+              "figure_number": "9",
+              "height": 404,
+              "image_path": "figures/2611.14844/table-017.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 579
+            },
+            {
+              "caption": "Table 5. RULER-4K scores of the published algorithms named in Figure 13 and of RestoreKV GM (ours), per model and compression ratio. Each algorithm at the largest number of questions both models finished (Questions; 300 is nested in the 6,500); Mean covers the 12 cells. ±: one bootstrap SD over the question draw. Bold: best in the column; underlined: second best, at the printed precision.",
+              "figure_id": "table-5-21",
+              "figure_number": "5",
+              "height": 58,
+              "image_path": "figures/2611.14844/table-018.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 1012
+            },
+            {
+              "caption": "Table 6. Full RULER-4K scores (6,500 questions) of KVzip, KVzip+, RestoreKV and RestoreKV GM (ours), per model and compression ratio. Small figures: RestoreKV GM minus RestoreKV, green where a two-sided z-test gives p < 0.05, grey otherwise (Appendix G). Table 5 gives the error bars.",
+              "figure_id": "table-6-3",
+              "figure_number": "6",
+              "height": 169,
+              "image_path": "figures/2611.14844/table-019.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 1012
+            },
+            {
+              "caption": "Table 11. Zero-shot accuracy on seven tasks of eleven published pruners and Pruner-Zero LG (ours) on LLaMA-7B at 50 % unstructured sparsity. lm-eval accuracy (%, higher is better) on BoolQ, RTE, HellaSwag, WinoGrande, ARC-easy, ARC-challenge and OpenBookQA, and their mean; same rows, runs and marking as Table 9.",
+              "figure_id": "table-11-19",
+              "figure_number": "11",
+              "height": 332,
+              "image_path": "figures/2611.14844/table-020.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 509
+            },
+            {
+              "caption": "Table 10. WikiText-2 test perplexity of eleven published pruners and Pruner-Zero LG (ours) on LLaMA-7B at 10, 20, 30 and 40 % unstructured sparsity. The values of Figure 7E; lower is better; the 50 % column is in Table 9. Same rows, runs and marking as Table 9.",
+              "figure_id": "table-10-20",
+              "figure_number": "10",
+              "height": 404,
+              "image_path": "figures/2611.14844/table-021.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 337
+            },
+            {
+              "caption": "Table 7. Scores of RestoreKV and RestoreKV GM (ours) at 8K and 16K contexts, on Qwen3-8B and on LongBench, per compression ratio. Mean is the value in the top of Table 3. ±: one bootstrap SD over the question draw. Bold: the higher of the two.",
+              "figure_id": "table-7-1",
+              "figure_number": "7",
+              "height": 40,
+              "image_path": "figures/2611.14844/table-022.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 975
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.14844/hero.webp",
+          "novelty": 9,
+          "pdf_url": "https://arxiv.org/pdf/2611.14844",
+          "relevance": 8,
+          "selection_reason": "Directly proposes algorithms for KV-cache eviction and weight pruning via assumption search, fitting efficient-AI methods for token/memory reduction.",
+          "summary_status": "generated",
+          "title": "AutoAssumption: Searching over Assumptions Discovers ML-Systems Algorithms",
+          "tldr": "AutoAssumption searches over explicit algorithmic assumptions, using checked proofs to discover new ML-systems algorithms and achieve state-of-the-art results in KV-cache eviction and weight pruning.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction",
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Classification of lung adenocarcinoma into poorly differentiated (PD) and well-to-moderately differentiated (WMD) subtypes plays an important role in patient survival; however, consistent classification is difficult due to inter-observer variability among pathologists. Collecting data from multiple hospitals is also challenging due to patient privacy concerns. This study proposes a web-based federated learning system that shares only locally trained model weights without sharing patient data between institutions. The UNI2 foundation model and CLAM-SB were used to classify pathological whole slide images. A four-client federated learning system was constructed, and the NLST cohort was reserved exclusively for external validation. In centralized evaluation, joint training with CPTAC and TCGA outperformed single-institution training on external validation, confirming the necessity of multi-institutional data integration. FedAvg, FedProx, FedBN, and FedNova were compared as federated learning algorithms under identical experimental conditions. Test AUC ranked as FedBN, FedProx, FedNova, and FedAvg. FedNova showed the most balanced classification performance between PD and WMD. L1-norm structural pruning at 20%, 30%, and 40% sparsity was applied to reduce model transmission size. FedAvg, FedProx, and FedBN showed a tendency of decreasing Test AUC under pruning, while FedNova achieved improved Test AUC across all sparsity levels. A web-based application was developed supporting slide upload, local training, AI classification, and attention heatmap-based visualization. The combination of FedNova and 40% pruning was confirmed as a practical approach that improves communication efficiency and classification performance while protecting patient privacy.",
+          "arxiv_id": "2611.14590",
+          "arxiv_url": "https://arxiv.org/abs/2611.14590",
+          "authors": [
+            "Moon-Il Joo, Md Ariful Islam Mozumder, Hee-Cheol Kim"
+          ],
+          "bullets": [
+            "Addresses inter-observer variability and the difficulty of sharing pathology data across hospitals.",
+            "Uses UNI2 and CLAM-SB within a four-client federated learning system, with patient data remaining local.",
+            "FedBN achieved the highest reported test AUC, while FedNova provided the most balanced PD/WMD classification.",
+            "L1-norm pruning improved FedNova’s test AUC across 20%, 30%, and 40% sparsity levels.",
+            "The platform supports slide upload, local training, classification, and attention-heatmap visualization; NLST was used for external validation."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Overview of the web-based federated learning system architecture. The central server is responsible for aggregation, distribution, and repository of the global model, while each client handles Flask-based web application and Celery-based asynchronous local training and AI analysis.",
+              "figure_id": "figure-1-14",
+              "figure_number": "1",
+              "height": 596,
+              "image_path": "figures/2611.14590/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 944
+            },
+            {
+              "caption": "Figure 2: Web-based federated learning client interface. (a) Local training status dashboard. Displays in real time the training start time and progress status (RUNNING/COMPLETED) for each federated learning round (Global Round). (b) Whole slide image viewer and attention heatmap analysis result screen. The original H&E image (left) and attention heatmap (right) are displayed side by side, and the right panel provides a navigator showing the current magnified area within the entire slide and the PD/WMD prediction probabilities.",
+              "figure_id": "figure-2-13",
+              "figure_number": "2",
+              "height": 827,
+              "image_path": "figures/2611.14590/figure-002.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 825
+            },
+            {
+              "caption": "Figure 3: Confusion matrices of federated learning algorithms based on optimal threshold. The optimal threshold",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 525,
+              "image_path": "figures/2611.14590/figure-003.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 913
+            },
+            {
+              "caption": "Figure 4: Attention-based heatmap visualization for PD. (a) H&E whole slide image (yellow rectangle: ROI",
+              "figure_id": "figure-4-15",
+              "figure_number": "4",
+              "height": 542,
+              "image_path": "figures/2611.14590/figure-004.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 663
+            },
+            {
+              "caption": "Figure 5: Attention-based heatmap visualization for WMD. (a) H&E whole slide image (yellow rectangle: ROI location), (b) whole slide attention heatmap, (c) ROI H&E magnification, (d) ROI attention heatmap. As the basis for WMD classification, high-attention regions are broadly distributed across the entire tumor tissue, and in the ROI, a pattern in which attention is distributed along papillary and acinar glandular structures is confirmed.",
+              "figure_id": "figure-5-9",
+              "figure_number": "5",
+              "height": 486,
+              "image_path": "figures/2611.14590/figure-005.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 650
+            },
+            {
+              "caption": "Table 9: Federated learning algorithm performance according to L1 structural pruning application.",
+              "figure_id": "table-9-3",
+              "figure_number": "9",
+              "height": 552,
+              "image_path": "figures/2611.14590/table-006.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 943
+            },
+            {
+              "caption": "Table 4: Summary of Implementation Details and Hyperparameters.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 523,
+              "image_path": "figures/2611.14590/table-007.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 885
+            },
+            {
+              "caption": "Table 5: Classification performance metrics derived from the confusion matrix.",
+              "figure_id": "table-5-10",
+              "figure_number": "5",
+              "height": 298,
+              "image_path": "figures/2611.14590/table-008.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 931
+            },
+            {
+              "caption": "Table 8: Federated learning algorithm performance comparison (Optimal Threshold).",
+              "figure_id": "table-8-8",
+              "figure_number": "8",
+              "height": 431,
+              "image_path": "figures/2611.14590/table-009.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 943
+            },
+            {
+              "caption": "Table 7: Federated learning algorithm performance comparison (Threshold=0.5).",
+              "figure_id": "table-7-7",
+              "figure_number": "7",
+              "height": 417,
+              "image_path": "figures/2611.14590/table-010.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 943
+            },
+            {
+              "caption": "Table 10: Compression efficiency by L1 structural pruning level.",
+              "figure_id": "table-10-4",
+              "figure_number": "10",
+              "height": 421,
+              "image_path": "figures/2611.14590/table-011.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 943
+            },
+            {
+              "caption": "Table 1: Summary of the three datasets used in this study.",
+              "figure_id": "table-1-12",
+              "figure_number": "1",
+              "height": 262,
+              "image_path": "figures/2611.14590/table-012.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 943
+            },
+            {
+              "caption": "Table 3: Federated learning client configuration.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 300,
+              "image_path": "figures/2611.14590/table-013.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 556
+            },
+            {
+              "caption": "Table 2: Centralized comparison experiment configuration.",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 119,
+              "image_path": "figures/2611.14590/table-014.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 643
+            },
+            {
+              "caption": "Table 6: Summary of centralized comparison experiment results.",
+              "figure_id": "table-6-11",
+              "figure_number": "6",
+              "height": 119,
+              "image_path": "figures/2611.14590/table-015.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 904
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.14590/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.14590",
+          "relevance": 6,
+          "selection_reason": "Proposes an asynchronous federated learning platform for medical image classification using structural pruning. The methods (federated learning and pruning) are general and transferable to the configured topics of continual learning and efficiency.",
+          "summary_status": "generated",
+          "title": "An Asynchronous Federated Learning Platform for Lung Adenocarcinoma Grading via Foundation Models and Structural Pruning",
+          "tldr": "A web-based federated learning platform combines FedNova and structural pruning to classify lung adenocarcinoma subtypes while preserving privacy and reducing model communication costs.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Query-based segmentation models achieve strong performance even under real-time inference on workstation GPUs. On edge devices, however, we show their transformer decoders are deeply memory-bandwidth-bound, a bottleneck invisible to standard FLOP analysis that worsens with input resolution and limited DRAM bandwidth. An FP16 roofline analysis with tensor-core GEMMs active and hardware DRAM counters shows that the non-tensor-core aggregates of FastInst and Mask2Former reach only $2.5\\%$ to $6\\%$ of the CUDA-core ridge yet account for $53\\%$ to $70\\%$ of decoder time and $61\\%$ to $71\\%$ of decoder bytes. The largest individual kernels sustain up to $90\\%$ of nominal peak DRAM bandwidth, effectively saturating the memory bus. The bottleneck is therefore not primarily low GEMM intensity, but cross-kernel activation traffic. CompactInst addresses this bottleneck using parameter-free spatial pooling at $4{\\times}$, which reduces the bytes moved within the transformer decoder, while a two-convolution refinement head recovers spatial detail. Under TensorRT FP16 on Jetson Orin Nano, CompactInst delivers decoder speedups from $2.35{\\times}$ to $4.74{\\times}$ and model speedups from $1.57{\\times}$ to $2.62{\\times}$ as input resolution grows, while closely matching accuracy ($-0.4$ AP on COCO val2017, $+0.2$ AP on Cityscapes test). A heavier variant with $2.57{\\times}$ more decoder FLOPs still runs its decoder $1.74{\\times}$ faster on the most bandwidth-constrained device, confirming at the deployment level that decoder bytes, not FLOPs, govern latency.",
+          "arxiv_id": "2610.22377",
+          "arxiv_url": "https://arxiv.org/abs/2610.22377",
+          "authors": [
+            "Oliver Busemann",
+            "Torben Töniges",
+            "Martin Atzmueller"
+          ],
+          "bullets": [
+            "Roofline analysis identifies DRAM bandwidth as the dominant decoder bottleneck, especially at higher resolutions and on bandwidth-limited devices.",
+            "Non-tensor-core decoder operations consume most decoder time and bytes despite low CUDA-core utilization, with large kernels nearing peak DRAM bandwidth.",
+            "CompactInst uses 4× parameter-free spatial pooling plus a two-convolution refinement head to reduce activation traffic and recover detail.",
+            "On Jetson Orin Nano with TensorRT FP16, it achieves 2.35–4.74× decoder speedups and 1.57–2.62× end-to-end model speedups as resolution increases.",
+            "Accuracy remains close to baseline on COCO and Cityscapes; a higher-FLOP variant further supports that decoder bytes, not FLOPs, determine latency."
+          ],
+          "categories": [
+            "cs.AR",
+            "cs.LG",
+            "cs.PF",
+            "eess.IV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure B.4: Model-level TensorRT FP16 latency across three GPUs (ResNet-18, no postprocessing). Annotations show the FastInst/M 1/4 latency ratio; values above 1× indicate that M 1/4 is faster.",
+              "figure_id": "figure-B.4-11",
+              "figure_number": "B.4",
+              "height": 277,
+              "image_path": "figures/2610.22377/figure-001.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 925
+            },
+            {
+              "caption": "Figure A.2: Mask2Former decoder roofline on the RTX A4000 (hardware DRAM counters, Full HD 1088×1920; same protocol as Fig. A.1). Large markers denote aggregates.",
+              "figure_id": "figure-A.2-7",
+              "figure_number": "A.2",
+              "height": 322,
+              "image_path": "figures/2610.22377/figure-002.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 937
+            },
+            {
+              "caption": "Figure A.1: CompactInst decoder roofline on the RTX A4000 (hardware DRAM counters, Full HD 1088×1920). Orange denotes kernels with tensor-core instructions, blue denotes CUDA-only kernels, and large markers denote aggregates.",
+              "figure_id": "figure-A.1-6",
+              "figure_number": "A.1",
+              "height": 321,
+              "image_path": "figures/2610.22377/figure-003.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 937
+            },
+            {
+              "caption": "Figure B.3: Decoder-only TensorRT FP16 latency across three GPUs. Annotations show the FastInst/M 1/4 latency ratio; values above 1× indicate that M 1/4 is faster.",
+              "figure_id": "figure-B.3-10",
+              "figure_number": "B.3",
+              "height": 277,
+              "image_path": "figures/2610.22377/figure-004.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 925
+            },
+            {
+              "caption": "Figure C.5: Example 1 (1/2) - FastInst and CompactInst on a Cityscapes test image.",
+              "figure_id": "figure-C.5-14",
+              "figure_number": "C.5",
+              "height": 1020,
+              "image_path": "figures/2610.22377/figure-005.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 943
+            },
+            {
+              "caption": "Figure C.6: Example 1 (2/2) - CompactInst variants on the same Cityscapes test image as Fig. C.5.",
+              "figure_id": "figure-C.6-3",
+              "figure_number": "C.6",
+              "height": 1020,
+              "image_path": "figures/2610.22377/figure-006.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 943
+            },
+            {
+              "caption": "Figure C.7: Example 2 (1/2) - FastInst and CompactInst on a Cityscapes test image.",
+              "figure_id": "figure-C.7-4",
+              "figure_number": "C.7",
+              "height": 1020,
+              "image_path": "figures/2610.22377/figure-007.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 943
+            },
+            {
+              "caption": "Figure C.8: Example 2 (2/2) - CompactInst variants on the same Cityscapes test image as Fig. C.7.",
+              "figure_id": "figure-C.8-8",
+              "figure_number": "C.8",
+              "height": 1020,
+              "image_path": "figures/2610.22377/figure-008.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 943
+            },
+            {
+              "caption": "Table 8: Generalization: matched single-path Mask2Former (1/8 scale, three layers) on Cityscapes; columns differ only in the decoder (AP: R-50, val / test). Latency/FLOPs: TensorRT FP16, decoder / full model (no post-processing, R-18), Orin Nano, 1024×2048. ‡: PEM’s native batch-32 recipe (same architecture/steps, 2× training samples/compute).",
+              "figure_id": "table-8-5",
+              "figure_number": "8",
+              "height": 167,
+              "image_path": "figures/2610.22377/table-009.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 564
+            },
+            {
+              "caption": "Table 3: Instance segmentation on COCO val2017. All models use a ResNet-50 backbone, evaluated at 640×853.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 187,
+              "image_path": "figures/2610.22377/table-010.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 512
+            },
+            {
+              "caption": "Table 5: Pooling strategy ablation on COCO val2017. All rows use CompactInst with the refinement head.",
+              "figure_id": "table-5-12",
+              "figure_number": "5",
+              "height": 142,
+              "image_path": "figures/2610.22377/table-011.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 435
+            },
+            {
+              "caption": "Table 4: Instance segmentation on Cityscapes (1024×2048). The starred (⋆) columns use the COCO evaluation protocol on val to provide size-stratified AP.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 125,
+              "image_path": "figures/2610.22377/table-012.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 475
+            },
+            {
+              "caption": "Table 6: Effect of the refinement head (M 1/8 PF 1/16, COCO val2017).",
+              "figure_id": "table-6-13",
+              "figure_number": "6",
+              "height": 73,
+              "image_path": "figures/2610.22377/table-013.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 368
+            },
+            {
+              "caption": "Table 7: Panoptic segmentation on Cityscapes val. CompactInst incurs ∼1% relative PQ loss while delivering substantial latency savings (Section 5.3).",
+              "figure_id": "table-7-9",
+              "figure_number": "7",
+              "height": 73,
+              "image_path": "figures/2610.22377/table-014.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 429
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2610.22377/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2610.22377",
+          "relevance": 8,
+          "selection_reason": "Profiling and reducing memory bandwidth of transformer decoders on edge GPUs directly fits efficient AI and token-level cost reduction.",
+          "summary_status": "generated",
+          "title": "Memory Bandwidth, Not FLOPs: Profiling and Accelerating Query-Based Segmentation Decoders on Edge GPUs",
+          "tldr": "On edge GPUs, query-based segmentation decoders are limited mainly by cross-kernel memory traffic rather than FLOPs, and CompactInst accelerates them by reducing bytes moved while preserving accuracy.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-10",
       "paper_count": 6,
       "papers": [
@@ -120,7 +1528,13 @@
           "authors": [
             "Bence Demeter, Kilian Ehrenreich, Amelie Kleber, Ioana Oprisiu, Philipp Spohn, Christian Wachinger, Fabian Bongratz, Lennart Bastian"
           ],
-          "bullets": [],
+          "bullets": [
+            "Functional-map coupling scales quadratically with mesh resolution, limiting dense correspondence on large surfaces.",
+            "The paper identifies this coupling with scaled dot-product attention, enabling optimized attention implementations for shape matching.",
+            "Sub-quadratic approximations can introduce errors, especially for non-isometric shape pairs requiring exact coupling.",
+            "Geo-FlashAttention applies exact softmax attention only to geometry-selected surface patches.",
+            "Across six benchmarks and three pipelines, efficient couplings preserve accuracy; at 60k vertices, memory drops from 106.08 to 5.67 GiB, and Geo-FlashAttention is 1.5× faster per step than FlashAttention."
+          ],
           "categories": [
             "cs.CV"
           ],
@@ -213,9 +1627,9 @@
           "pdf_url": "https://arxiv.org/pdf/2611.13870",
           "relevance": 7,
           "selection_reason": "Connects functional-map spatial-spectral coupling to attention and uses efficient attention to scale shape correspondence; relevant to 3D vision and efficient attention.",
-          "summary_status": "failed",
+          "summary_status": "generated",
           "title": "Spatial-Spectral Coupling as Attention: Scaling Shape Correspondence to High-Resolution Surfaces",
-          "tldr": null,
+          "tldr": "Recasting spatial-spectral coupling as attention enables scalable high-resolution 3D shape correspondence, with Geo-FlashAttention achieving near-linear empirical scaling while preserving accuracy.",
           "topic_assignments": [
             {
               "subtopic_ids": [],
@@ -237,7 +1651,13 @@
           "authors": [
             "Senhao Liu, Yuheng Zhang, Chunyu Wei, Yueguo Chen, Xinran Zhang"
           ],
-          "bullets": [],
+          "bullets": [
+            "Addresses the context-length and information-loss tradeoff in textual RAG compression.",
+            "Renders documents as images and encodes them with a frozen vision encoder.",
+            "Uses Encoder-Bridged Retrieval to match text queries with visual tokens without contrastive training.",
+            "Applies Query-Driven Distillation to reduce retrieved visual tokens to as few as 16 injected tokens.",
+            "Achieves the best compression-aware accuracy across LongBench-v2, BAMBOO, and LooGLE-v2, with a 5.17-point LongBench-v2 improvement over the closed-book backbone."
+          ],
           "categories": [
             "cs.CL"
           ],
@@ -430,9 +1850,9 @@
           "pdf_url": "https://arxiv.org/pdf/2611.13675",
           "relevance": 7,
           "selection_reason": "Token-efficient RAG via pixel-space visual token compression and query-driven distillation into few injected tokens.",
-          "summary_status": "failed",
+          "summary_status": "generated",
           "title": "OpticalRAG: Pixel-Space Compression for Token-Efficient Retrieval-Augmented Generation",
-          "tldr": null,
+          "tldr": "OpticalRAG compresses rendered document pages into query-conditioned visual prefix tokens, enabling token-efficient RAG while preserving fine-grained information.",
           "topic_assignments": [
             {
               "subtopic_ids": [
@@ -89167,5 +90587,5 @@
   "schema_version": 1,
   "subtopic_id": "token-pruning-and-eviction",
   "topic_id": "efficient-ai",
-  "total_paper_count": 468
+  "total_paper_count": 475
 }

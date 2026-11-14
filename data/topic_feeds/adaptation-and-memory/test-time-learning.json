@@ -1,6 +1,2189 @@
 {
   "days": [
     {
+      "date": "2026-11-12",
+      "paper_count": 14,
+      "papers": [
+        {
+          "abstract": "Decoder-only Large View Synthesis Models (LVSMs) with KV-cache have recently achieved state-of-the-art quality by regressing novel views from neural networks without reconstructing 3D geometry, while Test-Time Training (TTT) layers save computation but sacrifice quality. We propose Test-Time Baking (TTB), a strategy that learns to bake global scene information from cross-view attention into a lightweight MLP, enabling fast and high-fidelity novel-view decoding. The first key is to repurpose the fast-weight MLP of TTT to learn the cross-view attention mapping explicitly from its input-output pairs, rather than replacing attention entirely, achieving the same rendering efficiency as TTT while delivering substantially higher quality. The second key addresses a modality misalignment between context prefilling and novel-view rendering: we disentangle context tokens into camera-only context rendering tokens to serve as TTB input, and context ground-truth tokens with image content to serve as the TTB mapping target, ensuring the baked MLPs are relieved of the modality generalization challenge between context and novel-view processing. Our method achieves up to **23x** rendering speedup with quality on par with the state-of-the-art across several benchmarks. Project page: https://test-time-baking.github.io",
+          "arxiv_id": "2611.17331",
+          "arxiv_url": "https://arxiv.org/abs/2611.17331",
+          "authors": [
+            "Chin-Yang Lin, Ryo Hachiuma, Jaesung Choe, Min-Hung Chen, Yu-Chiang Frank Wang, Yen-Yu Lin, Wei-Chen Chiu, Yu-Lun Liu, Cheng Sun"
+          ],
+          "bullets": [
+            "Targets efficient decoding for decoder-only large view synthesis models without reconstructing 3D geometry.",
+            "Trains a TTT fast-weight MLP to imitate cross-view attention rather than replacing it outright.",
+            "Separates camera-only context tokens from image-content ground-truth tokens to resolve modality misalignment.",
+            "Reports up to 23× rendering speedup with quality comparable to state-of-the-art across several benchmarks."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3: Pipeline. Our model stacks L identical blocks of Intra-view Attention, FFN, Test-Time Baking, and FFN. In the reconstruction stage, each context view is duplicated into a context pair, where the context ground-truth token X(ctx-gt) carries RGB and pose while the context rendering token X(ctx-rend) is pose-only and matches the modality of the novel rendering token X(nv). At each TTB layer, the inner-loop update bakes the fast-weight MLP via MSE loss to map X(ctx-rend) toward the cross-view attention output of X(ctx-gt). The baked MLP is applied to serve three token streams: it propagates both X(ctx-rend) and X(nv) to the next layer, and provides feedback to X(ctx-gt) as an auxiliary signal. In the novel-view rendering stage, each token retrieves global scene information in O(1) from the baked MLP, instead of O(N) via cross-attention. The rendering loss is backpropagated through the inner-loop baking process to train the model end-to-end.",
+              "figure_id": "figure-3-18",
+              "figure_number": "3",
+              "height": 332,
+              "image_path": "figures/2611.17331/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 825
+            },
+            {
+              "caption": "Figure 5: Qualitative comparison on DL3DV. TTB preserves fine details on par with DVSM [58], while LaCT [77] and LVSM [25] produce visible blur.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 336,
+              "image_path": "figures/2611.17331/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 824
+            },
+            {
+              "caption": "Figure 6: Qualitative comparison on in-the-wild datasets. TTB generalizes to out-of-domain scenes and preserves fine details consistent with the in-domain results.",
+              "figure_id": "figure-6-16",
+              "figure_number": "6",
+              "height": 279,
+              "image_path": "figures/2611.17331/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 826
+            },
+            {
+              "caption": "Figure 2: Motivation. We show three variants of the inner-loop optimization in TTT-style fast-weight MLPs. (a) TTT with KV binding [77] learns from raw value tokens projected from X(ctx). (b) TTB without context pairing targets the cross-view attention output instead, collaborating with attention rather than replacing it. (c) Our full TTB additionally pairs each context view: X(ctx-gt) carries image content and supplies the cross-view attended target, while X(ctx-rend) is camera-only and matches the modality of X(nv). The t-SNE plots show that only (c) aligns the modalities from the first block.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 268,
+              "image_path": "figures/2611.17331/figure-004.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 825
+            },
+            {
+              "caption": "Figure 7: Scene representation size as V grows at 544×960 resolution, measured on a single A100. The DVSM [58] KV-cache grows linearly in V (hollow points: linear extrapolation where DVSM ran out of 80 GB memory), TTB’s baked fast weights stay constant, and TTB-duplicate grows with the number of copies K=V/16 while remaining 21× smaller than the KV-cache.",
+              "figure_id": "figure-7-21",
+              "figure_number": "7",
+              "height": 394,
+              "image_path": "figures/2611.17331/figure-005.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 564
+            },
+            {
+              "caption": "Figure 8: Additional qualitative comparison on DL3DV. 64 context views.",
+              "figure_id": "figure-8-3",
+              "figure_number": "8",
+              "height": 558,
+              "image_path": "figures/2611.17331/figure-006.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 826
+            },
+            {
+              "caption": "Figure 9: Qualitative comparison on Re10K. Two-view setting with sparse input.",
+              "figure_id": "figure-9-20",
+              "figure_number": "9",
+              "height": 1276,
+              "image_path": "figures/2611.17331/figure-007.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 746
+            },
+            {
+              "caption": "Figure 10: Zero-shot qualitative results on MipNeRF360. 64 context views.",
+              "figure_id": "figure-10-15",
+              "figure_number": "10",
+              "height": 921,
+              "image_path": "figures/2611.17331/figure-008.webp",
+              "kind": "figure",
+              "page": 28,
+              "width": 826
+            },
+            {
+              "caption": "Figure 11: Zero-shot qualitative results on Free. 64 context views.",
+              "figure_id": "figure-11-10",
+              "figure_number": "11",
+              "height": 916,
+              "image_path": "figures/2611.17331/figure-009.webp",
+              "kind": "figure",
+              "page": 29,
+              "width": 829
+            },
+            {
+              "caption": "Figure 12: Zero-shot qualitative results on Hike. 64 context views.",
+              "figure_id": "figure-12-5",
+              "figure_number": "12",
+              "height": 783,
+              "image_path": "figures/2611.17331/figure-010.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 829
+            },
+            {
+              "caption": "Figure 4: Per-rank context contribution.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 152,
+              "image_path": "figures/2611.17331/figure-011.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 208
+            },
+            {
+              "caption": "Table 9: Architectural composition. “Cross-view sublayer” indicates the module that exchanges information across views in each block. The depth column is the number of decoder blocks, with the encoder depth listed in parentheses for encoder-decoder methods. The latent-dim column reports the decoder width, with the encoder width also given for encoder-decoder methods.",
+              "figure_id": "table-9-23",
+              "figure_number": "9",
+              "height": 267,
+              "image_path": "figures/2611.17331/table-012.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 796
+            },
+            {
+              "caption": "Table 3: Quantitative comparison on in-the-wild datasets.",
+              "figure_id": "table-3-17",
+              "figure_number": "3",
+              "height": 266,
+              "image_path": "figures/2611.17331/table-013.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 830
+            },
+            {
+              "caption": "Table 8: Asymptotic complexity comparison. V denotes the number of context views and L the number of tokens per view. Reconstruction is reported per scene, rendering per novel-view token. “GS rasterizer” denotes that rendering is handled by a Gaussian splatting rasterizer rather than a neural module, which is not directly comparable in O(·) form. We only list the complexity of the main model layer for global scene understanding. LongLRM still employs a few cross-view attention layers with O(V 2 · L2) complexity. LaCT, tttLRM, LagerNVS, and ours also employ intra-view attention with O(V · L2) reconstruction complexity and O(L) per-token rendering complexity.",
+              "figure_id": "table-8-22",
+              "figure_number": "8",
+              "height": 273,
+              "image_path": "figures/2611.17331/table-014.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 740
+            },
+            {
+              "caption": "Table 7: Training settings across methods. “Multi-dataset” indicates training on a curated mixture beyond a single benchmark. “DVSM ckpt” refers to initializing from the corresponding DVSM [58] checkpoint released for that benchmark. “–” marks compute resources that are not explicitly reported by the corresponding paper.",
+              "figure_id": "table-7-19",
+              "figure_number": "7",
+              "height": 225,
+              "image_path": "figures/2611.17331/table-015.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 610
+            },
+            {
+              "caption": "Table 10: In-the-wild generalization at 16 input views.",
+              "figure_id": "table-10-4",
+              "figure_number": "10",
+              "height": 247,
+              "image_path": "figures/2611.17331/table-016.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 830
+            },
+            {
+              "caption": "Table 1: Quantitative comparison on DL3DV.",
+              "figure_id": "table-1-8",
+              "figure_number": "1",
+              "height": 111,
+              "image_path": "figures/2611.17331/table-017.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 830
+            },
+            {
+              "caption": "Table 2: Two input views on Re10k at 512×512. Results are denoted as PSNR↑ / SSIM↑ / LPIPS↓.",
+              "figure_id": "table-2-9",
+              "figure_number": "2",
+              "height": 104,
+              "image_path": "figures/2611.17331/table-018.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 830
+            },
+            {
+              "caption": "Table 11: Inference at scale on DL3DV. As the number of context views V grows, TTB-single—a single fast-weight MLP per TTB layer that absorbs all V views—suffers capacity saturation: its PSNR plateaus around V=64 and even regresses thereafter. TTB-duplicate, which maintains K local copies of the per-layer fast-weight state, each baked from a spatially-local group of views, prevents this saturation and tracks DVSM’s quality scaling while preserving O(1) per-frame rendering. Best per column is shaded red, second-best orange.",
+              "figure_id": "table-11-11",
+              "figure_number": "11",
+              "height": 257,
+              "image_path": "figures/2611.17331/table-019.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 652
+            },
+            {
+              "caption": "Table 16: Two input views on Re10K.",
+              "figure_id": "table-16-2",
+              "figure_number": "16",
+              "height": 651,
+              "image_path": "figures/2611.17331/table-020.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 532
+            },
+            {
+              "caption": "Table 12: Capacity scaling. Left: PSNR of local-duplicate inference over the number of copies K and context views V (ablation setting, 720p); every row peaks at K=V/16, i.e. a fixed budget of 16 views per copy (bold). Right: scaling the fast-weight MLP width instead (DL3DV, V=64, 340p); quality rises monotonically and a 16× width matches DVSM.",
+              "figure_id": "table-12-13",
+              "figure_number": "12",
+              "height": 145,
+              "image_path": "figures/2611.17331/table-021.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 829
+            },
+            {
+              "caption": "Table 13: Pretraining ablation.",
+              "figure_id": "table-13-12",
+              "figure_number": "13",
+              "height": 150,
+              "image_path": "figures/2611.17331/table-022.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 556
+            },
+            {
+              "caption": "Table 15: End-to-end time for rendering N novel views (seconds, DL3DV at 960p), computed as reconstruction time plus N/FPS from Tab. 1. TTB overtakes DVSM after 5–7 views at every V , while TTB-- leads from N=1.",
+              "figure_id": "table-15-14",
+              "figure_number": "15",
+              "height": 134,
+              "image_path": "figures/2611.17331/table-023.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 830
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.17331/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.17331",
+          "relevance": 7,
+          "selection_reason": "Test-time baking adapts scene information into lightweight MLP for efficient view synthesis; directly relevant to test-time learning.",
+          "summary_status": "generated",
+          "title": "TTB: Test-time Baking for Efficient Rendering of Decoder-only View Synthesis Models",
+          "tldr": "TTB bakes cross-view attention into lightweight MLPs at test time, enabling up to 23× faster novel-view rendering while maintaining state-of-the-art quality.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Differential morphing attack detection (D-MAD) compares a trusted live capture with a document image that may contain a facial morph. We investigate whether labelled validation data can improve a frozen-parameter vision-language evaluator through prompt selection rather than model fine-tuning. Version~1 generates 50 candidate prompts and selects the top-ranked instruction using a security-oriented loss that prioritises missed morph attacks (MACER) while accounting for bona fide classification errors (BSCER), response failures, parse failures, and decision inconsistency. Version~2 recursively revises prompts using aggregate validation feedback. On a subject-disjoint test set of 160 pairs spanning LMA, MIPGAN-2, and PIPE, the selected Version~1 prompt achieves a (19.17\\%) morph attack classification error rate (MACER), with (0.00\\%) observed bona fide sample classification error rate (BSCER), compared with (70.00\\%) MACER for a controlled manual prompt. The paired (50.83) percentage-point difference has a (95\\%) subject-bootstrap interval of ([43.33,58.33]). Recursive revision does not surpass the best Generation~0 validation loss; the reported revised descendant obtains (31.67\\%) test MACER. All 23 attacks missed by Version~1 are landmark-based (LMA) morphs. Overall, the results show that prompt formulation can substantially influence frozen-parameter VLM-based D-MAD performance, while also highlighting the challenge of recursive prompt refinement under a compact 10-subject validation setting.",
+          "arxiv_id": "2611.17176",
+          "arxiv_url": "https://arxiv.org/abs/2611.17176",
+          "authors": [
+            "Raghavendra Ramachandra, Hailin Li"
+          ],
+          "bullets": [
+            "The approach selects or revises prompts using labelled validation feedback and a security-oriented loss emphasizing missed morph attacks.",
+            "The best Version 1 prompt achieved 19.17% MACER and 0.00% BSCER on a subject-disjoint test set of 160 pairs.",
+            "It outperformed a controlled manual prompt by 50.83 percentage points in MACER, with a 95% subject-bootstrap interval of [43.33%, 58.33%].",
+            "Recursive prompt revision did not improve over the best initial-generation prompt and yielded 31.67% test MACER.",
+            "All 23 attacks missed by Version 1 were landmark-based morphs; validation was limited to 10 subjects."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1. Agentic prompt generation framework for D-MAD. Version 1 and Version 2 Generation 0 follow the solid path from prompt generation to validation. Recursive Version 2 candidates follow the dashed path from the Scoring Module through the Prompt Optimizer and Prompt Critic before returning to the Candidate Pool. The selected prompt is fixed before test evaluation. Test responses are subsequently combined by deterministic decision and score fusion.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 615,
+              "image_path": "figures/2611.17176/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1032
+            },
+            {
+              "caption": "Table 2. Test MACER by morphing method, with missed attacks among 40 pairs in parentheses. Lower is better.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 142,
+              "image_path": "figures/2611.17176/table-002.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 1. Overall test performance on 40 bona fide and 120 attack pairs. Version 1 and Version 2 prompts are selected using labelled validation pairs; no model parameters are updated. Lower values are better.",
+              "figure_id": "table-1-4",
+              "figure_number": "1",
+              "height": 188,
+              "image_path": "figures/2611.17176/table-003.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 3. Test response budget ablation. MACER averages all subsets; FTA and PFR are per response rates, and inconsistency is measured per eligible pair.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 38,
+              "image_path": "figures/2611.17176/table-004.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.17176/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.17176",
+          "relevance": 7,
+          "selection_reason": "Improves frozen VLM performance for morphing attack detection via validation-guided prompt selection, a form of test-time adaptation without parameter updates.",
+          "summary_status": "generated",
+          "title": "Validation-Guided Prompt Selection for Differential Morphing Attack Detection",
+          "tldr": "Validation-guided prompt selection substantially improves frozen vision-language models for differential morphing attack detection without fine-tuning.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [],
+              "topic_id": "multimodal-foundation-models"
+            },
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Layer-local self-supervised objectives remove the backward pass between layers, but almost all still compute their loss over a batch of samples and are therefore local in space but not in time. We introduce Temporal Regularized Learning (TeReL), a spatially and temporally local learning rule for self-supervised representation learning from sequential input streams. The key idea is to instantiate a VICReg-style objective with temporally adjacent positives and non-differentiated running population statistics, yielding a per-neuron online loss with bounded state. The objective is a soft form of Slow Feature Analysis, and its gradient is a Hebbian update of the feedforward weights and an anti-Hebbian update of one lateral matrix per layer. The aim of the experiments is to show that the rule works in a small network, not to compete with backpropagation. On a class-chunked MNIST stream, a two-layer fully connected network trained with batch size one outperforms random features (96.48% versus 95.09% linear-probe accuracy) and classical SFA, and a variant that relaxes both locality constraints is comparable to supervised backpropagation. Because training and inference use the same computation, the network can keep learning from unlabeled data during inference without loss of accuracy.",
+          "arxiv_id": "2611.17019",
+          "arxiv_url": "https://arxiv.org/abs/2611.17019",
+          "authors": [
+            "Davide Wiest"
+          ],
+          "bullets": [
+            "Uses temporally adjacent positives and running population statistics in a VICReg-style objective.",
+            "Produces per-neuron online updates with bounded state: Hebbian feedforward and anti-Hebbian lateral updates.",
+            "In a small two-layer network on class-chunked MNIST, batch-one training achieved 96.48% linear-probe accuracy versus 95.09% for random features.",
+            "The method outperformed classical SFA, while a less-local variant was comparable to supervised backpropagation.",
+            "Training and inference share the same computation, enabling continued unlabeled learning during inference without accuracy loss."
+          ],
+          "categories": [
+            "cs.LG",
+            "stat.ML"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Representation quality and paired temporal effects on MNIST. a, Held-out linear-probe accuracy (mean and sample standard deviation). b, Paired accuracy changes relative to TEREL with a fixed encoder, with 95% Student-t intervals.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 442,
+              "image_path": "figures/2611.17019/figure-001.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 988
+            },
+            {
+              "caption": "Figure 3: Class structure in the MNIST TEREL representation. a, Laplacian embedding of validation features of both layers; colors denote digits and are used only for visualization. b, Fraction of same-class neighbors in the complete 768-dimensional representation. The dotted line is the chance level.",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 371,
+              "image_path": "figures/2611.17019/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 867
+            },
+            {
+              "caption": "Figure 4: Signed postsynaptic state. a, State trajectories of four randomly selected second-layer neurons over the same interval of the validation stream. b, Their state distributions over the complete validation stream; black bars mark medians.",
+              "figure_id": "figure-4-3",
+              "figure_number": "4",
+              "height": 287,
+              "image_path": "figures/2611.17019/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 866
+            },
+            {
+              "caption": "Table 1: Encoder configurations used in the reported comparison. A sample is one observation presented to the encoder.",
+              "figure_id": "table-1-5",
+              "figure_number": "1",
+              "height": 227,
+              "image_path": "figures/2611.17019/table-004.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 1018
+            },
+            {
+              "caption": "Table 2: Held-out MNIST accuracy by seed. Values are fractions; a dash denotes diverged training.",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 351,
+              "image_path": "figures/2611.17019/table-005.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 568
+            },
+            {
+              "caption": "Table 3: Persistent quantities for one TEREL layer of width D and input width d.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 152,
+              "image_path": "figures/2611.17019/table-006.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 490
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.17019/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.17019",
+          "relevance": 7,
+          "selection_reason": "Introduces a learning rule that enables online self-supervised learning from sequential streams, including during inference, fitting test-time and continual learning.",
+          "summary_status": "generated",
+          "title": "Temporal Regularized Learning: Self-Supervised Learning Local in Space and Time",
+          "tldr": "TeReL is a fully spatially and temporally local, online self-supervised learning rule that learns useful representations from sequential data without backpropagation between layers.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "test-time-learning",
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Autonomous agents modify prompts, memories, tools, workflows, and policies using interaction histories. Yet a plausible modification is not necessarily suitable for persistent adoption: candidate selection is adaptive, evaluators may be imperfect, and local gains can hide degradation against an earlier baseline. We introduce Evidence-Governed Evolution (EGE), a framework for governing adoption of self-generated agent modifications. EGE separates candidate generation from confirmatory adoption, evaluates frozen candidates on fresh paired audits, requires meaningful improvement on a prespecified primary objective, protects declared capabilities through reference-relative non-inferiority tests, and applies governance constraints before bounded canary deployment. We establish an evaluator-calibrated simultaneous lower-bound construction for a countable sequence of adaptively generated candidates. It combines candidate-wise Hoeffding bounds with independent calibration samples comparing the operational evaluator with a prespecified reference procedure. We also formalise reference replacement through bridge tests, derive a cumulative degradation bound along a versioned reference lineage, and provide an audit-planning condition relating effect-size margin, sample sizes, and acceptance probability. A Monte Carlo stress test illustrates calibration under candidate-dependent evaluator optimism; it is a stylised statistical experiment, not an evaluation of a deployed agent. The guarantees are conditional on bounded paired scores, fresh sampling, a valid reference-evaluation construct, and declared evaluation distributions; they do not establish universal agent safety or robustness to arbitrary distribution shift.",
+          "arxiv_id": "2611.16378",
+          "arxiv_url": "https://arxiv.org/abs/2611.16378",
+          "authors": [
+            "Subodh Lonkar"
+          ],
+          "bullets": [
+            "Separates adaptive candidate generation from confirmatory evaluation and bounded canary deployment.",
+            "Tests frozen candidates on fresh paired audits against a prespecified primary objective.",
+            "Protects declared capabilities using reference-relative non-inferiority tests and governance constraints.",
+            "Provides simultaneous lower bounds for countably many adaptively generated candidates, with evaluator calibration and reference-replacement bridge tests.",
+            "Monte Carlo experiments illustrate calibration under evaluator optimism; guarantees are conditional and do not cover universal safety or arbitrary distribution shift."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.MA"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Evidence-Governed Evolution separates candidate generation, fresh statistical evaluation, mandatory governance checks, and bounded deployment. Offline failure leads to rejection; only a candidate that passes both offline checks and canary monitoring is persistently committed.",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 236,
+              "image_path": "figures/2611.16378/figure-001.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 977
+            },
+            {
+              "caption": "Table 2: Monte Carlo sensitivity to evaluator optimism and sample size (3,000 campaigns per condition; 10 candidates per campaign).",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 255,
+              "image_path": "figures/2611.16378/table-002.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 882
+            },
+            {
+              "caption": "Table 1: Conceptual positioning of EGE relative to representative research streams. Entries describe primary emphasis, not an exhaustive claim that a method cannot be combined with another control.",
+              "figure_id": "table-1-4",
+              "figure_number": "1",
+              "height": 174,
+              "image_path": "figures/2611.16378/table-003.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 977
+            },
+            {
+              "caption": "Table 5: Principal notation used in EGE",
+              "figure_id": "table-5-6",
+              "figure_number": "5",
+              "height": 910,
+              "image_path": "figures/2611.16378/table-004.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 982
+            },
+            {
+              "caption": "Table 4: Illustrative audit and calibration sample-size requirements under the corrected sufficient-power condition.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 117,
+              "image_path": "figures/2611.16378/table-005.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 682
+            },
+            {
+              "caption": "Table 3: Calibration-distribution mismatch stress test (assumption deliberately violated).",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 71,
+              "image_path": "figures/2611.16378/table-006.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 760
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.16378/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.16378",
+          "relevance": 6,
+          "selection_reason": "Governs adoption of self-generated updates in autonomous agents during deployment, directly relevant to test-time and online adaptation.",
+          "summary_status": "generated",
+          "title": "Evidence-Governed Adoption of Self-Generated Updates in Autonomous AI Agents",
+          "tldr": "EGE governs autonomous agents’ self-generated updates by requiring calibrated, fresh evidence of improvement and non-degradation before adoption.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "test-time-learning",
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "AI-generated image detectors face significant challenges when deployed in real-world environments, particularly when test samples are produced by unseen generators that deviate from the source training distribution. Existing detectors often rely on a single type of evidence, such as semantic representations or low-level generation traces, making them vulnerable when the corresponding cue becomes unreliable. Moreover, adapting detectors to newly emerging generators usually requires target labels or retraining, which is costly and impractical. To address these challenges, we propose Dual-Evidence Disagreement-Constrained Adaptation (DEDCA), a test-time adaptation framework for generalized AI-generated image detection. DEDCA constructs a dual-evidence detector by combining CLIP-based semantic evidence with trace evidence extracted from shuffled entropy and residual statistics, and introduces a reliability-aware gate to perform sample-specific adaptive fusion. Our key idea is to exploit the disagreement between the two evidence streams as an unlabeled adaptation signal, enabling the detector to adjust to target-domain shifts without relying on target labels or blindly trusting a single prediction stream. Experiments show that DEDCA achieves superior performance on the GenImage benchmark by outperforming state-of-the-art AI-generated image detectors and test-time adaptation methods with 92.0\\% average accuracy.",
+          "arxiv_id": "2611.16307",
+          "arxiv_url": "https://arxiv.org/abs/2611.16307",
+          "authors": [
+            "Hao Tan, Qimin Zhang, Lihuang Fang, Kebing Jin, Jinghui Qin"
+          ],
+          "bullets": [
+            "Addresses distribution shifts caused by unseen image generators in real-world deployment.",
+            "Combines CLIP-based semantic features with generation-trace evidence from shuffled entropy and residual statistics.",
+            "Uses a reliability-aware gate for sample-specific fusion of the two evidence streams.",
+            "Exploits disagreement between evidence streams as an unlabeled adaptation signal, avoiding target labels or retraining.",
+            "Reports 92.0% average accuracy on the GenImage benchmark and outperforms prior detectors and test-time adaptation methods."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overall framework of DEDCA. The training stage learns a dual-evidence detector with SERT-based trace modeling and DERG-based reliability fusion, while the test-time stage adapts the detector on unlabeled target batches through disagreement-constrained optimization.",
+              "figure_id": "figure-2-9",
+              "figure_number": "2",
+              "height": 399,
+              "image_path": "figures/2611.16307/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 725
+            },
+            {
+              "caption": "Figure 1: Motivation of dual-evidence disagreement for test-time adaptation. (a) Complementary error patterns between semantic and trace evidence. (b) Cross-evidence disagreement as an indicator of unreliable predictions.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 350,
+              "image_path": "figures/2611.16307/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 690
+            },
+            {
+              "caption": "Figure 3: Parameter and gate analysis of DEDCA under the leave-ADM setting. (a) Effect of source-domain loss balance, where λced = λrel = λRMA = λa and λsp = 0.1. (b) Effect of test-time adaptation loss balance, where λent = 0.5 and λgate = λdrift = λb. (c) Effect of the number of adaptation steps Kstep. (d) Evolution of the average gate weight m̄ during source-domain training.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 527,
+              "image_path": "figures/2611.16307/figure-003.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 664
+            },
+            {
+              "caption": "Figure 5: t-SNE visualization of real and fake feature distributions produced by DEDCA. Each subplot corresponds to one held-out generator, where blue and red points denote real and fake samples, respectively.",
+              "figure_id": "figure-5-13",
+              "figure_number": "5",
+              "height": 383,
+              "image_path": "figures/2611.16307/figure-004.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 829
+            },
+            {
+              "caption": "Figure 4: t-SNE visualization of real and fake feature distributions produced by DEDCA (w/o TTA). Each subplot corresponds to one held-out generator, where blue and red points denote real and fake samples, respectively.",
+              "figure_id": "figure-4-12",
+              "figure_number": "4",
+              "height": 381,
+              "image_path": "figures/2611.16307/figure-005.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 829
+            },
+            {
+              "caption": "Figure 7: Multi-generator t-SNE visualization of the feature space produced by DEDCA with test-time adaptation.",
+              "figure_id": "figure-7-11",
+              "figure_number": "7",
+              "height": 402,
+              "image_path": "figures/2611.16307/figure-006.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 826
+            },
+            {
+              "caption": "Figure 6: Multi-generator t-SNE visualization of the feature space produced by DEDCA without test-time adaptation.",
+              "figure_id": "figure-6-10",
+              "figure_number": "6",
+              "height": 397,
+              "image_path": "figures/2611.16307/figure-007.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 826
+            },
+            {
+              "caption": "Table 1: Leave-one-generator comparison on GenImage in terms of ACC (%). The best result is highlighted in bold, and the second-best result is underlined.",
+              "figure_id": "table-1-7",
+              "figure_number": "1",
+              "height": 308,
+              "image_path": "figures/2611.16307/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 565
+            },
+            {
+              "caption": "Table 4: Ablation study of the test-time adaptation stage under the leave-ADM setting. All variants start from the same source-trained DEDCA checkpoint and adapt on unlabeled target batches.",
+              "figure_id": "table-4-5",
+              "figure_number": "4",
+              "height": 208,
+              "image_path": "figures/2611.16307/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 252
+            },
+            {
+              "caption": "Table 5: Robustness evaluation under common post-processing operations. ∆ denotes the absolute ACC drop compared with the clean average performance of each method.",
+              "figure_id": "table-5-1",
+              "figure_number": "5",
+              "height": 167,
+              "image_path": "figures/2611.16307/table-010.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 827
+            },
+            {
+              "caption": "Table 6: Computational cost comparison. Infer Time denotes the non-TTA inference time. Params@TTA denotes the number of parameters updated during test-time adaptation.",
+              "figure_id": "table-6-4",
+              "figure_number": "6",
+              "height": 234,
+              "image_path": "figures/2611.16307/table-011.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 694
+            },
+            {
+              "caption": "Table 3: Ablation study of the source-domain detector under the leave-ADM setting. All variants are evaluated without test-time adaptation.",
+              "figure_id": "table-3-6",
+              "figure_number": "3",
+              "height": 287,
+              "image_path": "figures/2611.16307/table-012.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 249
+            },
+            {
+              "caption": "Table 2: Cross-generator analysis of DEDCA on GenImage in terms of ACC/AP (%).",
+              "figure_id": "table-2-8",
+              "figure_number": "2",
+              "height": 46,
+              "image_path": "figures/2611.16307/table-013.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 565
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.16307/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.16307",
+          "relevance": 8,
+          "selection_reason": "Test-time adaptation of AI-generated image detectors using disagreement signals; directly fits test-time learning.",
+          "summary_status": "generated",
+          "title": "DEDCA: Test-Time Adaptation for Generalized AI-Generated Image Detection",
+          "tldr": "DEDCA improves generalized AI-generated image detection under unseen generators through label-free test-time adaptation using complementary semantic and low-level evidence.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Multimodal large language models are regarded as the cognitive foundation of embodied intelligence, but planning from instructions alone cannot make them reliable. During execution, actions deviate from intended effects, constrained by the embodiment and environment. An embodied brain must understand why execution deviates, identify what can be reliably realized, and revise decisions using interaction experience. These correspond to causal failure localization, capability-constrained adaptation, and experience-driven revision. Current embodied foundation models largely lack these capabilities. To address this, we introduce Embodied-Corrector. We construct failure-recovery data by injecting perturbations at subtask boundaries of successful trajectories, replaying affected subtasks, and keeping failures that are observable from public evidence and recoverable from the current state. We align actions, consequences, failure causes, and recoveries into Judge-Cause-Sub-Fine supervision. Training uses evaluation-first SFT: the model learns Judge and Cause first, then Sub and Fine conditioned on accurate prefixes. Since deployment uses self-generated prefixes, evaluation errors propagate into recovery planning, and response-level rewards are too coarse to locate affected planning tokens. We therefore use OPD to internalize the planning distribution under accurate prefixes into that under self-generated ones: the model generates plans from self-generated prefixes, while a contrastive forward pass with accurate prefixes compares token probabilities to reinforce or suppress planning tokens. At deployment, this branch is removed. Experiments show stronger failure analysis and corrective planning: with a frozen VLA, composite task success improves by 6.1 percentage points; with fixed GPT-5.5 execution, manipulation and navigation tasks improve by 13.9 percentage points.",
+          "arxiv_id": "2611.15651",
+          "arxiv_url": "https://arxiv.org/abs/2611.15651",
+          "authors": [
+            "Miao Pan, Kaixiang Yao, Xiaohe Zhou, Xu Wang, Qinfeng Li, Wenqi Zhang, Xuhong Zhang"
+          ],
+          "bullets": [
+            "Targets three missing abilities: causal failure localization, capability-aware adaptation, and experience-driven decision revision.",
+            "Builds recovery data by perturbing successful trajectories, replaying affected subtasks, and retaining observable, recoverable failures.",
+            "Uses Judge-Cause-Sub-Fine supervision with evaluation-first SFT to structure failure diagnosis before recovery planning.",
+            "Applies OPD to reduce errors from self-generated planning prefixes without adding a deployment-time branch.",
+            "Improves composite task success by 6.1 points with a frozen VLA and manipulation/navigation success by 13.9 points with fixed GPT-5.5 execution."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3 Overview of Embodied-Corrector training. Training proceeds from execution evaluation to recovery planning, followed by NEPO optimization that reduces the mismatch between verified evaluation prefixes used during training and model-generated prefixes used at deployment.",
+              "figure_id": "figure-3-1",
+              "figure_number": "3",
+              "height": 481,
+              "image_path": "figures/2611.15651/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 986
+            },
+            {
+              "caption": "Figure 4 Architecture and closed-loop workflow of the Embodied-Corrector Harness. Separating execution evaluation, recovery planning, fixed code/VLA realization, and environment-validated memory turns failure evidence into executable correction while preserving prior progress.",
+              "figure_id": "figure-4-9",
+              "figure_number": "4",
+              "height": 546,
+              "image_path": "figures/2611.15651/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 964
+            },
+            {
+              "caption": "Figure 2 Controlled failure-data construction. Successful trajectories are branched through controlled perturbations and replayed to produce aligned supervision for outcome judgment, cause diagnosis, recovery-subtask selection, and fine-grained planning.",
+              "figure_id": "figure-2-15",
+              "figure_number": "2",
+              "height": 557,
+              "image_path": "figures/2611.15651/figure-003.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 986
+            },
+            {
+              "caption": "Figure 7 Piper task success (%; 20 episodes per task and method). Gray and purple markers show each frozen VLA without and with Embodied-Corrector. Macro averages weight the five tasks equally.",
+              "figure_id": "figure-7-11",
+              "figure_number": "7",
+              "height": 275,
+              "image_path": "figures/2611.15651/figure-004.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 467
+            },
+            {
+              "caption": "Figure 1 Failure diagnosis and feedback controls on EB-ALFRED. (a) Frozen multimodal models struggle to identify the physical cause of failed execution. (b) With the model and action interface fixed, cause-level feedback improves replanning more than repeating the failed outcome.",
+              "figure_id": "figure-1-8",
+              "figure_number": "1",
+              "height": 276,
+              "image_path": "figures/2611.15651/figure-005.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 714
+            },
+            {
+              "caption": "Figure 6 VQA post-training dynamics from a shared SFT checkpoint. Curves report policy loss, answer-level reward, and sampled-token entropy under matched training settings. NEPO achieves the highest reward while avoiding the low-entropy regime of vanilla OPD.",
+              "figure_id": "figure-6-2",
+              "figure_number": "6",
+              "height": 325,
+              "image_path": "figures/2611.15651/figure-006.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 960
+            },
+            {
+              "caption": "Figure 5 Frozen-VLA success on RoboCasa365 (%). Corrective planning improves composite tasks, while atomic success decreases.",
+              "figure_id": "figure-5-6",
+              "figure_number": "5",
+              "height": 274,
+              "image_path": "figures/2611.15651/figure-007.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 461
+            },
+            {
+              "caption": "Figure 9 Prerequisite correction in LIBERO-PRO case L1. Twelve raw observations contrast an empty-gripper placement attempt with recovery of the missing pickup step. The corrected program grasps the orange-juice carton, verifies attachment, and places it in the basket.",
+              "figure_id": "figure-9-13",
+              "figure_number": "9",
+              "height": 731,
+              "image_path": "figures/2611.15651/figure-008.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 972
+            },
+            {
+              "caption": "Figure 8 Initial (top) and result (bottom) observations from the five Piper tasks, ordered as in the text. Result frames show the scene after the gripper releases the manipulated objects. Detailed execution sequences and success criteria are provided in Appendix G.",
+              "figure_id": "figure-8-10",
+              "figure_number": "8",
+              "height": 263,
+              "image_path": "figures/2611.15651/figure-009.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 975
+            },
+            {
+              "caption": "Figure 10 Target correction in LIBERO-PRO case L2. Twelve raw observations contrast false-target execution with re-grounding of the requested black bowl. The corrected program excludes non-bowl regions, applies the spatial constraint, and verifies placement on the plate.",
+              "figure_id": "figure-10-3",
+              "figure_number": "10",
+              "height": 731,
+              "image_path": "figures/2611.15651/figure-010.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 972
+            },
+            {
+              "caption": "Figure 11 High and offset grasp correction in RoboCasa365 case R1. Twelve raw observations from one continuous rollout show failed avocado grasps followed by directional re-alignment. With the VLA frozen, corrected instructions restore pickup and successful placement on the plate.",
+              "figure_id": "figure-11-4",
+              "figure_number": "11",
+              "height": 731,
+              "image_path": "figures/2611.15651/figure-011.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 972
+            },
+            {
+              "caption": "Figure 12 Offset and late-contact correction in RoboCasa365 case R2. Twelve raw observations from one continuous rollout show the onion left in the sink after late closure. Corrected instructions coordinate re-approach and closure before successful plate placement with the frozen VLA.",
+              "figure_id": "figure-12-12",
+              "figure_number": "12",
+              "height": 731,
+              "image_path": "figures/2611.15651/figure-012.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 972
+            },
+            {
+              "caption": "Figure 13 Representative Piper executions for the five real-robot tasks. Each row shows four chronological frames from one video, read from left to right. Action labels describe visible execution stages; timestamps are relative to the start of the corresponding video. The color-sorting task targets the orange-colored fruit and blue block, and the basket task requires both designated fruits. Frames illustrate physical execution; aggregate success rates are reported in Figure 7.",
+              "figure_id": "figure-13-5",
+              "figure_number": "13",
+              "height": 903,
+              "image_path": "figures/2611.15651/figure-013.webp",
+              "kind": "figure",
+              "page": 29,
+              "width": 976
+            },
+            {
+              "caption": "Table 1 Brain-level corrective reasoning on EmbodiedDiag-Bench (%). Judge and Cause measure whether the brain understands the realized execution, while Sub and Fine measure whether that understanding produces the correct continuation.",
+              "figure_id": "table-1-14",
+              "figure_number": "1",
+              "height": 386,
+              "image_path": "figures/2611.15651/table-014.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 986
+            },
+            {
+              "caption": "Table 3 Code-Harness evaluation on OmniBehavior and LIBERO-PRO (%). The VLA function is disabled in the code workflow. The GPT-5.5 code model, analytic robot functions, perception, and execution budget stay fixed when comparing corrective brains.",
+              "figure_id": "table-3-7",
+              "figure_number": "3",
+              "height": 257,
+              "image_path": "figures/2611.15651/table-015.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 990
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.15651/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.15651",
+          "relevance": 9,
+          "selection_reason": "Introduces Embodied-Corrector, a VLA framework for failure recovery that uses Online Planning Distribution (OPD) to align planning distributions during inference, a key test-time learning technique.",
+          "summary_status": "generated",
+          "title": "Recover, Don't Just Continue: Learning from Feedback for Physical Failure Understanding and Correction",
+          "tldr": "Embodied-Corrector teaches multimodal models to diagnose physical execution failures and revise plans using recoverable interaction experience.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-action"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "In robotics and embodied AI, a core challenge for world models is adapting to sudden, persistent, yet initially unknown changes in robot dynamics during interaction. For instance, when a robotic arm grasps an object with an unknown payload, the robot dynamics change suddenly. If the world model fails to adapt, its prediction errors accumulate over the open-loop rollout and ultimately mislead the robot's actions. Existing world models, however, struggle to simultaneously satisfy three critical requirements for dynamics adaptation: responsiveness, reacting promptly to sudden changes to curb prediction error accumulation; stability, distinguishing persistent changes from transient disturbances to prevent incorrect updates; and persistence, retaining the adapted dynamics without new observations so that later predictions do not revert to the old dynamics. Inspired by predictive coding in the human brain with multi-timescale adaptation, we propose AFTER-WM, a world model with Adaptive Fast-slow Timescales for Error-driven Retention, whose prediction errors drive a fast correction that fades and a slow correction that persists, while dynamically adjusting the combination weights of pre-trained experts without altering them, to overcome the trade-offs among responsiveness, stability and persistence. On five simulated robot datasets and real UAV data, AFTER-WM has a lower multi-step mean error than all ten compared models and the highest mean return in a joint-failure control task. In simulation, its multistep mean error is 16%-34% below the strongest compared model's and is also the lowest 1-4 steps after a change and under transient disturbances alone, and its step-40 error is the lowest as well, reflecting responsiveness, stability and persistence. All code (method, baselines, experiments) and datasets will be released online.",
+          "arxiv_id": "2611.15215",
+          "arxiv_url": "https://arxiv.org/abs/2611.15215",
+          "authors": [
+            "Haoyi Zhang, Qi Zhang, Yunfan Ren, Yi Bin, Lei Zhu, Heng Tao Shen"
+          ],
+          "bullets": [
+            "Targets world-model failures when robot dynamics change unexpectedly, such as after grasping an unknown payload.",
+            "Uses a fast correction for prompt adaptation and a slow correction for retained dynamics, with prediction errors driving both.",
+            "Dynamically reweights pretrained experts without modifying their parameters.",
+            "Evaluated on five simulated robot datasets and real UAV data, achieving lower multi-step mean error than ten compared models and the highest mean return in a joint-failure control task.",
+            "Reported gains cover early adaptation, transient disturbances, and long-horizon retention; code and datasets are planned for release."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Architecture of AFTER-WM (Sec. 3). Supp. Sec. B.2 gives the full computation diagram.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 241,
+              "image_path": "figures/2611.15215/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 870
+            },
+            {
+              "caption": "Figure 5. Why AFTER-WM leads after a change. (a–c) Two examples. (d–f) Means over 1,586 persistent changes (4 seeds on UR5e).",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 319,
+              "image_path": "figures/2611.15215/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 929
+            },
+            {
+              "caption": "Figure 3. Per-step error of all models on the five simulated datasets (left); AFTER-WM vs. the strongest compared model (right).",
+              "figure_id": "figure-3-8",
+              "figure_number": "3",
+              "height": 215,
+              "image_path": "figures/2611.15215/figure-003.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 974
+            },
+            {
+              "caption": "Figure 4. Joint angles predicted by AFTER-WM and the strongest compared model, drawn as arm poses and starting 8 steps after a change.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 191,
+              "image_path": "figures/2611.15215/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1004
+            },
+            {
+              "caption": "Figure 6. Tests of the three designs: alterations at test time in (a), (b) and (d), and retrained models in (c). On UR5e, (b) and (d) use 4 seeds.",
+              "figure_id": "figure-6-4",
+              "figure_number": "6",
+              "height": 184,
+              "image_path": "figures/2611.15215/figure-005.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 956
+            },
+            {
+              "caption": "Figure 7. Multi-step mean error. (a) Ablations, retrained at about 0.70M parameters. (b) Sensitivity to C and γ on ESCP-HC.",
+              "figure_id": "figure-7-5",
+              "figure_number": "7",
+              "height": 132,
+              "image_path": "figures/2611.15215/figure-006.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 877
+            },
+            {
+              "caption": "Table 2. Further tests: compared models beaten by AFTER-WM and its smallest margin.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 144,
+              "image_path": "figures/2611.15215/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 448
+            },
+            {
+              "caption": "Table 1. Multi-step mean and step-40 errors (nMSE) on five simulated datasets, as mean ± standard deviation over 5 seeds. The multi-step mean averages the mean errors over steps 1 to n for n = 1, 5, 10, 20, 40. On Panda and UR5e, one MBCD seed’s predictions diverge.",
+              "figure_id": "table-1-7",
+              "figure_number": "1",
+              "height": 251,
+              "image_path": "figures/2611.15215/table-008.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1036
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.15215/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.15215",
+          "relevance": 9,
+          "selection_reason": "Proposes an adaptive world model for robot dynamics that responds to sudden changes and retains corrections, directly combining world-model prediction with test-time/continual adaptation for embodied agents.",
+          "summary_status": "generated",
+          "title": "AFTER: A World Model with Adaptive Fast--Slow Timescales for Error-Driven Retention",
+          "tldr": "AFTER-WM adapts world models to sudden, persistent, or transient dynamics changes using error-driven fast–slow corrections that improve prediction and control.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "test-time-learning",
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Conditional generative modeling with limited target data can benefit from representations learned in a related source population. We develop a transfer learning framework for conditional flow matching that accommodates distinct source and target response distributions and dimensions. Two procedures exploit a representation learned from source data: TFM-Freeze estimates a target velocity head with the representation fixed, whereas TFM-Adapt jointly learns the head and a representation adaptation under a functional anchoring penalty. For explicit neural network classes, we establish bounds on conditional squared Wasserstein risk that account for source estimation, target fitting, representation mismatch, and numerical integration. When the source representation admits a smooth correction, adaptation replaces the frozen mismatch contribution by the cost of learning the correction and a controllable regularization bias. An information lower bound identifies regimes in which adaptation attains a strictly faster conditional squared Wasserstein risk rate than any generator restricted to the frozen context information. We also develop independent validation procedure for selecting among fitted conditional generators. We show that the selection procedure satisfies an oracle inequality, and the switching rule guarantees, with high probability, no increase in conditional energy risk relative to a target-only generator. Simulations and real data applications illustrate the gains from our proposed methods and the effectiveness of target validation in guarding against negative transfer.",
+          "arxiv_id": "2611.15150",
+          "arxiv_url": "https://arxiv.org/abs/2611.15150",
+          "authors": [
+            "Yian Huang, Jian Huang"
+          ],
+          "bullets": [
+            "Addresses conditional generative modeling when target data are scarce and source and target response spaces may differ.",
+            "TFM-Freeze estimates a target velocity head while keeping the source representation fixed; TFM-Adapt jointly learns the head and a regularized representation correction.",
+            "Derives conditional squared Wasserstein risk bounds covering source estimation, target fitting, representation mismatch, and numerical integration.",
+            "Shows adaptation can achieve faster risk rates than generators limited to frozen context information when the source representation has a smooth correction.",
+            "A target-validation and switching procedure has an oracle guarantee and can avoid increasing conditional energy risk relative to a target-only generator; simulations and real-data applications demonstrate practical gains."
+          ],
+          "categories": [
+            "cs.LG",
+            "stat.ME"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Mean joint empirical Wasserstein-1 distance against source sample size, with nt = 1024. Panel arrangement, methods, and intervals are as in Figure 1.",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 1065,
+              "image_path": "figures/2611.15150/figure-001.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 952
+            },
+            {
+              "caption": "Figure 3: Mean joint empirical Wasserstein-2 distance against source sample size, with nt = 1024. Panel arrangement, methods, and intervals are as in Figure 1.",
+              "figure_id": "figure-3-5",
+              "figure_number": "3",
+              "height": 1077,
+              "image_path": "figures/2611.15150/figure-002.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 952
+            },
+            {
+              "caption": "Figure 1: Mean energy discrepancy against source sample size, with nt = 1024. Columns correspond to related and unrelated representations; rows correspond to (p, d) = (50, 1), (200, 5), (500, 10). Error bars are pointwise 95% Monte Carlo intervals from 100 repetitions. +TV denotes target validation.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 1062,
+              "image_path": "figures/2611.15150/figure-003.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 952
+            },
+            {
+              "caption": "Table 1: Mean test CRPS and harmful-repetition counts for Materials and Diamonds, using 40 paired repetitions. Harm compares TFM procedures with target-only FM and Tian–Shen with target-only diffusion; exact fallback ties are excluded. Bold type marks the lowest mean CRPS in each application.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 373,
+              "image_path": "figures/2611.15150/table-004.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 702
+            },
+            {
+              "caption": "Table 3: Paired CRPS comparisons on Diamonds. Differences are adaptive procedure minus comparator. Intervals are pointwise 95% paired Student-t intervals across 40 training repetitions.",
+              "figure_id": "table-3-6",
+              "figure_number": "3",
+              "height": 434,
+              "image_path": "figures/2611.15150/table-005.webp",
+              "kind": "table",
+              "page": 99,
+              "width": 618
+            },
+            {
+              "caption": "Table 2: Target validation at ns = 8000 in the simulations. Retained is the number of repetitions selecting transfer. Harm gives the count before / after validation in the unrelated regime, based on energy discrepancy. All counts are out of 100.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 306,
+              "image_path": "figures/2611.15150/table-006.webp",
+              "kind": "table",
+              "page": 98,
+              "width": 640
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.15150/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.15150",
+          "relevance": 8,
+          "selection_reason": "Develops a transfer learning framework for conditional flow matching, applicable to adaptation (test-time learning) and generative world models.",
+          "summary_status": "generated",
+          "title": "Knowledge Transfer for Conditional Flow Matching: Frozen Estimation and Adaptation",
+          "tldr": "A theory-backed transfer-learning framework for conditional flow matching uses either a frozen source representation or an adapted one to improve generation with limited target data while guarding against negative transfer.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "latent-action-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Cross-modal unmanned aerial vehicle (UAV) object tracking faces modality-induced appearance discrepancies and abrupt target-position shifts that can arise from modality switching, UAV motion, and inter-sensor offsets. Although existing methods model modality and spatial variations, they primarily rely on offline representation learning and offer limited localization-oriented adaptation during testing. To address these challenges, we propose Test-Time Selective Adaptation with Token Shift (TSAT), which derives spatial and temporal adaptation signals from unlabeled test sequences for online optimization. Specifically, we design a controllable token shift auxiliary task, which imposes explicit spatial correspondence between predefined token translations and resultant localization offsets, generating stable annotation-free spatial adaptation signals. Furthermore, we introduce a temporal backward prediction auxiliary task to exploit frame-wise temporal dependencies, effectively mitigating cumulative localization errors in continuous tracking. To suppress interference from unreliable tracking samples, we develop a reliability-aware update gating strategy to screen valid adaptation signals and stabilize online parameter updates. Experiments on CM-UOT demonstrate that TSAT achieves state-of-the-art performance against existing test-time adaptation methods, exhibiting superior robustness under frequent modality switching and severe spatial displacement. Experiments across tracking frameworks and datasets further validate the effectiveness and generalization capability of TSAT.",
+          "arxiv_id": "2611.15059",
+          "arxiv_url": "https://arxiv.org/abs/2611.15059",
+          "authors": [
+            "Yun Xiao, Hailong Ye, Zhicheng Zhao, Lei Liu, Amir Hussain"
+          ],
+          "bullets": [
+            "Addresses appearance discrepancies and abrupt target shifts caused by modality switching, UAV motion, and sensor offsets.",
+            "Uses a controllable token-shift auxiliary task to generate annotation-free spatial localization signals.",
+            "Adds temporal backward prediction to exploit frame dependencies and reduce cumulative localization errors.",
+            "Applies reliability-aware update gating to exclude unreliable samples during online adaptation.",
+            "Reports state-of-the-art performance on CM-UOT and effectiveness across tracking frameworks and datasets, especially under frequent switching and severe displacement."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 7. Qualitative comparison of different test-time adaptation methods before and after the modality switch. The displacement values in the second row indicate the ground-truth target-center displacement between the current frame and its preceding frame.",
+              "figure_id": "figure-7-20",
+              "figure_number": "7",
+              "height": 490,
+              "image_path": "figures/2611.15059/figure-001.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 1022
+            },
+            {
+              "caption": "Fig. 9. Failure cases of TSAT when the target moves outside the search region after modality switching.",
+              "figure_id": "figure-9-5",
+              "figure_number": "9",
+              "height": 652,
+              "image_path": "figures/2611.15059/figure-002.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 1023
+            },
+            {
+              "caption": "Fig. 5. Attribute-based performance comparison with representative trackers on CM-UOT. From left to right, the radar charts report PR, NPR, and SR over 19 challenge attributes.",
+              "figure_id": "figure-5-14",
+              "figure_number": "5",
+              "height": 334,
+              "image_path": "figures/2611.15059/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1072
+            },
+            {
+              "caption": "Fig. 1. Tracking results before modality switching, at the switch frame, and during subsequent tracking. Red dashed, blue dashed, and green solid boxes denote TSAT, SARLA [7], and ground truth, respectively.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 435,
+              "image_path": "figures/2611.15059/figure-004.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 8. Comparison of Offline TSE and Online TSE on CM-UOT. The vertical axis ranges from 35% to 55%.",
+              "figure_id": "figure-8-18",
+              "figure_number": "8",
+              "height": 344,
+              "image_path": "figures/2611.15059/figure-005.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 498
+            },
+            {
+              "caption": "Fig. 2. Adaptation loss and corresponding TSE response consistency. Red dashed and green solid boxes denote the actual and expected response locations, respectively. The vertical dashed line indicates a modality switch.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 313,
+              "image_path": "figures/2611.15059/figure-006.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 6. PR comparison after different spatial displacements on CM-UOT, evaluated from the first corresponding displacement frame to the sequence end. Blue and red bars denote SARLA and TSAT, respectively.",
+              "figure_id": "figure-6-15",
+              "figure_number": "6",
+              "height": 317,
+              "image_path": "figures/2611.15059/figure-007.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 512
+            },
+            {
+              "caption": "Fig. 4. Illustration of entropy-based sample filtering in RUG.",
+              "figure_id": "figure-4-13",
+              "figure_number": "4",
+              "height": 219,
+              "image_path": "figures/2611.15059/figure-008.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 529
+            },
+            {
+              "caption": "TABLE II COMPARISON WITH REPRESENTATIVE TEST-TIME ADAPTATION METHODS ON THE CM-UOT DATASET BEFORE AND AFTER MODALITY SWITCHING AND OVER THE ENTIRE TEST SEQUENCES.",
+              "figure_id": "table-II-8",
+              "figure_number": "II",
+              "height": 444,
+              "image_path": "figures/2611.15059/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE III COMPARISON OF REPRESENTATIVE TTA METHODS ACROSS GROUND-TRUTH TARGET-CENTER DISPLACEMENT RANGES ON CM-UOT. DISPLACEMENTS ARE MEASURED IN PIXELS BETWEEN CONSECUTIVE FRAMES; SCORES ARE EVALUATED OVER THE SUBSEQUENT 30 FRAMES. THE BEST AND SECOND-BEST RESULTS ARE HIGHLIGHTED IN BOLD AND BLUE, RESPECTIVELY.",
+              "figure_id": "table-III-7",
+              "figure_number": "III",
+              "height": 394,
+              "image_path": "figures/2611.15059/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE I QUANTITATIVE COMPARISON WITH REPRESENTATIVE TRACKERS RETRAINED ON CM-UOT. TSAT IS APPLIED TO THE SARLA BASELINE.",
+              "figure_id": "table-I-2",
+              "figure_number": "I",
+              "height": 329,
+              "image_path": "figures/2611.15059/table-011.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 442
+            },
+            {
+              "caption": "TABLE IV COMPONENT ABLATION OF TSAT ON CM-UOT.",
+              "figure_id": "table-IV-19",
+              "figure_number": "IV",
+              "height": 213,
+              "image_path": "figures/2611.15059/table-012.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 420
+            },
+            {
+              "caption": "TABLE VII ABLATION ON THE RESPONSE ENTROPY THRESHOLD τe .",
+              "figure_id": "table-VII-9",
+              "figure_number": "VII",
+              "height": 161,
+              "image_path": "figures/2611.15059/table-013.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 438
+            },
+            {
+              "caption": "TABLE IX ABLATION ON THE TEST-TIME LEARNING RATE η.",
+              "figure_id": "table-IX-10",
+              "figure_number": "IX",
+              "height": 162,
+              "image_path": "figures/2611.15059/table-014.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 424
+            },
+            {
+              "caption": "TABLE V CENTER LOCALIZATION ERROR WITH AND WITHOUT TBP AFTER MODALITY SWITCHING (PIXELS).",
+              "figure_id": "table-V-21",
+              "figure_number": "V",
+              "height": 181,
+              "image_path": "figures/2611.15059/table-015.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 370
+            },
+            {
+              "caption": "TABLE VIII ABLATION ON THE TEST-TIME ADAPTATION INTERVAL I .",
+              "figure_id": "table-VIII-11",
+              "figure_number": "VIII",
+              "height": 161,
+              "image_path": "figures/2611.15059/table-016.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 412
+            },
+            {
+              "caption": "TABLE VI EFFECT OF THE NUMBER OF TOKEN SHIFTS N ON CM-UOT.",
+              "figure_id": "table-VI-12",
+              "figure_number": "VI",
+              "height": 165,
+              "image_path": "figures/2611.15059/table-017.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 354
+            },
+            {
+              "caption": "TABLE X RANDOM-SEED ANALYSIS OF TSAT ON CM-UOT.",
+              "figure_id": "table-X-3",
+              "figure_number": "X",
+              "height": 177,
+              "image_path": "figures/2611.15059/table-018.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 408
+            },
+            {
+              "caption": "TABLE XII GENERALIZATION EVALUATION OF TSAT ON OSTRACK. ALL RESULTS ARE REPORTED IN PERCENTAGE.",
+              "figure_id": "table-XII-16",
+              "figure_number": "XII",
+              "height": 149,
+              "image_path": "figures/2611.15059/table-019.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 472
+            },
+            {
+              "caption": "TABLE XI EFFICIENCY AND ACCURACY ON CM-UOT.",
+              "figure_id": "table-XI-4",
+              "figure_number": "XI",
+              "height": 104,
+              "image_path": "figures/2611.15059/table-020.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 529
+            },
+            {
+              "caption": "TABLE XIII TRACKING PERFORMANCE ON CMOTB.",
+              "figure_id": "table-XIII-17",
+              "figure_number": "XIII",
+              "height": 116,
+              "image_path": "figures/2611.15059/table-021.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 454
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.15059/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.15059",
+          "relevance": 7,
+          "selection_reason": "Proposes online test-time adaptation for cross-modal UAV tracking with auxiliary token-shift and temporal tasks.",
+          "summary_status": "generated",
+          "title": "Test-Time Selective Adaptation for Cross-Modal UAV Object Tracking with Token Shift",
+          "tldr": "TSAT enables robust cross-modal UAV object tracking by selectively adapting online to unlabeled test sequences using spatial token shifts, temporal prediction, and reliability-aware updates.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "The geometric understanding of a scene is a crucial component for safe and efficient robotic operations in novel and unstructured environments. The recent emergence of foundation models for Monocular Depth Estimation (MDE) has provided an opportunity to enrich robotic perception capabilities with dense long-range depth predictions, replacing expensive onboard hardware (e.g., LiDARs and stereo cameras). However, these offline models are primarily trained on affine-invariant depth representations, and their generalization to novel scenes remains unclear. In this work we present EM-ViT, a monocular depth estimation model that learns to adapt online relative depth inputs from a foundation model prior to the metric scale with observations collected during robotic operations. Motivated by the stereo camera parameterization, our method decomposes depth prediction via dense disparity refinement to recover the scene's relative structure and an effective baseline scalar prediction to determine the missing metric scale. The learning process leverages sparse LiDAR points and, optionally, the robot's Ego-Motion (EM) to rapidly train a lightweight Vision Transformer (ViT), while an internal gradient matching loss preserves the fine-grained semantic structure of the input disparity in real-time. We demonstrate the efficacy of our method on publicly available sequences, such as KITTI, and show that our online learning pipeline can adapt to novel scenes faster and with higher accuracy than existing MDE foundation models. The code and supplementary materials will be publicly available at https://emvit-mde.github.io.",
+          "arxiv_id": "2611.14958",
+          "arxiv_url": "https://arxiv.org/abs/2611.14958",
+          "authors": [
+            "Dimitrios Chatziparaschis, Georgios Georgakis, Adnan I. Ansar, Shehryar Khattak, Konstantinos Karydis"
+          ],
+          "bullets": [
+            "Addresses uncertain generalization of affine-invariant monocular depth models in novel, unstructured environments.",
+            "Refines dense disparity to recover relative scene structure and predicts a baseline scalar for metric scale.",
+            "Trains a lightweight Vision Transformer online using sparse LiDAR, with optional ego-motion and gradient matching to preserve fine details.",
+            "Evaluated on public sequences including KITTI, showing faster and more accurate adaptation than existing foundation MDE models.",
+            "Code and supplementary materials are planned for public release."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 2: Self-supervised virtual stereo system for online metric adaptation in MDE. Based on an affine-invariant inverse depth input da and camera’s focal length f , our Ego Motion (EM)-ViT framework decodes depth reconstruction into dense disparity refinement d̂ and an effective baseline prediction B̂, achieving scale-to-structure disentanglement. The integrated disparity refinement module (e.g., dRefNet) uses a single image It, with optionally previously captured frames Iref and their corresponding poses p, to metrically fine-tune generated depth D̂t, while pose corrections can be provided in real-time via the odometry refinement module (e.g., odomNet). Our lightweight EM-ViT framework is self-supervised by sparse LiDAR annotations, photometric reconstruction, and gradient matching loss, to provide real-time, accurate, and fine-grained monocular depth estimation.",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 521,
+              "image_path": "figures/2611.14958/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1076
+            },
+            {
+              "caption": "Fig. 6: Moments during online training. We demonstrate our model’s online MDE adaptation in the unexplored garage environment, by presenting the total training loss (top left), the δ1 score (top right), and depth prediction instances on unseen images (bottom).",
+              "figure_id": "figure-6-10",
+              "figure_number": "6",
+              "height": 571,
+              "image_path": "figures/2611.14958/figure-002.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 1076
+            },
+            {
+              "caption": "Fig. 12: Qualitative evaluation of depth prediction of our method in different Martian scenes. By using a single image our method is able to generate depth maps of the observed area without being affected by ambient conditions. Specifically, in cases of low solar phase angle and poor area texture, the applied Flight Stereo [11] method shows depth discontinuities, in contrast to the EM-ViT. We showcase our method’s generated point clouds for each Martian scene in different view points.",
+              "figure_id": "figure-12-5",
+              "figure_number": "12",
+              "height": 435,
+              "image_path": "figures/2611.14958/figure-003.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 1076
+            },
+            {
+              "caption": "Fig. 7: Ground-truth density and depth map fidelity. Our method preserves high-fidelity structural detail during disparity reconstruction via the proposed gradient matching supervision scheme LGM(d̂, da) with local corrections, even in cases with less LiDAR annotations (i.e. Garage and CitrusFarm).",
+              "figure_id": "figure-7-11",
+              "figure_number": "7",
+              "height": 310,
+              "image_path": "figures/2611.14958/figure-004.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 1: Real-time and onboard MDE metric adaptation. Sparse image frames and corresponding point cloud views collected during exploration are used to refine an affineinvariant relative depth map into metric and adapt to the new environment.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 273,
+              "image_path": "figures/2611.14958/figure-005.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 10: Dense disparity reconstruction and correction. Example of MDE backbone inability to form correct disparity on specific areas of the scene with on-the-go structural correction of our dense disparity reconstruction.",
+              "figure_id": "figure-10-8",
+              "figure_number": "10",
+              "height": 310,
+              "image_path": "figures/2611.14958/figure-006.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 450
+            },
+            {
+              "caption": "TABLE I: Online training evaluation. Metric scores of our MDE pipeline compared with baseline models, evaluated on a NVIDIA AGX Orin 64GB. We include also scores from the metrically fine-tuned DAV2 ViT-S models, as provided [21], for the corresponding indoor (HyperSim) and outdoor (VKITTI2) settings. The bold and underlined values denote the best and second-best scores across all methods, respectively.",
+              "figure_id": "table-I-6",
+              "figure_number": "I",
+              "height": 423,
+              "image_path": "figures/2611.14958/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 998
+            },
+            {
+              "caption": "TABLE IV: Offline training evaluation. Metric scores between our MDE pipeline and the DAV2 models that were trained and tested on the full dataset. We train both the pretrained and head part of the DAV2 ViT-S model as proposed for metric fine-tuning. The bold and underlined values denote the best and second-best scores across all methods, respectively.",
+              "figure_id": "table-IV-7",
+              "figure_number": "IV",
+              "height": 118,
+              "image_path": "figures/2611.14958/table-008.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 808
+            },
+            {
+              "caption": "TABLE III: Examination of lower image sampling rates. Comparison of the superior baseline method with EM-ViT, which utilizes photometric loss LPh, pose refinement during online learning, and lower {It,Pt} sampling rates. The bold and underlined values denote the best and second-best scores across all methods, respectively.",
+              "figure_id": "table-III-2",
+              "figure_number": "III",
+              "height": 308,
+              "image_path": "figures/2611.14958/table-009.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 1058
+            },
+            {
+              "caption": "TABLE II: Limitation of LiDAR ground truth. Evaluation across different availability percentages of LiDAR points during self-supervision of EM-ViT. Inclusion of extreme cases using 20 or a single LiDAR beam (i.e. rangefinder case) for metric supervision, with and without the use of odomNet.",
+              "figure_id": "table-II-4",
+              "figure_number": "II",
+              "height": 444,
+              "image_path": "figures/2611.14958/table-010.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 512
+            },
+            {
+              "caption": "TABLE V: Necessity of online disparity refinement. Comparison of EM-ViT with an L2-solver for affine-invariant disparity map to metric fine-tuning.",
+              "figure_id": "table-V-9",
+              "figure_number": "V",
+              "height": 84,
+              "image_path": "figures/2611.14958/table-011.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 494
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.14958/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.14958",
+          "relevance": 7,
+          "selection_reason": "Online adaptation of monocular depth estimation using robot ego-motion; directly relevant to test-time learning in embodied settings.",
+          "summary_status": "generated",
+          "title": "Adapting Monocular Depth Estimation in Novel Scenes through Disparity Refinement and Robot Ego-Motion",
+          "tldr": "EM-ViT adapts foundation-model monocular depth predictions to metric depth in new robotic scenes using sparse LiDAR and optionally robot ego-motion.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Identifying and solving partial differential equations (PDEs) from sampled solution data often requires substantial expert effort in equation discovery, coefficient estimation, and numerical solver configuration, especially under noise and distribution shifts. Can large language model (LLM) agents automate this workflow accurately and efficiently? To investigate this question, we introduce \\bench{}, a benchmark of 1,001 cases spanning 42 equation templates, including both classical and fractional PDEs. It provides three evaluation settings: Full evaluates performance on noise-free solution data; Noisy tests robustness to Gaussian noise with an RMS equal to 50\\% of the clean-signal RMS; and Hard-OOD tests challenging out-of-distribution generalization to unseen equation templates and shifted coefficient ranges. We further introduce RSI-PDE, a recursively self-improving agent harness that shortlists candidate equations by residual loss, uses relative $L^2$ feedback to refine coefficients and numerical solvers, and applies a validation gate to policy and memory updates. We compare RSI-PDE with single-run baselines and native agent harnesses (Claude Code or Codex) across four frontier models. Across the three settings, RSI-PDE improves the pass rate averaged across the four models by 106.5--181.9\\% relative to single-run baselines and by 3.0--19.6\\% relative to native harnesses, while reducing total recorded model calls by 46.9\\% across the 12 model--setting pairs. These results highlight the potential of validated recursive self-improvement in LLM agents to advance scientific computing.",
+          "arxiv_id": "2611.14949",
+          "arxiv_url": "https://arxiv.org/abs/2611.14949",
+          "authors": [
+            "Binghang Lu, Lang Cao, Changhong Mou, Yige Sun, Cindy Xiangrui Kong, Zheyuan Deng, Tian Yuan, Bing Hu, Runyu Zhang, Na Lu, Guang Lin"
+          ],
+          "bullets": [
+            "Benchmarks 1,001 cases across 42 classical and fractional PDE templates.",
+            "Tests noise-free data, substantial Gaussian noise, and hard out-of-distribution settings.",
+            "RSI-PDE shortlists equations by residual loss, refines coefficients and solvers using relative L² feedback, and gates policy or memory updates with validation.",
+            "Across four frontier models, RSI-PDE raises average pass rates over single-run baselines and native harnesses while using fewer recorded model calls.",
+            "The benchmark targets workflows requiring equation discovery, coefficient estimation, and numerical solver configuration."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1 | Final accuracy and learning curves. Left: passed-case bars (gray: native; red: RSI-PDE). Right: learning curves (black: native; red: RSI-PDE). Both halves have Opus 5.5 above GPT-5.5, with Full, Noisy and Hard-OOD columns. Labels give final counts and RSI-minus-native case gains. Axes are locally zoomed; cropped bar baselines are marked. The native Opus Full curve whisker shows the observed 187–198 range over three runs. Curves preserve regressions and stopping rounds. Tables 3 and 4 give all models and baselines.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 424,
+              "image_path": "figures/2611.14949/figure-001.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 1073
+            },
+            {
+              "caption": "Figure 3 | RSI-PDE harness. The frozen LLM reads the context (H1–H6), and its reply passes the supervisor checks (H7) before becoming a training experiment (H8), a public-data analysis (H9) or a proposal (H10). A proposal updates solver 𝑃, instruction policy 𝜋 and memory 𝑀. The candidate passes the training self-test (H11) and the validation or public-pass gate (H12); the text describes the bounded training-regression waiver. Accepted state returns in the next round’s context; rejected proposals return diagnostic feedback. The supervisor and model weights remain fixed. Only the independent evaluator scores the frozen solver on hidden tests.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 441,
+              "image_path": "figures/2611.14949/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 960
+            },
+            {
+              "caption": "Figure 5 | Full passed-case trajectories for all four models. Black dashed squares: native harness; red circles: RSI-PDE. Local vertical ranges show recorded points from round one. Final labels give headline counts; red labels also give RSI-minus-native gains in cases. The native Opus 5.5 whisker shows the observed 187–198 range over three runs. GPT-6.1 and Sonnet 5.5 native count trajectories are approximate, converted from the author’s rounded percentages; the Sonnet endpoint therefore need not equal 183 before rounding. A round index is not a common wall-clock budget.",
+              "figure_id": "figure-5-3",
+              "figure_number": "5",
+              "height": 460,
+              "image_path": "figures/2611.14949/figure-003.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 864
+            },
+            {
+              "caption": "Figure 6 | Recorded model calls by model and setting. Black: native harness; red: RSI-PDE. Calls are summed across development groups and are not replaced by stop-rule replay counts. The corresponding dollar figures have a different provenance, as explained in the text and Table 6.",
+              "figure_id": "figure-6-15",
+              "figure_number": "6",
+              "height": 523,
+              "image_path": "figures/2611.14949/figure-004.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 921
+            },
+            {
+              "caption": "Figure 7 | Each point pairs a website row’s median relative 𝐿2 error with its median post-hoc true-equation residual. Points are aggregate medians, not paired per-case observations; marker shapes identify models and colors identify harnesses. Coverage and reference runs vary, including historical Full native diagnostics. The plot illustrates complementary diagnostics and should not be read as a causal residual-to-accuracy law.",
+              "figure_id": "figure-7-13",
+              "figure_number": "7",
+              "height": 327,
+              "image_path": "figures/2611.14949/figure-005.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 901
+            },
+            {
+              "caption": "Figure 2 | Examples of reference fields from public training cases. The benchmark includes diffusion and transport, fractional dynamics, wave propagation, fluid flow, phase-field systems and electromagnetics. The gallery is illustrative; Section B gives the complete 42-template catalog.",
+              "figure_id": "figure-2-11",
+              "figure_number": "2",
+              "height": 247,
+              "image_path": "figures/2611.14949/figure-006.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 972
+            },
+            {
+              "caption": "Figure 4 | The residual-guided RSI-PDE workflow. (1) The agent starts without the equation: the family 𝑘 and the coefficients 𝜃 are unknown, and it receives 256 samples, the known forcing, initial and boundary data, and the class library. (2) A frozen LLM, steered by its self-written policy 𝜋 and memory 𝑀, writes the program 𝑃, whose router identifies the case and dispatches it to a class solver. (3) In the sandbox, residual ranking by min𝜃 Lres (𝑘, 𝜃; 𝑢𝑎) ranks candidate families and keeps the five best; forward solves and public relative 𝐿2 checks then refine the equation choice and its coefficients. (4) Public relative 𝐿2 errors, the self-test and the validation gate decide what is kept. Accepted (𝑃, 𝜋, 𝑀) carry into the next round, so the policy and memory evolve with the solver; a rejection returns its 𝐿2 errors and reasons. The bottom row follows a toy viscous Burgers case (𝜈★ = 0.01): the residual fit on a smoothed field gives 𝜈 = 0.0171, and gated 𝐿2 feedback refines it to 𝜈 = 0.0101, below 𝜏. The later coefficient values are illustrative; the residuals, fields and errors are computed for this toy case, not taken from benchmark runs.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 497,
+              "image_path": "figures/2611.14949/figure-007.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 960
+            },
+            {
+              "caption": "Figure 8 | Noisy trajectories for all four models, with corrected GPT-6.1 identities: red RSI-PDE finishes at 97/160 and black Codex at 90/160. The curves retain the supplied numerical measurements and change only their corrected harness attribution. Round indices are validation-submission indices.",
+              "figure_id": "figure-8-16",
+              "figure_number": "8",
+              "height": 528,
+              "image_path": "figures/2611.14949/figure-008.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 872
+            },
+            {
+              "caption": "Figure 9 | Hard-OOD trajectories. RSI-PDE is red and the native harness is black. Template novelty and coefficient shift are both included in the 278-case aggregate; Table 4 separates their endpoints.",
+              "figure_id": "figure-9-17",
+              "figure_number": "9",
+              "height": 529,
+              "image_path": "figures/2611.14949/figure-009.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 872
+            },
+            {
+              "caption": "Table 4 | Noisy and Hard-OOD results for all four models. Bold marks the higher harness count, including ties. Unseen and shifted counts partition Hard-OOD. ‡: corrected GPT-6.1 Noisy attribution; the mark applies to the Noisy identity and its corresponding calls. Missing single-run group breakdowns remain unavailable rather than inferred.",
+              "figure_id": "table-4-9",
+              "figure_number": "4",
+              "height": 358,
+              "image_path": "figures/2611.14949/table-010.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 973
+            },
+            {
+              "caption": "Table 3 | Full results. Passes are out of 210; gain over the single-run baseline and validation-minus-test gap are percentage points. Bold marks the higher displayed harness count for a model. †: author-updated native total with earlier-run resource/diagnostic records. ∗: retrospective stop-adjusted RSI cost, not the cost of the full-budget score shown.",
+              "figure_id": "table-3-10",
+              "figure_number": "3",
+              "height": 357,
+              "image_path": "figures/2611.14949/table-011.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 972
+            },
+            {
+              "caption": "Table 5 lists the 42 templates. In Full, every template has one training case, one validation case and five hidden-test cases; the other settings have the allocations in Table 2. Templates marked † were hardened after calibration (Section C); templates marked ‡ take their input fields from the DiffusionPDE test set.",
+              "figure_id": "table-5-12",
+              "figure_number": "5",
+              "height": 1042,
+              "image_path": "figures/2611.14949/table-012.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 977
+            },
+            {
+              "caption": "Table 7 | Full reference-run diagnostics. †: historical native counts 199/210 for GPT-6.1 and 193/210 for Sonnet 5.5; the current headline totals are 189 and 183. Single-run coverage and sample means can also differ from the headline comparison. These rows are not new measurements of the updated totals.",
+              "figure_id": "table-7-6",
+              "figure_number": "7",
+              "height": 292,
+              "image_path": "figures/2611.14949/table-013.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 973
+            },
+            {
+              "caption": "Table 8 | Noisy reference-run diagnostics. The GPT-6.1 harness identities follow the author’s correction; residual values and their original numerical coverage are preserved.",
+              "figure_id": "table-8-7",
+              "figure_number": "8",
+              "height": 291,
+              "image_path": "figures/2611.14949/table-014.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 973
+            },
+            {
+              "caption": "Table 6 | Website resource records, summed over the development groups and averaged where repeated. Recorded rounds are summed group submissions, not the final horizontal coordinate of a combined curve. †: updated Full native total paired with historical resource records. ‡: corrected Noisy GPT-6.1 attribution. ∗: retrospective stop-rule replay cost; calls and accuracy remain full-budget values.",
+              "figure_id": "table-6-4",
+              "figure_number": "6",
+              "height": 959,
+              "image_path": "figures/2611.14949/table-015.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 883
+            },
+            {
+              "caption": "Table 1 | Declared budget per development sub-run. All aggregate resource figures sum the three sub-runs before averaging repeated runs. Final hidden evaluation is outside the development budget.",
+              "figure_id": "table-1-14",
+              "figure_number": "1",
+              "height": 171,
+              "image_path": "figures/2611.14949/table-016.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 636
+            },
+            {
+              "caption": "Table 2 | The three current evaluation settings. Noisy contains 200 selected cases in total, of which 160 are test cases. Hard-OOD separates 188 cases from unseen templates and 90 cases with shifted coefficients.",
+              "figure_id": "table-2-18",
+              "figure_number": "2",
+              "height": 108,
+              "image_path": "figures/2611.14949/table-017.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 625
+            },
+            {
+              "caption": "Table 9 | Hard-OOD reference-run diagnostics, including the available single-run rows. The true-equation residual is an evaluator-only post-hoc measurement and does not alter the relative-𝐿2 pass criterion.",
+              "figure_id": "table-9-8",
+              "figure_number": "9",
+              "height": 269,
+              "image_path": "figures/2611.14949/table-018.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 973
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.14949/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.14949",
+          "relevance": 6,
+          "selection_reason": "Proposes a recursively self-improving LLM agent harness with policy and memory updates during deployment, fitting test-time learning/adaptation.",
+          "summary_status": "generated",
+          "title": "RSI-PDEbench: A Benchmark for Self-Improving Agents in PDE Solving",
+          "tldr": "RSI-PDEbench evaluates LLM agents for PDE discovery and solving, showing that validated recursive self-improvement can improve accuracy and reduce model calls across noise and distribution shifts.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Vision-language models such as CLIP can classify images into categories they were never explicitly trained to recognize, but accuracy degrades when test images differ in style or source from their training data. A common remedy generates randomly cropped and flipped copies of each test image, called views, and combines their predictions. Since some views miss the object, methods must identify which views to trust. The dominant approach uses prediction entropy to measure confidence and retains the most certain views. Other methods use signals such as embedding typicality. Despite repeated refinements of these scoring functions, the information they rely on, the model's own response to each view, remains largely unexamined. We investigate this choice while holding other pipeline stages fixed. First, we show that view selection, rather than the gradient update, accounts for almost all accuracy gains. We then examine whether entropy identifies useful views when predictions are wrong, despite at least one view predicting the correct class. In these cases, entropy ranks correct views above incorrect ones no better than chance, recovering only about one-twentieth of the accuracy recovered by an oracle over the same views. This finding holds across two image encoders and under a control ruling out an obvious statistical artifact. An exact analysis explains this limitation: entropy measures confidence but not which class a view favors. We identify an unused signal already available in the augmentation pipeline: the fraction of the original image retained by each crop. Ranking views by this quantity improves accuracy on 14 of 15 benchmark datasets over entropy and on 11 of 15 over the strongest scoring function tested. A pre-method measurement also predicts which datasets benefit.",
+          "arxiv_id": "2611.14686",
+          "arxiv_url": "https://arxiv.org/abs/2611.14686",
+          "authors": [
+            "Sivasuthan Sukumar, Uthayasanker Thayasivam"
+          ],
+          "bullets": [
+            "View selection, not the gradient update, accounts for nearly all reported accuracy gains in the evaluated pipeline.",
+            "When at least one augmented view is correct, entropy ranks correct views above incorrect ones about as well as chance.",
+            "Entropy recovers only about one-twentieth of the accuracy achievable by an oracle selecting among the same views.",
+            "Ranking views by the fraction of the original image they retain improves accuracy over entropy on 14 of 15 benchmark datasets.",
+            "A pre-method measurement predicts which datasets benefit from this alternative signal."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: The pipeline, and which of its stages produces the accuracy. (a) The augment, score, select, aggregate recipe TPT, ZERO and ADTE each declare. (b) Each stage measured with the other two held fixed, on ImageNet-A, in percentage points: the absolute gap between two accuracies, so 40% to 59% is 19 of them. Selection produces almost all of the gain; the gradient step is indistinguishable from no update under a paired McNemar test [McNemar, 1947]. Concurrent work agrees by different means [Huang et al., 2026]; we claim the decomposition and its mechanism, not the direction.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 323,
+              "image_path": "figures/2611.14686/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 821
+            },
+            {
+              "caption": "Figure 3: The gain is predictable before the method is run. One point per dataset; the horizontal axis is how well a view’s crop area separates correct from incorrect views on reducible errors, an AUC computed with no method in the loop. Datasets left of the chance line gain nothing, as a real signal rather than a tuning artefact should. Per-dataset gains are in Tab. 1.",
+              "figure_id": "figure-3-8",
+              "figure_number": "3",
+              "height": 348,
+              "image_path": "figures/2611.14686/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 592
+            },
+            {
+              "caption": "Figure 4: What the model’s response cannot see. Both arms use the same regressor, the same training rows, and feature sets of identical dimension holding the identical value multiset; only the ordering differs. (a) Every configuration improves when class identity is preserved. (b) The gap, sorted: positive in 40/40, mean 8.60 percentage points. The capacity ladder had saturated in all 40, so under-fitting does not explain it. Per-configuration numbers in Tab. 5.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 419,
+              "image_path": "figures/2611.14686/figure-003.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 821
+            },
+            {
+              "caption": "Figure 2: The entropy score separates useful views from useless ones only where a better choice cannot help. (a) The control: reducible errors are defined on one random half of an image’s views and the score evaluated on the disjoint half, so restricting the population cannot contaminate the measurement. (b) Area under the ROC curve (AUC, Sec. 3), where 1.0 orders correct views perfectly above incorrect ones and 0.5 carries no information; on reducible errors it falls to chance on both encoders. (c) The consequence in accuracy on those images.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 342,
+              "image_path": "figures/2611.14686/figure-004.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 821
+            },
+            {
+              "caption": "Table 3: How much a better choice of views could buy. The oracle keeps the same number of views as the deployed method but selects them knowing the label.",
+              "figure_id": "table-3-5",
+              "figure_number": "3",
+              "height": 192,
+              "image_path": "figures/2611.14686/table-005.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 472
+            },
+            {
+              "caption": "Table 2: The entropy score is at chance exactly where a better choice would help. Mean AUC over six datasets per encoder, where 0.5 means the score orders correct and incorrect views no better than chance. Orientation matters: a value below 0.5 is anti-predictive, and reversing the imagefeature row gives 0.546 and 0.532. That row tests statistics computed from the cached embeddings rather than the output distribution, and the crop-area row a quantity that is not a function of the model at all.",
+              "figure_id": "table-2-7",
+              "figure_number": "2",
+              "height": 163,
+              "image_path": "figures/2611.14686/table-006.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 498
+            },
+            {
+              "caption": "Table 5: Keeping class identity is worth 8.60 percentage points, positive in 40/40. “Sorted” and “Unsorted” are the two matched feature sets; “Oracle” ranks by the true-class mass directly. Share of the oracle gap: 8.4% for the best class-symmetric fit, 21.7% for the class-asymmetric one.",
+              "figure_id": "table-5-9",
+              "figure_number": "5",
+              "height": 909,
+              "image_path": "figures/2611.14686/table-007.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 776
+            },
+            {
+              "caption": "Table 4: Closed forms agree with automatic differentiation at machine precision. Maximum absolute disagreement, float64 (machine epsilon ≈ 2.2× 10−16). An algebra slip would produce an order-one disagreement, not one at this scale.",
+              "figure_id": "table-4-4",
+              "figure_number": "4",
+              "height": 233,
+              "image_path": "figures/2611.14686/table-008.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 776
+            },
+            {
+              "caption": "Table 1: Selection rules on the 15-dataset benchmark, CLIP ViT-B/16, with identical views, cache and readout so that only the selection rule differs. The baseline is never tuned; our parameters are cross-fitted. ∗ marks p < 0.05 under paired McNemar [McNemar, 1947]. Crop geometry is positive on 14 of 15 datasets and its largest gains are those the label-free measurement flags in advance (Fig. 3).",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 119,
+              "image_path": "figures/2611.14686/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 818
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2611.14686/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.14686",
+          "relevance": 8,
+          "selection_reason": "Directly studies test-time adaptation for vision-language models, fitting the test-time learning subtopic.",
+          "summary_status": "generated",
+          "title": "What Entropy-Based View Selection Cannot See: An Audit of Test-Time Adaptation for Vision-Language Models",
+          "tldr": "Entropy-based view selection for test-time adaptation cannot reliably distinguish confidently wrong views from correct ones, while simple crop-area information is often more effective.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Adapting vision-language-action (VLA) models to deployment-time distribution shifts is important for reliable robotic operation, but conventional first-order adaptation can exceed the memory budget of inference-oriented deployment platforms. Zeroth-order (ZO) optimization offers a forward-only alternative with inference-level memory, but accurate gradient estimation requires many perturbation queries, making naive ZO prohibitively slow for large VLA models. We present VLA-ZO, a framework for fast ZO adaptation that exploits the structure of VLA computation. By confining adaptation to the action side, VLA-ZO keeps the expensive vision-language prefix frozen and reuses its conditioning states across perturbation queries and optimizer steps, while schedule-aware prefetching hides state-transfer overhead. On LIBERO camera-viewpoint shifts, VLA-ZO reduces end-to-end adaptation time by 25.59$\\times$ at $q=16$ and 32.54$\\times$ at $q=64$ relative to baseline ZO, while improving average task success from 48.27% without adaptation to 58.17% and 63.58%, respectively. These results show that making ZO faster can make larger query budgets practical, providing a promising path toward resource-efficient VLA adaptation on deployment platforms.",
+          "arxiv_id": "2610.06271",
+          "arxiv_url": "https://arxiv.org/abs/2610.06271",
+          "authors": [
+            "Jaemin Kim",
+            "Jiahn Kim",
+            "Taesik Gong"
+          ],
+          "bullets": [
+            "Targets deployment-time adaptation to camera-viewpoint distribution shifts without the memory cost of first-order optimization.",
+            "Adapts only the action component while freezing and reusing the expensive vision-language prefix across queries and optimizer steps.",
+            "Uses schedule-aware prefetching to hide conditioning-state transfer overhead.",
+            "On LIBERO, achieves 25.59× and 32.54× faster adaptation than baseline ZO at query budgets of 16 and 64, respectively.",
+            "Average task success improves from 48.27% without adaptation to 58.17% at q=16 and 63.58% at q=64."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3: Overview of VLA-ZO.",
+              "figure_id": "figure-3-12",
+              "figure_number": "3",
+              "height": 388,
+              "image_path": "figures/2610.06271/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 818
+            },
+            {
+              "caption": "Figure 1: Zeroth-order adaptation enables on-robot adaptation within the inference memory budget. Unlike first-order adaptation, it requires only forward evaluations and avoids storing activations (a). Increasing the query budget q improves adaptation quality toward first-order performance, at the cost of increased adaptation time (b,c).",
+              "figure_id": "figure-1-3",
+              "figure_number": "1",
+              "height": 385,
+              "image_path": "figures/2610.06271/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 823
+            },
+            {
+              "caption": "Figure 2: Action-side ZO improves success with a frozen prefix.",
+              "figure_id": "figure-2-9",
+              "figure_number": "2",
+              "height": 762,
+              "image_path": "figures/2610.06271/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 315
+            },
+            {
+              "caption": "Table 1: Camera-viewpoint adaptation of π0.5. At fixed q, successive action-side rows add execution optimizations under identical adaptation settings. Times include cold-cache population; speedups are relative to baseline ZO at the same q. † denotes our ZO-SGD baseline implementations.",
+              "figure_id": "table-1-7",
+              "figure_number": "1",
+              "height": 317,
+              "image_path": "figures/2610.06271/table-004.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 810
+            },
+            {
+              "caption": "Table 7: Model-specific LIBERO rollout settings. The relation to released model settings and evaluation defaults is specified below.",
+              "figure_id": "table-7-4",
+              "figure_number": "7",
+              "height": 276,
+              "image_path": "figures/2610.06271/table-005.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 586
+            },
+            {
+              "caption": "Table 4: Compound visual shifts with OpenVLA-OFT, by LIBERO suite. Avg. is the mean across LIBERO suites. † denotes our ZO-SGD baseline implementations.",
+              "figure_id": "table-4-10",
+              "figure_number": "4",
+              "height": 177,
+              "image_path": "figures/2610.06271/table-006.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 810
+            },
+            {
+              "caption": "Table 2: Compound visual shifts with π0.5, by LIBERO suite. Avg. is the mean across LIBERO suites. † denotes our ZO-SGD baseline implementations.",
+              "figure_id": "table-2-8",
+              "figure_number": "2",
+              "height": 176,
+              "image_path": "figures/2610.06271/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 810
+            },
+            {
+              "caption": "Table 3: Camera-viewpoint adaptation of OpenVLA-OFT. Success rates (%) are reported by viewpoint severity and averaged across severities. Action-side adaptation targets the separate L1 regression head. The reported VLA-ZO timing includes cold feature-cache population. † denotes our ZO-SGD baseline implementations.",
+              "figure_id": "table-3-11",
+              "figure_number": "3",
+              "height": 175,
+              "image_path": "figures/2610.06271/table-008.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 652
+            },
+            {
+              "caption": "Table 5: Adaptation task combination 1 from DART’s Table 13. Lengths count retained observationaction pairs after no-op removal.",
+              "figure_id": "table-5-6",
+              "figure_number": "5",
+              "height": 150,
+              "image_path": "figures/2610.06271/table-009.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 818
+            },
+            {
+              "caption": "Table 9: Selected OpenVLA-OFT adaptation configurations. Action-side LoRA targets the three eligible linears of the L1 action head, and FLA targets the SigLIP FFNs of the fused vision backbone. DART trains all VLA, action-head, and proprio-projector parameters; its two stages each start from the same pretrained weights. Compound-shift runs reuse these settings with matching perturbed demonstrations.",
+              "figure_id": "table-9-2",
+              "figure_number": "9",
+              "height": 158,
+              "image_path": "figures/2610.06271/table-010.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 677
+            },
+            {
+              "caption": "Table 8: Selected π0.5 adaptation configurations. † denotes our ZO-SGD baseline implementations. DART’s two stages each start from the same pretrained weights. Execution ablations reuse the action-side settings at the corresponding q.",
+              "figure_id": "table-8-1",
+              "figure_number": "8",
+              "height": 136,
+              "image_path": "figures/2610.06271/table-011.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 677
+            },
+            {
+              "caption": "Table 6: Camera translations relative to the original external camera, following the pinned LIBEROview implementation of DART’s viewpoint shifts.",
+              "figure_id": "table-6-5",
+              "figure_number": "6",
+              "height": 109,
+              "image_path": "figures/2610.06271/table-012.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 344
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2610.06271/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2610.06271",
+          "relevance": 9,
+          "selection_reason": "Fast zeroth-order adaptation of vision-language-action models to deployment shifts; improves embodied policy robustness efficiently.",
+          "summary_status": "generated",
+          "title": "VLA-ZO: Fast Zeroth-Order Adaptation for Vision-Language-Action Models",
+          "tldr": "VLA-ZO makes zeroth-order adaptation of vision-language-action models practical on memory-limited robotic deployment platforms by reusing frozen vision-language computations and accelerating perturbation queries.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-action"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Wearable and bedside electrocardiogram (ECG) monitors must adapt to patient-specific morphology to maintain arrhythmia detection accuracy across users, yet personalization is typically performed offline and cannot account for individual physiology, electrode placement, or recording drift. On-device adaptation by backpropagation is expensive for microcontroller-class medical devices because it requires an optimizer state, repeated backward passes through convolutional layers, and labeled arrhythmic beats that may not be available at deployment time. This letter proposes prototype-only head adaptation as a compact personalization primitive for TinyML ECG systems. A one-dimensional convolutional neural network (1-D CNN; 1,314 parameters and 72.6k multiply-accumulate operations per beat) is trained offline on the MIT-BIH Arrhythmia Database under an inter-patient protocol, frozen as a feature extractor, and exported to a PSoC 6 microcontroller. Patient-specific adaptation then reduces to computing closed-form class means in a 32-dimensional embedding space, requiring no convolutional backward pass, no iterative optimization, and only one forward pass per support beat. Prototype adaptation improves inter-patient macro-F1 from 0.635/0.639/0.646 to 0.731/0.771/0.797 at 1/5/10-shot, outperforming linear stochastic-gradient-descent (SGD) head fine-tuning at every shot count for the target tiny backbone. On-device replay over 18 one-shot episodes on a PSoC 6 Cortex-M4F matches the host macro-F1 for the prototype head (0.798), with 11.39 ms per beat, 5.2 KB flash, and 22.2 KB SRAM. A restricted variant that updates only the normal-class prototype from passively buffered sinus beats yields a consistent +0.05 macro-F1 gain, reducing the annotation burden during initial",
+          "arxiv_id": "2610.06241",
+          "arxiv_url": "https://arxiv.org/abs/2610.06241",
+          "authors": [
+            "Guilherme Silva",
+            "Pedro Silva",
+            "Gladston Moreira",
+            "Eduardo Luz"
+          ],
+          "bullets": [
+            "A frozen 1-D CNN extracts 32-dimensional ECG embeddings on a microcontroller.",
+            "Personalization computes closed-form class prototypes from 1, 5, or 10 support beats, requiring one forward pass per beat.",
+            "Inter-patient macro-F1 improves from 0.635–0.646 without adaptation to 0.731–0.797 with prototype adaptation.",
+            "On PSoC 6, replayed one-shot episodes match host performance at 11.39 ms per beat, 5.2 KB flash, and 22.2 KB SRAM.",
+            "Updating only the normal-class prototype from passively buffered sinus beats provides a consistent +0.05 macro-F1 gain."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Prototype-only ECG personalisation pipeline. Offline: a compact 1-D CNN is trained on DS1 under an inter-patient split; the frozen backbone is exported as native-C arrays. On-device (PSoC 6): the backbone maps support beats to 32-D embeddings; per-class prototypes are computed as closed-form means. Query beats are classified by nearest-prototype distance—with no backward pass, no optimizer state, and no backbone writes.",
+              "figure_id": "figure-1-6",
+              "figure_number": "1",
+              "height": 417,
+              "image_path": "figures/2610.06241/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 976
+            },
+            {
+              "caption": "Figure 4: End-to-end calibration time on the PSoC 6 CM4 at 100 MHz vs. number of support shots K for prototype and linear SGD adaptation. Both methods scale linearly with K (one backbone forward pass per support beat); the gap between the two curves is due solely to the head-update rule. The 400 ms RR interval at 150 BPM is shown for clinical reference.",
+              "figure_id": "figure-4-7",
+              "figure_number": "4",
+              "height": 357,
+              "image_path": "figures/2610.06241/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 951
+            },
+            {
+              "caption": "Figure 2: Aggregate DS2 results across shot counts. Left: macro-F1 for each method. Right: software-side adaptation time from the host reference implementation. The pre-adaptation curve rises with K because the eligibility filter excludes harder records, not due to any adaptation effect.",
+              "figure_id": "figure-2-2",
+              "figure_number": "2",
+              "height": 339,
+              "image_path": "figures/2610.06241/figure-003.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 950
+            },
+            {
+              "caption": "Figure 3: Restricted vs. full prototype adaptation on the common eligible DS2 subset. The restricted variant (only normal-beat support from the target patient) provides a consistent positive gain at a fraction of the cost of full prototype adaptation.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 340,
+              "image_path": "figures/2610.06241/figure-004.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 942
+            },
+            {
+              "caption": "Table 1: Model-centric memory budget of the deployable adaptation path on PSoC 6. Weights are stored as float32 constants in flash.",
+              "figure_id": "table-1-4",
+              "figure_number": "1",
+              "height": 220,
+              "image_path": "figures/2610.06241/table-005.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 422
+            },
+            {
+              "caption": "Table 3: Scaling study across backbone sizes. DS2 test F1 is reported before personalization. Few-shot columns show the best retuned head-adaptation method.",
+              "figure_id": "table-3-1",
+              "figure_number": "3",
+              "height": 117,
+              "image_path": "figures/2610.06241/table-006.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 568
+            },
+            {
+              "caption": "Table 2: Accuracy and embedded cost for the target tiny backbone. Device F1 is computed on the capped 18-record 1-shot replay subset. Timing is measured with the Arm Data Watchpoint and Trace (DWT) cycle counter on the PSoC 6 CM4.",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 212,
+              "image_path": "figures/2610.06241/table-007.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 971
+            }
+          ],
+          "first_seen_at": "2026-11-12T21:00:00-05:00",
+          "hero_figure": "figures/2610.06241/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2610.06241",
+          "relevance": 7,
+          "selection_reason": "On-device few-shot prototype adaptation for ECG personalization; deployment-time learning with low compute and memory.",
+          "summary_status": "generated",
+          "title": "Few-Shot Prototype Head Adaptation for On-Device ECG Personalization on PSoC~6",
+          "tldr": "Prototype-only head adaptation enables efficient few-shot, on-device ECG personalization on a PSoC 6 without backpropagation or iterative optimization.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-11",
       "paper_count": 2,
       "papers": [
@@ -14,7 +2197,13 @@
             "Yicheng Li",
             "Kecheng Sun"
           ],
-          "bullets": [],
+          "bullets": [
+            "Problem: Pooled batch-normalization statistics mix clean ego features with corrupted collaborator features, degrading even the untouched ego path.",
+            "Method: Estimate each collaborator’s normalization statistics from its current observation while anchoring the ego to its original source statistics.",
+            "Contribution: A training-free, gradient-free, label-free, order-independent method that runs locally without altering transmitted features or adding parameters.",
+            "Results: Under collaborator-only fog and motion blur, AgentNorm substantially outperforms pooled normalization; on OPV2V, severity-5 fog AP@0.5 reaches 43.32–58.86 versus 29.42–37.25, with 2.3 ms extra latency.",
+            "Scope: It does not address occlusion or scenarios where all agents experience the same distribution shift."
+          ],
           "categories": [
             "cs.CV",
             "cs.AI"
@@ -178,9 +2367,9 @@
           "pdf_url": "https://arxiv.org/pdf/2610.39505",
           "relevance": 7,
           "selection_reason": "Agent-wise test-time normalization extends test-time batch-norm adaptation to corrupted collaborative perception.",
-          "summary_status": "failed",
+          "summary_status": "generated",
           "title": "Agent-Wise Test-Time Normalization for Camera-Based Cooperative Perception with Corrupted Collaborators",
-          "tldr": null,
+          "tldr": "AgentNorm prevents corrupted collaborators from harming clean ego perception by applying separate test-time normalization per agent.",
           "topic_assignments": [
             {
               "subtopic_ids": [
@@ -198,7 +2387,13 @@
             "Elijah Bolluyt",
             "Cristina Comaniciu"
           ],
-          "bullets": [],
+          "bullets": [
+            "Fits closed-form distribution statistics from target-dataset embeddings in the model’s latent space.",
+            "Modifies Mahalanobis Distance by removing unused latent features, yielding a reduced-rank classifier and OOD detector.",
+            "Requires no model training, finetuning, or prior knowledge of OOD data.",
+            "Evaluated across four target datasets with competitive classification and OOD-detection performance.",
+            "Scope: performance depends on the pretrained representation and target-domain embeddings."
+          ],
           "categories": [
             "cs.LG"
           ],
@@ -251,9 +2446,9 @@
           "pdf_url": "https://arxiv.org/pdf/2610.05718",
           "relevance": 5,
           "selection_reason": "Tuning-free adaptation of pretrained model latent distributions to new target domains at deployment time fits test-time learning.",
-          "summary_status": "failed",
+          "summary_status": "generated",
           "title": "ReMaD: Tuning-free Domain Adaptation for Classification and Out-of-Distribution Detection",
-          "tldr": null,
+          "tldr": "ReMaD adapts pretrained image models to new domains for classification and OOD detection using target embeddings only—without finetuning, OOD data, or hyperparameter search.",
           "topic_assignments": [
             {
               "subtopic_ids": [
@@ -276,7 +2471,13 @@
           "authors": [
             "Daniel Lenton"
           ],
-          "bullets": [],
+          "bullets": [
+            "Builds a domain-agnostic stream from all three ARC-AGI editions, with tasks recurring after gaps and fresh tasks continuously introduced.",
+            "Uses a shared feedback budget to compare memory-based and weight-based learners, including agent actions, demonstrations, and retries.",
+            "Evaluates post-stream memorization on encountered tasks and generalization on unseen tasks.",
+            "Persistence rarely improves memorization without explicit expert guidance, and harness methods underperform simple demonstration caching.",
+            "Weight-based learning improves performance on unseen tasks, unlike the tested harness-based methods."
+          ],
           "categories": [
             "cs.LG"
           ],
@@ -579,9 +2780,9 @@
           "pdf_url": "https://arxiv.org/pdf/2611.14505",
           "relevance": 8,
           "selection_reason": "Introduces a lifelong continual-learning benchmark comparing memory- and weight-based learners with test-time parametric learning.",
-          "summary_status": "failed",
+          "summary_status": "generated",
           "title": "Continual-ARC: Measuring Skill Acquisition over a Working Lifetime",
-          "tldr": null,
+          "tldr": "Continual-ARC benchmarks lifelong learning by testing how agents acquire, retain, and generalize skills across recurring and newly arriving ARC tasks.",
           "topic_assignments": [
             {
               "subtopic_ids": [
@@ -599,7 +2800,12 @@
           "authors": [
             "Philip Matthias Winter, Maria Wimmer, Bernhard Sch\\\"{a}fl, David Major, Dimitrios Lenis, Astrid Berg, Theresa Neubauer, Ariharasudhan Muthusami, Johannes Novotny, Georg Zotti, Katja B\\\"{u}hler"
           ],
-          "bullets": [],
+          "bullets": [
+            "Addresses the gap between open-world recognition and interactive medical segmentation.",
+            "Combines parameter-free transductive reasoning with memory consolidation.",
+            "Converts non-interactive segmentation backbones into interactive open-world learners.",
+            "Improves predictions on classes absent from training and transfers zero-shot across unfamiliar domains and imaging modalities."
+          ],
           "categories": [
             "cs.CV",
             "stat.ML"
@@ -813,9 +3019,9 @@
           "pdf_url": "https://arxiv.org/pdf/2611.13935",
           "relevance": 6,
           "selection_reason": "Parameter-free interactive segmentation with memory consolidation and continual open-world learning; relevant to continual and test-time learning.",
-          "summary_status": "failed",
+          "summary_status": "generated",
           "title": "MEOW: Medical Open-World Interactive Segmentation",
-          "tldr": null,
+          "tldr": "MEOW enables medical segmentation models to continually improve on unseen structures and domains from user feedback without updating model parameters.",
           "topic_assignments": [
             {
               "subtopic_ids": [
@@ -833,7 +3039,13 @@
           "authors": [
             "Mingxiang Shen, Jinhao Li, Jiaming Xu, Yibo Han, Guohao Dai, Yijia Zhang, Ningyi Xu"
           ],
-          "bullets": [],
+          "bullets": [
+            "Targets false-positive rewards, especially incorrect answers supported by majority voting.",
+            "Uses a limited labeled source set to train a rectifier that separates correctness from consensus.",
+            "Emphasizes incorrect majorities and correct minorities, where consensus and correctness conflict.",
+            "Freezes the rectifier and applies it to reward correction during later test-time adaptation.",
+            "Consistently outperforms naive TTRL on reward accuracy and model performance across evaluated configurations."
+          ],
           "categories": [
             "cs.LG"
           ],
@@ -1186,9 +3398,9 @@
           "pdf_url": "https://arxiv.org/pdf/2611.13714",
           "relevance": 7,
           "selection_reason": "Proposes a test-time reward correction framework for adapting language models during inference using limited supervision.",
-          "summary_status": "failed",
+          "summary_status": "generated",
           "title": "TRUER: Test-Time Reward Correction Using an Error-Aware Rectifier for Reinforcement Learning",
-          "tldr": null,
+          "tldr": "TRUER improves test-time reinforcement learning by correcting misleading consensus-based rewards with a supervised, error-aware rectifier.",
           "topic_assignments": [
             {
               "subtopic_ids": [
@@ -1705,7 +3917,12 @@
           "authors": [
             "Xu Luo, Jiaying Yang, Hao Wu, Junlin Xie, Zijin Hong, Ji Zhang, Lianli Gao, Jingkuan Song"
           ],
-          "bullets": [],
+          "bullets": [
+            "Long action chunks create high-dimensional optimization problems for online RL, making real-world adaptation costly.",
+            "ExRL adds a lightweight adapter that predicts each chunk’s execution length.",
+            "The adapter is trained with off-policy RL in a low-dimensional space whose expressivity increases with chunk size.",
+            "Experiments in simulation and on real robotic tasks show sample-efficient adaptation across diverse long-chunk policies with minimal task-specific tuning."
+          ],
           "categories": [
             "cs.RO"
           ],
@@ -1958,9 +4175,9 @@
           "pdf_url": "https://arxiv.org/pdf/2611.13482",
           "relevance": 8,
           "selection_reason": "Sample-efficient online adaptation of long-chunk robot policies via execution-length control; fits robot learning and online adaptation.",
-          "summary_status": "failed",
+          "summary_status": "generated",
           "title": "ExRL: Sample-Efficient Online Adaptation of Long-Chunk Policies via Execution Length Control",
-          "tldr": null,
+          "tldr": "ExRL makes long-chunk robot policies more sample-efficient to adapt by learning how long to execute each predicted action chunk instead of changing the actions themselves.",
           "topic_assignments": [
             {
               "subtopic_ids": [
@@ -1984,7 +4201,13 @@
           "authors": [
             "Yijia Shao, Song Bian, Junxian Guo, Jindong Jiang, Zhen Dong, Huizi Mao, Diyi Yang, Song Han"
           ],
-          "bullets": [],
+          "bullets": [
+            "Addresses the challenge of offering help proactively without requiring users to request it or causing disruptive interruptions.",
+            "Introduces a closed-loop approach combining continuous activity observation, compact long-term user modeling, and adaptation from implicit feedback.",
+            "Implements the approach in Coco using a separate on-device Observer Agent that avoids streaming raw activity data off-device.",
+            "Introduces OSWorld-Persona, a synthesized benchmark for evaluating persona-conditioned intervention decisions while avoiding collection of sensitive real-user activity.",
+            "Adaptation improves macro F1 from 0.12–0.19 to 0.35–0.48 across three model backbones; a week-long user study reports improvement from 0.199 to 0.515."
+          ],
           "categories": [
             "cs.LG"
           ],
@@ -2117,9 +4340,9 @@
           "pdf_url": "https://arxiv.org/pdf/2611.13457",
           "relevance": 7,
           "selection_reason": "Proactive desktop agent with continuous context observation, long-term context retention, and deployment-time adaptation from implicit feedback; fits continual/test-time adaptation.",
-          "summary_status": "failed",
+          "summary_status": "generated",
           "title": "Deep Personalization: Continuous Context Observation for Local Proactive Agents",
-          "tldr": null,
+          "tldr": "Deep personalization enables local proactive agents to continuously observe context and adapt intervention timing to better match each user’s needs.",
           "topic_assignments": [
             {
               "subtopic_ids": [
@@ -2137,7 +4360,13 @@
           "authors": [
             "M. Bolhassani, W. Furtado, D. Duvall, MJ Negahdar, J. Joshi, S. Contractor, A. Amini"
           ],
-          "bullets": [],
+          "bullets": [
+            "Addresses performance degradation caused by domain shift between public training data and institution-specific deployment data.",
+            "Uses a pretrained convolutional backbone with grayscale adaptation, fracture classification, and gradient-reversal-based domain alignment.",
+            "Compares source-only, target-only, naive pooled training, and DANN settings on UofL test radiographs.",
+            "DANN outperformed source-only and naive-merge baselines without overfitting to the limited target set.",
+            "Progressive adversarial weighting, dataset-size-aware domain loss, and domain-balanced sampling improved training stability and target performance."
+          ],
           "categories": [
             "cs.CV"
           ],
@@ -2190,9 +4419,9 @@
           "pdf_url": "https://arxiv.org/pdf/2611.13308",
           "relevance": 8,
           "selection_reason": "Applies domain-adversarial learning to address distribution shift in medical imaging, relevant to test-time adaptation methods.",
-          "summary_status": "failed",
+          "summary_status": "generated",
           "title": "Domain-Adversarial Adaptation from MURA to In-House Radiographs for Improved Adult Elbow Fracture Classification",
-          "tldr": null,
+          "tldr": "A domain-adversarial neural network improves transfer of adult elbow fracture classification from public MURA radiographs to a small in-house UofL dataset by reducing domain bias.",
           "topic_assignments": [
             {
               "subtopic_ids": [
@@ -141311,5 +143540,5 @@
   "schema_version": 1,
   "subtopic_id": "test-time-learning",
   "topic_id": "adaptation-and-memory",
-  "total_paper_count": 733
+  "total_paper_count": 747
 }

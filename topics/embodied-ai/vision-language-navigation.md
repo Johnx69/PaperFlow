@@ -6,10 +6,13 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Vision-Language Navigation
 
-**191 papers total**
+**194 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-12 | [ProtoVis-Nav: Prototypical Visual Imagination for Visual-Spatial Aligned UAV Navigation](https://arxiv.org/abs/2611.17330) | Embodied AI: Vision-Language Navigation | ProtoVis-Nav improves UAV vision-language navigation by imagining the visual appearance of the intended next location before predicting an action. | 8 | 7 |
+| 2026-11-12 | [UAV-Flow++: A Unified Suite for Benchmarking and Learning Language-Guided UAV Flight](https://arxiv.org/abs/2611.17163) | Embodied AI: Vision-Language Navigation, Vision-Language-Action | UAV-Flow++ introduces a benchmark, dataset, simulator, and vision-language-action policy for evaluating and learning short-range, language-guided UAV maneuvers. | 9 | 8 |
+| 2026-11-12 | [Decide Before You Move: Diffusion-Generated Search Reference for Zero-Shot Open-Vocabulary Object Navigation in Semi-Static Environments](https://arxiv.org/abs/2611.15093) | Embodied AI: Vision-Language Navigation | PreNav uses a one-time diffusion-generated search route based on target–furniture relationships and persistent structure to find open-vocabulary objects efficiently in semi-static indoor environments. | 8 | 7 |
 | 2026-11-10 | [PhysMoE: Fast Spatial Grounding with Single-Token Coordinate Representation in Modality-Decoupled VLMs](https://arxiv.org/abs/2611.13000) | Embodied AI: Vision-Language Navigation, Robot Learning and Manipulation | PhysMoE accelerates coordinate grounding in embodied VLMs by combining modality-specific experts, single-token spatial encoding, and SDF supervision for irregular targets. | 9 | 8 |
 | 2026-11-05 | [PathPilot: An Adaptive Question-Conditioned Multi-Magnification Navigation Agent for Whole-Slide Image Analysis](https://arxiv.org/abs/2610.16734) | Embodied AI: Vision-Language Navigation | PathPilot adaptively navigates whole-slide images across regions and magnifications, using the diagnostic question and accumulated evidence to guide exploration like a pathologist. | 9 | 8 |
 | 2026-11-04 | [Jev with Foresight: Safe Language-Guided Autonomous Driving via a Language World Model](https://arxiv.org/abs/2611.05448) | Embodied AI: Vision-Language Navigation; World Models: Interactive World Models | Jev-AD improves language-guided driving safety by predicting nearby vehicles’ responses to candidate actions before making decisions. | 8 | 7 |
