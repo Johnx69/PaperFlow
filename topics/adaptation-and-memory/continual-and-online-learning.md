@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Continual and Online Learning
 
-**726 papers total**
+**727 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-13 | [On-Edge Acoustic Continual Anomaly Detection: A Cross-Platform Comparative Study](https://arxiv.org/abs/2611.15465) | Efficient AI; Adaptation and Memory: Continual and Online Learning | A lightweight continual acoustic anomaly detector runs on two embedded platforms with comparable performance despite different microphones and hardware. | 7 | 4 |
 | 2026-11-12 | [Maximizing Capacity Utilization of LoRA Adapters for Mitigating the Learning-Forgetting Trade-off](https://arxiv.org/abs/2611.17191) | Adaptation and Memory: Continual and Online Learning; Language Foundation Models: Large Language Models | Regularizing LoRA to use more of its configured rank improves capacity utilization and can mitigate the learning–forgetting trade-off. | 6 | 7 |
 | 2026-11-12 | [Temporal Regularized Learning: Self-Supervised Learning Local in Space and Time](https://arxiv.org/abs/2611.17019) | Adaptation and Memory: Test-Time Learning, Continual and Online Learning | TeReL is a fully spatially and temporally local, online self-supervised learning rule that learns useful representations from sequential data without backpropagation between layers. | 7 | 7 |
 | 2026-11-12 | [Evidence-Governed Adoption of Self-Generated Updates in Autonomous AI Agents](https://arxiv.org/abs/2611.16378) | Adaptation and Memory: Test-Time Learning, Continual and Online Learning | EGE governs autonomous agents’ self-generated updates by requiring calibrated, fresh evidence of improvement and non-degradation before adoption. | 6 | 7 |

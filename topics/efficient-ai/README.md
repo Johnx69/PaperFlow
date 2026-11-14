@@ -6,10 +6,13 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Efficient AI
 
-**2684 papers total**
+**2687 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-13 | [On-Edge Acoustic Continual Anomaly Detection: A Cross-Platform Comparative Study](https://arxiv.org/abs/2611.15465) | Efficient AI; Adaptation and Memory: Continual and Online Learning | A lightweight continual acoustic anomaly detector runs on two embedded platforms with comparable performance despite different microphones and hardware. | 7 | 4 |
+| 2026-11-13 | [Quantize by Drift: Label-Free Mixed-Precision Post-Training Quantization for Text Embedders](https://arxiv.org/abs/2610.09227) | Efficient AI | Quantization-induced embedding drift provides a label-free, transferable coarse signal for mixed-precision allocation in text embedders, but it does not consistently beat strong uniform-precision baselines. | 6 | 6 |
+| 2026-11-13 | [Towards Efficient Robotic Manipulation Models with Self-Recursive Pruning](https://arxiv.org/abs/2610.08555) | Embodied AI: Robot Learning and Manipulation; Efficient AI | LCAM enables training-free, behavior-aware pruning of robotic manipulation policies while preserving strong task performance at substantial sparsity. | 8 | 7 |
 | 2026-11-12 | [Classical Energies Learn to Reason 1,000x Faster than Looped Models](https://arxiv.org/abs/2611.17309) | Efficient AI | CRAM, a learned classical energy model, solves Sudoku-Extreme and Maze-Unique dramatically faster than looped reasoning models while using far fewer inference FLOPs. | 7 | 7 |
 | 2026-11-12 | [Metal Sandbox: Isolated Execution and Command Scheduling for GPU Coding Agents on Apple Silicon](https://arxiv.org/abs/2611.17294) | Efficient AI | Metal Sandbox improves GPU coding-agent throughput on Apple Silicon by isolating agent environments and scheduling commands across interconnected Macs. | 4 | 6 |
 | 2026-11-12 | [Theoretical and Empirical Analysis of Sparse Convolution](https://arxiv.org/abs/2611.17212) | Efficient AI | This work analyzes why sparse convolution can be memory-bound and proposes techniques that deliver up to 1.65× speedup on an NVIDIA A100 and 1.52× on a Jetson Nano. | 7 | 5 |

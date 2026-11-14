@@ -6,10 +6,13 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Large Language Models
 
-**2490 papers total**
+**2493 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-13 | [DoubtLess: Training-Free Contrastive Decoding for Efficient Reasoning](https://arxiv.org/abs/2610.18862) | Language Foundation Models: Large Language Models | DoubtLess uses a smaller model’s brief-versus-verbose preferences to shorten large-model reasoning without extra training or accuracy loss. | 7 | 6 |
+| 2026-11-13 | [Sequential Probabilistic Uncertainty Estimation for Parallel Multi-Agent Reasoning Systems](https://arxiv.org/abs/2610.08901) | Language Foundation Models: Large Language Models | SAUCE is a lightweight, training-free method that estimates uncertainty in parallel multi-agent reasoning by tracking consensus and generation uncertainty across rounds. | 6 | 6 |
+| 2026-11-13 | [Route-Verify-Vote: Procedure-Conditioned Self-Consistency for Mixed-Domain Reasoning](https://arxiv.org/abs/2610.08814) | Language Foundation Models: Large Language Models | Route-Verify-Vote improves mixed-domain commonsense reasoning by conditioning self-consistency on domain-specific procedures and allocating extra inference to uncertain answer sets. | 6 | 6 |
 | 2026-11-12 | [ArchSpace: Recording, Reviewing, and Referencing LLM Architecture Research](https://arxiv.org/abs/2611.17332) | Language Foundation Models: Large Language Models | ArchSpace is a public platform for documenting, reviewing, and reusing LLM architecture research while using scaling laws to assess ideas before expensive large-scale training. | 8 | 6 |
 | 2026-11-12 | [Goal Encoding in LLMs](https://arxiv.org/abs/2611.17297) | Language Foundation Models: Large Language Models | LLMs encode and causally use flexible next-sub-goals, re-reading task specifications to sustain goal-directed behavior without recurrent state. | 5 | 7 |
 | 2026-11-12 | [Maximizing Capacity Utilization of LoRA Adapters for Mitigating the Learning-Forgetting Trade-off](https://arxiv.org/abs/2611.17191) | Adaptation and Memory: Continual and Online Learning; Language Foundation Models: Large Language Models | Regularizing LoRA to use more of its configured rank improves capacity utilization and can mitigate the learning–forgetting trade-off. | 6 | 7 |

@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # LLM Memory
 
-**850 papers total**
+**851 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-13 | [Discovering Effective Agent Memory Designs through Program Evolution](https://arxiv.org/abs/2611.17068) | Language Foundation Models: LLM Memory | MAPE uses program evolution to automatically discover effective, efficient agent memory designs, improving accuracy over manual baselines while reducing serving cost. | 8 | 8 |
 | 2026-11-12 | [CoReMem: Cost-Internalizing Memory for Successive Coding Tasks with Prospective Valuation](https://arxiv.org/abs/2611.17316) | Language Foundation Models: LLM Memory | CoReMem improves coding-agent performance on successive repository tasks by valuing memory prospectively and internalizing its writing, reading, and action costs. | 7 | 7 |
 | 2026-11-12 | [Symmetry in Time: A Representation Theory of Linear Recurrent Memory](https://arxiv.org/abs/2611.17162) | Language Foundation Models: Large Language Models, LLM Memory | A representation-theoretic analysis shows why diagonal SSMs lose sequence order, and HyperSSM fixes this with quaternion-valued state channels while preserving efficient inference and training. | 7 | 8 |
 | 2026-11-12 | [Folio: Recoverable Multi-Resolution Context Folding for Long-Horizon Language Agents](https://arxiv.org/abs/2611.16627) | Language Foundation Models: LLM Memory, Long-Context Models | Folio manages long-horizon agent context by programmatically folding multi-resolution history and enabling targeted recovery, improving task completion while reducing time and cost in the reported evaluation. | 8 | 7 |

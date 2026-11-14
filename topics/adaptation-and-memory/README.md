@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Adaptation and Memory
 
-**1699 papers total**
+**1700 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-13 | [On-Edge Acoustic Continual Anomaly Detection: A Cross-Platform Comparative Study](https://arxiv.org/abs/2611.15465) | Efficient AI; Adaptation and Memory: Continual and Online Learning | A lightweight continual acoustic anomaly detector runs on two embedded platforms with comparable performance despite different microphones and hardware. | 7 | 4 |
 | 2026-11-12 | [TTB: Test-time Baking for Efficient Rendering of Decoder-only View Synthesis Models](https://arxiv.org/abs/2611.17331) | Adaptation and Memory: Test-Time Learning | TTB bakes cross-view attention into lightweight MLPs at test time, enabling up to 23× faster novel-view rendering while maintaining state-of-the-art quality. | 7 | 7 |
 | 2026-11-12 | [Linking Rapid Learning to Compositional Structure in Neural Networks: Evidence from Additive Analogies in Meta-Learned Parameter Spaces](https://arxiv.org/abs/2611.17314) | Adaptation and Memory | Meta-learned neural networks organize function representations in parameter space so that vector arithmetic can compose new functions without direct training. | 5 | 7 |
 | 2026-11-12 | [Maximizing Capacity Utilization of LoRA Adapters for Mitigating the Learning-Forgetting Trade-off](https://arxiv.org/abs/2611.17191) | Adaptation and Memory: Continual and Online Learning; Language Foundation Models: Large Language Models | Regularizing LoRA to use more of its configured rank improves capacity utilization and can mitigate the learning–forgetting trade-off. | 6 | 7 |

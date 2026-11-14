@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # 3D Vision
 
-**1142 papers total**
+**1143 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-13 | [Multi-View 3D Reconstruction Using V-JEPA Features](https://arxiv.org/abs/2611.15143) | 3D Vision | A V-JEPA-feature-based multi-view reconstruction system shows mixed results: camera and aligned-shape metrics can improve, but depth and raw reconstruction remain inconsistent. | 6 | 5 |
 | 2026-11-12 | [Spatiotemporal learning improves quantification of pore-space evolution and fluid displacement](https://arxiv.org/abs/2611.17111) | 3D Vision: 3D Foundation Models | A transformer-based spatiotemporal segmentation method uses information across time to more reliably quantify pore evolution and fluid displacement in time-resolved micro-CT images. | 7 | 7 |
 | 2026-11-12 | [Kosmo-GFM: A Production-Ready Geometry Foundation Model](https://arxiv.org/abs/2611.16840) | 3D Vision: 3D Foundation Models | Kosmo-GFM combines learned geometric predictions, pose optimization, and reconstruction-derived supervision to enable accurate and efficient static and dynamic scene reconstruction. | 8 | 7 |
 | 2026-11-12 | [Fog-FWL: A Large-Scale Full-Waveform LiDAR Dataset for Recovering Fog-Hidden Objects](https://arxiv.org/abs/2611.16742) | 3D Vision | Fog-FWL introduces large real and synthetic full-waveform LiDAR datasets plus a physics-based simulator to enable recovery of objects obscured by fog. | 6 | 8 |

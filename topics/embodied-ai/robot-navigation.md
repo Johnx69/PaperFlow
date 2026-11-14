@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Robot Navigation
 
-**964 papers total**
+**966 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-13 | [The Posterior-Prior Epistemic Gap: When World Model Imagination Fails to Carry Task-Relevant Signals](https://arxiv.org/abs/2611.14955) | Embodied AI: Robot Navigation; World Models: Interactive World Models | Imagined world-model rollouts progressively lose obstacle information without triggering epistemic uncertainty, causing unflagged planning failures in CARLA. | 8 | 7 |
+| 2026-11-13 | [No Need to Stop the Fleet: Localized Anomaly Isolation via Dead Zones in AGV Fleets](https://arxiv.org/abs/2610.08524) | Embodied AI: Robot Navigation | Dead zones isolate local AGV anomalies so unaffected robots can keep operating instead of stopping the entire fleet. | 5 | 6 |
 | 2026-11-12 | [CT-SGAL-LIO: Causal Continuous Time Refinement of Discrete LiDAR Inertial Odometry](https://arxiv.org/abs/2611.16918) | Embodied AI: Robot Navigation | CT-SGAL-LIO causally smooths discrete LiDAR-inertial odometry pose streams through bounded-window continuous-time interpolation, improving short-term accuracy while preserving global performance. | 8 | 8 |
 | 2026-11-12 | [Informative Path Planning with Gaussian Processes: Error Bounds, Algorithms, and Benchmarks](https://arxiv.org/abs/2611.16877) | Embodied AI: Robot Navigation | This paper provides theoretical and empirical support for predictive variance and GreedyCover as principled, near-optimal choices for Gaussian-process informative path planning. | 8 | 7 |
 | 2026-11-12 | [AgriSense: Vision-Language Decision Support and Robotic Intervention in a Virtual Greenhouse Copy title](https://arxiv.org/abs/2611.16752) | Embodied AI: Robot Navigation, Robot Learning and Manipulation | AgriSense integrates vision-language decision support, sensing, navigation, environmental control, and robotic intervention for greenhouse management in simulation, but real-world and agronomic effectiveness remain unvalidated. | 7 | 6 |

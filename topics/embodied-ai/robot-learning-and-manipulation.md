@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Robot Learning and Manipulation
 
-**2821 papers total**
+**2823 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-13 | [Fast Non-Parametric Heteroscedastic Imitation Learning With Geometric Priors](https://arxiv.org/abs/2610.08650) | Embodied AI: Robot Learning and Manipulation | A fast non-parametric imitation-learning method uses geometric priors to model heteroscedastic uncertainty and adapt robot policies efficiently from limited demonstrations. | 8 | 7 |
+| 2026-11-13 | [Towards Efficient Robotic Manipulation Models with Self-Recursive Pruning](https://arxiv.org/abs/2610.08555) | Embodied AI: Robot Learning and Manipulation; Efficient AI | LCAM enables training-free, behavior-aware pruning of robotic manipulation policies while preserving strong task performance at substantial sparsity. | 8 | 7 |
 | 2026-11-12 | [HEIR: Harness Egocentric Intent for Human-Robot Interactions](https://arxiv.org/abs/2611.17238) | Embodied AI: Robot Learning and Manipulation | HEIR is a multimodal dataset and benchmark for grounding human intent and completing long-horizon household robot tasks involving navigation and manipulation. | 9 | 7 |
 | 2026-11-12 | [Inner Product Regularization for Imitation Learning](https://arxiv.org/abs/2611.17159) | Embodied AI: Robot Learning and Manipulation | InneR improves imitation-learning robustness by making nearby states respond consistently to the same perturbations, substantially increasing real-robot task success without extra data. | 8 | 8 |
 | 2026-11-12 | [FORGE: Force-Aware Multi-Granularity Control for Efficient Humanoid Loco-Manipulation](https://arxiv.org/abs/2611.17142) | Embodied AI: Robot Learning and Manipulation | FORGE enables stable humanoid loco-manipulation from sparse commands by combining force-aware sensing, multi-granularity control, and a frozen locomotion prior without requiring full-body motion demonstrations. | 9 | 8 |

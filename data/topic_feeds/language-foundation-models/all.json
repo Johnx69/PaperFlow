@@ -1,6 +1,1202 @@
 {
   "days": [
     {
+      "date": "2026-11-13",
+      "paper_count": 5,
+      "papers": [
+        {
+          "abstract": "Program evolution provides a promising approach to discover agent memory designs and study the choices underlying their effectiveness. We introduce MAPE, a framework that evolves whole memory programs from minimal seeds through a standardized lifecycle interface and an iterative diagnosis-proposal loop. Experiments on LoCoMo and LongMemEval yield an absolute accuracy gain of up to 12% over manually designed baselines at 35% of the serving cost, with further evaluations supporting transfer across serving backbones and benchmarks. Empirical analyses and ablations identify and validate two recurring design patterns: retaining raw conversations as retrievable evidence preserves details omitted from extracted memories, while composing retrieved evidence according to query intent helps the answering model use it effectively. Transplanting the composition module into five existing memory systems improves accuracy across all five. Beyond these patterns, the search objective shapes where computation goes: optimizing serving cost alongside accuracy shifts computation from LLM-based memory construction to selective processing at query time while retaining competitive accuracy. Together, these findings offer empirical lessons for agent memory design. Code is available at https://github.com/ash-ding/MAPE.",
+          "arxiv_id": "2611.17068",
+          "arxiv_url": "https://arxiv.org/abs/2611.17068",
+          "authors": [
+            "Xinheng Ding",
+            "Seyyed Saeid Cheshmi",
+            "Ziyang Zhang",
+            "Tairan Chen",
+            "Wenya Xie",
+            "Yu Hou",
+            "Rui Zhang",
+            "Zirui Liu"
+          ],
+          "bullets": [
+            "Evolves complete memory programs from minimal seeds using a standardized lifecycle and iterative diagnosis–proposal loop.",
+            "Evaluated on LoCoMo and LongMemEval, achieving up to 12% absolute accuracy gain at 35% of the serving cost of manually designed baselines.",
+            "Finds that retaining raw conversations preserves details lost in extracted memories, while query-intent-based evidence composition improves answer use.",
+            "The composition module transfers across five existing memory systems and improves accuracy in each.",
+            "Jointly optimizing accuracy and serving cost shifts computation toward selective query-time processing; scope is supported by evaluations across backbones and benchmarks."
+          ],
+          "categories": [
+            "cs.CL",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Overview of MAPE’s program evolution framework. Candidate programs are proposed using archived designs and diagnostic feedback, checked for execution errors, and evaluated on the search set. Their implementations, results, and diagnoses are retained to guide subsequent proposals. Evolution follows either an accuracy-only objective (MAPE-A) or joint accuracy–cost objectives (MAPE-P). Shortlisted programs undergo held-out evaluation for final selection.",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 533,
+              "image_path": "figures/2611.17068/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 950
+            },
+            {
+              "caption": "Figure 2: Pipeline of MAPE-ALME, evolved under the accuracy-only objective on LongMemEval. Build retains both extracted atomic notes and raw conversations. Retrieve combines dense and sparse rankings through reciprocal rank fusion (RRF) and returns relevant notes and raw conversational evidence. Compose implements Query-Routed Scaffolding (RQS), which routes queries to type-specific scaffolds according to query intent, preparing context for the answering model.",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 504,
+              "image_path": "figures/2611.17068/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 854
+            },
+            {
+              "caption": "Figure 3: RQS transplanted from MAPE-ALME into five human-designed memory systems, evaluated on the LongMemEval evaluation set with Qwen3-30B-A3BInstruct-2507 as the serving backbone. Bold values indicate absolute accuracy gains in %.",
+              "figure_id": "figure-3-9",
+              "figure_number": "3",
+              "height": 288,
+              "image_path": "figures/2611.17068/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 430
+            },
+            {
+              "caption": "Figure 4: A LoCoMo temporal example comparing MAPE-ALCM and MAPE-PLCM across serving backbones. The programs differ in the date representation and answer context passed to the QA model. Qwen answers are taken from held-out traces; GPT-4.1 mini answers are illustrative. Evidence and context excerpts are abbreviated.",
+              "figure_id": "figure-4-14",
+              "figure_number": "4",
+              "height": 417,
+              "image_path": "figures/2611.17068/figure-004.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 950
+            },
+            {
+              "caption": "Figure 5: LongMemEval search trajectories using Qwen3-30B-A3B-Instruct-2507 on the 100-question search set. Panels a and b show accuracy-only and accuracy–cost search, respectively. Blue lines show candidate accuracy, dashed lines show the best accuracy so far, and bars show lifecycle serving cost per 1,000 queries. Stars mark selected programs; orange circles mark the final Pareto frontier. Callouts identify representative design changes.",
+              "figure_id": "figure-5-10",
+              "figure_number": "5",
+              "height": 615,
+              "image_path": "figures/2611.17068/figure-005.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 890
+            },
+            {
+              "caption": "Figure 6: LoCoMo search lineages using GPT-4.1 mini on the 233-question search set. Panels a and b show accuracy-only and accuracy–cost search, respectively. Nodes represent candidates; colour encodes serving cost on a logarithmic scale. Grey edges indicate primary parents, and orange paths trace the lineages of the highest-accuracy candidates. Dashed lines mark maximum search accuracy; dark rings mark the final Pareto frontier. The no-memory seed is displayed off-scale at the bottom.",
+              "figure_id": "figure-6-5",
+              "figure_number": "6",
+              "height": 655,
+              "image_path": "figures/2611.17068/figure-006.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 888
+            },
+            {
+              "caption": "Table 1: Accuracy and lifecycle serving cost on the LoCoMo evaluation set with two serving backbones. Multi, Open, Single, and Temp denote multi-hop, open-domain, single-hop, and temporal questions, respectively; Avg denotes accuracy over all questions. Accuracy is reported in % and cost in dollars per 1,000 queries. Within each backbone, the highest and second-highest accuracies per column are bold and underlined, respectively.",
+              "figure_id": "table-1-12",
+              "figure_number": "1",
+              "height": 538,
+              "image_path": "figures/2611.17068/table-007.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 950
+            },
+            {
+              "caption": "Table 10: RQS transplantation into five human-designed memory systems on the LongMemEval evaluation set with the Qwen3-30B-A3B-Instruct-2507 serving backbone. Results provide the question-type breakdown of the overall gains shown in Figure 3. For each system, without uses the default evidence rendering, while with applies RQS to the same retrieved evidence. Values are accuracies in %; ∆ denotes the absolute accuracy change from adding RQS in %. Deltas are computed before rounding. Avg is computed over all questions, and column abbreviations follow Table 2.",
+              "figure_id": "table-10-11",
+              "figure_number": "10",
+              "height": 398,
+              "image_path": "figures/2611.17068/table-008.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 950
+            },
+            {
+              "caption": "Table 2: Accuracy and lifecycle serving cost on the LongMemEval evaluation set with Qwen3-30B-A3B-Instruct2507 as the serving backbone. Temp, Multi, Know, User, Asst, and Pref denote temporal reasoning, multisession, knowledge-update, single-session-user, single-session-assistant, and single-session-preference questions, respectively; Avg denotes accuracy over all questions. Accuracy is reported in % and cost in dollars per 1,000 queries. The highest and second-highest accuracies in each column are bold and underlined, respectively.",
+              "figure_id": "table-2-13",
+              "figure_number": "2",
+              "height": 322,
+              "image_path": "figures/2611.17068/table-009.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 950
+            },
+            {
+              "caption": "Table 7: Cross-benchmark transfer from LongMemEval to LoCoMo without further evolution, using a fixed input adapter and the Qwen3-30B-A3B-Instruct-2507 serving backbone. Baseline results are reproduced from Table 1. Accuracy is reported in %; Avg denotes overall accuracy across 1,307 questions, and cost is measured in dollars per 1,000 queries. Column abbreviations follow Table 1. One context-overflow case for MAPE-ALME is counted as incorrect. The highest and second-highest accuracies in each column are bold and underlined, respectively. Transfer details are provided in Appendix D.1.",
+              "figure_id": "table-7-1",
+              "figure_number": "7",
+              "height": 292,
+              "image_path": "figures/2611.17068/table-010.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 950
+            },
+            {
+              "caption": "Table 6: Cross-benchmark transfer from LoCoMo to LongMemEval without further evolution, using a fixed input adapter and the Qwen3-30B-A3B-Instruct-2507 serving backbone. Baseline results are reproduced from Table 2. Accuracy is reported in %; Avg denotes overall accuracy across 400 questions, and cost is measured in dollars per 1,000 queries. Column abbreviations follow Table 2. The highest and second-highest accuracies in each column are bold and underlined, respectively. Transfer details are provided in Appendix D.1.",
+              "figure_id": "table-6-2",
+              "figure_number": "6",
+              "height": 282,
+              "image_path": "figures/2611.17068/table-011.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 950
+            },
+            {
+              "caption": "Table 3: Ablation of MAPE-ALME on the LoCoMo and LongMemEval evaluation sets using the Qwen3-30BA3B-Instruct-2507 serving backbone. W/o raw rounds retains only retrieved notes; w/o RQS bypasses QueryRouted Scaffolding (RQS); w/o both applies both ablations. Accuracy is reported in %.",
+              "figure_id": "table-3-8",
+              "figure_number": "3",
+              "height": 165,
+              "image_path": "figures/2611.17068/table-012.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 365
+            },
+            {
+              "caption": "Table 8: Component ablation of MAPE-ALME on LongMemEval with the Qwen3-30B-A3B-Instruct-2507 serving backbone, providing the question-type breakdown of Table 3. The bold row denotes the full system. W/o raw rounds omits the five retrieved conversation rounds from the returned evidence while retaining them in the index; w/o RQS bypasses composition and uses the default evidence rendering; w/o both applies both ablations. Values are accuracies in %, with Avg computed over all questions. Column abbreviations follow Table 2.",
+              "figure_id": "table-8-15",
+              "figure_number": "8",
+              "height": 134,
+              "image_path": "figures/2611.17068/table-013.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 950
+            },
+            {
+              "caption": "Table 9: Component ablation of MAPE-ALME transferred to LoCoMo using the fixed input adapter described in Appendix D.1 and the Qwen3-30B-A3B-Instruct-2507 serving backbone. Results provide the question-type breakdown of Table 3. The bold row denotes the full system; ablation definitions follow Table 8. Values are accuracies in %, with Avg computed over all questions. Column abbreviations follow Table 1.",
+              "figure_id": "table-9-16",
+              "figure_number": "9",
+              "height": 132,
+              "image_path": "figures/2611.17068/table-014.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 950
+            },
+            {
+              "caption": "Table 4: LoCoMo partition sizes. Questions inherit the partition of their conversation; adversarial questions are excluded from evaluation.",
+              "figure_id": "table-4-6",
+              "figure_number": "4",
+              "height": 240,
+              "image_path": "figures/2611.17068/table-015.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 461
+            },
+            {
+              "caption": "Table 5: LongMemEval-S question counts under the fixed stratified partition. Each question and its associated history are assigned together.",
+              "figure_id": "table-5-7",
+              "figure_number": "5",
+              "height": 206,
+              "image_path": "figures/2611.17068/table-016.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 458
+            }
+          ],
+          "first_seen_at": "2026-11-13T21:00:00-05:00",
+          "hero_figure": "figures/2611.17068/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.17068",
+          "relevance": 8,
+          "selection_reason": "Evolves agent memory programs, directly relevant to persistent/external memory mechanisms for language models.",
+          "summary_status": "generated",
+          "title": "Discovering Effective Agent Memory Designs through Program Evolution",
+          "tldr": "MAPE uses program evolution to automatically discover effective, efficient agent memory designs, improving accuracy over manual baselines while reducing serving cost.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Large Language Models (LLMs) have emerged as primary interfaces for factual retrieval, yet current evaluation paradigms rely almost exclusively on explicit entity names. In this work, we demonstrate that LLM knowledge is fundamentally lexically anchored: models possess extensive factual information but find it significantly difficult to retrieve without explicit name tokens. To quantify this limitation, we introduce ShadowBench, a rigorously hardened, shortcut-resistant benchmark designed to evaluate Latent Entity Association via a novel Dual-Trait Association (DTA) task. Our evaluation reveals a pervasive \"Shadow Gap\" across all model scales$\\unicode{x2013}$up to the frontier models GPT-5.4 and Claude-Sonnet-4.6$\\unicode{x2013}$where removing lexical anchors causes performance drops of over 20%. Furthermore, we demonstrate that this lexical dependency exposes a critical vulnerability in AI safety. Applying ShadowBench to Machine Unlearning, we find that state-of-the-art algorithms (e.g., Gradient Difference, NPO) achieve only superficial lexical erasure. While unlearned models fail on direct queries, our novel Latent Entity Leakage Rate (LELR) metric reveals that for popular entities, models explicitly reconstruct the \"forgotten\" entity in their internal reasoning traces in over 74% of cases, utilizing residual shadow knowledge to solve associative tasks. Conversely, for niche entities, models retain high shadow accuracy (60-90%) via implicit attribute correlation despite 0% LELR. Ultimately, ShadowBench indicates that current unlearning paradigms create an \"Illusion of Forgetting,\" demonstrating that existing methods act as superficial output filters and are not yet reliable for achieving true parametric erasure.",
+          "arxiv_id": "2611.15925",
+          "arxiv_url": "https://arxiv.org/abs/2611.15925",
+          "authors": [
+            "Sujan Maharjan",
+            "Lu Liu"
+          ],
+          "bullets": [
+            "LLMs struggle to retrieve facts when explicit lexical anchors are removed, revealing a broad “Shadow Gap” across model scales.",
+            "ShadowBench introduces a shortcut-resistant Dual-Trait Association task for measuring latent entity associations.",
+            "On direct unlearning queries, models may appear to forget entities while retaining recoverable associative knowledge.",
+            "The Latent Entity Leakage Rate (LELR) exposes internal reconstruction for popular entities, while niche entities can remain implicitly recoverable without explicit reconstruction.",
+            "The findings suggest current unlearning methods provide superficial output filtering rather than reliable parametric erasure."
+          ],
+          "categories": [
+            "cs.CL",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: The ShadowBench Construction Pipeline. A three-stage architecture designed to isolate latent entity association. Stage 1 involves discovery and stratification of entities by popularity. Stage 2 implements an iterative hardening process to neutralize lexical, syntactic, and temporal heuristics. Stage 3 utilizes combinatorial permutations and domain-matched hard negatives to synthesize final probes. This systematic sanitization ensures that success on ShadowBench is strictly contingent upon latent semantic reasoning rather than superficial pattern matching.",
+              "figure_id": "figure-1-11",
+              "figure_number": "1",
+              "height": 465,
+              "image_path": "figures/2611.15925/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 738
+            },
+            {
+              "caption": "Figure 4: Latent Entity Leakage in an “Unlearned” Reasoning Model. This trace from the unlearned Qwen model shows that while the model has a high loss on direct lexical queries for “Elon Musk,” it maintains a fully intact semantic graph. The model explicitly names the forbidden entity to bridge the relationship between the Hyperloop concept (Question) and Neuralink (Option D), while successfully identifying and eliminating distractor entities.",
+              "figure_id": "figure-4-14",
+              "figure_number": "4",
+              "height": 302,
+              "image_path": "figures/2611.15925/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 810
+            },
+            {
+              "caption": "Figure 5: The Shadow Gap Scaling Trajectory. Accuracy comparison between Direct QA (grey) and ShadowBench (blue) across Qwen3-8B, GPT-5.4-mini, and GPT-5.4. This confirms that the performance penalty for removing lexical anchors remains a rigid structural bottleneck even as models transition from open-weights to frontier-scale architectures.",
+              "figure_id": "figure-5-22",
+              "figure_number": "5",
+              "height": 221,
+              "image_path": "figures/2611.15925/figure-003.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 817
+            },
+            {
+              "caption": "Figure 3: The Illusion of Forgetting across Training Epochs (Elon Musk target). We track the divergence between lexical recall (ROUGE, grey) and latent association (Accuracy and LELR, green/blue). ROUGE collapses almost immediately, while the LELR remains near 1.0, proving the model still explicitly identifies the target in its latent reasoning trace. True erasure of the “Shadow” only occurs at the point of catastrophic model collapse (e.g., GD+KL Epoch 3).",
+              "figure_id": "figure-3-15",
+              "figure_number": "3",
+              "height": 253,
+              "image_path": "figures/2611.15925/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 726
+            },
+            {
+              "caption": "Figure 8: Forget Set Generation Prompt. This template was utilized to synthesize the Dforget training set, given the entire Wikipedia content. By enforcing the inclusion of the entity’s explicit name in the output, we ensure the dataset targets the model’s lexical retrieval pathways, providing a clean contrast to the anonymized associations in ShadowBench.",
+              "figure_id": "figure-8-5",
+              "figure_number": "8",
+              "height": 325,
+              "image_path": "figures/2611.15925/figure-005.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 814
+            },
+            {
+              "caption": "Figure 7: ShadowBench One-Shot Prompt Template. This template is designed to induce the Dual-Trait Association logic by providing a clear example of entity identification followed by attribute matching. This standardization ensures that the model is evaluated on its associative capability.",
+              "figure_id": "figure-7-6",
+              "figure_number": "7",
+              "height": 763,
+              "image_path": "figures/2611.15925/figure-006.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 818
+            },
+            {
+              "caption": "Figure 6: The Persistence of the Shadow Gap across Model Scales. Accuracy comparison between direct name-based recall (Direct QA, grey) and anonymized attribute association (ShadowBench, blue) for Llama-3-8B-Instruct, Qwen3-8B, and GPT-5.4. While absolute performance improves monotonically with model capacity and reasoning depth, a significant “Shadow Gap” remains universal. Even the frontier-scale GPT-5.4 suffers a substantial accuracy drop when lexical anchors are removed, proving that current LLM knowledge retrieval is fundamentally dependent on explicit entity names regardless of scale.",
+              "figure_id": "figure-6-19",
+              "figure_number": "6",
+              "height": 220,
+              "image_path": "figures/2611.15925/figure-007.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 813
+            },
+            {
+              "caption": "Figure 2: The Persistence of the Shadow Gap. Accuracy comparison between Direct QA (grey) and ShadowBench (blue). Entity name acts as mandatory retrieval trigger; removing it caused accuracy drops across all scales. Notably, Claude-Sonnet-4.6 established the highest baseline (>98% direct recall) yet still exhibited a ∼16% performance drop for niche entities, confirming that lexical anchoring is an inherent property of Transformer-based retrieval. Additional results are provided in Appendix B.1.",
+              "figure_id": "figure-2-21",
+              "figure_number": "2",
+              "height": 209,
+              "image_path": "figures/2611.15925/figure-008.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 776
+            },
+            {
+              "caption": "Figure 10: Unlearning Failure: Latent Entity Leakage (Qwen3-8B). Despite achieving a high forget-loss on direct queries for “Elon Musk,” the unlearned model explicitly reconstructs the forbidden identity in its scratchpad to solve the ShadowBench task. This qualitatively confirms the persistence of the latent conceptual node.",
+              "figure_id": "figure-10-10",
+              "figure_number": "10",
+              "height": 187,
+              "image_path": "figures/2611.15925/figure-009.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 815
+            },
+            {
+              "caption": "Figure 9: Baseline Success Case (Qwen3-8B). The base model demonstrates robust latent association. It correctly identifies “Jeff Bezos” as the bridge between the founding of Blue Origin and the leadership of Amazon, explicitly naming the latent entity in its reasoning trace.",
+              "figure_id": "figure-9-9",
+              "figure_number": "9",
+              "height": 185,
+              "image_path": "figures/2611.15925/figure-010.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 815
+            },
+            {
+              "caption": "Figure 11: Unlearning Failure: Catastrophic Model Collapse. In this failure mode, aggressive unlearning has destroyed the model’s structural linguistic weights. The model fails to associate facts about neighboring entities (e.g., Mark Zuckerberg) and produces repetitive, non-semantic tokens.",
+              "figure_id": "figure-11-8",
+              "figure_number": "11",
+              "height": 131,
+              "image_path": "figures/2611.15925/figure-011.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 815
+            },
+            {
+              "caption": "Table 2: Unlearning Performance Matrix. While SOTA methods successfully induce direct lexical forgetting (Direct Forget ROUGE drops), latent associations remain largely intact in reasoning models (Qwen). In non-reasoning models (Llama), unlearning is achieved only via catastrophic weight degradation.",
+              "figure_id": "table-2-7",
+              "figure_number": "2",
+              "height": 340,
+              "image_path": "figures/2611.15925/table-012.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 790
+            },
+            {
+              "caption": "Table 1: Baseline Performance across Model Scales. ShadowBench accuracy (%) comparing Standard (Std) decoding and Chain-of-Thought (CoT) reasoning. Accuracy rises steadily with model capability (Llama < Qwen < GPT < Claude), and reasoning provides a consistent dividend for reasoning-optimized models. However, a pervasive gap between lexical recall and latent association remains across all model scales.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 225,
+              "image_path": "figures/2611.15925/table-013.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 798
+            },
+            {
+              "caption": "Table 7: ShadowBench v1 Results (Lexical Anonymization Only). Scores are artificially inflated due to models exploiting un-neutralized gendered pronouns or chronological era-mismatches as deductive shortcuts.",
+              "figure_id": "table-7-12",
+              "figure_number": "7",
+              "height": 224,
+              "image_path": "figures/2611.15925/table-014.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 510
+            },
+            {
+              "caption": "Table 8: ShadowBench v2 Results (Pronoun Neutralization and GPF). Accuracy scores after replacing gendered pronouns and enforcing a strict ±25-year generational window for distractors. While overall accuracy drops relative to v1, performance remains partially inflated as models pivot to exploiting domain-specific gender cues (e.g., “WTA” or “Best Actress”) to eliminate distractors, necessitating the strict demographic homogeneity introduced in v3.",
+              "figure_id": "table-8-16",
+              "figure_number": "8",
+              "height": 225,
+              "image_path": "figures/2611.15925/table-015.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 532
+            },
+            {
+              "caption": "Table 3: ShadowBench v3 Dataset Composition. We balanced the total number of QA pairs to ensure statistical parity between tiers. Lower Tier entities require a significantly larger entity pool to achieve comparable scale to the fact-dense Upper Tier.",
+              "figure_id": "table-3-4",
+              "figure_number": "3",
+              "height": 194,
+              "image_path": "figures/2611.15925/table-016.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 577
+            },
+            {
+              "caption": "Table 6: Controlled Sensitivity Analysis. Accuracy (%) on a matched 1:1 entity subset. Controlling for distractor pool size resolves baseline anomalies (e.g., Sports), revealing a universal Popularity Bias and CoT dominance across all model scales.",
+              "figure_id": "table-6-13",
+              "figure_number": "6",
+              "height": 223,
+              "image_path": "figures/2611.15925/table-017.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 782
+            },
+            {
+              "caption": "Table 9: Multi-Domain Unlearning Generalization. Evaluation of NPO+KL unlearning across domains and tiers. While direct lexical recall is suppressed, latent associations persist through two distinct leakage modes.",
+              "figure_id": "table-9-17",
+              "figure_number": "9",
+              "height": 225,
+              "image_path": "figures/2611.15925/table-018.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 440
+            },
+            {
+              "caption": "Table 11: Hyperparameter Search and Checkpoint Selection. Evaluation metrics across different configurations. Checkpoints that exceeded the Utility Perplexity threshold (> 100) were disqualified. Bolded rows represent the Pareto-optimal checkpoints selected for final evaluation in Table 2.",
+              "figure_id": "table-11-2",
+              "figure_number": "11",
+              "height": 1179,
+              "image_path": "figures/2611.15925/table-019.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 825
+            },
+            {
+              "caption": "Table 4: Controlled Sensitivity Subset Statistics. This subset matches entity counts and QA pairs 1:1 across tiers to verify that distractor saturation does not confound the observation of Popularity Bias.",
+              "figure_id": "table-4-3",
+              "figure_number": "4",
+              "height": 131,
+              "image_path": "figures/2611.15925/table-020.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 648
+            },
+            {
+              "caption": "Table 5: Direct QA vs. ShadowBench Accuracy. Detailed numerical breakdown of the scores visualized in Figures 2, 5, and 6. Direct QA (Direct) established the factual recall ceiling, while ShadowBench (SB) measured associative retrieval.",
+              "figure_id": "table-5-18",
+              "figure_number": "5",
+              "height": 186,
+              "image_path": "figures/2611.15925/table-021.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 824
+            },
+            {
+              "caption": "Table 10: Full-Dataset Empirical Variance. Accuracy (µ±σ) across 5 trials on the full corpus. The negligible variance confirms that ShadowBench results are robust to sampling and decoding noise.",
+              "figure_id": "table-10-20",
+              "figure_number": "10",
+              "height": 121,
+              "image_path": "figures/2611.15925/table-022.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 544
+            }
+          ],
+          "first_seen_at": "2026-11-13T21:00:00-05:00",
+          "hero_figure": "figures/2611.15925/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.15925",
+          "relevance": 6,
+          "selection_reason": "LLM latent knowledge, lexical anchoring, and unlearning failure; relevant to language foundation model memory and evaluation.",
+          "summary_status": "generated",
+          "title": "ShadowBench: Exposing Lexical Anchoring and the Illusion of Forgetting in Large Language Models",
+          "tldr": "ShadowBench shows that LLMs rely heavily on entity-name cues and that current unlearning methods often hide, rather than remove, underlying knowledge.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Reasoning models achieve strong performance through long chains of thought (CoT), but often spend more tokens than needed to solve a problem. Existing ways to shorten the CoT require additional training for each model, add a fixed steering vector to the model's hidden states, or use decoding heuristics such as stopping early or banning words like \"wait\", which can reduce accuracy. We propose DoubtLess, a training-free decoding method in which a much smaller reasoning model steers the large one towards brevity. The small model reads the large model's CoT so far twice, once prompted to be brief (the brief thinker) and once prompted to be verbose (the verbose thinker), and the difference between its two logit vectors, scaled by a strength, is added to the large model's logits at every step of the CoT. On seven benchmarks of competition mathematics, graduate-level science and competitive programming, DoubtLess shortens the CoT of Qwen3-32B by 31% with unchanged accuracy, outperforming five inference-time baselines. We also show that DoubtLess reduces thinking tokens per turn by 20% in a self-debugging coding agent with unchanged task performance. It also generalizes to two other model families with unchanged accuracy. When combined with training-based compression, it further shortens the CoT of a model already trained for brevity. Ablations and behavioral analysis show that DoubtLess reduces repeated checking, with most token savings coming after the correct answer first appears in the CoT. Our code is available at https://github.com/leoluolol/DoubtLess.",
+          "arxiv_id": "2610.18862",
+          "arxiv_url": "https://arxiv.org/abs/2610.18862",
+          "authors": [
+            "Minghao Luo",
+            "Liang Chen"
+          ],
+          "bullets": [
+            "Addresses overly long chains of thought and limitations of training-based or heuristic shortening methods.",
+            "At each reasoning step, a small model reads the current CoT in brief and verbose modes; their logit difference steers the large model toward brevity.",
+            "Shortens Qwen3-32B CoT by 31% with unchanged accuracy across seven mathematics, science, and programming benchmarks.",
+            "Reduces thinking tokens per turn by 20% in a self-debugging coding agent while preserving task performance, and generalizes across two other model families.",
+            "Analysis attributes savings mainly to reducing repeated checking after the correct answer first appears; further compression is possible when combined with brevity training."
+          ],
+          "categories": [
+            "cs.CL",
+            "cs.AI",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 5: DoubtLess removes mostly the thinking after the first answer, and the words of hesitation stay. AIME 2025. (a) Mean thinking tokens of a correct run before (light) and after (dark) the first occurrence of the correct answer, per method; number: tokens after it. (b) Selected words per thousand thinking tokens.",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 371,
+              "image_path": "figures/2610.18862/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 919
+            },
+            {
+              "caption": "Figure 9: Thinking length under each method on each benchmark: box, quartiles; whiskers, 5th to 95th percentile; dot, mean; dotted line, the budget.",
+              "figure_id": "figure-9-13",
+              "figure_number": "9",
+              "height": 288,
+              "image_path": "figures/2610.18862/figure-002.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 916
+            },
+            {
+              "caption": "Figure 6: After the answer, DoubtLess checks briefly and stops, while plain decoding gets stuck repeating the same check. AIME 2025 problem 1, first seed: the CoT under each method from the first statement of the answer (bold) to its end. Checks are in red, and [. . .] marks omitted text; full CoTs in Appendix L.",
+              "figure_id": "figure-6-7",
+              "figure_number": "6",
+              "height": 515,
+              "image_path": "figures/2610.18862/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 457
+            },
+            {
+              "caption": "Figure 4: DoubtLess removes the most thinking tokens with unchanged accuracy. (a) Percentage of thinking tokens removed and accuracy change against plain decoding, for Qwen3-32B on the seven benchmarks. (b) When evaluated on other model families, DoubtLess removes far more than the concise prompt (AIME 2025 and AMC 2023, each large model steered by a small model of its own family). Three seeds per problem, 95% intervals (Tables 7 and 8).",
+              "figure_id": "figure-4-21",
+              "figure_number": "4",
+              "height": 502,
+              "image_path": "figures/2610.18862/figure-004.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 451
+            },
+            {
+              "caption": "Figure 1: Qwen3-32B: mean thinking tokens of a correct run before and after the correct answer first appears in the CoT, under plain decoding (the model as released) and under DoubtLess. Of the tokens DoubtLess removes, 65–89% come after the answer (Table 11).",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 315,
+              "image_path": "figures/2610.18862/figure-005.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 433
+            },
+            {
+              "caption": "Figure 2: DoubtLess. A small model that shares the tokenizer reads the large model’s CoT so far twice, once prompted to be brief (brief thinker) and once prompted to be verbose (verbose thinker); the difference between the two logit vectors, scaled by α, is added to the large model’s logits while it writes the CoT.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 300,
+              "image_path": "figures/2610.18862/figure-006.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 452
+            },
+            {
+              "caption": "Figure 7: The two thinkers disagree after the answer. Correct plain-decoding runs on AIME 2025, read by the small model under both instructions. (a) Divergence of the two next-token distributions, aligned at the first automatic match to the correct answer. (b) Brief minus verbose log-probability of selected words, before and after the answer.",
+              "figure_id": "figure-7-8",
+              "figure_number": "7",
+              "height": 416,
+              "image_path": "figures/2610.18862/figure-007.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 429
+            },
+            {
+              "caption": "Figure 8: Larger strengths remove more thinking tokens, and accuracy holds up to the default α=5. AIME 2025, three seeds per problem, 95% intervals (Table 4).",
+              "figure_id": "figure-8-19",
+              "figure_number": "8",
+              "height": 287,
+              "image_path": "figures/2610.18862/figure-008.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 427
+            },
+            {
+              "caption": "Figure 3: Before the answer, the direction leaves the CoT nearly untouched. After it, the words that open another check are pushed down. The CoT that plain decoding writes for AIME 2025 problem 1, read by Qwen30.6B under both instructions. Red: down-weighted; green: up-weighted (threshold in Appendix I); [. . .] marks omitted text.",
+              "figure_id": "figure-3-9",
+              "figure_number": "3",
+              "height": 417,
+              "image_path": "figures/2610.18862/figure-009.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 456
+            },
+            {
+              "caption": "Figure 10: DoubtLess removes a similar percentage on short and on long problems, and the random-target control stays on the diagonal. AIME 2025: mean thinking tokens of each problem over its three runs, under DoubtLess (0.6B) and the control against plain decoding. The dotted line is the overall change.",
+              "figure_id": "figure-10-17",
+              "figure_number": "10",
+              "height": 426,
+              "image_path": "figures/2610.18862/figure-010.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 425
+            },
+            {
+              "caption": "Table 1: DoubtLess removes the most thinking tokens overall. Qwen3-32B, three seeds per problem. Plain decoding: accuracy (%) and mean thinking tokens; other rows: change against plain decoding, in points and in % (intervals in Table 7). Overall: the 528 problems of the seven benchmarks together. Bold and underlined: largest and second-largest removal among the six methods. Agent: pass rate and thinking tokens per turn on HumanEval+.",
+              "figure_id": "table-1-15",
+              "figure_number": "1",
+              "height": 443,
+              "image_path": "figures/2610.18862/table-011.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 935
+            },
+            {
+              "caption": "Table 2: DoubtLess further compresses a trainingbased compression model, Qwen3-32B fine-tuned with the adaptive length penalty of LACONIC (LACONICQwen3-32B-3000). LACONIC: accuracy (%) and mean thinking tokens of this model; +DoubtLess: change in points (95% intervals) and in %. Three seeds per problem. Agent: pass rate and thinking tokens per turn.",
+              "figure_id": "table-2-14",
+              "figure_number": "2",
+              "height": 199,
+              "image_path": "figures/2610.18862/table-012.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 465
+            },
+            {
+              "caption": "Table 12: AIME 2025, per problem: mean thinking tokens over the three seeds and (correct runs / runs) under each setting.",
+              "figure_id": "table-12-20",
+              "figure_number": "12",
+              "height": 671,
+              "image_path": "figures/2610.18862/table-013.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 810
+            },
+            {
+              "caption": "Table 8: DoubtLess removes about three times as much thinking as the concise prompt on EXAONE-4.0 and Granite-4.2, with unchanged accuracy. Same instructions and strength for every family. AIME 2025 and AMC 2023, 70 problems, three seeds each; each large model is steered by the small model below it. Accuracy (%) and thinking-token change against plain decoding, the latter with 95% intervals.",
+              "figure_id": "table-8-10",
+              "figure_number": "8",
+              "height": 211,
+              "image_path": "figures/2610.18862/table-014.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 461
+            },
+            {
+              "caption": "Table 7: Every setting on every benchmark: accuracy and its change against plain decoding in points (paired over problems), share of runs that reach the budget (for DEER and ThinkBrake, in the answer after the thinking is closed), mean thinking tokens, change in thinking tokens against plain decoding over all problems, and the same change over the problems that both the setting and plain decoding solved in every run (their number in parentheses). 95% bootstrap intervals over problems. The last block pools the seven benchmarks.",
+              "figure_id": "table-7-18",
+              "figure_number": "7",
+              "height": 1295,
+              "image_path": "figures/2610.18862/table-015.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 871
+            },
+            {
+              "caption": "Table 3: Benchmarks: problems × seeds per problem, thinking budget in tokens, answer type and license.",
+              "figure_id": "table-3-5",
+              "figure_number": "3",
+              "height": 181,
+              "image_path": "figures/2610.18862/table-016.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 461
+            },
+            {
+              "caption": "Table 5: AIME 2025, three seeds: DoubtLess with three small models of the same family at α=5, and with Qwen3-32B itself as both thinkers at α=1. Accuracy, share of runs reaching the budget, mean thinking tokens, change in thinking tokens over all problems, and accuracy change in points.",
+              "figure_id": "table-5-4",
+              "figure_number": "5",
+              "height": 117,
+              "image_path": "figures/2610.18862/table-017.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 458
+            },
+            {
+              "caption": "Table 6: AIME 2026 (30 problems, released after Qwen3), three seeds each: plain decoding, DoubtLess (0.6B) at five strengths and ASC at three. Accuracy, share of runs reaching the budget, mean thinking tokens, change in thinking tokens against plain decoding over all problems with its 95% interval, and accuracy change in points.",
+              "figure_id": "table-6-22",
+              "figure_number": "6",
+              "height": 189,
+              "image_path": "figures/2610.18862/table-018.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 461
+            },
+            {
+              "caption": "Table 10: AIME 2025: occurrences per thousand thinking tokens of some words, pooled over all runs of a setting.",
+              "figure_id": "table-10-12",
+              "figure_number": "10",
+              "height": 246,
+              "image_path": "figures/2610.18862/table-019.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 458
+            },
+            {
+              "caption": "Table 9: AIME 2025: mean thinking tokens before and after the first occurrence of the correct answer, over the correct runs in which the answer can be located (last column).",
+              "figure_id": "table-9-11",
+              "figure_number": "9",
+              "height": 152,
+              "image_path": "figures/2610.18862/table-020.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 461
+            },
+            {
+              "caption": "Table 4: AIME 2025, 30 problems, three seeds each: DoubtLess (0.6B) at three strengths and at a negative one (α=− 5 adds the verbose minus the brief thinker). Accuracy, share of runs reaching the budget, mean thinking tokens, change in thinking tokens against plain decoding over all problems with its 95% interval, and accuracy change in points.",
+              "figure_id": "table-4-3",
+              "figure_number": "4",
+              "height": 127,
+              "image_path": "figures/2610.18862/table-021.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 458
+            },
+            {
+              "caption": "Table 11: Plain decoding and DoubtLess (0.6B) on the same runs, those that both settings solve and in which the answer can be located (integer answers as a standalone number, letters as the answer of a phrase). Mean thinking tokens before and after the first occurrence of the correct answer under each setting, the change of each part, and the share of the removed tokens that lie after the answer. HMMT and OlympiadBench cover their integer-answer problems only; on LiveCodeBench the program is written after the CoT, so no split is possible.",
+              "figure_id": "table-11-16",
+              "figure_number": "11",
+              "height": 207,
+              "image_path": "figures/2610.18862/table-022.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 733
+            }
+          ],
+          "first_seen_at": "2026-11-13T21:00:00-05:00",
+          "hero_figure": "figures/2610.18862/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2610.18862",
+          "relevance": 7,
+          "selection_reason": "Training-free contrastive decoding steers large reasoning LLMs toward brevity, directly addressing LLM reasoning and decoding.",
+          "summary_status": "generated",
+          "title": "DoubtLess: Training-Free Contrastive Decoding for Efficient Reasoning",
+          "tldr": "DoubtLess uses a smaller model’s brief-versus-verbose preferences to shorten large-model reasoning without extra training or accuracy loss.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "large-language-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "LLM-based multi-agent systems (MAS) have attracted growing attention for improving reasoning through interaction among multiple agents. In this work, we focus on parallel multi-agent reasoning systems, where several agents solve the same problem over multiple rounds and aggregate their outputs into a final answer. Despite their strong reasoning performance, uncertainty estimation for such systems remains underexplored: the reliability of a MAS depends not only on individual generations, but also on how agents interact and evolve across rounds. We propose SAUCE (Sequential Agent Uncertainty through Consensus Evolution), a lightweight, training-free uncertainty estimator that formulates MAS uncertainty as sequential inference over a latent system-level belief. SAUCE aggregates round-level agreement and generation-uncertainty signals through a filtering-style update. Across five backbones, five benchmarks, and two MAS protocols, SAUCE improves misclassification detection, selective prediction, and calibration over a broad set of uncertainty estimation baselines, including standard log-likelihood-based methods and MAS-specific estimators.",
+          "arxiv_id": "2610.08901",
+          "arxiv_url": "https://arxiv.org/abs/2610.08901",
+          "authors": [
+            "Tunyu Zhang",
+            "Zihao Zhao",
+            "Yusong Zhao",
+            "Haizhou Shi",
+            "Zhuohang Li",
+            "Haoxian Chen",
+            "Hao Wang",
+            "Dimitris N. Metaxas"
+          ],
+          "bullets": [
+            "Targets uncertainty estimation for multi-agent systems whose reliability evolves through agent interactions and repeated rounds.",
+            "Models system uncertainty as sequential inference over a latent, system-level belief.",
+            "Combines round-level agreement with generation-uncertainty signals using a filtering-style update.",
+            "Evaluated across five backbones, five benchmarks, and two multi-agent protocols.",
+            "Improves misclassification detection, selective prediction, and calibration over established baselines."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Overview. (A) Two MAS trajectories can reach the same final answer but differ greatly in reliability: a stable run whose outputs converge across rounds (top) is more trustworthy than an unstable run whose outputs oscillate (bottom). A static view that only considers the final output cannot distinguish them, motivating uncertainty estimation from interaction dynamics. (B) SAUCE models multi-round interaction as a sequence of round-level observations (Mt, Rt), where agreement is weighted by generation uncertainty, and performs a filtering-style update over a latent system-level belief. The resulting trajectory summary defines the SAUCE uncertainty score u(x, τ) (Eqn. 11).",
+              "figure_id": "figure-1-3",
+              "figure_number": "1",
+              "height": 347,
+              "image_path": "figures/2610.08901/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 826
+            },
+            {
+              "caption": "Figure 4: Probabilistic view of SAUCE. A latent system belief st evolves across rounds and emits a noisy observation ot formed from the agents’ outputs. SAUCE’s per-round estimate is the posterior expectation E[st | o1:t]=µt.",
+              "figure_id": "figure-4-18",
+              "figure_number": "4",
+              "height": 250,
+              "image_path": "figures/2610.08901/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 414
+            },
+            {
+              "caption": "Figure 3: Distribution of (a) the baseline agreement signal M̄t and (b) SAUCE’s posterior-mean estimate µt (each averaged over rounds) for correct vs. incorrect MAS outputs (MMLU-Pro, Gemini-2.5FL, DyLAN). SAUCE sharpens the separation between classes (AUROC 0.579→0.805). Densities are normalized independently in each panel.",
+              "figure_id": "figure-3-19",
+              "figure_number": "3",
+              "height": 245,
+              "image_path": "figures/2610.08901/figure-003.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 827
+            },
+            {
+              "caption": "Figure 7: Per-axis sensitivity of SAUCE’s four hyperparameters at the calibration cell (Qwen3-4B / MMLU-Pro). Top row: Debate, selected values (λ, q, σ2 0 , µ0) = (0.95, 0.10, 0.25, 0.0). Bottom row: DyLAN, selected values (0.70, 0.001, 0.25, 0.0). In each panel, one hyperparameter is swept while the other three are held at their per-protocol selected value (marked by ★ and a dotted vertical line).",
+              "figure_id": "figure-7-9",
+              "figure_number": "7",
+              "height": 350,
+              "image_path": "figures/2610.08901/figure-004.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 826
+            },
+            {
+              "caption": "Figure 2: Round-level µt on Llama-3.18B / MATH-500. Both classes grow more confident with each round, but correct trajectories converge to a consistently higher consensus. Shading shows ±1 standard deviation across trajectories.",
+              "figure_id": "figure-2-12",
+              "figure_number": "2",
+              "height": 225,
+              "image_path": "figures/2610.08901/figure-005.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 332
+            },
+            {
+              "caption": "Figure 6: Per-round behavior on a 15-round Qwen3-4B Debate run on MMLU-Pro, grouped by final-answer correctness. Left: SAUCE posterior mean µt; the correct/incorrect gap persists through round 15. Middle: Average per-agent log-likelihood at round t; both classes become increasingly token-confident and the gap vanishes. Right: AUROC against final-consensus correctness as a function of debate length T ; SAUCE plateaus while LL degrades toward chance (dashed line).",
+              "figure_id": "figure-6-11",
+              "figure_number": "6",
+              "height": 231,
+              "image_path": "figures/2610.08901/figure-006.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 826
+            },
+            {
+              "caption": "Figure 5: Brier score after Platt scaling (5-fold cross-validation) on MMLU-Pro under the Debate protocol, across all five backbones. SAUCE attains the lowest Brier-Platt score on four of the five backbones.",
+              "figure_id": "figure-5-10",
+              "figure_number": "5",
+              "height": 192,
+              "image_path": "figures/2610.08901/figure-007.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 826
+            },
+            {
+              "caption": "Table 1: Misclassification detection (AUROC ↑) and selective prediction (AUARC ↑) on open-source models. Boldface and underlining denote the best and second-best performance.",
+              "figure_id": "table-1-4",
+              "figure_number": "1",
+              "height": 473,
+              "image_path": "figures/2610.08901/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 820
+            },
+            {
+              "caption": "Table 2: Misclassification detection and selective prediction on closed-source models. Metrics and notation follow Table 1. Boldface and underlining denote the best and second-best performance.",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 325,
+              "image_path": "figures/2610.08901/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 822
+            },
+            {
+              "caption": "Table 7: Calibration quality on open-source models, measured by Brier score after Platt scaling with 5-fold cross-validation (↓, ×100). Bold denotes the lowest score per (model, protocol, dataset) cell, and per-backbone Avg.",
+              "figure_id": "table-7-13",
+              "figure_number": "7",
+              "height": 471,
+              "image_path": "figures/2610.08901/table-010.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 656
+            },
+            {
+              "caption": "Table 8: Calibration quality on closed-source models, measured by Brier score after Platt scaling with 5-fold cross-validation (↓, ×100). Notation follows Table 7.",
+              "figure_id": "table-8-14",
+              "figure_number": "8",
+              "height": 335,
+              "image_path": "figures/2610.08901/table-011.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 656
+            },
+            {
+              "caption": "Table 9: Simpler trajectory summaries under Debate (AUROC ↑, ×100). Boldface and underlining denote the best and second-best performance. Evaluation sizes and score definitions follow Appendix C.4.",
+              "figure_id": "table-9-17",
+              "figure_number": "9",
+              "height": 280,
+              "image_path": "figures/2610.08901/table-012.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 814
+            },
+            {
+              "caption": "Table 11: Paired-bootstrap comparisons under Debate. The first two rows report SAUCE’s AUROC (×100) and 95% interval; subsequent rows give its tail fraction against each baseline. Bold indicates p < 0.05; < 0.001 denotes zero tail counts in 1,000 resamples.",
+              "figure_id": "table-11-1",
+              "figure_number": "11",
+              "height": 257,
+              "image_path": "figures/2610.08901/table-013.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 818
+            },
+            {
+              "caption": "Table 4: Benchmark formats and evaluation sizes used in the main results. “–” denotes a benchmark not used for that model class.",
+              "figure_id": "table-4-15",
+              "figure_number": "4",
+              "height": 163,
+              "image_path": "figures/2610.08901/table-014.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 732
+            },
+            {
+              "caption": "Table 12: Repeated Debate rollouts (AUROC ↑, mean ± sample standard deviation, ×100). Boldface and underlining denote the best and second-best means.",
+              "figure_id": "table-12-7",
+              "figure_number": "12",
+              "height": 212,
+              "image_path": "figures/2610.08901/table-015.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 710
+            },
+            {
+              "caption": "Table 13: Answer-switch analysis among final-unanimous trajectories on Qwen3-4B / Debate / MMLU-Pro (n = 10,696). Switches count changes in individual agents’ answers.",
+              "figure_id": "table-13-6",
+              "figure_number": "13",
+              "height": 142,
+              "image_path": "figures/2610.08901/table-016.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 436
+            },
+            {
+              "caption": "Table 5: SAUCE hyperparameter defaults transferred across all cells.",
+              "figure_id": "table-5-16",
+              "figure_number": "5",
+              "height": 96,
+              "image_path": "figures/2610.08901/table-017.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 518
+            },
+            {
+              "caption": "Table 6: Learned vs. constant transition coefficient on Qwen3-4B / Debate (AUROC↑, ×100). The two filter variants achieve similar AUROC on both datasets; both improve substantially over the no-filter baseline.",
+              "figure_id": "table-6-8",
+              "figure_number": "6",
+              "height": 117,
+              "image_path": "figures/2610.08901/table-018.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 472
+            },
+            {
+              "caption": "Table 10: Temporal-order ablation under Debate (AUROC ↑, ×100). Shuffled averages three seeds; ∆ is original minus the better alternative. Best and second-best scores are bold and underlined.",
+              "figure_id": "table-10-2",
+              "figure_number": "10",
+              "height": 188,
+              "image_path": "figures/2610.08901/table-019.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 776
+            }
+          ],
+          "first_seen_at": "2026-11-13T21:00:00-05:00",
+          "hero_figure": "figures/2610.08901/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2610.08901",
+          "relevance": 6,
+          "selection_reason": "Uncertainty estimation for LLM-based multi-agent reasoning systems is relevant to language foundation model behavior.",
+          "summary_status": "generated",
+          "title": "Sequential Probabilistic Uncertainty Estimation for Parallel Multi-Agent Reasoning Systems",
+          "tldr": "SAUCE is a lightweight, training-free method that estimates uncertainty in parallel multi-agent reasoning by tracking consensus and generation uncertainty across rounds.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "large-language-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Compositional generalization remains challenging when language models must combine familiar reasoning operations in unfamiliar ways. The Scenario-Based Commonsense Reasoning Evaluation (SCoRE) 2026 tests this ability on three mixed domains absent from training and requires models to identify the complete set of correct options for each question. We introduce Route-Verify-Vote (RVV), a framework for procedure-conditioned self-consistency that uses language models without parameter updates. Route uses the provided domain label to select a reasoning procedure that guides the model in representing and applying the relevant constraints. Verify prompts the model to assess each option against those constraints. Vote aggregates complete answer sets and allocates additional samples to questions with a small vote-count margin between the two most frequent sets. Samples for each question follow the same domain-specific procedure. On the official test set, voting over 16 sampled answer sets per question achieves an exact-set accuracy of 74.6%. Adaptive RVV reaches 77.3%, and combining models on selected domain routes raises accuracy to 79.4%. The final system ranked second among participating systems. These results support domain-specific reasoning procedures and answer-set disagreement as useful tools for allocating inference-time computation in mixed-domain reasoning.",
+          "arxiv_id": "2610.08814",
+          "arxiv_url": "https://arxiv.org/abs/2610.08814",
+          "authors": [
+            "Xinchen Xiao"
+          ],
+          "bullets": [
+            "Targets compositional generalization across unseen mixed domains requiring complete correct answer sets.",
+            "Uses a three-stage, parameter-free framework: Route selects a domain procedure, Verify checks each option against its constraints, and Vote aggregates sampled answer sets.",
+            "Adaptive sampling focuses additional computation on questions with close vote margins.",
+            "Achieves 74.6% exact-set accuracy with 16 samples, 77.3% adaptively, and 79.4% when combining models across selected routes.",
+            "The final system ranked second in the SCoRE 2026 evaluation."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.CL",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4: Official-test scaling and final system composition. (a) Uniform REAP voting improves with the number of sampled answer sets. At K = 1, error bars summarize available individual scores from the 16 runs; at K ≥ 32, they summarize five repeated aggregates. K = 16 is one modal aggregate. (b) Adaptive REAP sampling and route-conditioned model pairing provide successive gains over the 32-output vote, reaching 79.4%.",
+              "figure_id": "figure-4-17",
+              "figure_number": "4",
+              "height": 374,
+              "image_path": "figures/2610.08814/figure-001.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 936
+            },
+            {
+              "caption": "Figure 5: Accuracy–sampling-budget Pareto analysis. The number of sampled solutions is normalized by the uniform K = 32 total (32,000), so R = 1 is the baseline. This proxy does not measure tokens or GPU time. (a) Uniform REAP scaling is compared with a margin-12 adaptive allocation and equal-count route-conditioned model pairing on 40% of questions. (b) Marginal gains from doubling uniform sampling. The decreasing increments motivate allocating additional computation to the low-margin subset instead of scaling every question uniformly.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 366,
+              "image_path": "figures/2610.08814/figure-002.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 936
+            },
+            {
+              "caption": "Figure 2: Comparison of domain-specific configurations. Open points show the initial baseline and filled points the selected configuration; labels report absolute accuracy differences. All selected configurations score above their initial counterparts, with the largest difference on Space+Social.",
+              "figure_id": "figure-2-14",
+              "figure_number": "2",
+              "height": 408,
+              "image_path": "figures/2610.08814/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 861
+            },
+            {
+              "caption": "Figure 3: Sensitivity to sampling parameters. Each panel is normalized to its best observed exact-set accuracy (100%). (a) Temperature and (b) min-p were measured on the 100-question official Space subset with a fixed domain-specific prompt; the unnormalized best is 32%. (c) Maximum generated tokens were evaluated by truncating and reparsing outputs from a preliminary 50-question experiment; the best vote accuracy is 90%.",
+              "figure_id": "figure-3-18",
+              "figure_number": "3",
+              "height": 298,
+              "image_path": "figures/2610.08814/figure-004.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 929
+            },
+            {
+              "caption": "Figure 7: Vote margin identifies where added inference changes the prediction. (a) Top-two margin distribution for the 16-output vote on 1,000 test questions. The additional-sampling experiment selects all 201 questions with margin at most six; 90 have margin at most two, whereas 457 are unanimous. (b) Fraction of selected questions whose modal answer changes after adding 16 samples, grouped by the original margin. In total, 33 of 201 answers change. (c) Pre-resampling accuracy, correction rate, and damage rate by margin. Low-margin questions provide most corrections but also carry the greatest risk of changing an initially correct answer.",
+              "figure_id": "figure-7-3",
+              "figure_number": "7",
+              "height": 329,
+              "image_path": "figures/2610.08814/figure-005.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 936
+            },
+            {
+              "caption": "Figure 6: Run-to-run variability under a fixed reasoning procedure and decoding configuration. (a) Available official exact-set scores from the 16 runs; the dashed line is the mean, and the annotation reports the sample standard deviation. (b) Official accuracy versus the number of answers differing from the 16-run modal answer. Marker size indicates the number of empty parses. (c) Official accuracy versus mean generated tokens. Score-dependent panels omit the one run without individual official feedback, while the modal answer uses all 16 outputs.",
+              "figure_id": "figure-6-2",
+              "figure_number": "6",
+              "height": 327,
+              "image_path": "figures/2610.08814/figure-006.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 936
+            },
+            {
+              "caption": "Figure 1: Procedure-conditioned view of RVV. Routing selects a fixed prompt that requests a domainspecific representation and inference order; option-wise verification produces a complete answer set when parsing succeeds; and voting aggregates repeated samples. Low-margin questions receive additional samples under the same procedure prompt.",
+              "figure_id": "figure-1-15",
+              "figure_number": "1",
+              "height": 123,
+              "image_path": "figures/2610.08814/figure-007.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 825
+            },
+            {
+              "caption": "Table 4: Comparison of the initial shared-prompt baseline and selected domain-specific configurations, using results from separate domain evaluations. Configurations can differ in model, prompt, and decoding settings. ∆ denotes a percentage-point change.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 261,
+              "image_path": "figures/2610.08814/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 579
+            },
+            {
+              "caption": "Table 3: Official-test exact-set accuracy. The pooled vote uses all 16 outputs; score summaries omit the unavailable individual result. Adaptive REAP-only RVV reaches 77.3%, and model pairing adds 2.1 points.",
+              "figure_id": "table-3-19",
+              "figure_number": "3",
+              "height": 186,
+              "image_path": "figures/2610.08814/table-009.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 567
+            },
+            {
+              "caption": "Table 12: Accuracy by domain for uniform REAP voting, adaptive REAP sampling, and the final routeconditioned model-pairing configuration.",
+              "figure_id": "table-12-10",
+              "figure_number": "12",
+              "height": 206,
+              "image_path": "figures/2610.08814/table-010.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 427
+            },
+            {
+              "caption": "Table 8: Early Qwen3.5-9B prompt ablation on the same 50 questions. The experiment contains 1,600 requests and 32 total samples per question across the five prompts. Parse, request accuracy, and promptspecific modal-vote accuracy are percentages.",
+              "figure_id": "table-8-12",
+              "figure_number": "8",
+              "height": 128,
+              "image_path": "figures/2610.08814/table-011.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 423
+            },
+            {
+              "caption": "Table 7: Same-protocol model ablation on 50 questions: P2, one sample, temperature 0.9, top-p 1.0, min-p filtering at 0.05, and a 22,000-token generation limit. Accuracy and parse rate are percentages. Length stop counts generations terminated at the token limit; Empty counts outputs without a parsed answer.",
+              "figure_id": "table-7-11",
+              "figure_number": "7",
+              "height": 94,
+              "image_path": "figures/2610.08814/table-012.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 498
+            },
+            {
+              "caption": "Table 2: The eight route templates and their specified reasoning procedures. Every prompt also requests a full-constraint recheck, option-wise judgments, and the same JSON output format.",
+              "figure_id": "table-2-16",
+              "figure_number": "2",
+              "height": 141,
+              "image_path": "figures/2610.08814/table-013.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 825
+            },
+            {
+              "caption": "Table 1: Released SCoRE 2026 data by domain. Three mixed-domain labels in the test set do not occur in the released training set.",
+              "figure_id": "table-1-4",
+              "figure_number": "1",
+              "height": 261,
+              "image_path": "figures/2610.08814/table-014.webp",
+              "kind": "table",
+              "page": 2,
+              "width": 269
+            },
+            {
+              "caption": "Table 5: Preliminary training-subset and test-set results. Prompts and sampling budgets differ across evaluations.",
+              "figure_id": "table-5-5",
+              "figure_number": "5",
+              "height": 124,
+              "image_path": "figures/2610.08814/table-015.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 531
+            },
+            {
+              "caption": "Table 9: Representative prompt comparisons from separate official domain evaluations. Labels v1–v5 identify successive prompt variants within each domain; variants can differ in multiple instructions.",
+              "figure_id": "table-9-13",
+              "figure_number": "9",
+              "height": 111,
+              "image_path": "figures/2610.08814/table-016.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 448
+            },
+            {
+              "caption": "Table 10: Official-test accuracy under uniform answer-set voting as the number of sampled solutions increases. At K = 1, SD uses available individual scores from the 15 scored runs out of 16; at K ≥ 32, it summarizes five repeated aggregates. K = 16 is a single modal aggregate.",
+              "figure_id": "table-10-9",
+              "figure_number": "10",
+              "height": 161,
+              "image_path": "figures/2610.08814/table-017.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 198
+            },
+            {
+              "caption": "Table 11: Questions requiring further sampling at selected sample counts. The average REAP budget of K = 63.4 includes all 32-sample increments, including those not shown in the table.",
+              "figure_id": "table-11-8",
+              "figure_number": "11",
+              "height": 77,
+              "image_path": "figures/2610.08814/table-018.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 421
+            },
+            {
+              "caption": "Table 6: Answer-set cardinality in the 3,600-question released training set. Counts are computed directly from the gold answer lists.",
+              "figure_id": "table-6-6",
+              "figure_number": "6",
+              "height": 79,
+              "image_path": "figures/2610.08814/table-019.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 327
+            }
+          ],
+          "first_seen_at": "2026-11-13T21:00:00-05:00",
+          "hero_figure": "figures/2610.08814/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2610.08814",
+          "relevance": 6,
+          "selection_reason": "Procedure-conditioned self-consistency improves LLM mixed-domain reasoning without parameter updates.",
+          "summary_status": "generated",
+          "title": "Route-Verify-Vote: Procedure-Conditioned Self-Consistency for Mixed-Domain Reasoning",
+          "tldr": "Route-Verify-Vote improves mixed-domain commonsense reasoning by conditioning self-consistency on domain-specific procedures and allocating extra inference to uncertain answer sets.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "large-language-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-12",
       "paper_count": 53,
       "papers": [
@@ -761055,5 +762251,5 @@
   "schema_version": 1,
   "subtopic_id": null,
   "topic_id": "language-foundation-models",
-  "total_paper_count": 3713
+  "total_paper_count": 3718
 }

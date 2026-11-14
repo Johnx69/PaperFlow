@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Multimodal Foundation Models
 
-**2560 papers total**
+**2561 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-13 | [Harnessing Multimodal Large Language Models for Training-Free Human-Object Interaction Detection](https://arxiv.org/abs/2610.06394) | Multimodal Foundation Models: Spatial Intelligence | HarnessHOI enables training-free human-object interaction detection by making MLLM inference interaction-guided and spatially grounded. | 7 | 6 |
 | 2026-11-12 | [Unbundling Multimodal Vision Encoding](https://arxiv.org/abs/2611.17334) | Multimodal Foundation Models: Multimodal Large Language Models | Dedicated vision capacity matters more than a pretrained visual encoder, and it can be integrated early within the multimodal backbone rather than placed before fusion. | 8 | 7 |
 | 2026-11-12 | [Spatial Foundry: A Multimodal Dataset for Spatial Intelligence](https://arxiv.org/abs/2611.17318) | Multimodal Foundation Models: Spatial Intelligence | Spatial Foundry is a multimodal, editable dataset of 5,280 furnished 3D residential scenes designed to support research on spatial intelligence across views, geometry, and time. | 8 | 7 |
 | 2026-11-12 | [Objects as Addresses: Instance Binding in Vision Transformer Attention](https://arxiv.org/abs/2611.17240) | Multimodal Foundation Models | Vision Transformer attention binds object instances by routing their patches to shared, instance-specific spatial “addresses,” rather than primarily through token content. | 7 | 8 |

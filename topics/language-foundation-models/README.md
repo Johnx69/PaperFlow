@@ -6,10 +6,15 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Language Foundation Models
 
-**3713 papers total**
+**3718 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-13 | [Discovering Effective Agent Memory Designs through Program Evolution](https://arxiv.org/abs/2611.17068) | Language Foundation Models: LLM Memory | MAPE uses program evolution to automatically discover effective, efficient agent memory designs, improving accuracy over manual baselines while reducing serving cost. | 8 | 8 |
+| 2026-11-13 | [ShadowBench: Exposing Lexical Anchoring and the Illusion of Forgetting in Large Language Models](https://arxiv.org/abs/2611.15925) | Language Foundation Models | ShadowBench shows that LLMs rely heavily on entity-name cues and that current unlearning methods often hide, rather than remove, underlying knowledge. | 6 | 7 |
+| 2026-11-13 | [DoubtLess: Training-Free Contrastive Decoding for Efficient Reasoning](https://arxiv.org/abs/2610.18862) | Language Foundation Models: Large Language Models | DoubtLess uses a smaller model’s brief-versus-verbose preferences to shorten large-model reasoning without extra training or accuracy loss. | 7 | 6 |
+| 2026-11-13 | [Sequential Probabilistic Uncertainty Estimation for Parallel Multi-Agent Reasoning Systems](https://arxiv.org/abs/2610.08901) | Language Foundation Models: Large Language Models | SAUCE is a lightweight, training-free method that estimates uncertainty in parallel multi-agent reasoning by tracking consensus and generation uncertainty across rounds. | 6 | 6 |
+| 2026-11-13 | [Route-Verify-Vote: Procedure-Conditioned Self-Consistency for Mixed-Domain Reasoning](https://arxiv.org/abs/2610.08814) | Language Foundation Models: Large Language Models | Route-Verify-Vote improves mixed-domain commonsense reasoning by conditioning self-consistency on domain-specific procedures and allocating extra inference to uncertain answer sets. | 6 | 6 |
 | 2026-11-12 | [ArchSpace: Recording, Reviewing, and Referencing LLM Architecture Research](https://arxiv.org/abs/2611.17332) | Language Foundation Models: Large Language Models | ArchSpace is a public platform for documenting, reviewing, and reusing LLM architecture research while using scaling laws to assess ideas before expensive large-scale training. | 8 | 6 |
 | 2026-11-12 | [Learning When Diffusion Language Models Should Regenerate](https://arxiv.org/abs/2611.17320) | Language Foundation Models | DiVR improves diffusion language model reasoning by learning when to regenerate whole blocks and which alternatives to keep, raising accuracy while using less computation than search baselines. | 5 | 7 |
 | 2026-11-12 | [CoReMem: Cost-Internalizing Memory for Successive Coding Tasks with Prospective Valuation](https://arxiv.org/abs/2611.17316) | Language Foundation Models: LLM Memory | CoReMem improves coding-agent performance on successive repository tasks by valuing memory prospectively and internalizing its writing, reading, and action costs. | 7 | 7 |

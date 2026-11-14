@@ -6,10 +6,17 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Embodied AI
 
-**4516 papers total**
+**4523 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-13 | [Are We Ready for Snow-tonomous Driving? Challenges Toward Robust Automated Driving in Extreme Weather](https://arxiv.org/abs/2611.15217) | Embodied AI | Robust autonomous driving in snow, rain, and fog remains limited by major data, perception, control, and validation challenges. | 5 | 4 |
+| 2026-11-13 | [The Posterior-Prior Epistemic Gap: When World Model Imagination Fails to Carry Task-Relevant Signals](https://arxiv.org/abs/2611.14955) | Embodied AI: Robot Navigation; World Models: Interactive World Models | Imagined world-model rollouts progressively lose obstacle information without triggering epistemic uncertainty, causing unflagged planning failures in CARLA. | 8 | 7 |
+| 2026-11-13 | [Fast Non-Parametric Heteroscedastic Imitation Learning With Geometric Priors](https://arxiv.org/abs/2610.08650) | Embodied AI: Robot Learning and Manipulation | A fast non-parametric imitation-learning method uses geometric priors to model heteroscedastic uncertainty and adapt robot policies efficiently from limited demonstrations. | 8 | 7 |
+| 2026-11-13 | [Towards Efficient Robotic Manipulation Models with Self-Recursive Pruning](https://arxiv.org/abs/2610.08555) | Embodied AI: Robot Learning and Manipulation; Efficient AI | LCAM enables training-free, behavior-aware pruning of robotic manipulation policies while preserving strong task performance at substantial sparsity. | 8 | 7 |
+| 2026-11-13 | [No Need to Stop the Fleet: Localized Anomaly Isolation via Dead Zones in AGV Fleets](https://arxiv.org/abs/2610.08524) | Embodied AI: Robot Navigation | Dead zones isolate local AGV anomalies so unaffected robots can keep operating instead of stopping the entire fleet. | 5 | 6 |
+| 2026-11-13 | [Behavioral Safety Assessment towards Large-scale Deployment of Autonomous Vehicles, Part II: Assessment Results](https://arxiv.org/abs/2610.08458) | Embodied AI | A third-party behavioral-safety framework exposed major safety gaps in Autoware.Universe, highlighting the need for rigorous evaluation before large-scale AV deployment. | 5 | 4 |
+| 2026-11-13 | [Behavioral Safety Assessment towards Large-scale Deployment of Autonomous Vehicles, Part I: Methodology](https://arxiv.org/abs/2610.08450) | Embodied AI | The paper proposes a third-party behavioral safety framework for evaluating autonomous vehicles’ interactions with surrounding traffic before large-scale deployment. | 5 | 5 |
 | 2026-11-12 | [ProtoVis-Nav: Prototypical Visual Imagination for Visual-Spatial Aligned UAV Navigation](https://arxiv.org/abs/2611.17330) | Embodied AI: Vision-Language Navigation | ProtoVis-Nav improves UAV vision-language navigation by imagining the visual appearance of the intended next location before predicting an action. | 8 | 7 |
 | 2026-11-12 | [HEIR: Harness Egocentric Intent for Human-Robot Interactions](https://arxiv.org/abs/2611.17238) | Embodied AI: Robot Learning and Manipulation | HEIR is a multimodal dataset and benchmark for grounding human intent and completing long-horizon household robot tasks involving navigation and manipulation. | 9 | 7 |
 | 2026-11-12 | [UAV-Flow++: A Unified Suite for Benchmarking and Learning Language-Guided UAV Flight](https://arxiv.org/abs/2611.17163) | Embodied AI: Vision-Language Navigation, Vision-Language-Action | UAV-Flow++ introduces a benchmark, dataset, simulator, and vision-language-action policy for evaluating and learning short-range, language-guided UAV maneuvers. | 9 | 8 |

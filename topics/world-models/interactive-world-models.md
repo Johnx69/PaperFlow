@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Interactive World Models
 
-**675 papers total**
+**677 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-13 | [The Posterior-Prior Epistemic Gap: When World Model Imagination Fails to Carry Task-Relevant Signals](https://arxiv.org/abs/2611.14955) | Embodied AI: Robot Navigation; World Models: Interactive World Models | Imagined world-model rollouts progressively lose obstacle information without triggering epistemic uncertainty, causing unflagged planning failures in CARLA. | 8 | 7 |
+| 2026-11-13 | [A Belief-State World Model for Catheter Navigation under Sparse Fluoroscopy: A Planar Proof of Concept](https://arxiv.org/abs/2610.08469) | World Models: Interactive World Models | A physics-based belief-state world model can support catheter navigation with sparse fluoroscopy in a simplified planar simulation while estimating when its state becomes unreliable. | 6 | 6 |
 | 2026-11-12 | [Neural Render Proxies for Interactive and Differentiable Lighting](https://arxiv.org/abs/2611.17185) | World Models: Interactive World Models | A lightweight neural render proxy enables interactive, differentiable relighting of static scenes while closely matching path-traced quality. | 7 | 8 |
 | 2026-11-12 | [Rethinking Actions: Continuity-Aware Priors for World-Model Planning](https://arxiv.org/abs/2611.16645) | Embodied AI: Robot Navigation; World Models: Interactive World Models | A continuity-aware action prior learned from expert demonstrations improves visual world-model planning across five simulated tasks. | 8 | 7 |
 | 2026-11-12 | [ActWorld-JEPA: Action-Conditioned JEPA World Models Meet Latent Planning for End-to-End Autonomous Driving](https://arxiv.org/abs/2611.16579) | Embodied AI: Robot Navigation; World Models: Interactive World Models | ActWorld-JEPA links action-conditioned latent world modeling with residual plan reranking to select safer, more effective autonomous-driving trajectories. | 9 | 9 |

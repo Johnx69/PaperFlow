@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Spatial Intelligence
 
-**830 papers total**
+**831 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-13 | [Harnessing Multimodal Large Language Models for Training-Free Human-Object Interaction Detection](https://arxiv.org/abs/2610.06394) | Multimodal Foundation Models: Spatial Intelligence | HarnessHOI enables training-free human-object interaction detection by making MLLM inference interaction-guided and spatially grounded. | 7 | 6 |
 | 2026-11-12 | [Spatial Foundry: A Multimodal Dataset for Spatial Intelligence](https://arxiv.org/abs/2611.17318) | Multimodal Foundation Models: Spatial Intelligence | Spatial Foundry is a multimodal, editable dataset of 5,280 furnished 3D residential scenes designed to support research on spatial intelligence across views, geometry, and time. | 8 | 7 |
 | 2026-11-12 | [From Foundation VLM to Versatile Driving VLM: A Triplet Incremental Training Approach](https://arxiv.org/abs/2611.16727) | Embodied AI: Vision-Language-Action; Multimodal Foundation Models: Spatial Intelligence | Triplet Incremental Training adds 3D geometric awareness to general VLMs for autonomous driving without architectural changes or deployment-time overhead. | 8 | 7 |
 | 2026-11-12 | [STVLA: Spatial-aware and Temporal-memory forVision-Language-Action Models](https://arxiv.org/abs/2611.16589) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation; Multimodal Foundation Models: Spatial Intelligence; Adaptation and Memory: Embodied Memory | STVLA improves vision-language-action policies by combining spatial scene geometry with task-history memory for more reliable robotic manipulation. | 9 | 8 |
