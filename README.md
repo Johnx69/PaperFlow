@@ -42,7 +42,7 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 ## Latest selected papers
 
-Showing 80 of 15809 selected papers.
+Showing 80 of 11878 selected papers.
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
