@@ -6,10 +6,14 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Embodied AI
 
-**3492 papers total**
+**3496 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-14 | [SALA: Semantically Aligned Latent Actions Enable Dual-Axis Scaling of Embodied Foundation Models](https://arxiv.org/abs/2611.17110) | Embodied AI: Vision-Language-Action, Learning from Human Videos; World Models: Latent Action Models | SALA aligns latent actions across human and robot videos using language-guided semantic supervision, enabling embodied foundation models to benefit from scaling both general and task-specific human video. | 9 | 8 |
+| 2026-11-14 | [Genie Sim Benchmark: Real-to-Sim Fidelity and Evaluation](https://arxiv.org/abs/2611.15020) | Embodied AI: Robot Learning and Manipulation | Genie Sim Benchmark assesses real-to-simulation fidelity using task outcomes and physical-response agreement across robot tasks and interaction scenarios. | 7 | 6 |
+| 2026-11-14 | [Scaling VLA Serving Under Robotic Execution Constraints](https://arxiv.org/abs/2611.14969) | Embodied AI; Efficient AI | XInfer scales VLA serving for large robot fleets by improving GPU efficiency while preserving time-critical feedback. | 8 | 7 |
+| 2026-11-14 | [X-World: Transferring Video Priors to Variable-View Robot Control](https://arxiv.org/abs/2610.34105) | Embodied AI: Robot Learning and Manipulation | X-World transfers pretrained video representations into a shared action policy for variable-view robot control, achieving strong simulated and real-world performance across several distribution shifts. | 9 | 8 |
 | 2026-11-13 | [Are We Ready for Snow-tonomous Driving? Challenges Toward Robust Automated Driving in Extreme Weather](https://arxiv.org/abs/2611.15217) | Embodied AI | Robust autonomous driving in snow, rain, and fog remains limited by major data, perception, control, and validation challenges. | 5 | 4 |
 | 2026-11-13 | [The Posterior-Prior Epistemic Gap: When World Model Imagination Fails to Carry Task-Relevant Signals](https://arxiv.org/abs/2611.14955) | Embodied AI: Robot Navigation; World Models: Interactive World Models | Imagined world-model rollouts progressively lose obstacle information without triggering epistemic uncertainty, causing unflagged planning failures in CARLA. | 8 | 7 |
 | 2026-11-13 | [Fast Non-Parametric Heteroscedastic Imitation Learning With Geometric Priors](https://arxiv.org/abs/2610.08650) | Embodied AI: Robot Learning and Manipulation | A fast non-parametric imitation-learning method uses geometric priors to model heteroscedastic uncertainty and adapt robot policies efficiently from limited demonstrations. | 8 | 7 |

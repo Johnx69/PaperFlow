@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Video Understanding
 
-**534 papers total**
+**535 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-14 | [MacJEPA: Missingness-Robust Audio-Visual Recognition from Untrimmed Egocentric Videos](https://arxiv.org/abs/2610.08192) | Video Generation and Understanding: Video Understanding | MacJEPA enables audio-visual action and sound recognition despite temporally localized or complete sensor outages in untrimmed egocentric videos. | 6 | 7 |
 | 2026-11-12 | [HiVE-VQA: Hierarchical Interaction via Volumetric Embedding for Video Quality Assessment](https://arxiv.org/abs/2611.17146) | Multimodal Foundation Models; Video Generation and Understanding: Video Understanding | HiVE-VQA uses hierarchical features from a single frozen V-JEPA video encoder with a compact 3D head to achieve efficient, strong no-reference video quality assessment. | 7 | 7 |
 | 2026-11-12 | [Evaluating Video LLMs' Understanding of Corner Cases in Autonomous Driving](https://arxiv.org/abs/2611.16767) | Multimodal Foundation Models: Multimodal Large Language Models; Video Generation and Understanding: Video Understanding | DashBench evaluates Video LLMs on rare, safety-critical autonomous-driving corner cases and finds that current models remain unreliable for safe deployment. | 7 | 7 |
 | 2026-11-12 | [Can an LVLM Perceive Event Boundaries Like a Human?](https://arxiv.org/abs/2611.16452) | Video Generation and Understanding: Video Understanding | LVLMs can match human-like event-boundary judgments when refining discovered candidates, enabling a new benchmark for long-horizon egocentric video. | 6 | 6 |

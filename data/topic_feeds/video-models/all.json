@@ -1,6 +1,677 @@
 {
   "days": [
     {
+      "date": "2026-11-14",
+      "paper_count": 3,
+      "papers": [
+        {
+          "abstract": "We study how to repurpose video diffusion models (VDMs), pretrained on millions of videos, for dense 3D point tracking, where training data is scarce. Doing so is non-trivial, as it requires representing 3D tracks as video-like signals that may lie outside the natural-video distribution on which the VDM was trained. We thus systematically assess the effectiveness of two such video representations. The first, Residual 3D Tracking Video (RTV), encodes per-pixel 3D offsets relative to a query frame and allows recovery of 3D trajectories directly from the generated video. The second, Normalized Coordinate Map Video (NCMV), labels each pixel with a canonical coordinate invariant through time. This is closer to a natural video and easier for the VDM to learn, but requires additional post-processing with an off-the-shelf 2D tracker to recover 3D tracks. RTV tracks more accurately, while NCMV shows that a VDM can generate dense correspondence as a video. We instantiate both representations with LoRA adaptation of a frozen Wan backbone, conditioned on point maps from an off-the-shelf 3D reconstructor as a geometric scaffold. Trained with a single dynamic 3D tracking dataset, Track4D achieves competitive zero-shot tracking on four real and synthetic benchmarks. A regression readout that bypasses the video VAE and uses additional training data brings further improvement, demonstrating the potential of this direction for dense 3D tracking. We hope our analysis will inspire future work that leverages VDM priors for dense 3D tracking and 4D reconstruction. Project page: https://nirvanalan.github.io/projects/track4d",
+          "arxiv_id": "2611.15287",
+          "arxiv_url": "https://arxiv.org/abs/2611.15287",
+          "authors": [
+            "Yushi Lan",
+            "Zeren Jiang",
+            "Kelvin Li",
+            "Xingang Pan",
+            "Chuanxia Zheng",
+            "Andrea Vedaldi"
+          ],
+          "bullets": [
+            "RTV encodes per-pixel 3D offsets and directly recovers trajectories, yielding more accurate tracks.",
+            "NCMV uses time-invariant canonical coordinates, making the representation more natural for video diffusion but requiring a 2D tracker for recovery.",
+            "Both representations use LoRA adaptation of a frozen Wan backbone, guided by point maps from an off-the-shelf 3D reconstructor.",
+            "Trained on one dynamic 3D tracking dataset, Track4D achieves competitive zero-shot performance across four real and synthetic benchmarks.",
+            "A regression readout that bypasses the video VAE and uses extra training data provides further improvement."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: TRACK4D overview. (a) Generative readout. A frozen reconstructor supplies point maps P; the video VAE encodes them with video V into condition C. The LoRA-adapted video DiT denoises the RTV and NCMV latents, jointly by default, and the VAE decodes the videos. Hatched targets are noised in training and start from Gaussian noise at inference. Adding inverse-normalized RTV offsets to the query-frame point map gives 3D tracks; NCMV requires 2D tracking and lifting. (b) Regression readout. Point maps enter through a patch encoder, a private motion expert attends jointly with the video DiT, and a DPT head reads residuals without the output VAE (Section 3.4 and Figure 8). Flames denote trained modules, snowflakes frozen modules.",
+              "figure_id": "figure-2-11",
+              "figure_number": "2",
+              "height": 509,
+              "image_path": "figures/2611.15287/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 821
+            },
+            {
+              "caption": "Figure 6: TrackCraft3R vs. the three TRACK4D readouts on DAVIS [70]. Each panel shows the point cloud of frame j and the last 12 frames of the predicted 3D tracks, from one fixed view (the frame-0 input camera rotated by 4◦). All methods receive the same VGGT-Ω point maps and draw the same 767 queries, the most-moving points of a dense grid, colored by image row. RTV and NCMV come from the joint Wan2.1-I2V-14B model (50 steps, no input-latent noise); NCMV tracks are read with CoTracker3, lifted with the same point maps, and frozen where NCMV support is lost (on camel, after the first frames). No ground truth or Sim(3) is used. More clips in Figures 9 and 10.",
+              "figure_id": "figure-6-10",
+              "figure_number": "6",
+              "height": 412,
+              "image_path": "figures/2611.15287/figure-002.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 820
+            },
+            {
+              "caption": "Figure 5: Qualitative comparison of dynamic tracking on DAVIS [70]. Dense 3D tracking is visualized as colored point clouds, with color encoding query-frame identity of each tracked point. Left: input frames. Right: reconstructions from St4RTrack [19], TraceAnything [31], Any4D [23], and TRACK4D (ours). TRACK4D produces more temporally coherent trajectories with fewer outliers, particularly on articulated and deformable motion (e.g. moving mug, walking cows). All baselines are run from their official released checkpoints and inference scripts at the resolution recommended by the authors; sequences shown were selected to expose dynamic-object failure modes for the comparators. More DAVIS results appear in Figure 14.",
+              "figure_id": "figure-5-16",
+              "figure_number": "5",
+              "height": 391,
+              "image_path": "figures/2611.15287/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 818
+            },
+            {
+              "caption": "Figure 4: Two video representations of dense 3D tracking on DAVIS [70]. Rows show RGB, RTV offsets, NCMV canonical coordinates, and recovered XYZ tracks. Adding inverse-normalized RTV offsets to the query-frame point map recovers the tracks. All predictions are TRACK4D outputs.",
+              "figure_id": "figure-4-27",
+              "figure_number": "4",
+              "height": 352,
+              "image_path": "figures/2611.15287/figure-004.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 820
+            },
+            {
+              "caption": "Figure 7: Submitted overview (reproduced from the submitted version). A monocular video V and point maps P from an off-the-shelf reconstructor are encoded by the video VAE into the condition C; the VDM jointly generates the RTV ∆ and the NCMV M, and the decoded residuals are added to the query-frame point map. Figure 2 shows the current overview.",
+              "figure_id": "figure-7-21",
+              "figure_number": "7",
+              "height": 207,
+              "image_path": "figures/2611.15287/figure-005.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 824
+            },
+            {
+              "caption": "Figure 13: Effect of backbone size. Specifically, we show our model’s performance on four samples from PStudio [90], with sequence names on the left. For each sequence, we compare the results from TRACK4D-5B (in orange) and TRACK4D-14B (in green). Both RTV and NCMV are visualized. The Wan-14B-based TRACK4D shows better foreground-background factorization and sharper motion, suggesting benefits from stronger video diffusion models.",
+              "figure_id": "figure-13-9",
+              "figure_number": "13",
+              "height": 1163,
+              "image_path": "figures/2611.15287/figure-006.webp",
+              "kind": "figure",
+              "page": 29,
+              "width": 820
+            },
+            {
+              "caption": "Figure 10: More DAVIS clips (continued). Same setup as Figures 6 and 9.",
+              "figure_id": "figure-10-2",
+              "figure_number": "10",
+              "height": 412,
+              "image_path": "figures/2611.15287/figure-007.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 817
+            },
+            {
+              "caption": "Figure 12: Ablation: absolute XYZ prediction vs. residual prediction. We visualize 3D tracking results at t = 0 and t = 24 on ADT [89] and PStudio [90] sequences. Left: predicting absolute 3D coordinates directly (w/o Residual Pred). Right: our residual formulation (Equation (4)). Absolute prediction produces noisy geometry with scattered outliers, whereas the residual formulation yields cleaner reconstructions with more coherent motion.",
+              "figure_id": "figure-12-15",
+              "figure_number": "12",
+              "height": 327,
+              "image_path": "figures/2611.15287/figure-008.webp",
+              "kind": "figure",
+              "page": 28,
+              "width": 806
+            },
+            {
+              "caption": "Figure 3: Prediction formulations (adapted from VDPM [22]). Each entry Pi(tj) (short for Pi(tj , π0), with the reference frame π0 fixed) gives the positions at time tj of the surface points observed in frame Ii. P (diagonal): geometry at each frame’s capture time. Q (column): timeinvariant prediction [22], referring every frame Ii back to the reference time t0. R (row): dense 3D tracking, propagating the query-frame point map P0 across all timestamps. TRACK4D encodes R explicitly as 3D offsets (RTV) and Q as normalized canonical colors (NCMV), from which R is recovered by 2D tracking.",
+              "figure_id": "figure-3-18",
+              "figure_number": "3",
+              "height": 289,
+              "image_path": "figures/2611.15287/figure-009.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 291
+            },
+            {
+              "caption": "Figure 9: More DAVIS clips, TrackCraft3R vs. the three TRACK4D readouts. Same setup as Figure 6. Because the view is fixed at frame 0, subjects that the camera follows leave the view in later frames (car-shadow, kite-surf, parkour). Over all 91 DAVIS clips, the median second difference of the projected tracks over consecutive frames, counting points inside the frame, is 6.5 px for TrackCraft3R and 1.8 px for TRACK4D-Reg (672-px-wide frames), and it is smaller for TRACK4D-Reg on 90 clips. This measures temporal smoothness, not accuracy.",
+              "figure_id": "figure-9-23",
+              "figure_number": "9",
+              "height": 839,
+              "image_path": "figures/2611.15287/figure-010.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 820
+            },
+            {
+              "caption": "Figure 14: More qualitative results. We show seven zero-shot inference results from DAVIS [70]. The first row shows RGB input, with eight frames sampled uniformly from a 49-frame clip, and the second and third rows show RTV and NCMV predictions. The query frame is the first frame shown in the first row. RTV encodes 3D offsets on the query-frame grid; NCMV encodes persistent coordinates on each video frame’s grid.",
+              "figure_id": "figure-14-8",
+              "figure_number": "14",
+              "height": 1221,
+              "image_path": "figures/2611.15287/figure-011.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 817
+            },
+            {
+              "caption": "Figure 11: Failure case. TRACK4D predicts near-zero deformation in this video, where the camera moves with the object. Limited coverage of such camera-following-object trajectories in the training data is a plausible, but not conclusively established, cause (Appendix G.9).",
+              "figure_id": "figure-11-22",
+              "figure_number": "11",
+              "height": 177,
+              "image_path": "figures/2611.15287/figure-012.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 819
+            },
+            {
+              "caption": "Table 2: Ablations of design choices. Baseline is TRACK4D (Wan 2.2 5B, STream3R). Top three rows modify one component each; bottom rows scale the VDM backbone (1.3B / 14B) and swap conditioning (DAv3 / STream3R). Green/red show gains/losses over baseline; intensity indicates magnitude. All models are trained and evaluated at 256×256 following [24]. Reported on ADT [89], PStudio [90], and DR [45]; PO [44] is excluded due to mismatched aspect ratios.",
+              "figure_id": "table-2-24",
+              "figure_number": "2",
+              "height": 267,
+              "image_path": "figures/2611.15287/table-013.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 832
+            },
+            {
+              "caption": "Table 16: Existing assets and their licenses, as stated by the official repositories and dataset pages (checked October 2026). Data and model weights may carry terms beyond the code license; we use every asset for non-commercial research only.",
+              "figure_id": "table-16-25",
+              "figure_number": "16",
+              "height": 621,
+              "image_path": "figures/2611.15287/table-014.webp",
+              "kind": "table",
+              "page": 31,
+              "width": 829
+            },
+            {
+              "caption": "Table 3: Submitted version versus this version. The submitted column summarizes the described design; the training run that produced the submitted numbers is distinguished below.",
+              "figure_id": "table-3-28",
+              "figure_number": "3",
+              "height": 362,
+              "image_path": "figures/2611.15287/table-015.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 814
+            },
+            {
+              "caption": "Table 1: Sparse 3D point tracking (Sim(3) aligned). APD↑ and EPE↓ after a global Sim(3) alignment to the ground truth, as in 4RC [34], on all points (All) and dynamic points (Dyn). Bold and underline mark best and second-best results. CoTracker∗: CoTracker lifted by VGGT. TRACK4D-NCMV and TRACK4D-RTV are the two readouts of the joint Wan2.1-I2V-14B model; TRACK4D-NCMV predicts dynamic points only. ‡Official checkpoint replayed with STream3R geometry under the same scorer (dynamic ADT not reported). †TRACK4D-Reg (Section 3.4): Wan2.2-5B, STream3R scaffold, eight training sources including PointOdyssey and Dynamic Replica.",
+              "figure_id": "table-1-17",
+              "figure_number": "1",
+              "height": 65,
+              "image_path": "figures/2611.15287/table-016.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 827
+            },
+            {
+              "caption": "Table 6: Inference time and peak memory for 49-frame sequences on one GPU. Native inference resolutions are shown in parentheses. The TRACK4D row measures the 5B, 5-step configuration, which is not the configuration used for the accuracy results in Table 1. V-DPM does not fit on the 48GB A6000; its H100 measurement is included only as a hardware-unmatched reference and should not be read as a direct runtime comparison. †Measured on an A100 over 90 warm DAVIS clips (five passes, BF16), excluding the production of the input point maps; also hardware-unmatched.",
+              "figure_id": "table-6-20",
+              "figure_number": "6",
+              "height": 265,
+              "image_path": "figures/2611.15287/table-017.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 827
+            },
+            {
+              "caption": "Table 9: Regression readout vs. TrackCraft3R. All-point EPE↓ / APD↑ on 50 sequences per benchmark (49 for ADT), using the protocol of Table 1. TrackCraft3R and TRACK4D-Reg share point-map caches; bold marks the better result. V-DPM and 4RC use their own geometry. PointOdyssey and Dynamic Replica are training datasets for TRACK4D-Reg, V-DPM and 4RC. ◦Oracle diagnostic without retraining: the ground-truth query point replaces the estimated one after prediction, scored under the fixed Sim(3) of the row above (Table 11), following TrackCraft3R’s input-geometry ablation.",
+              "figure_id": "table-9-13",
+              "figure_number": "9",
+              "height": 303,
+              "image_path": "figures/2611.15287/table-018.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 828
+            },
+            {
+              "caption": "Table 4: Sampling-step ablation. We ablate inference-time sampling steps using a Wan2.2-5B TRACK4D model trained at 256×256 on 512 Kubric scenes without point-map conditioning. Performance remains largely stable when reducing the number of sampling steps from 50 to 10, with 5 steps still competitive while further reducing runtime.",
+              "figure_id": "table-4-12",
+              "figure_number": "4",
+              "height": 146,
+              "image_path": "figures/2611.15287/table-019.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 828
+            },
+            {
+              "caption": "Table 7: RTV-only and joint RTV+NCMV checkpoints. Per-benchmark rows report dynamic EPE ↓ / APD ↑ on 49-frame sequences; the final row reports all-point means. Both are Wan-14B LoRA checkpoints with different training histories, and they are not sampled identically. The joint checkpoint is the model of Table 1: here it is sampled with 1 denoising step and CFG 1 at a 256-pixel short side, whereas Table 1 reports its submitted evaluation with 50 denoising steps and random input-latent noise (Section 4.1). The two tables therefore give different values for the same checkpoint (e.g. PStudio dynamic EPE 0.1511 here vs. 0.1596 in Table 1). Bold denotes the better result.",
+              "figure_id": "table-7-26",
+              "figure_number": "7",
+              "height": 191,
+              "image_path": "figures/2611.15287/table-020.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 828
+            },
+            {
+              "caption": "Table 10: TRACK4D-Reg against the generative models with the same STream3R scaffold. Dynamic EPE↓ / APD↑ under the WorldTrack scorer (50 sequences, 49 frames; ADT 49); the last column reports all-point values of TRACK4D-Reg. Bold marks the best dynamic value. See the text for the differences in raster and training data.",
+              "figure_id": "table-10-14",
+              "figure_number": "10",
+              "height": 135,
+              "image_path": "figures/2611.15287/table-021.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 827
+            },
+            {
+              "caption": "Table 5: Dense 3D tracking on the held-out Kubric split. APD↑ / EPE↓ after Sim(3) alignment on 50 held-out sequences of 49 frames, dense annotations; “All” and “Dyn” as in Table 1. Kubric matches the training distribution of TRACK4D-RTV and is not part of the benchmark suite of Table 1.",
+              "figure_id": "table-5-19",
+              "figure_number": "5",
+              "height": 189,
+              "image_path": "figures/2611.15287/table-022.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 828
+            },
+            {
+              "caption": "Table 12: Exact squared-error budget of TRACK4D-Reg. Sequence-macro mean squared error in m2 under the original Sim(3), decomposed as in Equation (12); the identity holds to floating-point precision. The cross term is large and negative on PStudio, so anchor and motion errors must not be read as additive EPE contributions.",
+              "figure_id": "table-12-3",
+              "figure_number": "12",
+              "height": 190,
+              "image_path": "figures/2611.15287/table-023.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 827
+            },
+            {
+              "caption": "Table 14: Controlled stage-wise diagnostics of geometric error. Metric-space EPE on a fixed Kubric val10 subset. The arms isolate different sources and are not additive.",
+              "figure_id": "table-14-6",
+              "figure_number": "14",
+              "height": 136,
+              "image_path": "figures/2611.15287/table-024.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 827
+            },
+            {
+              "caption": "Table 15: Metric impact of removing the VAE output path. Metric-space EPE on the fixed Kubric val10 subset.",
+              "figure_id": "table-15-5",
+              "figure_number": "15",
+              "height": 114,
+              "image_path": "figures/2611.15287/table-025.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 828
+            },
+            {
+              "caption": "Table 8: VAE-free direct readout with a Wan2.2-5B backbone. Dynamic EPE ↓ / APD ↑; the mean averages the four benchmarks. The first two rows compare the output paths under the same Kubric tracking data. The final row additionally uses PointOdyssey for training, so PointOdyssey is in-domain for that variant.",
+              "figure_id": "table-8-7",
+              "figure_number": "8",
+              "height": 38,
+              "image_path": "figures/2611.15287/table-026.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 827
+            },
+            {
+              "caption": "Table 11: Full geometry/motion oracle for TRACK4D-Reg. EPE↓ / APD↑ on all 50 sequences of each primary benchmark (ADT, 49 sequences, is secondary). Fixed columns score the substituted output under the original all-track Sim(3) of the current prediction; refit columns fit a new closed-form Sim(3) to each substituted output. Closed-form Sim(3) minimizes squared distances rather than EPE or APD, so refitting can raise EPE; neither column gives a lower bound.",
+              "figure_id": "table-11-1",
+              "figure_number": "11",
+              "height": 36,
+              "image_path": "figures/2611.15287/table-027.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 827
+            },
+            {
+              "caption": "Table 13: Backend swap across checkpoints of the TRACK4D-Reg lineage. EPE↓ / APD↑ on all points using VGGT-Ω or STream3R point maps, with fixed weights within each checkpoint. The reported checkpoint follows Table 9; inference settings for the earlier checkpoints have not been fully verified, so cross-checkpoint differences are descriptive. Across checkpoints, STream3R roughly halves PointOdyssey EPE; Dynamic Replica changes little, while PStudio and ADT prefer VGGT-Ω.",
+              "figure_id": "table-13-4",
+              "figure_number": "13",
+              "height": 37,
+              "image_path": "figures/2611.15287/table-028.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 827
+            }
+          ],
+          "first_seen_at": "2026-11-14T21:00:00-05:00",
+          "hero_figure": "figures/2611.15287/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.15287",
+          "relevance": 7,
+          "selection_reason": "Repurposes video diffusion models for dense 3D tracking, directly relevant to video diffusion techniques.",
+          "summary_status": "generated",
+          "title": "Track4D: Representing Dense 3D Tracking for Video Diffusion Models",
+          "tldr": "Track4D repurposes pretrained video diffusion models for dense 3D point tracking by encoding 3D trajectories as video-like representations.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Audio-visual models improve egocentric action recognition by exploiting complementary cues, yet typically assume that both streams remain available at inference. Existing missing-modality methods operate on trimmed, single-event clips in which a stream is entirely present or absent, whereas real sensors fail and recover within long, untrimmed observations. We redefine egocentric modality missingness as temporally localized sensor outages within untrimmed, multi-event observations, with whole-clip absence as the limiting case. We introduce \\textbf{MacJEPA}, a missing-modality-robust \\textbf{Ma}sked-\\textbf{c}ontext query \\textbf{JEPA} that recognizes visual actions and acoustic events from supplied interval queries over audio-visual context. Window-local modality dropout simulates these sensor outages during training. MacJEPA further repurposes masking in JEPA from a self-supervised pretext into a supervised robustness objective, aligning masked and clean latent representations of both multimodal content tokens and the task-conditioned queries. All objectives are optimized jointly with recognition in a single stage, requiring no test-time adaptation. Across Epic-Kitchens-100 and Epic-Sounds, a single checkpoint remains competitive under complete input and consistently surpasses published missing-modality baselines when either the dominant or auxiliary stream is removed. MacJEPA thus unifies strong full-input recognition with temporal missing-modality robustness in a single model operating on untrimmed multi-event videos.",
+          "arxiv_id": "2610.08192",
+          "arxiv_url": "https://arxiv.org/abs/2610.08192",
+          "authors": [
+            "Souptik Sen",
+            "Zahra Ahmadi"
+          ],
+          "bullets": [
+            "Reframes missing modality as within-video, time-localized outages, including full-clip absence as a special case.",
+            "Uses a masked-context query JEPA to predict visual actions and acoustic events from interval queries over audio-visual context.",
+            "Trains with window-local modality dropout and aligns masked and clean representations for content tokens and task-conditioned queries.",
+            "Jointly optimizes robustness and recognition in one stage, without test-time adaptation.",
+            "On Epic-Kitchens-100 and Epic-Sounds, one checkpoint remains competitive with full input and outperforms published missing-modality baselines when either stream is removed."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: MacJEPA training framework. Window-local modality dropout corrupts the online multimodal sequence with typed, timed masks, while content and query JEPA align it with clean EMA-teacher targets under joint task supervision. Two windows and one query per stream are shown for clarity.",
+              "figure_id": "figure-2-9",
+              "figure_number": "2",
+              "height": 470,
+              "image_path": "figures/2610.08192/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 817
+            },
+            {
+              "caption": "Figure 1: Local sensor outages across overlapping multimodal events in a 19.2-second untrimmed observation.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 445,
+              "image_path": "figures/2610.08192/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 796
+            },
+            {
+              "caption": "Figure 3: Query attention over visual (left) and audio (right) windows before (above) and after (below) local outages. Hatched regions are missing, boxes compare clean and corrupted predictions against ground truth.",
+              "figure_id": "figure-3-8",
+              "figure_number": "3",
+              "height": 433,
+              "image_path": "figures/2610.08192/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 814
+            },
+            {
+              "caption": "Table 2: Full-modality validation top-1 accuracy (%). MacJEPA uses a single saved checkpoint for both Epic-Kitchens and Epic-Sounds. Best results are bold, and second-best results are underlined.",
+              "figure_id": "table-2-7",
+              "figure_number": "2",
+              "height": 225,
+              "image_path": "figures/2610.08192/table-004.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 828
+            },
+            {
+              "caption": "Table 3: Dominant-modality robustness. Top-1 accuracy (%) for Epic-Kitchens verb under missing video and Epic-Sounds sound under missing audio. Follows observation-level missingness protocol.",
+              "figure_id": "table-3-12",
+              "figure_number": "3",
+              "height": 193,
+              "image_path": "figures/2610.08192/table-005.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 826
+            },
+            {
+              "caption": "Table 1: Controlled component analysis under dominant-modality removal. Top-1 accuracy (%) for EpicKitchens action and Epic-Sounds sound reported. Follows nested per-window temporal missingness protocol.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 185,
+              "image_path": "figures/2610.08192/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 827
+            },
+            {
+              "caption": "Table 4: Auxiliary-modality robustness. Top-1 accuracy (%) for Epic-Kitchens verb under missing audio and Epic-Sounds sound under missing video. Follows observation-level missingness protocol.",
+              "figure_id": "table-4-11",
+              "figure_number": "4",
+              "height": 171,
+              "image_path": "figures/2610.08192/table-007.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 827
+            },
+            {
+              "caption": "Table 11: Training-objective schedule.",
+              "figure_id": "table-11-6",
+              "figure_number": "11",
+              "height": 135,
+              "image_path": "figures/2610.08192/table-008.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 326
+            },
+            {
+              "caption": "Table 5: Effect of the training-time modality-drop probability π. We report top-1 accuracy (%) across perwindow missing rates for Epic-Kitchens action under video removal and Epic-Sounds sound under audio removal. π = 0.7 is the MacJEPA setting. Follows nested per-window temporal missingness protocol.",
+              "figure_id": "table-5-4",
+              "figure_number": "5",
+              "height": 177,
+              "image_path": "figures/2610.08192/table-009.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 827
+            },
+            {
+              "caption": "Table 6: Effect of outage granularity w. We report top-1 accuracy (%) across per-window missing rates for Epic-Kitchens action under video removal and Epic-Sounds sound under audio removal. w = 4 is the MacJEPA setting. Follows nested per-window temporal missingness protocol.",
+              "figure_id": "table-6-5",
+              "figure_number": "6",
+              "height": 177,
+              "image_path": "figures/2610.08192/table-010.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 827
+            },
+            {
+              "caption": "Table 7: Effect of observation length T . We report top-1 accuracy (%) across per-window missing rates for Epic-Kitchens action under video removal and Epic-Sounds sound under audio removal. T = 36 is the MacJEPA setting. Follows nested per-window temporal missingness protocol.",
+              "figure_id": "table-7-10",
+              "figure_number": "7",
+              "height": 177,
+              "image_path": "figures/2610.08192/table-011.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 827
+            },
+            {
+              "caption": "Table 8: Effect of encoder depth Lenc. We report top-1 accuracy (%) across per-window missing rates for Epic-Kitchens action under video removal and Epic-Sounds sound under audio removal. Total parameter counts are shown in parentheses. Follows nested per-window temporal missingness protocol.",
+              "figure_id": "table-8-13",
+              "figure_number": "8",
+              "height": 177,
+              "image_path": "figures/2610.08192/table-012.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 827
+            },
+            {
+              "caption": "Table 9: Robustness across frozen visual feature sources. We report Epic-Kitchens action top-1 accuracy (%) under per-window video removal. Omnivore and VideoMAE are concatenated in the MacJEPA setting. Follows nested per-window temporal missingness protocol.",
+              "figure_id": "table-9-14",
+              "figure_number": "9",
+              "height": 152,
+              "image_path": "figures/2610.08192/table-013.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 828
+            },
+            {
+              "caption": "Table 10: Frozen feature-extraction settings.",
+              "figure_id": "table-10-3",
+              "figure_number": "10",
+              "height": 137,
+              "image_path": "figures/2610.08192/table-014.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 827
+            }
+          ],
+          "first_seen_at": "2026-11-14T21:00:00-05:00",
+          "hero_figure": "figures/2610.08192/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2610.08192",
+          "relevance": 6,
+          "selection_reason": "Audio-visual egocentric action/event recognition robust to temporal missing modalities; fits video understanding and action understanding.",
+          "summary_status": "generated",
+          "title": "MacJEPA: Missingness-Robust Audio-Visual Recognition from Untrimmed Egocentric Videos",
+          "tldr": "MacJEPA enables audio-visual action and sound recognition despite temporally localized or complete sensor outages in untrimmed egocentric videos.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Recent video world models have witnessed the paradigm shift from single-agent to multi-agent involvements, which can reveal more complicated dynamics and cross-agent interaction in the real world. However, existing approaches commonly adopt implicit inter-agent communications via cross attention, which lack explicit geometry constraints and unified 3D state, thereby leading to poor multi-view consistency and struggling with recovering out-of-sight agents. In addition, most of them assume a static background, failing to represent uncontrolled background dynamics. To address these problems, we propose Artemis: a geometry-grounded multi-agent world model with explicit memory sharing. An explicit 3D world map is reconstructed from multi-agent observations to enforce a unified 3D state across agents, offering high cross-view consistency. Specifically, an action-guided geometric injection module is developed to simultaneously render decomposed foreground-background control maps, which are then injected into a diffusion transformer through a designed GeoAdapter block. Compared to previous methods assuming static-only background, our GeoAdapter can also distinguish uncontrolled non-agent dynamics, which are conditioned on their own multi-frame history positions to provide consistent motion cues. Keyframes selected from progressive video rollouts are used to progressively update the reconstructed 3D world maps. To effectively capture complex dynamic patterns, we curate a novel dataset sampled from the CARLA simulator called MA-CARLA. Extensive experiments demonstrate the superiority of our proposed method in terms of visual fidelity and cross-view consistency in the generated videos. In addition, our Artemis can support simultaneous multi-modal rollouts with both 2D video and 3D point map maintenance, scale to scenarios beyond two agents and multi-camera setting.",
+          "arxiv_id": "2610.07031",
+          "arxiv_url": "https://arxiv.org/abs/2610.07031",
+          "authors": [
+            "Sitian Shen",
+            "Jiuming Liu",
+            "Mengmeng Liu",
+            "Yian Wang",
+            "Michael Ying Yang",
+            "Francesco Nex",
+            "Hao Cheng",
+            "Daniele De Martini",
+            "Ayush Tewari",
+            "Per Ola Kristensson"
+          ],
+          "bullets": [
+            "Addresses poor cross-view consistency, out-of-sight agent recovery, and static-background assumptions in prior multi-agent world models.",
+            "Reconstructs an explicit 3D world map from multi-agent observations to enforce a unified geometric state.",
+            "Uses an action-guided GeoAdapter to inject decomposed foreground–background control maps into a diffusion transformer.",
+            "Models uncontrolled background dynamics using their own multi-frame position histories, while keyframes progressively update the 3D map.",
+            "Introduces the MA-CARLA dataset; experiments report improved visual fidelity and cross-view consistency, with support for multi-modal 2D video/3D point-map rollouts and more than two agents."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4: Overall pipeline of Artemis. We initialize the shared 3D map by registering individual observations. Given action inputs, control maps disentangling background static, foreground controlled agent proxy, and uncontrolled environmental dynamics are rendered respectively from the reconstructed global map. Then, these controls are injected into DiT, guiding the generator’s rollouts. After each inference block, keyframes are selected to update the static world map.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 252,
+              "image_path": "figures/2610.07031/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 824
+            },
+            {
+              "caption": "Figure 9: Visualization comparisons with previous multi-agent methods.",
+              "figure_id": "figure-9-2",
+              "figure_number": "9",
+              "height": 301,
+              "image_path": "figures/2610.07031/figure-002.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 770
+            },
+            {
+              "caption": "Figure 2: MA-CARLA dataset. We visualize various curated samples in our MA-CARLA dataset, and also calculate the distributions of diverse interaction modes and agent numbers.",
+              "figure_id": "figure-2-7",
+              "figure_number": "2",
+              "height": 327,
+              "image_path": "figures/2610.07031/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 824
+            },
+            {
+              "caption": "Figure 6: Visualization comparisons with previous multi-agent methods.",
+              "figure_id": "figure-6-6",
+              "figure_number": "6",
+              "height": 147,
+              "image_path": "figures/2610.07031/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 775
+            },
+            {
+              "caption": "Figure 3: Construction of control maps.",
+              "figure_id": "figure-3-8",
+              "figure_number": "3",
+              "height": 338,
+              "image_path": "figures/2610.07031/figure-005.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 443
+            },
+            {
+              "caption": "Figure 8: Visualization samples in the multi-camera and multi-agent settings.",
+              "figure_id": "figure-8-9",
+              "figure_number": "8",
+              "height": 216,
+              "image_path": "figures/2610.07031/figure-006.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 774
+            },
+            {
+              "caption": "Figure 7: Visualization of uncontrolled dynamics.",
+              "figure_id": "figure-7-10",
+              "figure_number": "7",
+              "height": 121,
+              "image_path": "figures/2610.07031/figure-007.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 531
+            },
+            {
+              "caption": "Table 1: Quantitative comparisons on MA-CARLA Dataset.",
+              "figure_id": "table-1-5",
+              "figure_number": "1",
+              "height": 258,
+              "image_path": "figures/2610.07031/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 776
+            },
+            {
+              "caption": "Table 2: Ablation studies of our designed modules.",
+              "figure_id": "table-2-11",
+              "figure_number": "2",
+              "height": 140,
+              "image_path": "figures/2610.07031/table-009.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 827
+            },
+            {
+              "caption": "Table 3: Horizontal fields of view for the selected cameras.",
+              "figure_id": "table-3-4",
+              "figure_number": "3",
+              "height": 140,
+              "image_path": "figures/2610.07031/table-010.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 518
+            },
+            {
+              "caption": "Table 4: Scene counts in the two-agent experimental splits.",
+              "figure_id": "table-4-3",
+              "figure_number": "4",
+              "height": 117,
+              "image_path": "figures/2610.07031/table-011.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 448
+            }
+          ],
+          "first_seen_at": "2026-11-14T21:00:00-05:00",
+          "hero_figure": "figures/2610.07031/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2610.07031",
+          "relevance": 9,
+          "selection_reason": "Geometry-grounded multi-agent driving world model with action-conditioned video generation and shared 3D state.",
+          "summary_status": "generated",
+          "title": "Artemis: Geometry-Grounded Multi-Agent Driving World Models with Shared 3D State and Progressive Memory Update",
+          "tldr": "Artemis is a geometry-grounded multi-agent driving world model that maintains a shared 3D state and progressively updated memory to generate more consistent multi-view video and recover dynamic agents and backgrounds.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-12",
       "paper_count": 29,
       "papers": [
@@ -189874,5 +190545,5 @@
   "schema_version": 1,
   "subtopic_id": null,
   "topic_id": "video-models",
-  "total_paper_count": 961
+  "total_paper_count": 964
 }

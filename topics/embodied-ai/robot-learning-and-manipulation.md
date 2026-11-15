@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Robot Learning and Manipulation
 
-**2242 papers total**
+**2244 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-14 | [Genie Sim Benchmark: Real-to-Sim Fidelity and Evaluation](https://arxiv.org/abs/2611.15020) | Embodied AI: Robot Learning and Manipulation | Genie Sim Benchmark assesses real-to-simulation fidelity using task outcomes and physical-response agreement across robot tasks and interaction scenarios. | 7 | 6 |
+| 2026-11-14 | [X-World: Transferring Video Priors to Variable-View Robot Control](https://arxiv.org/abs/2610.34105) | Embodied AI: Robot Learning and Manipulation | X-World transfers pretrained video representations into a shared action policy for variable-view robot control, achieving strong simulated and real-world performance across several distribution shifts. | 9 | 8 |
 | 2026-11-13 | [Fast Non-Parametric Heteroscedastic Imitation Learning With Geometric Priors](https://arxiv.org/abs/2610.08650) | Embodied AI: Robot Learning and Manipulation | A fast non-parametric imitation-learning method uses geometric priors to model heteroscedastic uncertainty and adapt robot policies efficiently from limited demonstrations. | 8 | 7 |
 | 2026-11-13 | [Towards Efficient Robotic Manipulation Models with Self-Recursive Pruning](https://arxiv.org/abs/2610.08555) | Embodied AI: Robot Learning and Manipulation; Efficient AI | LCAM enables training-free, behavior-aware pruning of robotic manipulation policies while preserving strong task performance at substantial sparsity. | 8 | 7 |
 | 2026-11-12 | [HEIR: Harness Egocentric Intent for Human-Robot Interactions](https://arxiv.org/abs/2611.17238) | Embodied AI: Robot Learning and Manipulation | HEIR is a multimodal dataset and benchmark for grounding human intent and completing long-horizon household robot tasks involving navigation and manipulation. | 9 | 7 |

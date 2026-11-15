@@ -6,10 +6,13 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Language Foundation Models
 
-**2736 papers total**
+**2739 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-14 | [Lara Mini Base: Language Diversity as a Resource, Not a Trade-off](https://arxiv.org/abs/2611.16956) | Language Foundation Models: Large Language Models | Lara Mini base shows that a compact mixture-of-experts model can support broad multilingual coverage without sacrificing overall performance. | 7 | 6 |
+| 2026-11-14 | [Show Your Work in Swahili: Reinforcement Learning for Native-Language Mathematical Reasoning](https://arxiv.org/abs/2611.16104) | Language Foundation Models: Large Language Models | Fikiria trains a Swahili math-reasoning model with answer- and reasoning-trace-aware rewards, achieving 79.2% on AfriMGSM Swahili under strict format scoring. | 6 | 6 |
+| 2026-11-14 | [How Post-Training Influences Verbalized Algorithmic Computation in Language Models](https://arxiv.org/abs/2611.13552) | Language Foundation Models: Large Language Models | Post-training chiefly improves how language models use verbalized reasoning, not their internal encoding of intermediate computation. | 5 | 6 |
 | 2026-11-13 | [Discovering Effective Agent Memory Designs through Program Evolution](https://arxiv.org/abs/2611.17068) | Language Foundation Models: LLM Memory | MAPE uses program evolution to automatically discover effective, efficient agent memory designs, improving accuracy over manual baselines while reducing serving cost. | 8 | 8 |
 | 2026-11-13 | [ShadowBench: Exposing Lexical Anchoring and the Illusion of Forgetting in Large Language Models](https://arxiv.org/abs/2611.15925) | Language Foundation Models | ShadowBench shows that LLMs rely heavily on entity-name cues and that current unlearning methods often hide, rather than remove, underlying knowledge. | 6 | 7 |
 | 2026-11-13 | [DoubtLess: Training-Free Contrastive Decoding for Efficient Reasoning](https://arxiv.org/abs/2610.18862) | Language Foundation Models: Large Language Models | DoubtLess uses a smaller model’s brief-versus-verbose preferences to shorten large-model reasoning without extra training or accuracy loss. | 7 | 6 |

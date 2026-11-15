@@ -1,0 +1,3193 @@
+{
+  "date": "2026-11-14",
+  "paper_count": 13,
+  "papers": [
+    {
+      "abstract": "Embodied foundation models hinge on diverse robot interaction data, which are costly to collect. Egocentric human videos offer a complementary source of experience, and latent action models (LAMs) provide a popular means of leveraging these videos for policy supervision. Compared with world-action models (WAMs), LAMs can offer greater training efficiency and potentially lower inference costs by avoiding explicit pixel prediction during policy learning and execution. However, most existing LAMs learn latent actions solely through video reconstruction, which can cause their representations to cluster by visual appearance rather than by the underlying actions. As a result, they struggle to align human actions with their robot counterparts. To bridge the gap, we introduce SALA, which emphasizes establishing the semantic correspondence for latent actions. Without requiring paired data, we use the language descriptions of unpaired human and robot clips to estimate semantic similarities and supervise cross-embodiment correspondence. Specifically, we translate these similarities into soft neighborhood structures that guide human latent actions toward semantically related robot latents, while robot action reconstruction grounds the latent space in control. The resulting shared latent action space provides a unified supervision signal for training an embodied foundation model on both human and robot videos. Notably, latent action supervision enables scaling along two axes: (1) pre-training on increasing amounts of general human video consistently reduces robot action prediction error on downstream tasks, and (2) post-training on increasing amounts of task-specific human video substantially improves real-world robot task success rates.",
+      "arxiv_id": "2611.17110",
+      "arxiv_url": "https://arxiv.org/abs/2611.17110",
+      "authors": [
+        "Jiachun Jin",
+        "Zetong Zhou",
+        "Haonan Wang",
+        "Xiao Yang",
+        "Jun Zhu",
+        "Zhijie Deng"
+      ],
+      "bullets": [
+        "Addresses the poor cross-embodiment alignment caused by learning latent actions primarily from video reconstruction.",
+        "Uses language descriptions of unpaired human and robot clips to estimate semantic similarities and create soft neighborhood supervision.",
+        "Combines cross-embodiment alignment with robot action reconstruction to ground the shared latent space in control.",
+        "Enables unified training on human and robot videos without requiring paired data.",
+        "Scaling general human video reduces downstream robot action prediction error, while task-specific human video improves real-world task success."
+      ],
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "figure_status": "ready",
+      "figures": [
+        {
+          "caption": "Figure 2 Method overview. (a) Latent action tokenizer. Robot (blue) and human (orange) clips share the visual encoder Eθ, the SoftVQ quantizer Qϕ, and the visual decoder Gv; only robot clips train the action decoder Ga. Language similarities Sℓ between atomic-action descriptions define soft neighborhoods P , which supervise the latent neighborhoods Q derived from latent similarities Sz, with gradients stopped through robot latents. Decoder conditioning inputs are omitted for clarity. (b) VLA policy. The frozen tokenizer labels each clip with latent action tokens y, each a categorical distribution over the codebook. Latent queries in the action expert predict ŷ through a latent head, supervised by LLA for both human and robot data; robot data additionally train flow matching with LR FM. In the action expert, blue inputs (state and noisy actions) are used only for robot data, whereas green latent queries are used for both human and robot data.",
+          "figure_id": "figure-2-13",
+          "figure_number": "2",
+          "height": 425,
+          "image_path": "figures/2611.17110/figure-001.webp",
+          "kind": "figure",
+          "page": 4,
+          "width": 974
+        },
+        {
+          "caption": "Figure 5 Latent actions without and with language alignment. (a) For four RoboTwin 2.0 tasks, ARX-X5 latents z of two atomic actions of the right arm, with 20 clips per action and scene type, projected to 2D by PCA fitted to each panel. Color: action; marker: scene type. Bars report the fraction of variance in the full latent space explained by scene and by action. (b) These fractions across all analyzed pairs: thick lines show medians; dashed lines mark the pairs in (a). Alignment shifts the organization from scene toward action.",
+          "figure_id": "figure-5-9",
+          "figure_number": "5",
+          "height": 389,
+          "image_path": "figures/2611.17110/figure-002.webp",
+          "kind": "figure",
+          "page": 10,
+          "width": 927
+        },
+        {
+          "caption": "Figure 4 Scaling with human video. Both panels average over four tasks. (a) Pre-training: validation L1 error of predicted actions on the joints each task uses, versus the pre-training budget in equivalent hours of human video. Gray dashed: vanilla VLA; our 0 h variant retains latent-action training. (b) Post-training: success rate versus the fraction of each task’s human demonstrations Dtask",
+          "figure_id": "figure-4-16",
+          "figure_number": "4",
+          "height": 297,
+          "image_path": "figures/2611.17110/figure-003.webp",
+          "kind": "figure",
+          "page": 9,
+          "width": 952
+        },
+        {
+          "caption": "Figure 3 Real-world data. Left: examples of the large-scale data used in pre- and mid-training, i.e., egocentric human videos DH and robot teleoperation data DR. Right: the four downstream tasks, each performed by a person, recorded as human demonstrations Dtask",
+          "figure_id": "figure-3-1",
+          "figure_number": "3",
+          "height": 282,
+          "image_path": "figures/2611.17110/figure-004.webp",
+          "kind": "figure",
+          "page": 6,
+          "width": 977
+        },
+        {
+          "caption": "Figure 6 Cross-embodiment retrieval for human pre-training videos. Each human query (left) and its three nearest robot clips over all tasks, under the reconstruction-only tokenizer (middle) and SALA (right).",
+          "figure_id": "figure-6-2",
+          "figure_number": "6",
+          "height": 313,
+          "image_path": "figures/2611.17110/figure-005.webp",
+          "kind": "figure",
+          "page": 11,
+          "width": 966
+        },
+        {
+          "caption": "Figure 9 Retrieval for human clips of tasks absent from the robot data. Annotated version of figure 6 with one additional query. Each clip is labeled with its task (italic) and the atomic action of its active hand.",
+          "figure_id": "figure-9-17",
+          "figure_number": "9",
+          "height": 679,
+          "image_path": "figures/2611.17110/figure-006.webp",
+          "kind": "figure",
+          "page": 20,
+          "width": 893
+        },
+        {
+          "caption": "Figure 10 Clusters of latent actions. For three pairs of atomic actions in figure 5(a), k-means (k = 2) is applied to the 80 ARX-X5 latents of each tokenizer, 20 per atomic action and scene type. Each half-row shows one cluster: its composition in the header and four of its clips. Without alignment (recon. only), the two clusters are the clean and the randomized clips, each mixing both atomic actions; with alignment, each cluster is one atomic action, covering both scene types. Filled circle: clean scene; open triangle: randomized scene.",
+          "figure_id": "figure-10-5",
+          "figure_number": "10",
+          "height": 813,
+          "image_path": "figures/2611.17110/figure-007.webp",
+          "kind": "figure",
+          "page": 21,
+          "width": 947
+        },
+        {
+          "caption": "Figure 8 Cross-embodiment retrieval on shared tasks. Each query (left) and its three nearest target-robot clips under the reconstruction-only tokenizer (middle) and SALA (right). (a) RoboTwin 2.0: ARX-X5 queries, AlohaAgileX clips. (b) Real world: human queries, robot clips. Each clip is labeled with its task (italic) and atomic action; ✓/× mark whether the atomic action (a) or the task and verb (b) match the query. Examples are selected.",
+          "figure_id": "figure-8-14",
+          "figure_number": "8",
+          "height": 414,
+          "image_path": "figures/2611.17110/figure-008.webp",
+          "kind": "figure",
+          "page": 19,
+          "width": 909
+        },
+        {
+          "caption": "Figure 7 Tokenizer training with SoftVQ and hard VQ. SoftVQ reduces (a) the alignment loss, whereas hard VQ leaves it nearly unchanged, although both reach comparable (b) visual reconstruction losses. All other settings are identical.",
+          "figure_id": "figure-7-3",
+          "figure_number": "7",
+          "height": 207,
+          "image_path": "figures/2611.17110/figure-009.webp",
+          "kind": "figure",
+          "page": 11,
+          "width": 395
+        },
+        {
+          "caption": "Figure 12 Atomic-action annotations on RoboTwin 2.0. Frames of one Aloha-AgileX episode of the beat block hammer task at the boundaries between consecutive steps of the task program. The description between two frames is the atomic action performed between them.",
+          "figure_id": "figure-12-12",
+          "figure_number": "12",
+          "height": 208,
+          "image_path": "figures/2611.17110/figure-010.webp",
+          "kind": "figure",
+          "page": 23,
+          "width": 974
+        },
+        {
+          "caption": "Figure 13 Real-world platform. The Sharpa North robot comprises (a) a head-mounted stereo camera, (b) two 7-DoF arms, (c) two 22-DoF Sharpa Wave dexterous hands, (d) two wrist-mounted fisheye cameras, (e) a torso, and (f) a wheeled base.",
+          "figure_id": "figure-13-15",
+          "figure_number": "13",
+          "height": 472,
+          "image_path": "figures/2611.17110/figure-011.webp",
+          "kind": "figure",
+          "page": 24,
+          "width": 500
+        },
+        {
+          "caption": "Figure 11 Embodiments in RoboTwin 2.0. Frames of the same task performed by the target embodiment AlohaAgileX (left), whose complete trajectories form DR, and the non-target embodiment ARX-X5 (right), whose videos form DH .",
+          "figure_id": "figure-11-8",
+          "figure_number": "11",
+          "height": 142,
+          "image_path": "figures/2611.17110/figure-012.webp",
+          "kind": "figure",
+          "page": 22,
+          "width": 969
+        },
+        {
+          "caption": "Figure 14 Real-world tasks. Frames of one teleoperated demonstration per task, captured by the head camera. The description between two frames is the action performed between them.",
+          "figure_id": "figure-14-4",
+          "figure_number": "14",
+          "height": 178,
+          "image_path": "figures/2611.17110/figure-013.webp",
+          "kind": "figure",
+          "page": 25,
+          "width": 981
+        },
+        {
+          "caption": "Table 6 Top-1 cross-embodiment retrieval over all tasks. Language retrieval is omitted on RoboTwin 2.0, where the scripted descriptions of the same atomic action are identical. Language similarity is rescaled so that Random scores 0 and Language scores 1.",
+          "figure_id": "table-6-11",
+          "figure_number": "6",
+          "height": 275,
+          "image_path": "figures/2611.17110/table-014.webp",
+          "kind": "table",
+          "page": 18,
+          "width": 786
+        },
+        {
+          "caption": "Table 5 Tokenizer ablations on RoboTwin 2.0. Each variant changes one design choice of the full tokenizer, and the policy is trained in the same way. w/o sg: bidirectional alignment. Success rates (%) on Aloha-AgileX.",
+          "figure_id": "table-5-10",
+          "figure_number": "5",
+          "height": 183,
+          "image_path": "figures/2611.17110/table-015.webp",
+          "kind": "table",
+          "page": 10,
+          "width": 298
+        },
+        {
+          "caption": "Table 7 Tokenizer settings. Horizon k: frame interval between the two endpoint observations of a clip. In the real world, k is 8 frames for one source of human videos, and 16, 8, or 4 frames for the other, chosen by motion speed so that slow motions span longer intervals.",
+          "figure_id": "table-7-7",
+          "figure_number": "7",
+          "height": 276,
+          "image_path": "figures/2611.17110/table-016.webp",
+          "kind": "table",
+          "page": 22,
+          "width": 768
+        },
+        {
+          "caption": "Table 2 Success rates (%) on RoboTwin 2.0. WAMs and LAMs are additionally trained on videos from DH and DR. PT.: initialized from the official checkpoint pre-trained on large-scale robot data.",
+          "figure_id": "table-2-6",
+          "figure_number": "2",
+          "height": 375,
+          "image_path": "figures/2611.17110/table-017.webp",
+          "kind": "table",
+          "page": 7,
+          "width": 389
+        }
+      ],
+      "first_seen_at": "2026-11-14T21:00:00-05:00",
+      "hero_figure": "figures/2611.17110/hero.webp",
+      "novelty": 8,
+      "pdf_url": "https://arxiv.org/pdf/2611.17110",
+      "relevance": 9,
+      "selection_reason": "Latent action model aligning human and robot videos for embodied foundation model training; fits embodied learning and latent action topics.",
+      "summary_status": "generated",
+      "title": "SALA: Semantically Aligned Latent Actions Enable Dual-Axis Scaling of Embodied Foundation Models",
+      "tldr": "SALA aligns latent actions across human and robot videos using language-guided semantic supervision, enabling embodied foundation models to benefit from scaling both general and task-specific human video.",
+      "topic_assignments": [
+        {
+          "subtopic_ids": [
+            "vision-language-action",
+            "learning-from-human-video"
+          ],
+          "topic_id": "embodied-ai"
+        },
+        {
+          "subtopic_ids": [
+            "latent-action-models"
+          ],
+          "topic_id": "world-models"
+        }
+      ]
+    },
+    {
+      "abstract": "General-purpose language models are trained mostly on English: over open models we review, at most, non-English pretraining data makes up only a 12% share. Models built for European languages give them far more, but score well below general-purpose models of the same size. A common concern is that, in small models, languages compete for capacity. We present Lara Mini base, a model trained from scratch on 6T tokens in English and 44 other languages, which together cover all 24 official languages of the European Union. As training progresses, the 44 other languages together come to outweigh English. To give these languages enough capacity at low cost, Lara Mini base uses a mixture of experts architecture with 7.2B total and 0.6B active parameters. Among open base models with up to 2B active parameters, it achieves the highest average score across standard English, multilingual, math, and code benchmarks, ahead of models trained on 4 to 6 times as many tokens. Its margin is largest on multilingual benchmarks in the languages it supports and on math benchmarks. It supports contexts of up to 128k tokens. We find that our MoE architecture reduces capacity competition between languages. For a single user on one GPU, without quantization, it generates text at least 1.8 times faster than any model with a higher average score. We release the weights of Lara Mini base under the CC BY-NC-SA 4.0 license. In addition, we will release T-HellaSwag, a higher-quality machine translation of the commonsense reasoning benchmark HellaSwag into 110 language variants.",
+      "arxiv_id": "2611.16956",
+      "arxiv_url": "https://arxiv.org/abs/2611.16956",
+      "authors": [
+        "Translated",
+        "Maria Pia Adinolfi",
+        "Isabelle Andrieu",
+        "Grazia Fiorella Anfuso",
+        "Melania Annunziata",
+        "Daniele Antonini",
+        "Marta Arena",
+        "Luca Barone",
+        "Dana Barras Franco",
+        "Francesca Basiricò",
+        "Francesca Bee",
+        "Sofia Bertini",
+        "Nicola Bertoldi",
+        "Giorgio Biancini",
+        "Alessandra Bigi",
+        "Giulia Boccalini",
+        "Tommaso Bonomo",
+        "Enrico Boscardi",
+        "Sebastien Bratieres",
+        "Francesco Brigante",
+        "Giulia Brignola",
+        "Romolo Buondestino",
+        "Brenda Patricia Byrne",
+        "Giorgia Campora",
+        "Edoardo Cappelli",
+        "Veronica Carascosi",
+        "Francesca Carducci",
+        "Cody Carlson",
+        "Davide Caroselli",
+        "Ambra Cascio",
+        "Dario Cascio",
+        "Mauro Cassani",
+        "Andrea Castro",
+        "Alessandro Cattelan",
+        "Giulia Ceccacci",
+        "Paola Cellini",
+        "Giulia Chiriatti",
+        "Federico Cialini",
+        "Valentina Ciarlariello",
+        "Daniele Cocozza",
+        "Emanuela Coghe",
+        "Kathleen Compares",
+        "Marco Comunità",
+        "Davide Conti",
+        "Helen Rebecca Corfield",
+        "Michele Cortellessa",
+        "Anna Cracco",
+        "Aurora Cuppone",
+        "Arianna D'Andrea",
+        "Maurizio Davoli",
+        "Andrea De Angelis",
+        "Andrea De Blasi",
+        "Rebecca De Giorgi",
+        "Annalisa De Petra",
+        "Arianna De Pilla",
+        "Joris Demiraj",
+        "Elena Deufemia",
+        "Federica Di Antonio",
+        "Pierluigi Di Cianni",
+        "Vincenzo Di Cicco",
+        "Michela Di Clemente",
+        "Alan Di Francesco",
+        "Ylenia Di Gese",
+        "Federica Di Iulio",
+        "Claudia Di Lorenzo",
+        "Andrea Di Paola",
+        "Giulia Di Pilla",
+        "Jessica Dickson",
+        "Francesco Elefante",
+        "Ilaria Fabrizio",
+        "Alessandro Falappa",
+        "Viviana Fantozzi",
+        "Antonio Farina",
+        "Andrea Fernandez Tostado Ro. Diego Andrea",
+        "Andrea Ferrari",
+        "Sara Ferri",
+        "Simona Ferri",
+        "Fabio Fioramonti",
+        "Stefano Florio",
+        "Mariachiara Fornaro",
+        "Anna Maria Foti",
+        "Niccolò Fransoni",
+        "Alessandro Fusacchia",
+        "Emma Gamba",
+        "Francesco Gasperoni",
+        "Davide Gattini",
+        "Marta Giani",
+        "Claudia Giannetti",
+        "Valerio Giannini",
+        "Antonella Giudici",
+        "Mara Gramendola",
+        "Michele Grandinetti",
+        "Eleonora Graziani",
+        "L'Meese Hope Greaney",
+        "Dario Gubernari",
+        "Filomena Guglielmi",
+        "Jonathan Hammond",
+        "Stephen William Harris",
+        "Rowena Elizabeth Hogg",
+        "Marta Hontanon Del Olmo",
+        "Marco Ilari",
+        "Kenneth Larry Jackson",
+        "Sagar Joshi",
+        "Bartosz Alberto Karman",
+        "Iuliia Khimenko",
+        "Valerio Lanni",
+        "Giulio Leonardi",
+        "Veronica Levco",
+        "Matteo Licci",
+        "Alessio Ligios",
+        "Noemi Lomartire",
+        "Domenico Lupinetti",
+        "Jennifer Mirjam Maechtlen",
+        "Chiara Maggiori",
+        "Maria Luisa Malerba",
+        "Francesco Marconi",
+        "Domenico Marini",
+        "Francesca Marsili",
+        "Andrea Martinelli",
+        "James Mc Groary",
+        "Matteo Menicacci",
+        "Andrew Steven Miller",
+        "Marco Moauro",
+        "Giuliana Molon",
+        "Ilaria Mongelluzzi",
+        "Emiliano Morghen",
+        "Giovanni Moscati",
+        "Filippo Musmeci",
+        "Flavia Napoleoni",
+        "Nicola Giuseppe Ninni",
+        "Beatrice Ottoni",
+        "Federica Pagliani",
+        "Nicolò Palmiero",
+        "Daniele Palumbo",
+        "Chiara Pantani",
+        "Stefano Paolucci",
+        "Deborah Paritario",
+        "Michela Pascale",
+        "Thomas Passera",
+        "Daniele Patrioli",
+        "Chiara Patrizi",
+        "Silvia Patrizi",
+        "Giulia Pelos",
+        "Simone Giovanni Perone",
+        "Cristiano Perrone",
+        "Joshua Peterson",
+        "Katia Piredda",
+        "Francesca Piscitelli",
+        "Alessandra Posca",
+        "Lorenzo Pratesi",
+        "Francesca Prencipe",
+        "Daniela Proietto Cuco",
+        "Mattia Pupino Marangio",
+        "Disheng Qiu",
+        "Mirco Ramo",
+        "Federica Rapagnà",
+        "Waldo Luis Ribeiro",
+        "Federico Ricciuti",
+        "Alessia Ridoni",
+        "Eleonora Risi Valdettaro",
+        "Jon Matthew Ritzdorf",
+        "Serena Rivera",
+        "Federico Roma",
+        "Arianna Ruggiero",
+        "Eleonora Ruggiu",
+        "Mariafrancesca Sagliocco",
+        "Vanessa Salvi",
+        "Alessio Sampieri",
+        "Elena Santanelli",
+        "Roberto Sastre",
+        "Luca Scofano",
+        "Alessandro Sdei",
+        "Giuseppe Sebastiani",
+        "Claudia Nicole Siegenthaler",
+        "Monica Signoretti",
+        "Nicola Sobieski",
+        "Biancamaria Soellner",
+        "Valentina Stati",
+        "Michael Stevens",
+        "Arianna Stissi",
+        "Fabiana Stomaci",
+        "Leonardo Taddei",
+        "Christopher Thomas",
+        "Maurizio Tiberi",
+        "John Tinsley",
+        "Riccardo Tittarelli",
+        "Carla Tocco",
+        "Martina Totaro",
+        "Barbara Veronika Totzauer",
+        "Alessio Tranzocchi",
+        "Letizia Treossi",
+        "Mara Trombetti",
+        "Marco Trombetti",
+        "Andrea Valenzi",
+        "Kirti Vashee",
+        "Giulia Vestita",
+        "Teodosio Vezza",
+        "Giulia Vignola",
+        "Sara Virtuoso",
+        "Valentina Volpini",
+        "Francesca Vurro",
+        "Jolita Zaksauskaite",
+        "Giulia Zanarella",
+        "Paolo Zanotti",
+        "Francesca Zavettieri",
+        "Irene Zorzi"
+      ],
+      "bullets": [
+        "Trained from scratch on 6T tokens across English and 44 other languages, covering all 24 official EU languages.",
+        "Uses 7.2B total parameters but activates only 0.6B per input to provide multilingual capacity efficiently.",
+        "Achieves the highest average benchmark score among open base models with up to 2B active parameters, with especially strong multilingual and math performance.",
+        "Supports 128k-token contexts and generates at least 1.8× faster than higher-scoring models for a single user on one GPU without quantization.",
+        "The authors also release model weights under CC BY-NC-SA 4.0 and introduce T-HellaSwag translations spanning 110 language variants."
+      ],
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "figure_status": "ready",
+      "figures": [
+        {
+          "caption": "Figure 3. Architecture of Lara Mini base. Center: each of the 34 layers applies a token mixer and a mixture of experts block, each preceded by RMSNorm and wrapped in a residual connection. Left: the three token mixers and their order: four layers [Gated DeltaNet, sliding window, Gated DeltaNet, global] followed by six blocks of five [sliding window, Gated DeltaNet, sliding window, Gated DeltaNet, global], so that the last layer is global. Right: the mixture of experts block, with 4 of the 128 routed experts active per token and one shared expert.",
+          "figure_id": "figure-3-33",
+          "figure_number": "3",
+          "height": 588,
+          "image_path": "figures/2611.16956/figure-001.webp",
+          "kind": "figure",
+          "page": 9,
+          "width": 902
+        },
+        {
+          "caption": "Figure 5. Overall average against generation speed for a single user, in characters per second, for Lara Mini base and the 45 open base models we could measure (Section E). Marks indicate the groups in Table 6; the line is the Pareto frontier for the drawn models. Every model with a higher Overall average than Lara Mini base generates text at least 1.8 times more slowly.",
+          "figure_id": "figure-5-22",
+          "figure_number": "5",
+          "height": 390,
+          "image_path": "figures/2611.16956/figure-002.webp",
+          "kind": "figure",
+          "page": 13,
+          "width": 843
+        },
+        {
+          "caption": "Figure 1.Overall and domain averages of Lara Mini base and of the four best other models with up to 2B active parameters on each average.",
+          "figure_id": "figure-1-1",
+          "figure_number": "1",
+          "height": 936,
+          "image_path": "figures/2611.16956/figure-003.webp",
+          "kind": "figure",
+          "page": 1,
+          "width": 1047
+        },
+        {
+          "caption": "Figure 7. Expert routing by language in the released model: for each layer, the Jensen–Shannon divergence between a language’s distribution over the 128 routed experts and the mean over the 43 supported languages covered by Belebele, on the same text in every language. Languages route differently in the first and last layers and almost identically in the middle layers.",
+          "figure_id": "figure-7-19",
+          "figure_number": "7",
+          "height": 413,
+          "image_path": "figures/2611.16956/figure-004.webp",
+          "kind": "figure",
+          "page": 18,
+          "width": 960
+        },
+        {
+          "caption": "Figure 4. Scores of Lara Mini base on the evaluation suite of Section 5 at eight checkpoints of the first three stages: Overall and domain averages, with the learning-rate schedule and the training stages on top. Shading marks the transition (4.8–5.4T) and anneal (5.4–6T) stages; lines only join the evaluated checkpoints. Every domain improves fastest during the anneal.",
+          "figure_id": "figure-4-27",
+          "figure_number": "4",
+          "height": 440,
+          "image_path": "figures/2611.16956/figure-005.webp",
+          "kind": "figure",
+          "page": 12,
+          "width": 884
+        },
+        {
+          "caption": "Figure 6.Multilingual share of the anneal. Left: mixtures of the two anneals. Right: change in the mean score on the development suite when the multilingual data are replaced with English, with the scores of both anneals under each bar. English averages eight benchmarks; multilingual averages nine across the languages supported by Lara Mini base. Replacing the multilingual data with English barely raises the English average and clearly lowers the multilingual one.",
+          "figure_id": "figure-6-25",
+          "figure_number": "6",
+          "height": 321,
+          "image_path": "figures/2611.16956/figure-006.webp",
+          "kind": "figure",
+          "page": 17,
+          "width": 960
+        },
+        {
+          "caption": "Figure 12. The 110 language variants of T-HellaSwag by language family in Glottolog (Hammarström et al., 2026). Indo-European accounts for 58 of the variants, and five families, including Atlantic-Congo with 13 variants, occur only among languages that Lara Mini base does not support.",
+          "figure_id": "figure-12-18",
+          "figure_number": "12",
+          "height": 483,
+          "image_path": "figures/2611.16956/figure-007.webp",
+          "kind": "figure",
+          "page": 46,
+          "width": 805
+        },
+        {
+          "caption": "Figure 9. Share of each language in the 2.18T multilingual tokens of the 6T run (bars), against its share under sampling proportional to its unique tokens after deduplication (dashes). Tokens and epochs per language are in Table 11. The language weights increase the share of official EU languages from 46% to 61% of multilingual tokens.",
+          "figure_id": "figure-9-32",
+          "figure_number": "9",
+          "height": 349,
+          "image_path": "figures/2611.16956/figure-008.webp",
+          "kind": "figure",
+          "page": 27,
+          "width": 919
+        },
+        {
+          "caption": "Figure 10. Training curves: (a) training loss, smoothed, and loss on the fixed held-out set at every evaluated checkpoint; (b) gradient norm before clipping; (c) load-balancing loss of the MoE layers, divided by its coefficient (1 for uniform routing). Shading marks the transition (4.8–5.4T) and anneal (5.4–6T) stages; the first 17B tokens of warmup are not shown. Gradient-norm spikes occur only at a single step, and the load-balancing loss remains close to 1 throughout training.",
+          "figure_id": "figure-10-35",
+          "figure_number": "10",
+          "height": 288,
+          "image_path": "figures/2611.16956/figure-009.webp",
+          "kind": "figure",
+          "page": 31,
+          "width": 897
+        },
+        {
+          "caption": "Figure 11. Score of Lara Mini base in each supported language against its training tokens in that language (log scale). Scores are relative to the mean of each benchmark across the non-English-supported languages and are averaged across the multilingual benchmarks that cover the language. The dashed line is the median of the languages and varieties Lara Mini base does not support. The ring marks Irish, which only T-HellaSwag covers. Every supported language scores above the median of the languages Lara Mini base does not support.",
+          "figure_id": "figure-11-30",
+          "figure_number": "11",
+          "height": 343,
+          "image_path": "figures/2611.16956/figure-010.webp",
+          "kind": "figure",
+          "page": 41,
+          "width": 734
+        },
+        {
+          "caption": "Figure 8. From collected data to the 6T training run, with bar widths proportional to tokens; deduplication and selection are described in Section 2.2. Deduplication removes about 40% of the collected tokens.",
+          "figure_id": "figure-8-31",
+          "figure_number": "8",
+          "height": 260,
+          "image_path": "figures/2611.16956/figure-011.webp",
+          "kind": "figure",
+          "page": 27,
+          "width": 897
+        },
+        {
+          "caption": "Table 4. Architecture of Lara Mini base. Parameter counts include the embedding, counted once.",
+          "figure_id": "table-4-13",
+          "figure_number": "4",
+          "height": 405,
+          "image_path": "figures/2611.16956/table-012.webp",
+          "kind": "table",
+          "page": 10,
+          "width": 900
+        },
+        {
+          "caption": "Figure 14. Construction of each T-HellaSwag language variant, with the number of documents remaining per variant after each step. The translated validation split will be released in full as T-HellaSwag-full. Selecting the same proportion from every stratum preserves the source and difficulty distributions of the English originals.",
+          "figure_id": "figure-14-37",
+          "figure_number": "14",
+          "height": 129,
+          "image_path": "figures/2611.16956/figure-013.webp",
+          "kind": "figure",
+          "page": 48,
+          "width": 787
+        },
+        {
+          "caption": "Figure 13. A HellaSwag document and its translation into Italian. (a) The source document, with the subject fragment at the end of the context shown in orange and the correct ending marked (✓). (b) The four requests to Lara. The subject fragment is moved to the start of each ending; the translated activity label and context from request 1 are sent as non-translatable segments in requests 2–4 (shaded).",
+          "figure_id": "figure-13-7",
+          "figure_number": "13",
+          "height": 79,
+          "image_path": "figures/2611.16956/figure-014.webp",
+          "kind": "figure",
+          "page": 47,
+          "width": 758
+        },
+        {
+          "caption": "Table 8. Long-context scores of Lara Mini base at the end of the anneal and after the long-context stage (the released model), and of open base models, all scored with the same protocol (Section D.3): mean of the 13 RULER tasks, of four ONERULER retrieval tasks in 26 languages and of four HELMET categories. Open models: five models with up to 2B active parameters that support 128k tokens, including the strongest of the group overall (granite-4.0-h-tiny) and on the multilingual average (Gemma-4-E2B). Active, Total: active and total parameters. Gemma-4-E2B at its 2B effective size; best in bold, second underlined. After the long-context stage, Lara Mini base ranks first on ONERULER at 32k tokens and second at 128k tokens.",
+          "figure_id": "table-8-38",
+          "figure_number": "8",
+          "height": 282,
+          "image_path": "figures/2611.16956/table-015.webp",
+          "kind": "table",
+          "page": 16,
+          "width": 798
+        },
+        {
+          "caption": "Table 6. Domain averages of Lara Mini base and open base models, grouped by active parameters as in Muennighoff et al. (2025b): up to 2B, from 2B to 4B and more than 4B. Active, Total: active and total parameters. Tokens: pretraining tokens reported by each developer, over all pretraining stages (–: not reported; †: distilled from a larger model during pretraining, wholly or in part); for Lara Mini base, the 6T of the first three stages (Section 2), as in Table 1; the long-context stage adds 100B. Multilingual is averaged over the languages supported by Lara Mini base; Overall is the mean of the four domain averages. Best result in each group in bold, second best underlined. Gemma-4-E2B and Gemma-4-E4B are listed at their 2B and 4B effective sizes, and their totals include per-layer embeddings. All 56 models we evaluated are in Table 18. Lara Mini base has the highest Overall, multilingual and math averages of the models with up to 2B active parameters.",
+          "figure_id": "table-6-14",
+          "figure_number": "6",
+          "height": 894,
+          "image_path": "figures/2611.16956/table-016.webp",
+          "kind": "table",
+          "page": 14,
+          "width": 910
+        },
+        {
+          "caption": "Table 7. Per-benchmark results for Lara Mini base, the five other models with up to 2B active parameters that score highest on the Overall average, and the best model of each larger group (Table 6). Multilingual benchmarks are averaged over the languages supported by Lara Mini base. Best result among the six models with up to 2B active parameters in bold, second best underlined. NP, P: non-parallel and parallel. Settings in Table 17; all models in Tables 19, 20 and 22.",
+          "figure_id": "table-7-6",
+          "figure_number": "7",
+          "height": 1002,
+          "image_path": "figures/2611.16956/table-017.webp",
+          "kind": "table",
+          "page": 15,
+          "width": 875
+        },
+        {
+          "caption": "Table 5.Hyperparameters of the first three stages of pretraining (6T tokens).",
+          "figure_id": "table-5-3",
+          "figure_number": "5",
+          "height": 380,
+          "image_path": "figures/2611.16956/table-018.webp",
+          "kind": "table",
+          "page": 11,
+          "width": 775
+        },
+        {
+          "caption": "Table 19. English benchmarks for all 56 models we evaluated and Lara Mini base. Bele.: Belebele; HS: HellaSwag; WG: WinoGrande; MMLU-P: MMLU-Pro. Settings in Table 17; best result in each group in bold, second best underlined.",
+          "figure_id": "table-19-34",
+          "figure_number": "19",
+          "height": 1260,
+          "image_path": "figures/2611.16956/table-019.webp",
+          "kind": "table",
+          "page": 37,
+          "width": 802
+        },
+        {
+          "caption": "Table 20. Multilingual benchmarks for all 56 models we evaluated and Lara Mini base, each averaged over the languages supported by Lara Mini base (Table 17). Bele.: Belebele; GP-NP, GP-P: Global PIQA non-parallel and parallel; T-HS: T-HellaSwag (Section F); INCL.: INCLUDE; G-MMLU: Global MMLU. Best result in each group in bold, second best underlined.",
+          "figure_id": "table-20-5",
+          "figure_number": "20",
+          "height": 1261,
+          "image_path": "figures/2611.16956/table-020.webp",
+          "kind": "table",
+          "page": 38,
+          "width": 777
+        },
+        {
+          "caption": "Table 21.Multilingual benchmarks for all 56 models we evaluated and Lara Mini base, each averaged over all its languages, including those Lara Mini base does not support. Abbreviations as in Table 20. Best result in each group in bold, second best underlined.",
+          "figure_id": "table-21-11",
+          "figure_number": "21",
+          "height": 1260,
+          "image_path": "figures/2611.16956/table-021.webp",
+          "kind": "table",
+          "page": 39,
+          "width": 777
+        },
+        {
+          "caption": "Table 22.Math and code benchmarks for all 56 models we evaluated and Lara Mini base. Avg.: mean of the math and code averages. CRUX-I, CRUX-O: CRUXEval input and output prediction, answered directly. Best result in each group in bold, second best underlined.",
+          "figure_id": "table-22-23",
+          "figure_number": "22",
+          "height": 1294,
+          "image_path": "figures/2611.16956/table-022.webp",
+          "kind": "table",
+          "page": 40,
+          "width": 706
+        },
+        {
+          "caption": "Table 18. Domain averages of all 56 open base models we evaluated and Lara Mini base, grouped by active parameters as in Table 6. Active, Total: active and total parameters. Multilingual: averaged over the languages supported by Lara Mini base. Best result in each group in bold, second best underlined.",
+          "figure_id": "table-18-24",
+          "figure_number": "18",
+          "height": 1133,
+          "image_path": "figures/2611.16956/table-023.webp",
+          "kind": "table",
+          "page": 36,
+          "width": 658
+        },
+        {
+          "caption": "Table 17. Benchmark suite. Each domain average is the mean of its benchmarks, and the Overall average is the mean of the four domain averages. Lang.: number of languages or language variants averaged. Multilingual benchmarks are averaged over the languages supported by Lara Mini base, counting the country variants of Global PIQA (three of Spanish, two of French and of Portuguese) and the variants of T-HellaSwag separately. MGSM, a math benchmark, is averaged across all 11 of its languages. Acc. (norm.): accuracy normalized by answer length. Math-Verify: the final answer is checked for mathematical equivalence with the reference.",
+          "figure_id": "table-17-17",
+          "figure_number": "17",
+          "height": 744,
+          "image_path": "figures/2611.16956/table-024.webp",
+          "kind": "table",
+          "page": 35,
+          "width": 860
+        },
+        {
+          "caption": "Table 11. Training tokens (billions of Qwen3 tokens) and epochs per language, over the first three stages (6T tokens). Class: official EU language (EU), other prioritized language (P), or neither (–). Each language is weighted by the square root of its unique tokens, with extra weight for official EU languages and prioritized languages (Section 2.3). Only Irish and Maltese are read more than once.",
+          "figure_id": "table-11-9",
+          "figure_number": "11",
+          "height": 604,
+          "image_path": "figures/2611.16956/table-025.webp",
+          "kind": "table",
+          "page": 29,
+          "width": 825
+        },
+        {
+          "caption": "Table 10. Tokens per data group in the training pool and in each stage (billions of Qwen3 tokens), and epochs over training (tokens read divided by tokens in the pool). Four groups are read more than once: Wikipedia in both domains, high-quality multilingual web and high-quality math.",
+          "figure_id": "table-10-10",
+          "figure_number": "10",
+          "height": 569,
+          "image_path": "figures/2611.16956/table-026.webp",
+          "kind": "table",
+          "page": 29,
+          "width": 779
+        },
+        {
+          "caption": "Table 12. The two steps of the long-context stage: training settings and data mixture, as shares of the tokens of each step. Settings not listed are as in the first three stages (Table 5).",
+          "figure_id": "table-12-36",
+          "figure_number": "12",
+          "height": 392,
+          "image_path": "figures/2611.16956/table-027.webp",
+          "kind": "table",
+          "page": 31,
+          "width": 791
+        },
+        {
+          "caption": "Table 16.Hybrid attention ablations after a long-context stage of 10B tokens at 32k: mean score over the 17 short benchmarks, and RULER (mean of 13 tasks), ONERULER (4 retrieval tasks in 26 languages) and HELMET (mean of its recall, RAG, re-ranking and in-context learning categories) at 16k and 32k tokens. The hybrid is best on RULER and ONERULER at both lengths.",
+          "figure_id": "table-16-12",
+          "figure_number": "16",
+          "height": 298,
+          "image_path": "figures/2611.16956/table-028.webp",
+          "kind": "table",
+          "page": 34,
+          "width": 960
+        },
+        {
+          "caption": "Table 2. Data domains: main sources, tokens in the training pool and tokens read in training with their share of the 6T. SFT-like: question-answer, math and code examples in the format of supervised fine-tuning data. All sources, with their licenses, are listed in Table 9; tokens per data group and stage are in Table 10. Math is the only domain read more than once.",
+          "figure_id": "table-2-2",
+          "figure_number": "2",
+          "height": 44,
+          "image_path": "figures/2611.16956/table-029.webp",
+          "kind": "table",
+          "page": 6,
+          "width": 960
+        },
+        {
+          "caption": "Table 3. Design of the data mixture: each choice and its basis. Shares are given per stage, in the order main, transition, anneal (Figure 2).",
+          "figure_id": "table-3-8",
+          "figure_number": "3",
+          "height": 44,
+          "image_path": "figures/2611.16956/table-030.webp",
+          "kind": "table",
+          "page": 7,
+          "width": 960
+        },
+        {
+          "caption": "Table 13.Model class, shape and optimizer at 100B tokens: loss on the fixed held-out set (lower is better) and mean benchmark scores, English (8 benchmarks) and multilingual (9). Experts are given as number × hidden size, with the number active per token. All rows use AdamW except the last. Highlighted is the configuration of Lara Mini base, before the hybrid attention. Every MoE ends with a lower loss than both dense models.",
+          "figure_id": "table-13-26",
+          "figure_number": "13",
+          "height": 232,
+          "image_path": "figures/2611.16956/table-031.webp",
+          "kind": "table",
+          "page": 32,
+          "width": 837
+        },
+        {
+          "caption": "Table 15. Benchmark families: accuracy of the sliding-window and hybrid variants minus that of the Gated DeltaNet variant, in points. Sliding windows help on entailment and paraphrase; Gated DeltaNet on the other families.",
+          "figure_id": "table-15-15",
+          "figure_number": "15",
+          "height": 256,
+          "image_path": "figures/2611.16956/table-032.webp",
+          "kind": "table",
+          "page": 33,
+          "width": 729
+        },
+        {
+          "caption": "Table 26. Bits per byte of the reference text on the clean and contaminated items of MMLU and MBPP, and their ratio (contaminated / clean). BPB values depend on the model, so only the ratios are comparable; a ratio clearly below those of the other models would indicate memorization.",
+          "figure_id": "table-26-28",
+          "figure_number": "26",
+          "height": 181,
+          "image_path": "figures/2611.16956/table-033.webp",
+          "kind": "table",
+          "page": 44,
+          "width": 658
+        },
+        {
+          "caption": "Table 9. Data groups of the training pool, by domain, with the licenses of their sources. NVIDIA DA: NVIDIA Data Agreement for Model Training; permissive: only files under permissive licenses. Tokens and epochs per group and stage are in Table 10.",
+          "figure_id": "table-9-21",
+          "figure_number": "9",
+          "height": 94,
+          "image_path": "figures/2611.16956/table-034.webp",
+          "kind": "table",
+          "page": 28,
+          "width": 960
+        },
+        {
+          "caption": "Table 24. Changes to the long-context benchmarks for base models.",
+          "figure_id": "table-24-4",
+          "figure_number": "24",
+          "height": 43,
+          "image_path": "figures/2611.16956/table-035.webp",
+          "kind": "table",
+          "page": 43,
+          "width": 960
+        },
+        {
+          "caption": "Table 14. Hybrid attention ablations at 100B tokens, against global attention in all 34 layers: change in held-out loss, mean change in score over the 17 benchmarks (points), and memory held per sequence during generation at 32k tokens, relative to global attention (computed as in Section 3.1). The oracle takes, on each benchmark, the better score of the two single-mixer variants. The single-mixer variants keep global attention across 8 layers, while the hybrid uses 7. The hybrid has the largest benchmark gain and the smallest memory.",
+          "figure_id": "table-14-16",
+          "figure_number": "14",
+          "height": 194,
+          "image_path": "figures/2611.16956/table-036.webp",
+          "kind": "table",
+          "page": 33,
+          "width": 908
+        },
+        {
+          "caption": "Table 25. Accuracy (%; pass@1 for MBPP) on the clean and contaminated items of MMLU and MBPP. Δ: contaminated minus clean.",
+          "figure_id": "table-25-29",
+          "figure_number": "25",
+          "height": 181,
+          "image_path": "figures/2611.16956/table-037.webp",
+          "kind": "table",
+          "page": 44,
+          "width": 652
+        },
+        {
+          "caption": "Table 27. Inference speed on one A100 GPU with vLLM, for 1,024-token prompts and 256 generated tokens: characters/s for one user, thousands of characters/s for 64 and 256 users, and median time to first token (TTFT, ms; under load it includes queueing). 128k: thousands of characters/s on 126,976-token prompts with 1,024 generated tokens (–: longer than the context of the model). Active: active parameters (B). Groups as in Table 6, sorted from slowest to fastest for one user, Lara Mini base last. †Some measurements from one or two repeats. Lara Mini base is the eighth-fastest of the 46 models for one user and ties for fifth of the 29 that support 128k-token prompts.",
+          "figure_id": "table-27-20",
+          "figure_number": "27",
+          "height": 36,
+          "image_path": "figures/2611.16956/table-038.webp",
+          "kind": "table",
+          "page": 45,
+          "width": 717
+        }
+      ],
+      "first_seen_at": "2026-11-14T21:00:00-05:00",
+      "hero_figure": "figures/2611.16956/hero.webp",
+      "novelty": 6,
+      "pdf_url": "https://arxiv.org/pdf/2611.16956",
+      "relevance": 7,
+      "selection_reason": "Multilingual MoE LLM architecture trained from scratch; fits LLM architecture and foundation language model interests.",
+      "summary_status": "generated",
+      "title": "Lara Mini Base: Language Diversity as a Resource, Not a Trade-off",
+      "tldr": "Lara Mini base shows that a compact mixture-of-experts model can support broad multilingual coverage without sacrificing overall performance.",
+      "topic_assignments": [
+        {
+          "subtopic_ids": [
+            "large-language-models"
+          ],
+          "topic_id": "language-foundation-models"
+        }
+      ]
+    },
+    {
+      "abstract": "We present Fikiria, a two-stage SFT+GRPO recipe for Swahili mathematical reasoning. Its reward multiplies a format gate by a weighted sum of answer accuracy and the ChrF\\texttt{++} similarity of the Swahili reasoning to an in-language reference chain of thought, so that training targets the surface fidelity of the reasoning trace and not only the final answer. We train on a 2.3k-problem Swahili dataset created by translating GSM8K with GPT-4.1 and filtering with SSA-COMET. On AfriMGSM Swahili, Fikiria-AfriqueQwen-14B reaches 79.2\\%. Under the same fixed prompt and strict answer-format scoring, GPT-4o reaches 68.0\\%, partly because it often fails the required answer format; IrokoBench reports 78.8\\% for GPT-4o using a best-per-model prompt, a figure numerically close to ours but not directly comparable. In a small human evaluation with co-author annotators, GPT-4o's outputs were preferred overall. ChrF\\texttt{++} measures surface fidelity, not the validity of individual reasoning steps.",
+      "arxiv_id": "2611.16104",
+      "arxiv_url": "https://arxiv.org/abs/2611.16104",
+      "authors": [
+        "Jessica Lundin",
+        "Katherine Rosenfeld",
+        "David Adelani",
+        "Geoffrey Mosoti Nyakiongora",
+        "Halfan Ngowo",
+        "Sloan Coffin",
+        "Ralph Abboud",
+        "Guillaume Chabot-Couture"
+      ],
+      "bullets": [
+        "Addresses the lack of native-language Swahili mathematical reasoning training.",
+        "Uses two-stage supervised fine-tuning plus GRPO, rewarding format compliance, answer accuracy, and ChrF++ similarity to reference Swahili reasoning.",
+        "Trains on 2.3k Swahili problems translated from GSM8K and filtered with SSA-COMET.",
+        "Fikiria-AfriqueQwen-14B scores 79.2% versus 68.0% for GPT-4o under the same fixed prompt and strict scoring; the comparison is partly format-sensitive and not directly comparable to best-prompt results.",
+        "Human co-author annotators preferred GPT-4o overall, and ChrF++ does not verify the validity of individual reasoning steps."
+      ],
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "figure_status": "ready",
+      "figures": [
+        {
+          "caption": "Figure 1: Problem summary. Given a math question in Swahili, the LLM must generate both a correct answer and linguistically usable reasoning. Previous work has focused on improving accuracy while this paper considers both correctness of the final answer and usability of the reasoning trace through a two-stage SFT and GRPO pipeline described in Figure 2.",
+          "figure_id": "figure-1-2",
+          "figure_number": "1",
+          "height": 324,
+          "image_path": "figures/2611.16104/figure-001.webp",
+          "kind": "figure",
+          "page": 2,
+          "width": 826
+        },
+        {
+          "caption": "Figure 4: Swahili math accuracy (AfriMGSM test, 250 examples) vs. total parameter count (log scale). Marker shape: circle = base, square = instruct, star = GRPO-trained. Thick edges = MoE (total parameters ≫ active parameters during inference). Color: orange = ours, blue = IrokoBench [Adelani et al., 2025], purple = TAPO [Huang et al., 2026]. GPT-4o shown as blue dashed reference line (IrokoBench best-per-model prompt; parameter count undisclosed).",
+          "figure_id": "figure-4-3",
+          "figure_number": "4",
+          "height": 513,
+          "image_path": "figures/2611.16104/figure-002.webp",
+          "kind": "figure",
+          "page": 7,
+          "width": 829
+        },
+        {
+          "caption": "Figure 3: Effect of thinking=ON vs thinking=OFF on Qwen3-family models (AfriMGSM Swahili test, 250 examples). Marker size is proportional to active parameter count. Grey lines connect the same model under both conditions. Left: Accuracy vs. mean completion length (characters). thinking=ON yields marginally higher accuracy at 3–6× greater completion cost. Right: Accuracy vs. mean GlotLID Swahili confidence. thinking=OFF produces higher language identification confidence, an indicator for increased fidelity. We use thinking=OFF throughout to increase native language performance and reduce compute.",
+          "figure_id": "figure-3-1",
+          "figure_number": "3",
+          "height": 313,
+          "image_path": "figures/2611.16104/figure-003.webp",
+          "kind": "figure",
+          "page": 6,
+          "width": 826
+        },
+        {
+          "caption": "Figure 2: Fikiria training pipeline. Starting from AfriqueQwen (8B or 14B, African CPT from Qwen3), cold-start SFT teaches Swahili instruction-following and the <rationale>/<answer> output format. GRPO then refines the model using a gated reward: R1 (format gate) multiplicatively gates R2 (ChrF++ of <rationale> against a Swahili MT reference, λ=0.25) and R3 (exact-match accuracy on <answer>, λ=0.50). The dashed SFT border and bypass arrow indicate that GRPO-only ablation variants omitting SFT are also evaluated (Table 1).",
+          "figure_id": "figure-2-6",
+          "figure_number": "2",
+          "height": 222,
+          "image_path": "figures/2611.16104/figure-004.webp",
+          "kind": "figure",
+          "page": 4,
+          "width": 826
+        },
+        {
+          "caption": "Figure 8: Screenshot of the tool used for our human evaluation (see Section 3.6).",
+          "figure_id": "figure-8-4",
+          "figure_number": "8",
+          "height": 612,
+          "image_path": "figures/2611.16104/figure-005.webp",
+          "kind": "figure",
+          "page": 13,
+          "width": 826
+        },
+        {
+          "caption": "Figure 5: Individual distributions of SSA-COMET-MTL QE scores for GPT-4.1 translated questions (left) and chain of thought (center) along with the joint distribution (right). Selection threshold of 0.65 is shown as dashed lines.",
+          "figure_id": "figure-5-7",
+          "figure_number": "5",
+          "height": 281,
+          "image_path": "figures/2611.16104/figure-006.webp",
+          "kind": "figure",
+          "page": 12,
+          "width": 826
+        },
+        {
+          "caption": "Figure 7: Human spot check of GSM8K GPT-4.1 translations compared to the SSA-COMET-MTL metric (average of the Question and CoT).",
+          "figure_id": "figure-7-5",
+          "figure_number": "7",
+          "height": 363,
+          "image_path": "figures/2611.16104/figure-007.webp",
+          "kind": "figure",
+          "page": 13,
+          "width": 829
+        },
+        {
+          "caption": "Figure 6: Comparison of SSA-COMET-MTL QE scores for AfriMGSM (yellow) questions on a per sample basis to the GPT-4.1 translation presented in this work.",
+          "figure_id": "figure-6-8",
+          "figure_number": "6",
+          "height": 337,
+          "image_path": "figures/2611.16104/figure-008.webp",
+          "kind": "figure",
+          "page": 12,
+          "width": 498
+        },
+        {
+          "caption": "Table 1: Swahili math accuracy (%) and standard error by model and training stage. AfriqueQwen, Qwen3, and IrokoBench results are reported on the AfriMGSM test set (250 examples). ‡IrokoBench values are taken from Adelani et al. [2025]. They use the best-performing prompt per model and have no reported standard error; our models use a single fixed <rationale>/<answer> prompt. †TAPO values are taken from Huang et al. [2026], have no standard error here, and are measured on MGSM Swahili, so they are not directly comparable. GPT-4o (our prompt) is a single run at temperature 0 with the same prompt, decoding and strict scorer as our models; the IrokoBench GPT-4o value used a best-per-model prompt.",
+          "figure_id": "table-1-9",
+          "figure_number": "1",
+          "height": 66,
+          "image_path": "figures/2611.16104/table-009.webp",
+          "kind": "table",
+          "page": 9,
+          "width": 910
+        }
+      ],
+      "first_seen_at": "2026-11-14T21:00:00-05:00",
+      "hero_figure": "figures/2611.16104/hero.webp",
+      "novelty": 6,
+      "pdf_url": "https://arxiv.org/pdf/2611.16104",
+      "relevance": 6,
+      "selection_reason": "Reinforcement learning recipe for LLM mathematical reasoning in Swahili, relevant to large language model training.",
+      "summary_status": "generated",
+      "title": "Show Your Work in Swahili: Reinforcement Learning for Native-Language Mathematical Reasoning",
+      "tldr": "Fikiria trains a Swahili math-reasoning model with answer- and reasoning-trace-aware rewards, achieving 79.2% on AfriMGSM Swahili under strict format scoring.",
+      "topic_assignments": [
+        {
+          "subtopic_ids": [
+            "large-language-models"
+          ],
+          "topic_id": "language-foundation-models"
+        }
+      ]
+    },
+    {
+      "abstract": "We study how to repurpose video diffusion models (VDMs), pretrained on millions of videos, for dense 3D point tracking, where training data is scarce. Doing so is non-trivial, as it requires representing 3D tracks as video-like signals that may lie outside the natural-video distribution on which the VDM was trained. We thus systematically assess the effectiveness of two such video representations. The first, Residual 3D Tracking Video (RTV), encodes per-pixel 3D offsets relative to a query frame and allows recovery of 3D trajectories directly from the generated video. The second, Normalized Coordinate Map Video (NCMV), labels each pixel with a canonical coordinate invariant through time. This is closer to a natural video and easier for the VDM to learn, but requires additional post-processing with an off-the-shelf 2D tracker to recover 3D tracks. RTV tracks more accurately, while NCMV shows that a VDM can generate dense correspondence as a video. We instantiate both representations with LoRA adaptation of a frozen Wan backbone, conditioned on point maps from an off-the-shelf 3D reconstructor as a geometric scaffold. Trained with a single dynamic 3D tracking dataset, Track4D achieves competitive zero-shot tracking on four real and synthetic benchmarks. A regression readout that bypasses the video VAE and uses additional training data brings further improvement, demonstrating the potential of this direction for dense 3D tracking. We hope our analysis will inspire future work that leverages VDM priors for dense 3D tracking and 4D reconstruction. Project page: https://nirvanalan.github.io/projects/track4d",
+      "arxiv_id": "2611.15287",
+      "arxiv_url": "https://arxiv.org/abs/2611.15287",
+      "authors": [
+        "Yushi Lan",
+        "Zeren Jiang",
+        "Kelvin Li",
+        "Xingang Pan",
+        "Chuanxia Zheng",
+        "Andrea Vedaldi"
+      ],
+      "bullets": [
+        "RTV encodes per-pixel 3D offsets and directly recovers trajectories, yielding more accurate tracks.",
+        "NCMV uses time-invariant canonical coordinates, making the representation more natural for video diffusion but requiring a 2D tracker for recovery.",
+        "Both representations use LoRA adaptation of a frozen Wan backbone, guided by point maps from an off-the-shelf 3D reconstructor.",
+        "Trained on one dynamic 3D tracking dataset, Track4D achieves competitive zero-shot performance across four real and synthetic benchmarks.",
+        "A regression readout that bypasses the video VAE and uses extra training data provides further improvement."
+      ],
+      "categories": [
+        "cs.CV"
+      ],
+      "figure_status": "ready",
+      "figures": [
+        {
+          "caption": "Figure 2: TRACK4D overview. (a) Generative readout. A frozen reconstructor supplies point maps P; the video VAE encodes them with video V into condition C. The LoRA-adapted video DiT denoises the RTV and NCMV latents, jointly by default, and the VAE decodes the videos. Hatched targets are noised in training and start from Gaussian noise at inference. Adding inverse-normalized RTV offsets to the query-frame point map gives 3D tracks; NCMV requires 2D tracking and lifting. (b) Regression readout. Point maps enter through a patch encoder, a private motion expert attends jointly with the video DiT, and a DPT head reads residuals without the output VAE (Section 3.4 and Figure 8). Flames denote trained modules, snowflakes frozen modules.",
+          "figure_id": "figure-2-11",
+          "figure_number": "2",
+          "height": 509,
+          "image_path": "figures/2611.15287/figure-001.webp",
+          "kind": "figure",
+          "page": 3,
+          "width": 821
+        },
+        {
+          "caption": "Figure 6: TrackCraft3R vs. the three TRACK4D readouts on DAVIS [70]. Each panel shows the point cloud of frame j and the last 12 frames of the predicted 3D tracks, from one fixed view (the frame-0 input camera rotated by 4◦). All methods receive the same VGGT-Ω point maps and draw the same 767 queries, the most-moving points of a dense grid, colored by image row. RTV and NCMV come from the joint Wan2.1-I2V-14B model (50 steps, no input-latent noise); NCMV tracks are read with CoTracker3, lifted with the same point maps, and frozen where NCMV support is lost (on camel, after the first frames). No ground truth or Sim(3) is used. More clips in Figures 9 and 10.",
+          "figure_id": "figure-6-10",
+          "figure_number": "6",
+          "height": 412,
+          "image_path": "figures/2611.15287/figure-002.webp",
+          "kind": "figure",
+          "page": 10,
+          "width": 820
+        },
+        {
+          "caption": "Figure 5: Qualitative comparison of dynamic tracking on DAVIS [70]. Dense 3D tracking is visualized as colored point clouds, with color encoding query-frame identity of each tracked point. Left: input frames. Right: reconstructions from St4RTrack [19], TraceAnything [31], Any4D [23], and TRACK4D (ours). TRACK4D produces more temporally coherent trajectories with fewer outliers, particularly on articulated and deformable motion (e.g. moving mug, walking cows). All baselines are run from their official released checkpoints and inference scripts at the resolution recommended by the authors; sequences shown were selected to expose dynamic-object failure modes for the comparators. More DAVIS results appear in Figure 14.",
+          "figure_id": "figure-5-16",
+          "figure_number": "5",
+          "height": 391,
+          "image_path": "figures/2611.15287/figure-003.webp",
+          "kind": "figure",
+          "page": 8,
+          "width": 818
+        },
+        {
+          "caption": "Figure 4: Two video representations of dense 3D tracking on DAVIS [70]. Rows show RGB, RTV offsets, NCMV canonical coordinates, and recovered XYZ tracks. Adding inverse-normalized RTV offsets to the query-frame point map recovers the tracks. All predictions are TRACK4D outputs.",
+          "figure_id": "figure-4-27",
+          "figure_number": "4",
+          "height": 352,
+          "image_path": "figures/2611.15287/figure-004.webp",
+          "kind": "figure",
+          "page": 5,
+          "width": 820
+        },
+        {
+          "caption": "Figure 7: Submitted overview (reproduced from the submitted version). A monocular video V and point maps P from an off-the-shelf reconstructor are encoded by the video VAE into the condition C; the VDM jointly generates the RTV ∆ and the NCMV M, and the decoded residuals are added to the query-frame point map. Figure 2 shows the current overview.",
+          "figure_id": "figure-7-21",
+          "figure_number": "7",
+          "height": 207,
+          "image_path": "figures/2611.15287/figure-005.webp",
+          "kind": "figure",
+          "page": 17,
+          "width": 824
+        },
+        {
+          "caption": "Figure 13: Effect of backbone size. Specifically, we show our model’s performance on four samples from PStudio [90], with sequence names on the left. For each sequence, we compare the results from TRACK4D-5B (in orange) and TRACK4D-14B (in green). Both RTV and NCMV are visualized. The Wan-14B-based TRACK4D shows better foreground-background factorization and sharper motion, suggesting benefits from stronger video diffusion models.",
+          "figure_id": "figure-13-9",
+          "figure_number": "13",
+          "height": 1163,
+          "image_path": "figures/2611.15287/figure-006.webp",
+          "kind": "figure",
+          "page": 29,
+          "width": 820
+        },
+        {
+          "caption": "Figure 10: More DAVIS clips (continued). Same setup as Figures 6 and 9.",
+          "figure_id": "figure-10-2",
+          "figure_number": "10",
+          "height": 412,
+          "image_path": "figures/2611.15287/figure-007.webp",
+          "kind": "figure",
+          "page": 25,
+          "width": 817
+        },
+        {
+          "caption": "Figure 12: Ablation: absolute XYZ prediction vs. residual prediction. We visualize 3D tracking results at t = 0 and t = 24 on ADT [89] and PStudio [90] sequences. Left: predicting absolute 3D coordinates directly (w/o Residual Pred). Right: our residual formulation (Equation (4)). Absolute prediction produces noisy geometry with scattered outliers, whereas the residual formulation yields cleaner reconstructions with more coherent motion.",
+          "figure_id": "figure-12-15",
+          "figure_number": "12",
+          "height": 327,
+          "image_path": "figures/2611.15287/figure-008.webp",
+          "kind": "figure",
+          "page": 28,
+          "width": 806
+        },
+        {
+          "caption": "Figure 3: Prediction formulations (adapted from VDPM [22]). Each entry Pi(tj) (short for Pi(tj , π0), with the reference frame π0 fixed) gives the positions at time tj of the surface points observed in frame Ii. P (diagonal): geometry at each frame’s capture time. Q (column): timeinvariant prediction [22], referring every frame Ii back to the reference time t0. R (row): dense 3D tracking, propagating the query-frame point map P0 across all timestamps. TRACK4D encodes R explicitly as 3D offsets (RTV) and Q as normalized canonical colors (NCMV), from which R is recovered by 2D tracking.",
+          "figure_id": "figure-3-18",
+          "figure_number": "3",
+          "height": 289,
+          "image_path": "figures/2611.15287/figure-009.webp",
+          "kind": "figure",
+          "page": 4,
+          "width": 291
+        },
+        {
+          "caption": "Figure 9: More DAVIS clips, TrackCraft3R vs. the three TRACK4D readouts. Same setup as Figure 6. Because the view is fixed at frame 0, subjects that the camera follows leave the view in later frames (car-shadow, kite-surf, parkour). Over all 91 DAVIS clips, the median second difference of the projected tracks over consecutive frames, counting points inside the frame, is 6.5 px for TrackCraft3R and 1.8 px for TRACK4D-Reg (672-px-wide frames), and it is smaller for TRACK4D-Reg on 90 clips. This measures temporal smoothness, not accuracy.",
+          "figure_id": "figure-9-23",
+          "figure_number": "9",
+          "height": 839,
+          "image_path": "figures/2611.15287/figure-010.webp",
+          "kind": "figure",
+          "page": 24,
+          "width": 820
+        },
+        {
+          "caption": "Figure 14: More qualitative results. We show seven zero-shot inference results from DAVIS [70]. The first row shows RGB input, with eight frames sampled uniformly from a 49-frame clip, and the second and third rows show RTV and NCMV predictions. The query frame is the first frame shown in the first row. RTV encodes 3D offsets on the query-frame grid; NCMV encodes persistent coordinates on each video frame’s grid.",
+          "figure_id": "figure-14-8",
+          "figure_number": "14",
+          "height": 1221,
+          "image_path": "figures/2611.15287/figure-011.webp",
+          "kind": "figure",
+          "page": 30,
+          "width": 817
+        },
+        {
+          "caption": "Figure 11: Failure case. TRACK4D predicts near-zero deformation in this video, where the camera moves with the object. Limited coverage of such camera-following-object trajectories in the training data is a plausible, but not conclusively established, cause (Appendix G.9).",
+          "figure_id": "figure-11-22",
+          "figure_number": "11",
+          "height": 177,
+          "image_path": "figures/2611.15287/figure-012.webp",
+          "kind": "figure",
+          "page": 27,
+          "width": 819
+        },
+        {
+          "caption": "Table 2: Ablations of design choices. Baseline is TRACK4D (Wan 2.2 5B, STream3R). Top three rows modify one component each; bottom rows scale the VDM backbone (1.3B / 14B) and swap conditioning (DAv3 / STream3R). Green/red show gains/losses over baseline; intensity indicates magnitude. All models are trained and evaluated at 256×256 following [24]. Reported on ADT [89], PStudio [90], and DR [45]; PO [44] is excluded due to mismatched aspect ratios.",
+          "figure_id": "table-2-24",
+          "figure_number": "2",
+          "height": 267,
+          "image_path": "figures/2611.15287/table-013.webp",
+          "kind": "table",
+          "page": 9,
+          "width": 832
+        },
+        {
+          "caption": "Table 16: Existing assets and their licenses, as stated by the official repositories and dataset pages (checked October 2026). Data and model weights may carry terms beyond the code license; we use every asset for non-commercial research only.",
+          "figure_id": "table-16-25",
+          "figure_number": "16",
+          "height": 621,
+          "image_path": "figures/2611.15287/table-014.webp",
+          "kind": "table",
+          "page": 31,
+          "width": 829
+        },
+        {
+          "caption": "Table 3: Submitted version versus this version. The submitted column summarizes the described design; the training run that produced the submitted numbers is distinguished below.",
+          "figure_id": "table-3-28",
+          "figure_number": "3",
+          "height": 362,
+          "image_path": "figures/2611.15287/table-015.webp",
+          "kind": "table",
+          "page": 16,
+          "width": 814
+        },
+        {
+          "caption": "Table 1: Sparse 3D point tracking (Sim(3) aligned). APD↑ and EPE↓ after a global Sim(3) alignment to the ground truth, as in 4RC [34], on all points (All) and dynamic points (Dyn). Bold and underline mark best and second-best results. CoTracker∗: CoTracker lifted by VGGT. TRACK4D-NCMV and TRACK4D-RTV are the two readouts of the joint Wan2.1-I2V-14B model; TRACK4D-NCMV predicts dynamic points only. ‡Official checkpoint replayed with STream3R geometry under the same scorer (dynamic ADT not reported). †TRACK4D-Reg (Section 3.4): Wan2.2-5B, STream3R scaffold, eight training sources including PointOdyssey and Dynamic Replica.",
+          "figure_id": "table-1-17",
+          "figure_number": "1",
+          "height": 65,
+          "image_path": "figures/2611.15287/table-016.webp",
+          "kind": "table",
+          "page": 8,
+          "width": 827
+        },
+        {
+          "caption": "Table 6: Inference time and peak memory for 49-frame sequences on one GPU. Native inference resolutions are shown in parentheses. The TRACK4D row measures the 5B, 5-step configuration, which is not the configuration used for the accuracy results in Table 1. V-DPM does not fit on the 48GB A6000; its H100 measurement is included only as a hardware-unmatched reference and should not be read as a direct runtime comparison. †Measured on an A100 over 90 warm DAVIS clips (five passes, BF16), excluding the production of the input point maps; also hardware-unmatched.",
+          "figure_id": "table-6-20",
+          "figure_number": "6",
+          "height": 265,
+          "image_path": "figures/2611.15287/table-017.webp",
+          "kind": "table",
+          "page": 19,
+          "width": 827
+        },
+        {
+          "caption": "Table 9: Regression readout vs. TrackCraft3R. All-point EPE↓ / APD↑ on 50 sequences per benchmark (49 for ADT), using the protocol of Table 1. TrackCraft3R and TRACK4D-Reg share point-map caches; bold marks the better result. V-DPM and 4RC use their own geometry. PointOdyssey and Dynamic Replica are training datasets for TRACK4D-Reg, V-DPM and 4RC. ◦Oracle diagnostic without retraining: the ground-truth query point replaces the estimated one after prediction, scored under the fixed Sim(3) of the row above (Table 11), following TrackCraft3R’s input-geometry ablation.",
+          "figure_id": "table-9-13",
+          "figure_number": "9",
+          "height": 303,
+          "image_path": "figures/2611.15287/table-018.webp",
+          "kind": "table",
+          "page": 23,
+          "width": 828
+        },
+        {
+          "caption": "Table 4: Sampling-step ablation. We ablate inference-time sampling steps using a Wan2.2-5B TRACK4D model trained at 256×256 on 512 Kubric scenes without point-map conditioning. Performance remains largely stable when reducing the number of sampling steps from 50 to 10, with 5 steps still competitive while further reducing runtime.",
+          "figure_id": "table-4-12",
+          "figure_number": "4",
+          "height": 146,
+          "image_path": "figures/2611.15287/table-019.webp",
+          "kind": "table",
+          "page": 18,
+          "width": 828
+        },
+        {
+          "caption": "Table 7: RTV-only and joint RTV+NCMV checkpoints. Per-benchmark rows report dynamic EPE ↓ / APD ↑ on 49-frame sequences; the final row reports all-point means. Both are Wan-14B LoRA checkpoints with different training histories, and they are not sampled identically. The joint checkpoint is the model of Table 1: here it is sampled with 1 denoising step and CFG 1 at a 256-pixel short side, whereas Table 1 reports its submitted evaluation with 50 denoising steps and random input-latent noise (Section 4.1). The two tables therefore give different values for the same checkpoint (e.g. PStudio dynamic EPE 0.1511 here vs. 0.1596 in Table 1). Bold denotes the better result.",
+          "figure_id": "table-7-26",
+          "figure_number": "7",
+          "height": 191,
+          "image_path": "figures/2611.15287/table-020.webp",
+          "kind": "table",
+          "page": 20,
+          "width": 828
+        },
+        {
+          "caption": "Table 10: TRACK4D-Reg against the generative models with the same STream3R scaffold. Dynamic EPE↓ / APD↑ under the WorldTrack scorer (50 sequences, 49 frames; ADT 49); the last column reports all-point values of TRACK4D-Reg. Bold marks the best dynamic value. See the text for the differences in raster and training data.",
+          "figure_id": "table-10-14",
+          "figure_number": "10",
+          "height": 135,
+          "image_path": "figures/2611.15287/table-021.webp",
+          "kind": "table",
+          "page": 23,
+          "width": 827
+        },
+        {
+          "caption": "Table 5: Dense 3D tracking on the held-out Kubric split. APD↑ / EPE↓ after Sim(3) alignment on 50 held-out sequences of 49 frames, dense annotations; “All” and “Dyn” as in Table 1. Kubric matches the training distribution of TRACK4D-RTV and is not part of the benchmark suite of Table 1.",
+          "figure_id": "table-5-19",
+          "figure_number": "5",
+          "height": 189,
+          "image_path": "figures/2611.15287/table-022.webp",
+          "kind": "table",
+          "page": 19,
+          "width": 828
+        },
+        {
+          "caption": "Table 12: Exact squared-error budget of TRACK4D-Reg. Sequence-macro mean squared error in m2 under the original Sim(3), decomposed as in Equation (12); the identity holds to floating-point precision. The cross term is large and negative on PStudio, so anchor and motion errors must not be read as additive EPE contributions.",
+          "figure_id": "table-12-3",
+          "figure_number": "12",
+          "height": 190,
+          "image_path": "figures/2611.15287/table-023.webp",
+          "kind": "table",
+          "page": 25,
+          "width": 827
+        },
+        {
+          "caption": "Table 14: Controlled stage-wise diagnostics of geometric error. Metric-space EPE on a fixed Kubric val10 subset. The arms isolate different sources and are not additive.",
+          "figure_id": "table-14-6",
+          "figure_number": "14",
+          "height": 136,
+          "image_path": "figures/2611.15287/table-024.webp",
+          "kind": "table",
+          "page": 26,
+          "width": 827
+        },
+        {
+          "caption": "Table 15: Metric impact of removing the VAE output path. Metric-space EPE on the fixed Kubric val10 subset.",
+          "figure_id": "table-15-5",
+          "figure_number": "15",
+          "height": 114,
+          "image_path": "figures/2611.15287/table-025.webp",
+          "kind": "table",
+          "page": 26,
+          "width": 828
+        },
+        {
+          "caption": "Table 8: VAE-free direct readout with a Wan2.2-5B backbone. Dynamic EPE ↓ / APD ↑; the mean averages the four benchmarks. The first two rows compare the output paths under the same Kubric tracking data. The final row additionally uses PointOdyssey for training, so PointOdyssey is in-domain for that variant.",
+          "figure_id": "table-8-7",
+          "figure_number": "8",
+          "height": 38,
+          "image_path": "figures/2611.15287/table-026.webp",
+          "kind": "table",
+          "page": 21,
+          "width": 827
+        },
+        {
+          "caption": "Table 11: Full geometry/motion oracle for TRACK4D-Reg. EPE↓ / APD↑ on all 50 sequences of each primary benchmark (ADT, 49 sequences, is secondary). Fixed columns score the substituted output under the original all-track Sim(3) of the current prediction; refit columns fit a new closed-form Sim(3) to each substituted output. Closed-form Sim(3) minimizes squared distances rather than EPE or APD, so refitting can raise EPE; neither column gives a lower bound.",
+          "figure_id": "table-11-1",
+          "figure_number": "11",
+          "height": 36,
+          "image_path": "figures/2611.15287/table-027.webp",
+          "kind": "table",
+          "page": 25,
+          "width": 827
+        },
+        {
+          "caption": "Table 13: Backend swap across checkpoints of the TRACK4D-Reg lineage. EPE↓ / APD↑ on all points using VGGT-Ω or STream3R point maps, with fixed weights within each checkpoint. The reported checkpoint follows Table 9; inference settings for the earlier checkpoints have not been fully verified, so cross-checkpoint differences are descriptive. Across checkpoints, STream3R roughly halves PointOdyssey EPE; Dynamic Replica changes little, while PStudio and ADT prefer VGGT-Ω.",
+          "figure_id": "table-13-4",
+          "figure_number": "13",
+          "height": 37,
+          "image_path": "figures/2611.15287/table-028.webp",
+          "kind": "table",
+          "page": 26,
+          "width": 827
+        }
+      ],
+      "first_seen_at": "2026-11-14T21:00:00-05:00",
+      "hero_figure": "figures/2611.15287/hero.webp",
+      "novelty": 7,
+      "pdf_url": "https://arxiv.org/pdf/2611.15287",
+      "relevance": 7,
+      "selection_reason": "Repurposes video diffusion models for dense 3D tracking, directly relevant to video diffusion techniques.",
+      "summary_status": "generated",
+      "title": "Track4D: Representing Dense 3D Tracking for Video Diffusion Models",
+      "tldr": "Track4D repurposes pretrained video diffusion models for dense 3D point tracking by encoding 3D trajectories as video-like representations.",
+      "topic_assignments": [
+        {
+          "subtopic_ids": [
+            "video-diffusion"
+          ],
+          "topic_id": "video-models"
+        }
+      ]
+    },
+    {
+      "abstract": "LLM workloads sometimes ask many independent questions about the same long document, as in document QA, data labeling and LLM-based evaluation. Prefix caching removes the redundant prefill shared by these queries, but each decode step still reads the document's key-value (KV) cache once per question, so decoding is bound by memory bandwidth and scales with the number of questions. We present Parallel Prompting, which decodes P questions as P independent streams of a single request all at once, fixing this issue. In our method, every step reads the shared document once for all P streams, and a stream-id attention mask, evaluated inside the attention kernel, keeps each answer conditioned only on the document and its own question. We implement Parallel Prompting in SGLang by adding about 80 lines to three existing files and a small engine package; the mask needs no dense tensor, and every decode step has a fixed shape that is captured as a CUDA graph. With CodeLlama-7B, 8k-16k-token documents and 64-256 questions per document, Parallel Prompting is 3.7x faster than stock SGLang with its FlashInfer backend on an A100 and 5.9-6.0x faster on an RTX A6000, on two SGLang releases, including the most recent release. Timed on identical inputs, it is faster than stock SGLang in all 144 runs (2 GPUs x 2 releases x 6 workloads x 6 input sets). Code: https://github.com/jlab-nlp/parallel-prompting",
+      "arxiv_id": "2611.15130",
+      "arxiv_url": "https://arxiv.org/abs/2611.15130",
+      "authors": [
+        "Zekun Zhao",
+        "Jeffrey Flanigan"
+      ],
+      "bullets": [
+        "Targets document QA, labeling, and evaluation workloads with many independent questions sharing one context.",
+        "Uses independent parallel decode streams plus a stream-ID attention mask so each answer attends only to the document and its own question.",
+        "Implemented in SGLang with lightweight code changes, dense-mask-free attention, and fixed-shape CUDA graphs.",
+        "For CodeLlama-7B workloads, it achieved 3.7× speedup on an A100 and 5.9–6.0× on an RTX A6000 versus stock SGLang.",
+        "Evaluation covered 144 identical-input runs across two GPUs, two SGLang releases, six workloads, and six input sets; it was faster in every run."
+      ],
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.DC",
+        "cs.LG"
+      ],
+      "figure_status": "ready",
+      "figures": [
+        {
+          "caption": "Figure 1: Three ways to answer several questions about one document, shown at one decode step (dark: the token generated in this step). A serving engine such as SGLang or vLLM runs a batch of requests, and every decode step adds one token to each request. Batched requests with prefix caching store the document’s KV once but use one request per question, so every step reads the document once per question. Batch prompting (Cheng et al., 2023; Lin et al., 2024) puts all questions and answers in one sequence: it reads the document once, but the answers are generated one after another, and later answers attend to earlier ones. Parallel Prompting decodes the questions as streams of one request: every step adds one token per stream and reads the document once for all of them, and a stream mask (Figure 2) keeps the answers independent. The batch still has room for other requests, for example for other documents (Figure 6).",
+          "figure_id": "figure-1-7",
+          "figure_number": "1",
+          "height": 309,
+          "image_path": "figures/2611.15130/figure-001.webp",
+          "kind": "figure",
+          "page": 3,
+          "width": 977
+        },
+        {
+          "caption": "Figure 5: Wall time versus streams per request P on the calibration seed, normalized to the best P (16k-token documents). The curve is U-shaped, with its minimum at P = 16–64 on every setting.",
+          "figure_id": "figure-5-11",
+          "figure_number": "5",
+          "height": 288,
+          "image_path": "figures/2611.15130/figure-002.webp",
+          "kind": "figure",
+          "page": 8,
+          "width": 931
+        },
+        {
+          "caption": "Figure 4: Left: speedup over the faster stock configuration as document length and questions per document grow (128 output tokens). Right: speedup as answers get longer (8k-token document, 128 questions).",
+          "figure_id": "figure-4-4",
+          "figure_number": "4",
+          "height": 233,
+          "image_path": "figures/2611.15130/figure-003.webp",
+          "kind": "figure",
+          "page": 7,
+          "width": 971
+        },
+        {
+          "caption": "Figure 3: Speedup of Parallel Prompting over stock SGLang on 8k/16k-token documents with 64–256 questions. Error bars are 95% bootstrap CIs over 36 paired runs per setting. PP wins all 144 runs.",
+          "figure_id": "figure-3-2",
+          "figure_number": "3",
+          "height": 284,
+          "image_path": "figures/2611.15130/figure-004.webp",
+          "kind": "figure",
+          "page": 6,
+          "width": 470
+        },
+        {
+          "caption": "Figure 6: Speedup of PP over the faster stock configuration as more documents share a batch (4k-token documents, 64 questions each, 128 output tokens). Sixteen documents do not fit in the A6000’s KV pool.",
+          "figure_id": "figure-6-10",
+          "figure_number": "6",
+          "height": 261,
+          "image_path": "figures/2611.15130/figure-005.webp",
+          "kind": "figure",
+          "page": 13,
+          "width": 354
+        },
+        {
+          "caption": "Figure 2: The in-kernel mask in one decode step: a request with a 3-token document, P = 3 streams and 1-token questions, at decode step 2 (aki is stream i’s k-th answer token). Each KV slot carries its stream id slot sid (−1 for the document), and the streams share positions. The new token a21 of stream 1 attends only to the document and to stream 1’s slots. Stage 1 of the kernel reads the cached slots through kv indices; stage 2 reads the step’s new tokens.",
+          "figure_id": "figure-2-13",
+          "figure_number": "2",
+          "height": 196,
+          "image_path": "figures/2611.15130/figure-006.webp",
+          "kind": "figure",
+          "page": 4,
+          "width": 831
+        },
+        {
+          "caption": "Table 10: Comparison of memory usage with different methods with Llama 3 8B model on A100-80G. These runs are a separate run set from Table 9, so their times differ. Memory is in GiB; the SQuAD values were converted from 55,700 and 48,600 MiB.",
+          "figure_id": "table-10-15",
+          "figure_number": "10",
+          "height": 181,
+          "image_path": "figures/2611.15130/table-007.webp",
+          "kind": "table",
+          "page": 17,
+          "width": 417
+        },
+        {
+          "caption": "Table 9: Comparison of generation time and performance for downstream tasks with different methods with Llama 3 8B model on A100-80G. Standard, SeqBatch and Parallel are rerun with the original scripts; Hydragen and vLLM[0.6.4] are from the original runs. subsection 5.2 compares against current SGLang. Std is the across-run standard deviation of the time where available. ∗QuAC Parallel and SeqBatch score only the questions that fit in memory (5,951 and 2,899 of 7,354). F1 is computed as the harmonic mean of precision and recall in extractive QA.",
+          "figure_id": "table-9-18",
+          "figure_number": "9",
+          "height": 182,
+          "image_path": "figures/2611.15130/table-008.webp",
+          "kind": "table",
+          "page": 16,
+          "width": 829
+        },
+        {
+          "caption": "Table 11: Throughput (tokens/sec) under different batch sizes for parallel generation with Sheared-LLaMA-1.3B and CodeLlama-7B when doc len = 512, q len = 12, and ans len = 5.",
+          "figure_id": "table-11-14",
+          "figure_number": "11",
+          "height": 371,
+          "image_path": "figures/2611.15130/table-009.webp",
+          "kind": "table",
+          "page": 17,
+          "width": 629
+        },
+        {
+          "caption": "Table 2: Wall time (s, mean of 6 seeds) on SGLang v0.4.2 with an A100-80GB, and PP’s speedup over the faster stock configuration. Wall time is the time to answer all Q questions about one document, which is already cached (subsection 5.1). FI = FlashInfer; all configurations use CUDA graphs.",
+          "figure_id": "table-2-1",
+          "figure_number": "2",
+          "height": 314,
+          "image_path": "figures/2611.15130/table-010.webp",
+          "kind": "table",
+          "page": 6,
+          "width": 489
+        },
+        {
+          "caption": "Table 1: Modifications based on SGLang v0.5.22. The three edited files gain 79 lines.",
+          "figure_id": "table-1-8",
+          "figure_number": "1",
+          "height": 234,
+          "image_path": "figures/2611.15130/table-011.webp",
+          "kind": "table",
+          "page": 3,
+          "width": 466
+        },
+        {
+          "caption": "Table 4: Continuous batching on QuALITY in the chat template (Qwen2.5-7B-Instruct, RTX A6000, P = 4, 512- token budget, mean of two passes). Uniform: every answer is the letter (2 tokens). Mixed: every other article asks for an explanation first (87 tokens on average, at most 169).",
+          "figure_id": "table-4-5",
+          "figure_number": "4",
+          "height": 223,
+          "image_path": "figures/2611.15130/table-012.webp",
+          "kind": "table",
+          "page": 7,
+          "width": 386
+        },
+        {
+          "caption": "Table 6: Peak GPU memory of the HuggingFace prototype on QuAC (Llama 3–8B, A100-80GB) as the maximum number of questions per batch, across documents, varies. Standard prompting asks one question per prompt, with batches as large as memory allows; its row comes from a separate run. Speedup is over standard prompting.",
+          "figure_id": "table-6-17",
+          "figure_number": "6",
+          "height": 172,
+          "image_path": "figures/2611.15130/table-013.webp",
+          "kind": "table",
+          "page": 9,
+          "width": 475
+        },
+        {
+          "caption": "Table 3: QuALITY and LooGLE on an A100-SXM4-80GB with Qwen2.5-7B-Instruct and SGLang v0.5.22, every configuration with the radix prefix cache. Time (s) is the wall time for the whole benchmark from an empty cache, including document prefill (mean of two passes, all rows on one GPU). LooGLE is scored by token recall; token F1 is 17.29, 17.41 and 17.36.",
+          "figure_id": "table-3-6",
+          "figure_number": "3",
+          "height": 140,
+          "image_path": "figures/2611.15130/table-014.webp",
+          "kind": "table",
+          "page": 7,
+          "width": 350
+        },
+        {
+          "caption": "Table 7: SQuAD v1.1 dev (10,570 questions, 48 articles split into 71 chunks of at most 8k tokens) on SGLang v0.5.22 with CodeLlama-7B-Instruct on an RTX A6000. Answer time excludes document prefill for all configurations. ∆F1 is PP minus stock, with a paired bootstrap 95% CI over questions.",
+          "figure_id": "table-7-9",
+          "figure_number": "7",
+          "height": 225,
+          "image_path": "figures/2611.15130/table-015.webp",
+          "kind": "table",
+          "page": 13,
+          "width": 472
+        },
+        {
+          "caption": "Table 12: Comparing the throughput using parallel Batching with CodeLlama-7B and Sheared-LLaMA-1.3B with different lengths of doc length when q len = 12∥q num = 128∥ans len = 5 and the number of unique doc content equals 8. Throughput falls by about 30% for both models as the document length grows from 256 to 1024 tokens.",
+          "figure_id": "table-12-16",
+          "figure_number": "12",
+          "height": 106,
+          "image_path": "figures/2611.15130/table-016.webp",
+          "kind": "table",
+          "page": 17,
+          "width": 767
+        },
+        {
+          "caption": "Table 5: PP speedup across models on SGLang v0.5.22 (paired geometric mean over 6 seeds per workload, 128 output tokens). KV/token is the KV-cache size per token in bf16. Workloads are 8k and 16k-token documents with 64 and 256 questions, except where noted.",
+          "figure_id": "table-5-12",
+          "figure_number": "5",
+          "height": 36,
+          "image_path": "figures/2611.15130/table-017.webp",
+          "kind": "table",
+          "page": 8,
+          "width": 496
+        },
+        {
+          "caption": "Table 8: Synthetic throughput (tokens/s) of the prototype and Hydragen, 8 documents, CodeLlama-7B-Instruct, A10080GB.",
+          "figure_id": "table-8-3",
+          "figure_number": "8",
+          "height": 87,
+          "image_path": "figures/2611.15130/table-018.webp",
+          "kind": "table",
+          "page": 15,
+          "width": 362
+        }
+      ],
+      "first_seen_at": "2026-11-14T21:00:00-05:00",
+      "hero_figure": "figures/2611.15130/hero.webp",
+      "novelty": 7,
+      "pdf_url": "https://arxiv.org/pdf/2611.15130",
+      "relevance": 8,
+      "selection_reason": "Parallel decoding with shared context reduces memory bandwidth and inference cost, fitting KV cache efficiency.",
+      "summary_status": "generated",
+      "title": "Read Once, Answer Many: Parallel Prompting for Shared-Context LLM Inference",
+      "tldr": "Parallel Prompting accelerates multi-question LLM inference over the same long document by decoding all questions together while reading the shared KV cache only once per step.",
+      "topic_assignments": [
+        {
+          "subtopic_ids": [
+            "kv-cache-and-memory-efficiency"
+          ],
+          "topic_id": "efficient-ai"
+        }
+      ]
+    },
+    {
+      "abstract": "We evaluate Genie Sim Benchmark through paired real-simulation tasks and complementary system-identification studies. Across 22 robot-task pairs spanning 16 task names, task-specific pi0.5 policies fine-tuned on real-robot data achieve a descriptive Score correlation of 0.9686, MAE 0.0405, RMSE 0.0520, with simulation-real differences from -0.110 to +0.080. G2 crsB experiments assess long-horizon closed-loop position and joint-side torque agreement, while five representative object cases examine identification and cross-engine contact transfer. A separate 32.6503 s teleoperation trajectory, excluded from mechanical identification and servo-gain search, evaluates external position targets through simulated motion-controller command shaping and a calibrated position servo. Across both arms, per-joint position RMSE spans 0.00614-0.03522 rad and current-derived torque RMSE spans 0.73545-4.00099 N m. Native PhysX adaptations recover three recorded interaction tasks, with case-dependent alignment gains. These results support task-specific simulation evaluation through joint assessment of task outcomes and physical-response consistency.",
+      "arxiv_id": "2611.15020",
+      "arxiv_url": "https://arxiv.org/abs/2611.15020",
+      "authors": [
+        "Di Yang",
+        "Da Huang",
+        "Yang Lv",
+        "Fan Yang",
+        "Yi Lu",
+        "Zheyuan Xing",
+        "Linting Guo",
+        "Jiaen Shen",
+        "Wenjun Sun",
+        "Maoqing Yao",
+        "Qian Wang"
+      ],
+      "bullets": [
+        "Evaluates 22 robot-task pairs across 16 task names with paired real and simulated experiments.",
+        "Task-specific policies show high descriptive score correlation (0.9686) and low error metrics, with simulation-real differences ranging from -0.110 to +0.080.",
+        "Tests long-horizon position and torque agreement, object identification, cross-engine contact transfer, and teleoperated motion tracking.",
+        "Native PhysX adaptations recover three recorded interaction tasks, with alignment varying by case.",
+        "Supports evaluating simulation through both task-level performance and consistency of physical responses."
+      ],
+      "categories": [
+        "cs.RO"
+      ],
+      "figure_status": "ready",
+      "figures": [
+        {
+          "caption": "Fig. 6. Fifteen case–stack mean pairs, compacted for the main text. PhysX† uses the matched native configurations in Table D3; other rows retain source results. Hollow markers are baseline, filled markers are fitted / candidate models; red marks increased error. The source pen candidate remains unaccepted. Units and log axes differ between panels. Historical repeat ranges and failures remain in Appendix D; no confidence intervals are inferred.",
+          "figure_id": "figure-6-9",
+          "figure_number": "6",
+          "height": 336,
+          "image_path": "figures/2611.15020/figure-001.webp",
+          "kind": "figure",
+          "page": 9,
+          "width": 1026
+        },
+        {
+          "caption": "Fig. 1. Robot- and task-level real–sim evidence. Left: 60 s J1–J4 closed-loop replay and seven-joint RMSE across three excitation families; errors are uncentred and torque limits are URDF references, not hardware ratings (Section IV-A; Figure 5). Right: correspondence across 22 final task-Score pairs. Pearson r = 0.9686, MAE 0.0405 and RMSE 0.0520 (Table B1). Before/after comparisons: Table B2.",
+          "figure_id": "figure-1-1",
+          "figure_number": "1",
+          "height": 739,
+          "image_path": "figures/2611.15020/figure-002.webp",
+          "kind": "figure",
+          "page": 1,
+          "width": 1026
+        },
+        {
+          "caption": "Fig. 5. Long-horizon closed-loop consistency with frozen parameters. Top: seven-joint RMSE across three excitation families, with separate position/torque scales. Bottom: absolute-error CDFs, equally weighted by family per joint; logarithmic error axes include the full observed upper tail. Full native rows score each cell; time samples are correlated. Torque is uncentred, and the J2 mismatch remains visible. Separate joint-side sensor diagnostics appear in Appendix C.4.",
+          "figure_id": "figure-5-2",
+          "figure_number": "5",
+          "height": 522,
+          "image_path": "figures/2611.15020/figure-003.webp",
+          "kind": "figure",
+          "page": 6,
+          "width": 879
+        },
+        {
+          "caption": "Fig. 2. Representative scenes from the Real2Sim experiments summarized in Table 1: sixteen scene pairs across G1 Omnipicker, G2 Swiftpicker, G2 Wuji and Arx X5 configurations. Rows 1 and 3 are real scenes; rows 2 and 4 are their simulation counterparts. Corresponding columns preserve the paired object arrangements and interaction context.",
+          "figure_id": "figure-2-6",
+          "figure_number": "2",
+          "height": 408,
+          "image_path": "figures/2611.15020/figure-004.webp",
+          "kind": "figure",
+          "page": 3,
+          "width": 1054
+        },
+        {
+          "caption": "Fig. 3. Implemented Real2Sim workflow and corresponding evidence. Robot identification, object replay and paired task evaluation provide complementary measurements; arrows organize the process rather than denote a single end-to-end experiment.",
+          "figure_id": "figure-3-12",
+          "figure_number": "3",
+          "height": 338,
+          "image_path": "figures/2611.15020/figure-005.webp",
+          "kind": "figure",
+          "page": 5,
+          "width": 1032
+        },
+        {
+          "caption": "Fig. 7. Two evaluated object-replay protocols. The source study freezes the MuJoCo candidate for three-stack comparison. The native PhysX experiments apply the same accepted engine settings to both parameter sets and separately declare the sponge friction refit. Both protocols evaluate task completion and observation error. The dashed strip outlines future VLM priors, agent-selected interactions and independent real evaluation; these steps have not been executed. Author-created schematic, not an additional experiment.",
+          "figure_id": "figure-7-5",
+          "figure_number": "7",
+          "height": 393,
+          "image_path": "figures/2611.15020/figure-006.webp",
+          "kind": "figure",
+          "page": 10,
+          "width": 856
+        },
+        {
+          "caption": "Fig. 4. Three complementary evidence layers: robot execution, object interaction and task outcomes. Each layer has its own metrics and experimental units. Author-created schematic; quantitative results appear in Sections II and IV.",
+          "figure_id": "figure-4-10",
+          "figure_number": "4",
+          "height": 192,
+          "image_path": "figures/2611.15020/figure-007.webp",
+          "kind": "figure",
+          "page": 5,
+          "width": 1052
+        },
+        {
+          "caption": "TABLE 4 IDENTIFIED JOINT PARAMETERS FOR BOTH ARMS, J1–J7. ARMATURE Ja : KG·M2 ; COULOMB F_C AND BIAS Bτ : N·M; VISCOUS F_V: N·M·S/RAD. VALUES RETAIN THE SUPPLIED FOUR-DECIMAL PRECISION.",
+          "figure_id": "table-4-7",
+          "figure_number": "4",
+          "height": 383,
+          "image_path": "figures/2611.15020/table-008.webp",
+          "kind": "table",
+          "page": 8,
+          "width": 1052
+        },
+        {
+          "caption": "TABLE 3 FINAL-MODEL FOURIER TORQUE RECONSTRUCTION, APPROXIMATELY 100 S. ONE RECORDING PER ARM; ALL SEVEN JOINTS; OWN-OFFSET RMS. SAME-RECORDING DIAGNOSTICS, INCLUDING FITTING INTERVALS.",
+          "figure_id": "table-3-4",
+          "figure_number": "3",
+          "height": 98,
+          "image_path": "figures/2611.15020/table-009.webp",
+          "kind": "table",
+          "page": 7,
+          "width": 512
+        },
+        {
+          "caption": "TABLE 1 REAL2SIM EVALUATION COVERAGE FOR THE FOUR ROBOT CONFIGURATIONS ILLUSTRATED IN FIGURE 2. TASKS ARE DISTINCT EVALUATED TASK NAMES; ROBOT COLUMNS COUNT COMPLETED TASKS FOR EACH CONFIGURATION. FIGURE 2 PRESENTS REPRESENTATIVE PAIRED SCENES.",
+          "figure_id": "table-1-3",
+          "figure_number": "1",
+          "height": 169,
+          "image_path": "figures/2611.15020/table-010.webp",
+          "kind": "table",
+          "page": 2,
+          "width": 1052
+        },
+        {
+          "caption": "TABLE 5 SIGNATURE BENCHMARK ASSETS, OBSERVATION COVERAGE AND IDENTIFICATION SCOPE.",
+          "figure_id": "table-5-8",
+          "figure_number": "5",
+          "height": 169,
+          "image_path": "figures/2611.15020/table-011.webp",
+          "kind": "table",
+          "page": 9,
+          "width": 1052
+        },
+        {
+          "caption": "TABLE 2 REPORTED EXECUTION STACKS IN THE OBJECT STUDY.",
+          "figure_id": "table-2-11",
+          "figure_number": "2",
+          "height": 165,
+          "image_path": "figures/2611.15020/table-012.webp",
+          "kind": "table",
+          "page": 5,
+          "width": 1052
+        }
+      ],
+      "first_seen_at": "2026-11-14T21:00:00-05:00",
+      "hero_figure": "figures/2611.15020/hero.webp",
+      "novelty": 6,
+      "pdf_url": "https://arxiv.org/pdf/2611.15020",
+      "relevance": 7,
+      "selection_reason": "Evaluates robot policies in simulation, directly relevant to robot learning and manipulation.",
+      "summary_status": "generated",
+      "title": "Genie Sim Benchmark: Real-to-Sim Fidelity and Evaluation",
+      "tldr": "Genie Sim Benchmark assesses real-to-simulation fidelity using task outcomes and physical-response agreement across robot tasks and interaction scenarios.",
+      "topic_assignments": [
+        {
+          "subtopic_ids": [
+            "robot-learning-and-manipulation"
+          ],
+          "topic_id": "embodied-ai"
+        }
+      ]
+    },
+    {
+      "abstract": "Vision-language-action (VLA) models have emerged as a promising paradigm for general-purpose robotic manipulation. In our production setting, hundreds of VLA-powered robots are already operating in real-world environments, creating an immediate need for efficient fleet serving. We present XInfer, a production-deployed VLA serving system designed to reduce the inference infrastructure cost of large-scale robotic deployments. XInfer jointly coordinates heterogeneous VLA computation with the evolving response requirements of robotic execution. By exploiting computational parallelism while managing interference, XInfer improves GPU efficiency while protecting time-critical robotic feedback. We evaluate XInfer across three VLA models using production-derived workloads, achieving 1.26-3.75 times the effective robot capacity (ERC) of state-of-the-art systems under physical-execution constraints. Our implementation is publicly available at https://github.com/X-Square-Robot/xinfer.",
+      "arxiv_id": "2611.14969",
+      "arxiv_url": "https://arxiv.org/abs/2611.14969",
+      "authors": [
+        "Yue Zhang",
+        "Zicong Ye",
+        "Lufang Chen",
+        "Dance Yang",
+        "Mingyang Li",
+        "Zhenwei Duan",
+        "Michael Zhao",
+        "Ziye Deng",
+        "Starrick Liu",
+        "Ruizhi Chengze",
+        "YongHua Chen",
+        "SongAo Han",
+        "Yu Sun",
+        "Ran Yu",
+        "Xiaofan Li",
+        "Ruyi Gan",
+        "Hao Wang"
+      ],
+      "bullets": [
+        "Addresses the infrastructure cost and serving challenges of hundreds of real-world VLA-powered robots.",
+        "Coordinates heterogeneous VLA computation with changing robotic execution requirements.",
+        "Uses computational parallelism while managing interference to protect latency-sensitive feedback.",
+        "Evaluated on three VLA models with production-derived workloads under physical-execution constraints.",
+        "Achieves 1.26–3.75× the effective robot capacity of state-of-the-art systems; implementation is publicly available."
+      ],
+      "categories": [
+        "cs.RO",
+        "cs.DC"
+      ],
+      "figure_status": "ready",
+      "figures": [
+        {
+          "caption": "Figure 5. XINFER architecture and illustrative execution. (a) Central scheduling controls admission at the ViT, Prefill, and Action entries. (b) Admission permits concurrent work when A’s response is predicted to meet its deadline.",
+          "figure_id": "figure-5-20",
+          "figure_number": "5",
+          "height": 201,
+          "image_path": "figures/2611.14969/figure-001.webp",
+          "kind": "figure",
+          "page": 5,
+          "width": 476
+        },
+        {
+          "caption": "Figure 7. Serving performance across three models. Latency uses a log scale; dashed lines mark 150ms. Large markers and guides identify confirmed ERCs for XINFER and Robion.",
+          "figure_id": "figure-7-13",
+          "figure_number": "7",
+          "height": 406,
+          "image_path": "figures/2611.14969/figure-002.webp",
+          "kind": "figure",
+          "page": 8,
+          "width": 1004
+        },
+        {
+          "caption": "Figure 8. Four workloads with matched resources: (a–c) show three metrics for alternating phases; (d–f) show attainment for the other workloads. Curves show means with min–max whiskers. Large markers denote ERC in (a) and 33% lower mean latency for XINFER versus Slack-Gate at 15 robots in (b). Shading in (d) marks added robots’ measured active periods.",
+          "figure_id": "figure-8-17",
+          "figure_number": "8",
+          "height": 468,
+          "image_path": "figures/2611.14969/figure-003.webp",
+          "kind": "figure",
+          "page": 9,
+          "width": 962
+        },
+        {
+          "caption": "Figure 3. VLA computation and real-time chunking. (a) Conditioning keys and values are reused across denoising steps. (b) The frozen prefix aligns the next chunk with committed actions while inference overlaps execution. The illustrated early response satisfies L < d∆ < TE , so the next send occurs at tk + TE .",
+          "figure_id": "figure-3-11",
+          "figure_number": "3",
+          "height": 313,
+          "image_path": "figures/2611.14969/figure-004.webp",
+          "kind": "figure",
+          "page": 3,
+          "width": 976
+        },
+        {
+          "caption": "Figure 11. Response delay increases physical effort, with different effects across parcel types. Each point averages five tasks of one type; the black line is the mean of the four types and the band their range. Zero denotes no added delay. Full counts are in Table 4.",
+          "figure_id": "figure-11-9",
+          "figure_number": "11",
+          "height": 307,
+          "image_path": "figures/2611.14969/figure-005.webp",
+          "kind": "figure",
+          "page": 14,
+          "width": 991
+        },
+        {
+          "caption": "Figure 9. Cumulative ablation on π0.5 at 24 robots. Bars show per-window means, rows retain prior mechanisms, and arrows show incremental gains. Execution-aware concurrency enables intra-stage concurrency. Cross-stage coordination combines Context–Action overlap and independent progression. Full engine: 2.40× throughput and 3.06× P50 speedup over All-Off.",
+          "figure_id": "figure-9-6",
+          "figure_number": "9",
+          "height": 251,
+          "image_path": "figures/2611.14969/figure-006.webp",
+          "kind": "figure",
+          "page": 10,
+          "width": 1002
+        },
+        {
+          "caption": "Figure 6. Scheduling decisions (illustrative predictions). (a) Protect A using remaining slack. (b) Refresh shared slack after each launch. (c) Defer w for an earlier-deadline forecast. Panel (b) fixes t and H = {A}, with additive costs and other checks passing. Dashed outlines mark forecasts; hatching marks excess cost in (b) and extra delay in (c).",
+          "figure_id": "figure-6-2",
+          "figure_number": "6",
+          "height": 232,
+          "image_path": "figures/2611.14969/figure-007.webp",
+          "kind": "figure",
+          "page": 6,
+          "width": 987
+        },
+        {
+          "caption": "Figure 2. Projected parcel throughput on one GPU (VLA-2B), combining measured latency with single-robot trials. Guides mark 13k parcels/h; ERC requires response P50 < 150ms and zero request errors. Shading reflects trial variation; dashed curves and hatching mark extrapolation.",
+          "figure_id": "figure-2-1",
+          "figure_number": "2",
+          "height": 272,
+          "image_path": "figures/2611.14969/figure-008.webp",
+          "kind": "figure",
+          "page": 1,
+          "width": 470
+        },
+        {
+          "caption": "Figure 10. Scheduler ablations. Mean SLO attainment drop relative to full XINFER for each scheduler variant. Appendix C.3 gives workload settings.",
+          "figure_id": "figure-10-7",
+          "figure_number": "10",
+          "height": 255,
+          "image_path": "figures/2611.14969/figure-009.webp",
+          "kind": "figure",
+          "page": 10,
+          "width": 465
+        },
+        {
+          "caption": "Figure 4. Five separately recorded request streams aligned on a common 2-s axis. Top: bars mark requests in flight and ticks mark sends. Bottom: the superimposed in-flight count.",
+          "figure_id": "figure-4-10",
+          "figure_number": "4",
+          "height": 207,
+          "image_path": "figures/2611.14969/figure-010.webp",
+          "kind": "figure",
+          "page": 3,
+          "width": 468
+        },
+        {
+          "caption": "Figure 12. CPU–GPU overlap reduces idle gaps in a separate profiler diagnostic. VLA-2B serves 32 robots with overlap (a) disabled and (b) enabled. The figure shows the 61–61.5 s excerpt; the outlined gap marks an observed GPU idle interval. Table 7 reports statistics for the full profiling window.",
+          "figure_id": "figure-12-3",
+          "figure_number": "12",
+          "height": 287,
+          "image_path": "figures/2611.14969/figure-011.webp",
+          "kind": "figure",
+          "page": 15,
+          "width": 464
+        },
+        {
+          "caption": "Figure 13. Remaining-time prediction errors for running stages. Positive error is underprediction. Each represented request has equal total weight within its robot population. Curves include both tails; the horizontal scale is logarithmic outside [−1, 1]ms.",
+          "figure_id": "figure-13-16",
+          "figure_number": "13",
+          "height": 233,
+          "image_path": "figures/2611.14969/figure-012.webp",
+          "kind": "figure",
+          "page": 19,
+          "width": 972
+        },
+        {
+          "caption": "Table 1. Input configuration. Token segments sum to the full prefix; action tokens and sequence padding are excluded.",
+          "figure_id": "table-1-4",
+          "figure_number": "1",
+          "height": 221,
+          "image_path": "figures/2611.14969/table-013.webp",
+          "kind": "table",
+          "page": 7,
+          "width": 483
+        },
+        {
+          "caption": "Table 2. ERC (robots) under the response-latency criterion.",
+          "figure_id": "table-2-5",
+          "figure_number": "2",
+          "height": 150,
+          "image_path": "figures/2611.14969/table-014.webp",
+          "kind": "table",
+          "page": 7,
+          "width": 492
+        },
+        {
+          "caption": "Table 10. Scheduling policy comparison under matched execution resources. SLO attainment (%) is reported as R1 / R2 / R3. The N rows use alternating task phases; bursty arrivals use the full [30, 210) s send window. ∆goodput is the difference between three-round means (FleetServe − Slack-Gate; on-time responses/s).",
+          "figure_id": "table-10-19",
+          "figure_number": "10",
+          "height": 318,
+          "image_path": "figures/2611.14969/table-015.webp",
+          "kind": "table",
+          "page": 20,
+          "width": 941
+        },
+        {
+          "caption": "Table 3. Hourly parcel rates under added response delay. Handled and completed are measured aggregate rates; handled SD is estimated from three trial markers digitized from the source plot. Figure 2 uses handled rates.",
+          "figure_id": "table-3-12",
+          "figure_number": "3",
+          "height": 192,
+          "image_path": "figures/2611.14969/table-016.webp",
+          "kind": "table",
+          "page": 13,
+          "width": 354
+        },
+        {
+          "caption": "Table 4. Manipulation attempts (flip/push) by parcel type under added response delay. Type columns give totals over five tasks; Mean gives averages over twenty tasks.",
+          "figure_id": "table-4-8",
+          "figure_number": "4",
+          "height": 296,
+          "image_path": "figures/2611.14969/table-017.webp",
+          "kind": "table",
+          "page": 14,
+          "width": 450
+        },
+        {
+          "caption": "Table 7. Wall-time shares (%) at N = 32 over 61–69 s. Ind./Lock.: independent/lockstep; off/on: CPU overlap. Either/Both: union/intersection of Context/Action kernel intervals. CPU/GPU: kernel overlap with instrumented CPU preparation/output scopes.",
+          "figure_id": "table-7-21",
+          "figure_number": "7",
+          "height": 254,
+          "image_path": "figures/2611.14969/table-018.webp",
+          "kind": "table",
+          "page": 16,
+          "width": 392
+        },
+        {
+          "caption": "Table 8. GPU component ablations. Strict gating jointly replaces slack stealing and arrival-aware admission. FS: SLO attainment of full FleetServe (mean of the nine rounds in the three campaigns, %). Other columns: gain of full FleetServe over each variant (percentage points, mean of three rounds paired with full FleetServe in the same campaign), with the number of rounds in which full FleetServe is higher. Bursty robot arrivals use the full measurement window.",
+          "figure_id": "table-8-14",
+          "figure_number": "8",
+          "height": 234,
+          "image_path": "figures/2611.14969/table-019.webp",
+          "kind": "table",
+          "page": 19,
+          "width": 800
+        },
+        {
+          "caption": "Table 6. Incremental ablations on π0.5 using a multi-stream baseline. M denotes execution-aware concurrency, C CPU–GPU overlap, R independent progression, and G GPU-stage overlap. C, R, and G are enabled individually on top of M. All-Off disables all four mechanisms. QPS is measured in requests/s. P50, P95, and P99 are client response latencies in ms.",
+          "figure_id": "table-6-23",
+          "figure_number": "6",
+          "height": 442,
+          "image_path": "figures/2611.14969/table-020.webp",
+          "kind": "table",
+          "page": 16,
+          "width": 392
+        },
+        {
+          "caption": "Table 9. Arrival-aware GPU ablation, six-round means. Each cell gives U / T: FleetServe without / with arrival-aware admission under matched execution resources. Tight budgets are 90ms for alternating phases and bursty arrivals, and 80ms for multiple budgets. Wide-budget latency is for the 400ms class. Bursty results use the full measurement window.",
+          "figure_id": "table-9-15",
+          "figure_number": "9",
+          "height": 171,
+          "image_path": "figures/2611.14969/table-021.webp",
+          "kind": "table",
+          "page": 19,
+          "width": 800
+        },
+        {
+          "caption": "Table 11. Parcel handling: overall SLO attainment (%) as R1 / R2 / R3 under matched execution resources.",
+          "figure_id": "table-11-18",
+          "figure_number": "11",
+          "height": 172,
+          "image_path": "figures/2611.14969/table-022.webp",
+          "kind": "table",
+          "page": 20,
+          "width": 750
+        },
+        {
+          "caption": "Table 5. Robion configuration used in the serving-system comparison.",
+          "figure_id": "table-5-22",
+          "figure_number": "5",
+          "height": 35,
+          "image_path": "figures/2611.14969/table-023.webp",
+          "kind": "table",
+          "page": 16,
+          "width": 1017
+        }
+      ],
+      "first_seen_at": "2026-11-14T21:00:00-05:00",
+      "hero_figure": "figures/2611.14969/hero.webp",
+      "novelty": 7,
+      "pdf_url": "https://arxiv.org/pdf/2611.14969",
+      "relevance": 8,
+      "selection_reason": "Production VLA serving system improving GPU efficiency for robotic fleets; fits efficient AI and embodied AI.",
+      "summary_status": "generated",
+      "title": "Scaling VLA Serving Under Robotic Execution Constraints",
+      "tldr": "XInfer scales VLA serving for large robot fleets by improving GPU efficiency while preserving time-critical feedback.",
+      "topic_assignments": [
+        {
+          "subtopic_ids": [],
+          "topic_id": "embodied-ai"
+        },
+        {
+          "subtopic_ids": [],
+          "topic_id": "efficient-ai"
+        }
+      ]
+    },
+    {
+      "abstract": "Post-training improves language-model reasoning, but how it changes the use of internal information and verbalized chain of thought (CoT) remains unclear. We study successive SFT, DPO, and RLVR checkpoints of Olmo-3-7B-Instruct on multi-digit addition, using carry values as known intermediate state. Probes recover carry information from internal activations with similar accuracy in SFT and RLVR, although manipulating this information does not reliably control model outputs. In contrast, the usefulness of verbalized reasoning differs: CoTs produced by RLVR yield higher accuracy across receiving checkpoints than those produced by SFT or DPO. We also show that carry-related statements receive higher importance scores after RLVR than matched random controls. DPO shows similar sensitivity to carry-related statements but without comparable accuracy gains. These results suggest that post-training changes the usefulness of written reasoning and sensitivity to its content in meaningful ways, although greater sensitivity does not necessarily coincide with better problem performance.",
+      "arxiv_id": "2611.13552",
+      "arxiv_url": "https://arxiv.org/abs/2611.13552",
+      "authors": [
+        "Niall Dalton"
+      ],
+      "bullets": [
+        "Studies successive SFT, DPO, and RLVR checkpoints of Olmo-3-7B-Instruct on multi-digit addition.",
+        "Internal probes recover carry values similarly after SFT and RLVR, but manipulating carries does not reliably control outputs.",
+        "RLVR-generated chain-of-thought produces higher accuracy across receiving checkpoints than SFT- or DPO-generated reasoning.",
+        "After RLVR, carry-related statements receive greater importance than matched random controls.",
+        "DPO increases sensitivity to carry-related statements without comparable accuracy gains, showing sensitivity and performance can diverge."
+      ],
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ],
+      "figure_status": "ready",
+      "figures": [
+        {
+          "caption": "Figure 1: Analysis of important spans in the CoT. (a) For each span in the CoT, we cluster based on semantic similarity and show the mean importance score derived from the Thought Anchors method (Bogdan et al., 2025). For a given span, we suppress all attention to that span and calculate its importance as described in Section 7. (b) Each receiver continues from the same Full-generated prefix. We measure disruption as the percentage of correct cases where the digit in the column corresponding to the reasoning span changes. A carry unit is a reasoning span where a carry gets used directly; a carry episode is two spans, one where a carry is computed and another, the follow-up span, where that carry gets used. We include random spans and random pairs (episodes) as controls. Error bars are 95% problem-level bootstrap confidence intervals for (a) and (b).",
+          "figure_id": "figure-1-11",
+          "figure_number": "1",
+          "height": 264,
+          "image_path": "figures/2611.13552/figure-001.webp",
+          "kind": "figure",
+          "page": 3,
+          "width": 883
+        },
+        {
+          "caption": "Figure 3: We measure probe test accuracy at three token locations: the final token of the prompt; 2/3rd of the way through the CoT; and at the answer digit token. We train probes separately for three variables: the incoming carry at a digit; the outgoing carry at a digit; and an output digit. No probes are shown for finding the output digits at the answer digit token, as the answer would often be already available (up to tokenization effects). Probes are trained separately for each variable, layer, digit, and location. The results shown are averaged across digits. Overall, the probe test accuracy remains stable across layers and very similar across models, while showing only minor differences at different token locations. Shaded regions show 95% confidence intervals from problem-level bootstrap resampling. Dash-dot lines show uniform random-chance accuracy.",
+          "figure_id": "figure-3-1",
+          "figure_number": "3",
+          "height": 299,
+          "image_path": "figures/2611.13552/figure-002.webp",
+          "kind": "figure",
+          "page": 6,
+          "width": 913
+        },
+        {
+          "caption": "Figure 2: Analysis of chain-of-thought behavior across models. (a) Final-answer accuracy for problems where both Answer Only and Free CoT terminate within 2048 tokens, paired separately for each checkpoint. Full gains 6.2 percentage points over its Answer Only baseline (adjusted p = .034); see Section C for sample counts and statistical testing details. (b) For each of {2, 4, 6} digits, we show the percentage of correct and completed samples with respect to the number of output tokens used, up to a maximum of 2048. Notably, the Full model saturates less with additional CoT tokens than the other two models (c) For each model, we produce an on-policy CoT and feed it to each of the other models using teacher forcing before asking for a final answer. All three models perform similarly when receiving a given CoT, but CoTs sourced from Full provide an advantage across all three models. Error bars are 95% problem-level bootstrap confidence intervals for (a) and (c); the shaded region for (b) is the 95% Wilson binomial confidence interval.",
+          "figure_id": "figure-2-17",
+          "figure_number": "2",
+          "height": 230,
+          "image_path": "figures/2611.13552/figure-003.webp",
+          "kind": "figure",
+          "page": 4,
+          "width": 932
+        },
+        {
+          "caption": "Figure 4: Importance scores for semantic clustering of reasoning spans on subtraction problems. The top cluster by importance, subtraction step headings, take the form of \"Step <num>: Subtract the <units/tens/hundreds/...> place\". Specified clusters involving the use of borrows are highlighted; some other mentions of borrow fall into the lexical borrow mention cluster. More details on clustering are provided in Section H.2. Error bars are 95% problem-level bootstrap confidence intervals.",
+          "figure_id": "figure-4-9",
+          "figure_number": "4",
+          "height": 218,
+          "image_path": "figures/2611.13552/figure-004.webp",
+          "kind": "figure",
+          "page": 7,
+          "width": 433
+        },
+        {
+          "caption": "Figure 5: Exact symbolic overlap between the evaluation equations and the public post-training data. Each row contains 98 unique ordered equations after duplicate equations from different carry categories are collapsed. Coloured segments show the earliest post-training stage in which an exact relation occurs; grey denotes no detected occurrence. The search finds 76 two-digit equations, one four-digit equation, and no six-digit equations.",
+          "figure_id": "figure-5-16",
+          "figure_number": "5",
+          "height": 162,
+          "image_path": "figures/2611.13552/figure-005.webp",
+          "kind": "figure",
+          "page": 13,
+          "width": 439
+        },
+        {
+          "caption": "Figure 18: Secondary outcomes during on-policy generation. Conditions suppress either the incoming-carry application, a matched non-carry span, the two-unit carry episode, or a matched pair of non-carry spans. Exactanswer accuracy includes a short answer continuation used when the primary continuation contains no parseable final answer. Natural termination and fallback use are measured on the primary continuation. Off-target changes count incorrect answer digits outside the selected carry column and are computed only when an answer is parseable. Points are means and error bars are 95% confidence intervals from resampling problems.",
+          "figure_id": "figure-18-8",
+          "figure_number": "18",
+          "height": 652,
+          "image_path": "figures/2611.13552/figure-006.webp",
+          "kind": "figure",
+          "page": 30,
+          "width": 911
+        },
+        {
+          "caption": "Figure 20: Comparison of checkpoint-native and common-Base J-Lens ranks at layer 23. Each point is one of the 30 selected carry applications. Rows show the known next token at the carry-value and result-value locations; columns show the checkpoint whose residual state is read. Both axes use a logarithmic scale. Points below the dashed diagonal receive a better (smaller) rank from the common-Base decoder. The annotation in each panel counts such cases; ties are not counted as improvements.",
+          "figure_id": "figure-20-23",
+          "figure_number": "20",
+          "height": 599,
+          "image_path": "figures/2611.13552/figure-007.webp",
+          "kind": "figure",
+          "page": 32,
+          "width": 917
+        },
+        {
+          "caption": "Figure 13: Immediate final-answer accuracy over normalized CoT progress. Rows show operand length, columns show the checkpoint that produced the reasoning, and line colour shows the receiver checkpoint. Each source cohort contains completed traces whose original final answer is correct; the panel title gives its size. At each tenth of progress, the nearest observed reasoning boundary is supplied to the receiver before requesting a direct answer. Non-direct intermediate continuations are excluded and completed endpoint decodes are retained. Shaded regions are 95% problem-bootstrap confidence intervals.",
+          "figure_id": "figure-13-14",
+          "figure_number": "13",
+          "height": 540,
+          "image_path": "figures/2611.13552/figure-008.webp",
+          "kind": "figure",
+          "page": 23,
+          "width": 916
+        },
+        {
+          "caption": "Figure 6: SFT final-answer accuracy by operand length and maximum carry-chain length. Each interior cell pools standard-format examples with the indicated properties across Answer Only and Free CoT. Blank cells are combinations absent from the evaluation set. The marginal row and column are unweighted means of the displayed interior cells.",
+          "figure_id": "figure-6-4",
+          "figure_number": "6",
+          "height": 242,
+          "image_path": "figures/2611.13552/figure-009.webp",
+          "kind": "figure",
+          "page": 15,
+          "width": 430
+        },
+        {
+          "caption": "Figure 14: Cumulative observed commitment over normalized CoT progress. A source–receiver trajectory is committed once its directly elicited answer is correct at the current boundary and every later retained boundary. Rows show operand length, columns show the source checkpoint, and line colour shows the receiver checkpoint. The analysis includes all 45 four-digit and 32 six-digit shared-source problems for each source; shaded regions are 95% problem-bootstrap confidence intervals.",
+          "figure_id": "figure-14-25",
+          "figure_number": "14",
+          "height": 540,
+          "image_path": "figures/2611.13552/figure-010.webp",
+          "kind": "figure",
+          "page": 24,
+          "width": 917
+        },
+        {
+          "caption": "Figure 9: Final-answer accuracy with the standard output convention and with the result digits written from least to most significant (LSD). Operands are conventionally formatted in both conditions. The standard and LSD conditions use separate samples of 384 and 192 problems, respectively, with both prompt conditions for every problem. Error bars are 95% bootstrap confidence intervals.",
+          "figure_id": "figure-9-30",
+          "figure_number": "9",
+          "height": 301,
+          "image_path": "figures/2611.13552/figure-011.webp",
+          "kind": "figure",
+          "page": 16,
+          "width": 422
+        },
+        {
+          "caption": "Figure 7: DPO final-answer accuracy by operand length and maximum carry-chain length. Each interior cell pools standard-format examples with the indicated properties across Answer Only and Free CoT. Blank cells are combinations absent from the evaluation set. The marginal row and column are unweighted means of the displayed interior cells.",
+          "figure_id": "figure-7-29",
+          "figure_number": "7",
+          "height": 242,
+          "image_path": "figures/2611.13552/figure-012.webp",
+          "kind": "figure",
+          "page": 16,
+          "width": 430
+        },
+        {
+          "caption": "Figure 8: Full final-answer accuracy by operand length and maximum carry-chain length. Each interior cell pools standard-format examples with the indicated properties across Answer Only and Free CoT. Blank cells are combinations absent from the evaluation set. The marginal row and column are unweighted means of the displayed interior cells.",
+          "figure_id": "figure-8-28",
+          "figure_number": "8",
+          "height": 242,
+          "image_path": "figures/2611.13552/figure-013.webp",
+          "kind": "figure",
+          "page": 16,
+          "width": 430
+        },
+        {
+          "caption": "Figure 11: Final-answer accuracy across controlled carry structures. No Carry has no carry-producing column; Isolated Carry has one non-propagating carry; Long Carry Chain propagates a carry across every operand digit; Carry Distractor has locally carrysuggestive patterns but no long chain; and Random provides carry-balanced coverage. All examples use standard operand and answer formats. Bars pool both prompt conditions; error bars are 95% bootstrap confidence intervals.",
+          "figure_id": "figure-11-21",
+          "figure_number": "11",
+          "height": 320,
+          "image_path": "figures/2611.13552/figure-014.webp",
+          "kind": "figure",
+          "page": 17,
+          "width": 422
+        },
+        {
+          "caption": "Figure 10: Final-answer accuracy with conventionally written operands and with | between adjacent operand digits. The answer remains conventionally formatted, and the delimited prompt explains the notation. The standard and delimited conditions use separate samples of 384 and 192 problems, respectively, with both prompt conditions for every problem. Error bars are 95% bootstrap confidence intervals.",
+          "figure_id": "figure-10-22",
+          "figure_number": "10",
+          "height": 304,
+          "image_path": "figures/2611.13552/figure-015.webp",
+          "kind": "figure",
+          "page": 17,
+          "width": 422
+        },
+        {
+          "caption": "Figure 15: Effect of suppressing a reasoning unit on the final answer, grouped by the unit’s normalized position in the CoT. The left panel shows the mean KL divergence over factual-answer tokens. The right panel shows clean minus suppressed summed log probability for those tokens; negative values therefore indicate that suppression increased their probability. Points give equal-problem-weighted means across SFT and Full source traces, and error bars are 95% confidence intervals from resampling problems.",
+          "figure_id": "figure-15-24",
+          "figure_number": "15",
+          "height": 436,
+          "image_path": "figures/2611.13552/figure-016.webp",
+          "kind": "figure",
+          "page": 27,
+          "width": 910
+        },
+        {
+          "caption": "Figure 16: Dependence on an earlier reasoning unit as a function of unit distance. The left panel shows mean per-token KL on a logarithmic scale; the right panel shows the fraction of source–target pairs with mean KL of at least 0.01 nats. Values are averaged within each problem before being averaged across problems. Error bars are 95% problem-bootstrap confidence intervals.",
+          "figure_id": "figure-16-15",
+          "figure_number": "16",
+          "height": 432,
+          "image_path": "figures/2611.13552/figure-017.webp",
+          "kind": "figure",
+          "page": 28,
+          "width": 911
+        },
+        {
+          "caption": "Figure 17: Map of directed dependencies between reasoning units. Source and later affected units are placed into ten equal-width bins of normalized CoT progress. Each cell gives the mean per-token KL for the observed source–target airs in that bin; the narrow strips marked “Mean” summarize the populated cells along each axis.",
+          "figure_id": "figure-17-10",
+          "figure_number": "17",
+          "height": 290,
+          "image_path": "figures/2611.13552/figure-018.webp",
+          "kind": "figure",
+          "page": 29,
+          "width": 921
+        },
+        {
+          "caption": "Figure 19: Analysis of the residual stream content, at early (7), middle (15), and late (23) layers, across a carry span ((e.g. \"9 + 1 (carry-over) = 10\")), and at the token endpoints of the previous, current, and next reasoning spans. The change is measured between the two models shown at the top of each column. Top: we measure the raw % change in residual stream value. The changes concentrate just before the carry value is mentioned. Bottom: using readouts from the J-Lens (Gurnee et al., 2026), we measure the Jensen-Shannon (JS) divergence between each models distribution. These results mirror those of the change in raw residual stream.",
+          "figure_id": "figure-19-26",
+          "figure_number": "19",
+          "height": 344,
+          "image_path": "figures/2611.13552/figure-019.webp",
+          "kind": "figure",
+          "page": 31,
+          "width": 440
+        },
+        {
+          "caption": "Figure 12: Final-answer accuracy by operand length for standard-format inputs and answers. Bars pool Answer Only and Free CoT prompt instances; error bars are 95% Wilson confidence intervals for the pooled binomial proportions.",
+          "figure_id": "figure-12-13",
+          "figure_number": "12",
+          "height": 304,
+          "image_path": "figures/2611.13552/figure-020.webp",
+          "kind": "figure",
+          "page": 18,
+          "width": 422
+        },
+        {
+          "caption": "Figure 21: Illustrative layer-23 token distributions under the common-Base decoder. Panels A and B show the five highest-probability tokens from Full residual states immediately before the carry value and result value in the same reasoning unit; <sp> marks a leading space. Orange highlights carry-related tokens in Panel A and the correct numeric result in Panel B. Panel C compares the probabilities of the unadjusted subtotal 14 and the correct carry adjusted result 15 at the result location of “6 + 8 + 1 = 15,” using Base, SFT, DPO, and Full residual states with the same Base decoder. These cases are qualitative examples and are not averages over the 30-unit sample.",
+          "figure_id": "figure-21-12",
+          "figure_number": "21",
+          "height": 213,
+          "image_path": "figures/2611.13552/figure-021.webp",
+          "kind": "figure",
+          "page": 33,
+          "width": 920
+        },
+        {
+          "caption": "Table 4: Direct comparison of the Free CoT-minusAnswer Only effect between Full and SFT. All quantities use the same problems, each with a completed response in all four checkpoint-by prompt conditions.",
+          "figure_id": "table-4-3",
+          "figure_number": "4",
+          "height": 256,
+          "image_path": "figures/2611.13552/table-022.webp",
+          "kind": "table",
+          "page": 15,
+          "width": 347
+        },
+        {
+          "caption": "Table 5: Free CoT problems retained for probe training and evaluation after excluding responses that do not terminate within 2,048 tokens. The original training and test sets each contain 64 problems at every digit length for each checkpoint.",
+          "figure_id": "table-5-20",
+          "figure_number": "5",
+          "height": 132,
+          "image_path": "figures/2611.13552/table-023.webp",
+          "kind": "table",
+          "page": 17,
+          "width": 390
+        },
+        {
+          "caption": "Table 6: Probe test accuracy on the test problems available for both SFT and Full, in percent. Each checkpoint entry first pools target columns in proportion to their number of test predictions and then averages equally over the 32 layers; brackets give the minimum and maximum layer accuracy. The majority baseline is computed under the same target-column weighting. Result-digit prediction at answer-digit locations is omitted because the target digit has already been emitted.",
+          "figure_id": "table-6-19",
+          "figure_number": "6",
+          "height": 238,
+          "image_path": "figures/2611.13552/table-024.webp",
+          "kind": "table",
+          "page": 19,
+          "width": 696
+        },
+        {
+          "caption": "Table 10: Exploratory activation-patching effects on 15 eligible natural problem pairs. Effects are changes in counterfactual-versus-factual log probability, in nats, relative to the same-input cross-checkpoint control. Each cell contains 30 directed cases. Confidence intervals are 95% percentile intervals from resampling whole matched problem pairs.",
+          "figure_id": "table-10-7",
+          "figure_number": "10",
+          "height": 190,
+          "image_path": "figures/2611.13552/table-025.webp",
+          "kind": "table",
+          "page": 21,
+          "width": 398
+        },
+        {
+          "caption": "Table 9: Performance of the selected distributed carry interventions. Interchange is the rate at which the generated answer changes to the exact counterfactual answer. Other digits preserved is the rate at which all non-target answer digits remain unchanged. The held-out evaluation contains 64 pairs per checkpoint.",
+          "figure_id": "table-9-6",
+          "figure_number": "9",
+          "height": 152,
+          "image_path": "figures/2611.13552/table-026.webp",
+          "kind": "table",
+          "page": 21,
+          "width": 427
+        },
+        {
+          "caption": "Table 3: Paired comparison of Answer Only and Free CoT prompting among completed responses. Accuracies are percentages; ∆ is Free CoT minus Answer Only in percentage points, with an unadjusted 95% problem-paired bootstrap confidence interval. Gains and losses count problems that Free CoT changed from incorrect to correct and from correct to incorrect, respectively. Holm p gives the exact McNemar p-value after correction across checkpoints.",
+          "figure_id": "table-3-5",
+          "figure_number": "3",
+          "height": 111,
+          "image_path": "figures/2611.13552/table-027.webp",
+          "kind": "table",
+          "page": 15,
+          "width": 827
+        },
+        {
+          "caption": "Table 7: Problem-weighted effect of steering along the incoming-carry probe direction relative to three norm-matched orthogonal directions. The outcome is the change in counterfactual-versus-factual completeanswer log probability, measured in nats. Confidence intervals are 95% percentile intervals from resampling whole arithmetic problems.",
+          "figure_id": "table-7-18",
+          "figure_number": "7",
+          "height": 90,
+          "image_path": "figures/2611.13552/table-028.webp",
+          "kind": "table",
+          "page": 19,
+          "width": 451
+        },
+        {
+          "caption": "Table 8: Cross-checkpoint replay results on 100 arithmetic problems. Log probabilities are sums over the correct answer tokens, averaged over problems. Accuracies are from deterministic continuations. Without supplied reasoning, SFT and Full obtain 99% and 98% accuracy, respectively; their mean correct-answer log probabilities are −0.154 and −0.392.",
+          "figure_id": "table-8-27",
+          "figure_number": "8",
+          "height": 165,
+          "image_path": "figures/2611.13552/table-029.webp",
+          "kind": "table",
+          "page": 20,
+          "width": 733
+        },
+        {
+          "caption": "Table 11: Summary of the text-only clustering. Addition pools 202 SFT and Full reasoning traces across four- and six-digit problems. Subtraction pools 94 SFT and Full traces from four-digit problems. ARI is the median pairwise adjusted Rand index across ten single-initialization fits.",
+          "figure_id": "table-11-2",
+          "figure_number": "11",
+          "height": 82,
+          "image_path": "figures/2611.13552/table-030.webp",
+          "kind": "table",
+          "page": 25,
+          "width": 950
+        }
+      ],
+      "first_seen_at": "2026-11-14T21:00:00-05:00",
+      "hero_figure": "figures/2611.13552/hero.webp",
+      "novelty": 6,
+      "pdf_url": "https://arxiv.org/pdf/2611.13552",
+      "relevance": 5,
+      "selection_reason": "Analyzes post-training effects on verbalized reasoning in LLMs; relevant to language foundation model behavior.",
+      "summary_status": "generated",
+      "title": "How Post-Training Influences Verbalized Algorithmic Computation in Language Models",
+      "tldr": "Post-training chiefly improves how language models use verbalized reasoning, not their internal encoding of intermediate computation.",
+      "topic_assignments": [
+        {
+          "subtopic_ids": [
+            "large-language-models"
+          ],
+          "topic_id": "language-foundation-models"
+        }
+      ]
+    },
+    {
+      "abstract": "Video diffusion models provide a source of interaction representations for robot control, but transferring these representations requires reconciling variable camera inputs with heterogeneous action interfaces and closed-loop execution. We present X-World, a framework that transfers a video prior through a fixed-length token sequence to a shared action expert. A residual cross-view attention branch extends a pretrained video backbone to one, two, or three views while retaining its original self-attention path. A layer-aligned Q-Former aggregates backbone features, and dataset-specific modules map between native state and action interfaces and the shared action expert. Training separates video adaptation from action-only pretraining by freezing the video backbone in the latter stage, followed by joint target-domain post-training. The policy extracts video features with a single backbone pass and uses asynchronous action chunking for execution. On LIBERO, X-World reaches 98.5\\% mean success; its LIBERO-trained checkpoint obtains 76.5\\% on LIBERO-Plus without further adaptation. The seven-shift breakdown reveals gains in robot, language, lighting, and layout perturbations, alongside weaknesses under camera, background, and noise shifts relative to OpenVLA-OFT. On six dual-arm real-world tasks, it achieves 81.7\\% mean success over 20 trials per task. Removing video adaptation or cross-view fusion produces the largest observed success drops among the tested removals.",
+      "arxiv_id": "2610.34105",
+      "arxiv_url": "https://arxiv.org/abs/2610.34105",
+      "authors": [
+        "Chun Gu",
+        "Xiaofei Wei",
+        "Yiming Chen",
+        "Juntong Zhang",
+        "Li Zhang"
+      ],
+      "bullets": [
+        "Supports one, two, or three camera views using residual cross-view attention while preserving the pretrained video backbone.",
+        "Uses a fixed-length token interface, layer-aligned Q-Former, and dataset-specific state/action modules to connect heterogeneous robot interfaces to a shared action expert.",
+        "Separates video adaptation from action pretraining, then performs joint target-domain post-training; execution uses one backbone pass and asynchronous action chunking.",
+        "Reports 98.5% mean success on LIBERO, 76.5% on LIBERO-Plus without further adaptation, and 81.7% mean success across six dual-arm real-world tasks.",
+        "Shows weaknesses under camera, background, and noise shifts relative to OpenVLA-OFT; removing video adaptation or cross-view fusion causes the largest tested performance drops."
+      ],
+      "categories": [
+        "cs.RO"
+      ],
+      "figure_status": "ready",
+      "figures": [
+        {
+          "caption": "Figure 1: Overview of X-World. The video backbone is first adapted on robot and human videos with one to three camera views (left). A layer-aligned Q-Former then compresses its features into fixed-length tokens that condition the action DiT, while dataset-specific projections map native states and actions to and from the shared expert (right). Action pretraining learns this interface with the video backbone frozen; target-domain post-training updates all modules using video and action supervision.",
+          "figure_id": "figure-1-8",
+          "figure_number": "1",
+          "height": 370,
+          "image_path": "figures/2610.34105/figure-001.webp",
+          "kind": "figure",
+          "page": 3,
+          "width": 817
+        },
+        {
+          "caption": "Figure 5: Real-world task success. Bars show success fractions over 20 trials per policy and task on six dual-arm UR5e tasks under a shared evaluation protocol and identical initial placements. X-World achieves the highest observed success on every task.",
+          "figure_id": "figure-5-13",
+          "figure_number": "5",
+          "height": 558,
+          "image_path": "figures/2610.34105/figure-002.webp",
+          "kind": "figure",
+          "page": 9,
+          "width": 793
+        },
+        {
+          "caption": "Figure 2: Cross-view adaptation of the video transformer. (a) LTX-Video (HaCohen et al., 2024) applies self-attention to a single view. (b) Genie-Envisioner (Liao et al., 2025) fuses concatenated views through cross-view attention. (c) X-World retains pretrained per-view self-attention and learns cross-view fusion through a separate residual branch. Zero initialization preserves the pretrained computation at the start of adaptation while allowing cross-camera interactions to be learned. (d) Training-time masks for one, two, and three available views. Shaded entries allow attention; replicated slots are isolated from available views, supporting joint training across camera counts.",
+          "figure_id": "figure-2-11",
+          "figure_number": "2",
+          "height": 459,
+          "image_path": "figures/2610.34105/figure-003.webp",
+          "kind": "figure",
+          "page": 4,
+          "width": 819
+        },
+        {
+          "caption": "Figure 6: Action-prefix and view-availability analyses. The left panel compares inference without real-time chunking (w/o RTC) with prefix lengths P = 2, 4, 6, 8. The right panel uses the same checkpoint to compare one, two, and three camera views and a shuffled three-view order. Bars report success fractions.",
+          "figure_id": "figure-6-7",
+          "figure_number": "6",
+          "height": 282,
+          "image_path": "figures/2610.34105/figure-004.webp",
+          "kind": "figure",
+          "page": 10,
+          "width": 809
+        },
+        {
+          "caption": "Figure 4: Real-world manipulation examples. Each row corresponds to a separate rollout of the language instruction above it, with three third-person snapshots arranged in execution order from left to right.",
+          "figure_id": "figure-4-10",
+          "figure_number": "4",
+          "height": 837,
+          "image_path": "figures/2610.34105/figure-005.webp",
+          "kind": "figure",
+          "page": 8,
+          "width": 820
+        },
+        {
+          "caption": "Figure 3: Dual-arm evaluation platform. Two UR5e arms use Robotiq 2F85 grippers and wrist-mounted RealSense D405 cameras; a shared D455 camera supplies the third-person view.",
+          "figure_id": "figure-3-5",
+          "figure_number": "3",
+          "height": 231,
+          "image_path": "figures/2610.34105/figure-006.webp",
+          "kind": "figure",
+          "page": 7,
+          "width": 406
+        },
+        {
+          "caption": "Figure 7: Future-video predictions after Stage 1 adaptation. The three examples use one, two, and three input camera views. Within each example, the first column contains observed frames and the remaining columns show predictions at frames 8, 16, and 24 of the 24-frame horizon; multiple rows correspond to synchronized views of the same sequence.",
+          "figure_id": "figure-7-9",
+          "figure_number": "7",
+          "height": 1210,
+          "image_path": "figures/2610.34105/figure-007.webp",
+          "kind": "figure",
+          "page": 18,
+          "width": 813
+        },
+        {
+          "caption": "Figure 8: Future-video predictions after real-world post-training. Table clearing (top) and block stacking (bottom) each show three synchronized camera views. Observed frames occupy the first column, followed by predictions at frames 8, 16, and 24, so each row traces the predicted evolution of one camera view.",
+          "figure_id": "figure-8-12",
+          "figure_number": "8",
+          "height": 1219,
+          "image_path": "figures/2610.34105/figure-008.webp",
+          "kind": "figure",
+          "page": 19,
+          "width": 808
+        },
+        {
+          "caption": "Table 2: LIBERO success rates (%) on the Spatial, Object, Goal, and Long suites. Average is the mean of the four suite scores. Best results are bold with pink backgrounds; second-best results are underlined with lavender backgrounds.",
+          "figure_id": "table-2-1",
+          "figure_number": "2",
+          "height": 547,
+          "image_path": "figures/2610.34105/table-009.webp",
+          "kind": "table",
+          "page": 6,
+          "width": 832
+        },
+        {
+          "caption": "Table 3: Zero-shot success rates (%) across seven LIBERO-Plus distribution shifts (Fei et al., 2025). Cam., Lang., and Bg. denote camera, language, and background changes, respectively. The w and m variants use no wrist input and mixed-data supervised fine-tuning, respectively. OpenVLA-OFT+ is excluded because it is trained on LIBERO-Plus. Best results are bold with pink backgrounds; second-best results are underlined with lavender backgrounds.",
+          "figure_id": "table-3-4",
+          "figure_number": "3",
+          "height": 315,
+          "image_path": "figures/2610.34105/table-010.webp",
+          "kind": "table",
+          "page": 7,
+          "width": 832
+        },
+        {
+          "caption": "Table 4: LIBERO success rates (%) for ablations of training stages, model components, and video loss. Stage 1 is video adaptation and Stage 2 is action pretraining; Average is the mean across the four suites. Best results are bold with pink backgrounds; second-best results are underlined with lavender backgrounds.",
+          "figure_id": "table-4-14",
+          "figure_number": "4",
+          "height": 211,
+          "image_path": "figures/2610.34105/table-011.webp",
+          "kind": "table",
+          "page": 9,
+          "width": 838
+        },
+        {
+          "caption": "Table 5: Single-H100 inference latency (ms). Component timings exclude 14 ms of model-side overhead included in the 46 ms cached response; T5 encoding adds 13 ms on the first call. The 91 ms deployed refresh additionally includes network transfer, data processing, and control-side overhead.",
+          "figure_id": "table-5-6",
+          "figure_number": "5",
+          "height": 165,
+          "image_path": "figures/2610.34105/table-012.webp",
+          "kind": "table",
+          "page": 10,
+          "width": 828
+        },
+        {
+          "caption": "Table 1: Three-stage training of X-World. Stage 1 adapts the video backbone and view modules through video prediction on robot and human data. Stage 2 freezes the backbone and trains the Q-Former, action expert, and native interfaces on action-labeled trajectories. Stage 3 jointly optimizes video and action objectives on LIBERO or real-world demonstrations, updating all modules.",
+          "figure_id": "table-1-15",
+          "figure_number": "1",
+          "height": 129,
+          "image_path": "figures/2610.34105/table-013.webp",
+          "kind": "table",
+          "page": 5,
+          "width": 827
+        },
+        {
+          "caption": "Table 6: Datasets for Stage 1 video adaptation. Robot and human videos supply future-frame supervision, while Views gives the number of available camera streams per training example.",
+          "figure_id": "table-6-3",
+          "figure_number": "6",
+          "height": 80,
+          "image_path": "figures/2610.34105/table-014.webp",
+          "kind": "table",
+          "page": 15,
+          "width": 827
+        },
+        {
+          "caption": "Table 7: Datasets for Stage 2 action pretraining. Robot trajectories provide action supervision, while Views gives the available camera count per example; dataset-specific projections accommodate native state and action formats.",
+          "figure_id": "table-7-2",
+          "figure_number": "7",
+          "height": 80,
+          "image_path": "figures/2610.34105/table-015.webp",
+          "kind": "table",
+          "page": 15,
+          "width": 827
+        }
+      ],
+      "first_seen_at": "2026-11-14T21:00:00-05:00",
+      "hero_figure": "figures/2610.34105/hero.webp",
+      "novelty": 8,
+      "pdf_url": "https://arxiv.org/pdf/2610.34105",
+      "relevance": 9,
+      "selection_reason": "Robot manipulation policy transferring video priors to variable-view control; fits robot learning and manipulation.",
+      "summary_status": "generated",
+      "title": "X-World: Transferring Video Priors to Variable-View Robot Control",
+      "tldr": "X-World transfers pretrained video representations into a shared action policy for variable-view robot control, achieving strong simulated and real-world performance across several distribution shifts.",
+      "topic_assignments": [
+        {
+          "subtopic_ids": [
+            "robot-learning-and-manipulation"
+          ],
+          "topic_id": "embodied-ai"
+        }
+      ]
+    },
+    {
+      "abstract": "Audio-visual models improve egocentric action recognition by exploiting complementary cues, yet typically assume that both streams remain available at inference. Existing missing-modality methods operate on trimmed, single-event clips in which a stream is entirely present or absent, whereas real sensors fail and recover within long, untrimmed observations. We redefine egocentric modality missingness as temporally localized sensor outages within untrimmed, multi-event observations, with whole-clip absence as the limiting case. We introduce \\textbf{MacJEPA}, a missing-modality-robust \\textbf{Ma}sked-\\textbf{c}ontext query \\textbf{JEPA} that recognizes visual actions and acoustic events from supplied interval queries over audio-visual context. Window-local modality dropout simulates these sensor outages during training. MacJEPA further repurposes masking in JEPA from a self-supervised pretext into a supervised robustness objective, aligning masked and clean latent representations of both multimodal content tokens and the task-conditioned queries. All objectives are optimized jointly with recognition in a single stage, requiring no test-time adaptation. Across Epic-Kitchens-100 and Epic-Sounds, a single checkpoint remains competitive under complete input and consistently surpasses published missing-modality baselines when either the dominant or auxiliary stream is removed. MacJEPA thus unifies strong full-input recognition with temporal missing-modality robustness in a single model operating on untrimmed multi-event videos.",
+      "arxiv_id": "2610.08192",
+      "arxiv_url": "https://arxiv.org/abs/2610.08192",
+      "authors": [
+        "Souptik Sen",
+        "Zahra Ahmadi"
+      ],
+      "bullets": [
+        "Reframes missing modality as within-video, time-localized outages, including full-clip absence as a special case.",
+        "Uses a masked-context query JEPA to predict visual actions and acoustic events from interval queries over audio-visual context.",
+        "Trains with window-local modality dropout and aligns masked and clean representations for content tokens and task-conditioned queries.",
+        "Jointly optimizes robustness and recognition in one stage, without test-time adaptation.",
+        "On Epic-Kitchens-100 and Epic-Sounds, one checkpoint remains competitive with full input and outperforms published missing-modality baselines when either stream is removed."
+      ],
+      "categories": [
+        "cs.CV"
+      ],
+      "figure_status": "ready",
+      "figures": [
+        {
+          "caption": "Figure 2: MacJEPA training framework. Window-local modality dropout corrupts the online multimodal sequence with typed, timed masks, while content and query JEPA align it with clean EMA-teacher targets under joint task supervision. Two windows and one query per stream are shown for clarity.",
+          "figure_id": "figure-2-9",
+          "figure_number": "2",
+          "height": 470,
+          "image_path": "figures/2610.08192/figure-001.webp",
+          "kind": "figure",
+          "page": 4,
+          "width": 817
+        },
+        {
+          "caption": "Figure 1: Local sensor outages across overlapping multimodal events in a 19.2-second untrimmed observation.",
+          "figure_id": "figure-1-1",
+          "figure_number": "1",
+          "height": 445,
+          "image_path": "figures/2610.08192/figure-002.webp",
+          "kind": "figure",
+          "page": 2,
+          "width": 796
+        },
+        {
+          "caption": "Figure 3: Query attention over visual (left) and audio (right) windows before (above) and after (below) local outages. Hatched regions are missing, boxes compare clean and corrupted predictions against ground truth.",
+          "figure_id": "figure-3-8",
+          "figure_number": "3",
+          "height": 433,
+          "image_path": "figures/2610.08192/figure-003.webp",
+          "kind": "figure",
+          "page": 8,
+          "width": 814
+        },
+        {
+          "caption": "Table 2: Full-modality validation top-1 accuracy (%). MacJEPA uses a single saved checkpoint for both Epic-Kitchens and Epic-Sounds. Best results are bold, and second-best results are underlined.",
+          "figure_id": "table-2-7",
+          "figure_number": "2",
+          "height": 225,
+          "image_path": "figures/2610.08192/table-004.webp",
+          "kind": "table",
+          "page": 8,
+          "width": 828
+        },
+        {
+          "caption": "Table 3: Dominant-modality robustness. Top-1 accuracy (%) for Epic-Kitchens verb under missing video and Epic-Sounds sound under missing audio. Follows observation-level missingness protocol.",
+          "figure_id": "table-3-12",
+          "figure_number": "3",
+          "height": 193,
+          "image_path": "figures/2610.08192/table-005.webp",
+          "kind": "table",
+          "page": 9,
+          "width": 826
+        },
+        {
+          "caption": "Table 1: Controlled component analysis under dominant-modality removal. Top-1 accuracy (%) for EpicKitchens action and Epic-Sounds sound reported. Follows nested per-window temporal missingness protocol.",
+          "figure_id": "table-1-2",
+          "figure_number": "1",
+          "height": 185,
+          "image_path": "figures/2610.08192/table-006.webp",
+          "kind": "table",
+          "page": 7,
+          "width": 827
+        },
+        {
+          "caption": "Table 4: Auxiliary-modality robustness. Top-1 accuracy (%) for Epic-Kitchens verb under missing audio and Epic-Sounds sound under missing video. Follows observation-level missingness protocol.",
+          "figure_id": "table-4-11",
+          "figure_number": "4",
+          "height": 171,
+          "image_path": "figures/2610.08192/table-007.webp",
+          "kind": "table",
+          "page": 9,
+          "width": 827
+        },
+        {
+          "caption": "Table 11: Training-objective schedule.",
+          "figure_id": "table-11-6",
+          "figure_number": "11",
+          "height": 135,
+          "image_path": "figures/2610.08192/table-008.webp",
+          "kind": "table",
+          "page": 23,
+          "width": 326
+        },
+        {
+          "caption": "Table 5: Effect of the training-time modality-drop probability π. We report top-1 accuracy (%) across perwindow missing rates for Epic-Kitchens action under video removal and Epic-Sounds sound under audio removal. π = 0.7 is the MacJEPA setting. Follows nested per-window temporal missingness protocol.",
+          "figure_id": "table-5-4",
+          "figure_number": "5",
+          "height": 177,
+          "image_path": "figures/2610.08192/table-009.webp",
+          "kind": "table",
+          "page": 18,
+          "width": 827
+        },
+        {
+          "caption": "Table 6: Effect of outage granularity w. We report top-1 accuracy (%) across per-window missing rates for Epic-Kitchens action under video removal and Epic-Sounds sound under audio removal. w = 4 is the MacJEPA setting. Follows nested per-window temporal missingness protocol.",
+          "figure_id": "table-6-5",
+          "figure_number": "6",
+          "height": 177,
+          "image_path": "figures/2610.08192/table-010.webp",
+          "kind": "table",
+          "page": 18,
+          "width": 827
+        },
+        {
+          "caption": "Table 7: Effect of observation length T . We report top-1 accuracy (%) across per-window missing rates for Epic-Kitchens action under video removal and Epic-Sounds sound under audio removal. T = 36 is the MacJEPA setting. Follows nested per-window temporal missingness protocol.",
+          "figure_id": "table-7-10",
+          "figure_number": "7",
+          "height": 177,
+          "image_path": "figures/2610.08192/table-011.webp",
+          "kind": "table",
+          "page": 19,
+          "width": 827
+        },
+        {
+          "caption": "Table 8: Effect of encoder depth Lenc. We report top-1 accuracy (%) across per-window missing rates for Epic-Kitchens action under video removal and Epic-Sounds sound under audio removal. Total parameter counts are shown in parentheses. Follows nested per-window temporal missingness protocol.",
+          "figure_id": "table-8-13",
+          "figure_number": "8",
+          "height": 177,
+          "image_path": "figures/2610.08192/table-012.webp",
+          "kind": "table",
+          "page": 20,
+          "width": 827
+        },
+        {
+          "caption": "Table 9: Robustness across frozen visual feature sources. We report Epic-Kitchens action top-1 accuracy (%) under per-window video removal. Omnivore and VideoMAE are concatenated in the MacJEPA setting. Follows nested per-window temporal missingness protocol.",
+          "figure_id": "table-9-14",
+          "figure_number": "9",
+          "height": 152,
+          "image_path": "figures/2610.08192/table-013.webp",
+          "kind": "table",
+          "page": 20,
+          "width": 828
+        },
+        {
+          "caption": "Table 10: Frozen feature-extraction settings.",
+          "figure_id": "table-10-3",
+          "figure_number": "10",
+          "height": 137,
+          "image_path": "figures/2610.08192/table-014.webp",
+          "kind": "table",
+          "page": 22,
+          "width": 827
+        }
+      ],
+      "first_seen_at": "2026-11-14T21:00:00-05:00",
+      "hero_figure": "figures/2610.08192/hero.webp",
+      "novelty": 7,
+      "pdf_url": "https://arxiv.org/pdf/2610.08192",
+      "relevance": 6,
+      "selection_reason": "Audio-visual egocentric action/event recognition robust to temporal missing modalities; fits video understanding and action understanding.",
+      "summary_status": "generated",
+      "title": "MacJEPA: Missingness-Robust Audio-Visual Recognition from Untrimmed Egocentric Videos",
+      "tldr": "MacJEPA enables audio-visual action and sound recognition despite temporally localized or complete sensor outages in untrimmed egocentric videos.",
+      "topic_assignments": [
+        {
+          "subtopic_ids": [
+            "video-understanding"
+          ],
+          "topic_id": "video-models"
+        }
+      ]
+    },
+    {
+      "abstract": "Recent video world models have witnessed the paradigm shift from single-agent to multi-agent involvements, which can reveal more complicated dynamics and cross-agent interaction in the real world. However, existing approaches commonly adopt implicit inter-agent communications via cross attention, which lack explicit geometry constraints and unified 3D state, thereby leading to poor multi-view consistency and struggling with recovering out-of-sight agents. In addition, most of them assume a static background, failing to represent uncontrolled background dynamics. To address these problems, we propose Artemis: a geometry-grounded multi-agent world model with explicit memory sharing. An explicit 3D world map is reconstructed from multi-agent observations to enforce a unified 3D state across agents, offering high cross-view consistency. Specifically, an action-guided geometric injection module is developed to simultaneously render decomposed foreground-background control maps, which are then injected into a diffusion transformer through a designed GeoAdapter block. Compared to previous methods assuming static-only background, our GeoAdapter can also distinguish uncontrolled non-agent dynamics, which are conditioned on their own multi-frame history positions to provide consistent motion cues. Keyframes selected from progressive video rollouts are used to progressively update the reconstructed 3D world maps. To effectively capture complex dynamic patterns, we curate a novel dataset sampled from the CARLA simulator called MA-CARLA. Extensive experiments demonstrate the superiority of our proposed method in terms of visual fidelity and cross-view consistency in the generated videos. In addition, our Artemis can support simultaneous multi-modal rollouts with both 2D video and 3D point map maintenance, scale to scenarios beyond two agents and multi-camera setting.",
+      "arxiv_id": "2610.07031",
+      "arxiv_url": "https://arxiv.org/abs/2610.07031",
+      "authors": [
+        "Sitian Shen",
+        "Jiuming Liu",
+        "Mengmeng Liu",
+        "Yian Wang",
+        "Michael Ying Yang",
+        "Francesco Nex",
+        "Hao Cheng",
+        "Daniele De Martini",
+        "Ayush Tewari",
+        "Per Ola Kristensson"
+      ],
+      "bullets": [
+        "Addresses poor cross-view consistency, out-of-sight agent recovery, and static-background assumptions in prior multi-agent world models.",
+        "Reconstructs an explicit 3D world map from multi-agent observations to enforce a unified geometric state.",
+        "Uses an action-guided GeoAdapter to inject decomposed foreground–background control maps into a diffusion transformer.",
+        "Models uncontrolled background dynamics using their own multi-frame position histories, while keyframes progressively update the 3D map.",
+        "Introduces the MA-CARLA dataset; experiments report improved visual fidelity and cross-view consistency, with support for multi-modal 2D video/3D point-map rollouts and more than two agents."
+      ],
+      "categories": [
+        "cs.CV"
+      ],
+      "figure_status": "ready",
+      "figures": [
+        {
+          "caption": "Figure 4: Overall pipeline of Artemis. We initialize the shared 3D map by registering individual observations. Given action inputs, control maps disentangling background static, foreground controlled agent proxy, and uncontrolled environmental dynamics are rendered respectively from the reconstructed global map. Then, these controls are injected into DiT, guiding the generator’s rollouts. After each inference block, keyframes are selected to update the static world map.",
+          "figure_id": "figure-4-1",
+          "figure_number": "4",
+          "height": 252,
+          "image_path": "figures/2610.07031/figure-001.webp",
+          "kind": "figure",
+          "page": 6,
+          "width": 824
+        },
+        {
+          "caption": "Figure 9: Visualization comparisons with previous multi-agent methods.",
+          "figure_id": "figure-9-2",
+          "figure_number": "9",
+          "height": 301,
+          "image_path": "figures/2610.07031/figure-002.webp",
+          "kind": "figure",
+          "page": 15,
+          "width": 770
+        },
+        {
+          "caption": "Figure 2: MA-CARLA dataset. We visualize various curated samples in our MA-CARLA dataset, and also calculate the distributions of diverse interaction modes and agent numbers.",
+          "figure_id": "figure-2-7",
+          "figure_number": "2",
+          "height": 327,
+          "image_path": "figures/2610.07031/figure-003.webp",
+          "kind": "figure",
+          "page": 4,
+          "width": 824
+        },
+        {
+          "caption": "Figure 6: Visualization comparisons with previous multi-agent methods.",
+          "figure_id": "figure-6-6",
+          "figure_number": "6",
+          "height": 147,
+          "image_path": "figures/2610.07031/figure-004.webp",
+          "kind": "figure",
+          "page": 8,
+          "width": 775
+        },
+        {
+          "caption": "Figure 3: Construction of control maps.",
+          "figure_id": "figure-3-8",
+          "figure_number": "3",
+          "height": 338,
+          "image_path": "figures/2610.07031/figure-005.webp",
+          "kind": "figure",
+          "page": 4,
+          "width": 443
+        },
+        {
+          "caption": "Figure 8: Visualization samples in the multi-camera and multi-agent settings.",
+          "figure_id": "figure-8-9",
+          "figure_number": "8",
+          "height": 216,
+          "image_path": "figures/2610.07031/figure-006.webp",
+          "kind": "figure",
+          "page": 9,
+          "width": 774
+        },
+        {
+          "caption": "Figure 7: Visualization of uncontrolled dynamics.",
+          "figure_id": "figure-7-10",
+          "figure_number": "7",
+          "height": 121,
+          "image_path": "figures/2610.07031/figure-007.webp",
+          "kind": "figure",
+          "page": 9,
+          "width": 531
+        },
+        {
+          "caption": "Table 1: Quantitative comparisons on MA-CARLA Dataset.",
+          "figure_id": "table-1-5",
+          "figure_number": "1",
+          "height": 258,
+          "image_path": "figures/2610.07031/table-008.webp",
+          "kind": "table",
+          "page": 8,
+          "width": 776
+        },
+        {
+          "caption": "Table 2: Ablation studies of our designed modules.",
+          "figure_id": "table-2-11",
+          "figure_number": "2",
+          "height": 140,
+          "image_path": "figures/2610.07031/table-009.webp",
+          "kind": "table",
+          "page": 9,
+          "width": 827
+        },
+        {
+          "caption": "Table 3: Horizontal fields of view for the selected cameras.",
+          "figure_id": "table-3-4",
+          "figure_number": "3",
+          "height": 140,
+          "image_path": "figures/2610.07031/table-010.webp",
+          "kind": "table",
+          "page": 13,
+          "width": 518
+        },
+        {
+          "caption": "Table 4: Scene counts in the two-agent experimental splits.",
+          "figure_id": "table-4-3",
+          "figure_number": "4",
+          "height": 117,
+          "image_path": "figures/2610.07031/table-011.webp",
+          "kind": "table",
+          "page": 13,
+          "width": 448
+        }
+      ],
+      "first_seen_at": "2026-11-14T21:00:00-05:00",
+      "hero_figure": "figures/2610.07031/hero.webp",
+      "novelty": 8,
+      "pdf_url": "https://arxiv.org/pdf/2610.07031",
+      "relevance": 9,
+      "selection_reason": "Geometry-grounded multi-agent driving world model with action-conditioned video generation and shared 3D state.",
+      "summary_status": "generated",
+      "title": "Artemis: Geometry-Grounded Multi-Agent Driving World Models with Shared 3D State and Progressive Memory Update",
+      "tldr": "Artemis is a geometry-grounded multi-agent driving world model that maintains a shared 3D state and progressively updated memory to generate more consistent multi-view video and recover dynamic agents and backgrounds.",
+      "topic_assignments": [
+        {
+          "subtopic_ids": [
+            "interactive-world-models"
+          ],
+          "topic_id": "world-models"
+        },
+        {
+          "subtopic_ids": [
+            "video-diffusion"
+          ],
+          "topic_id": "video-models"
+        }
+      ]
+    },
+    {
+      "abstract": "Diffusion-based world models can generate and predict trajectories in high-dimensional dynamical systems, but predictive accuracy does not imply that their latent coordinates recover the underlying state variables or causal interactions. We ask whether a frozen pretrained diffusion model can be equipped with identifiable coordinates without retraining its generative backbone. We show that auxiliary-variable nonlinear ICA guarantees can be transferred to Contrastive Diffusion Alignment (ConDA), which learns only a lightweight alignment map on top of frozen diffusion latents. Under standard TCL/GCL assumptions, the aligned representation identifies latent dynamical states up to permutation and componentwise invertible transformations, preserves the latent dynamic structural causal model, and reduces lagged graph recovery to transition-Jacobian sparsity. We evaluate TCL-, GCL-, and CEBRA-based ConDA against TDRL, CaRiNG, IDOL, temporal SuaVE, and iVAE across physical and robotic video systems. TCL and GCL achieve near-perfect blockwise state recovery and competitive lagged graph recovery, including exact recovery in a simulated falling-body system. In a simulated bipedal robot, learned dynamics recover the sign and temporal structure of responses to held-out control perturbations. These results show that a frozen generative diffusion model can be equipped with coordinates that are identifiable, structurally interpretable, and useful for analyzing intervention-relevant dynamics.",
+      "arxiv_id": "2610.07028",
+      "arxiv_url": "https://arxiv.org/abs/2610.07028",
+      "authors": [
+        "Ruchi Sandilya",
+        "Conor Liston",
+        "Logan Grosenick"
+      ],
+      "bullets": [
+        "Addresses the gap between accurate trajectory prediction and recovery of true latent state variables or causal structure.",
+        "Applies auxiliary-variable nonlinear ICA guarantees to Contrastive Diffusion Alignment (ConDA) without retraining the diffusion backbone.",
+        "Under TCL/GCL assumptions, states are identified up to permutation and componentwise invertible transformations, while latent structural dynamics are preserved.",
+        "Experiments on physical and robotic video systems show near-perfect blockwise state recovery, competitive lagged graph recovery, and exact recovery in a simulated falling-body system.",
+        "Control-perturbation tests in a simulated bipedal robot recover the sign and temporal structure of held-out responses."
+      ],
+      "categories": [
+        "cs.LG"
+      ],
+      "figure_status": "ready",
+      "figures": [
+        {
+          "caption": "Figure 1: Overview of the proposed framework. (a) A frozen pretrained diffusion model serves as a generative world model: it embeds video frames yt into diffusion latents xt by inversion (solid arrows) and decodes latents back into frames (dashed arrows). The latents are in turn generated by a lagged dynamic SCM over the latent state st, driven by inputs ut and independent noise, through xt = g(st). (b) TCL- or GCL-based ConDA trains only a lightweight map h, using temporal or auxiliary information, to obtain zt = h(xt). Under nonlinear ICA assumptions, zt identifies st up to permutation and componentwise invertible transformations, and can be lifted back to xt for generation. (c) Lagged causal structure is characterized theoretically by inverse transition-noise Jacobian sparsity and estimated empirically from states aligned from zt. Dynamics learned in these coordinates are validated by predicting responses to held-out control perturbations.",
+          "figure_id": "figure-1-1",
+          "figure_number": "1",
+          "height": 315,
+          "image_path": "figures/2610.07028/figure-001.webp",
+          "kind": "figure",
+          "page": 2,
+          "width": 814
+        },
+        {
+          "caption": "Figure 2: Recovered lag-1 dynamics graphs across datasets and methods. Binary adjacency matrices are shown for IDOL, CaRiNG, TDRL, temporal SuaVE, iVAE, ConDA-CEBRA, ConDATCL, ConDA-GCL, and the true-state reference. Blue entries indicate recovered edges and gray entries indicate absent edges. Rows correspond to the different dynamical systems considered in the study. The ConDA variants more closely reproduce the sparsity structure of the true-state dynamics, with TCL and GCL showing particularly strong agreement across settings.",
+          "figure_id": "figure-2-8",
+          "figure_number": "2",
+          "height": 350,
+          "image_path": "figures/2610.07028/figure-002.webp",
+          "kind": "figure",
+          "page": 9,
+          "width": 817
+        },
+        {
+          "caption": "Figure 3: Dynamic intervention effects under controlled Microduck perturbations. Mean dynamic intervention effect over time for interventions on forward velocity command ux (left) and lateral velocity command uy (right). The curves compare the MuJoCo simulator response, the true-state dynamics baseline, and the TCL-aligned representation. Shaded regions denote 95% bootstrap confidence intervals across matched intervention trajectories. The left panel shows the effect of do(ux = −0.25) relative to do(ux = 0) on vx, while the right panel shows the effect of do(uy = −0.17) relative to do(uy = 0) on vy .",
+          "figure_id": "figure-3-9",
+          "figure_number": "3",
+          "height": 312,
+          "image_path": "figures/2610.07028/figure-003.webp",
+          "kind": "figure",
+          "page": 9,
+          "width": 826
+        },
+        {
+          "caption": "Figure 4: Distribution of Microduck control commands. Empirical distributions of the forwardvelocity command ux, lateral-velocity command uy, and yaw-rate command uω in the training and test sets. The distributions closely overlap across the two splits. Dotted vertical lines indicate the negative, zero, and positive command values used in the intervention experiments.",
+          "figure_id": "figure-4-10",
+          "figure_number": "4",
+          "height": 244,
+          "image_path": "figures/2610.07028/figure-004.webp",
+          "kind": "figure",
+          "page": 16,
+          "width": 826
+        },
+        {
+          "caption": "Figure 5: Dynamic intervention effects under positive and negative control perturbations in Microduck. Mean dynamic intervention effects over a 1s rollout horizon for interventions on the forward command ux and lateral command uy. The top row shows positive interventions, do(ux = 0.25) and do(uy = 0.17), relative to the corresponding zero-control baselines, while the bottom row shows negative interventions, do(ux = −0.25) and do(uy = −0.17). Responses are measured on vx for ux interventions and on vy for uy interventions. Curves compare the MuJoCo simulator, the true-state dynamics baseline, and the TCL-aligned representation. Shaded regions indicate 95% bootstrap confidence intervals across matched intervention trajectories.",
+          "figure_id": "figure-5-7",
+          "figure_number": "5",
+          "height": 602,
+          "image_path": "figures/2610.07028/figure-005.webp",
+          "kind": "figure",
+          "page": 17,
+          "width": 826
+        },
+        {
+          "caption": "Table 1: Identifiability and lag-1 graph recovery across dynamical systems. Mean ± standard deviation across seeds are reported for CausalVerse Physical Fall, CausalVerse Robotics Study, and Microduck. MCC and R2 quantify latent-state recovery, while F1, accuracy, SHD, AUPRC, and SID measure recovery of the lag-1 dynamics graph. ConDA-TCL and ConDA-GCL show consistently strong performance across both identifiability and graph recovery, with exact graph recovery on Physical Fall and competitive performance on the Robotics Study and Microduck. Arrows indicate whether higher (↑) or lower (↓) values are preferred.",
+          "figure_id": "table-1-6",
+          "figure_number": "1",
+          "height": 579,
+          "image_path": "figures/2610.07028/table-006.webp",
+          "kind": "table",
+          "page": 8,
+          "width": 822
+        },
+        {
+          "caption": "Table 5: Dynamic intervention effect on lateral velocity in Microduck. Errors are computed relative to the matched MuJoCo response for do(uy = −0.17) versus do(uy = 0).",
+          "figure_id": "table-5-2",
+          "figure_number": "5",
+          "height": 196,
+          "image_path": "figures/2610.07028/table-007.webp",
+          "kind": "table",
+          "page": 18,
+          "width": 442
+        },
+        {
+          "caption": "Table 3: Dynamic intervention effect on lateral velocity in Microduck. Errors are computed relative to the matched MuJoCo response for do(uy = 0.17) versus do(uy = 0).",
+          "figure_id": "table-3-3",
+          "figure_number": "3",
+          "height": 194,
+          "image_path": "figures/2610.07028/table-008.webp",
+          "kind": "table",
+          "page": 18,
+          "width": 402
+        },
+        {
+          "caption": "Table 4: Dynamic intervention effect on forward velocity in Microduck. Errors are computed relative to the matched MuJoCo response for do(ux = −0.25) versus do(ux = 0).",
+          "figure_id": "table-4-5",
+          "figure_number": "4",
+          "height": 127,
+          "image_path": "figures/2610.07028/table-009.webp",
+          "kind": "table",
+          "page": 18,
+          "width": 400
+        },
+        {
+          "caption": "Table 2: Dynamic intervention effect on forward velocity in Microduck. Errors are computed relative to the matched MuJoCo response for do(ux = 0.25) versus do(ux = 0).",
+          "figure_id": "table-2-4",
+          "figure_number": "2",
+          "height": 59,
+          "image_path": "figures/2610.07028/table-010.webp",
+          "kind": "table",
+          "page": 18,
+          "width": 400
+        }
+      ],
+      "first_seen_at": "2026-11-14T21:00:00-05:00",
+      "hero_figure": "figures/2610.07028/hero.webp",
+      "novelty": 9,
+      "pdf_url": "https://arxiv.org/pdf/2610.07028",
+      "relevance": 8,
+      "selection_reason": "Identifiable latent states in diffusion-based world models for dynamical systems.",
+      "summary_status": "generated",
+      "title": "Identifiable World Models from Pretrained Diffusion Representations",
+      "tldr": "A lightweight alignment layer can turn frozen diffusion-model latents into identifiable, interpretable representations of dynamical states and causal interactions.",
+      "topic_assignments": [
+        {
+          "subtopic_ids": [
+            "interactive-world-models"
+          ],
+          "topic_id": "world-models"
+        }
+      ]
+    },
+    {
+      "abstract": "The key-value (KV) cache of autoregressive transformers grows linearly with context length and dominates memory at long context. Most training-free remedies evict low-importance tokens, an irreversible choice along the sequence axis. We instead keep every token and store it more cheaply along the \"feature\" axis. We therefore propose AttSVD, a new \"interpretable\" low-rank compression whose basis is derived from each prompt's own attention geometry: an online, per-prompt truncated SVD that keeps only the directions attention actually reads, cutting persistent per-head KV memory in proportion to the retained rank. We propose two decode-time caching strategies, accumulating and streaming, for short and long generation regimes. Furthermore, we propose two refinements that make compression adaptive. A per-matrix energy rule sizes the logit space and the attention mass independently. An attention-aware basis truncates only in the spaces attention actually reads, preserving both the attention logits and the attention output. The same factors also provide free, per-head interpretability insights into the effective rank and the geometry attention consumes. Across multiple models, on both an agentic benchmark and the full LongBench suite AttSVD stays on par with the dense cache while using up to 50% of the KV-cache memory.",
+      "arxiv_id": "2610.06927",
+      "arxiv_url": "https://arxiv.org/abs/2610.06927",
+      "authors": [
+        "Sara Abdali",
+        "Jongwoo Ko",
+        "Pashmina Cameron"
+      ],
+      "bullets": [
+        "Addresses the linear KV-cache memory growth of long-context autoregressive transformers without evicting tokens.",
+        "Derives an online, per-prompt SVD basis from attention geometry and retains only attention-relevant feature directions.",
+        "Introduces accumulating and streaming decode-time caching strategies for short- and long-generation settings.",
+        "Uses independent energy-based rank selection and attention-aware truncation to preserve attention logits and outputs.",
+        "Matches dense-cache performance across multiple models, an agentic benchmark, and LongBench, with up to 50% KV-memory reduction."
+      ],
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "figure_status": "ready",
+      "figures": [
+        {
+          "caption": "Figure 1: AttSVD keeps a thin, compressed side cache of attention-aware factors A,B plus a small exact cache of recent tokens, cutting persistent memory to a fraction of dense while retaining all token positions. At decode, accumulating keeps every token exact (small decoded tokens); streaming compresses tokens leaving a sliding window, keeping the exact buffer bounded.",
+          "figure_id": "figure-1-3",
+          "figure_number": "1",
+          "height": 485,
+          "image_path": "figures/2610.06927/figure-001.webp",
+          "kind": "figure",
+          "page": 3,
+          "width": 786
+        },
+        {
+          "caption": "Figure 2: At the aggressive half-rank (50% cache) point, AttSVD stays within noise of the dense cache and matches or beats the strongest baselines on both Phi-4-14B and Qwen3-8B.",
+          "figure_id": "figure-2-7",
+          "figure_number": "2",
+          "height": 340,
+          "image_path": "figures/2610.06927/figure-002.webp",
+          "kind": "figure",
+          "page": 8,
+          "width": 827
+        },
+        {
+          "caption": "Figure 7: The attention-aware cache preserves what attention computes (a real layer/head of SmolLM2-135M). (a) At 50% cache the attention-aware keys (blue) lie almost on the full-attention target (black), while SVD on raw KV (red) distorts it. (b) Query-relevant logit error vs. cache size: attention-aware stays below SVD on raw KV at every budget (0.013 vs. 0.141 at 50%). Real-model analogue of Table 8.",
+          "figure_id": "figure-7-5",
+          "figure_number": "7",
+          "height": 310,
+          "image_path": "figures/2610.06927/figure-003.webp",
+          "kind": "figure",
+          "page": 18,
+          "width": 826
+        },
+        {
+          "caption": "Figure 3: Agentic benchmark (n=184): mean judge score (a, c) and pass@4 (b, d) as the cache is reduced from 100% down to 50%, on Phi-4-14B (a, b) and Qwen3-8B (c, d). AttSVD (Accum/Stream) follows the dense cache far more closely than SVD on raw KV across the rank range.",
+          "figure_id": "figure-3-8",
+          "figure_number": "3",
+          "height": 250,
+          "image_path": "figures/2610.06927/figure-004.webp",
+          "kind": "figure",
+          "page": 8,
+          "width": 816
+        },
+        {
+          "caption": "Figure 4: Under the dynamic energy rule, quality saturates by τ=0.99 and matches the dense cache from there on (agentic benchmark, n=184).",
+          "figure_id": "figure-4-13",
+          "figure_number": "4",
+          "height": 240,
+          "image_path": "figures/2610.06927/figure-005.webp",
+          "kind": "figure",
+          "page": 9,
+          "width": 444
+        },
+        {
+          "caption": "Figure 6: SVD factors of the low-rank KV cache, V (same layer/head and prompt as Figure 5). (a) attention map, with the per-key attention mass that weights V ; (b) V ’s singular spectrum, SVD on raw KV vs. attention-aware (mass-weighted); (c) per-token factor weights |U |; (d) top tokens per factor with energy shares.",
+          "figure_id": "figure-6-10",
+          "figure_number": "6",
+          "height": 488,
+          "image_path": "figures/2610.06927/figure-006.webp",
+          "kind": "figure",
+          "page": 19,
+          "width": 665
+        },
+        {
+          "caption": "Figure 5: SVD factors of the low-rank KV cache, K (SmolLM2-135M, one layer/head). (a) attention map; (b) K’s singular spectrum, SVD on raw KV (energy) vs. attention-aware (queryweighted); (c) per-token factor weights |U |; (d) top tokens per factor with energy shares.",
+          "figure_id": "figure-5-9",
+          "figure_number": "5",
+          "height": 488,
+          "image_path": "figures/2610.06927/figure-007.webp",
+          "kind": "figure",
+          "page": 19,
+          "width": 655
+        },
+        {
+          "caption": "Table 5: SVD / low-rank KV-cache methods by basis source. †ShadowKV low-rank-compresses keys and offloads full values to CPU.",
+          "figure_id": "table-5-6",
+          "figure_number": "5",
+          "height": 244,
+          "image_path": "figures/2610.06927/table-008.webp",
+          "kind": "table",
+          "page": 13,
+          "width": 830
+        },
+        {
+          "caption": "Table 2: At 50% cache on LongBench, AttSVD (Accum/Stream) matches the dense cache average on both Phi-4-14B and Qwen3-8B and leads every reconstruction and eviction baseline.",
+          "figure_id": "table-2-2",
+          "figure_number": "2",
+          "height": 246,
+          "image_path": "figures/2610.06927/table-009.webp",
+          "kind": "table",
+          "page": 7,
+          "width": 795
+        },
+        {
+          "caption": "Table 3: On Llama-3.1-8B-Instruct, AttSVD matches the dense cache average at 80% (48.5 vs. 48.5) and stays within 0.7 at 60%, beating KQ-SVD and OjaKV at both matched cache points.",
+          "figure_id": "table-3-12",
+          "figure_number": "3",
+          "height": 162,
+          "image_path": "figures/2610.06927/table-010.webp",
+          "kind": "table",
+          "page": 9,
+          "width": 564
+        },
+        {
+          "caption": "Table 4: The dynamic per-matrix energy rule picks rK̃ , rṼ from each prompt’s own spectrum at tolerance τ and reaches near-exact LongBench quality on Phi-4-14B and Qwen3-8B.",
+          "figure_id": "table-4-11",
+          "figure_number": "4",
+          "height": 166,
+          "image_path": "figures/2610.06927/table-011.webp",
+          "kind": "table",
+          "page": 9,
+          "width": 500
+        },
+        {
+          "caption": "Table 7: Streaming-window ablation on GovReport (Llama-3.1-8B-Instruct, c=0.2) for different exact decode-tail windows w, where ROUGE-L stays flat as w shrinks from∞ down to 16 so even a small exact window preserves quality.",
+          "figure_id": "table-7-14",
+          "figure_number": "7",
+          "height": 141,
+          "image_path": "figures/2610.06927/table-012.webp",
+          "kind": "table",
+          "page": 16,
+          "width": 486
+        },
+        {
+          "caption": "Table 1: Measured KV-cache memory on Phi-4-14B (40 layers, 40 query / 10 KV heads) and Qwen3-8B (36 layers, 32 query / 8 KV heads); d=128, bf16.",
+          "figure_id": "table-1-1",
+          "figure_number": "1",
+          "height": 106,
+          "image_path": "figures/2610.06927/table-013.webp",
+          "kind": "table",
+          "page": 7,
+          "width": 764
+        },
+        {
+          "caption": "Table 6: Streaming vs. accumulating decode on LongBench (Phi-4-14B, full suite, n=1,750; average, ∆ the streaming-minus-accumulating gap), showing that streaming stays within run-to-run noise of the accumulating cache at every budget and lets the growing O(g) exact decode tail be bounded to a fixed window at no quality cost.",
+          "figure_id": "table-6-15",
+          "figure_number": "6",
+          "height": 117,
+          "image_path": "figures/2610.06927/table-014.webp",
+          "kind": "table",
+          "page": 16,
+          "width": 830
+        },
+        {
+          "caption": "Table 8: SVD on raw KV vs. attention-aware truncation at matched rank on a synthetic head whose query-relevant directions are misaligned with K’s dominant singular directions. At equal rank the attention-aware basis drives the attention-relevant error far below SVD on raw KV for both K and V , and reaches it exactly once the retained rank spans the weighted subspace.",
+          "figure_id": "table-8-4",
+          "figure_number": "8",
+          "height": 87,
+          "image_path": "figures/2610.06927/table-015.webp",
+          "kind": "table",
+          "page": 18,
+          "width": 502
+        }
+      ],
+      "first_seen_at": "2026-11-14T21:00:00-05:00",
+      "hero_figure": "figures/2610.06927/hero.webp",
+      "novelty": 8,
+      "pdf_url": "https://arxiv.org/pdf/2610.06927",
+      "relevance": 9,
+      "selection_reason": "Attention-guided low-rank KV cache compression for long-context transformers.",
+      "summary_status": "generated",
+      "title": "AttSVD:Prompt-Adaptive Low-Rank KV Cache Compression via Attention-Guided SVD",
+      "tldr": "AttSVD compresses every KV-cache token using prompt-specific, attention-guided low-rank SVD, retaining dense-cache performance while reducing memory by up to 50%.",
+      "topic_assignments": [
+        {
+          "subtopic_ids": [
+            "kv-cache-and-memory-efficiency"
+          ],
+          "topic_id": "efficient-ai"
+        }
+      ]
+    }
+  ],
+  "schema_version": 1
+}

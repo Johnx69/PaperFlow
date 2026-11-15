@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Vision-Language-Action
 
-**797 papers total**
+**798 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-14 | [SALA: Semantically Aligned Latent Actions Enable Dual-Axis Scaling of Embodied Foundation Models](https://arxiv.org/abs/2611.17110) | Embodied AI: Vision-Language-Action, Learning from Human Videos; World Models: Latent Action Models | SALA aligns latent actions across human and robot videos using language-guided semantic supervision, enabling embodied foundation models to benefit from scaling both general and task-specific human video. | 9 | 8 |
 | 2026-11-12 | [UAV-Flow++: A Unified Suite for Benchmarking and Learning Language-Guided UAV Flight](https://arxiv.org/abs/2611.17163) | Embodied AI: Vision-Language Navigation, Vision-Language-Action | UAV-Flow++ introduces a benchmark, dataset, simulator, and vision-language-action policy for evaluating and learning short-range, language-guided UAV maneuvers. | 9 | 8 |
 | 2026-11-12 | [From Foundation VLM to Versatile Driving VLM: A Triplet Incremental Training Approach](https://arxiv.org/abs/2611.16727) | Embodied AI: Vision-Language-Action; Multimodal Foundation Models: Spatial Intelligence | Triplet Incremental Training adds 3D geometric awareness to general VLMs for autonomous driving without architectural changes or deployment-time overhead. | 8 | 7 |
 | 2026-11-12 | [NSDL: Neuro-Symbolic Division of Labor for Multi-Robot Task Planning](https://arxiv.org/abs/2611.16671) | Embodied AI: Vision-Language-Action | NSDL combines a vision-language model for scene-dependent task judgments with a deterministic solver for executable multi-robot planning. | 7 | 7 |

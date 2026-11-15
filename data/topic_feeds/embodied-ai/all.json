@@ -1,6 +1,881 @@
 {
   "days": [
     {
+      "date": "2026-11-14",
+      "paper_count": 4,
+      "papers": [
+        {
+          "abstract": "Embodied foundation models hinge on diverse robot interaction data, which are costly to collect. Egocentric human videos offer a complementary source of experience, and latent action models (LAMs) provide a popular means of leveraging these videos for policy supervision. Compared with world-action models (WAMs), LAMs can offer greater training efficiency and potentially lower inference costs by avoiding explicit pixel prediction during policy learning and execution. However, most existing LAMs learn latent actions solely through video reconstruction, which can cause their representations to cluster by visual appearance rather than by the underlying actions. As a result, they struggle to align human actions with their robot counterparts. To bridge the gap, we introduce SALA, which emphasizes establishing the semantic correspondence for latent actions. Without requiring paired data, we use the language descriptions of unpaired human and robot clips to estimate semantic similarities and supervise cross-embodiment correspondence. Specifically, we translate these similarities into soft neighborhood structures that guide human latent actions toward semantically related robot latents, while robot action reconstruction grounds the latent space in control. The resulting shared latent action space provides a unified supervision signal for training an embodied foundation model on both human and robot videos. Notably, latent action supervision enables scaling along two axes: (1) pre-training on increasing amounts of general human video consistently reduces robot action prediction error on downstream tasks, and (2) post-training on increasing amounts of task-specific human video substantially improves real-world robot task success rates.",
+          "arxiv_id": "2611.17110",
+          "arxiv_url": "https://arxiv.org/abs/2611.17110",
+          "authors": [
+            "Jiachun Jin",
+            "Zetong Zhou",
+            "Haonan Wang",
+            "Xiao Yang",
+            "Jun Zhu",
+            "Zhijie Deng"
+          ],
+          "bullets": [
+            "Addresses the poor cross-embodiment alignment caused by learning latent actions primarily from video reconstruction.",
+            "Uses language descriptions of unpaired human and robot clips to estimate semantic similarities and create soft neighborhood supervision.",
+            "Combines cross-embodiment alignment with robot action reconstruction to ground the shared latent space in control.",
+            "Enables unified training on human and robot videos without requiring paired data.",
+            "Scaling general human video reduces downstream robot action prediction error, while task-specific human video improves real-world task success."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.AI",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2 Method overview. (a) Latent action tokenizer. Robot (blue) and human (orange) clips share the visual encoder Eθ, the SoftVQ quantizer Qϕ, and the visual decoder Gv; only robot clips train the action decoder Ga. Language similarities Sℓ between atomic-action descriptions define soft neighborhoods P , which supervise the latent neighborhoods Q derived from latent similarities Sz, with gradients stopped through robot latents. Decoder conditioning inputs are omitted for clarity. (b) VLA policy. The frozen tokenizer labels each clip with latent action tokens y, each a categorical distribution over the codebook. Latent queries in the action expert predict ŷ through a latent head, supervised by LLA for both human and robot data; robot data additionally train flow matching with LR FM. In the action expert, blue inputs (state and noisy actions) are used only for robot data, whereas green latent queries are used for both human and robot data.",
+              "figure_id": "figure-2-13",
+              "figure_number": "2",
+              "height": 425,
+              "image_path": "figures/2611.17110/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 974
+            },
+            {
+              "caption": "Figure 5 Latent actions without and with language alignment. (a) For four RoboTwin 2.0 tasks, ARX-X5 latents z of two atomic actions of the right arm, with 20 clips per action and scene type, projected to 2D by PCA fitted to each panel. Color: action; marker: scene type. Bars report the fraction of variance in the full latent space explained by scene and by action. (b) These fractions across all analyzed pairs: thick lines show medians; dashed lines mark the pairs in (a). Alignment shifts the organization from scene toward action.",
+              "figure_id": "figure-5-9",
+              "figure_number": "5",
+              "height": 389,
+              "image_path": "figures/2611.17110/figure-002.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 927
+            },
+            {
+              "caption": "Figure 4 Scaling with human video. Both panels average over four tasks. (a) Pre-training: validation L1 error of predicted actions on the joints each task uses, versus the pre-training budget in equivalent hours of human video. Gray dashed: vanilla VLA; our 0 h variant retains latent-action training. (b) Post-training: success rate versus the fraction of each task’s human demonstrations Dtask",
+              "figure_id": "figure-4-16",
+              "figure_number": "4",
+              "height": 297,
+              "image_path": "figures/2611.17110/figure-003.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 952
+            },
+            {
+              "caption": "Figure 3 Real-world data. Left: examples of the large-scale data used in pre- and mid-training, i.e., egocentric human videos DH and robot teleoperation data DR. Right: the four downstream tasks, each performed by a person, recorded as human demonstrations Dtask",
+              "figure_id": "figure-3-1",
+              "figure_number": "3",
+              "height": 282,
+              "image_path": "figures/2611.17110/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 977
+            },
+            {
+              "caption": "Figure 6 Cross-embodiment retrieval for human pre-training videos. Each human query (left) and its three nearest robot clips over all tasks, under the reconstruction-only tokenizer (middle) and SALA (right).",
+              "figure_id": "figure-6-2",
+              "figure_number": "6",
+              "height": 313,
+              "image_path": "figures/2611.17110/figure-005.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 966
+            },
+            {
+              "caption": "Figure 9 Retrieval for human clips of tasks absent from the robot data. Annotated version of figure 6 with one additional query. Each clip is labeled with its task (italic) and the atomic action of its active hand.",
+              "figure_id": "figure-9-17",
+              "figure_number": "9",
+              "height": 679,
+              "image_path": "figures/2611.17110/figure-006.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 893
+            },
+            {
+              "caption": "Figure 10 Clusters of latent actions. For three pairs of atomic actions in figure 5(a), k-means (k = 2) is applied to the 80 ARX-X5 latents of each tokenizer, 20 per atomic action and scene type. Each half-row shows one cluster: its composition in the header and four of its clips. Without alignment (recon. only), the two clusters are the clean and the randomized clips, each mixing both atomic actions; with alignment, each cluster is one atomic action, covering both scene types. Filled circle: clean scene; open triangle: randomized scene.",
+              "figure_id": "figure-10-5",
+              "figure_number": "10",
+              "height": 813,
+              "image_path": "figures/2611.17110/figure-007.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 947
+            },
+            {
+              "caption": "Figure 8 Cross-embodiment retrieval on shared tasks. Each query (left) and its three nearest target-robot clips under the reconstruction-only tokenizer (middle) and SALA (right). (a) RoboTwin 2.0: ARX-X5 queries, AlohaAgileX clips. (b) Real world: human queries, robot clips. Each clip is labeled with its task (italic) and atomic action; ✓/× mark whether the atomic action (a) or the task and verb (b) match the query. Examples are selected.",
+              "figure_id": "figure-8-14",
+              "figure_number": "8",
+              "height": 414,
+              "image_path": "figures/2611.17110/figure-008.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 909
+            },
+            {
+              "caption": "Figure 7 Tokenizer training with SoftVQ and hard VQ. SoftVQ reduces (a) the alignment loss, whereas hard VQ leaves it nearly unchanged, although both reach comparable (b) visual reconstruction losses. All other settings are identical.",
+              "figure_id": "figure-7-3",
+              "figure_number": "7",
+              "height": 207,
+              "image_path": "figures/2611.17110/figure-009.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 395
+            },
+            {
+              "caption": "Figure 12 Atomic-action annotations on RoboTwin 2.0. Frames of one Aloha-AgileX episode of the beat block hammer task at the boundaries between consecutive steps of the task program. The description between two frames is the atomic action performed between them.",
+              "figure_id": "figure-12-12",
+              "figure_number": "12",
+              "height": 208,
+              "image_path": "figures/2611.17110/figure-010.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 974
+            },
+            {
+              "caption": "Figure 13 Real-world platform. The Sharpa North robot comprises (a) a head-mounted stereo camera, (b) two 7-DoF arms, (c) two 22-DoF Sharpa Wave dexterous hands, (d) two wrist-mounted fisheye cameras, (e) a torso, and (f) a wheeled base.",
+              "figure_id": "figure-13-15",
+              "figure_number": "13",
+              "height": 472,
+              "image_path": "figures/2611.17110/figure-011.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 500
+            },
+            {
+              "caption": "Figure 11 Embodiments in RoboTwin 2.0. Frames of the same task performed by the target embodiment AlohaAgileX (left), whose complete trajectories form DR, and the non-target embodiment ARX-X5 (right), whose videos form DH .",
+              "figure_id": "figure-11-8",
+              "figure_number": "11",
+              "height": 142,
+              "image_path": "figures/2611.17110/figure-012.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 969
+            },
+            {
+              "caption": "Figure 14 Real-world tasks. Frames of one teleoperated demonstration per task, captured by the head camera. The description between two frames is the action performed between them.",
+              "figure_id": "figure-14-4",
+              "figure_number": "14",
+              "height": 178,
+              "image_path": "figures/2611.17110/figure-013.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 981
+            },
+            {
+              "caption": "Table 6 Top-1 cross-embodiment retrieval over all tasks. Language retrieval is omitted on RoboTwin 2.0, where the scripted descriptions of the same atomic action are identical. Language similarity is rescaled so that Random scores 0 and Language scores 1.",
+              "figure_id": "table-6-11",
+              "figure_number": "6",
+              "height": 275,
+              "image_path": "figures/2611.17110/table-014.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 786
+            },
+            {
+              "caption": "Table 5 Tokenizer ablations on RoboTwin 2.0. Each variant changes one design choice of the full tokenizer, and the policy is trained in the same way. w/o sg: bidirectional alignment. Success rates (%) on Aloha-AgileX.",
+              "figure_id": "table-5-10",
+              "figure_number": "5",
+              "height": 183,
+              "image_path": "figures/2611.17110/table-015.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 298
+            },
+            {
+              "caption": "Table 7 Tokenizer settings. Horizon k: frame interval between the two endpoint observations of a clip. In the real world, k is 8 frames for one source of human videos, and 16, 8, or 4 frames for the other, chosen by motion speed so that slow motions span longer intervals.",
+              "figure_id": "table-7-7",
+              "figure_number": "7",
+              "height": 276,
+              "image_path": "figures/2611.17110/table-016.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 768
+            },
+            {
+              "caption": "Table 2 Success rates (%) on RoboTwin 2.0. WAMs and LAMs are additionally trained on videos from DH and DR. PT.: initialized from the official checkpoint pre-trained on large-scale robot data.",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 375,
+              "image_path": "figures/2611.17110/table-017.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 389
+            }
+          ],
+          "first_seen_at": "2026-11-14T21:00:00-05:00",
+          "hero_figure": "figures/2611.17110/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.17110",
+          "relevance": 9,
+          "selection_reason": "Latent action model aligning human and robot videos for embodied foundation model training; fits embodied learning and latent action topics.",
+          "summary_status": "generated",
+          "title": "SALA: Semantically Aligned Latent Actions Enable Dual-Axis Scaling of Embodied Foundation Models",
+          "tldr": "SALA aligns latent actions across human and robot videos using language-guided semantic supervision, enabling embodied foundation models to benefit from scaling both general and task-specific human video.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-action",
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "latent-action-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "We evaluate Genie Sim Benchmark through paired real-simulation tasks and complementary system-identification studies. Across 22 robot-task pairs spanning 16 task names, task-specific pi0.5 policies fine-tuned on real-robot data achieve a descriptive Score correlation of 0.9686, MAE 0.0405, RMSE 0.0520, with simulation-real differences from -0.110 to +0.080. G2 crsB experiments assess long-horizon closed-loop position and joint-side torque agreement, while five representative object cases examine identification and cross-engine contact transfer. A separate 32.6503 s teleoperation trajectory, excluded from mechanical identification and servo-gain search, evaluates external position targets through simulated motion-controller command shaping and a calibrated position servo. Across both arms, per-joint position RMSE spans 0.00614-0.03522 rad and current-derived torque RMSE spans 0.73545-4.00099 N m. Native PhysX adaptations recover three recorded interaction tasks, with case-dependent alignment gains. These results support task-specific simulation evaluation through joint assessment of task outcomes and physical-response consistency.",
+          "arxiv_id": "2611.15020",
+          "arxiv_url": "https://arxiv.org/abs/2611.15020",
+          "authors": [
+            "Di Yang",
+            "Da Huang",
+            "Yang Lv",
+            "Fan Yang",
+            "Yi Lu",
+            "Zheyuan Xing",
+            "Linting Guo",
+            "Jiaen Shen",
+            "Wenjun Sun",
+            "Maoqing Yao",
+            "Qian Wang"
+          ],
+          "bullets": [
+            "Evaluates 22 robot-task pairs across 16 task names with paired real and simulated experiments.",
+            "Task-specific policies show high descriptive score correlation (0.9686) and low error metrics, with simulation-real differences ranging from -0.110 to +0.080.",
+            "Tests long-horizon position and torque agreement, object identification, cross-engine contact transfer, and teleoperated motion tracking.",
+            "Native PhysX adaptations recover three recorded interaction tasks, with alignment varying by case.",
+            "Supports evaluating simulation through both task-level performance and consistency of physical responses."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 6. Fifteen case–stack mean pairs, compacted for the main text. PhysX† uses the matched native configurations in Table D3; other rows retain source results. Hollow markers are baseline, filled markers are fitted / candidate models; red marks increased error. The source pen candidate remains unaccepted. Units and log axes differ between panels. Historical repeat ranges and failures remain in Appendix D; no confidence intervals are inferred.",
+              "figure_id": "figure-6-9",
+              "figure_number": "6",
+              "height": 336,
+              "image_path": "figures/2611.15020/figure-001.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 1026
+            },
+            {
+              "caption": "Fig. 1. Robot- and task-level real–sim evidence. Left: 60 s J1–J4 closed-loop replay and seven-joint RMSE across three excitation families; errors are uncentred and torque limits are URDF references, not hardware ratings (Section IV-A; Figure 5). Right: correspondence across 22 final task-Score pairs. Pearson r = 0.9686, MAE 0.0405 and RMSE 0.0520 (Table B1). Before/after comparisons: Table B2.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 739,
+              "image_path": "figures/2611.15020/figure-002.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 1026
+            },
+            {
+              "caption": "Fig. 5. Long-horizon closed-loop consistency with frozen parameters. Top: seven-joint RMSE across three excitation families, with separate position/torque scales. Bottom: absolute-error CDFs, equally weighted by family per joint; logarithmic error axes include the full observed upper tail. Full native rows score each cell; time samples are correlated. Torque is uncentred, and the J2 mismatch remains visible. Separate joint-side sensor diagnostics appear in Appendix C.4.",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 522,
+              "image_path": "figures/2611.15020/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 879
+            },
+            {
+              "caption": "Fig. 2. Representative scenes from the Real2Sim experiments summarized in Table 1: sixteen scene pairs across G1 Omnipicker, G2 Swiftpicker, G2 Wuji and Arx X5 configurations. Rows 1 and 3 are real scenes; rows 2 and 4 are their simulation counterparts. Corresponding columns preserve the paired object arrangements and interaction context.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 408,
+              "image_path": "figures/2611.15020/figure-004.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1054
+            },
+            {
+              "caption": "Fig. 3. Implemented Real2Sim workflow and corresponding evidence. Robot identification, object replay and paired task evaluation provide complementary measurements; arrows organize the process rather than denote a single end-to-end experiment.",
+              "figure_id": "figure-3-12",
+              "figure_number": "3",
+              "height": 338,
+              "image_path": "figures/2611.15020/figure-005.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1032
+            },
+            {
+              "caption": "Fig. 7. Two evaluated object-replay protocols. The source study freezes the MuJoCo candidate for three-stack comparison. The native PhysX experiments apply the same accepted engine settings to both parameter sets and separately declare the sponge friction refit. Both protocols evaluate task completion and observation error. The dashed strip outlines future VLM priors, agent-selected interactions and independent real evaluation; these steps have not been executed. Author-created schematic, not an additional experiment.",
+              "figure_id": "figure-7-5",
+              "figure_number": "7",
+              "height": 393,
+              "image_path": "figures/2611.15020/figure-006.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 856
+            },
+            {
+              "caption": "Fig. 4. Three complementary evidence layers: robot execution, object interaction and task outcomes. Each layer has its own metrics and experimental units. Author-created schematic; quantitative results appear in Sections II and IV.",
+              "figure_id": "figure-4-10",
+              "figure_number": "4",
+              "height": 192,
+              "image_path": "figures/2611.15020/figure-007.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1052
+            },
+            {
+              "caption": "TABLE 4 IDENTIFIED JOINT PARAMETERS FOR BOTH ARMS, J1–J7. ARMATURE Ja : KG·M2 ; COULOMB F_C AND BIAS Bτ : N·M; VISCOUS F_V: N·M·S/RAD. VALUES RETAIN THE SUPPLIED FOUR-DECIMAL PRECISION.",
+              "figure_id": "table-4-7",
+              "figure_number": "4",
+              "height": 383,
+              "image_path": "figures/2611.15020/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 1052
+            },
+            {
+              "caption": "TABLE 3 FINAL-MODEL FOURIER TORQUE RECONSTRUCTION, APPROXIMATELY 100 S. ONE RECORDING PER ARM; ALL SEVEN JOINTS; OWN-OFFSET RMS. SAME-RECORDING DIAGNOSTICS, INCLUDING FITTING INTERVALS.",
+              "figure_id": "table-3-4",
+              "figure_number": "3",
+              "height": 98,
+              "image_path": "figures/2611.15020/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 512
+            },
+            {
+              "caption": "TABLE 1 REAL2SIM EVALUATION COVERAGE FOR THE FOUR ROBOT CONFIGURATIONS ILLUSTRATED IN FIGURE 2. TASKS ARE DISTINCT EVALUATED TASK NAMES; ROBOT COLUMNS COUNT COMPLETED TASKS FOR EACH CONFIGURATION. FIGURE 2 PRESENTS REPRESENTATIVE PAIRED SCENES.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 169,
+              "image_path": "figures/2611.15020/table-010.webp",
+              "kind": "table",
+              "page": 2,
+              "width": 1052
+            },
+            {
+              "caption": "TABLE 5 SIGNATURE BENCHMARK ASSETS, OBSERVATION COVERAGE AND IDENTIFICATION SCOPE.",
+              "figure_id": "table-5-8",
+              "figure_number": "5",
+              "height": 169,
+              "image_path": "figures/2611.15020/table-011.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 1052
+            },
+            {
+              "caption": "TABLE 2 REPORTED EXECUTION STACKS IN THE OBJECT STUDY.",
+              "figure_id": "table-2-11",
+              "figure_number": "2",
+              "height": 165,
+              "image_path": "figures/2611.15020/table-012.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1052
+            }
+          ],
+          "first_seen_at": "2026-11-14T21:00:00-05:00",
+          "hero_figure": "figures/2611.15020/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.15020",
+          "relevance": 7,
+          "selection_reason": "Evaluates robot policies in simulation, directly relevant to robot learning and manipulation.",
+          "summary_status": "generated",
+          "title": "Genie Sim Benchmark: Real-to-Sim Fidelity and Evaluation",
+          "tldr": "Genie Sim Benchmark assesses real-to-simulation fidelity using task outcomes and physical-response agreement across robot tasks and interaction scenarios.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Vision-language-action (VLA) models have emerged as a promising paradigm for general-purpose robotic manipulation. In our production setting, hundreds of VLA-powered robots are already operating in real-world environments, creating an immediate need for efficient fleet serving. We present XInfer, a production-deployed VLA serving system designed to reduce the inference infrastructure cost of large-scale robotic deployments. XInfer jointly coordinates heterogeneous VLA computation with the evolving response requirements of robotic execution. By exploiting computational parallelism while managing interference, XInfer improves GPU efficiency while protecting time-critical robotic feedback. We evaluate XInfer across three VLA models using production-derived workloads, achieving 1.26-3.75 times the effective robot capacity (ERC) of state-of-the-art systems under physical-execution constraints. Our implementation is publicly available at https://github.com/X-Square-Robot/xinfer.",
+          "arxiv_id": "2611.14969",
+          "arxiv_url": "https://arxiv.org/abs/2611.14969",
+          "authors": [
+            "Yue Zhang",
+            "Zicong Ye",
+            "Lufang Chen",
+            "Dance Yang",
+            "Mingyang Li",
+            "Zhenwei Duan",
+            "Michael Zhao",
+            "Ziye Deng",
+            "Starrick Liu",
+            "Ruizhi Chengze",
+            "YongHua Chen",
+            "SongAo Han",
+            "Yu Sun",
+            "Ran Yu",
+            "Xiaofan Li",
+            "Ruyi Gan",
+            "Hao Wang"
+          ],
+          "bullets": [
+            "Addresses the infrastructure cost and serving challenges of hundreds of real-world VLA-powered robots.",
+            "Coordinates heterogeneous VLA computation with changing robotic execution requirements.",
+            "Uses computational parallelism while managing interference to protect latency-sensitive feedback.",
+            "Evaluated on three VLA models with production-derived workloads under physical-execution constraints.",
+            "Achieves 1.26–3.75× the effective robot capacity of state-of-the-art systems; implementation is publicly available."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.DC"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 5. XINFER architecture and illustrative execution. (a) Central scheduling controls admission at the ViT, Prefill, and Action entries. (b) Admission permits concurrent work when A’s response is predicted to meet its deadline.",
+              "figure_id": "figure-5-20",
+              "figure_number": "5",
+              "height": 201,
+              "image_path": "figures/2611.14969/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 476
+            },
+            {
+              "caption": "Figure 7. Serving performance across three models. Latency uses a log scale; dashed lines mark 150ms. Large markers and guides identify confirmed ERCs for XINFER and Robion.",
+              "figure_id": "figure-7-13",
+              "figure_number": "7",
+              "height": 406,
+              "image_path": "figures/2611.14969/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1004
+            },
+            {
+              "caption": "Figure 8. Four workloads with matched resources: (a–c) show three metrics for alternating phases; (d–f) show attainment for the other workloads. Curves show means with min–max whiskers. Large markers denote ERC in (a) and 33% lower mean latency for XINFER versus Slack-Gate at 15 robots in (b). Shading in (d) marks added robots’ measured active periods.",
+              "figure_id": "figure-8-17",
+              "figure_number": "8",
+              "height": 468,
+              "image_path": "figures/2611.14969/figure-003.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 962
+            },
+            {
+              "caption": "Figure 3. VLA computation and real-time chunking. (a) Conditioning keys and values are reused across denoising steps. (b) The frozen prefix aligns the next chunk with committed actions while inference overlaps execution. The illustrated early response satisfies L < d∆ < TE , so the next send occurs at tk + TE .",
+              "figure_id": "figure-3-11",
+              "figure_number": "3",
+              "height": 313,
+              "image_path": "figures/2611.14969/figure-004.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 976
+            },
+            {
+              "caption": "Figure 11. Response delay increases physical effort, with different effects across parcel types. Each point averages five tasks of one type; the black line is the mean of the four types and the band their range. Zero denotes no added delay. Full counts are in Table 4.",
+              "figure_id": "figure-11-9",
+              "figure_number": "11",
+              "height": 307,
+              "image_path": "figures/2611.14969/figure-005.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 991
+            },
+            {
+              "caption": "Figure 9. Cumulative ablation on π0.5 at 24 robots. Bars show per-window means, rows retain prior mechanisms, and arrows show incremental gains. Execution-aware concurrency enables intra-stage concurrency. Cross-stage coordination combines Context–Action overlap and independent progression. Full engine: 2.40× throughput and 3.06× P50 speedup over All-Off.",
+              "figure_id": "figure-9-6",
+              "figure_number": "9",
+              "height": 251,
+              "image_path": "figures/2611.14969/figure-006.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 1002
+            },
+            {
+              "caption": "Figure 6. Scheduling decisions (illustrative predictions). (a) Protect A using remaining slack. (b) Refresh shared slack after each launch. (c) Defer w for an earlier-deadline forecast. Panel (b) fixes t and H = {A}, with additive costs and other checks passing. Dashed outlines mark forecasts; hatching marks excess cost in (b) and extra delay in (c).",
+              "figure_id": "figure-6-2",
+              "figure_number": "6",
+              "height": 232,
+              "image_path": "figures/2611.14969/figure-007.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 987
+            },
+            {
+              "caption": "Figure 2. Projected parcel throughput on one GPU (VLA-2B), combining measured latency with single-robot trials. Guides mark 13k parcels/h; ERC requires response P50 < 150ms and zero request errors. Shading reflects trial variation; dashed curves and hatching mark extrapolation.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 272,
+              "image_path": "figures/2611.14969/figure-008.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 470
+            },
+            {
+              "caption": "Figure 10. Scheduler ablations. Mean SLO attainment drop relative to full XINFER for each scheduler variant. Appendix C.3 gives workload settings.",
+              "figure_id": "figure-10-7",
+              "figure_number": "10",
+              "height": 255,
+              "image_path": "figures/2611.14969/figure-009.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 465
+            },
+            {
+              "caption": "Figure 4. Five separately recorded request streams aligned on a common 2-s axis. Top: bars mark requests in flight and ticks mark sends. Bottom: the superimposed in-flight count.",
+              "figure_id": "figure-4-10",
+              "figure_number": "4",
+              "height": 207,
+              "image_path": "figures/2611.14969/figure-010.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 468
+            },
+            {
+              "caption": "Figure 12. CPU–GPU overlap reduces idle gaps in a separate profiler diagnostic. VLA-2B serves 32 robots with overlap (a) disabled and (b) enabled. The figure shows the 61–61.5 s excerpt; the outlined gap marks an observed GPU idle interval. Table 7 reports statistics for the full profiling window.",
+              "figure_id": "figure-12-3",
+              "figure_number": "12",
+              "height": 287,
+              "image_path": "figures/2611.14969/figure-011.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 464
+            },
+            {
+              "caption": "Figure 13. Remaining-time prediction errors for running stages. Positive error is underprediction. Each represented request has equal total weight within its robot population. Curves include both tails; the horizontal scale is logarithmic outside [−1, 1]ms.",
+              "figure_id": "figure-13-16",
+              "figure_number": "13",
+              "height": 233,
+              "image_path": "figures/2611.14969/figure-012.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 972
+            },
+            {
+              "caption": "Table 1. Input configuration. Token segments sum to the full prefix; action tokens and sequence padding are excluded.",
+              "figure_id": "table-1-4",
+              "figure_number": "1",
+              "height": 221,
+              "image_path": "figures/2611.14969/table-013.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 483
+            },
+            {
+              "caption": "Table 2. ERC (robots) under the response-latency criterion.",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 150,
+              "image_path": "figures/2611.14969/table-014.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 492
+            },
+            {
+              "caption": "Table 10. Scheduling policy comparison under matched execution resources. SLO attainment (%) is reported as R1 / R2 / R3. The N rows use alternating task phases; bursty arrivals use the full [30, 210) s send window. ∆goodput is the difference between three-round means (FleetServe − Slack-Gate; on-time responses/s).",
+              "figure_id": "table-10-19",
+              "figure_number": "10",
+              "height": 318,
+              "image_path": "figures/2611.14969/table-015.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 941
+            },
+            {
+              "caption": "Table 3. Hourly parcel rates under added response delay. Handled and completed are measured aggregate rates; handled SD is estimated from three trial markers digitized from the source plot. Figure 2 uses handled rates.",
+              "figure_id": "table-3-12",
+              "figure_number": "3",
+              "height": 192,
+              "image_path": "figures/2611.14969/table-016.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 354
+            },
+            {
+              "caption": "Table 4. Manipulation attempts (flip/push) by parcel type under added response delay. Type columns give totals over five tasks; Mean gives averages over twenty tasks.",
+              "figure_id": "table-4-8",
+              "figure_number": "4",
+              "height": 296,
+              "image_path": "figures/2611.14969/table-017.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 450
+            },
+            {
+              "caption": "Table 7. Wall-time shares (%) at N = 32 over 61–69 s. Ind./Lock.: independent/lockstep; off/on: CPU overlap. Either/Both: union/intersection of Context/Action kernel intervals. CPU/GPU: kernel overlap with instrumented CPU preparation/output scopes.",
+              "figure_id": "table-7-21",
+              "figure_number": "7",
+              "height": 254,
+              "image_path": "figures/2611.14969/table-018.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 392
+            },
+            {
+              "caption": "Table 8. GPU component ablations. Strict gating jointly replaces slack stealing and arrival-aware admission. FS: SLO attainment of full FleetServe (mean of the nine rounds in the three campaigns, %). Other columns: gain of full FleetServe over each variant (percentage points, mean of three rounds paired with full FleetServe in the same campaign), with the number of rounds in which full FleetServe is higher. Bursty robot arrivals use the full measurement window.",
+              "figure_id": "table-8-14",
+              "figure_number": "8",
+              "height": 234,
+              "image_path": "figures/2611.14969/table-019.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 800
+            },
+            {
+              "caption": "Table 6. Incremental ablations on π0.5 using a multi-stream baseline. M denotes execution-aware concurrency, C CPU–GPU overlap, R independent progression, and G GPU-stage overlap. C, R, and G are enabled individually on top of M. All-Off disables all four mechanisms. QPS is measured in requests/s. P50, P95, and P99 are client response latencies in ms.",
+              "figure_id": "table-6-23",
+              "figure_number": "6",
+              "height": 442,
+              "image_path": "figures/2611.14969/table-020.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 392
+            },
+            {
+              "caption": "Table 9. Arrival-aware GPU ablation, six-round means. Each cell gives U / T: FleetServe without / with arrival-aware admission under matched execution resources. Tight budgets are 90ms for alternating phases and bursty arrivals, and 80ms for multiple budgets. Wide-budget latency is for the 400ms class. Bursty results use the full measurement window.",
+              "figure_id": "table-9-15",
+              "figure_number": "9",
+              "height": 171,
+              "image_path": "figures/2611.14969/table-021.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 800
+            },
+            {
+              "caption": "Table 11. Parcel handling: overall SLO attainment (%) as R1 / R2 / R3 under matched execution resources.",
+              "figure_id": "table-11-18",
+              "figure_number": "11",
+              "height": 172,
+              "image_path": "figures/2611.14969/table-022.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 750
+            },
+            {
+              "caption": "Table 5. Robion configuration used in the serving-system comparison.",
+              "figure_id": "table-5-22",
+              "figure_number": "5",
+              "height": 35,
+              "image_path": "figures/2611.14969/table-023.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 1017
+            }
+          ],
+          "first_seen_at": "2026-11-14T21:00:00-05:00",
+          "hero_figure": "figures/2611.14969/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.14969",
+          "relevance": 8,
+          "selection_reason": "Production VLA serving system improving GPU efficiency for robotic fleets; fits efficient AI and embodied AI.",
+          "summary_status": "generated",
+          "title": "Scaling VLA Serving Under Robotic Execution Constraints",
+          "tldr": "XInfer scales VLA serving for large robot fleets by improving GPU efficiency while preserving time-critical feedback.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Video diffusion models provide a source of interaction representations for robot control, but transferring these representations requires reconciling variable camera inputs with heterogeneous action interfaces and closed-loop execution. We present X-World, a framework that transfers a video prior through a fixed-length token sequence to a shared action expert. A residual cross-view attention branch extends a pretrained video backbone to one, two, or three views while retaining its original self-attention path. A layer-aligned Q-Former aggregates backbone features, and dataset-specific modules map between native state and action interfaces and the shared action expert. Training separates video adaptation from action-only pretraining by freezing the video backbone in the latter stage, followed by joint target-domain post-training. The policy extracts video features with a single backbone pass and uses asynchronous action chunking for execution. On LIBERO, X-World reaches 98.5\\% mean success; its LIBERO-trained checkpoint obtains 76.5\\% on LIBERO-Plus without further adaptation. The seven-shift breakdown reveals gains in robot, language, lighting, and layout perturbations, alongside weaknesses under camera, background, and noise shifts relative to OpenVLA-OFT. On six dual-arm real-world tasks, it achieves 81.7\\% mean success over 20 trials per task. Removing video adaptation or cross-view fusion produces the largest observed success drops among the tested removals.",
+          "arxiv_id": "2610.34105",
+          "arxiv_url": "https://arxiv.org/abs/2610.34105",
+          "authors": [
+            "Chun Gu",
+            "Xiaofei Wei",
+            "Yiming Chen",
+            "Juntong Zhang",
+            "Li Zhang"
+          ],
+          "bullets": [
+            "Supports one, two, or three camera views using residual cross-view attention while preserving the pretrained video backbone.",
+            "Uses a fixed-length token interface, layer-aligned Q-Former, and dataset-specific state/action modules to connect heterogeneous robot interfaces to a shared action expert.",
+            "Separates video adaptation from action pretraining, then performs joint target-domain post-training; execution uses one backbone pass and asynchronous action chunking.",
+            "Reports 98.5% mean success on LIBERO, 76.5% on LIBERO-Plus without further adaptation, and 81.7% mean success across six dual-arm real-world tasks.",
+            "Shows weaknesses under camera, background, and noise shifts relative to OpenVLA-OFT; removing video adaptation or cross-view fusion causes the largest tested performance drops."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Overview of X-World. The video backbone is first adapted on robot and human videos with one to three camera views (left). A layer-aligned Q-Former then compresses its features into fixed-length tokens that condition the action DiT, while dataset-specific projections map native states and actions to and from the shared expert (right). Action pretraining learns this interface with the video backbone frozen; target-domain post-training updates all modules using video and action supervision.",
+              "figure_id": "figure-1-8",
+              "figure_number": "1",
+              "height": 370,
+              "image_path": "figures/2610.34105/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 817
+            },
+            {
+              "caption": "Figure 5: Real-world task success. Bars show success fractions over 20 trials per policy and task on six dual-arm UR5e tasks under a shared evaluation protocol and identical initial placements. X-World achieves the highest observed success on every task.",
+              "figure_id": "figure-5-13",
+              "figure_number": "5",
+              "height": 558,
+              "image_path": "figures/2610.34105/figure-002.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 793
+            },
+            {
+              "caption": "Figure 2: Cross-view adaptation of the video transformer. (a) LTX-Video (HaCohen et al., 2024) applies self-attention to a single view. (b) Genie-Envisioner (Liao et al., 2025) fuses concatenated views through cross-view attention. (c) X-World retains pretrained per-view self-attention and learns cross-view fusion through a separate residual branch. Zero initialization preserves the pretrained computation at the start of adaptation while allowing cross-camera interactions to be learned. (d) Training-time masks for one, two, and three available views. Shaded entries allow attention; replicated slots are isolated from available views, supporting joint training across camera counts.",
+              "figure_id": "figure-2-11",
+              "figure_number": "2",
+              "height": 459,
+              "image_path": "figures/2610.34105/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 819
+            },
+            {
+              "caption": "Figure 6: Action-prefix and view-availability analyses. The left panel compares inference without real-time chunking (w/o RTC) with prefix lengths P = 2, 4, 6, 8. The right panel uses the same checkpoint to compare one, two, and three camera views and a shuffled three-view order. Bars report success fractions.",
+              "figure_id": "figure-6-7",
+              "figure_number": "6",
+              "height": 282,
+              "image_path": "figures/2610.34105/figure-004.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 809
+            },
+            {
+              "caption": "Figure 4: Real-world manipulation examples. Each row corresponds to a separate rollout of the language instruction above it, with three third-person snapshots arranged in execution order from left to right.",
+              "figure_id": "figure-4-10",
+              "figure_number": "4",
+              "height": 837,
+              "image_path": "figures/2610.34105/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 820
+            },
+            {
+              "caption": "Figure 3: Dual-arm evaluation platform. Two UR5e arms use Robotiq 2F85 grippers and wrist-mounted RealSense D405 cameras; a shared D455 camera supplies the third-person view.",
+              "figure_id": "figure-3-5",
+              "figure_number": "3",
+              "height": 231,
+              "image_path": "figures/2610.34105/figure-006.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 406
+            },
+            {
+              "caption": "Figure 7: Future-video predictions after Stage 1 adaptation. The three examples use one, two, and three input camera views. Within each example, the first column contains observed frames and the remaining columns show predictions at frames 8, 16, and 24 of the 24-frame horizon; multiple rows correspond to synchronized views of the same sequence.",
+              "figure_id": "figure-7-9",
+              "figure_number": "7",
+              "height": 1210,
+              "image_path": "figures/2610.34105/figure-007.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 813
+            },
+            {
+              "caption": "Figure 8: Future-video predictions after real-world post-training. Table clearing (top) and block stacking (bottom) each show three synchronized camera views. Observed frames occupy the first column, followed by predictions at frames 8, 16, and 24, so each row traces the predicted evolution of one camera view.",
+              "figure_id": "figure-8-12",
+              "figure_number": "8",
+              "height": 1219,
+              "image_path": "figures/2610.34105/figure-008.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 808
+            },
+            {
+              "caption": "Table 2: LIBERO success rates (%) on the Spatial, Object, Goal, and Long suites. Average is the mean of the four suite scores. Best results are bold with pink backgrounds; second-best results are underlined with lavender backgrounds.",
+              "figure_id": "table-2-1",
+              "figure_number": "2",
+              "height": 547,
+              "image_path": "figures/2610.34105/table-009.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 832
+            },
+            {
+              "caption": "Table 3: Zero-shot success rates (%) across seven LIBERO-Plus distribution shifts (Fei et al., 2025). Cam., Lang., and Bg. denote camera, language, and background changes, respectively. The w and m variants use no wrist input and mixed-data supervised fine-tuning, respectively. OpenVLA-OFT+ is excluded because it is trained on LIBERO-Plus. Best results are bold with pink backgrounds; second-best results are underlined with lavender backgrounds.",
+              "figure_id": "table-3-4",
+              "figure_number": "3",
+              "height": 315,
+              "image_path": "figures/2610.34105/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 832
+            },
+            {
+              "caption": "Table 4: LIBERO success rates (%) for ablations of training stages, model components, and video loss. Stage 1 is video adaptation and Stage 2 is action pretraining; Average is the mean across the four suites. Best results are bold with pink backgrounds; second-best results are underlined with lavender backgrounds.",
+              "figure_id": "table-4-14",
+              "figure_number": "4",
+              "height": 211,
+              "image_path": "figures/2610.34105/table-011.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 838
+            },
+            {
+              "caption": "Table 5: Single-H100 inference latency (ms). Component timings exclude 14 ms of model-side overhead included in the 46 ms cached response; T5 encoding adds 13 ms on the first call. The 91 ms deployed refresh additionally includes network transfer, data processing, and control-side overhead.",
+              "figure_id": "table-5-6",
+              "figure_number": "5",
+              "height": 165,
+              "image_path": "figures/2610.34105/table-012.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 828
+            },
+            {
+              "caption": "Table 1: Three-stage training of X-World. Stage 1 adapts the video backbone and view modules through video prediction on robot and human data. Stage 2 freezes the backbone and trains the Q-Former, action expert, and native interfaces on action-labeled trajectories. Stage 3 jointly optimizes video and action objectives on LIBERO or real-world demonstrations, updating all modules.",
+              "figure_id": "table-1-15",
+              "figure_number": "1",
+              "height": 129,
+              "image_path": "figures/2610.34105/table-013.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 827
+            },
+            {
+              "caption": "Table 6: Datasets for Stage 1 video adaptation. Robot and human videos supply future-frame supervision, while Views gives the number of available camera streams per training example.",
+              "figure_id": "table-6-3",
+              "figure_number": "6",
+              "height": 80,
+              "image_path": "figures/2610.34105/table-014.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 827
+            },
+            {
+              "caption": "Table 7: Datasets for Stage 2 action pretraining. Robot trajectories provide action supervision, while Views gives the available camera count per example; dataset-specific projections accommodate native state and action formats.",
+              "figure_id": "table-7-2",
+              "figure_number": "7",
+              "height": 80,
+              "image_path": "figures/2610.34105/table-015.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 827
+            }
+          ],
+          "first_seen_at": "2026-11-14T21:00:00-05:00",
+          "hero_figure": "figures/2610.34105/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2610.34105",
+          "relevance": 9,
+          "selection_reason": "Robot manipulation policy transferring video priors to variable-view control; fits robot learning and manipulation.",
+          "summary_status": "generated",
+          "title": "X-World: Transferring Video Priors to Variable-View Robot Control",
+          "tldr": "X-World transfers pretrained video representations into a shared action policy for variable-view robot control, achieving strong simulated and real-world performance across several distribution shifts.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-13",
       "paper_count": 7,
       "papers": [
@@ -608199,5 +609074,5 @@
   "schema_version": 1,
   "subtopic_id": null,
   "topic_id": "embodied-ai",
-  "total_paper_count": 3492
+  "total_paper_count": 3496
 }

@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Learning from Human Videos
 
-**225 papers total**
+**226 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-14 | [SALA: Semantically Aligned Latent Actions Enable Dual-Axis Scaling of Embodied Foundation Models](https://arxiv.org/abs/2611.17110) | Embodied AI: Vision-Language-Action, Learning from Human Videos; World Models: Latent Action Models | SALA aligns latent actions across human and robot videos using language-guided semantic supervision, enabling embodied foundation models to benefit from scaling both general and task-specific human video. | 9 | 8 |
 | 2026-11-12 | [Ropedia Xperience 2: A Gold Standard for Scaling Physical AI Environments and Behaviors](https://arxiv.org/abs/2611.17060) | Embodied AI: Robot Learning and Manipulation, Learning from Human Videos | Ropedia Xperience 2 provides large-scale 3D environments and human behavior recordings that can be reused to train and evaluate physical AI systems. | 9 | 8 |
 | 2026-11-12 | [EgoX: Egocentric Cross-Embodiment Manipulation with Embodiment Dreaming](https://arxiv.org/abs/2611.16728) | Embodied AI: Robot Learning and Manipulation, Learning from Human Videos | EgoX enables manipulation policies to learn from humans, robots, and simulations by aligning embodiment-specific modalities through a shared Transformer and future-state prediction. | 9 | 8 |
 | 2026-11-12 | [PhysCapBench: A Cross-Domain Benchmark for Physically Grounded Video Captioning](https://arxiv.org/abs/2611.16424) | Embodied AI: Learning from Human Videos; World Models; Video Generation and Understanding: Video Understanding | PhysCapBench is a cross-domain benchmark for evaluating whether video captions capture the physical interactions and state transitions needed for world-model and robot-learning applications. | 8 | 7 |

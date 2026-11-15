@@ -6,10 +6,13 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Efficient AI
 
-**2024 papers total**
+**2027 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-14 | [Read Once, Answer Many: Parallel Prompting for Shared-Context LLM Inference](https://arxiv.org/abs/2611.15130) | Efficient AI: KV Cache and Memory Efficiency | Parallel Prompting accelerates multi-question LLM inference over the same long document by decoding all questions together while reading the shared KV cache only once per step. | 8 | 7 |
+| 2026-11-14 | [Scaling VLA Serving Under Robotic Execution Constraints](https://arxiv.org/abs/2611.14969) | Embodied AI; Efficient AI | XInfer scales VLA serving for large robot fleets by improving GPU efficiency while preserving time-critical feedback. | 8 | 7 |
+| 2026-11-14 | [AttSVD:Prompt-Adaptive Low-Rank KV Cache Compression via Attention-Guided SVD](https://arxiv.org/abs/2610.06927) | Efficient AI: KV Cache and Memory Efficiency | AttSVD compresses every KV-cache token using prompt-specific, attention-guided low-rank SVD, retaining dense-cache performance while reducing memory by up to 50%. | 9 | 8 |
 | 2026-11-13 | [On-Edge Acoustic Continual Anomaly Detection: A Cross-Platform Comparative Study](https://arxiv.org/abs/2611.15465) | Efficient AI; Adaptation and Memory: Continual and Online Learning | A lightweight continual acoustic anomaly detector runs on two embedded platforms with comparable performance despite different microphones and hardware. | 7 | 4 |
 | 2026-11-13 | [Quantize by Drift: Label-Free Mixed-Precision Post-Training Quantization for Text Embedders](https://arxiv.org/abs/2610.09227) | Efficient AI | Quantization-induced embedding drift provides a label-free, transferable coarse signal for mixed-precision allocation in text embedders, but it does not consistently beat strong uniform-precision baselines. | 6 | 6 |
 | 2026-11-13 | [Towards Efficient Robotic Manipulation Models with Self-Recursive Pruning](https://arxiv.org/abs/2610.08555) | Embodied AI: Robot Learning and Manipulation; Efficient AI | LCAM enables training-free, behavior-aware pruning of robotic manipulation policies while preserving strong task performance at substantial sparsity. | 8 | 7 |

@@ -6,10 +6,13 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Video Generation and Understanding
 
-**961 papers total**
+**964 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-14 | [Track4D: Representing Dense 3D Tracking for Video Diffusion Models](https://arxiv.org/abs/2611.15287) | Video Generation and Understanding: Video Diffusion | Track4D repurposes pretrained video diffusion models for dense 3D point tracking by encoding 3D trajectories as video-like representations. | 7 | 7 |
+| 2026-11-14 | [MacJEPA: Missingness-Robust Audio-Visual Recognition from Untrimmed Egocentric Videos](https://arxiv.org/abs/2610.08192) | Video Generation and Understanding: Video Understanding | MacJEPA enables audio-visual action and sound recognition despite temporally localized or complete sensor outages in untrimmed egocentric videos. | 6 | 7 |
+| 2026-11-14 | [Artemis: Geometry-Grounded Multi-Agent Driving World Models with Shared 3D State and Progressive Memory Update](https://arxiv.org/abs/2610.07031) | World Models: Interactive World Models; Video Generation and Understanding: Video Diffusion | Artemis is a geometry-grounded multi-agent driving world model that maintains a shared 3D state and progressively updated memory to generate more consistent multi-view video and recover dynamic agents and backgrounds. | 9 | 8 |
 | 2026-11-12 | [Back to Pixels: Lifting Latent Video Diffusion into Pixel Space](https://arxiv.org/abs/2611.17336) | Video Generation and Understanding: Video Diffusion | PixVid lifts a pretrained latent video diffusion model into pixel space to enable higher-resolution, framewise, and more interactive video generation. | 7 | 6 |
 | 2026-11-12 | [K2V: Generative Keyframing For Physically Plausible Video Generation](https://arxiv.org/abs/2611.17324) | Video Generation and Understanding: Video Diffusion | K2V improves physical plausibility in video generation by using language-model-guided keyframes to plan important states before diffusion-based interpolation. | 7 | 6 |
 | 2026-11-12 | [Consistent Video-to-Video Translation via Explicit Correspondences](https://arxiv.org/abs/2611.17298) | Video Generation and Understanding | vid2vid-long improves long-range temporal consistency in real-time video-to-video translation by using explicit cross-frame correspondences to retrieve and reuse relevant generated content. | 7 | 7 |

@@ -6,10 +6,13 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # World Models
 
-**1046 papers total**
+**1049 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-14 | [SALA: Semantically Aligned Latent Actions Enable Dual-Axis Scaling of Embodied Foundation Models](https://arxiv.org/abs/2611.17110) | Embodied AI: Vision-Language-Action, Learning from Human Videos; World Models: Latent Action Models | SALA aligns latent actions across human and robot videos using language-guided semantic supervision, enabling embodied foundation models to benefit from scaling both general and task-specific human video. | 9 | 8 |
+| 2026-11-14 | [Artemis: Geometry-Grounded Multi-Agent Driving World Models with Shared 3D State and Progressive Memory Update](https://arxiv.org/abs/2610.07031) | World Models: Interactive World Models; Video Generation and Understanding: Video Diffusion | Artemis is a geometry-grounded multi-agent driving world model that maintains a shared 3D state and progressively updated memory to generate more consistent multi-view video and recover dynamic agents and backgrounds. | 9 | 8 |
+| 2026-11-14 | [Identifiable World Models from Pretrained Diffusion Representations](https://arxiv.org/abs/2610.07028) | World Models: Interactive World Models | A lightweight alignment layer can turn frozen diffusion-model latents into identifiable, interpretable representations of dynamical states and causal interactions. | 8 | 9 |
 | 2026-11-13 | [The Posterior-Prior Epistemic Gap: When World Model Imagination Fails to Carry Task-Relevant Signals](https://arxiv.org/abs/2611.14955) | Embodied AI: Robot Navigation; World Models: Interactive World Models | Imagined world-model rollouts progressively lose obstacle information without triggering epistemic uncertainty, causing unflagged planning failures in CARLA. | 8 | 7 |
 | 2026-11-13 | [A Belief-State World Model for Catheter Navigation under Sparse Fluoroscopy: A Planar Proof of Concept](https://arxiv.org/abs/2610.08469) | World Models: Interactive World Models | A physics-based belief-state world model can support catheter navigation with sparse fluoroscopy in a simplified planar simulation while estimating when its state becomes unreliable. | 6 | 6 |
 | 2026-11-12 | [Neural Render Proxies for Interactive and Differentiable Lighting](https://arxiv.org/abs/2611.17185) | World Models: Interactive World Models | A lightweight neural render proxy enables interactive, differentiable relighting of static scenes while closely matching path-traced quality. | 7 | 8 |

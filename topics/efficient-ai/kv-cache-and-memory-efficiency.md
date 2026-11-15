@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # KV Cache and Memory Efficiency
 
-**524 papers total**
+**526 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-14 | [Read Once, Answer Many: Parallel Prompting for Shared-Context LLM Inference](https://arxiv.org/abs/2611.15130) | Efficient AI: KV Cache and Memory Efficiency | Parallel Prompting accelerates multi-question LLM inference over the same long document by decoding all questions together while reading the shared KV cache only once per step. | 8 | 7 |
+| 2026-11-14 | [AttSVD:Prompt-Adaptive Low-Rank KV Cache Compression via Attention-Guided SVD](https://arxiv.org/abs/2610.06927) | Efficient AI: KV Cache and Memory Efficiency | AttSVD compresses every KV-cache token using prompt-specific, attention-guided low-rank SVD, retaining dense-cache performance while reducing memory by up to 50%. | 9 | 8 |
 | 2026-11-12 | [LazyWeights: Decode-on-Demand Edge LLMs](https://arxiv.org/abs/2611.17108) | Efficient AI: KV Cache and Memory Efficiency | LazyWeights compresses quantized LLM weights and decodes them on demand to reduce edge-device memory traffic, latency, and energy without changing GPU kernels. | 7 | 7 |
 | 2026-11-12 | [Reducing Batch Makespan for LLM Agent Workloads through Inference-Environment Coordination](https://arxiv.org/abs/2611.16661) | Efficient AI: KV Cache and Memory Efficiency | Coordinating GPU memory, routing, scheduling, and environment execution substantially reduces batch makespan for LLM agent workloads while preserving evaluation scores. | 6 | 6 |
 | 2026-11-12 | [HeMeR: Heterogeneous Memory Reconciliation for Embodied Agents via Structured KV Reuse](https://arxiv.org/abs/2611.16487) | Efficient AI: KV Cache and Memory Efficiency; Adaptation and Memory: Embodied Memory | HeMeR speeds up embodied-agent inference by selectively reconciling KV caches when heterogeneous memory contents change. | 9 | 8 |

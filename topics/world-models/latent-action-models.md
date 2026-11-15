@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Latent Action Models
 
-**115 papers total**
+**116 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-14 | [SALA: Semantically Aligned Latent Actions Enable Dual-Axis Scaling of Embodied Foundation Models](https://arxiv.org/abs/2611.17110) | Embodied AI: Vision-Language-Action, Learning from Human Videos; World Models: Latent Action Models | SALA aligns latent actions across human and robot videos using language-guided semantic supervision, enabling embodied foundation models to benefit from scaling both general and task-specific human video. | 9 | 8 |
 | 2026-11-12 | [Latent Imagination for Parameterized Action Spaces](https://arxiv.org/abs/2611.15744) | Embodied AI: Robot Learning and Manipulation; World Models: Latent Action Models | HyLI combines model-based sample efficiency with fast single-pass action selection for parameterized-action MDPs. | 7 | 7 |
 | 2026-11-12 | [Knowledge Transfer for Conditional Flow Matching: Frozen Estimation and Adaptation](https://arxiv.org/abs/2611.15150) | World Models: Latent Action Models; Adaptation and Memory: Test-Time Learning | A theory-backed transfer-learning framework for conditional flow matching uses either a frozen source representation or an adapted one to improve generation with limited target data while guarding against negative transfer. | 8 | 8 |
 | 2026-11-10 | [OnlyAct: Extracting Action Representations from Foundation Models for World Models](https://arxiv.org/abs/2611.14420) | World Models: Latent Action Models; Multimodal Foundation Models | OnlyAct adapts pretrained video representations into expressive, scene-invariant latent actions for more transferable video world models without action labels. | 9 | 8 |

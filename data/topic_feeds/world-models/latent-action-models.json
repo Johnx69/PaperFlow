@@ -1,6 +1,234 @@
 {
   "days": [
     {
+      "date": "2026-11-14",
+      "paper_count": 1,
+      "papers": [
+        {
+          "abstract": "Embodied foundation models hinge on diverse robot interaction data, which are costly to collect. Egocentric human videos offer a complementary source of experience, and latent action models (LAMs) provide a popular means of leveraging these videos for policy supervision. Compared with world-action models (WAMs), LAMs can offer greater training efficiency and potentially lower inference costs by avoiding explicit pixel prediction during policy learning and execution. However, most existing LAMs learn latent actions solely through video reconstruction, which can cause their representations to cluster by visual appearance rather than by the underlying actions. As a result, they struggle to align human actions with their robot counterparts. To bridge the gap, we introduce SALA, which emphasizes establishing the semantic correspondence for latent actions. Without requiring paired data, we use the language descriptions of unpaired human and robot clips to estimate semantic similarities and supervise cross-embodiment correspondence. Specifically, we translate these similarities into soft neighborhood structures that guide human latent actions toward semantically related robot latents, while robot action reconstruction grounds the latent space in control. The resulting shared latent action space provides a unified supervision signal for training an embodied foundation model on both human and robot videos. Notably, latent action supervision enables scaling along two axes: (1) pre-training on increasing amounts of general human video consistently reduces robot action prediction error on downstream tasks, and (2) post-training on increasing amounts of task-specific human video substantially improves real-world robot task success rates.",
+          "arxiv_id": "2611.17110",
+          "arxiv_url": "https://arxiv.org/abs/2611.17110",
+          "authors": [
+            "Jiachun Jin",
+            "Zetong Zhou",
+            "Haonan Wang",
+            "Xiao Yang",
+            "Jun Zhu",
+            "Zhijie Deng"
+          ],
+          "bullets": [
+            "Addresses the poor cross-embodiment alignment caused by learning latent actions primarily from video reconstruction.",
+            "Uses language descriptions of unpaired human and robot clips to estimate semantic similarities and create soft neighborhood supervision.",
+            "Combines cross-embodiment alignment with robot action reconstruction to ground the shared latent space in control.",
+            "Enables unified training on human and robot videos without requiring paired data.",
+            "Scaling general human video reduces downstream robot action prediction error, while task-specific human video improves real-world task success."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.AI",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2 Method overview. (a) Latent action tokenizer. Robot (blue) and human (orange) clips share the visual encoder Eθ, the SoftVQ quantizer Qϕ, and the visual decoder Gv; only robot clips train the action decoder Ga. Language similarities Sℓ between atomic-action descriptions define soft neighborhoods P , which supervise the latent neighborhoods Q derived from latent similarities Sz, with gradients stopped through robot latents. Decoder conditioning inputs are omitted for clarity. (b) VLA policy. The frozen tokenizer labels each clip with latent action tokens y, each a categorical distribution over the codebook. Latent queries in the action expert predict ŷ through a latent head, supervised by LLA for both human and robot data; robot data additionally train flow matching with LR FM. In the action expert, blue inputs (state and noisy actions) are used only for robot data, whereas green latent queries are used for both human and robot data.",
+              "figure_id": "figure-2-13",
+              "figure_number": "2",
+              "height": 425,
+              "image_path": "figures/2611.17110/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 974
+            },
+            {
+              "caption": "Figure 5 Latent actions without and with language alignment. (a) For four RoboTwin 2.0 tasks, ARX-X5 latents z of two atomic actions of the right arm, with 20 clips per action and scene type, projected to 2D by PCA fitted to each panel. Color: action; marker: scene type. Bars report the fraction of variance in the full latent space explained by scene and by action. (b) These fractions across all analyzed pairs: thick lines show medians; dashed lines mark the pairs in (a). Alignment shifts the organization from scene toward action.",
+              "figure_id": "figure-5-9",
+              "figure_number": "5",
+              "height": 389,
+              "image_path": "figures/2611.17110/figure-002.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 927
+            },
+            {
+              "caption": "Figure 4 Scaling with human video. Both panels average over four tasks. (a) Pre-training: validation L1 error of predicted actions on the joints each task uses, versus the pre-training budget in equivalent hours of human video. Gray dashed: vanilla VLA; our 0 h variant retains latent-action training. (b) Post-training: success rate versus the fraction of each task’s human demonstrations Dtask",
+              "figure_id": "figure-4-16",
+              "figure_number": "4",
+              "height": 297,
+              "image_path": "figures/2611.17110/figure-003.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 952
+            },
+            {
+              "caption": "Figure 3 Real-world data. Left: examples of the large-scale data used in pre- and mid-training, i.e., egocentric human videos DH and robot teleoperation data DR. Right: the four downstream tasks, each performed by a person, recorded as human demonstrations Dtask",
+              "figure_id": "figure-3-1",
+              "figure_number": "3",
+              "height": 282,
+              "image_path": "figures/2611.17110/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 977
+            },
+            {
+              "caption": "Figure 6 Cross-embodiment retrieval for human pre-training videos. Each human query (left) and its three nearest robot clips over all tasks, under the reconstruction-only tokenizer (middle) and SALA (right).",
+              "figure_id": "figure-6-2",
+              "figure_number": "6",
+              "height": 313,
+              "image_path": "figures/2611.17110/figure-005.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 966
+            },
+            {
+              "caption": "Figure 9 Retrieval for human clips of tasks absent from the robot data. Annotated version of figure 6 with one additional query. Each clip is labeled with its task (italic) and the atomic action of its active hand.",
+              "figure_id": "figure-9-17",
+              "figure_number": "9",
+              "height": 679,
+              "image_path": "figures/2611.17110/figure-006.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 893
+            },
+            {
+              "caption": "Figure 10 Clusters of latent actions. For three pairs of atomic actions in figure 5(a), k-means (k = 2) is applied to the 80 ARX-X5 latents of each tokenizer, 20 per atomic action and scene type. Each half-row shows one cluster: its composition in the header and four of its clips. Without alignment (recon. only), the two clusters are the clean and the randomized clips, each mixing both atomic actions; with alignment, each cluster is one atomic action, covering both scene types. Filled circle: clean scene; open triangle: randomized scene.",
+              "figure_id": "figure-10-5",
+              "figure_number": "10",
+              "height": 813,
+              "image_path": "figures/2611.17110/figure-007.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 947
+            },
+            {
+              "caption": "Figure 8 Cross-embodiment retrieval on shared tasks. Each query (left) and its three nearest target-robot clips under the reconstruction-only tokenizer (middle) and SALA (right). (a) RoboTwin 2.0: ARX-X5 queries, AlohaAgileX clips. (b) Real world: human queries, robot clips. Each clip is labeled with its task (italic) and atomic action; ✓/× mark whether the atomic action (a) or the task and verb (b) match the query. Examples are selected.",
+              "figure_id": "figure-8-14",
+              "figure_number": "8",
+              "height": 414,
+              "image_path": "figures/2611.17110/figure-008.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 909
+            },
+            {
+              "caption": "Figure 7 Tokenizer training with SoftVQ and hard VQ. SoftVQ reduces (a) the alignment loss, whereas hard VQ leaves it nearly unchanged, although both reach comparable (b) visual reconstruction losses. All other settings are identical.",
+              "figure_id": "figure-7-3",
+              "figure_number": "7",
+              "height": 207,
+              "image_path": "figures/2611.17110/figure-009.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 395
+            },
+            {
+              "caption": "Figure 12 Atomic-action annotations on RoboTwin 2.0. Frames of one Aloha-AgileX episode of the beat block hammer task at the boundaries between consecutive steps of the task program. The description between two frames is the atomic action performed between them.",
+              "figure_id": "figure-12-12",
+              "figure_number": "12",
+              "height": 208,
+              "image_path": "figures/2611.17110/figure-010.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 974
+            },
+            {
+              "caption": "Figure 13 Real-world platform. The Sharpa North robot comprises (a) a head-mounted stereo camera, (b) two 7-DoF arms, (c) two 22-DoF Sharpa Wave dexterous hands, (d) two wrist-mounted fisheye cameras, (e) a torso, and (f) a wheeled base.",
+              "figure_id": "figure-13-15",
+              "figure_number": "13",
+              "height": 472,
+              "image_path": "figures/2611.17110/figure-011.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 500
+            },
+            {
+              "caption": "Figure 11 Embodiments in RoboTwin 2.0. Frames of the same task performed by the target embodiment AlohaAgileX (left), whose complete trajectories form DR, and the non-target embodiment ARX-X5 (right), whose videos form DH .",
+              "figure_id": "figure-11-8",
+              "figure_number": "11",
+              "height": 142,
+              "image_path": "figures/2611.17110/figure-012.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 969
+            },
+            {
+              "caption": "Figure 14 Real-world tasks. Frames of one teleoperated demonstration per task, captured by the head camera. The description between two frames is the action performed between them.",
+              "figure_id": "figure-14-4",
+              "figure_number": "14",
+              "height": 178,
+              "image_path": "figures/2611.17110/figure-013.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 981
+            },
+            {
+              "caption": "Table 6 Top-1 cross-embodiment retrieval over all tasks. Language retrieval is omitted on RoboTwin 2.0, where the scripted descriptions of the same atomic action are identical. Language similarity is rescaled so that Random scores 0 and Language scores 1.",
+              "figure_id": "table-6-11",
+              "figure_number": "6",
+              "height": 275,
+              "image_path": "figures/2611.17110/table-014.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 786
+            },
+            {
+              "caption": "Table 5 Tokenizer ablations on RoboTwin 2.0. Each variant changes one design choice of the full tokenizer, and the policy is trained in the same way. w/o sg: bidirectional alignment. Success rates (%) on Aloha-AgileX.",
+              "figure_id": "table-5-10",
+              "figure_number": "5",
+              "height": 183,
+              "image_path": "figures/2611.17110/table-015.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 298
+            },
+            {
+              "caption": "Table 7 Tokenizer settings. Horizon k: frame interval between the two endpoint observations of a clip. In the real world, k is 8 frames for one source of human videos, and 16, 8, or 4 frames for the other, chosen by motion speed so that slow motions span longer intervals.",
+              "figure_id": "table-7-7",
+              "figure_number": "7",
+              "height": 276,
+              "image_path": "figures/2611.17110/table-016.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 768
+            },
+            {
+              "caption": "Table 2 Success rates (%) on RoboTwin 2.0. WAMs and LAMs are additionally trained on videos from DH and DR. PT.: initialized from the official checkpoint pre-trained on large-scale robot data.",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 375,
+              "image_path": "figures/2611.17110/table-017.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 389
+            }
+          ],
+          "first_seen_at": "2026-11-14T21:00:00-05:00",
+          "hero_figure": "figures/2611.17110/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.17110",
+          "relevance": 9,
+          "selection_reason": "Latent action model aligning human and robot videos for embodied foundation model training; fits embodied learning and latent action topics.",
+          "summary_status": "generated",
+          "title": "SALA: Semantically Aligned Latent Actions Enable Dual-Axis Scaling of Embodied Foundation Models",
+          "tldr": "SALA aligns latent actions across human and robot videos using language-guided semantic supervision, enabling embodied foundation models to benefit from scaling both general and task-specific human video.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-action",
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "latent-action-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-12",
       "paper_count": 2,
       "papers": [
@@ -21602,5 +21830,5 @@
   "schema_version": 1,
   "subtopic_id": "latent-action-models",
   "topic_id": "world-models",
-  "total_paper_count": 115
+  "total_paper_count": 116
 }
