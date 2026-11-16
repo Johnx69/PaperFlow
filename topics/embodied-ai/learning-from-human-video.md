@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Learning from Human Videos
 
-**226 papers total**
+**228 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-15 | [BAL: Bidirectional Autoregression in Latent Space for Learning Human Movement Representations](https://arxiv.org/abs/2611.18559) | Embodied AI: Robot Learning and Manipulation, Learning from Human Videos | BAL learns meaningful human-movement representations by bidirectionally predicting abstract latent actions from the natural temporal ordering of 3D pose sequences. | 9 | 9 |
+| 2026-11-15 | [TouchTwin: Scaling Human Touch Data via Real-to-Sim-to-Real](https://arxiv.org/abs/2611.17619) | Embodied AI: Robot Learning and Manipulation, Learning from Human Videos | TouchTwin augments real-to-sim-to-real manipulation data with measured human touch, producing simulations that better reproduce contact forces and support robust dexterous policies. | 9 | 9 |
 | 2026-11-14 | [SALA: Semantically Aligned Latent Actions Enable Dual-Axis Scaling of Embodied Foundation Models](https://arxiv.org/abs/2611.17110) | Embodied AI: Vision-Language-Action, Learning from Human Videos; World Models: Latent Action Models | SALA aligns latent actions across human and robot videos using language-guided semantic supervision, enabling embodied foundation models to benefit from scaling both general and task-specific human video. | 9 | 8 |
 | 2026-11-12 | [Ropedia Xperience 2: A Gold Standard for Scaling Physical AI Environments and Behaviors](https://arxiv.org/abs/2611.17060) | Embodied AI: Robot Learning and Manipulation, Learning from Human Videos | Ropedia Xperience 2 provides large-scale 3D environments and human behavior recordings that can be reused to train and evaluate physical AI systems. | 9 | 8 |
 | 2026-11-12 | [EgoX: Egocentric Cross-Embodiment Manipulation with Embodiment Dreaming](https://arxiv.org/abs/2611.16728) | Embodied AI: Robot Learning and Manipulation, Learning from Human Videos | EgoX enables manipulation policies to learn from humans, robots, and simulations by aligning embodiment-specific modalities through a shared Transformer and future-state prediction. | 9 | 8 |

@@ -6,10 +6,16 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # KV Cache and Memory Efficiency
 
-**526 papers total**
+**532 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-15 | [StreamEmbed: Real-Time Indexing from Pixels for Screenshot Retrieval](https://arxiv.org/abs/2611.18516) | Efficient AI: Token Pruning and Eviction, KV Cache and Memory Efficiency | StreamEmbed enables fast, accurate real-time screenshot retrieval by incrementally updating visual embeddings instead of re-encoding each screen from scratch. | 9 | 9 |
+| 2026-11-15 | [Callo: Serving Cache-Miss Requests with Speculative Decoding on Invalidated KV under Prefill-Decode Disaggregation](https://arxiv.org/abs/2611.18459) | Efficient AI: KV Cache and Memory Efficiency | Callo reduces cache-miss latency in disaggregated LLM serving by speculatively decoding with invalidated KV states and verifying drafts after exact prefill. | 6 | 7 |
+| 2026-11-15 | [The State Is Not the Bottleneck: A Paged-State Gated-DeltaNet Tile on a Tri-Mode Multicast Mesh, Bit-Exact from RTL to Silicon](https://arxiv.org/abs/2611.18422) | Efficient AI: Efficient Attention, KV Cache and Memory Efficiency | For this edge-FPGA Gated DeltaNet tile, paging the recurrent state is practical because weight delivery—not state paging—limits token-decoding performance. | 7 | 8 |
+| 2026-11-15 | [RecMem: Recurrent Memory Compression for Long-Sequence Generative Recommendation](https://arxiv.org/abs/2611.17921) | Efficient AI: KV Cache and Memory Efficiency | RecMem compresses arbitrarily long recommendation histories into a fixed recurrent memory while preserving useful predictive information and much of the performance of long-context models. | 5 | 6 |
+| 2026-11-15 | [AscendGYM: A Cost-Aware Kernel Optimization Benchmark for Real-World Workloads on Ascend NPUs](https://arxiv.org/abs/2611.17621) | Efficient AI: KV Cache and Memory Efficiency | AscendGYM benchmarks cost-aware optimization of existing Ascend NPU kernels using configurations from real LLM workloads. | 7 | 7 |
+| 2026-11-15 | [Advancing Quantization for R&R Models with Microscaling Formats](https://arxiv.org/abs/2611.17501) | Efficient AI: KV Cache and Memory Efficiency | Microscaling MXFP8 and MXFP6 enables substantial inference acceleration for production recommendation and ranking models while maintaining the strict required quality margin. | 8 | 8 |
 | 2026-11-14 | [Read Once, Answer Many: Parallel Prompting for Shared-Context LLM Inference](https://arxiv.org/abs/2611.15130) | Efficient AI: KV Cache and Memory Efficiency | Parallel Prompting accelerates multi-question LLM inference over the same long document by decoding all questions together while reading the shared KV cache only once per step. | 8 | 7 |
 | 2026-11-14 | [AttSVD:Prompt-Adaptive Low-Rank KV Cache Compression via Attention-Guided SVD](https://arxiv.org/abs/2610.06927) | Efficient AI: KV Cache and Memory Efficiency | AttSVD compresses every KV-cache token using prompt-specific, attention-guided low-rank SVD, retaining dense-cache performance while reducing memory by up to 50%. | 9 | 8 |
 | 2026-11-12 | [LazyWeights: Decode-on-Demand Edge LLMs](https://arxiv.org/abs/2611.17108) | Efficient AI: KV Cache and Memory Efficiency | LazyWeights compresses quantized LLM weights and decodes them on demand to reduce edge-device memory traffic, latency, and energy without changing GPU kernels. | 7 | 7 |

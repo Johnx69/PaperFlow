@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Autoregressive Video Models
 
-**56 papers total**
+**57 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-15 | [InfiHall-Bench: A Benchmark for Hallucination Evaluation in Autoregressive Text-to-Image Generation](https://arxiv.org/abs/2611.18053) | Video Generation and Understanding: Autoregressive Video Models | InfiHall-Bench evaluates hallucinations in autoregressive text-to-image models through multi-skill prompts and motivates CMHM, which focuses fine-tuning on uncertain visual-token predictions. | 7 | 7 |
 | 2026-11-08 | [AR-Edit: Training-Free Autoregressive Video Editing without Inversion](https://arxiv.org/abs/2611.09795) | Video Generation and Understanding: Video Diffusion, Autoregressive Video Models | AR-Edit enables real-time, training-free video editing from streaming frames by caching and reusing source value features, avoiding inversion. | 7 | 8 |
 | 2026-11-08 | [Trajectory Forcing: Exploiting Diffusion Trajectories for Autoregressive Long Video Generation](https://arxiv.org/abs/2611.09096) | Video Generation and Understanding: Autoregressive Video Models | Trajectory Forcing improves autoregressive long-video diffusion by conditioning each new chunk on the full denoising trajectories of previous chunks. | 8 | 8 |
 | 2026-11-04 | [EvoWorld: Towards Out-of-Sight World Evolution in Generative Video Models](https://arxiv.org/abs/2611.06748) | World Models: Video World Models, Interactive World Models; Video Generation and Understanding: Autoregressive Video Models | EvoWorld enables video models to evolve worlds causally beyond the visible frame by combining explicit state reasoning with autoregressive visual rendering. | 8 | 7 |

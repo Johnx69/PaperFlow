@@ -6,10 +6,17 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # LLM Memory
 
-**633 papers total**
+**640 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-15 | [CarryOn: Learning What to Keep in Context for Long-Horizon LLM Agents](https://arxiv.org/abs/2611.17808) | Language Foundation Models: LLM Memory | CarryOn improves long-horizon LLM agents by retaining compact execution state plus source-linked evidence, achieving higher task success with better resource efficiency. | 8 | 7 |
+| 2026-11-15 | [What LLM Agents See and What Users Say](https://arxiv.org/abs/2611.17639) | Language Foundation Models: LLM Memory | LLM agents often act on ambiguous or contradicted assumptions unless tools expose competing records or verify user-stated claims. | 7 | 7 |
+| 2026-11-15 | [Generated Evaluation Suites as Diversity-Driven Search for Real Agent Regressions](https://arxiv.org/abs/2611.17632) | Language Foundation Models: LLM Memory | Generated evaluation suites can miss real agent regressions when scored only by overall pass rate; per-cell scoring and explicit coverage reveal defects more reliably. | 7 | 7 |
+| 2026-11-15 | [More Agents, More Samples, or More Thinking? Untangling Coordination, Ensembling, and Test-Time Compute in Multi-Agent LLMs](https://arxiv.org/abs/2611.17610) | Language Foundation Models: LLM Memory | Across nine evaluations, multi-agent LLMs generally do not outperform single-model baselines when sample count or inference resources are matched, suggesting gains come from compute, evidence diversity, or verification rather than coordination alone. | 8 | 8 |
+| 2026-11-15 | [AI-Voyager: A Public-Interest System for Human-AI Civic Reasoning to Contest and Shape the Rules That Govern AI](https://arxiv.org/abs/2611.17564) | Language Foundation Models: LLM Memory | AI-Voyager helps people understand, question, and revise AI governance rules by grounding human-AI civic reasoning in exact public-document text. | 7 | 7 |
+| 2026-11-15 | [When Should LLM Agents Forget? Memory Filtering Under Query-Critical Resolver Errors](https://arxiv.org/abs/2611.17338) | Language Foundation Models: LLM Memory | Hard deletion in LLM memory helps only with reliable resolution; query-critical false-drops can make retention safer. | 8 | 7 |
+| 2026-11-15 | [CultureBot: A Framework for Retrieval-Augmented Exploration of Cultural Heritage Data](https://arxiv.org/abs/2610.16435) | Language Foundation Models: LLM Memory | CULTUREBOT enables conversational exploration of cultural heritage collections by combining knowledge-graph-guided retrieval with evidence-linked generation. | 5 | 5 |
 | 2026-11-13 | [Discovering Effective Agent Memory Designs through Program Evolution](https://arxiv.org/abs/2611.17068) | Language Foundation Models: LLM Memory | MAPE uses program evolution to automatically discover effective, efficient agent memory designs, improving accuracy over manual baselines while reducing serving cost. | 8 | 8 |
 | 2026-11-12 | [CoReMem: Cost-Internalizing Memory for Successive Coding Tasks with Prospective Valuation](https://arxiv.org/abs/2611.17316) | Language Foundation Models: LLM Memory | CoReMem improves coding-agent performance on successive repository tasks by valuing memory prospectively and internalizing its writing, reading, and action costs. | 7 | 7 |
 | 2026-11-12 | [Symmetry in Time: A Representation Theory of Linear Recurrent Memory](https://arxiv.org/abs/2611.17162) | Language Foundation Models: Large Language Models, LLM Memory | A representation-theoretic analysis shows why diagonal SSMs lose sequence order, and HyperSSM fixes this with quaternion-valued state channels while preserving efficient inference and training. | 7 | 8 |

@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Video World Models
 
-**330 papers total**
+**331 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-15 | [V-JEPA-LM: Video-Language Models That Read Dynamics Beyond Static, Text-Aligned Representations](https://arxiv.org/abs/2611.17831) | World Models: Video World Models; Multimodal Foundation Models: Multimodal Large Language Models; Video Generation and Understanding: Video Understanding | V-JEPA-LM combines dynamics-aware video encoders with counterfactual supervision so language models can answer questions about motion and temporal change, achieving strong performance across video benchmarks. | 9 | 8 |
 | 2026-11-12 | [Generative AI models for exploring diffusion dynamics from multi-frame particle tracking](https://arxiv.org/abs/2611.16163) | World Models: Video World Models | DiffTR-Flow3D uses diffusion modeling and trajectory history to estimate 3D flow motion and maintain particle tracks despite sparse temporal sampling and large displacements. | 8 | 8 |
 | 2026-11-12 | [Prediction-Error-Tightened MPC for Socially Compliant Crowd Navigation](https://arxiv.org/abs/2611.15781) | Embodied AI: Robot Navigation; World Models: Video World Models | An MPC-based crowd-navigation framework improves collision safety and social compliance by combining semantic perception, Koopman motion prediction, and online prediction-error tightening. | 7 | 7 |
 | 2026-11-12 | [CoCode-World: Shared 3D Proxy Representation for Multi-Player World Models](https://arxiv.org/abs/2611.15602) | World Models: Video World Models, Interactive World Models; Video Generation and Understanding: Video Diffusion | CoCode-World generates synchronized two-player videos by combining shared 3D proxies with appearance references and joint cross-view synthesis. | 8 | 8 |

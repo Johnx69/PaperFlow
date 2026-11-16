@@ -6,10 +6,13 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # 3D Foundation Models
 
-**299 papers total**
+**302 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-15 | [EcoVGGT: Pinned-Key Inference for Efficient and Streamable Feed-Forward 3D Reconstruction from Long Videos](https://arxiv.org/abs/2611.18099) | 3D Vision: 3D Foundation Models; Efficient AI: Token Pruning and Eviction, Efficient Attention | EcoVGGT makes long-video feed-forward 3D reconstruction efficient and streamable by using a small, fixed set of evenly spaced key frames. | 8 | 7 |
+| 2026-11-15 | [Multi-level latent-diffusion adaptation for cross-region point cloud segmentation of ancient terraces](https://arxiv.org/abs/2611.18033) | 3D Vision: 3D Foundation Models | MELD adapts lidar point-cloud terrace segmentation across archaeological regions by refining hierarchical features with target-domain latent diffusion, improving cross-region F1 without target labels. | 8 | 8 |
+| 2026-11-15 | [Training-Free Acceleration of Multi-View 3D Transformers via Regime-Aware Attention Approximation](https://arxiv.org/abs/2611.17629) | 3D Vision: 3D Foundation Models; Efficient AI: Efficient Attention | RAWATTA accelerates multi-view 3D transformers without retraining by adapting attention precision and approximation to each layer’s functional regime. | 8 | 7 |
 | 2026-11-12 | [Spatiotemporal learning improves quantification of pore-space evolution and fluid displacement](https://arxiv.org/abs/2611.17111) | 3D Vision: 3D Foundation Models | A transformer-based spatiotemporal segmentation method uses information across time to more reliably quantify pore evolution and fluid displacement in time-resolved micro-CT images. | 7 | 7 |
 | 2026-11-12 | [Kosmo-GFM: A Production-Ready Geometry Foundation Model](https://arxiv.org/abs/2611.16840) | 3D Vision: 3D Foundation Models | Kosmo-GFM combines learned geometric predictions, pose optimization, and reconstruction-derived supervision to enable accurate and efficient static and dynamic scene reconstruction. | 8 | 7 |
 | 2026-11-12 | [HybridCT: ML Accelerated Tomography for Climate Relevant 3D Cloud Observations](https://arxiv.org/abs/2611.16255) | 3D Vision: 3D Foundation Models | HybridCT combines machine learning with tomographic inversion to rapidly reconstruct 3D cloud extinction from multi-angle passive observations. | 7 | 8 |

@@ -1,6 +1,645 @@
 {
   "days": [
     {
+      "date": "2026-11-15",
+      "paper_count": 4,
+      "papers": [
+        {
+          "abstract": "Screen history can serve as searchable visual memory for people and agents, but unlike an offline corpus, it must be encoded and indexed as each screenshot arrives. OCR-based indexing is fast but loses visual information; visual encoding takes over two seconds. Yet screens change incrementally: most pixels repeat within and across screenshots. This raises a question: do visual encoders need to recompute their representations from scratch for every new screenshot? We present StreamEmbed, a system for incremental visual embedding that exploits this redundancy. Guided solely by pixel differences, it combines spatial token pruning, which skips blocks that repeat a neighbor, with temporal KV reuse, which reuses cached keys and values for blocks unchanged across screenshots. A small learned adapter compensates for pruning and reuse to preserve fidelity to full-screenshot embeddings. On ScreenMemEval, our benchmark of 10,426 questions over 184 hours of screen histories from two humans and a computer-use agent, StreamEmbed sets a new accuracy-latency Pareto frontier on an M2 Pro GPU: it encodes up to 3.7x faster than full-screenshot encoding without sacrificing accuracy and improves accuracy over OCR-based indexing by up to 6.3 Recall@10 points at matched latency. A memory-efficient vector index stores a simulated year of screenshots in 0.13 GB of RAM. Together, these results make real-time indexing of screen history in its native visual form practical, laying a foundation for fully local visual assistants.",
+          "arxiv_id": "2611.18516",
+          "arxiv_url": "https://arxiv.org/abs/2611.18516",
+          "authors": [
+            "Dayoon Ko, Yichuan Wang, Soyeong Jeong, Joseph E. Gonzalez, Gunhee Kim, Sewon Min"
+          ],
+          "bullets": [
+            "Addresses the trade-off between fast but information-limited OCR indexing and slow full visual encoding for continuously arriving screenshots.",
+            "Uses pixel differences to prune redundant spatial tokens and reuse cached temporal key-value representations for unchanged regions.",
+            "A learned adapter preserves similarity to full-screenshot embeddings despite pruning and reuse.",
+            "On ScreenMemEval, it achieves up to 3.7× faster encoding without accuracy loss and up to 6.3 Recall@10 points over OCR at matched latency.",
+            "A memory-efficient index stores a simulated year of screenshots using 0.13 GB of RAM, supporting local visual screen-history assistants."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.IR",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 6. Frontiers per model size. R@10 against GPU latency per screenshot for Qwen3-VL (top) and SigLIP2 (bottom). Pink and purple mark STREAMEMBED on the small and large model, and light and dark slate the baselines. Solid lines are frontiers of STREAMEMBED over full resolution, lower resolutions, and drop rates of 50% and 60%, and dashed lines are frontiers of the base full screenshot over lower resolutions. Stars mark STREAMEMBED at full resolution. GTE-MB-149M is gte-modernbert-base on Apple Vision OCR text without language correction. In the Qwen3-VL row of SME-Agent, points below 42 R@10 are omitted.",
+              "figure_id": "figure-6-13",
+              "figure_number": "6",
+              "height": 658,
+              "image_path": "figures/2611.18516/figure-001.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 978
+            },
+            {
+              "caption": "Figure 5. STREAMEMBED with lower resolution and smaller encoders. Bands are the Pareto frontiers of Qwen3-VL (top) and SigLIP2 (bottom) over encoder size and resolution, with and without STREAMEMBED; arrows give the R@10 gain of STREAMEMBED at a similar or lower latency. Labels give the encoder size and input width (SigLIP2: maximum patches, p) and, for STREAMEMBED, the fraction of dropped blocks. Gray crosses are other indexes, off both frontiers.",
+              "figure_id": "figure-5-10",
+              "figure_number": "5",
+              "height": 439,
+              "image_path": "figures/2611.18516/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 976
+            },
+            {
+              "caption": "Figure 2. Screenshots repeat most of their blocks, unlike natural video. (a) Blocks of st+1 that repeat their left or upper neighbor. (b) Blocks of st+1 unchanged from st. (c) (a) and (b) together split st+1 into repeated, unchanged, and changed blocks. (d) Share of repeated, unchanged, and changed blocks per source (Lù et al., 2024; Chen et al., 2025; Damen et al., 2022) (Wiki.: Wikimedia Commons).",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 421,
+              "image_path": "figures/2611.18516/figure-003.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 996
+            },
+            {
+              "caption": "Figure 4. Main results. STREAMEMBED approaches the accuracy of a screenshot index at close to the latency of a text index. Recall@10 and mean indexing latency per screenshot on the GPU and CPU of an M2 Pro (§6.1), latency on a log scale. Text indexes use Apple Vision OCR on the GPU and RapidOCR on the CPU, since Apple Vision OCR runs on the Neural Engine. OCR latency is almost equal to the BM25 latency, since BM25 adds under 0.1 ms.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 402,
+              "image_path": "figures/2611.18516/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 996
+            },
+            {
+              "caption": "Figure 1. STREAMEMBED moves the accuracy–latency frontier. Recall@10 against indexing latency per screenshot (log scale) on an M2 Pro GPU, on the three histories of SCREENMEMEVAL. STREAMEMBED runs on Qwen3-VL-Embedding-2B at several input resolutions and on SigLIP 2. STREAMEMBED and the +LoRA baselines are fine-tuned on the training split of SME-H1, and all results are on held-out test sets (§5.3). We run baselines as released, while STREAMEMBED uses a linear patch embedding for Qwen-VL (§6.1).",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 349,
+              "image_path": "figures/2611.18516/figure-005.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 995
+            },
+            {
+              "caption": "Figure 3. Indexing with STREAMEMBED. A screenshot arrives every ∆ = 5 s. Spatial pruning drops blocks that repeat their left or upper neighbors (§4.1), and change detection flags kept blocks that are new or have changed beyond a threshold (§4.2). The ViT and LM recompute only the flagged blocks (and the suffix), reusing cached keys and values for the rest. The last token’s final hidden state is the embedding of the screenshot.",
+              "figure_id": "figure-3-17",
+              "figure_number": "3",
+              "height": 247,
+              "image_path": "figures/2611.18516/figure-006.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1013
+            },
+            {
+              "caption": "Table 8. Full main results. R@10 over all questions (All), single-recording questions (Single), and multi-recording questions (Multi), and nDCG@10 over all questions. FT marks fine-tuning with LoRA on SME-H1, and other rows use base models.",
+              "figure_id": "table-8-18",
+              "figure_number": "8",
+              "height": 483,
+              "image_path": "figures/2611.18516/table-007.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 1017
+            },
+            {
+              "caption": "Table 4. Index types as the index grows. B/entry is RAM per screenshot. R@10 is on real histories, and subscripts give the change from Flat. RAM, search, and insertion on CPU are for 1–5 years of screenshots (2.1M/year), simulated from the real embeddings with Gaussian noise. PQ and 1-bit re-rank the top 1,000 with fp16 vectors on the SSD. Search times the index only; encoding a query adds 52 ms on average. – exceeds 24 GB of RAM.",
+              "figure_id": "table-4-14",
+              "figure_number": "4",
+              "height": 204,
+              "image_path": "figures/2611.18516/table-008.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 1017
+            },
+            {
+              "caption": "Table 5. STREAMEMBED on other encoders. Full screenshot and STREAMEMBED for each encoder, all fine-tuned with LoRA on SME-H1. Latency is GPU / CPU in seconds per screenshot. Darker blue marks higher R@10 and darker pink marks lower GPU latency, within each column.",
+              "figure_id": "table-5-15",
+              "figure_number": "5",
+              "height": 291,
+              "image_path": "figures/2611.18516/table-009.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 494
+            },
+            {
+              "caption": "Table 6. Ablation. Components of STREAMEMBED added one at a time to the fine-tuned Qwen3-VL-2B screenshot index. Latency is GPU / CPU in sec per screenshot.",
+              "figure_id": "table-6-16",
+              "figure_number": "6",
+              "height": 179,
+              "image_path": "figures/2611.18516/table-010.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 494
+            },
+            {
+              "caption": "Table 2. Statistics of the three screenshot histories of SME.",
+              "figure_id": "table-2-2",
+              "figure_number": "2",
+              "height": 171,
+              "image_path": "figures/2611.18516/table-011.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 492
+            },
+            {
+              "caption": "Table 7. SCREENMEMEVAL and ScreenshotVQA. Days counts days with at least one recording, as in Table 2, and Span counts calendar days from the first to the last recording, on the simulated calendar for SME-Agent. Screen time is the number of screenshots times the 5 s interval. Relevance marks recording-level relevance labels, and Role is the use of each history when encoders are finetuned. For ScreenshotVQA, span and screenshots are averaged over its three histories.",
+              "figure_id": "table-7-3",
+              "figure_number": "7",
+              "height": 458,
+              "image_path": "figures/2611.18516/table-012.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 492
+            },
+            {
+              "caption": "Table 10. Latency breakdown on SME-H1. Mean GPU latency per screenshot (s) of the fine-tuned Qwen3-VL-2B as parts of STREAMEMBED are added, with preprocessing in Total. The top block is the latency sample used throughout the paper, as in Table 6, with grid keep. The bottom block is a separate set of 2,000 SME-H1 test screenshots without grid keep. Comp. is computation in TFLOPs per screenshot.",
+              "figure_id": "table-10-19",
+              "figure_number": "10",
+              "height": 337,
+              "image_path": "figures/2611.18516/table-013.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 492
+            },
+            {
+              "caption": "Table 12. Pixel tolerances and refresh. R@10 and computation (TF). The top block raises τ and δ together, and the bottom block changes one reuse setting on SME-H2. – was not run.",
+              "figure_id": "table-12-9",
+              "figure_number": "12",
+              "height": 315,
+              "image_path": "figures/2611.18516/table-014.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 492
+            },
+            {
+              "caption": "Table 13. Redundancy by source. Share of blocks (%) that repeat a neighbor (Spatial), or else are unchanged from the frame 5 s earlier (Temporal), and their sum (Combined), averaged over consecutive frame pairs. SME-Agent uses 142 of its 787 recordings.",
+              "figure_id": "table-13-8",
+              "figure_number": "13",
+              "height": 265,
+              "image_path": "figures/2611.18516/table-015.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 492
+            },
+            {
+              "caption": "Table 11. Grid keep tile size. R@10 and computation (TF). None uses the neighbor rule alone, and – was not run.",
+              "figure_id": "table-11-7",
+              "figure_number": "11",
+              "height": 160,
+              "image_path": "figures/2611.18516/table-016.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 492
+            },
+            {
+              "caption": "Table 1. Mean R@10 and per-screenshot latency (s) of Qwen3VL-Embedding-2B indexes on the SME. Enc.: encoding; Insert: adding the embedding to the index; Total: OCR + Enc. + Insert.",
+              "figure_id": "table-1-11",
+              "figure_number": "1",
+              "height": 119,
+              "image_path": "figures/2611.18516/table-017.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 492
+            },
+            {
+              "caption": "Table 14. Screenshots ranked first for four questions. For each single-recording question, the screenshot that each index ranks first, framed in green if it belongs to a gold recording and in red otherwise. All indexes use the fine-tuned Qwen3-VL-2B. Below each index is its mean GPU time to index one screenshot on SME-H1 and SME-H2 (Figure 4).",
+              "figure_id": "table-14-12",
+              "figure_number": "14",
+              "height": 195,
+              "image_path": "figures/2611.18516/table-018.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 1017
+            },
+            {
+              "caption": "Table 3. Question types in SME, with examples.",
+              "figure_id": "table-3-1",
+              "figure_number": "3",
+              "height": 42,
+              "image_path": "figures/2611.18516/table-019.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 492
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.18516/hero.webp",
+          "novelty": 9,
+          "pdf_url": "https://arxiv.org/pdf/2611.18516",
+          "relevance": 9,
+          "selection_reason": "Introduces StreamEmbed for real-time visual embedding using spatial token pruning and temporal KV reuse to handle screen history efficiently.",
+          "summary_status": "generated",
+          "title": "StreamEmbed: Real-Time Indexing from Pixels for Screenshot Retrieval",
+          "tldr": "StreamEmbed enables fast, accurate real-time screenshot retrieval by incrementally updating visual embeddings instead of re-encoding each screen from scratch.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction",
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Efficient sequential recommendation has emerged as a promising paradigm for providing real-time personalized service. To deploy models under resource-constrained environment, model compression becomes a necessity, yet existing methods typically apply uniform compression ratios, overlooking the heterogeneity in user intent complexity. This \"one-size-fits-all\" approach leads to a fundamental Capacity-Complexity Mismatch, where computational resources are either wasted on simple instances or insufficient for complex ones. To address this, we propose RACE (Ranking-uncertainty Aware Capacity-Adaptive Customization for Efficient Sequential Recommendation), a framework that dynamically adapts both model structures and input sequences with uncertainty-aware compression ratios. To ensure capacity-adaptive inference, RACE captures the model's intrinsic uncertainty of its predictions and transforms it into a proactive resource allocator. Specifically, we derive a list-wise ranking-uncertainty metric from the distributional stability of top-$K$ predictions, which serves as a measurable proxy for instance complexity. A lightweight predictor is then trained via self-supervision to anticipate this uncertainty from early-layer features. Guided by this signal, RACE performs instance-specific slimming in two dimensions: a hypernetwork-style channel sensitivity extractor identifies parameter redundancy, while importance-aware progressive sequence filtering mitigates data redundancy. Extensive experiments on four popular datasets demonstrate that RACE outperforms state-of-the-art baselines on accuracy, efficiency, and adaptability.",
+          "arxiv_id": "2611.18244",
+          "arxiv_url": "https://arxiv.org/abs/2611.18244",
+          "authors": [
+            "Tianqi Liu, Kaipu Sun, Kairui Fu, Wenkai Wang, Sihao Liu, Hui Zang, Ran Chen, Tao Wang, Shengyu Zhang"
+          ],
+          "bullets": [
+            "Addresses capacity–complexity mismatch caused by uniform compression for users with different intent complexity.",
+            "Estimates instance complexity using top-K list-wise ranking uncertainty and predicts it from early-layer features with a lightweight self-supervised model.",
+            "Performs adaptive compression through channel slimming and importance-aware progressive sequence filtering.",
+            "Experiments on four datasets report gains over state-of-the-art baselines in accuracy, efficiency, and adaptability."
+          ],
+          "categories": [
+            "cs.IR",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3: Overview of the RACE framework. Our approach consists of three key components: (a) Ranking-Uncertainty Guided ResourceAllocation: RACEdesigns a list-wise ranking-uncertaintymetric and transforms it into a proactive instance-complexity proxy to guide resource allocation, utilizing a self-supervised threshold predictor to anticipate ratios early in inference. (b) Interest-Compatible Subnets Identification: Using the predicted ratio, a lightweight hypernetwork-style sensitivity extractor generates channel-wise masks to customize each feed-forward layer. (c) Progressive Sequence Filtering: Using the predicted ratio, RACE calculates relative importance scores to retain semantically relevant items while suppressing noise block by block.",
+              "figure_id": "figure-3-8",
+              "figure_number": "3",
+              "height": 502,
+              "image_path": "figures/2611.18244/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1031
+            },
+            {
+              "caption": "Figure 1: Comparison of on-device recommendation paradigms. (a) On-device Finetuning incurs computational overhead due to backpropagation, and often falls short for capturing shifting interests. (b) On-device Pruning applies a unified-sparsity mask and relies on additional extractors, unable to adapt to the complexity of user intents. (c) Our proposed RACE framework introduces a Ranking-Uncertainty Driven mechanism to dynamically adapt model size to instance complexity. In comparison, RACE achieves sequence and structure slimming and customization in an intrinsic feature reuse and retraining-free manner.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 329,
+              "image_path": "figures/2611.18244/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1025
+            },
+            {
+              "caption": "Figure 2: Correlation analysis between model performance and two input-side heuristics: (a) history popularity; (b) interest stability. Neither reliably indicates instance complexity.",
+              "figure_id": "figure-2-2",
+              "figure_number": "2",
+              "height": 165,
+              "image_path": "figures/2611.18244/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 464
+            },
+            {
+              "caption": "Figure 4: Uncertainty Analysis: (a) Performance (before or after customization) vs. Uncertainty (b) Predicted Channel Pruning Ratio vs. Uncertainty.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 181,
+              "image_path": "figures/2611.18244/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 486
+            },
+            {
+              "caption": "Figure 5: Training Curve of RACE over Five Seeds.",
+              "figure_id": "figure-5-9",
+              "figure_number": "5",
+              "height": 188,
+              "image_path": "figures/2611.18244/figure-005.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 464
+            },
+            {
+              "caption": "Figure 6: Sensitivity Analysis of Sequence Pruning Ratio.",
+              "figure_id": "figure-6-11",
+              "figure_number": "6",
+              "height": 146,
+              "image_path": "figures/2611.18244/figure-006.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 482
+            },
+            {
+              "caption": "Figure 7: Sensitivity Analysis of Channel Pruning Ratio.",
+              "figure_id": "figure-7-12",
+              "figure_number": "7",
+              "height": 146,
+              "image_path": "figures/2611.18244/figure-007.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 479
+            },
+            {
+              "caption": "Table 1: Overall performance comparison of RACE and competitive baselines across four datasets and two representative backbones. For metrics 𝑁𝐷𝐶𝐺@𝐾 and 𝐻𝑖𝑡@𝐾 , 𝐾 = 5 is used by default. ↑ and ↓ denote that larger and smaller values are preferred, respectively. Bold font indicates the best performance in each column.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 526,
+              "image_path": "figures/2611.18244/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1056
+            },
+            {
+              "caption": "Table 4: Comparison of different sequence-filtering methods on Douban and Amazon-Game datasets.",
+              "figure_id": "table-4-6",
+              "figure_number": "4",
+              "height": 182,
+              "image_path": "figures/2611.18244/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 468
+            },
+            {
+              "caption": "Table 2: Ablation experiment.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 230,
+              "image_path": "figures/2611.18244/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 479
+            },
+            {
+              "caption": "Table 3: Comparison of alternative uncertainty designs for guiding dynamic thresholds on Douban.",
+              "figure_id": "table-3-7",
+              "figure_number": "3",
+              "height": 213,
+              "image_path": "figures/2611.18244/table-011.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 466
+            },
+            {
+              "caption": "Table 5: Efficiency analysis on the SASRec backbone.",
+              "figure_id": "table-5-10",
+              "figure_number": "5",
+              "height": 89,
+              "image_path": "figures/2611.18244/table-012.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 506
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.18244/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.18244",
+          "relevance": 6,
+          "selection_reason": "Uncertainty-aware capacity-adaptive compression and importance-based sequence filtering for efficient sequential recommendation fit efficient inference and token/sequence selection.",
+          "summary_status": "generated",
+          "title": "RACE: Ranking-Uncertainty Aware Capacity-Adaptive Customization for Efficient Sequential Recommendation",
+          "tldr": "RACE improves efficient sequential recommendation by adapting model capacity and input length to each user’s prediction uncertainty.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Feed-forward multi-view transformers such as VGGT recover the cameras and geometry of a video in one pass, but the cost of their cross-frame attention grows quadratically with the frame count, and their accuracy drops on long videos. Most remedies approximate attention over all frames within a budget or select a few keys by their content. We hypothesize that the keys of a long video can be chosen without looking at its content, and our experiments on VGGT and $\\pi^3$ support it: a few dozen evenly spread frames can serve as the keys of every frame. We present EcoVGGT, a training-free inference framework whose keys form a Pinned Key Set of 31 such frames. A pin pass stores their tokens in a Scene Cache, and the other frames read it in independent batches that reproduce joint inference with these keys exactly, at a constant cost per frame. An Online Stream updates the pinned frames during recording. Six middle global blocks align the frames and form a reusable VGGT module: the Alignment Score reads their attention to flag failures, and Alignment Refocusing reduces them by fine-tuning only these blocks (3.6 GPU hours). EcoVGGT ($\\pi^3$) matches the success rate of $\\pi^3$ on 1,000-frame ScanNet videos at 13.8 times its speed. With refocusing, EcoVGGT (VGGT) raises the success rate of VGGT from 70% to 82% at 8.5 times its speed on 500 frames. EcoVGGT reconstructs 4,000 frames on one GPU, and EcoVGGT ($\\pi^3$) streams 1,000 frames at 18.6 frames per second with the lowest online absolute trajectory error.",
+          "arxiv_id": "2611.18099",
+          "arxiv_url": "https://arxiv.org/abs/2611.18099",
+          "authors": [
+            "Hongsen Cao, Shanxin Yuan, Mona Jaber, Ahmed Sayed"
+          ],
+          "bullets": [
+            "Addresses quadratic cross-frame attention costs and accuracy degradation on long videos.",
+            "Uses a training-free Pinned Key Set of 31 frames, cached once and reused by independently processed frames.",
+            "Supports online streaming by updating pinned frames during recording.",
+            "An Alignment Score detects failures, while Alignment Refocusing fine-tunes six global blocks to improve robustness.",
+            "On long ScanNet videos, it matches or improves baseline success rates while achieving substantially higher speed and scaling to thousands of frames on one GPU."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4. Accuracy and cost on ScanNet. (a) Success rate against speed at 1,000 frames, with the dotted Pareto front of other methods, shaded below, its corner enlarged, StreamVGGT out of memory, and Good Token Hunting as GTH. (b) Median time per frame and (c) peak inference memory against video length, with VGGT-based methods in (c). Colors mark EcoVGGT (blue, dashed with hollow markers when online), full models (gray), and offline (orange) and online (green) baselines. Crosses and line ends mark where memory exceeds 80 GB.",
+              "figure_id": "figure-4-10",
+              "figure_number": "4",
+              "height": 260,
+              "image_path": "figures/2611.18099/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1021
+            },
+            {
+              "caption": "Figure 2. Overview of EcoVGGT. A pin pass processes the Pinned Key Set of evenly spread frames (dark blue) and stores the inputs of every global block in the Scene Cache. In attach passes, the other frames (light blue) read the keys KP and values VP only from this cache, so all predictions share one coordinate frame. Alignment Refocusing fine-tunes blocks 10 to 15, and the Alignment Score α reads block 13.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 243,
+              "image_path": "figures/2611.18099/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1018
+            },
+            {
+              "caption": "Figure 5. Two baselines and EcoVGGT on two long ScanNet videos, scene0648 00 (top) and scene0477 00 (bottom), each in one oblique view. Icons mark which frames (columns) each frame (rows) attends to: a pruned cache, overlapping chunks, or the same pinned frames.",
+              "figure_id": "figure-5-5",
+              "figure_number": "5",
+              "height": 337,
+              "image_path": "figures/2611.18099/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1023
+            },
+            {
+              "caption": "Figure 3. The alignment band. (a) Divergence of the attention from uniform (Eq. (3)) in each global block, median over queries and three 100-frame sequences of 7-Scenes. (b) Rank correlation between the attention share of two distant frames and their co-visibility for VGGT and EcoVGGT (VGGT), median over 50 ScanNet scenes, with the interquartile range of VGGT in light blue.",
+              "figure_id": "figure-3-9",
+              "figure_number": "3",
+              "height": 218,
+              "image_path": "figures/2611.18099/figure-004.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 483
+            },
+            {
+              "caption": "Table 1. Long ScanNet videos on one A100 GPU. Online methods emit frames during recording, and EcoVGGT emits every frame within (τ + 1)κ frames of its arrival. Success is the share (%) of the 50 scenes with absolute trajectory error (ATE) below 0.2 m. Units are m for ATE, degrees for the relative rotation error (RPE), cm for point accuracy (Acc.), s for the time per scene, and GB for the peak memory of inference without input frames, largest over scenes. The first two rows are the full models, shaded rows are EcoVGGT, and bold marks the best value in each column of the Offline and Online groups. Failed marks a success rate below 20%, given in parentheses, and dashes mark omitted or missing values. †Trains or fine-tunes network weights. ‡Full pipeline (inference 74 s and 151 s).",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 488,
+              "image_path": "figures/2611.18099/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 910
+            },
+            {
+              "caption": "Figure 1. Three insights into cross-frame attention on long videos. (a) Median relative rotation error on 50 ScanNet scenes against the number of evenly spread key frames, with every frame as a query. Hollow markers use all frames as keys. (b) Increase of the median relative translation error at 500 frames when batches of 64 consecutive frames add 4, 8, or 16 of their own frames to 31 spread keys. Hollow markers draw the added frames from the whole video. (c) Trajectory error of the full VGGT at 500 frames against the 90th percentile of the divergence of block 13 from uniform attention, one point per scene. AUROC, area under the receiver operating characteristic curve.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 189,
+              "image_path": "figures/2611.18099/figure-006.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1003
+            },
+            {
+              "caption": "Table 3. Efficiency on ScanNet on one A100 GPU. TFLOPs, 1012 floating-point operations, count a multiply-add as two. FPS is the median frame rate over the runs of Tab. 1. Latency is the median and the first-frame delay when 1,000 frames arrive at 10 per second, measured for online methods and computed from the time of Tab. 1 for offline methods, which start after the last frame. Energy is the GPU energy per frame at 1,000 frames. OOM marks out of memory, and Succ. at 1,000 frames and other notation follow Tab. 1.",
+              "figure_id": "table-3-3",
+              "figure_number": "3",
+              "height": 348,
+              "image_path": "figures/2611.18099/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 500
+            },
+            {
+              "caption": "Table 2. Thousands of frames on ScanNet. Units, measurements, and notation follow Tab. 1, except that the time per frame is in ms. Shorter videos keep all frames (median 1,420, three at 4,000). The full models, FastVGGT, FlashVGGT, and StreamVGGT exceed 80 GB in most scenes and are omitted. Scenes beyond 80 GB count as failures, and ATE and time are medians over the scenes that fit.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 267,
+              "image_path": "figures/2611.18099/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 502
+            },
+            {
+              "caption": "Table 4. Four other datasets. Point accuracy (Acc., cm) and ATE (m), as medians over the sequences of each dataset, with success rates per dataset and other notation as in Tab. 1. ∗Fails on 1 of 18 sequences of 7-Scenes and 2 of 12 of TUM RGB-D, and the medians use the others. Sec. S4 adds completeness, RPE, and time.",
+              "figure_id": "table-4-6",
+              "figure_number": "4",
+              "height": 353,
+              "image_path": "figures/2611.18099/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 502
+            },
+            {
+              "caption": "Table 5. Ablations of EcoVGGT on ScanNet at 500 frames. Shaded rows give absolute values in the units and notation of Tabs. 1 and 3 (Comp. in cm), and the rows below each give the change in success (points) and in each median error (%), and the ratios of TFLOPs and FPS. Indented rows compare with the Online row, and the nearby-keys rows compare with their shaded row rerun on a 24 GB GPU. Gray marks changes below 5% that are not significant (p ≥ 0.05). We omit the cost of the own-keys row, which ran frame by frame.",
+              "figure_id": "table-5-7",
+              "figure_number": "5",
+              "height": 52,
+              "image_path": "figures/2611.18099/table-010.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 500
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.18099/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.18099",
+          "relevance": 8,
+          "selection_reason": "Proposes a training-free efficient inference method for feed-forward 3D reconstruction from long videos, relevant to token pruning and efficient attention.",
+          "summary_status": "generated",
+          "title": "EcoVGGT: Pinned-Key Inference for Efficient and Streamable Feed-Forward 3D Reconstruction from Long Videos",
+          "tldr": "EcoVGGT makes long-video feed-forward 3D reconstruction efficient and streamable by using a small, fixed set of evenly spaced key frames.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "3d-foundation-models"
+              ],
+              "topic_id": "3d-vision"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction",
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Vision Transformers (ViTs) achieve strong performance on image recognition tasks, yet their quadratic self-attention complexity over input tokens creates prohibitive computational costs for practical deployment. Token reduction methods offer a practical solution by progressively reducing the token sequence during the forward pass. We propose Saliency-Weighted Asymmetric Merging (SWAM), a training-based token merging framework that extends the Bipartite Soft Matching (BSM) with two saliency-aware mechanisms. We introduce a two-step matching formulation in which cosine similarity decides candidate pairs, while a multiplicative maximum saliency penalty regulates their selection for merging. We then further use asymmetric exponential saliency-weighted aggregation, which allows more salient tokens to contribute more strongly to the merged representation. A lightweight MLP-based saliency prediction module (75k parameters per stage, 1% of backbone parameters) supervised via attention rollout is trained end-to-end jointly with a DeiT-Small backbone using a composite cross-entropy, knowledge-distillation, and saliency-alignment objective. On CIFAR-100, TinyImageNet, and ImageNet-100, under a conservative schedule that reduces tokens from 196 to 100 patch tokens, with the CLS token retained throughout, 27.5% FLOPs reduction and 1.35 times speedup, SWAM matches or exceeds baseline across the reported results. Under an aggressive schedule (196 to 70 tokens with the CLS token kept throughout, 33.8% FLOPs reduction, and 1.46 times speedup), accuracy gains are achieved on ImageNet-100 (+0.23%) with minimal losses on CIFAR-100 and TinyImageNet.",
+          "arxiv_id": "2611.18057",
+          "arxiv_url": "https://arxiv.org/abs/2611.18057",
+          "authors": [
+            "Utkarsh Kumar Singh, Manish Das, Shiv Ram Dubey, Satish Kumar Singh"
+          ],
+          "bullets": [
+            "Addresses the quadratic self-attention cost of ViTs through progressive token reduction.",
+            "Extends Bipartite Soft Matching with saliency-guided pair selection and asymmetric saliency-weighted aggregation.",
+            "Uses a lightweight MLP saliency predictor trained jointly with a DeiT-Small backbone and supervised through attention rollout.",
+            "With conservative merging, reduces FLOPs by 27.5% and achieves 1.35× speedup while matching or exceeding baselines across reported datasets.",
+            "With aggressive merging, reaches 33.8% FLOPs reduction and 1.46× speedup, including a 0.23% ImageNet-100 accuracy gain, with minimal losses elsewhere."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 1. SWAM pipeline. Top: DeiT-Small backbone with three SWAM reduction stages inserted after blocks 4, 7, and 10. Patch-token counts decrease from 196 to 100 (conservative, C) or 70 (aggressive, A) while the CLS token is retained throughout all reduction stages. Bottom: Detail of a single stage. The saliency head predicts per-token importance scores that feed into multiplicative max-saliency pair scoring (Eq. 6) and asymmetric saliency-weighted merging (Eq. 9).",
+              "figure_id": "figure-1-6",
+              "figure_number": "1",
+              "height": 485,
+              "image_path": "figures/2611.18057/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE I COMPRESSION SCHEDULES EVALUATED.",
+              "figure_id": "table-I-5",
+              "figure_number": "I",
+              "height": 637,
+              "image_path": "figures/2611.18057/table-002.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 529
+            },
+            {
+              "caption": "TABLE II PER-SEED ACCURACY RESULTS. ∆ = SWAM TOP-1 − BASELINE TOP-1 (PERCENTAGE POINTS). C: CONSERVATIVE A: AGGRESSIVE",
+              "figure_id": "table-II-3",
+              "figure_number": "II",
+              "height": 254,
+              "image_path": "figures/2611.18057/table-003.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 529
+            },
+            {
+              "caption": "TABLE III AGGREGATED PAIRED ACCURACY DIFFERENCES (MEAN AND SAMPLE STANDARD DEVIATION IN PERCENTAGE POINTS).",
+              "figure_id": "table-III-1",
+              "figure_number": "III",
+              "height": 154,
+              "image_path": "figures/2611.18057/table-004.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 529
+            },
+            {
+              "caption": "TABLE V INFERENCE EFFICIENCY (SINGLE GPU, BATCH 128).",
+              "figure_id": "table-V-4",
+              "figure_number": "V",
+              "height": 101,
+              "image_path": "figures/2611.18057/table-005.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 540
+            },
+            {
+              "caption": "TABLE IV COMPARISON OF PAIR-SCORING STRATEGIES ON CIFAR-100 UNDER THE CONSERVATIVE SETTING (SEED 42).",
+              "figure_id": "table-IV-2",
+              "figure_number": "IV",
+              "height": 120,
+              "image_path": "figures/2611.18057/table-006.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 446
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.18057/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.18057",
+          "relevance": 8,
+          "selection_reason": "Proposes SWAM, a saliency-weighted token merging framework for Vision Transformers, directly addressing token reduction and efficiency in attention mechanisms.",
+          "summary_status": "generated",
+          "title": "SWAM: Saliency-Weighted Asymmetric Merging for Efficient Vision Transformers",
+          "tldr": "SWAM improves Vision Transformer efficiency by saliency-aware token merging, reducing computation and inference time while largely preserving or improving accuracy.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-12",
       "paper_count": 7,
       "papers": [
@@ -68092,5 +68731,5 @@
   "schema_version": 1,
   "subtopic_id": "token-pruning-and-eviction",
   "topic_id": "efficient-ai",
-  "total_paper_count": 347
+  "total_paper_count": 351
 }

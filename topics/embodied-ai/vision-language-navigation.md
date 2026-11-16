@@ -6,10 +6,15 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Vision-Language Navigation
 
-**146 papers total**
+**151 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-15 | [VLAN: Vision-Language Accessible Navigation](https://arxiv.org/abs/2611.18346) | Embodied AI: Vision-Language Navigation, Robot Navigation | VLAN is a benchmark for evaluating vision-language navigation that adapts path safety and accessibility to diverse user and robot embodiments. | 9 | 8 |
+| 2026-11-15 | [Evaluating Language Models as Spatial Priors for Object-Goal Navigation](https://arxiv.org/abs/2611.18123) | Embodied AI: Vision-Language Navigation; Multimodal Foundation Models: Spatial Intelligence | LLMs can encode object–room associations and constrained spatial relationships, but are weaker than real-layout priors for predicting where objects are placed in rooms. | 7 | 6 |
+| 2026-11-15 | [X-Nav Technical Report: Real-World Long-Horizon Indoor-to-Outdoor Navigation on a Humanoid Robot](https://arxiv.org/abs/2611.17598) | Embodied AI: Vision-Language Navigation | X-Nav enables a humanoid robot to execute language-directed, long-horizon indoor-to-outdoor navigation using camera-based visual navigation, task decomposition, and obstacle avoidance. | 9 | 8 |
+| 2026-11-15 | [Racing the Clock: Teaching VLNs Budget-Conditioned Object Search](https://arxiv.org/abs/2611.17442) | Embodied AI: Vision-Language Navigation | Budget-aware VLN exploration benefits more from partial-observability-aware supervision than from imitating privileged optimal routes. | 9 | 8 |
+| 2026-11-15 | [EMS-Nav: Embodied Multi-Scale Navigation](https://arxiv.org/abs/2611.15589) | Embodied AI: Vision-Language Navigation | EMS-Nav enables efficient, on-device robot navigation to targets at multiple spatial scales by organizing perception, maps, and language goals around local regions. | 9 | 7 |
 | 2026-11-12 | [ProtoVis-Nav: Prototypical Visual Imagination for Visual-Spatial Aligned UAV Navigation](https://arxiv.org/abs/2611.17330) | Embodied AI: Vision-Language Navigation | ProtoVis-Nav improves UAV vision-language navigation by imagining the visual appearance of the intended next location before predicting an action. | 8 | 7 |
 | 2026-11-12 | [UAV-Flow++: A Unified Suite for Benchmarking and Learning Language-Guided UAV Flight](https://arxiv.org/abs/2611.17163) | Embodied AI: Vision-Language Navigation, Vision-Language-Action | UAV-Flow++ introduces a benchmark, dataset, simulator, and vision-language-action policy for evaluating and learning short-range, language-guided UAV maneuvers. | 9 | 8 |
 | 2026-11-12 | [Decide Before You Move: Diffusion-Generated Search Reference for Zero-Shot Open-Vocabulary Object Navigation in Semi-Static Environments](https://arxiv.org/abs/2611.15093) | Embodied AI: Vision-Language Navigation | PreNav uses a one-time diffusion-generated search route based on target–furniture relationships and persistent structure to find open-vocabulary objects efficiently in semi-static indoor environments. | 8 | 7 |

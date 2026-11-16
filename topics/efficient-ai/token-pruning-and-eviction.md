@@ -6,10 +6,14 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Token Pruning and Eviction
 
-**347 papers total**
+**351 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-15 | [StreamEmbed: Real-Time Indexing from Pixels for Screenshot Retrieval](https://arxiv.org/abs/2611.18516) | Efficient AI: Token Pruning and Eviction, KV Cache and Memory Efficiency | StreamEmbed enables fast, accurate real-time screenshot retrieval by incrementally updating visual embeddings instead of re-encoding each screen from scratch. | 9 | 9 |
+| 2026-11-15 | [RACE: Ranking-Uncertainty Aware Capacity-Adaptive Customization for Efficient Sequential Recommendation](https://arxiv.org/abs/2611.18244) | Efficient AI: Token Pruning and Eviction | RACE improves efficient sequential recommendation by adapting model capacity and input length to each user’s prediction uncertainty. | 6 | 6 |
+| 2026-11-15 | [EcoVGGT: Pinned-Key Inference for Efficient and Streamable Feed-Forward 3D Reconstruction from Long Videos](https://arxiv.org/abs/2611.18099) | 3D Vision: 3D Foundation Models; Efficient AI: Token Pruning and Eviction, Efficient Attention | EcoVGGT makes long-video feed-forward 3D reconstruction efficient and streamable by using a small, fixed set of evenly spaced key frames. | 8 | 7 |
+| 2026-11-15 | [SWAM: Saliency-Weighted Asymmetric Merging for Efficient Vision Transformers](https://arxiv.org/abs/2611.18057) | Efficient AI: Token Pruning and Eviction | SWAM improves Vision Transformer efficiency by saliency-aware token merging, reducing computation and inference time while largely preserving or improving accuracy. | 8 | 8 |
 | 2026-11-12 | [DRAMA: Dissecting Attention Redundancy for Accelerating Multimodal Diffusion Large Language Models](https://arxiv.org/abs/2611.16345) | Efficient AI: Token Pruning and Eviction | DRAMA accelerates multimodal diffusion LLM inference by pruning redundant visual tokens and adaptively stopping denoising once attention stabilizes. | 8 | 7 |
 | 2026-11-12 | [FoveaDet: Software-Hardware Co-Design of Foveated CNN-Transformer for Object Detection](https://arxiv.org/abs/2611.15579) | Efficient AI: Token Pruning and Eviction | FoveaDet co-designs foveated vision algorithms and specialized hardware to make object detection substantially more efficient on constrained edge devices with minimal accuracy loss. | 8 | 7 |
 | 2026-11-12 | [DiFiT: Distribution-Fidelity-guided Visual Token Pruning for Multimodal Large Language Models](https://arxiv.org/abs/2611.15069) | Multimodal Foundation Models: Multimodal Large Language Models; Efficient AI: Token Pruning and Eviction | DiFiT prunes visual tokens for multimodal LLMs while preserving response distributions, reducing sampling errors under aggressive compression. | 8 | 7 |

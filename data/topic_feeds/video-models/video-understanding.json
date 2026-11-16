@@ -1,6 +1,899 @@
 {
   "days": [
     {
+      "date": "2026-11-15",
+      "paper_count": 4,
+      "papers": [
+        {
+          "abstract": "Weakly Supervised Video Semantic Segmentation (WS-VSS) aims to learn temporally consistent semantic object masks in videos using only video-level labels. While fully supervised models successfully learn temporal relationships by means of cross-attention, training these temporal weights under weak supervision is unstable and even pushes the model below its single-frame baseline. Therefore, existing WS-VSS methods exploit temporal consistency by relying on external priors, such as optical flow. Unfortunately these cues are non-semantic, computationally expensive and noisy, degrading the supervisory signal. Instead of supervising attention weights directly or using external priors, we propose MemCAM, a WS-VSS transformer framework that learns temporal cross-attention directly through feature-space self-supervision. MemCAM introduces a CAM Propagation Algorithm that synthesizes a supervisory signal by propagating past CAMs according to patch-level feature similarities in the latent space. Specifically, we constrain their induced CAMs through a consistency objective between predicted and propagated maps, stabilizing temporal attention learning. Experiments on the YouTube-Objects v2.2 and WS$^2$ datasets demonstrate that MemCAM consistently outperforms the temporal localization and segmentation performance of WS-VSS alternatives, showing that cross-attention can be effectively trained in label-scarce video settings through internal self-supervision.",
+          "arxiv_id": "2611.18324",
+          "arxiv_url": "https://arxiv.org/abs/2611.18324",
+          "authors": [
+            "Andrea Marelli, Alessandro Ardenghi, Giacomo Boracchi, Luca Magri"
+          ],
+          "bullets": [
+            "Targets temporally consistent object masks from only video-level labels.",
+            "Propagates past CAMs using patch-level feature similarities in latent space to create self-supervision.",
+            "Trains temporal attention with a consistency objective between predicted and propagated CAMs.",
+            "Experiments on YouTube-Objects v2.2 and WS² show improved temporal localization and segmentation over existing WS-VSS methods.",
+            "The approach is evaluated in label-scarce settings and avoids reliance on computationally expensive, noisy optical flow."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of MemCAM architecture. Inputs (left) are encoded by the multi-class transformer backbone into class tokens V t cls (a1) and patch tokens V t p (b1). V t cls are pooled and fed to the classification head (a2) producing Lcls. V t p are refined via the MAM, (c) using context retrieved from the Memory Bank’s patch queue Qp. The memory-refined patch embeddings V t p ′ (b2) are reshaped (b3) and passed through the Patch-Level Supervision branch (PLS) to produce per-patch activations V t M and the patch-level loss Lp. Class-aware CAMs V t M ′ are obtained after attention-based refinement and stored in the CAM queue QM of the Memory Bank (d). CAMPA consumes the CAMs stored in QM to produce a propagated pseudo-CAM M̂ t, which is used to compute the consistency loss LM.",
+              "figure_id": "figure-2-10",
+              "figure_number": "2",
+              "height": 365,
+              "image_path": "figures/2611.18324/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 932
+            },
+            {
+              "caption": "Figure 3. CAMPA overview: The current frame’s patch embeddings V t p and the memory queues from past frames patch queue Qp and CAM queue QM as input (section Setting). (a) A Similarity Matrix S is computed by comparing the current frame’s patch embeddings against all embeddings stored in the Qp queue. (b) We convert S into a Probability Matrix P, by keeping only the top K entries per row (and so per current patch) and then applying a per-row softmax. In this way, we can see P as a matching likelihood between current and past patches. (c) The final propagated CAM M̂ t is computed as a weighted aggregation of past CAMs (from QM ), using the probabilities from matrix P to weight the activation values. M̂ t will be used as pseudo-label to supervise the CAM of the current frame t. A step-by-step pseudo-code is given in Alg. 1 in Section B the Supp. Mat.",
+              "figure_id": "figure-3-1",
+              "figure_number": "3",
+              "height": 352,
+              "image_path": "figures/2611.18324/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 932
+            },
+            {
+              "caption": "Figure 4. Detailed architecture of the MAM. Starting from the backbone patch embeddings V t p , the module refines representations through three stages, each equipped with a residual connection. Self-attention (left): current-frame tokens act as queries, keys, and values. The arrows entering the yellow block indicate that the attention matrix Aself t is learned from the input; its output Attn(qself ,kself ,vself) is added back to the backbone features, producing the self-attended representation V t,self",
+              "figure_id": "figure-4-13",
+              "figure_number": "4",
+              "height": 468,
+              "image_path": "figures/2611.18324/figure-003.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 927
+            },
+            {
+              "caption": "Figure 9. Qualitative comparison of CAMs produced by different weakly supervised localization methods on a WS2 test sample.",
+              "figure_id": "figure-9-2",
+              "figure_number": "9",
+              "height": 498,
+              "image_path": "figures/2611.18324/figure-004.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 982
+            },
+            {
+              "caption": "Figure 6. Comparison of CorLoc scores for two examples. Green bounding boxes denote ground-truth annotations, while red boxes indicate model predictions. Figure 6a shows an almost perfect overlap between the predicted and ground-truth boxes, whereas Figure 6b illustrates a poor localization result.",
+              "figure_id": "figure-6-12",
+              "figure_number": "6",
+              "height": 395,
+              "image_path": "figures/2611.18324/figure-005.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 7. one sample frame with λ = 0.97 and various (K,µ). Panel (a) is the baseline CAM6; panels (b, c, d, e, f, g) depict CAMSUP. A qualitative inspection shows that increasing µ while decreasing K produces supervisory CAMs that are more uniform, significantly improving over the baseline in (a).",
+              "figure_id": "figure-7-11",
+              "figure_number": "7",
+              "height": 439,
+              "image_path": "figures/2611.18324/figure-006.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 932
+            },
+            {
+              "caption": "Figure 8. Test CorLoc vs. model depth L. Encoding: line style = loss configuration (solid: λcls = 0, λp = 0, λM = 100; dashed: λcls = 1, λp = 1, λM = 0); color = memory (on, off). marker = backbone (◦ unfrozen, □ frozen). The green line indicates the baseline MCTformer+ model. (M.=Memory, L.=CAM Loss, F.=Frozen)",
+              "figure_id": "figure-8-15",
+              "figure_number": "8",
+              "height": 285,
+              "image_path": "figures/2611.18324/figure-007.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 496
+            },
+            {
+              "caption": "Figure 5. Comparison of temporal consistency between Ground Truth (a) MCTformer+ tiny (b) and MemCAM tiny (c). Each sequence shows consecutive frames from the same clip.",
+              "figure_id": "figure-5-16",
+              "figure_number": "5",
+              "height": 227,
+              "image_path": "figures/2611.18324/figure-008.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 1. Qualitative comparison of generated CAMs on the YouTube-Objects v2.2 dataset. (a) Original video frames. (b) Baseline CAMs generated by the single-frame MCTformer+ [38] backbone. (c) CAMs generated by our proposed MemCAM. MemCAM produces superior results, demonstrating more precise localization and reduced background noise, achieving more spatially complete and less fragmented results.",
+              "figure_id": "figure-1-3",
+              "figure_number": "1",
+              "height": 189,
+              "image_path": "figures/2611.18324/figure-009.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 829
+            },
+            {
+              "caption": "Table 2. Average CorLoc (%), parameter count (M) and inference time (ms per frame) for various methods on the YTOv2.2 dataset. *Approximation for CLIP-ES (Transformer backbone). Values measured with ResNet50 or comparable backbones.",
+              "figure_id": "table-2-9",
+              "figure_number": "2",
+              "height": 493,
+              "image_path": "figures/2611.18324/table-010.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 511
+            },
+            {
+              "caption": "Table 3. Comparison of mIoU, parameter count, and inference time per frame on WS2 [28]. MemCAM achieves competitive results with substantially fewer parameters and faster inference.",
+              "figure_id": "table-3-8",
+              "figure_number": "3",
+              "height": 371,
+              "image_path": "figures/2611.18324/table-011.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 473
+            },
+            {
+              "caption": "Table 1. Ablation study on the contributions of Memory (M), CAM consistency loss (LCAM), and backbone freezing (F), with parameter count and per-frame inference time (same measurement protocol as Tab. 2). Crucially, these results demonstrate that crossattention alone is not learnable under weak supervision without a synthetic supervisory signal. Over the single-frame baseline the MAM adds 0.3ms and 0.5M parameters and the CAM loss 2.0ms with none, for a total of +2.4ms: a 22% inference overhead for +8.2 CorLoc. Results from MemCAMtiny applied on YTOv2.2.",
+              "figure_id": "table-1-4",
+              "figure_number": "1",
+              "height": 99,
+              "image_path": "figures/2611.18324/table-012.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 4. Effect of ColorJitter and Random Erasure on MemCAM tiny trained on 30% of the data. Best scores in bold.",
+              "figure_id": "table-4-14",
+              "figure_number": "4",
+              "height": 102,
+              "image_path": "figures/2611.18324/table-013.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 496
+            },
+            {
+              "caption": "Table 6. Effect of the memory length T on YTOv2.2, with the DeiT-Tiny backbone. Performance is flat over T ∈ {2, 3, 5, 7} and degrades at T=10. Best scores in bold.",
+              "figure_id": "table-6-6",
+              "figure_number": "6",
+              "height": 129,
+              "image_path": "figures/2611.18324/table-014.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 496
+            },
+            {
+              "caption": "Table 5. Classification accuracy against localization and segmentation quality, for the frozen teacher and the MemCAM student on both benchmarks, with the DeiT-Tiny backbone. Large localization gains are obtained while classification accuracy decreases on both benchmarks.",
+              "figure_id": "table-5-5",
+              "figure_number": "5",
+              "height": 125,
+              "image_path": "figures/2611.18324/table-015.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 496
+            },
+            {
+              "caption": "Table 7. The propagated map M̂ t used directly as the final prediction, against the CAMs it aggregates and against the student prediction. Propagation improves substantially over its own inputs and then matches the learned predictor. Both predictors are scored on the frames whose memory is populated.",
+              "figure_id": "table-7-7",
+              "figure_number": "7",
+              "height": 92,
+              "image_path": "figures/2611.18324/table-016.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.18324/hero.webp",
+          "novelty": 5,
+          "pdf_url": "https://arxiv.org/pdf/2611.18324",
+          "relevance": 5,
+          "selection_reason": "Weakly supervised video semantic segmentation with temporal cross-attention learning fits video understanding.",
+          "summary_status": "generated",
+          "title": "Unlocking Cross-Attention in Label-Scarce Regimes: A Weakly Supervised Approach for Video Semantic Segmentation",
+          "tldr": "MemCAM enables weakly supervised video semantic segmentation to learn stable temporal cross-attention using internally propagated class activation maps instead of optical flow or other external priors.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "World-model video encoders such as V-JEPA learn how scenes change (direction, speed, order, state) from video alone. To answer questions, they are joined to a language model trained on captions and question-answer pairs. But each caption or question names only a few attributes of a clip, so the model learns to retrieve those attributes rather than to read the clip, and the dynamics the encoder carries go unused: on the same items, a linear probe reads speed from frozen V-JEPA features at 87% while the VLM answers at chance. We show where dynamics lives in a frozen encoder: in a subspace shared across videos for predictive encoders such as V-JEPA, but not as a shared component of frame-wise, text-aligned encoders such as SigLIP. We then build counterfactual supervision that makes the language model read it: pixel transformations turn public videos into answer-balanced variants whose answers are set by the transformation and differ only in the change. Trained in a single stage on 4.53M public samples with 32 visual tokens per frame, where open video LLMs use several stages, 9M to 172M samples and 64 to 256 tokens per frame on average, the resulting V-JEPA-LM models (1B to 8B, Qwen3 and Llama) lead every size class in average score across eleven video benchmarks; our 4B model scores 72.1, against 61.1 for the best open 4B and 64.8 for the best open 8B model. A controlled encoder x supervision study shows that the encoder decides what can be read and the supervision what is read: at a matched budget, counterfactual supervision adds 4.5 points on average and 38 on the speed questions of natural benchmarks. Code and models: https://github.com/kkt94/Llama-V-JEPA-LM.",
+          "arxiv_id": "2611.17831",
+          "arxiv_url": "https://arxiv.org/abs/2611.17831",
+          "authors": [
+            "Keuntae Kim, Dongjun Kim, Yong Suk Choi"
+          ],
+          "bullets": [
+            "V-JEPA retains shared representations of dynamics such as direction, speed, order, and state, but standard caption-based training largely leaves them unused.",
+            "Counterfactual pixel transformations create answer-balanced video variants whose answers depend specifically on the visual change.",
+            "Models are trained in a single stage on 4.53M public samples using 32 visual tokens per frame.",
+            "V-JEPA-LM models from 1B to 8B lead their size classes across eleven video benchmarks; the 4B model scores 72.1.",
+            "Controlled studies find counterfactual supervision improves average performance by 4.5 points and speed-question performance by 38 points on natural benchmarks."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1. Top: what captions and QA teach (left), where the dynamics lives in the encoder (middle), and the supervision built from it (right). Bottom: the model, trained in one stage, and what the recipe changes (before → after: the V-JEPA 2 video LLM [4]; accuracy: the best open 4B model).",
+              "figure_id": "figure-1-8",
+              "figure_number": "1",
+              "height": 483,
+              "image_path": "figures/2611.17831/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1027
+            },
+            {
+              "caption": "Figure 7. Training loss, gradient norm (bin median) and language-model learning rate of the released models against samples seen.",
+              "figure_id": "figure-7-28",
+              "figure_number": "7",
+              "height": 280,
+              "image_path": "figures/2611.17831/figure-002.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 1023
+            },
+            {
+              "caption": "Figure 3. Twelve-score average against training samples as reported (log scale). Marker area: visual tokens per clip. Sample counts: Sec. C.",
+              "figure_id": "figure-3-10",
+              "figure_number": "3",
+              "height": 393,
+              "image_path": "figures/2611.17831/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 495
+            },
+            {
+              "caption": "Figure 2. One generated pair: the same clip forward and backward, with the same question and opposite answers (4 of 32 frames). Other constructions: Fig. 6.",
+              "figure_id": "figure-2-14",
+              "figure_number": "2",
+              "height": 370,
+              "image_path": "figures/2611.17831/figure-004.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 482
+            },
+            {
+              "caption": "Figure 4. Twelve-score average during training (2B). Solid: with counterfactual rows; dashed: captions and QA only.",
+              "figure_id": "figure-4-9",
+              "figure_number": "4",
+              "height": 279,
+              "image_path": "figures/2611.17831/figure-005.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 459
+            },
+            {
+              "caption": "Figure 5. Gain from counterfactual supervision per ability (2B, 8k steps); whiskers: 95% paired bootstrap interval.",
+              "figure_id": "figure-5-20",
+              "figure_number": "5",
+              "height": 154,
+              "image_path": "figures/2611.17831/figure-006.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 494
+            },
+            {
+              "caption": "Figure 6. One training row per construction (4 of 32 frames, after the transformation), with its question and answer.",
+              "figure_id": "figure-6-5",
+              "figure_number": "6",
+              "height": 917,
+              "image_path": "figures/2611.17831/figure-007.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 1013
+            },
+            {
+              "caption": "Table 4. Main results: twelve scores on eleven video benchmarks. All models evaluated by us with one protocol (32 frames, same prompts, option-letter scoring). Shaded: V-JEPA-LM (-Q: Qwen3, -L: Llama). Bold: best in class. MVB: MVBench, PT: PerceptionTest, TVB: TVBench, TC: TempCompass, TOM: TOMATO, MoB: MotionBench, NQA: NExT-QA, MVP and VG-T/VG-V (Vinoground text/video): pair accuracy, TB: TemporalBench (binary), SSv2: Something-Something v2 (multiple choice). 95% bootstrap intervals of the average: ±0.7 for every model (Sec. C). Gemma 4, last in both classes: Tab. 16.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 540,
+              "image_path": "figures/2611.17831/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 848
+            },
+            {
+              "caption": "Table 1. The fourteen counterfactual constructions (33 sources, 509k rows, 6.1% of sampled training rows). Each row is rendered at training time from a clip of a public dataset and a transformation; the answer follows from πT . Pair%: rows whose counterpart from the same clip with a different answer is also in the same source. Per-source details, real questions and rendered examples: Sec. B.",
+              "figure_id": "table-1-24",
+              "figure_number": "1",
+              "height": 394,
+              "image_path": "figures/2611.17831/table-009.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 1032
+            },
+            {
+              "caption": "Table 14. Scores reported by the models’ authors, with ours under the common protocol in parentheses (32 frames, option-letter scoring; Tab. 4). Reported settings differ from ours: PerceptionTest test split (t; ours: validation), Qwen3-VL at 2 fps up to 2,048 frames, InternVL3.5 the best of 16–64 frames, Molmo2 at 2 fps up to 128 frames, VideoLLaMA3 at 1 fps up to 180 frames, PLM 32 frames; PLM’s TVBench from its repository. –: not reported. Gemma 4 reports no video benchmark; MVP, TemporalBench (binary), SSv2 and Vinoground are not reported by any of these models.",
+              "figure_id": "table-14-26",
+              "figure_number": "14",
+              "height": 459,
+              "image_path": "figures/2611.17831/table-010.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 844
+            },
+            {
+              "caption": "Table 18. Held-out construction sets (definitions in Tab. 17: unseen speed ratios, an unseen source for the speed and direction families, unseen combinations, a simulator unused for camera rows). Ratio: unseen playback-speed ratios (chance 33.3); dom.: speed / direction on a new source corpus; comb.: unseen mirror× reversal and acceleration× reversal combinations; camera: simulated camera motion. 4B-class open models average 43.5–50.0 and Qwen3-VL-2B 43.8.",
+              "figure_id": "table-18-6",
+              "figure_number": "18",
+              "height": 400,
+              "image_path": "figures/2611.17831/table-011.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 752
+            },
+            {
+              "caption": "Table 21. Inference cost per 32-frame clip on one H100 (batch 1, bf16, video decoding excluded; times: median of 10 runs after 3 warm-ups; 480p MVBench clip unless noted). TFLOPs: matrix multiplications including attention, counted with PyTorch’s FLOP counter. Vision encoder: the vision tower; for our models the frozen, unmodified V-JEPA 2.1 forward (ViT-L for 1B and 2B, ViT-g otherwise), a cost set by the choice of encoder and identical for any recipe built on it: V-JEPA attends jointly over all frames, while the open models’ encoders attend within a frame or frame pair. Connector: projector or bridge (“in enc.”: part of the vision module; at most 1.5 TFLOPs for every model). LLM prefill: the language model over the whole prompt; first token: all three parts; decode: per generated token with KV cache (128 tokens). Visual tokens: 480p / 720p where they differ (Molmo2: from its processor). Our token count and cost do not depend on resolution; Qwen3-VL’s grow with it. –: not timed.",
+              "figure_id": "table-21-11",
+              "figure_number": "21",
+              "height": 470,
+              "image_path": "figures/2611.17831/table-012.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 894
+            },
+            {
+              "caption": "Table 7. Generalization (chance 33.3): the six held-out sets of Sec. 5.2 and successive playback (succ. play). V-JEPA, no CF: the 2B captions and QA arm of Tab. 6; like the open models, it never saw these constructions. All models: Tabs. 18 and 20.",
+              "figure_id": "table-7-21",
+              "figure_number": "7",
+              "height": 382,
+              "image_path": "figures/2611.17831/table-013.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 430
+            },
+            {
+              "caption": "Table 10. All 33 counterfactual sources of the training mixture (509,193 rows, 6.11% of sampled rows). Paired %: share of a source’s rows whose counterpart from the same clip with a different answer is also in that source (29.4% overall); the other rows are single members of answer-balanced constructions (Sec. 4).",
+              "figure_id": "table-10-33",
+              "figure_number": "10",
+              "height": 1107,
+              "image_path": "figures/2611.17831/table-014.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 1006
+            },
+            {
+              "caption": "Table 17. Held-out generalization sets (chance 33.3 on average). Question wordings, option pools and option-length balancing are the training builders’ own.",
+              "figure_id": "table-17-32",
+              "figure_number": "17",
+              "height": 282,
+              "image_path": "figures/2611.17831/table-015.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 832
+            },
+            {
+              "caption": "Table 24. Encoder × supervision, every evaluated checkpoint (2B, global batch 168). The V-JEPA caps+QA arm was trained to 8k first and then continued to the final step; the AoT-only arm likewise, and the temporal-QA arm was trained to 8k. Temporal QA: the counterfactual rows removed and their weight given to the 22 annotation-based temporal-QA sources of the mixture (temporal grounding, highlights, step order, before/after, next action, repetition counting, unintentional action).",
+              "figure_id": "table-24-2",
+              "figure_number": "24",
+              "height": 310,
+              "image_path": "figures/2611.17831/table-016.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 718
+            },
+            {
+              "caption": "Table 11. Training settings. All: frozen V-JEPA 2.1 encoder at 32 frames, spectral bridge to 1,024 tokens (fixed PCA rotation and rescaling, then a trainable MLP), bridge learning rate 2 × 10−4 (3B: 2.83 × 10−4), weight decay 0.01 (LLM) / 0.05 (bridge), linear warm-up over 0.2–0.3% of steps with the LLM frozen for the first 0.6–0.8%, cosine decay, maximum sequence 2,560 tokens, 4.53M rows drawn at fixed per-source weights from the 175-source mixture (4.60M for the ViT-L models). Compute: Tab. 12; EFLOPs (1018): trained parameters × trained tokens × 6 plus attention and the frozen encoder’s forward pass, measured per clip (activation recomputation excluded).",
+              "figure_id": "table-11-27",
+              "figure_number": "11",
+              "height": 165,
+              "image_path": "figures/2611.17831/table-017.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 876
+            },
+            {
+              "caption": "Table 29. Removing change subspaces at the bridge input (final 2B checkpoints, no retraining). The subspaces are estimated once in the equalised space of Ours-2B-Q from 400 SSv2 training clips: the top 8 directions of the token-averaged response to playing at twice the speed, to reversal and to mirroring (on the other 20% of clips they capture 46%, 57% and 74% of that response); every visual token is projected off the subspace. Energy: share of token energy removed (%). Energy-matched random: a random 24-dimensional subspace inside a band of content principal components with the same removed energy as the speed subspace. Speed removal takes the unseen speed combinations from 98.9 to 65.7 and TOMATO from 50.9 to 46.4, while the energy-matched random subspace leaves them at 97.2 and 49.9; content benchmarks move by at most 1.5 in both. The model trained without counterfactual rows is at chance on speed with or without the subspace.",
+              "figure_id": "table-29-19",
+              "figure_number": "29",
+              "height": 284,
+              "image_path": "figures/2611.17831/table-018.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 1018
+            },
+            {
+              "caption": "Table 28. Internal measurements. Parallelogram: cos(hplain−hmirror, hrev−hmirror+rev); −1 means mirror and reversal flip the same subspace (Proposition 2); clips paired with other clips give about 0.03.",
+              "figure_id": "table-28-29",
+              "figure_number": "28",
+              "height": 362,
+              "image_path": "figures/2611.17831/table-019.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 640
+            },
+            {
+              "caption": "Table 27. Counterfactual consistency in full. Items qualify automatically when the correct option, with the transformation’s word swaps applied (left↔right, towards↔away, open↔close, before↔after, . . . ), equals another option exactly. Orig: accuracy on the original video; follows: the transformed answer is the swapped option; both: both correct; stuck: same answer for both videos.",
+              "figure_id": "table-27-30",
+              "figure_number": "27",
+              "height": 292,
+              "image_path": "figures/2611.17831/table-020.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 698
+            },
+            {
+              "caption": "Table 12. Training metrics of the released models (one stage, one run each). Samples/s: median throughput over the run; hours and H100hours: samples divided by that throughput, so pauses between resumed segments are not counted. Peak memory: per GPU (activation checkpointing). Loss: mean next-token cross-entropy on answer tokens of the logged batches.",
+              "figure_id": "table-12-16",
+              "figure_number": "12",
+              "height": 163,
+              "image_path": "figures/2611.17831/table-021.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 994
+            },
+            {
+              "caption": "Table 6. Encoder × supervision (2B; same mixture and schedule). +CF: with the counterfactual rows; AoT only: an arrow-of-time question in their place. Final: step 27,382. Abilities: Sec. 6.1; held-out chance 33.3; rev. cons.: original and reversed video both correct (Tab. 27). All steps and benchmarks: Tab. 24.",
+              "figure_id": "table-6-23",
+              "figure_number": "6",
+              "height": 173,
+              "image_path": "figures/2611.17831/table-022.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 882
+            },
+            {
+              "caption": "Table 13. Twelve-score average at matched training samples for the ViT-g models (3B: global batch 300; 4B, 8B: 150). Each model is first in its class at every point. The ViT-L models (1B, 2B; global batch 168) are checkpointed at other sample counts; the 2B trajectory is in Fig. 4.",
+              "figure_id": "table-13-15",
+              "figure_number": "13",
+              "height": 124,
+              "image_path": "figures/2611.17831/table-023.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 486
+            },
+            {
+              "caption": "Table 15. Video-level audit of all 175 training sources against every evaluation item. Rescoring without the shared items moves each model by at most 0.42 points on a benchmark and 0.04 on the twelve-score average, for ours and the open models alike.",
+              "figure_id": "table-15-25",
+              "figure_number": "15",
+              "height": 154,
+              "image_path": "figures/2611.17831/table-024.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 668
+            },
+            {
+              "caption": "Table 16. Gemma 4 under the common protocol (thinking off, its own processor and chat template). Its pair-accuracy scores fall far below those of the other open models of its size (MVP 8.1 and 16.5), so it is listed here rather than in Tab. 4; it would rank last in its class either way.",
+              "figure_id": "table-16-31",
+              "figure_number": "16",
+              "height": 86,
+              "image_path": "figures/2611.17831/table-025.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 764
+            },
+            {
+              "caption": "Table 19. Unseen speed ratios separately (180 items each, chance 33.3). Training uses equal, 2:1 and 3:1 and fine ratios up to 1.4, so 1.6 and 2.5 lie between trained ratios and 4.0 beyond them.",
+              "figure_id": "table-19-7",
+              "figure_number": "19",
+              "height": 322,
+              "image_path": "figures/2611.17831/table-026.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 482
+            },
+            {
+              "caption": "Table 9. The counterfactual rows and the closest training signals and analyses.",
+              "figure_id": "table-9-13",
+              "figure_number": "9",
+              "height": 142,
+              "image_path": "figures/2611.17831/table-027.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 1036
+            },
+            {
+              "caption": "Table 20. Successive playback (360 items, 180 clips): the speed-ratio set’s clips and unseen ratios, the clip played twice one after the other, asked whether the motion speeds up or slows down. Single: chance 33.3; pair: both orders of a clip correct, chance 11.1.",
+              "figure_id": "table-20-12",
+              "figure_number": "20",
+              "height": 202,
+              "image_path": "figures/2611.17831/table-028.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 306
+            },
+            {
+              "caption": "Table 22. Encoder decomposition on 1,200 clips (token-averaged d; 70% fit, 30% held out). κ uses y = +1 for every reversal and speed pair (the direction of the transformation) and y = ±1 for left-to-right / right-to-left motion under mirroring, on frozen features pooled to 4×4 cells per tubelet and standardised per dimension on the fitting clips; random directions give κ ≈ 1/840 ≈ 0.001. ρ: overlap of the change direction with the 32 leading content components (a content direction scores 0.44–0.63). SigLIP’s reversal component is zero by construction. ViCLIP [63]: video–text contrastive training with joint attention over all frame tokens (16 frames, the 8-frame temporal embedding interpolated); VideoMAE [58]: masked pixel prediction with 2×16×16 tubelets (32 frames); both at 2242 (ViCLIP: penultimate block; VideoMAE: last layer), on the same clips, variants and pooling.",
+              "figure_id": "table-22-18",
+              "figure_number": "22",
+              "height": 371,
+              "image_path": "figures/2611.17831/table-029.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 452
+            },
+            {
+              "caption": "Table 26. Ability groups over the natural benchmarks’ own categories (2B; final: step 27,382). Items: speed 527, direction 1,170, order 1,457, camera 585, count 1,776, state change 711, localization 360, reversal/antonym 520, rotation 286, tracking 425, TemporalBench 2,765, SSv2 2,088, NExT-QA 8,564, knowledge (objects, scenes, knowledge) 9,254. Paired bootstrap 95% intervals: speed on V-JEPA [+27.9,+37.8], on SigLIP [+6.3,+16.5] (8k) and [+12.7,+23.3] (24k); direction between encoders without CF [+16.7,+22.7]; speed between encoders without CF [−4.9,+1.7].",
+              "figure_id": "table-26-3",
+              "figure_number": "26",
+              "height": 223,
+              "image_path": "figures/2611.17831/table-030.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 1002
+            },
+            {
+              "caption": "Table 23. From encoder structure to gain. For each family: the transformation, the result that predicts how its change is carried, the prediction, the measured cross-video consistency κ of the frozen ViT-L and SigLIP (Tab. 22; SigLIP reversal has rd = 0, no in-token component), and the CF gain on the matching natural-benchmark ability at 8k steps (Tab. 26). Order changes token positions rather than token content, so both encoders gain alike. Speed is the one family the propositions do not cover for V-JEPA (a rate change gives no shared direction by Proposition 2, Sec. A); its prediction rests on the measured κ alone, with Proposition 1(i) giving SigLIP only scene-specific frame differences. Gains are those of the whole counterfactual mixture against captions and QA, read per ability; at the final step the direction and state-change gains of the two encoders draw closer, while speed stays far apart (Tab. 26).",
+              "figure_id": "table-23-17",
+              "figure_number": "23",
+              "height": 148,
+              "image_path": "figures/2611.17831/table-031.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 1036
+            },
+            {
+              "caption": "Table 25. Paired item-level differences pooled over four checkpoints (each item’s mean difference over the steps; bootstrap over items). +CF: with counterfactual supervision; caps: caption and QA mixture alone. 95% intervals exclude zero for every entry with |∆| ≥ 1.6 (e.g. TOMATO −13.0 [−15.2,−10.8], SSv2 −6.5 [−7.7,−5.4], NExT-QA +1.7 [+1.0,+2.3] in the first row). “All items” weights benchmarks by size (NExT-QA has 8.6k items).",
+              "figure_id": "table-25-4",
+              "figure_number": "25",
+              "height": 183,
+              "image_path": "figures/2611.17831/table-032.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 864
+            },
+            {
+              "caption": "Table 8. Removing a subspace from every visual token of Ours2B-Q at inference. Energy: % removed. Full: Tab. 29.",
+              "figure_id": "table-8-22",
+              "figure_number": "8",
+              "height": 66,
+              "image_path": "figures/2611.17831/table-033.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 495
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.17831/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.17831",
+          "relevance": 9,
+          "selection_reason": "Video-language model that reads dynamics, fits world models and video understanding.",
+          "summary_status": "generated",
+          "title": "V-JEPA-LM: Video-Language Models That Read Dynamics Beyond Static, Text-Aligned Representations",
+          "tldr": "V-JEPA-LM combines dynamics-aware video encoders with counterfactual supervision so language models can answer questions about motion and temporal change, achieving strong performance across video benchmarks.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "multimodal-large-language-models"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            },
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Most AI assistants respond only when prompted, remaining silent even when events in the video stream offer meaningful opportunities for conversation. To move beyond purely user-driven interaction, we present AURA 2.0, a streaming video large language model that introduces three core upgrades to AURA. The key advance is Model-Initiated Conversation (MIC), which enables the model to identify topics worth discussing in the evolving visual stream and initiate conversations at appropriate moments without a user query. Stream-Aware Tool Calling (SATC) enables the model to invoke external tools using the current visual and conversational context and incorporate returned information into the ongoing interaction. Interactive Visual Grounding (IVG) supports visual grounding in both user inputs and model outputs. The model can identify objects marked by users on video frames and produce frame-aligned bounding boxes to link its responses to specific objects and regions. To develop these capabilities, we construct a dedicated streaming interaction dataset and adopt a three-stage training scheme to integrate the new behaviors with AURA's existing streaming interaction abilities. We further incorporate Long-Horizon Interaction Memory (LHIM) to maintain contextual continuity over extended video streams. Evaluations on public streaming benchmarks show that AURA 2.0 achieves leading performance among open-source streaming models, while targeted evaluations further validate its new interaction capabilities. We open-source the model weights and inference code.",
+          "arxiv_id": "2611.17048",
+          "arxiv_url": "https://arxiv.org/abs/2611.17048",
+          "authors": [
+            "Shuhan Li",
+            "Huankang Guan",
+            "Xintong Guo",
+            "Yang Bo",
+            "Yuyang He",
+            "Dunyuan Xu",
+            "Jingyan Chen",
+            "Fang Liu",
+            "Tsz Kin Wan",
+            "Jinpeng Chen",
+            "Zhenqi He",
+            "Yuxuan Hu",
+            "Wenbo Li",
+            "Han Gao",
+            "Qijun Li",
+            "Long Chen",
+            "Hongsheng Li",
+            "Rui Liu"
+          ],
+          "bullets": [
+            "Addresses the limitation of assistants that respond only after user prompts.",
+            "Introduces Model-Initiated Conversation, Stream-Aware Tool Calling, and Interactive Visual Grounding.",
+            "Adds Long-Horizon Interaction Memory for continuity across extended video streams.",
+            "Uses a dedicated streaming interaction dataset and three-stage training scheme to integrate these behaviors.",
+            "Reports leading performance among open-source streaming models on public benchmarks and releases model weights and inference code."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of the AURA 2.0 streaming interaction framework. The model incrementally processes video chunks together with user inputs and interaction history, producing either <|silent|> for silent observation or <|respond|> followed by a text response or tool call. Tool results are incorporated into the context to support subsequent responses. Dashed outlines indicate historical messages beyond the active visual window.",
+              "figure_id": "figure-2-15",
+              "figure_number": "2",
+              "height": 471,
+              "image_path": "figures/2611.17048/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 973
+            },
+            {
+              "caption": "Figure 3. Data construction pipeline for AURA 2.0. The pipeline transforms collected videos into a verified streaming training mixture through three stages: (1) Video collection and preparation standardizes videos into clips and generates clip-level descriptions. (2) Task-specific data synthesis uses the clips and descriptions to construct General QA, MIC, SATC, and IVG trajectories. (3) Streaming assembly and quality assessment aligns the trajectories to video chunks and filters invalid or low-quality samples.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 617,
+              "image_path": "figures/2611.17048/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 950
+            },
+            {
+              "caption": "Figure 4. Training data composition and response-control statistics across the three training stages. (a) Sample distribution by stage (inner ring) and task (outer ring). (b) Stage-wise sample and token allocations and silent/response decision proportions. (c) Task-wise sample counts and shares aggregated across stages. Together, these distributions characterize the task coverage and supervision balance of the training mixture.",
+              "figure_id": "figure-4-7",
+              "figure_number": "4",
+              "height": 530,
+              "image_path": "figures/2611.17048/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 965
+            },
+            {
+              "caption": "Figure 8. IVG examples with less salient and peripheral targets. AURA 2.0 (top, red boxes) localizes both the handbag and the partially visible bus. Qwen3.5-9B (bottom, blue boxes) incorrectly declares the handbag absent and produces no response for the bus. Both models accurately localize the remote control despite the salient cat.",
+              "figure_id": "figure-8-14",
+              "figure_number": "8",
+              "height": 583,
+              "image_path": "figures/2611.17048/figure-004.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 987
+            },
+            {
+              "caption": "Figure 7. Real-world weather query at t = 1 s. AURA 2.0 identifies Rome from the Colosseum and calls get_current_datetime and get_city_weather to retrieve the forecast. Without tools, the model reports that weather information is unavailable in the video; with tools, it provides the forecast for the visually identified city.",
+              "figure_id": "figure-7-10",
+              "figure_number": "7",
+              "height": 363,
+              "image_path": "figures/2611.17048/figure-005.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 987
+            },
+            {
+              "caption": "Figure 5. MIC example in the Visual-Dialogue Context setting. Before playback, the user mentions wanting to get home early despite heavy traffic, and the assistant advises caution around big trucks. Without any further user query, AURA 2.0 initiates two messages: at t = 66 s it warns about a large Amazon truck ahead, and at t = 78 s it advises keeping a steady speed and a safe distance as traffic tightens. Both messages build on the user’s expressed concern and the assistant’s earlier advice. Each frame is shown one second before the corresponding message onset.",
+              "figure_id": "figure-5-11",
+              "figure_number": "5",
+              "height": 583,
+              "image_path": "figures/2611.17048/figure-006.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 987
+            },
+            {
+              "caption": "Figure 6. SATC examples from the internal benchmark. Top: WebSearch identifies the “Zaochake” reservation as a breakfast experience at the water market. Bottom: WebSearch uses character names from the subtitles to identify Brotherhood of Blades II. Both examples correct answers generated without tools.",
+              "figure_id": "figure-6-5",
+              "figure_number": "6",
+              "height": 602,
+              "image_path": "figures/2611.17048/figure-007.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 987
+            },
+            {
+              "caption": "Figure 9. Cumulative effect of the inference optimizations on median TTFP with a single session. Each row adds one optimization to the preceding configuration, and the full configuration reduces median TTFP by 54.6%. The right column reports the change relative to the previous row.",
+              "figure_id": "figure-9-2",
+              "figure_number": "9",
+              "height": 339,
+              "image_path": "figures/2611.17048/figure-008.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 875
+            },
+            {
+              "caption": "Table 3. Main results on StreamArena. We report the performance of AURA 2.0 and representative baselines across four evaluation dimensions: RTP, HR, Tool, and Pro. Results for previously evaluated models, including the human reference, are reproduced from the original StreamArena paper, while results for AURA 2.0, JoyAI-VL-Interaction, and MOSS-VL-Realtime are obtained from our evaluations. Human HR results are reported with video rewatching in the upper row and without rewatching in the lower row. All scores are reported as accuracies (%), with higher values indicating better performance. Boldface indicates the best result among open-source streaming models in each metric column.",
+              "figure_id": "table-3-4",
+              "figure_number": "3",
+              "height": 670,
+              "image_path": "figures/2611.17048/table-009.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 991
+            },
+            {
+              "caption": "Table 4. Main results on ProactiveVideoQA. We report the performance of AURA 2.0 and representative baselines across four categories: WEB, EGO, TV, and VAD. The published baseline results, including the human reference, are reproduced from the original ProactiveVideoQA paper. Results for JoyAI-VL-Interaction and AURA 2.0 are obtained from our evaluations, while the MOSS-VL-Realtime results are taken from its official technical report. All scores are reported using Proactive Area Under Curve (PAUC), where higher values indicate better performance. Boldface indicates the best result among open-source streaming models in each metric column.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 700,
+              "image_path": "figures/2611.17048/table-010.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 991
+            },
+            {
+              "caption": "Table 1. Comparison of representative streaming interaction models. A check mark (✓) indicates a publicly reported capability, while a cross (✗) indicates that supporting evidence was not identified, rather than a confirmed lack of capability.",
+              "figure_id": "table-1-8",
+              "figure_number": "1",
+              "height": 211,
+              "image_path": "figures/2611.17048/table-011.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 991
+            },
+            {
+              "caption": "Table 2. Main results on IPIBench. Results for previously evaluated models are reproduced from the original IPIBench paper, while results for AURA 2.0, JoyAI-VL-Interaction, MOSS-VL-Realtime, and Qwen3.5-9B (with thinking disabled and enabled) are obtained from our evaluations. All scores are reported as accuracies (%), and Avg. denotes the arithmetic mean of the three subtask scores within each category. Boldface indicates the best result among open-source streaming models in each metric column.",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 46,
+              "image_path": "figures/2611.17048/table-012.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 991
+            },
+            {
+              "caption": "Table 6. MIC results on internal MIC-Bench (25 videos). Msgs/min is the median across videos over the entire playback. The two settings differ in evaluation interval and scoring procedure, so their trigger rates and quality scores are not directly comparable.",
+              "figure_id": "table-6-12",
+              "figure_number": "6",
+              "height": 102,
+              "image_path": "figures/2611.17048/table-013.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 883
+            },
+            {
+              "caption": "Table 7. IVG results on a 50-image diagnostic set. mIoU is computed on present targets, with missing boxes assigned zero. Positive hits require IoU ≥ 0.5; correct abstentions require no box for an absent target.",
+              "figure_id": "table-7-9",
+              "figure_number": "7",
+              "height": 136,
+              "image_path": "figures/2611.17048/table-014.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 991
+            },
+            {
+              "caption": "Table 8. Latency under concurrent sessions (median over pooled turns). TTFT, TPOT, and TTFP are in milliseconds; RTF is unitless. Lower is better for all metrics.",
+              "figure_id": "table-8-13",
+              "figure_number": "8",
+              "height": 141,
+              "image_path": "figures/2611.17048/table-015.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 567
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.17048/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.17048",
+          "relevance": 8,
+          "selection_reason": "Streaming video LLM with model-initiated conversation and visual grounding.",
+          "summary_status": "generated",
+          "title": "AURA 2.0: From User-Driven Responses to Model-Initiated Conversations in Streaming Video",
+          "tldr": "AURA 2.0 enables streaming video models to proactively start conversations, use tools, ground responses visually, and maintain context over long interactions.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "multimodal-large-language-models"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            },
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Physical plausibility is essential for realistic video generation. Existing methods impose physical guidance before synthesis via simulations or refined prompts, but this can limit dynamic diversity, miss errors that emerge only after generation, and require repeated regeneration when inconsistencies remain. We therefore study a generate-diagnose-repair paradigm that preserves the original generation capability and selectively repairs physical inconsistencies afterward, raising two key questions: what to repair and how to repair? To address them, we introduce PhysRepair, an agentic video generation framework that combines causal reasoning over the observed physical failure with prior repair experience to enable localized and adaptive correction. Specifically, Spatiotemporal Causal Constraints identify the first invalid physical state and its causally affected states, producing a repair specification that guides physically plausible local regeneration while preserving unaffected content. Experience-augmented In-context Learning combines the ongoing repair context with relevant experience from previous repairs, allowing the agent to adapt its repair decisions across diverse physical failures and accumulate completed trajectories for future cases. Experiments on Physics-IQ Verified across solid mechanics, fluid dynamics, optics, thermodynamics, and magnetism demonstrate that PhysRepair consistently improves the physical plausibility of generated videos over existing methods. Our project page is available at https://xxkkxxx.github.io/PhysRepair-Website/.",
+          "arxiv_id": "2610.23677",
+          "arxiv_url": "https://arxiv.org/abs/2610.23677",
+          "authors": [
+            "Xikang Guan",
+            "Shaocong Yang",
+            "Yanqi Bao",
+            "Can Wang",
+            "Zheng Gu",
+            "Zhengqing Chen",
+            "Kai Chen",
+            "Jing Huo",
+            "Yang Gao"
+          ],
+          "bullets": [
+            "Addresses failures that emerge after video generation without requiring full regeneration.",
+            "Uses Spatiotemporal Causal Constraints to identify the first invalid state and affected downstream states.",
+            "Applies localized, adaptive regeneration while preserving unaffected content.",
+            "Combines repair context with prior repair experiences through in-context learning.",
+            "Improves physical plausibility across solid mechanics, fluid dynamics, optics, thermodynamics, and magnetism on Physics-IQ Verified."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of PhysRepair. Starting from an initially generated video, a Physics Repair Agent diagnoses the realized physical failure and performs localized counterfactual repair. Spatiotemporal causal constraints determine what may change and what must remain fixed, while experience-augmented in-context learning retrieves relevant repair experience to adapt how to repair. The resulting counterfactual physical state guides video regeneration, followed by physicsand-preservation verification and experience distillation for subsequent repair.",
+              "figure_id": "figure-2-4",
+              "figure_number": "2",
+              "height": 356,
+              "image_path": "figures/2610.23677/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 820
+            },
+            {
+              "caption": "Figure 3: Qualitative comparison on multi-object spatiotemporal interactions. Top: fan–garment interaction; bottom: wrench–box interaction. Baselines exhibit incorrect contact timing, inconsistent motion, or object artifacts, whereas PhysRepair preserves object identity and coherent contact–response dynamics.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 435,
+              "image_path": "figures/2610.23677/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 819
+            },
+            {
+              "caption": "Figure 5: Analysis of PhysRepair. Memory efficiency and user-perceived physical consistency of PhysRepair.",
+              "figure_id": "figure-5-5",
+              "figure_number": "5",
+              "height": 331,
+              "image_path": "figures/2610.23677/figure-003.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 826
+            },
+            {
+              "caption": "Figure 1: Comparison of physics-grounded video generation paradigms. (a) Plan and Prompt Refine iteratively updates generation plans or physics-aware prompts, while (b) Simulator Program Refine iteratively updates physical programs or simulator configurations; both impose physical guidance before synthesis and may require repeated regeneration. (c) PhysRepair instead follows a generate–diagnose–repair paradigm: it diagnoses physical failures from the generated video (what to repair?) and performs localized, causally constrained repair, while leveraging prior repair experience to adapt the intervention and preserve generated already-valid content (how to repair?).",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 196,
+              "image_path": "figures/2610.23677/figure-004.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 825
+            },
+            {
+              "caption": "Table 1: Quantitative results on Physics-IQ Verified. SP, ST, and WS denote Spatial IoU, Spatiotemporal IoU, and Weighted Spatial IoU, respectively. The best, second-best, and third-best results for each metric are marked in bold, single underline, and double underline, respectively.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 277,
+              "image_path": "figures/2610.23677/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 829
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2610.23677/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2610.23677",
+          "relevance": 7,
+          "selection_reason": "Agentic video generation framework that diagnoses and repairs physical inconsistencies, fitting video understanding and generation.",
+          "summary_status": "generated",
+          "title": "Agentic Physics-Grounded Video Generation via Memory-Augmented In-Context Reasoning",
+          "tldr": "PhysRepair generates, diagnoses, and locally repairs physically inconsistent video content using causal constraints and memory-augmented reasoning.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-14",
       "paper_count": 1,
       "papers": [
@@ -104667,5 +105560,5 @@
   "schema_version": 1,
   "subtopic_id": "video-understanding",
   "topic_id": "video-models",
-  "total_paper_count": 535
+  "total_paper_count": 539
 }

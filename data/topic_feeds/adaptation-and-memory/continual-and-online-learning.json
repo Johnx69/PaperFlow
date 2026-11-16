@@ -1,6 +1,1280 @@
 {
   "days": [
     {
+      "date": "2026-11-15",
+      "paper_count": 8,
+      "papers": [
+        {
+          "abstract": "Multimodal continual instruction tuning requires multimodal large language models to sequentially acquire new capabilities without catastrophic forgetting. Mixture-of-experts (MoE) architectures offer a promising way to mitigate task interference through expert specialization and combination. However, while existing MoE-based methods avoid overwriting shared parameters by allocating separate experts for each task, this progressive expansion incurs severe cross-task redundancy and linear parameter growth. Specifically, experts across tasks often learn overlapping functions alongside task-specific capabilities. For instance, ScienceQA and TextVQA both locate relevant image regions. To curb parameter redundancy without inducing forgetting, we propose Consolidating and Preserving MoE (CoPre-MoE). For each incoming task, CoPre-MoE first learns task-specific MoE to capture specialized capabilities. To eliminate redundancy and reduce parameter growth across tasks, we design a shared-and-private expert architecture. Specifically, we first evaluate functional overlap to selectively consolidate overlapping experts across tasks into a fixed-capacity generic expert pool. We then factorize the remaining task-specific experts into shared projection bases and compact task-specific cores within a private expert pool. To mitigate forgetting, we construct the router by pairing each expert with learnable retrieval keys, where historical keys remain frozen during continual updates while newly added keys are regularized with an orthogonality penalty. At inference, input-dependent routing dynamically combines both pools without test-time task labels. Extensive experiments demonstrate that CoPre-MoE achieves superior performance while substantially reducing parameter overhead.",
+          "arxiv_id": "2611.18417",
+          "arxiv_url": "https://arxiv.org/abs/2611.18417",
+          "authors": [
+            "Tao Hu, Ling-Xiang Zhang, Da-Wei Zhou"
+          ],
+          "bullets": [
+            "Addresses catastrophic forgetting and linear parameter growth in task-specific MoE expansion.",
+            "Consolidates functionally overlapping experts into a fixed-capacity generic pool.",
+            "Factorizes remaining task-specific experts into shared projection bases and compact private cores.",
+            "Uses frozen historical retrieval keys and orthogonally regularized new keys to stabilize routing.",
+            "Dynamically routes inputs across shared and private pools without requiring task labels at inference; experiments report superior performance with substantially lower parameter overhead."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of CoPre-MoE. Left: Task-specific low-rank experts and key-value routing pairs are trained on a frozen MLLM backbone. Middle: At task boundaries, functionally overlapping experts are consolidated into a fixed-capacity Generic Pool, while taskspecific experts are factorized into shared bases and compact cores in a Private Pool. Right: Routing query q dynamically queries both pools to compose generic and private operators for inference.",
+              "figure_id": "figure-2-9",
+              "figure_number": "2",
+              "height": 545,
+              "image_path": "figures/2611.18417/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 3. Backward transfer trajectory across sequential training stages t on UCIT. Points evaluate average BWT over previously learned tasks; terminal values report final retention.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 238,
+              "image_path": "figures/2611.18417/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 491
+            },
+            {
+              "caption": "Figure 5. Private capacity on UCIT. Labels denote rank budgets; orange highlights the unchanged default rank 16. Each point is a full task-sequence run. Counts include Private factors only.",
+              "figure_id": "figure-5-4",
+              "figure_number": "5",
+              "height": 225,
+              "image_path": "figures/2611.18417/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 486
+            },
+            {
+              "caption": "Figure 6. Sensitivity to routing orthogonality regularization weight λorth on UCIT in terms of final average score A and backward transfer BWT (default λorth = 1.0).",
+              "figure_id": "figure-6-7",
+              "figure_number": "6",
+              "height": 215,
+              "image_path": "figures/2611.18417/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 476
+            },
+            {
+              "caption": "Figure 1. Empirical analysis of cross-task expert redundancy on UCIT. Comparing native experts (Before Swap) with crosstask substitution (After Overlap Swap) shows that high-overlap experts preserve 90% ∼ 100% of performance across tasks, confirming substantial functional redundancy while highlighting the need to preserve task-specific variations.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 200,
+              "image_path": "figures/2611.18417/figure-005.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 487
+            },
+            {
+              "caption": "Figure 4. t-SNE visualization on UCIT (Layer 16). (a) Baseline suffers from severe representational disorder across tasks. (b) Generic Pool forms a continuous shared manifold across tasks without task segregation. (c) Private Pool isolates task-specific features into well-separated, directional clusters. (d) Full CoPreMoE model combines both pools into well-structured, discriminative task representations.",
+              "figure_id": "figure-4-3",
+              "figure_number": "4",
+              "height": 140,
+              "image_path": "figures/2611.18417/figure-006.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 492
+            },
+            {
+              "caption": "Table 3. UCIT ablation study evaluating expert allocation, function consolidation, and routing mechanisms. Higher A and BWT are better (↑).",
+              "figure_id": "table-3-8",
+              "figure_number": "3",
+              "height": 187,
+              "image_path": "figures/2611.18417/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 898
+            },
+            {
+              "caption": "Table 5. Efficiency and retention comparison under identical hardware. Trainable counts adaptation parameters; Train denotes cumulative training hours; Latency and Throughput measure amortized per-sample time and output token rate; A and BWT denote final average score and backward transfer.",
+              "figure_id": "table-5-6",
+              "figure_number": "5",
+              "height": 123,
+              "image_path": "figures/2611.18417/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 487
+            },
+            {
+              "caption": "Table 4. Task-order sensitivity on UCIT. R, A, V, I, C, F denote ImageNet-R, ArxivQA, VizWiz, IconQA, CLEVR, and Flickr30k.",
+              "figure_id": "table-4-5",
+              "figure_number": "4",
+              "height": 95,
+              "image_path": "figures/2611.18417/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.18417/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.18417",
+          "relevance": 8,
+          "selection_reason": "Proposes CoPre-MoE, a method for multimodal continual instruction tuning that consolidates Mixture-of-Experts to reduce redundancy and prevent catastrophic forgetting.",
+          "summary_status": "generated",
+          "title": "CoPre-MoE: Consolidating and Preserving MoE for Multimodal Continual Instruction Tuning",
+          "tldr": "CoPre-MoE reduces redundancy and parameter growth in multimodal continual instruction tuning while preserving previously learned capabilities through consolidated shared and private experts.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "multimodal-large-language-models"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            },
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "For imbalanced data streams with delayed labels, is it worth adding a streaming oversampler, or does continuous re-evaluation of earlier predictions already recover the cost of the delay? We address this through an extensive experimental comparison of streaming oversampling and continuous re-evaluation under joint class imbalance, concept drift, and label delay. Streaming oversamplers are typically evaluated under the test-then-train assumption of immediate labels; their behaviour under these conditions, assessed through re-evaluation, has not been systematically studied. We close this gap with a decision framework that predicts when oversampling adds value over re-evaluation, organised around three axes: drift density, minority-class learnability, and delay relative to the refinement window, and operationalised as a competition between a recovery channel (re-evaluation) and a minority-coverage channel (oversampling). Evaluating $15$ classifiers on $6$ synthetic and $6$ real streams, we find: re-evaluation recovers delay-induced loss on drift-active streams but is silent on stationary ones; oversampling's marginal contribution over re-evaluation is statistically detectable in only one real-data configuration; and cost--performance Pareto recommendations from synthetic streams do not transfer to real data, where fronts partition by drift regime. Method selection should therefore be conditioned on the stream's profile and re-estimated as it evolves, not inherited from synthetic benchmarks.",
+          "arxiv_id": "2611.17981",
+          "arxiv_url": "https://arxiv.org/abs/2611.17981",
+          "authors": [
+            "Ahmed Awad, Anirudh Sengar"
+          ],
+          "bullets": [
+            "Studies imbalanced data streams with delayed labels and concept drift, comparing streaming oversampling with continuous re-evaluation.",
+            "Frames the choice through a recovery channel (re-evaluation) versus a minority-coverage channel (oversampling).",
+            "Identifies three decision axes: drift density, minority-class learnability, and delay relative to the refinement window.",
+            "Across 15 classifiers, 6 synthetic streams, and 6 real streams, re-evaluation recovers delay-related losses on drift-active streams but has little effect on stationary streams.",
+            "Oversampling showed statistically detectable additional benefit in only one real-data configuration; synthetic cost–performance recommendations did not transfer reliably to real streams."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 1: Arrival G-mean versus delay-to-drift ratio ρ for all oversampling methods, across the six synthetic streams. Top: SEA (abrupt drift); bottom: SEAG (gradual drift).",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 424,
+              "image_path": "figures/2611.17981/figure-001.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 775
+            },
+            {
+              "caption": "Fig. 2: Arrival R1 versus delay-to-drift ratio ρ for all oversampling methods, across the six synthetic streams. Top: SEA (abrupt drift); bottom: SEAG (gradual drift).",
+              "figure_id": "figure-2-2",
+              "figure_number": "2",
+              "height": 422,
+              "image_path": "figures/2611.17981/figure-002.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 775
+            },
+            {
+              "caption": "Fig. 3: ∆ G-mean versus delay-to-drift ratio ρ for all oversampling methods, across the six synthetic streams. Top: SEA (abrupt drift); bottom: SEAG (gradual drift).",
+              "figure_id": "figure-3-11",
+              "figure_number": "3",
+              "height": 425,
+              "image_path": "figures/2611.17981/figure-003.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 777
+            },
+            {
+              "caption": "Fig. 4: ∆ R1 versus delay-to-drift ratio ρ for all oversampling methods, across the six synthetic streams. Top: SEA (abrupt drift); bottom: SEAG (gradual drift).",
+              "figure_id": "figure-4-10",
+              "figure_number": "4",
+              "height": 425,
+              "image_path": "figures/2611.17981/figure-004.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 775
+            },
+            {
+              "caption": "Fig. 5: Arrival G-mean versus delay δ for all oversampling methods across the six real data streams.",
+              "figure_id": "figure-5-3",
+              "figure_number": "5",
+              "height": 425,
+              "image_path": "figures/2611.17981/figure-005.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 775
+            },
+            {
+              "caption": "Fig. 6: Arrival R1 versus delay δ for all oversampling methods across the six real data streams.",
+              "figure_id": "figure-6-4",
+              "figure_number": "6",
+              "height": 425,
+              "image_path": "figures/2611.17981/figure-006.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 775
+            },
+            {
+              "caption": "Fig. 7: ∆ G-mean versus delay δ for all oversampling methods across the six real data streams.",
+              "figure_id": "figure-7-7",
+              "figure_number": "7",
+              "height": 426,
+              "image_path": "figures/2611.17981/figure-007.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 775
+            },
+            {
+              "caption": "Fig. 8: ∆ R1 versus delay δ for all oversampling methods across the six real data streams.",
+              "figure_id": "figure-8-6",
+              "figure_number": "8",
+              "height": 425,
+              "image_path": "figures/2611.17981/figure-008.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 775
+            },
+            {
+              "caption": "Fig. 9: Decision rule for method selection by stream profile, at the evaluated settings (K = 100, label delay δ ≤ 1.0%).",
+              "figure_id": "figure-9-5",
+              "figure_number": "9",
+              "height": 506,
+              "image_path": "figures/2611.17981/figure-009.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 635
+            },
+            {
+              "caption": "Table 1: Mean replayed and refined G-mean across synthetic streams. Only Pareto-optimal configurations (Y) and, per delay regime, the nearest dominated configuration (N) are shown.",
+              "figure_id": "table-1-9",
+              "figure_number": "1",
+              "height": 763,
+              "image_path": "figures/2611.17981/table-010.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 467
+            },
+            {
+              "caption": "Table 3: Per-dataset Pareto status (refined Gmean vs. overhead replayed): Pareto-optimal learners plus the best dominated one. Blocks are δinvariant except Elec and Insects@δ=1.0%. Full means in the repository.",
+              "figure_id": "table-3-8",
+              "figure_number": "3",
+              "height": 841,
+              "image_path": "figures/2611.17981/table-011.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 465
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.17981/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.17981",
+          "relevance": 6,
+          "selection_reason": "Decision framework for oversampling vs re-evaluation in imbalanced drifting streams; directly relevant to online/continual learning.",
+          "summary_status": "generated",
+          "title": "When Does Oversampling Help? A Decision Framework for Imbalanced Data Streams Under Label Delay and Concept Drift",
+          "tldr": "A decision framework shows that oversampling rarely adds value beyond continuous re-evaluation, so method choice should adapt to drift, minority learnability, and label-delay conditions.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Federated learning (FL) under differential privacy (DP) is typically evaluated on large client cohorts, where subsampling and cross-client averaging amplify privacy and smooth injected noise. Personal biosignal applications such as wearable EEG instead involve small federations of a handful of subjects, a regime whose interaction with formal client-level DP is largely uncharacterized. We study differentially private federated class-incremental learning in this small-cohort regime, combining a public EEG dataset with a custom four-channel MUSE 2 recording set into a K=5-client federation, and give a masked per-class training protocol that avoids degenerate gradients and missing negative supervision under class-incremental streaming. We propose FedEEG, combining Synaptic-Intelligence consolidation with a lagged adaptive FedProx term, and show it reduces catastrophic forgetting relative to FedAvg, FedProx, and a federated Learning-without-Forgetting baseline; on-device balanced-batch replay reduces mean forgetting by a further 56.7%. A class-scoping diagnosis yields $50.5\\%\\pm3.6\\%$ accuracy with 6 seeds and 2.02 times chance. We also introduce head-scoped client-level DP, which protects the classification head and alone reduces the achievable $\\varepsilon$ by 200 times at a matched round budget; combined with fewer communication rounds it reaches $\\varepsilon\\!\\approx\\!10.4$ with utility not statistically distinguishable from non-private training.",
+          "arxiv_id": "2611.17944",
+          "arxiv_url": "https://arxiv.org/abs/2611.17944",
+          "authors": [
+            "Baran Can G\\\"ul, Ali G\\\"ul\\\"umser, Nasser Jazdi, Michael Weyrich"
+          ],
+          "bullets": [
+            "Addresses the underexplored interaction between client-level differential privacy and small federations of wearable-EEG subjects.",
+            "Uses masked per-class training to prevent degenerate gradients and missing negative supervision during class-incremental learning.",
+            "Combines Synaptic Intelligence with a lagged adaptive FedProx term; balanced-batch replay further reduces mean forgetting by 56.7%.",
+            "Head-scoped client-level DP reduces the achievable privacy budget by 200× at a matched round budget and reaches ε≈10.4 with utility not statistically distinguishable from non-private training.",
+            "A class-scoping diagnosis achieves 50.5% ± 3.6% accuracy across six seeds, or 2.02× chance."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 2. (a) The achievable ε reduction decomposed into two isolated factors, each measured while holding the other fixed: head-scoping alone (at the original 9-round budget) already gives 200×; a further, independent 48× comes from reducing communication rounds. The larger share of the total 9,615× reduction is attributable to head-scoping itself and not to training for fewer rounds. (b) Utility (FM) of the DP-protected 3-round run against its properly matched non-DP counterpart at the identical round budget (paired t-test, p=0.20), and against the original 9-round non-private protocol for context only.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 191,
+              "image_path": "figures/2611.17944/figure-001.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 1. (a) Each aggregation scheme shown at its own evaluated rounds, not on a shared round axis: sample-count-weighted FedAvg degrades from round 1 to round 8 under this federation’s extreme client-size imbalance, uniform weighting improves from round 1 to round 15 but dilutes the two client-unique classes (Sec. V-A), and √ n-weighting is the adopted operating point at its own near-peak (round 7). (b) Per-class accuracy under √ n-weighted joint training at round 7: every class substantially exceeds chance except “alerted,” motivating the class-scoping diagnosis in Table II.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 193,
+              "image_path": "figures/2611.17944/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 507
+            },
+            {
+              "caption": "TABLE I HYPERPARAMETERS USED IN ALL REPORTED EXPERIMENTS.",
+              "figure_id": "table-I-2",
+              "figure_number": "I",
+              "height": 212,
+              "image_path": "figures/2611.17944/table-003.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 500
+            },
+            {
+              "caption": "TABLE IV ACC/BWT/FM AT THE REPORTABLE DP OPERATING POINT (ε ≈ 10.4, HEAD-SCOPED, 3 ROUNDS) VS. ITS MATCHED NON-PRIVATE COUNTERPART AT THE IDENTICAL 3-ROUND SCHEDULE AND THE ORIGINAL 9-ROUND NON-PRIVATE PROTOCOL. MEAN±STD, n=4 SEEDS.",
+              "figure_id": "table-IV-4",
+              "figure_number": "IV",
+              "height": 166,
+              "image_path": "figures/2611.17944/table-004.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 525
+            },
+            {
+              "caption": "TABLE III ACC/BWT/FM UNDER FEDERATED CLASS-INCREMENTAL EEG STREAMS, K=5, MEAN±STD OVER 4 SEEDS. FM = −BWT UNDER THIS (9-ROUND) PROTOCOL’S MONOTONIC DECLINE (SEC. V); SEE TABLE IV FOR A SHORTER-SCHEDULE ABLATION WHERE THIS DOES NOT APPLY.",
+              "figure_id": "table-III-6",
+              "figure_number": "III",
+              "height": 127,
+              "image_path": "figures/2611.17944/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 516
+            },
+            {
+              "caption": "TABLE II JOINT FEDERATED TRAINING UNDER THREE CLASS-SCOPING CONFIGURATIONS, REPORTED IN THE ORDER THEY WERE RUN. 4-CLASS (DROP ONLY “ALERTED”) ATTAINS THE HIGHEST ACCURACY WHILE KEEPING EVERY RETAINED CLASS WELL ABOVE ITS OWN CHANCE LEVEL.",
+              "figure_id": "table-II-3",
+              "figure_number": "II",
+              "height": 94,
+              "image_path": "figures/2611.17944/table-006.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 504
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.17944/hero.webp",
+          "novelty": 5,
+          "pdf_url": "https://arxiv.org/pdf/2611.17944",
+          "relevance": 5,
+          "selection_reason": "Federated class-incremental learning with consolidation and replay to reduce catastrophic forgetting; fits continual/online learning.",
+          "summary_status": "generated",
+          "title": "Differentially Private Federated Class-Incremental Learning for EEG Mental State Classification",
+          "tldr": "FedEEG enables privacy-preserving federated class-incremental EEG learning for small client cohorts while reducing catastrophic forgetting and maintaining utility under head-scoped differential privacy.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "With the rapid advancement of Large Language Models (LLMs), an increasing number of users are turning to LLM-powered agents for conversational shopping in e-commerce. However, the user needs continue to change as new product categories, procurement scenarios, and feature requests emerge. At the same time, the product's execution harness-including its tools, skills, and operating procedures-continues to evolve to support increasingly sophisticated interactions. These changes create two practical challenges: 1) Demand drift alters the distribution, intent, and complexity of user requests, causing a model trained once to fall behind; 2) Harness evolution requires the model to use newly introduced capabilities correctly without losing behavior that users already rely on. Periodic manual retraining is too delayed and labor-intensive for this setting. To address these challenges, we present G-CAST, a governed continual self-training system that converts daily production evidence under evolving demand and capability contracts into reward-routed, entropy-prioritized training data and governed reward evolution. Governed checkpoint transition under cumulative evaluation controls each model update, enabling the agent to learn newly introduced behaviors without sacrificing previously accepted capabilities. Experiments on a real production e-commerce agent show that G-CAST achieves stronger adaptation to newly introduced demand while better preserving previously accepted behavior compared with a strong autonomous post-training baseline. Ablations further show that both reward-routed, entropy-prioritized data orchestration and governed reward evolution are important to these gains. G-CAST is now deployed in Yuancai(http://cai.1688.com/), a B2B procurement agent on Alibaba's 1688 platform.",
+          "arxiv_id": "2611.17814",
+          "arxiv_url": "https://arxiv.org/abs/2611.17814",
+          "authors": [
+            "Yuechun Yu, Wenzheng Kong, Xiaofeng Mao, Jin Zhang"
+          ],
+          "bullets": [
+            "Addresses demand drift and evolving execution harnesses, which make static training and periodic manual retraining inadequate.",
+            "Converts daily production evidence into reward-routed, entropy-prioritized training data and evolves rewards under governance.",
+            "Uses cumulative evaluation to control checkpoint transitions and prevent regressions in established capabilities.",
+            "Real-production experiments show stronger adaptation and better behavior preservation than an autonomous post-training baseline.",
+            "Ablations identify data orchestration and governed reward evolution as important; the system is deployed in Alibaba 1688’s Yuancai agent."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.CL"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: G-CAST, a governed continual adaptation loop for deployed e-commerce agents. The main self-evolution loop converts daily production queries into checkpoint updates through multi-rollout generation, reward reliability checking, reward-routed data orchestration, model adaptation, and governed checkpoint transition. When rollout evidence indicates a possible reward error under the current contract, the reward-evolution loop updates the executable reward through contract-grounded annotation, offline reward checks, and trial adaptation before training resumes. Candidate checkpoints are admitted only after cumulative evaluation on both newly introduced and previously retained capabilities, with rejected candidates, regressions, and reward anomalies recorded in the evaluation ledger.",
+              "figure_id": "figure-1-3",
+              "figure_number": "1",
+              "height": 440,
+              "image_path": "figures/2611.17814/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 2: Performance degradation of a fixed checkpoint as the capability contract expands across demand periods. The figure reports the base reward, which excludes auxiliary reward components introduced only in later contract versions, so that performance remains directly comparable across periods. The dark curve shows the cumulative mean over all active evaluation slices, and the colored curves show the period-specific means.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 304,
+              "image_path": "figures/2611.17814/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 500
+            },
+            {
+              "caption": "Table 2: Cumulative performance, retention, and adaptation under matched evaluation. The four middle columns report cumulative reward at successive checkpoints. In each of the two rightmost columns, a cell reports the method-specific stage-entry value, the Post-RL value, and their difference. Retained reward is the query-weighted mean over previously introduced 100-query periods, whereas new-period reward is computed on the newly introduced 100-query period. A negative retained delta denotes forgetting. \"–\" indicates a non-applicable metric or an unreported intermediate result.",
+              "figure_id": "table-2-1",
+              "figure_number": "2",
+              "height": 356,
+              "image_path": "figures/2611.17814/table-003.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1054
+            },
+            {
+              "caption": "Table 3: Routing and prioritization ablation on the cumulative evaluation across Periods 1–4. Reward + Entropy is the full method, Reward + Random removes entropy prioritization, and Random removes both components. Sel. Acc. denotes skillselection accuracy, and Adherence R. denotes skill-adherence reward.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 235,
+              "image_path": "figures/2611.17814/table-004.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 932
+            },
+            {
+              "caption": "Table 4: Comparison of training-reward designs on the cumulative evaluation over Periods 1–3. All three arms share the same training data and optimization settings, and differ only in reward evolution under the expanded capability contract: Static keeps the original reward unchanged, Ungated introduces a one-time contract-aware reward update without continued gate-controlled evolution, and Gated (ours) admits reward updates only through continued validation gates.",
+              "figure_id": "table-4-5",
+              "figure_number": "4",
+              "height": 191,
+              "image_path": "figures/2611.17814/table-005.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 392
+            },
+            {
+              "caption": "Table 1: Demand contexts sampled from four distinct time periods. Each period defines a frozen snapshot of requests and capability requirements observed during its corresponding time span, rather than a stage of the learning algorithm.",
+              "figure_id": "table-1-4",
+              "figure_number": "1",
+              "height": 130,
+              "image_path": "figures/2611.17814/table-006.webp",
+              "kind": "table",
+              "page": 3,
+              "width": 462
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.17814/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.17814",
+          "relevance": 7,
+          "selection_reason": "Presents a governed continual self-training system for agents under evolving demand, directly fitting continual/online learning.",
+          "summary_status": "generated",
+          "title": "G-CAST: Governed Continual Self-Training for E-Commerce Agents under Evolving Demands",
+          "tldr": "G-CAST enables e-commerce agents to continually adapt to changing user demands and tools while preserving previously accepted behavior through governed self-training.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Behavioral clusters learned over user or item interactions drift as behavior evolves: some fragment into sub-behaviors, some converge, some disappear, and new patterns emerge. Two paradigms dominate the maintenance of evolving clusterings. Threshold triggers fire a pre-specified action when a hardcoded statistic crosses a cutoff; refit-and-track (MONIC-style) re-clusters every window and infers transitions from how the new clusters align with the previous window's. Both hardwire the decision into a threshold or a re-clustering rule. We study an alternative in which a large language model (LLM) makes the lifecycle decision in place. Given a threshold-free, whole-population view of the current cluster set (statistical health, labels, member texts, residual mass), the LLM decides per cluster whether and how to act (split, merge, retire, create, or no-action) without re-clustering. Because the useful signal channel depends on how informative the labels are, we fix a richness-conditioned policy in advance: statistics when label distinctiveness is low, fused statistics+semantics when it is high. On three public datasets spanning label richness (YooChoose 0.17, MOOC 0.50, News-Category 0.70), the policy-selected LLM mode obtains the highest F1 on all three, with far fewer interventions and stronger restraint than tuned threshold heuristics and a MONIC steelman (paired Wilcoxon p <= 0.003, bootstrap 95% CIs excluding zero). The gain is concentrated more in precision than recall. The useful modality shifts from statistics to semantics/fusion as richness rises. Semantics hurt on YooChoose, fusion is roughly neutral on MOOC, and the semantic channel is required on News. One base prompt template and one fixed policy serve all three datasets, whereas the tuned baseline collapses when moved between them. We treat this shift as a practitioner diagnostic observed on three datasets, not a validated law.",
+          "arxiv_id": "2611.17616",
+          "arxiv_url": "https://arxiv.org/abs/2611.17616",
+          "authors": [
+            "Himanshu Kulkarni, Siddharth Krishnamurthy, Jianhong Xin"
+          ],
+          "bullets": [
+            "Addresses cluster drift, where behaviors fragment, converge, disappear, or newly emerge.",
+            "Uses a threshold-free, whole-population view of cluster statistics, labels, member texts, and residual mass.",
+            "A fixed richness-conditioned policy chooses statistics, semantics, or their fusion as the decision signal.",
+            "Across three public datasets, the policy-selected LLM mode achieved the highest F1 with fewer interventions and stronger restraint than tuned thresholds and a MONIC-style baseline.",
+            "Benefits were driven more by precision; modality usefulness shifted from statistics toward semantics as label richness increased."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3: Decision F1 by method on each dataset (15 seeds, ±95% CI). An LLM mode is best on every dataset.",
+              "figure_id": "figure-3-8",
+              "figure_number": "3",
+              "height": 352,
+              "image_path": "figures/2611.17616/figure-001.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 1056
+            },
+            {
+              "caption": "Figure 1: The per-window LLM-arbiter loop. New items are assigned to the current registry (no refit). A threshold-free, wholepopulation report is built (statistical health + labels + representative member texts + residual mass). The LLM decides all",
+              "figure_id": "figure-1-9",
+              "figure_number": "1",
+              "height": 394,
+              "image_path": "figures/2611.17616/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 858
+            },
+            {
+              "caption": "Figure 6: Decision F1 vs. number of actions per run. LLM arbiter: accurate and economical.",
+              "figure_id": "figure-6-4",
+              "figure_number": "6",
+              "height": 338,
+              "image_path": "figures/2611.17616/figure-003.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 1056
+            },
+            {
+              "caption": "Figure 8: Three paradigms and where each makes the decision: (a) threshold trigger, (b) MONIC refit-and-track, (c) LLM decides",
+              "figure_id": "figure-8-16",
+              "figure_number": "8",
+              "height": 276,
+              "image_path": "figures/2611.17616/figure-004.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 850
+            },
+            {
+              "caption": "Figure 2: Semantic-richness spectrum: LLM channel F1 vs.",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 243,
+              "image_path": "figures/2611.17616/figure-005.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 364
+            },
+            {
+              "caption": "Figure 5: Per-action decision F1 by LLM channel and dataset.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 270,
+              "image_path": "figures/2611.17616/figure-006.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 1056
+            },
+            {
+              "caption": "Figure 4: Paired F1 improvement (LLM − best baseline) with 95% bootstrap CIs, all excluding zero.",
+              "figure_id": "figure-4-6",
+              "figure_number": "4",
+              "height": 188,
+              "image_path": "figures/2611.17616/figure-007.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 477
+            },
+            {
+              "caption": "Figure 7: Conceptual spectrum: as label richness rises, the channel that wins moves from statistics to semantics/fusion. The",
+              "figure_id": "figure-7-5",
+              "figure_number": "7",
+              "height": 213,
+              "image_path": "figures/2611.17616/figure-008.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 804
+            },
+            {
+              "caption": "Table 9: Best-LLM vs. best-baseline decision F1 (mean over 15 seeds) as the matching tolerance varies. The winning method is unchanged on News and YooChoose at every tolerance. On MOOC the LLM wins at ±2 and ±3, while Smart-Triggers edges it at the tightest ±1, where the LLM’s ramp-latent detections are clipped most.",
+              "figure_id": "table-9-11",
+              "figure_number": "9",
+              "height": 187,
+              "image_path": "figures/2611.17616/table-009.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 498
+            },
+            {
+              "caption": "Table 3: Focal significance: best LLM vs. best baseline per dataset (paired, 15 seeds). ΔF1 with 104-sample bootstrap 95% CI and",
+              "figure_id": "table-3-13",
+              "figure_number": "3",
+              "height": 438,
+              "image_path": "figures/2611.17616/table-010.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 752
+            },
+            {
+              "caption": "Table 6: Label-causality ablation. F1 (mean over 15 seeds) with real, shuffled, and generic labels.",
+              "figure_id": "table-6-12",
+              "figure_number": "6",
+              "height": 376,
+              "image_path": "figures/2611.17616/table-011.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 1048
+            },
+            {
+              "caption": "Table 4: Per-action F1 for the LLM modes (strict scorer, 15 seeds). “–” = 0.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 168,
+              "image_path": "figures/2611.17616/table-012.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 506
+            },
+            {
+              "caption": "Table 8: Trigger upper bounds vs the LLM (F1, 15 seeds). The oracle columns select thresholds using the evaluation ground",
+              "figure_id": "table-8-10",
+              "figure_number": "8",
+              "height": 108,
+              "image_path": "figures/2611.17616/table-013.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 418
+            },
+            {
+              "caption": "Table 2: Main results over 15 seeds (mean ± 95% CI on every column). Best F1 per dataset in bold, and 𝜋 marks the mode chosen",
+              "figure_id": "table-2-15",
+              "figure_number": "2",
+              "height": 67,
+              "image_path": "figures/2611.17616/table-014.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 594
+            },
+            {
+              "caption": "Table 5: Per-action F1: best baseline vs. the policy-selected LLM mode on each dataset (strict scorer, 15 seeds). Baselines are",
+              "figure_id": "table-5-2",
+              "figure_number": "5",
+              "height": 75,
+              "image_path": "figures/2611.17616/table-015.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 506
+            },
+            {
+              "caption": "Table 1: Public datasets. All: 12 windows, 15 seeds, 7 injected events (2 split, 2 merge, 2 retire, 1 create).",
+              "figure_id": "table-1-14",
+              "figure_number": "1",
+              "height": 36,
+              "image_path": "figures/2611.17616/table-016.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 594
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.17616/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.17616",
+          "relevance": 7,
+          "selection_reason": "Proposes an LLM-guided approach to managing evolving behavioral clusters, addressing the challenge of continual learning and online adaptation in data streams.",
+          "summary_status": "generated",
+          "title": "LLM-Guided Cluster Lifecycle Management: Deciding When and How to Evolve Behavioral Clusters",
+          "tldr": "An LLM can manage evolving behavioral clusters without re-clustering, selecting restrained split, merge, retire, create, or no-action decisions using signals matched to label richness.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Autonomous experimentation systems require characterization models that can interpret heterogeneous measurements and maintain predictive performance as data accumulate. Developing such models involves addressing domain mismatch between data sources, overconfident predictions on unfamiliar inputs, and catastrophic forgetting during sequential updates. In this work, we present a proof-of-concept framework for uncertainty-aware continual interpretation of two-dimensional X-ray diffraction (XRD) data. The framework integrates established components: maximum mean discrepancy-based domain adaptation to reduce simulation-to-experiment discrepancies, a convolutional neural network with a spectral-normalized neural Gaussian process (CNN--SNGP) for predictive uncertainty estimation, and replay with knowledge distillation for sequential model updating. We evaluate the framework using simulated and previously-collected experimental data for crystal structure classification of single-phase body-centered cubic, face-centered cubic, and hexagonal close-packed patterns. Data are organized into predefined sequential blocks to assess adaptation and retention of previously learned knowledge. Within this setting, the results show accurate classification across simulated and experimental data, improved alignment between the two domains, and reduced forgetting compared with na\\\"ive fine-tuning. Predictive uncertainty is also evaluated on unfamiliar and noisy inputs. The contribution is the integration and evaluation of these capabilities for sequential XRD interpretation. The framework provides a basis for future integration into autonomous experimentation systems, with experimental planning, instrument control, and closed-loop deployment remaining areas for future development.",
+          "arxiv_id": "2611.17547",
+          "arxiv_url": "https://arxiv.org/abs/2611.17547",
+          "authors": [
+            "Zihan Wang, Hyun Sang Park, Ali Rachidi, David Elbert, Todd C. Hufnagel, Wei Chen"
+          ],
+          "bullets": [
+            "Targets simulation-to-experiment mismatch, overconfident predictions on unfamiliar inputs, and catastrophic forgetting.",
+            "Uses MMD-based domain adaptation, a CNN-SNGP for predictive uncertainty, and replay with knowledge distillation for updates.",
+            "Evaluated crystal-structure classification for BCC, FCC, and HCP patterns using simulated and previously collected experimental data in sequential blocks.",
+            "Reports accurate cross-domain classification, improved domain alignment, reduced forgetting versus naive fine-tuning, and uncertainty evaluation on unfamiliar/noisy inputs.",
+            "Scope is proof-of-concept; experimental planning, instrument control, and closed-loop deployment remain future work."
+          ],
+          "categories": [
+            "stat.ML",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 1 Conceptual framework for uncertainty-aware continual learning from heterogeneous scientific data. The framework integrates predictive uncertainty estimation, domain adaptation, and sequential model updating. This study evaluates an offline implementation using simulated and experimental 2D XRD data; applications to other characterization tasks and integration with experimental control remain future directions.",
+              "figure_id": "figure-1-9",
+              "figure_number": "1",
+              "height": 562,
+              "image_path": "figures/2611.17547/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 772
+            },
+            {
+              "caption": "Fig. 4 Sequential organization of simulated and experimental XRD datasets. Each dashed box represents one model-update stage and contains one simulated data block and one experimental data block. The known BCC, FCC, and HCP label space remains fixed across stages, while new material identities and experimental measurements are introduced over time to create sequential distribution shifts. The illustrated sequence represents one block order; three orders are evaluated in the repeated-training comparison.",
+              "figure_id": "figure-4-4",
+              "figure_number": "4",
+              "height": 318,
+              "image_path": "figures/2611.17547/figure-002.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 882
+            },
+            {
+              "caption": "Fig. 7 Stage-wise test accuracy under five sequential training strategies. Panels show (a) joint retraining, (b) naïve fine-tuning, (c) replay-only updating, (d) learning-without-forgetting (LwF)-style distillation, and (e) the proposed continual-learning strategy. Rows indicate model-update stages, and columns indicate introduced-block positions (P1–P4) within each evaluated sequence. Block identities at these positions depend on the introduction order. Each cell displays the mean test accuracy, with the standard deviation beneath it. Future-block cells are blank. Accuracies are proportions rounded to two decimals, and all panels use a common 0–1 color scale.",
+              "figure_id": "figure-7-2",
+              "figure_number": "7",
+              "height": 714,
+              "image_path": "figures/2611.17547/figure-003.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 1102
+            },
+            {
+              "caption": "Fig. 6 Pre-head latent-space evolution during sequential learning. Rows show (a) joint retraining, (b) naïve fine-tuning, (c) replay-only updating, (d) learning-without-forgetting (LwF)-style distillation, and (e) the proposed continual-learning strategy; columns show stages 1–4. At each stage, all methods are visualized using the same ordered set of accumulated training, validation, and test scans. Blue, orange, and green indicate body-centered cubic (BCC), face-centered cubic (FCC), and hexagonal close-packed (HCP) structures, respectively. Larger black-edged circles denote simulated scans, and small dots denote experimental scans. Annotations identify selected material subsets and the earlier blocks in which they appeared. Each t-SNE panel is fitted independently; absolute positions and distances should not be compared across panels.",
+              "figure_id": "figure-6-7",
+              "figure_number": "6",
+              "height": 1204,
+              "image_path": "figures/2611.17547/figure-004.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 1048
+            },
+            {
+              "caption": "Fig. 2 Inner level: Uncertainty-aware simulation-to-experiment learning. The inner level employs SNGP for uncertainty-aware classification and aligns simulated and experimental XRD feature distributions using maximum mean discrepancy. Here, Conv. denotes convolution, while BCC, FCC, and HCP denote body-centered cubic, face-centered cubic, and hexagonal close-packed, respectively.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 418,
+              "image_path": "figures/2611.17547/figure-005.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 936
+            },
+            {
+              "caption": "Fig. 3 Outer-level sequential model updating with replay and distillation. The frozen teacher from the preceding stage and the student process the same replayed inputs. Logit distillation uses Kullback–Leibler divergence to match the student’s temperature-scaled class probabilities to the teacher’s. Feature distillation uses a normalized squared error between their 256-dimensional pre-head features. The student is updated using the combined objective in Eq. (14).",
+              "figure_id": "figure-3-8",
+              "figure_number": "3",
+              "height": 356,
+              "image_path": "figures/2611.17547/figure-006.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 533
+            },
+            {
+              "caption": "Table 2 Layers and specifications of the CNN–SNGP classifier. CNN denotes convolutional neural network; SNGP denotes spectral-normalized neural Gaussian process; SN–Dense denotes a spectrally normalized dense layer; and ReLU denotes the rectified linear unit activation. The CNN–SNGP–adapt model uses the same architecture with additional domain-adaptation losses.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 544,
+              "image_path": "figures/2611.17547/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1102
+            },
+            {
+              "caption": "Table 4 Classification and predictive-probability quality on material-held-out data. Within each repeat, predictions are pooled across the eight material holdouts before calculating metrics. Values are mean ± sample standard deviation across the three repeat-level estimates. Acc., Bal. Acc., and F1 denote accuracy, balanced accuracy, and macro-F1. NLL denotes negative log-likelihood, Brier denotes the multiclass Brier score, and ECE denotes expected calibration error. Higher classification metrics and lower NLL, Brier, and ECE indicate better performance. CNN denotes convolutional neural network, SNGP denotes spectral-normalized neural Gaussian process, and adapt denotes the domain-adapted pipeline.",
+              "figure_id": "table-4-5",
+              "figure_number": "4",
+              "height": 234,
+              "image_path": "figures/2611.17547/table-008.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 1102
+            },
+            {
+              "caption": "Table 5 Detection performance for noise-only and silicon carbide (SiC) inputs. Out-of-distribution (OOD) inputs are treated as the positive class. AUROC and AUPR denote the areas under the receiver operating characteristic and precision–recall curves. FPR95 is the false-positive rate on known-class reference inputs at an operating point attaining at least 95% OOD detection. OOD false acceptance is the fraction of OOD inputs accepted at the evaluated rejection operating point. Higher AUROC and AUPR and lower error rates indicate better performance. Values are mean ± standard deviation across repeated runs. CNN denotes convolutional neural network, SNGP denotes spectral-normalized neural Gaussian process, and adapt denotes the domain-adapted pipeline.",
+              "figure_id": "table-5-6",
+              "figure_number": "5",
+              "height": 177,
+              "image_path": "figures/2611.17547/table-009.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 1102
+            },
+            {
+              "caption": "Table 7 Final experimental-domain retention and transfer metrics, using the aggregation in Table 6. Average accuracy (AA) weights blocks equally. Forgetting, backward transfer (BWT), and forward transfer (FWT) are in percentage points (pp). Old and New denote task-average accuracy on earlier blocks and accuracy on the latest introduced block, respectively. Negative signed forgetting indicates improvement beyond the best earlier post-introduction accuracy. BWT references accuracy at introduction; FWT references the untrained model. CL denotes continual learning.",
+              "figure_id": "table-7-11",
+              "figure_number": "7",
+              "height": 159,
+              "image_path": "figures/2611.17547/table-010.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 1102
+            },
+            {
+              "caption": "Table 1 Simulated and experimental materials used in this study",
+              "figure_id": "table-1-10",
+              "figure_number": "1",
+              "height": 138,
+              "image_path": "figures/2611.17547/table-011.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 540
+            },
+            {
+              "caption": "Table 6 Final-stage classification performance, latent-space diagnostics, and cumulative training time for five primary strategies. Results average orders within each seed and report mean ± sample standard deviation across three seeds. Accuracy pools test scans from all introduced blocks. Sim. and Exp. denote simulated and experimental data. Sraw denotes the raw validation silhouette score; Dalign,std denotes the standardized source–target class-centroid gap. Arrows indicate the preferred direction. CL denotes continual learning. Training time includes the complete sequence, validation, GP precision reconstruction, and retries, excluding test exports and separate plotting.",
+              "figure_id": "table-6-13",
+              "figure_number": "6",
+              "height": 141,
+              "image_path": "figures/2611.17547/table-012.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 1102
+            },
+            {
+              "caption": "Table 8 Final experimental predictive-probability quality for five primary strategies using the same CNN–SNGP–adapt backbone. Results use the aggregation in Table 6. NLL denotes negative log-likelihood, ECE denotes expected calibration error, and CL denotes continual learning. ECE uses 15 equal-width confidence bins; NLL uses natural logarithms. Lower values indicate better performance. Probabilities use the analytical meanfield calculation without post-hoc temperature scaling.",
+              "figure_id": "table-8-12",
+              "figure_number": "8",
+              "height": 139,
+              "image_path": "figures/2611.17547/table-013.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 533
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.17547/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.17547",
+          "relevance": 7,
+          "selection_reason": "Integrates continual learning, replay, distillation, and uncertainty estimation for sequential model updating, fitting continual/online learning.",
+          "summary_status": "generated",
+          "title": "Uncertainty-Aware Continual Learning for 2D XRD Interpretation Using Simulated and Experimental Data",
+          "tldr": "A proof-of-concept framework combines domain adaptation, uncertainty estimation, and replay-based continual learning to support reliable sequential interpretation of heterogeneous 2D XRD data.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "We consider online binary prediction with paid stochastic features, where the learner can spend resources to obtain better observations of the underlying features. This setting is motivated by applications such as medical testing, where additional cost can provide more precise measurements of patient's features for predicting a binary outcome. At each round, a latent feature is drawn i.i.d., the response is generated through a logistic model, and the learner chooses how much to pay before observing a noisy version of the feature. The goal of learner is to jointly control prediction loss and acquisition cost. In contrast to the former result on the online linear regression with paid features, covariance information alone is no longer sufficient: two noise distributions with the same covariance may induce different optimal logistic losses, and lower variance can even lead to higher loss. Under a structural ordering in which larger payments yield better observations by removing independent noise, we obtain $\\widetilde O(\\sqrt{T})$ regret when the noise structure is known and $\\widetilde O(T^{2/3})$ regret when it is unknown, with matching lower bounds up to logarithmic factors.",
+          "arxiv_id": "2610.12919",
+          "arxiv_url": "https://arxiv.org/abs/2610.12919",
+          "authors": [
+            "Sanghwa Kim",
+            "Kyoungseok Jang",
+            "Se-Young Yun"
+          ],
+          "bullets": [
+            "The learner jointly balances binary prediction loss against the cost of obtaining less noisy features.",
+            "For logistic loss, equal covariance—or even lower variance—does not determine better performance.",
+            "A structural ordering assumes larger payments improve observations by removing independent noise.",
+            "Regret is \\(\\widetilde O(\\sqrt{T})\\) with known noise structure and \\(\\widetilde O(T^{2/3})\\) when it is unknown.",
+            "Matching lower bounds hold up to logarithmic factors."
+          ],
+          "categories": [
+            "stat.ML",
+            "cs.LG"
+          ],
+          "figure_status": "failed",
+          "figures": [],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": null,
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2610.12919",
+          "relevance": 5,
+          "selection_reason": "Online binary prediction with paid noisy features and regret guarantees; fits the online learning subtopic.",
+          "summary_status": "generated",
+          "title": "Beyond Second-Order Information: Paid Logistic Regression with Noisy Features",
+          "tldr": "Paid feature acquisition enables online logistic prediction with near-optimal regret, but requires information beyond noise covariance.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Model merging aims to build a multi-task model cheaply by combining the weights of individual task-specific models. To perform well across multiple tasks, most existing merging methods use an additional dataset to find the coefficients for the best linear combination of task-specific weight updates. However, we identify an implicit regularization in this standard practice: searching over coefficients restricts the candidate models to a subspace spanned by task-specific weight updates. In this work, we investigate whether this regularization is actually useful. Surprisingly, empirical results show that optimizing merged-model weights without this regularization significantly boosts the performance of common merging methods across multiple architectures, domains, and even in an extremely data-limited scenario where only one instance is available per class. Moreover, directly optimizing the pretrained model weights even outperforms some existing merging methods. Analysis shows that better multi-task weights exist outside the subspace and can be found using multiple methods. We study different strategies for using the additional dataset, discussing their practical use and implications for model merging. Overall, this work calls for revisiting the existing model-merging pipeline, motivating a broader exploration of the weight space and a reconsideration of the implicit regularization induced by task arithmetic.",
+          "arxiv_id": "2610.07990",
+          "arxiv_url": "https://arxiv.org/abs/2610.07990",
+          "authors": [
+            "Sin-Han Yang",
+            "Shih-Cheng Huang",
+            "Chieh-Yen Lin",
+            "Yun-Nung Chen",
+            "Shao-Hua Sun",
+            "Hung-yi Lee"
+          ],
+          "bullets": [
+            "Existing merging methods often tune coefficients over task-specific weight updates using an additional dataset, implicitly restricting solutions to their spanned subspace.",
+            "The study finds that removing this restriction improves common merging methods across architectures and domains, including an extremely data-limited setting.",
+            "Direct optimization of pretrained weights can outperform some existing merging approaches.",
+            "Analysis indicates that better multi-task weights exist outside the task-update subspace and can be reached through multiple strategies.",
+            "The work reassesses how additional data should be used and encourages broader exploration of the weight space."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.CL",
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: A new perspective on the model-merging pipeline. The existing model-merging pipeline builds the merged model θmerge by adding a linear combination of task-specific weight updates τi to the pretrained model θ0. Standard practice uses an additional dataset, which we term auxiliary data, to optimize the coefficients λ for multi-task performance. This coefficient optimization regularizes model updates to the subspace spanned by τi. We challenge this pipeline by using the same auxiliary data to optimize the merged-model weights, allowing optimization beyond this subspace. Experimental results show that exploring the broader weight space generally leads to significant performance improvements across merging methods (TA, TIES, DARE, and TSV-M).",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 748,
+              "image_path": "figures/2610.07990/figure-001.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 925
+            },
+            {
+              "caption": "Figure 2: Average test accuracy under different uses of auxiliary data. Across vision tasks (top) and language tasks (bottom) with different models, Gradient Descent (GD) from the merged models consistently outperforms both coefficient search and the empirical best performance of its search space (Subspace best) for every merging method (TA, TIES, DARE, and TSV-M).",
+              "figure_id": "figure-2-29",
+              "figure_number": "2",
+              "height": 595,
+              "image_path": "figures/2610.07990/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 818
+            },
+            {
+              "caption": "Figure 7: Positive correlation between Init accuracy of merged models and their afterGD accuracy. Existing model merging methods provide strong initializations for gradient descent, and stronger methods have better afterGD performance.",
+              "figure_id": "figure-7-20",
+              "figure_number": "7",
+              "height": 275,
+              "image_path": "figures/2610.07990/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 307
+            },
+            {
+              "caption": "Figure 6: Computational usage of different ways to use the auxiliary data. Gradient descent on weights (Weight GD) uses slightly more memory than coefficient search. While doing gradient descent requires more compute effort (time/FLOPs), it trades compute for better performance.",
+              "figure_id": "figure-6-19",
+              "figure_number": "6",
+              "height": 517,
+              "image_path": "figures/2610.07990/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 827
+            },
+            {
+              "caption": "Figure 3: Average test accuracy under different sizes and uses of auxiliary data for TA. We downsample the auxiliary data and compare different uses of auxiliary data for TA. We run three random seeds for downsampling, and report error bars as the shaded regions. Gradient Descent (GD) consistently outperforms the other two approaches that optimize weights within the subspace.",
+              "figure_id": "figure-3-30",
+              "figure_number": "3",
+              "height": 270,
+              "image_path": "figures/2610.07990/figure-005.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 818
+            },
+            {
+              "caption": "Figure 10: Gradient Descent (GD) Initialization results across vision and language models. For vision, we measure average test accuracy, and report the average accuracy of three random initialization points. Init accuracy is the naive coefficient’s performance.",
+              "figure_id": "figure-10-4",
+              "figure_number": "10",
+              "height": 489,
+              "image_path": "figures/2610.07990/figure-006.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 816
+            },
+            {
+              "caption": "Figure 5: S-RandOpt sampled weights’ test performance. We sample 64 random weights in language models using S-RandOpt, and compare their test performance with the best point on the task-vector subspace (subspace best). A high proportion of sampled weights from outside the subspace outperforms the best weight on the subspace (Subspace best).",
+              "figure_id": "figure-5-11",
+              "figure_number": "5",
+              "height": 221,
+              "image_path": "figures/2610.07990/figure-007.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 803
+            },
+            {
+              "caption": "Figure 4: Gradient descent trajectories in the 2-task setting (ViT-B-32, EuroSAT and GTSRB). Each panel shows one run initialized on the task-vector subspace (blue plane). The axes e1, e2, and e3 are the directions of τ1, τ⊥2 , and each run’s update’s orthogonal component to the subspace ∆⊥. In all runs, gradient descent leaves the subspace as the score (accuracy) increases.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 268,
+              "image_path": "figures/2610.07990/figure-008.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 420
+            },
+            {
+              "caption": "Figure 8: Auxiliary data scaling for TA in 2- task setting. The number of classes (53) is smaller than in the 9-task setting (856). Gradient descent’s performance is worse than coefficient search when data is extremely limited, but still outperforms it when more data are provided. Adding regularization for GD mitigates the issue. The results indicate that generalization is a key factor when using auxiliary data.",
+              "figure_id": "figure-8-28",
+              "figure_number": "8",
+              "height": 258,
+              "image_path": "figures/2610.07990/figure-009.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 389
+            },
+            {
+              "caption": "Figure 9: Average test accuracy under different sizes and uses of auxiliary data for TIES. We downsample the auxiliary data and compare three different uses of auxiliary data for TIES. We run three random seeds for downsampling, and report error bars as shaded regions. The findings are consistent with the TA’s result in Figure 3.",
+              "figure_id": "figure-9-16",
+              "figure_number": "9",
+              "height": 270,
+              "image_path": "figures/2610.07990/figure-010.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 818
+            },
+            {
+              "caption": "Figure 12: Downsampling classes in the 9-task setting for TA on ViT-B-32. We test 3 class selection seeds (cseed) for downsampling classes. The first row matches dataset size of EuroSAT + GTSRB in Figure 11, and the second row matches FER2013 + MNIST. The trends are similar to Figure 11.",
+              "figure_id": "figure-12-24",
+              "figure_number": "12",
+              "height": 390,
+              "image_path": "figures/2610.07990/figure-011.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 829
+            },
+            {
+              "caption": "Figure 11: Train and test set accuracy of different strategies in 2-task scenarios. GD overfits when data are scarce, and additional regularization improves performance. On the other hand, the test accuracy of coefficient search and subspace GD is largely insensitive to data size.",
+              "figure_id": "figure-11-5",
+              "figure_number": "11",
+              "height": 242,
+              "image_path": "figures/2610.07990/figure-012.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 818
+            },
+            {
+              "caption": "Table 9: Effect of learning rate across architectures and merging methods for gradient descent on weights. Gradient descent’s initialization points affect the performance.",
+              "figure_id": "table-9-33",
+              "figure_number": "9",
+              "height": 172,
+              "image_path": "figures/2610.07990/table-013.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 818
+            },
+            {
+              "caption": "Table 1: Summary of prior works in terms of compute and data usage. Backprop. refers to backpropagation. Data Source refers to the source of auxiliary data. Existing works leverage backpropagation and auxiliary data to build merged models.",
+              "figure_id": "table-1-14",
+              "figure_number": "1",
+              "height": 303,
+              "image_path": "figures/2610.07990/table-014.webp",
+              "kind": "table",
+              "page": 3,
+              "width": 748
+            },
+            {
+              "caption": "Table 21: Performance on target and control tasks for merged LLMs. We compare coefficient search within the task-vector subspace (Coeff.) with gradient descent on LoRA parameters (GD). Seen denotes the average performance on the target tasks; GSM8K and MBPP are control tasks not targeted by any expert model. All results are evaluated on 300 samples per task. †The pretrained model is evaluated with raw few-shot prompts instead of the chat template and serves only as a reference. Avg. denotes the average over the four merging methods, excluding the pre-trained model. The better result of each pair is shown in bold.",
+              "figure_id": "table-21-12",
+              "figure_number": "21",
+              "height": 390,
+              "image_path": "figures/2610.07990/table-015.webp",
+              "kind": "table",
+              "page": 29,
+              "width": 677
+            },
+            {
+              "caption": "Table 3: S-RandOpt results across vision and language models. For two merging methods (TA and DARE), we report the average performance of top-5 sampled weights from S-RandOpt. It frequently outperforms the best performance on the task-vector subspace.",
+              "figure_id": "table-3-10",
+              "figure_number": "3",
+              "height": 147,
+              "image_path": "figures/2610.07990/table-016.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 656
+            },
+            {
+              "caption": "Table 4: Test-time adaptation methods’ performance. All methods are applied on top of TA. Compared with existing methods that use an unlabeled test set to optimize the task-wise coefficients, using this auxiliary data to perform Gradient Descent (GD) on weights leads to better accuracy across all models.",
+              "figure_id": "table-4-27",
+              "figure_number": "4",
+              "height": 109,
+              "image_path": "figures/2610.07990/table-017.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 410
+            },
+            {
+              "caption": "Table 16: Average score of full-weight fine-tuning and LoRA fine-tuning across different merging methods and initialization points. We set the rank of LoRA to 16, and test two initialization points in the task-vector subspace: all coefficients set to the average 1/T or 1.0. We did not evaluate full-weight fine-tuning on Qwen3-4B due to computational resource constraints. Overall, LoRA fine-tuning has better performance on the merging tasks.",
+              "figure_id": "table-16-13",
+              "figure_number": "16",
+              "height": 463,
+              "image_path": "figures/2610.07990/table-018.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 840
+            },
+            {
+              "caption": "Table 2: Decomposition of the gradient descent update (ViT-B-32, 9 tasks). We decompose the fine-tuning update ∆ = θGD − θmerge into its projection onto the task-vector subspace, ∆∥, and the orthogonal component, ∆⊥ = ∆ − ∆∥. Adding only ∆∥ to the merged model yields no accuracy gain (Acc. Gain), whereas the full update improves accuracy by 9 to 20 points. The empirical results indicate that the performance improvement requires leaving the task-vector subspace.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 139,
+              "image_path": "figures/2610.07990/table-019.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 350
+            },
+            {
+              "caption": "Table 13: Hyperparameters used for language models.",
+              "figure_id": "table-13-21",
+              "figure_number": "13",
+              "height": 800,
+              "image_path": "figures/2610.07990/table-020.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 686
+            },
+            {
+              "caption": "Table 12: Hyperparameters used for vision experiment.",
+              "figure_id": "table-12-15",
+              "figure_number": "12",
+              "height": 498,
+              "image_path": "figures/2610.07990/table-021.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 829
+            },
+            {
+              "caption": "Table 15: Finding the best average score on the task-vector subspace for language models. If Subspace GD is worse than coefficient search, we do grid search instead. Bayesian Optimization (BO) generally has the best performance.",
+              "figure_id": "table-15-8",
+              "figure_number": "15",
+              "height": 242,
+              "image_path": "figures/2610.07990/table-022.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 818
+            },
+            {
+              "caption": "Table 11: Comparison of weight-space optimizers across different data-size merging methods for ViT-B-32. Coefficient search and Subspace GD are provided for reference. The empirical results show that Weight GD does not depend on specific optimizers. Meanwhile, they mostly outperform coefficient search and subspace GD, which optimize within the task vector subspace.",
+              "figure_id": "table-11-22",
+              "figure_number": "11",
+              "height": 162,
+              "image_path": "figures/2610.07990/table-023.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 822
+            },
+            {
+              "caption": "Table 20: Full comparison results of test-time adaptation methods for TA.",
+              "figure_id": "table-20-18",
+              "figure_number": "20",
+              "height": 196,
+              "image_path": "figures/2610.07990/table-024.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 548
+            },
+            {
+              "caption": "Table 17: Numerical values of Figure 2. We also provide the Llama-3.2-1B results, and the results are consistent.",
+              "figure_id": "table-17-17",
+              "figure_number": "17",
+              "height": 348,
+              "image_path": "figures/2610.07990/table-025.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 830
+            },
+            {
+              "caption": "Table 6: Data sources for the language tasks (Hugging Face dataset IDs). IFEval has no reference answers, so its fine-tuning data and validation set both come from argilla/ifeval-like-data. We keep only validation responses that pass strict prompt-level accuracy, and test on the complete original IFEval benchmark.",
+              "figure_id": "table-6-7",
+              "figure_number": "6",
+              "height": 243,
+              "image_path": "figures/2610.07990/table-026.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 740
+            },
+            {
+              "caption": "Table 5: Vision data splits.",
+              "figure_id": "table-5-6",
+              "figure_number": "5",
+              "height": 233,
+              "image_path": "figures/2610.07990/table-027.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 448
+            },
+            {
+              "caption": "Table 8: Subspace GD with different learning rates on Task Arithmetic and TIES for ViT-B-32. The performance is stable for learning rate from 10−4 to 10−1.",
+              "figure_id": "table-8-32",
+              "figure_number": "8",
+              "height": 177,
+              "image_path": "figures/2610.07990/table-028.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 590
+            },
+            {
+              "caption": "Table 7: Language data splits.",
+              "figure_id": "table-7-31",
+              "figure_number": "7",
+              "height": 130,
+              "image_path": "figures/2610.07990/table-029.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 377
+            },
+            {
+              "caption": "Table 10: Effect of learning rate across different optimization budgets for gradient descent on weights. Same conclusion with the Table 9.",
+              "figure_id": "table-10-23",
+              "figure_number": "10",
+              "height": 288,
+              "image_path": "figures/2610.07990/table-030.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 572
+            },
+            {
+              "caption": "Table 14: Finding the best average accuracy on the task-vector subspace for vision models. Bayesian Optimization (BO) and Subspace GD have similar performance.",
+              "figure_id": "table-14-9",
+              "figure_number": "14",
+              "height": 150,
+              "image_path": "figures/2610.07990/table-031.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 560
+            },
+            {
+              "caption": "Table 19: Numerical values of Figure 9: data scaling for TIES.",
+              "figure_id": "table-19-26",
+              "figure_number": "19",
+              "height": 167,
+              "image_path": "figures/2610.07990/table-032.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 830
+            },
+            {
+              "caption": "Table 18: Numerical values of Figure 3: data scaling for TA.",
+              "figure_id": "table-18-25",
+              "figure_number": "18",
+              "height": 166,
+              "image_path": "figures/2610.07990/table-033.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 830
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2610.07990/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2610.07990",
+          "relevance": 7,
+          "selection_reason": "Investigates model merging and implicit regularization, offering insights into efficient multi-task learning and weight space optimization (Adaptation).",
+          "summary_status": "generated",
+          "title": "A Broader Look at Model Merging: Rethinking Implicit Regularization Induced by Task Arithmetic",
+          "tldr": "Optimizing merged model weights beyond the task-update subspace can substantially improve multi-task model merging, challenging the assumed benefit of task-arithmetic regularization.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-13",
       "paper_count": 1,
       "papers": [
@@ -110487,5 +111761,5 @@
   "schema_version": 1,
   "subtopic_id": "continual-and-online-learning",
   "topic_id": "adaptation-and-memory",
-  "total_paper_count": 571
+  "total_paper_count": 579
 }

@@ -6,10 +6,13 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Interactive World Models
 
-**528 papers total**
+**531 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-15 | [TelePhysica: Agentic Reconstruction of Physically Interactive Scenes](https://arxiv.org/abs/2611.18078) | World Models: Interactive World Models; Video Generation and Understanding: Video Diffusion | TelePhysica reconstructs a physically executable 3D scene from one image, verifies equilibrium, and uses simulated interactions to control trajectory-grounded video generation. | 8 | 8 |
+| 2026-11-15 | [Joint World Action Models through Differentiable Trajectory Optimization](https://arxiv.org/abs/2611.17626) | World Models: Interactive World Models | WATO trains joint world-action models with differentiable, dynamics-constrained trajectory optimization to produce more task-effective trajectories while avoiding optimization at deployment. | 7 | 7 |
+| 2026-11-15 | [Fast Inference-Time Policy Refinement via Action-Affine World Models](https://arxiv.org/abs/2611.15011) | Embodied AI: Robot Learning and Manipulation; World Models: Interactive World Models | A2WM enables fast, training-free online correction of imitation policies by combining an action-affine world model with a convex QP solver. | 9 | 8 |
 | 2026-11-14 | [Artemis: Geometry-Grounded Multi-Agent Driving World Models with Shared 3D State and Progressive Memory Update](https://arxiv.org/abs/2610.07031) | World Models: Interactive World Models; Video Generation and Understanding: Video Diffusion | Artemis is a geometry-grounded multi-agent driving world model that maintains a shared 3D state and progressively updated memory to generate more consistent multi-view video and recover dynamic agents and backgrounds. | 9 | 8 |
 | 2026-11-14 | [Identifiable World Models from Pretrained Diffusion Representations](https://arxiv.org/abs/2610.07028) | World Models: Interactive World Models | A lightweight alignment layer can turn frozen diffusion-model latents into identifiable, interpretable representations of dynamical states and causal interactions. | 8 | 9 |
 | 2026-11-13 | [The Posterior-Prior Epistemic Gap: When World Model Imagination Fails to Carry Task-Relevant Signals](https://arxiv.org/abs/2611.14955) | Embodied AI: Robot Navigation; World Models: Interactive World Models | Imagined world-model rollouts progressively lose obstacle information without triggering epistemic uncertainty, causing unflagged planning failures in CARLA. | 8 | 7 |

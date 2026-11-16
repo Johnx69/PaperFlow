@@ -1,6 +1,1150 @@
 {
   "days": [
     {
+      "date": "2026-11-15",
+      "paper_count": 6,
+      "papers": [
+        {
+          "abstract": "Screen history can serve as searchable visual memory for people and agents, but unlike an offline corpus, it must be encoded and indexed as each screenshot arrives. OCR-based indexing is fast but loses visual information; visual encoding takes over two seconds. Yet screens change incrementally: most pixels repeat within and across screenshots. This raises a question: do visual encoders need to recompute their representations from scratch for every new screenshot? We present StreamEmbed, a system for incremental visual embedding that exploits this redundancy. Guided solely by pixel differences, it combines spatial token pruning, which skips blocks that repeat a neighbor, with temporal KV reuse, which reuses cached keys and values for blocks unchanged across screenshots. A small learned adapter compensates for pruning and reuse to preserve fidelity to full-screenshot embeddings. On ScreenMemEval, our benchmark of 10,426 questions over 184 hours of screen histories from two humans and a computer-use agent, StreamEmbed sets a new accuracy-latency Pareto frontier on an M2 Pro GPU: it encodes up to 3.7x faster than full-screenshot encoding without sacrificing accuracy and improves accuracy over OCR-based indexing by up to 6.3 Recall@10 points at matched latency. A memory-efficient vector index stores a simulated year of screenshots in 0.13 GB of RAM. Together, these results make real-time indexing of screen history in its native visual form practical, laying a foundation for fully local visual assistants.",
+          "arxiv_id": "2611.18516",
+          "arxiv_url": "https://arxiv.org/abs/2611.18516",
+          "authors": [
+            "Dayoon Ko, Yichuan Wang, Soyeong Jeong, Joseph E. Gonzalez, Gunhee Kim, Sewon Min"
+          ],
+          "bullets": [
+            "Addresses the trade-off between fast but information-limited OCR indexing and slow full visual encoding for continuously arriving screenshots.",
+            "Uses pixel differences to prune redundant spatial tokens and reuse cached temporal key-value representations for unchanged regions.",
+            "A learned adapter preserves similarity to full-screenshot embeddings despite pruning and reuse.",
+            "On ScreenMemEval, it achieves up to 3.7× faster encoding without accuracy loss and up to 6.3 Recall@10 points over OCR at matched latency.",
+            "A memory-efficient index stores a simulated year of screenshots using 0.13 GB of RAM, supporting local visual screen-history assistants."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.IR",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 6. Frontiers per model size. R@10 against GPU latency per screenshot for Qwen3-VL (top) and SigLIP2 (bottom). Pink and purple mark STREAMEMBED on the small and large model, and light and dark slate the baselines. Solid lines are frontiers of STREAMEMBED over full resolution, lower resolutions, and drop rates of 50% and 60%, and dashed lines are frontiers of the base full screenshot over lower resolutions. Stars mark STREAMEMBED at full resolution. GTE-MB-149M is gte-modernbert-base on Apple Vision OCR text without language correction. In the Qwen3-VL row of SME-Agent, points below 42 R@10 are omitted.",
+              "figure_id": "figure-6-13",
+              "figure_number": "6",
+              "height": 658,
+              "image_path": "figures/2611.18516/figure-001.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 978
+            },
+            {
+              "caption": "Figure 5. STREAMEMBED with lower resolution and smaller encoders. Bands are the Pareto frontiers of Qwen3-VL (top) and SigLIP2 (bottom) over encoder size and resolution, with and without STREAMEMBED; arrows give the R@10 gain of STREAMEMBED at a similar or lower latency. Labels give the encoder size and input width (SigLIP2: maximum patches, p) and, for STREAMEMBED, the fraction of dropped blocks. Gray crosses are other indexes, off both frontiers.",
+              "figure_id": "figure-5-10",
+              "figure_number": "5",
+              "height": 439,
+              "image_path": "figures/2611.18516/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 976
+            },
+            {
+              "caption": "Figure 2. Screenshots repeat most of their blocks, unlike natural video. (a) Blocks of st+1 that repeat their left or upper neighbor. (b) Blocks of st+1 unchanged from st. (c) (a) and (b) together split st+1 into repeated, unchanged, and changed blocks. (d) Share of repeated, unchanged, and changed blocks per source (Lù et al., 2024; Chen et al., 2025; Damen et al., 2022) (Wiki.: Wikimedia Commons).",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 421,
+              "image_path": "figures/2611.18516/figure-003.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 996
+            },
+            {
+              "caption": "Figure 4. Main results. STREAMEMBED approaches the accuracy of a screenshot index at close to the latency of a text index. Recall@10 and mean indexing latency per screenshot on the GPU and CPU of an M2 Pro (§6.1), latency on a log scale. Text indexes use Apple Vision OCR on the GPU and RapidOCR on the CPU, since Apple Vision OCR runs on the Neural Engine. OCR latency is almost equal to the BM25 latency, since BM25 adds under 0.1 ms.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 402,
+              "image_path": "figures/2611.18516/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 996
+            },
+            {
+              "caption": "Figure 1. STREAMEMBED moves the accuracy–latency frontier. Recall@10 against indexing latency per screenshot (log scale) on an M2 Pro GPU, on the three histories of SCREENMEMEVAL. STREAMEMBED runs on Qwen3-VL-Embedding-2B at several input resolutions and on SigLIP 2. STREAMEMBED and the +LoRA baselines are fine-tuned on the training split of SME-H1, and all results are on held-out test sets (§5.3). We run baselines as released, while STREAMEMBED uses a linear patch embedding for Qwen-VL (§6.1).",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 349,
+              "image_path": "figures/2611.18516/figure-005.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 995
+            },
+            {
+              "caption": "Figure 3. Indexing with STREAMEMBED. A screenshot arrives every ∆ = 5 s. Spatial pruning drops blocks that repeat their left or upper neighbors (§4.1), and change detection flags kept blocks that are new or have changed beyond a threshold (§4.2). The ViT and LM recompute only the flagged blocks (and the suffix), reusing cached keys and values for the rest. The last token’s final hidden state is the embedding of the screenshot.",
+              "figure_id": "figure-3-17",
+              "figure_number": "3",
+              "height": 247,
+              "image_path": "figures/2611.18516/figure-006.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1013
+            },
+            {
+              "caption": "Table 8. Full main results. R@10 over all questions (All), single-recording questions (Single), and multi-recording questions (Multi), and nDCG@10 over all questions. FT marks fine-tuning with LoRA on SME-H1, and other rows use base models.",
+              "figure_id": "table-8-18",
+              "figure_number": "8",
+              "height": 483,
+              "image_path": "figures/2611.18516/table-007.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 1017
+            },
+            {
+              "caption": "Table 4. Index types as the index grows. B/entry is RAM per screenshot. R@10 is on real histories, and subscripts give the change from Flat. RAM, search, and insertion on CPU are for 1–5 years of screenshots (2.1M/year), simulated from the real embeddings with Gaussian noise. PQ and 1-bit re-rank the top 1,000 with fp16 vectors on the SSD. Search times the index only; encoding a query adds 52 ms on average. – exceeds 24 GB of RAM.",
+              "figure_id": "table-4-14",
+              "figure_number": "4",
+              "height": 204,
+              "image_path": "figures/2611.18516/table-008.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 1017
+            },
+            {
+              "caption": "Table 5. STREAMEMBED on other encoders. Full screenshot and STREAMEMBED for each encoder, all fine-tuned with LoRA on SME-H1. Latency is GPU / CPU in seconds per screenshot. Darker blue marks higher R@10 and darker pink marks lower GPU latency, within each column.",
+              "figure_id": "table-5-15",
+              "figure_number": "5",
+              "height": 291,
+              "image_path": "figures/2611.18516/table-009.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 494
+            },
+            {
+              "caption": "Table 6. Ablation. Components of STREAMEMBED added one at a time to the fine-tuned Qwen3-VL-2B screenshot index. Latency is GPU / CPU in sec per screenshot.",
+              "figure_id": "table-6-16",
+              "figure_number": "6",
+              "height": 179,
+              "image_path": "figures/2611.18516/table-010.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 494
+            },
+            {
+              "caption": "Table 2. Statistics of the three screenshot histories of SME.",
+              "figure_id": "table-2-2",
+              "figure_number": "2",
+              "height": 171,
+              "image_path": "figures/2611.18516/table-011.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 492
+            },
+            {
+              "caption": "Table 7. SCREENMEMEVAL and ScreenshotVQA. Days counts days with at least one recording, as in Table 2, and Span counts calendar days from the first to the last recording, on the simulated calendar for SME-Agent. Screen time is the number of screenshots times the 5 s interval. Relevance marks recording-level relevance labels, and Role is the use of each history when encoders are finetuned. For ScreenshotVQA, span and screenshots are averaged over its three histories.",
+              "figure_id": "table-7-3",
+              "figure_number": "7",
+              "height": 458,
+              "image_path": "figures/2611.18516/table-012.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 492
+            },
+            {
+              "caption": "Table 10. Latency breakdown on SME-H1. Mean GPU latency per screenshot (s) of the fine-tuned Qwen3-VL-2B as parts of STREAMEMBED are added, with preprocessing in Total. The top block is the latency sample used throughout the paper, as in Table 6, with grid keep. The bottom block is a separate set of 2,000 SME-H1 test screenshots without grid keep. Comp. is computation in TFLOPs per screenshot.",
+              "figure_id": "table-10-19",
+              "figure_number": "10",
+              "height": 337,
+              "image_path": "figures/2611.18516/table-013.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 492
+            },
+            {
+              "caption": "Table 12. Pixel tolerances and refresh. R@10 and computation (TF). The top block raises τ and δ together, and the bottom block changes one reuse setting on SME-H2. – was not run.",
+              "figure_id": "table-12-9",
+              "figure_number": "12",
+              "height": 315,
+              "image_path": "figures/2611.18516/table-014.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 492
+            },
+            {
+              "caption": "Table 13. Redundancy by source. Share of blocks (%) that repeat a neighbor (Spatial), or else are unchanged from the frame 5 s earlier (Temporal), and their sum (Combined), averaged over consecutive frame pairs. SME-Agent uses 142 of its 787 recordings.",
+              "figure_id": "table-13-8",
+              "figure_number": "13",
+              "height": 265,
+              "image_path": "figures/2611.18516/table-015.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 492
+            },
+            {
+              "caption": "Table 11. Grid keep tile size. R@10 and computation (TF). None uses the neighbor rule alone, and – was not run.",
+              "figure_id": "table-11-7",
+              "figure_number": "11",
+              "height": 160,
+              "image_path": "figures/2611.18516/table-016.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 492
+            },
+            {
+              "caption": "Table 1. Mean R@10 and per-screenshot latency (s) of Qwen3VL-Embedding-2B indexes on the SME. Enc.: encoding; Insert: adding the embedding to the index; Total: OCR + Enc. + Insert.",
+              "figure_id": "table-1-11",
+              "figure_number": "1",
+              "height": 119,
+              "image_path": "figures/2611.18516/table-017.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 492
+            },
+            {
+              "caption": "Table 14. Screenshots ranked first for four questions. For each single-recording question, the screenshot that each index ranks first, framed in green if it belongs to a gold recording and in red otherwise. All indexes use the fine-tuned Qwen3-VL-2B. Below each index is its mean GPU time to index one screenshot on SME-H1 and SME-H2 (Figure 4).",
+              "figure_id": "table-14-12",
+              "figure_number": "14",
+              "height": 195,
+              "image_path": "figures/2611.18516/table-018.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 1017
+            },
+            {
+              "caption": "Table 3. Question types in SME, with examples.",
+              "figure_id": "table-3-1",
+              "figure_number": "3",
+              "height": 42,
+              "image_path": "figures/2611.18516/table-019.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 492
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.18516/hero.webp",
+          "novelty": 9,
+          "pdf_url": "https://arxiv.org/pdf/2611.18516",
+          "relevance": 9,
+          "selection_reason": "Introduces StreamEmbed for real-time visual embedding using spatial token pruning and temporal KV reuse to handle screen history efficiently.",
+          "summary_status": "generated",
+          "title": "StreamEmbed: Real-Time Indexing from Pixels for Screenshot Retrieval",
+          "tldr": "StreamEmbed enables fast, accurate real-time screenshot retrieval by incrementally updating visual embeddings instead of re-encoding each screen from scratch.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction",
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Agent sessions may involve frequent context edits, which effectively invalidate cached KV state and force requests to wait for re-prefill before decoding. We present Callo, a disaggregated serving system that leverages invalidated KV for speculative drafts to reduce this latency, while verifying drafts against the exact KV after prefill before committing tokens. Callo makes effective use of decode resources by scheduling speculations during periods of underutilization and preempting speculations when drafts are likely to not be accepted. We evaluated Callo on a two-GPU testbed using SWE-agent sessions across three model families, observing all-request speedups of 1.05-1.19x over vLLM at moderate load. We demonstrate that these gains are also realized at scale through cluster-level simulations driven by real-world traces.",
+          "arxiv_id": "2611.18459",
+          "arxiv_url": "https://arxiv.org/abs/2611.18459",
+          "authors": [
+            "Jianjun Ou, Matthew Lentz"
+          ],
+          "bullets": [
+            "Targets agent sessions where context edits invalidate cached KV and delay decoding.",
+            "Uses invalidated KV to generate speculative drafts, then verifies them against the correct post-prefill KV before committing tokens.",
+            "Schedules speculation during underutilized decode capacity and preempts low-value speculation.",
+            "On a two-GPU testbed across three model families, achieved 1.05–1.19× all-request speedups over vLLM at moderate load.",
+            "Cluster-level simulations using real-world traces indicate the gains can extend to larger-scale deployments."
+          ],
+          "categories": [
+            "cs.DC",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. Architecture of CALLO and the life of a miss request. (a) Numbers give the order of events in this example: (1) the P-instance starts the re-prefill while the D-instance starts staging, (2) the D-instance registers the request’s blocks with the P-instance, (3) the P-instance’s connector starts writing each finished layer into them, (4) the D-instance starts drafting, (5) the P-instance signals completion, and (6) the D-instance starts verification. (b) The D-instance’s batch with a limit of four requests, of which SR1 and SR2 speculate: when R3 arrives, SR2 yields its slot but keeps its drafts for verification.",
+              "figure_id": "figure-3-20",
+              "figure_number": "3",
+              "height": 260,
+              "image_path": "figures/2611.18459/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1010
+            },
+            {
+              "caption": "Figure 5. Contributions of streaming and speculation to all-request speedup. Dashed: measured CALLO-Stream. Both curves use requests completed by all three systems. CIs and hollow markers follow Figure 4.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 288,
+              "image_path": "figures/2611.18459/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 454
+            },
+            {
+              "caption": "Figure 1. One edited request. (a) vLLM, like other conventional systems supporting P/D, waits on the D-instance for the exact KV. (b) CALLO drafts on invalidated KV meanwhile, then verifies.",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 160,
+              "image_path": "figures/2611.18459/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 449
+            },
+            {
+              "caption": "Figure 9. Figure 2a and b for Gemma-4-31B (a, b) and Mistral-Small-3.2-24B (c, d): 100 miss requests of each model’s own SWE-agent L5 recording, 32-token window, offline. In (b) and (d), the two smallest logit-gap bins hold 46–68 positions each.",
+              "figure_id": "figure-9-2",
+              "figure_number": "9",
+              "height": 242,
+              "image_path": "figures/2611.18459/figure-004.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 1010
+            },
+            {
+              "caption": "Figure 2. Drafts made on invalidated KV (Llama-3.3-70B-Instruct FP8, SWE-agent L5, 32-token window, offline). (a) Miss steps whose first k drafts are all accepted (240 steps), against drafts on the exact KV and n-gram drafts. (b) Agreement by the draft’s top-1 minus top-2 logit gap (1,400 steps); below, the share of positions in each bin. (c) Accepted drafts when a share f of the invalidated KV’s position–layer cells is replaced by exact KV before drafting: CALLO’s delivery order and two reference orders (240 steps; bands: 95% confidence intervals).",
+              "figure_id": "figure-2-12",
+              "figure_number": "2",
+              "height": 218,
+              "image_path": "figures/2611.18459/figure-005.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1006
+            },
+            {
+              "caption": "Figure 4. All-request speedup (vLLM/CALLO) across D-instance batch limits. Lower panels show baseline time with requests queued at the P-instance and with the D-instance full while requests wait. Error bars: 95% CIs. Hollow markers: either run left measured requests unissued or unfinished.",
+              "figure_id": "figure-4-6",
+              "figure_number": "4",
+              "height": 314,
+              "image_path": "figures/2611.18459/figure-006.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 457
+            },
+            {
+              "caption": "Figure 7. Miss-request speedup over CALLO-Stream across P:D allocations in a 96-GPU cluster. Load is relative to each allocation’s vLLM capacity. Below: share of Azure’s week at or below each load; the dashed light (12%) and moderate (52%) loads are its 25th and 75th percentiles.",
+              "figure_id": "figure-7-19",
+              "figure_number": "7",
+              "height": 262,
+              "image_path": "figures/2611.18459/figure-007.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 483
+            },
+            {
+              "caption": "Figure 6. Mean latency breakdown for 624 miss requests that speculate under CALLO at moderate load. Whiskers: 95% CIs. Grey ends at exact-KV arrival, estimated for vLLM. Hatched: accepted drafts, in equivalent baseline decode time.",
+              "figure_id": "figure-6-18",
+              "figure_number": "6",
+              "height": 204,
+              "image_path": "figures/2611.18459/figure-008.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 451
+            },
+            {
+              "caption": "Figure 11. Mean request latency against the session arrival rate on the testbed’s configuration (one P-instance, one D-instance), measured and simulated, for vLLM and CALLO at each D-instance batch limit (hollow: testbed points past the configuration’s capacity).",
+              "figure_id": "figure-11-17",
+              "figure_number": "11",
+              "height": 345,
+              "image_path": "figures/2611.18459/figure-009.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 982
+            },
+            {
+              "caption": "Figure 8. Per-token relative KV difference on the 240 miss requests of Figure 2: median and 90th percentile for keys (a) and values (b), with the numerical reference (“floor”) from the same prompt computed at shifted positions. Layer 0’s values are identical and omitted from the logarithmic plot.",
+              "figure_id": "figure-8-1",
+              "figure_number": "8",
+              "height": 210,
+              "image_path": "figures/2611.18459/figure-010.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 986
+            },
+            {
+              "caption": "Figure 10. The main configuration (D-instance batch limit 16) up to and past its capacity of 0.04 sessions/s. Top: vLLM/CALLO mean request latency (bars: 95% confidence intervals). Bottom: share of time under vLLM that the P-instance has a waiting request and that the D-instance waits for room in its KV pool. Hollow and shaded: past capacity, where the run left measured requests unissued or unfinished.",
+              "figure_id": "figure-10-4",
+              "figure_number": "10",
+              "height": 301,
+              "image_path": "figures/2611.18459/figure-011.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 481
+            },
+            {
+              "caption": "Figure 12. Miss-request speedup over P-instance utilization and the D-instance’s KV occupancy (“D utilization” on the axis), interpolated from nine P:D ratios. Dashed lines follow the four allocations of Figure 7.",
+              "figure_id": "figure-12-16",
+              "figure_number": "12",
+              "height": 342,
+              "image_path": "figures/2611.18459/figure-012.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 465
+            },
+            {
+              "caption": "Table 3. Mean request-latency ratios (vLLM/CALLO) for miss requests and all requests. D-instance batch limit: 16. Ratios use requests completed by both systems.",
+              "figure_id": "table-3-8",
+              "figure_number": "3",
+              "height": 247,
+              "image_path": "figures/2611.18459/table-013.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 429
+            },
+            {
+              "caption": "Table 1. Workloads recorded on SWE-bench Verified and replayed in the evaluation (§5.1). Ln keeps the last n observations in full. For each miss request, Prefill counts tokens computed by P-instances, and Reusable counts those whose invalidated KV remains on D-instances.",
+              "figure_id": "table-1-10",
+              "figure_number": "1",
+              "height": 244,
+              "image_path": "figures/2611.18459/table-014.webp",
+              "kind": "table",
+              "page": 3,
+              "width": 485
+            },
+            {
+              "caption": "Table 4. Single-request ablations on Llama-3.3-70B and SWEagent L5. Folded: net share of miss penalty hidden. Speedup: ratio of mean miss-request latencies (vLLM/variant). Accepted: mean accepted drafts per miss request, including zeros.",
+              "figure_id": "table-4-24",
+              "figure_number": "4",
+              "height": 171,
+              "image_path": "figures/2611.18459/table-015.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 477
+            },
+            {
+              "caption": "Table 2. Properties of invalidated KV measured in §3.2, and the design choices of CALLO they motivate.",
+              "figure_id": "table-2-11",
+              "figure_number": "2",
+              "height": 149,
+              "image_path": "figures/2611.18459/table-016.webp",
+              "kind": "table",
+              "page": 3,
+              "width": 481
+            },
+            {
+              "caption": "Table 5. Offline acceptance on invalidated KV by session group (the 1,400 miss requests of Figure 2b, fixed-tie greedy, 32-token window). Figure 2a’s 65% whole-window share comes from a different sample of 240 requests (Appendix B.1).",
+              "figure_id": "table-5-9",
+              "figure_number": "5",
+              "height": 138,
+              "image_path": "figures/2611.18459/table-017.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 415
+            },
+            {
+              "caption": "Table 12. CALLO combined with prefilling short requests on the D-instance in 96-GPU clusters: all-request speedup over vLLM, mean of three arrival schedules. CD: Dynamo’s default rule; budget: rB ≤ K. Miss-request speedups differ from these by at most 0.04. †D-instances are overloaded, and not every session finishes.",
+              "figure_id": "table-12-23",
+              "figure_number": "12",
+              "height": 416,
+              "image_path": "figures/2611.18459/table-018.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 489
+            },
+            {
+              "caption": "Table 7. Admission of miss requests on the main configuration (D-instance batch limit 16) by load, over every miss request of the run that reaches admission, measured or not; past capacity: 0.045 sessions/s; moderate load pools two arrival schedules. Spec.: miss requests that speculate; Evicted: a block of the previous request that staging needs was no longer cached; Cut: share of speculations cut short within three drafts because the exact KV arrived.",
+              "figure_id": "table-7-13",
+              "figure_number": "7",
+              "height": 224,
+              "image_path": "figures/2611.18459/table-019.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 481
+            },
+            {
+              "caption": "Table 6. Agreement tables of the early stop: agreement probability g by the draft’s top-1 minus top-2 logit gap, fitted per model on the held-out issues.",
+              "figure_id": "table-6-14",
+              "figure_number": "6",
+              "height": 109,
+              "image_path": "figures/2611.18459/table-020.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 489
+            },
+            {
+              "caption": "Table 9. Confidence early stopping in 96-GPU clusters, against disabling it. Top: the default θ = 0.3 per allocation and load; accepted/spec. gives mean accepted drafts per speculation (default / disabled). Bottom: pooled over the eight settings.",
+              "figure_id": "table-9-22",
+              "figure_number": "9",
+              "height": 403,
+              "image_path": "figures/2611.18459/table-021.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 490
+            },
+            {
+              "caption": "Table 8. Parameter sweeps in the simulated 1:1 cluster (96 GPUs, three arrival schedules per setting). Values are latency speedups over vLLM. Others denotes non-speculating requests.",
+              "figure_id": "table-8-21",
+              "figure_number": "8",
+              "height": 252,
+              "image_path": "figures/2611.18459/table-022.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 343
+            },
+            {
+              "caption": "Table 10. The P-instance at 0.045 sessions/s, one step past the main configuration’s capacity, against vLLM at capacity (0.04), one run each, from the end of the warm-up to the end of the run. Sessions in flight, measured or not: at the end of the arrival window → peak afterwards.",
+              "figure_id": "table-10-3",
+              "figure_number": "10",
+              "height": 179,
+              "image_path": "figures/2611.18459/table-023.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 485
+            },
+            {
+              "caption": "Table 11. Simulator against the testbed, by D-instance batch limit. vLLM latency: largest per-request error over the load points up to capacity; gain inside the testbed’s 95% CI: out of all load points with a testbed CI; gain error: median over the points up to capacity; speculating requests and accepted drafts: error in their counts, pooled over the points up to capacity.",
+              "figure_id": "table-11-15",
+              "figure_number": "11",
+              "height": 151,
+              "image_path": "figures/2611.18459/table-024.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 473
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.18459/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.18459",
+          "relevance": 6,
+          "selection_reason": "LLM serving optimization that reuses invalidated KV cache for speculative decoding; fits KV-cache and inference-efficiency interests.",
+          "summary_status": "generated",
+          "title": "Callo: Serving Cache-Miss Requests with Speculative Decoding on Invalidated KV under Prefill-Decode Disaggregation",
+          "tldr": "Callo reduces cache-miss latency in disaggregated LLM serving by speculatively decoding with invalidated KV states and verifying drafts after exact prefill.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Linear-attention language models replace a growing key-value cache with a recurrent state of fixed size. On an edge FPGA, this state can exceed the on-chip memory and must be paged to external memory. This paper asks whether such paging dominates the cost of decoding (generating tokens). We built a hardware tile that computes one complete layer of a custom 369-million-parameter hybrid Gated DeltaNet model on an Agilex 5 FPGA and pages its recurrent state. The model state needs 6.2 MiB, whereas the device has 0.87 MiB of block memory. Paging adds 26.0 MB of memory traffic per decoded token, at most 11.2 percent of the calculated total. On the board at 75 MHz, with synthetic weights, one token takes 11.15 ms in this layer. The matrix-vector products with the weights take about 62 percent of this time and the state phase, including the paging, 13 percent. The tile is one node of a multicast mesh of tri-mode processing elements. We measure the error of the fixed-point arithmetic against floating point and check that the hardware agrees bit for bit with a fixed-point reference. In simulation, the state logic agrees with the reference on all 18 recurrent layers. On the board, six builds pass all 30 runs of 64 tokens and two runs of 1,024 tokens. For this model and memory interface, the delivery of the weights limits the decoding performance, and the recurrent state does not. State paging is therefore practical for such a model on an edge FPGA.",
+          "arxiv_id": "2611.18422",
+          "arxiv_url": "https://arxiv.org/abs/2611.18422",
+          "authors": [
+            "Cong Xu, Ravi Sankar"
+          ],
+          "bullets": [
+            "The 6.2 MiB recurrent state exceeds the FPGA’s 0.87 MiB on-chip memory, requiring external-memory paging.",
+            "Paging adds 26.0 MB of traffic per token, but accounts for at most 11.2% of calculated total cost; the state phase takes 13% of measured layer time.",
+            "The tile computes a complete layer of a 369-million-parameter hybrid Gated DeltaNet model at 75 MHz, with one token taking 11.15 ms using synthetic weights.",
+            "Fixed-point hardware matches a fixed-point reference bit for bit; state logic also agrees across all 18 recurrent layers in simulation and all reported board tests.",
+            "The conclusion is scoped to this model and memory interface: weight delivery remains the decoding bottleneck."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.AR",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "FIGURE 1. The application and the platform. Top: the multi-rate architecture. The acoustic front-end detects a hidden vehicle, the cache answers queries about an unchanged scene with the hit rate η, and a cache miss invokes the language model, of which the decode tile implements one recurrent layer. (a) The DK-A5E013BM16AEA development kit, which we used for all measurements. (b) Where each part runs. The host reaches the programmable logic only through JTAG, and the tile reaches its weights and its state pages only through the LPDDR4 memory.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 376,
+              "image_path": "figures/2611.18422/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 512
+            },
+            {
+              "caption": "FIGURE 3. The implemented system. Left: the mesh, in which five nodes are tri-mode processing elements and node 5 is the decode tile. Right: the decode tile. The block names are those of the RTL: sys_csr is the command register file, pe_port with mm_pe is a processing element, ctrl_unit is the control datapath, matvec is the matrix-vector engine, and state_pager with gdn_head_core is the state pager with the state engine. The mesh carries commands and results only, and the weights and the state pages use separate 512-bit ports to the LPDDR4 memory. The peer port can forward flits to a second system.",
+              "figure_id": "figure-3-11",
+              "figure_number": "3",
+              "height": 425,
+              "image_path": "figures/2611.18422/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 902
+            },
+            {
+              "caption": "FIGURE 5. Roofline plot of the memory link for the weights, from the experiment with the state on chip. It shows the rate of MACs as a function of the rate at which weight bytes arrive. The layer performs 12,736,512 MACs over a weight image of 6,796,032 bytes, which gives 1.874 MACs per byte (sloped line). The 128 lanes limit the rate to 128 MACs per cycle (horizontal line), and the two lines meet at 68.3 bytes per cycle. Filled markers are measurements on the device with bursts of 8 and 128 beats, and the open marker is the memory model. Dashed lines show the peak rate of the LPDDR4 memory, 8.53 GB/s, at 75 and 150 MHz.",
+              "figure_id": "figure-5-4",
+              "figure_number": "5",
+              "height": 161,
+              "image_path": "figures/2611.18422/figure-003.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 467
+            },
+            {
+              "caption": "FIGURE 2. The mode controller of the processing element (Section IV). A mode switch costs D+ 3 cycles, where D is the number of cycles that the current engine needs to become idle (drain). Arrow labels read “condition / action”.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 158,
+              "image_path": "figures/2611.18422/figure-004.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 412
+            },
+            {
+              "caption": "FIGURE 4. Cache hit rate η of each of the 83 clips for three versions of the cache policy. Boxes span the quartiles, and whiskers span the full range. Diamonds mark the means, and points mark the individual clips. The dashed line is the feasibility threshold η ≈ 0.80 (Section III). Only the full policy places every clip above the threshold, and its lowest clip is at η = 0.852.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 192,
+              "image_path": "figures/2611.18422/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 303
+            },
+            {
+              "caption": "TABLE 1. Comparison with the closest prior work on the four criteria of this paper. “Resident” means that the recurrent state stays on chip. “Paged” means that the state is read from and written to external memory in pages. Cells report what the cited works state. A dash means that the work does not address that criterion.",
+              "figure_id": "table-1-7",
+              "figure_number": "1",
+              "height": 581,
+              "image_path": "figures/2611.18422/table-006.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 1044
+            },
+            {
+              "caption": "TABLE 2. Calculated memory traffic per decoded token for the whole model, in MB, at a context of 744 tokens. The two columns differ in the number format of the vocabulary projection. The last row gives the state traffic without headers and padding, for comparison.",
+              "figure_id": "table-2-1",
+              "figure_number": "2",
+              "height": 346,
+              "image_path": "figures/2611.18422/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 471
+            },
+            {
+              "caption": "TABLE 4. The two tile configurations that fit the device, from the design study. NL and W are the numbers of lanes of the matrix-vector engine and of the state engine. Cycle counts come from RTL simulation with the memory model, and times are calculated at 150 MHz. ALM, M20K and DSP are the logic, memory and multiplier blocks of the device, and Fmax is the maximum clock frequency. A third configuration, with NL = 128 and W = 16, does not fit the device.",
+              "figure_id": "table-4-6",
+              "figure_number": "4",
+              "height": 202,
+              "image_path": "figures/2611.18422/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 504
+            },
+            {
+              "caption": "TABLE 5. The six final board builds. P is the tile alone, and M is the complete system (Fig. 3). All builds run at 75 MHz. The ranges span the three placement seeds. Fmax is the reported value for the clock of the tile.",
+              "figure_id": "table-5-9",
+              "figure_number": "5",
+              "height": 101,
+              "image_path": "figures/2611.18422/table-009.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 437
+            },
+            {
+              "caption": "TABLE 3. Relative errors of the fixed-point state engine against fp32, computed with (4). Every row covers 18 recurrent layers, two prompts and 64 tokens. Page rounding, where used, is applied at initialization and after each token. These are software results.",
+              "figure_id": "table-3-3",
+              "figure_number": "3",
+              "height": 152,
+              "image_path": "figures/2611.18422/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 491
+            },
+            {
+              "caption": "TABLE 6. Results of the three board tests of the complete layer, for the configurations P and M.",
+              "figure_id": "table-6-10",
+              "figure_number": "6",
+              "height": 127,
+              "image_path": "figures/2611.18422/table-011.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 483
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.18422/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.18422",
+          "relevance": 7,
+          "selection_reason": "Hardware-efficient linear-attention LLM inference with paged recurrent state; directly fits efficient attention and memory-efficiency topics.",
+          "summary_status": "generated",
+          "title": "The State Is Not the Bottleneck: A Paged-State Gated-DeltaNet Tile on a Tri-Mode Multicast Mesh, Bit-Exact from RTL to Silicon",
+          "tldr": "For this edge-FPGA Gated DeltaNet tile, paging the recurrent state is practical because weight delivery—not state paging—limits token-decoding performance.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "efficient-attention",
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Generative recommendation benefits from long interaction histories, but the cost of processing them directly grows with history length. We propose RecMem, a recurrent memory compression framework guided by three desiderata: space invariance, semantic fidelity, and lifelong evolvability. RecMem compresses historical segments into a fixed set of memory slots using a bifurcated encoder-decoder with shared lower layers and slot-wise forget-gated updates. Recommendation supervision trains the memory to preserve predictive information, while stream-consistency training aligns predictions from sequential and packed processing. By construction, the memory state and decoder context are independent of history length; under contraction and approximate semigroup consistency, we further derive a horizon-independent bound on the state discrepancy between these two processing orders. On MerRec, RecMem uses 16 memory slots and a 216-token decoder context, compared with 1,200 tokens for HSTU-1200, while retaining 87.9% of HSTU-1200's Recall@10 and 97.0% of its Recall@200. It outperforms PHSTU and the evaluated recent-only and retrieval baselines, and analyses of distant history show that archived interactions contribute predictive signal.",
+          "arxiv_id": "2611.17921",
+          "arxiv_url": "https://arxiv.org/abs/2611.17921",
+          "authors": [
+            "Haoyi Hu, Gaoyang Guo, Yunjia Xi, Wen Chen, Weiwen Liu, Jian Wu, Yuning Jiang, Weinan Zhang"
+          ],
+          "bullets": [
+            "Addresses the growing cost of directly processing long interaction histories in generative recommendation.",
+            "Uses bifurcated encoder-decoder compression with slot-wise forget-gated recurrent updates.",
+            "Trains memory with recommendation supervision and stream-consistency objectives for sequential-versus-packed processing.",
+            "Provides a horizon-independent discrepancy bound under contraction and approximate semigroup consistency.",
+            "On MerRec, 16 memory slots plus a 216-token context retain 87.9% of HSTU-1200’s Recall@10 and 97.0% of its Recall@200; archived distant history remains predictive."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.IR"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Overview of RecMem. Top: U folds the K archived segments into a fixed-size memory state, one segment at a time. (a) In each update, the slot-wise forget gate is computed from the mask-aware mean of E(St). (b) Both branches start from the same MK−2, and the packed update uses repeated segment-local positions and a causal mask. The two final states are decoded with the same Xrec and candidates; sg denotes stop-gradient. (c) Recent tokens attend to all memory slots and causally to each other. The decoder outputs at all recent positions, Hrec, enter the NCE loss with shifted positives Y + and sampled negatives Y −; at inference, the last row of Hrec scores candidate items. Blue, green, and orange mark shared, encoder-side, and decoder-side components.",
+              "figure_id": "figure-1-14",
+              "figure_number": "1",
+              "height": 450,
+              "image_path": "figures/2611.17921/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 826
+            },
+            {
+              "caption": "Figure 2: Recall@200 of RecMem-Stream through 10 000 interactions on a fixed cohort of 6 442 users, using the same trained checkpoint and 16 memory slots without retraining. The light curve shows per-position values; the dark curve is a centered 50-position moving average, using only available positions at the boundaries.",
+              "figure_id": "figure-2-11",
+              "figure_number": "2",
+              "height": 292,
+              "image_path": "figures/2611.17921/figure-002.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 734
+            },
+            {
+              "caption": "Table 1: Recommendation quality on MerRec under the standard protocol, t ∈ [1200, 2000). Scores are percentages, displayed to two decimal places. Decoder context counts tokens processed per prediction. A dash denotes an unreported metric.",
+              "figure_id": "table-1-12",
+              "figure_number": "1",
+              "height": 192,
+              "image_path": "figures/2611.17921/table-003.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 598
+            },
+            {
+              "caption": "Table 3: All evaluated cutoffs for HSTU-1200, PHSTU, and RecMem under the standard protocol, t ∈ [1200, 2000). Scores are percentages. Best per metric in bold; best among compressed methods underlined.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 116,
+              "image_path": "figures/2611.17921/table-004.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 829
+            },
+            {
+              "caption": "Table 7: Extended evaluation on MerRec (test positions t ∈ [1200, 3000), 1 800 steps, up to 2.5× training horizon). Best per metric in bold; best among compressed methods underlined.",
+              "figure_id": "table-7-9",
+              "figure_number": "7",
+              "height": 117,
+              "image_path": "figures/2611.17921/table-005.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 829
+            },
+            {
+              "caption": "Table 2: Full hyperparameter configuration for RecMem on MerRec.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 684,
+              "image_path": "figures/2611.17921/table-006.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 610
+            },
+            {
+              "caption": "Table 8: Long-history evaluation of the same RecMem-Stream checkpoint on a fixed cohort of 6 442 users. Scores are percentages aggregated within each positional interval. Memory size remains fixed at 16 slots, and no retraining is performed.",
+              "figure_id": "table-8-10",
+              "figure_number": "8",
+              "height": 140,
+              "image_path": "figures/2611.17921/table-007.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 460
+            },
+            {
+              "caption": "Table 9: Individual Main/Stream runs under the standard protocol. Scores are percentages.",
+              "figure_id": "table-9-4",
+              "figure_number": "9",
+              "height": 151,
+              "image_path": "figures/2611.17921/table-008.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 498
+            },
+            {
+              "caption": "Table 12: Separate model-computation phases at batch size 1. Cold denotes history-state construction; update processes one 200-item segment; warm includes decoder, full-catalog scoring, and top-200. History H is the post-update horizon; updates advance from H − 200 to H . Latencies are in ms, and retained state sizes are in KiB per user after the update.",
+              "figure_id": "table-12-8",
+              "figure_number": "12",
+              "height": 140,
+              "image_path": "figures/2611.17921/table-009.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 718
+            },
+            {
+              "caption": "Table 4: Capacity controls under the standard protocol. Scores are percentages; parameter counts are in millions. Shared parameters are counted once.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 125,
+              "image_path": "figures/2611.17921/table-010.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 756
+            },
+            {
+              "caption": "Table 5: Recall@10 differences relative to HSTU-Recent-200 on matched anchors, in percentage points. Brackets give 95% confidence intervals from 2 000 user-clustered bootstrap resamples. Archived-only aggregates the three archived-history strata; no-recurrence anchors have no prior target-item occurrence in the visible prefix.",
+              "figure_id": "table-5-15",
+              "figure_number": "5",
+              "height": 161,
+              "image_path": "figures/2611.17921/table-011.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 640
+            },
+            {
+              "caption": "Table 6: Memory importance ablation. The no-memory variant zeros out all memory slots at inference, retaining only the recent window.",
+              "figure_id": "table-6-16",
+              "figure_number": "6",
+              "height": 152,
+              "image_path": "figures/2611.17921/table-012.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 618
+            },
+            {
+              "caption": "Table 10: Empirical update diagnostics. Composition gaps are normalized by √ Md. Ranges span evaluated variant/seed cells or checkpoint/horizon cells as indicated; they are not confidence intervals or uniform bounds.",
+              "figure_id": "table-10-5",
+              "figure_number": "10",
+              "height": 150,
+              "image_path": "figures/2611.17921/table-013.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 782
+            },
+            {
+              "caption": "Table 13: Comparison of memory write mechanisms. Slot cosine similarity (Slot Cos) measures pairwise similarity among memory slots; values near 1 indicate effective collapse.",
+              "figure_id": "table-13-7",
+              "figure_number": "13",
+              "height": 140,
+              "image_path": "figures/2611.17921/table-014.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 668
+            },
+            {
+              "caption": "Table 11: Warm full prediction at batch size 64 and available history length 2 000. Throughput is batch size divided by median latency. Peak GPU memory is allocated memory in decimal GB; retained user state is in KiB (210 bytes). HSTU-1200 uses its latest 1 200 interactions and has no retained recurrent user state.",
+              "figure_id": "table-11-6",
+              "figure_number": "11",
+              "height": 110,
+              "image_path": "figures/2611.17921/table-015.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 640
+            },
+            {
+              "caption": "Table 14: (a) Effect of memory slot count M . (b) Effect of curriculum training.",
+              "figure_id": "table-14-13",
+              "figure_number": "14",
+              "height": 140,
+              "image_path": "figures/2611.17921/table-016.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 779
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.17921/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.17921",
+          "relevance": 5,
+          "selection_reason": "Recurrent memory compression reduces context length and memory requirements for long-sequence generative recommendation.",
+          "summary_status": "generated",
+          "title": "RecMem: Recurrent Memory Compression for Long-Sequence Generative Recommendation",
+          "tldr": "RecMem compresses arbitrarily long recommendation histories into a fixed recurrent memory while preserving useful predictive information and much of the performance of long-context models.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Kernel optimization is essential for efficient large language model (LLM) training and inference on Ascend NPUs. Existing Ascend kernel benchmarks primarily focus on kernel generation, with less emphasis on the ability of agents to optimize existing implementations under input configurations drawn from real workloads. To address this requirement, we introduce AscendGYM, a benchmark whose initial suite comprises 48 kernels across three difficulty levels. Each kernel is paired with test cases whose data types and tensor shapes are collected from real-world training and inference tasks. Consequently, performance improvements on AscendGYM map directly to the corresponding workloads. In terms of usability, two evaluation modes are supported in AscendGYM: model evaluation and model-harness evaluation. The kernel optimization capabilities of both trained models and custom agents are allowed to be measured. It provides a complete execution environment that closely reproduces how Ascend kernels are invoked in practical pipelines. For model evaluation, it additionally includes a built-in harness equipped with search orchestration and experience accumulation. Finally, we propose a new metric, the Speedup-Token Score (STS), which quantifies performance gains relative to token cost. By jointly considering speedup and cost, STS enables the assessment of practical kernel optimization capability of a model or harness under an acceptable budget. AscendGYM is available at https://github.com/SLAI-AITP/AscendGYM.",
+          "arxiv_id": "2611.17621",
+          "arxiv_url": "https://arxiv.org/abs/2611.17621",
+          "authors": [
+            "AI Training Platform Team, Bingwei Zhang, Jing Li, Amir Abdullin, Sihang Chen, Xin Chen, Liangjun Feng, Yingmeng Gao, Tao Guo, Junjie Huang, Dongfang Li, Zhanglian Lin, Jiajun Liu, Zekun Liu, Zhengxuan Lu, Xiaodong Luo, Jian Meng, Ivan Nosov, Linyuan Qiu, Weijian Sun, Wanrui Yan, Binfan Zheng, Zhicheng Zhou, Baotian Hu, Min Zhang, Haizhou Li, Zhiquan Luo"
+          ],
+          "bullets": [
+            "Covers 48 kernels across three difficulty levels, with real-world data types and tensor shapes.",
+            "Supports evaluation of both trained models and custom optimization agents through model and model-harness modes.",
+            "Reproduces practical Ascend kernel execution pipelines and includes search orchestration with experience accumulation for model evaluation.",
+            "Introduces Speedup-Token Score (STS), combining performance gains and token cost under a budget.",
+            "Scope: the initial benchmark targets Ascend NPUs and kernel optimization rather than kernel generation."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.DC",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of the AscendGYM workflow.",
+              "figure_id": "figure-2-4",
+              "figure_number": "2",
+              "height": 525,
+              "image_path": "figures/2611.17621/figure-001.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 904
+            },
+            {
+              "caption": "Figure 1: Architecture of AscendForge, integrating resource orchestration, kernel execution, evaluation and feedback, and deployment management for Ascend kernel optimization.",
+              "figure_id": "figure-1-7",
+              "figure_number": "1",
+              "height": 291,
+              "image_path": "figures/2611.17621/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 902
+            },
+            {
+              "caption": "Figure 9: Per-kernel speedup. Panels show Claude Code, Codex, and OpenCode; dashed lines mark 1×.",
+              "figure_id": "figure-9-5",
+              "figure_number": "9",
+              "height": 705,
+              "image_path": "figures/2611.17621/figure-003.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 889
+            },
+            {
+              "caption": "Figure 7: The task pass rate among different combinations.",
+              "figure_id": "figure-7-2",
+              "figure_number": "7",
+              "height": 230,
+              "image_path": "figures/2611.17621/figure-004.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 893
+            },
+            {
+              "caption": "Figure 6: Speedup-threshold attainment (fastp) over full search trajectories.",
+              "figure_id": "figure-6-1",
+              "figure_number": "6",
+              "height": 228,
+              "image_path": "figures/2611.17621/figure-005.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 892
+            },
+            {
+              "caption": "Figure 8: STS under three token budgets using GPT-5.6 Luna. Solid bars show scores; hatched segments show cost deductions.",
+              "figure_id": "figure-8-11",
+              "figure_number": "8",
+              "height": 235,
+              "image_path": "figures/2611.17621/figure-006.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 889
+            },
+            {
+              "caption": "Figure 3: STS under three token budgets. Solid bars show scores; hatched segments show cost deductions.",
+              "figure_id": "figure-3-12",
+              "figure_number": "3",
+              "height": 216,
+              "image_path": "figures/2611.17621/figure-007.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 893
+            },
+            {
+              "caption": "Figure 11: Model interaction rounds. Bars show totals in thousands (left axis) and per-task means (right axis).",
+              "figure_id": "figure-11-9",
+              "figure_number": "11",
+              "height": 219,
+              "image_path": "figures/2611.17621/figure-008.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 889
+            },
+            {
+              "caption": "Figure 10: Token consumption. Bars show totals in billions (left axis) and per-task means in millions (right axis).",
+              "figure_id": "figure-10-6",
+              "figure_number": "10",
+              "height": 219,
+              "image_path": "figures/2611.17621/figure-009.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 891
+            },
+            {
+              "caption": "Figure 12: Wall-clock time. Bars show summed run hours (left axis) and mean hours per task (right axis).",
+              "figure_id": "figure-12-8",
+              "figure_number": "12",
+              "height": 222,
+              "image_path": "figures/2611.17621/figure-010.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 891
+            },
+            {
+              "caption": "Table 2: Hardware and software environment for AscendForge kernel evaluation.",
+              "figure_id": "table-2-10",
+              "figure_number": "2",
+              "height": 393,
+              "image_path": "figures/2611.17621/table-011.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 844
+            },
+            {
+              "caption": "Table 1: Default configurations.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 131,
+              "image_path": "figures/2611.17621/table-012.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 869
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.17621/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.17621",
+          "relevance": 7,
+          "selection_reason": "Introduces a benchmark for kernel optimization on NPUs, focusing on cost-aware efficiency for LLM workloads, relevant to memory and compute efficiency in AI systems.",
+          "summary_status": "generated",
+          "title": "AscendGYM: A Cost-Aware Kernel Optimization Benchmark for Real-World Workloads on Ascend NPUs",
+          "tldr": "AscendGYM benchmarks cost-aware optimization of existing Ascend NPU kernels using configurations from real LLM workloads.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Recommendation and Ranking (R&R) models, particularly in digital advertising, require massive inference throughput but exhibit extreme sensitivity to precision loss. Unlike Large Language Models (LLMs) that frequently tolerate quantization-induced accuracy drops of 1% or more, production-grade R&R models enforce a stringent launch bar: model quality must remain within a 0.01% Normalized Entropy (NE) margin relative to the baseline, which commonly uses FP16 or FP32. This tight constraint has historically hindered the adoption of aggressive quantization in this domain. In this paper, we present an empirical evaluation of both MXFP8 and the 6-bit MXFP6 format for industrial-scale R&R inference on the AMD MI350X architecture. To the best of our knowledge, this is the first paper, across R&R and LLM domains, that reports significant speedups from native MXFP6 GEMMs, which quantize both weights and activations and compute directly on 6-bit elements, without sacrificing model quality. We demonstrate that we can selectively apply this 6-bit format to maximize overall QPS gain without breaching the strict NE parity threshold. We further show that MXFP8 is a viable alternative to row-wise FP8: the two formats have nearly the same accuracy on our models, so the faster kernel can be chosen for each GEMM shape. On two production ads ranking models, our implementation shows measured GEMM kernel speedups over FP16 of 1.33--1.55x for MXFP8 and 1.73--1.99x for MXFP6 across all supported linear layers, and up to 2.90x for MXFP6 on individual layers, alongside end-to-end (E2E) inference throughput gains from selective MXFP6 of 1.5--5.3% for Model A and 7.6--14.3% for Model B over their FP8 configurations.",
+          "arxiv_id": "2611.17501",
+          "arxiv_url": "https://arxiv.org/abs/2611.17501",
+          "authors": [
+            "Yavuz Yetim, Bor-Yiing Su, Zhe Wang, Arthur Liu, Pranav Sharma, Ying Wang, Randy Shuai, Luke Pfister, Ruichao Xiao, Bill Zhao, Zihao Liu, Liyuan Li, Jiangyuan Li, Gaoxiang Liu, Nathan Yan, Geonhwa Jeong, Jatin Chhugani, Elias Ellison, Uladzimir Pashkevich"
+          ],
+          "bullets": [
+            "R&R models need very high throughput but tolerate almost no quantization-induced quality loss: NE must stay within 0.01% of baseline.",
+            "The study evaluates MXFP8 and 6-bit MXFP6 on AMD MI350X, including native MXFP6 GEMMs that quantize weights and activations and compute directly on 6-bit elements.",
+            "Selective MXFP6 achieves end-to-end throughput gains of 1.5–5.3% on Model A and 7.6–14.3% on Model B relative to FP8 configurations.",
+            "Across supported linear layers, MXFP8 GEMMs are 1.33–1.55× faster than FP16, while MXFP6 reaches 1.73–1.99× and up to 2.90× on individual layers.",
+            "MXFP8 provides accuracy nearly equivalent to row-wise FP8, allowing the faster format to be selected by GEMM shape."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Accuracy and performance of the 20 most compute-intensive linear layers of each model, grouped by model component (labels as in Table 4). Speedup bars start at the FP16 baseline (1×).",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 667,
+              "image_path": "figures/2611.17501/figure-001.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 1015
+            },
+            {
+              "caption": "Figure 1. Inference work per example of the most complex launched late-stage ads ranking model at Meta, normalized to H1’24 (1×), on a logarithmic scale. The sharp increase in H2’25 coincides with the first launch of the Adaptive Ranking Model (Meta, 2026a); H2’26 is an estimated target.",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 237,
+              "image_path": "figures/2611.17501/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 441
+            },
+            {
+              "caption": "Table 3. QSNR distribution and GEMM speedup over FP16 for the 20 most compute-intensive linear layers and for all linear layers of the two production models. For accuracy only, the FP16 row reports QSNR against FP32; the low-precision rows report QSNR against FP16. All speedups use FP16 execution time as the baseline, so FP16 is 1.00× by definition. MXFP6 speedups are those of the deep-pipelined kernel. Total speedup is the ratio of the summed GEMM time; per-shape speedup is the geometric mean over unique shapes. The all-layer blocks cover the call sites that every format supports.",
+              "figure_id": "table-3-5",
+              "figure_number": "3",
+              "height": 544,
+              "image_path": "figures/2611.17501/table-003.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 942
+            },
+            {
+              "caption": "Table 7. QSNR and GEMM speedup over FP16 for the 20 most compute-intensive linear layers of each model, grouped by model component. QSNR is the mean over the layers of each component, and speedup is the ratio of their summed GEMM time. In Model A, all layers of a component share one GEMM shape; in Model B, some components span several shapes. Linear dimensions are rounded to two significant digits; aeb denotes a× 10b.",
+              "figure_id": "table-7-8",
+              "figure_number": "7",
+              "height": 534,
+              "image_path": "figures/2611.17501/table-004.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 1007
+            },
+            {
+              "caption": "Table 6. GEMM speedup by relative GEMM size, for the call sites that every format supports. FP16 time is the share of the total FP16 GEMM time; the FP8, MXFP8, and MXFP6 columns give the speedup over FP16, and the last column of each batch size gives the speedup of MXFP6 over MXFP8. Work per call is normalized to the largest supported shape of each model at batch 1024. The four bands have boundaries at approximately 0.05%, 0.50%, and 4.98% of that reference for Model A, and 0.12%, 1.18%, and 11.76% for Model B. Shapes keep the same band at batch 2048.",
+              "figure_id": "table-6-1",
+              "figure_number": "6",
+              "height": 315,
+              "image_path": "figures/2611.17501/table-005.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 895
+            },
+            {
+              "caption": "Table 4. Linear shapes of the 20 most compute-intensive layers of each model, grouped by component. K is the input dimension and N the output dimension; ranges indicate multiple shapes. Dimensions are rounded to two significant digits; aeb denotes a× 10b.",
+              "figure_id": "table-4-7",
+              "figure_number": "4",
+              "height": 325,
+              "image_path": "figures/2611.17501/table-006.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 466
+            },
+            {
+              "caption": "Table 1. Dense peak tensor throughput of each precision, relative to FP16 (NVIDIA, 2024; Advanced Micro Devices, Inc., 2026b). MI350X has twice the MXFP8 peak throughput for MXFP6.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 175,
+              "image_path": "figures/2611.17501/table-007.webp",
+              "kind": "table",
+              "page": 2,
+              "width": 433
+            },
+            {
+              "caption": "Table 5. Summary of MXFP6 accuracy and end-to-end performance. Percentages use all unique linear-layer weights as the denominator, excluding biases and embeddings. QPS improvements are over the production FP8 configurations at batches 1024 / 2048, respectively.",
+              "figure_id": "table-5-3",
+              "figure_number": "5",
+              "height": 90,
+              "image_path": "figures/2611.17501/table-008.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 882
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.17501/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.17501",
+          "relevance": 8,
+          "selection_reason": "Introduces microscaling formats for quantized inference, reducing memory and compute.",
+          "summary_status": "generated",
+          "title": "Advancing Quantization for R&R Models with Microscaling Formats",
+          "tldr": "Microscaling MXFP8 and MXFP6 enables substantial inference acceleration for production recommendation and ranking models while maintaining the strict required quality margin.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-14",
       "paper_count": 2,
       "papers": [
@@ -111654,5 +112798,5 @@
   "schema_version": 1,
   "subtopic_id": "kv-cache-and-memory-efficiency",
   "topic_id": "efficient-ai",
-  "total_paper_count": 526
+  "total_paper_count": 532
 }

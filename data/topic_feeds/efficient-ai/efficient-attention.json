@@ -1,6 +1,1061 @@
 {
   "days": [
     {
+      "date": "2026-11-15",
+      "paper_count": 6,
+      "papers": [
+        {
+          "abstract": "Linear-attention language models replace a growing key-value cache with a recurrent state of fixed size. On an edge FPGA, this state can exceed the on-chip memory and must be paged to external memory. This paper asks whether such paging dominates the cost of decoding (generating tokens). We built a hardware tile that computes one complete layer of a custom 369-million-parameter hybrid Gated DeltaNet model on an Agilex 5 FPGA and pages its recurrent state. The model state needs 6.2 MiB, whereas the device has 0.87 MiB of block memory. Paging adds 26.0 MB of memory traffic per decoded token, at most 11.2 percent of the calculated total. On the board at 75 MHz, with synthetic weights, one token takes 11.15 ms in this layer. The matrix-vector products with the weights take about 62 percent of this time and the state phase, including the paging, 13 percent. The tile is one node of a multicast mesh of tri-mode processing elements. We measure the error of the fixed-point arithmetic against floating point and check that the hardware agrees bit for bit with a fixed-point reference. In simulation, the state logic agrees with the reference on all 18 recurrent layers. On the board, six builds pass all 30 runs of 64 tokens and two runs of 1,024 tokens. For this model and memory interface, the delivery of the weights limits the decoding performance, and the recurrent state does not. State paging is therefore practical for such a model on an edge FPGA.",
+          "arxiv_id": "2611.18422",
+          "arxiv_url": "https://arxiv.org/abs/2611.18422",
+          "authors": [
+            "Cong Xu, Ravi Sankar"
+          ],
+          "bullets": [
+            "The 6.2 MiB recurrent state exceeds the FPGA’s 0.87 MiB on-chip memory, requiring external-memory paging.",
+            "Paging adds 26.0 MB of traffic per token, but accounts for at most 11.2% of calculated total cost; the state phase takes 13% of measured layer time.",
+            "The tile computes a complete layer of a 369-million-parameter hybrid Gated DeltaNet model at 75 MHz, with one token taking 11.15 ms using synthetic weights.",
+            "Fixed-point hardware matches a fixed-point reference bit for bit; state logic also agrees across all 18 recurrent layers in simulation and all reported board tests.",
+            "The conclusion is scoped to this model and memory interface: weight delivery remains the decoding bottleneck."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.AR",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "FIGURE 1. The application and the platform. Top: the multi-rate architecture. The acoustic front-end detects a hidden vehicle, the cache answers queries about an unchanged scene with the hit rate η, and a cache miss invokes the language model, of which the decode tile implements one recurrent layer. (a) The DK-A5E013BM16AEA development kit, which we used for all measurements. (b) Where each part runs. The host reaches the programmable logic only through JTAG, and the tile reaches its weights and its state pages only through the LPDDR4 memory.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 376,
+              "image_path": "figures/2611.18422/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 512
+            },
+            {
+              "caption": "FIGURE 3. The implemented system. Left: the mesh, in which five nodes are tri-mode processing elements and node 5 is the decode tile. Right: the decode tile. The block names are those of the RTL: sys_csr is the command register file, pe_port with mm_pe is a processing element, ctrl_unit is the control datapath, matvec is the matrix-vector engine, and state_pager with gdn_head_core is the state pager with the state engine. The mesh carries commands and results only, and the weights and the state pages use separate 512-bit ports to the LPDDR4 memory. The peer port can forward flits to a second system.",
+              "figure_id": "figure-3-11",
+              "figure_number": "3",
+              "height": 425,
+              "image_path": "figures/2611.18422/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 902
+            },
+            {
+              "caption": "FIGURE 5. Roofline plot of the memory link for the weights, from the experiment with the state on chip. It shows the rate of MACs as a function of the rate at which weight bytes arrive. The layer performs 12,736,512 MACs over a weight image of 6,796,032 bytes, which gives 1.874 MACs per byte (sloped line). The 128 lanes limit the rate to 128 MACs per cycle (horizontal line), and the two lines meet at 68.3 bytes per cycle. Filled markers are measurements on the device with bursts of 8 and 128 beats, and the open marker is the memory model. Dashed lines show the peak rate of the LPDDR4 memory, 8.53 GB/s, at 75 and 150 MHz.",
+              "figure_id": "figure-5-4",
+              "figure_number": "5",
+              "height": 161,
+              "image_path": "figures/2611.18422/figure-003.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 467
+            },
+            {
+              "caption": "FIGURE 2. The mode controller of the processing element (Section IV). A mode switch costs D+ 3 cycles, where D is the number of cycles that the current engine needs to become idle (drain). Arrow labels read “condition / action”.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 158,
+              "image_path": "figures/2611.18422/figure-004.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 412
+            },
+            {
+              "caption": "FIGURE 4. Cache hit rate η of each of the 83 clips for three versions of the cache policy. Boxes span the quartiles, and whiskers span the full range. Diamonds mark the means, and points mark the individual clips. The dashed line is the feasibility threshold η ≈ 0.80 (Section III). Only the full policy places every clip above the threshold, and its lowest clip is at η = 0.852.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 192,
+              "image_path": "figures/2611.18422/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 303
+            },
+            {
+              "caption": "TABLE 1. Comparison with the closest prior work on the four criteria of this paper. “Resident” means that the recurrent state stays on chip. “Paged” means that the state is read from and written to external memory in pages. Cells report what the cited works state. A dash means that the work does not address that criterion.",
+              "figure_id": "table-1-7",
+              "figure_number": "1",
+              "height": 581,
+              "image_path": "figures/2611.18422/table-006.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 1044
+            },
+            {
+              "caption": "TABLE 2. Calculated memory traffic per decoded token for the whole model, in MB, at a context of 744 tokens. The two columns differ in the number format of the vocabulary projection. The last row gives the state traffic without headers and padding, for comparison.",
+              "figure_id": "table-2-1",
+              "figure_number": "2",
+              "height": 346,
+              "image_path": "figures/2611.18422/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 471
+            },
+            {
+              "caption": "TABLE 4. The two tile configurations that fit the device, from the design study. NL and W are the numbers of lanes of the matrix-vector engine and of the state engine. Cycle counts come from RTL simulation with the memory model, and times are calculated at 150 MHz. ALM, M20K and DSP are the logic, memory and multiplier blocks of the device, and Fmax is the maximum clock frequency. A third configuration, with NL = 128 and W = 16, does not fit the device.",
+              "figure_id": "table-4-6",
+              "figure_number": "4",
+              "height": 202,
+              "image_path": "figures/2611.18422/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 504
+            },
+            {
+              "caption": "TABLE 5. The six final board builds. P is the tile alone, and M is the complete system (Fig. 3). All builds run at 75 MHz. The ranges span the three placement seeds. Fmax is the reported value for the clock of the tile.",
+              "figure_id": "table-5-9",
+              "figure_number": "5",
+              "height": 101,
+              "image_path": "figures/2611.18422/table-009.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 437
+            },
+            {
+              "caption": "TABLE 3. Relative errors of the fixed-point state engine against fp32, computed with (4). Every row covers 18 recurrent layers, two prompts and 64 tokens. Page rounding, where used, is applied at initialization and after each token. These are software results.",
+              "figure_id": "table-3-3",
+              "figure_number": "3",
+              "height": 152,
+              "image_path": "figures/2611.18422/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 491
+            },
+            {
+              "caption": "TABLE 6. Results of the three board tests of the complete layer, for the configurations P and M.",
+              "figure_id": "table-6-10",
+              "figure_number": "6",
+              "height": 127,
+              "image_path": "figures/2611.18422/table-011.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 483
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.18422/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.18422",
+          "relevance": 7,
+          "selection_reason": "Hardware-efficient linear-attention LLM inference with paged recurrent state; directly fits efficient attention and memory-efficiency topics.",
+          "summary_status": "generated",
+          "title": "The State Is Not the Bottleneck: A Paged-State Gated-DeltaNet Tile on a Tri-Mode Multicast Mesh, Bit-Exact from RTL to Silicon",
+          "tldr": "For this edge-FPGA Gated DeltaNet tile, paging the recurrent state is practical because weight delivery—not state paging—limits token-decoding performance.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "efficient-attention",
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Feed-forward multi-view transformers such as VGGT recover the cameras and geometry of a video in one pass, but the cost of their cross-frame attention grows quadratically with the frame count, and their accuracy drops on long videos. Most remedies approximate attention over all frames within a budget or select a few keys by their content. We hypothesize that the keys of a long video can be chosen without looking at its content, and our experiments on VGGT and $\\pi^3$ support it: a few dozen evenly spread frames can serve as the keys of every frame. We present EcoVGGT, a training-free inference framework whose keys form a Pinned Key Set of 31 such frames. A pin pass stores their tokens in a Scene Cache, and the other frames read it in independent batches that reproduce joint inference with these keys exactly, at a constant cost per frame. An Online Stream updates the pinned frames during recording. Six middle global blocks align the frames and form a reusable VGGT module: the Alignment Score reads their attention to flag failures, and Alignment Refocusing reduces them by fine-tuning only these blocks (3.6 GPU hours). EcoVGGT ($\\pi^3$) matches the success rate of $\\pi^3$ on 1,000-frame ScanNet videos at 13.8 times its speed. With refocusing, EcoVGGT (VGGT) raises the success rate of VGGT from 70% to 82% at 8.5 times its speed on 500 frames. EcoVGGT reconstructs 4,000 frames on one GPU, and EcoVGGT ($\\pi^3$) streams 1,000 frames at 18.6 frames per second with the lowest online absolute trajectory error.",
+          "arxiv_id": "2611.18099",
+          "arxiv_url": "https://arxiv.org/abs/2611.18099",
+          "authors": [
+            "Hongsen Cao, Shanxin Yuan, Mona Jaber, Ahmed Sayed"
+          ],
+          "bullets": [
+            "Addresses quadratic cross-frame attention costs and accuracy degradation on long videos.",
+            "Uses a training-free Pinned Key Set of 31 frames, cached once and reused by independently processed frames.",
+            "Supports online streaming by updating pinned frames during recording.",
+            "An Alignment Score detects failures, while Alignment Refocusing fine-tunes six global blocks to improve robustness.",
+            "On long ScanNet videos, it matches or improves baseline success rates while achieving substantially higher speed and scaling to thousands of frames on one GPU."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4. Accuracy and cost on ScanNet. (a) Success rate against speed at 1,000 frames, with the dotted Pareto front of other methods, shaded below, its corner enlarged, StreamVGGT out of memory, and Good Token Hunting as GTH. (b) Median time per frame and (c) peak inference memory against video length, with VGGT-based methods in (c). Colors mark EcoVGGT (blue, dashed with hollow markers when online), full models (gray), and offline (orange) and online (green) baselines. Crosses and line ends mark where memory exceeds 80 GB.",
+              "figure_id": "figure-4-10",
+              "figure_number": "4",
+              "height": 260,
+              "image_path": "figures/2611.18099/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1021
+            },
+            {
+              "caption": "Figure 2. Overview of EcoVGGT. A pin pass processes the Pinned Key Set of evenly spread frames (dark blue) and stores the inputs of every global block in the Scene Cache. In attach passes, the other frames (light blue) read the keys KP and values VP only from this cache, so all predictions share one coordinate frame. Alignment Refocusing fine-tunes blocks 10 to 15, and the Alignment Score α reads block 13.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 243,
+              "image_path": "figures/2611.18099/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1018
+            },
+            {
+              "caption": "Figure 5. Two baselines and EcoVGGT on two long ScanNet videos, scene0648 00 (top) and scene0477 00 (bottom), each in one oblique view. Icons mark which frames (columns) each frame (rows) attends to: a pruned cache, overlapping chunks, or the same pinned frames.",
+              "figure_id": "figure-5-5",
+              "figure_number": "5",
+              "height": 337,
+              "image_path": "figures/2611.18099/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1023
+            },
+            {
+              "caption": "Figure 3. The alignment band. (a) Divergence of the attention from uniform (Eq. (3)) in each global block, median over queries and three 100-frame sequences of 7-Scenes. (b) Rank correlation between the attention share of two distant frames and their co-visibility for VGGT and EcoVGGT (VGGT), median over 50 ScanNet scenes, with the interquartile range of VGGT in light blue.",
+              "figure_id": "figure-3-9",
+              "figure_number": "3",
+              "height": 218,
+              "image_path": "figures/2611.18099/figure-004.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 483
+            },
+            {
+              "caption": "Table 1. Long ScanNet videos on one A100 GPU. Online methods emit frames during recording, and EcoVGGT emits every frame within (τ + 1)κ frames of its arrival. Success is the share (%) of the 50 scenes with absolute trajectory error (ATE) below 0.2 m. Units are m for ATE, degrees for the relative rotation error (RPE), cm for point accuracy (Acc.), s for the time per scene, and GB for the peak memory of inference without input frames, largest over scenes. The first two rows are the full models, shaded rows are EcoVGGT, and bold marks the best value in each column of the Offline and Online groups. Failed marks a success rate below 20%, given in parentheses, and dashes mark omitted or missing values. †Trains or fine-tunes network weights. ‡Full pipeline (inference 74 s and 151 s).",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 488,
+              "image_path": "figures/2611.18099/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 910
+            },
+            {
+              "caption": "Figure 1. Three insights into cross-frame attention on long videos. (a) Median relative rotation error on 50 ScanNet scenes against the number of evenly spread key frames, with every frame as a query. Hollow markers use all frames as keys. (b) Increase of the median relative translation error at 500 frames when batches of 64 consecutive frames add 4, 8, or 16 of their own frames to 31 spread keys. Hollow markers draw the added frames from the whole video. (c) Trajectory error of the full VGGT at 500 frames against the 90th percentile of the divergence of block 13 from uniform attention, one point per scene. AUROC, area under the receiver operating characteristic curve.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 189,
+              "image_path": "figures/2611.18099/figure-006.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1003
+            },
+            {
+              "caption": "Table 3. Efficiency on ScanNet on one A100 GPU. TFLOPs, 1012 floating-point operations, count a multiply-add as two. FPS is the median frame rate over the runs of Tab. 1. Latency is the median and the first-frame delay when 1,000 frames arrive at 10 per second, measured for online methods and computed from the time of Tab. 1 for offline methods, which start after the last frame. Energy is the GPU energy per frame at 1,000 frames. OOM marks out of memory, and Succ. at 1,000 frames and other notation follow Tab. 1.",
+              "figure_id": "table-3-3",
+              "figure_number": "3",
+              "height": 348,
+              "image_path": "figures/2611.18099/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 500
+            },
+            {
+              "caption": "Table 2. Thousands of frames on ScanNet. Units, measurements, and notation follow Tab. 1, except that the time per frame is in ms. Shorter videos keep all frames (median 1,420, three at 4,000). The full models, FastVGGT, FlashVGGT, and StreamVGGT exceed 80 GB in most scenes and are omitted. Scenes beyond 80 GB count as failures, and ATE and time are medians over the scenes that fit.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 267,
+              "image_path": "figures/2611.18099/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 502
+            },
+            {
+              "caption": "Table 4. Four other datasets. Point accuracy (Acc., cm) and ATE (m), as medians over the sequences of each dataset, with success rates per dataset and other notation as in Tab. 1. ∗Fails on 1 of 18 sequences of 7-Scenes and 2 of 12 of TUM RGB-D, and the medians use the others. Sec. S4 adds completeness, RPE, and time.",
+              "figure_id": "table-4-6",
+              "figure_number": "4",
+              "height": 353,
+              "image_path": "figures/2611.18099/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 502
+            },
+            {
+              "caption": "Table 5. Ablations of EcoVGGT on ScanNet at 500 frames. Shaded rows give absolute values in the units and notation of Tabs. 1 and 3 (Comp. in cm), and the rows below each give the change in success (points) and in each median error (%), and the ratios of TFLOPs and FPS. Indented rows compare with the Online row, and the nearby-keys rows compare with their shaded row rerun on a 24 GB GPU. Gray marks changes below 5% that are not significant (p ≥ 0.05). We omit the cost of the own-keys row, which ran frame by frame.",
+              "figure_id": "table-5-7",
+              "figure_number": "5",
+              "height": 52,
+              "image_path": "figures/2611.18099/table-010.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 500
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.18099/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.18099",
+          "relevance": 8,
+          "selection_reason": "Proposes a training-free efficient inference method for feed-forward 3D reconstruction from long videos, relevant to token pruning and efficient attention.",
+          "summary_status": "generated",
+          "title": "EcoVGGT: Pinned-Key Inference for Efficient and Streamable Feed-Forward 3D Reconstruction from Long Videos",
+          "tldr": "EcoVGGT makes long-video feed-forward 3D reconstruction efficient and streamable by using a small, fixed set of evenly spaced key frames.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "3d-foundation-models"
+              ],
+              "topic_id": "3d-vision"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction",
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Attention is essential for modeling spatio-temporal dependencies in video diffusion transformers, but its quadratic cost makes it a major inference bottleneck. Its high sparsity offers an opportunity to accelerate generation by focusing computation on important interactions. However, accuracy and execution favor different granularities: each query attends to its own key tokens, whereas GPU kernels work on tiles. We present Token2Tile, a training-free sparse attention operator that combines per-query scoring and a per-query residual with tile execution. An online low-rank space, computed directly from queries and keys to preserve attention logits, makes clustering, scoring, and residual approximation efficient. Token2Tile unites query-specific selections to allocate exact work across query clusters, then packs the selected keys into GPU tiles. On MiniMax-H3 and Wan2.1-14B, Token2Tile delivers 1.48-1.54x end-to-end speedup over dense FlashAttention-3 with VBench scores within 0.5 points of dense. At comparable speeds on H3, it improves PSNR over SOL and SubBlock by 5.5-6.8 dB; on Wan, it exceeds SOL by 4.6-4.8 dB while running faster.",
+          "arxiv_id": "2611.17930",
+          "arxiv_url": "https://arxiv.org/abs/2611.17930",
+          "authors": [
+            "Xuecheng Wu, Aichen Feng, Jinyan Chen, Qingjie Zhao, Julien Lai"
+          ],
+          "bullets": [
+            "Targets the quadratic inference cost of spatio-temporal attention in video diffusion transformers.",
+            "Uses per-query scoring and residual approximation in an online low-rank space derived from queries and keys.",
+            "Clusters query-specific selections and packs selected keys into GPU tiles for efficient execution.",
+            "Achieves 1.48–1.54× end-to-end speedup over dense FlashAttention-3, with VBench within 0.5 points of dense.",
+            "Outperforms SOL and SubBlock in PSNR at comparable or higher speeds on the evaluated models."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1. Higher dense-reference fidelity at comparable generation speed. (a) H3 I2V sweep on a common VBench-I2V subset with 95% bootstrap PSNR intervals; green labels are nominal budgets. Near 1.49× on this subset, Token2Tile improves PSNR by 4.9–5.6 dB. (b) Crops of lettering from the dense video and three sparse methods at 1.47–1.50× (whole-video PSNR, request time). (c) Dense-left/Token2Tile-right splits of four T2V examples at 1.5%.",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 614,
+              "image_path": "figures/2611.17930/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1018
+            },
+            {
+              "caption": "Figure 2. Why score per query, select key clusters, and keep a per-query residual. Attention captured from four generators at a 1% per-query key budget; whiskers span the inputs, red labels give the ratio between the green bar and the bar it is compared with. (a) Dense attention mass captured by per-query selection of key clusters and other selection methods. (b) Per-query selection of key clusters versus contiguous 64-key blocks. (c) Reduction in executed pairs when per-query selections are united over query clusters versus contiguous query tiles of the same size. (d) Mass left in the tail, and the output-error increase when the tail is dropped instead of compensated by the per-query residual.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 268,
+              "image_path": "figures/2611.17930/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 987
+            },
+            {
+              "caption": "Figure 3. Token-wise selection with tile-wise execution. (a) An SVD of the second-moment square-root product gives matched projections Pq, Pk from 128 to 32 dimensions, in which queries and keys are clustered per token. Each query keeps the shortest prefix of whole key clusters that meets its token budget (colored); a query cluster executes the union of its members’ selections (outlined), and each remaining cluster contributes one centroid term per query (grey, ⋄). (b) The original Q multiplies the union keys, packed into tiles across cluster boundaries; QPq multiplies the centroids of the unselected clusters, and an LSE merge yields one softmax per query. Clusters, selections and plans are refreshed every R = 4 calls; reuse calls use the current Q, K, V . No N ×N tensor is materialized.",
+              "figure_id": "figure-3-13",
+              "figure_number": "3",
+              "height": 486,
+              "image_path": "figures/2611.17930/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1016
+            },
+            {
+              "caption": "Figure 5. H3 kernel speed–accuracy trade-off. Points average captured inputs. Token2Tile sweeps 10–1% budgets; SOL sweeps τ = 0.25–2. Other kernels match Token2Tile's executed density; hollow markers denote SVG-EAR at higher density. Four-model results: Fig. A2 and Tab. A4.",
+              "figure_id": "figure-5-5",
+              "figure_number": "5",
+              "height": 332,
+              "image_path": "figures/2611.17930/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 466
+            },
+            {
+              "caption": "Figure 7. Denoising-time budget allocation (H3 T2V). (a) Denoiser output SNR when one window is sparsified (higher: less sensitive). (b) Calibrated window budgets. Wan and gains over uniform schedules: Fig. A6.",
+              "figure_id": "figure-7-12",
+              "figure_number": "7",
+              "height": 325,
+              "image_path": "figures/2611.17930/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 470
+            },
+            {
+              "caption": "Figure 4. Time breakdown of an H3 attention call (3.5% budget, 23.4% executed density). Bars show dense FA3, refresh, reuse, and their R = 4 mean; the table lists stage times and mean shares.",
+              "figure_id": "figure-4-19",
+              "figure_number": "4",
+              "height": 312,
+              "image_path": "figures/2611.17930/figure-006.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 487
+            },
+            {
+              "caption": "Figure 6. Tile execution (H3, steps 16/24/32). (a) Same-mask exact-kernel speedup over FlashInfer. (b) Pair reduction against fixed-block covers. Details: Tab. A7.",
+              "figure_id": "figure-6-7",
+              "figure_number": "6",
+              "height": 137,
+              "image_path": "figures/2611.17930/figure-007.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 475
+            },
+            {
+              "caption": "Table 1. Generation fidelity and speed. Individual VBench dimensions (%) use the same videos as the fidelity metrics. Shading marks Token2Tile; bold marks the best fidelity.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 685,
+              "image_path": "figures/2611.17930/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1048
+            },
+            {
+              "caption": "Table 5. Predicting union growth. After/before ratio of union inflation when query-cluster size doubles (3.5% budget). Model: Sec. C.4.",
+              "figure_id": "table-5-6",
+              "figure_number": "5",
+              "height": 489,
+              "image_path": "figures/2611.17930/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 3. Accuracy at equal executed density. Attention SNR (dB); b: per-query budget, ρ: executed density (both %). †SVGEAR exceeds the target density because its minimum is about 10%. On H3, pinned context is exact for every rule except the official SVG-EAR kernel. Full results: Tab. A2.",
+              "figure_id": "table-3-1",
+              "figure_number": "3",
+              "height": 188,
+              "image_path": "figures/2611.17930/table-010.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 429
+            },
+            {
+              "caption": "Table 2. Eight-step distilled H3 models. Four GPUs; 5% budget, three dense calls, R = 1. PSNR is relative to each model's dense video; DiT/E2E denote denoiser/full-request speedups on a VBench subset.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 115,
+              "image_path": "figures/2611.17930/table-011.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 450
+            },
+            {
+              "caption": "Table A15. Scores, decisions, and query-cluster budgets. First row: attention SNR (dB); other rows: ∆SNR from the union (positive = better). All variants use per-query residuals and match total pairs within 1%. Rows 2–4 retain individual union budgets; later rows redistribute the total. Errors are RMS over sampled query clusters and every variant keeps the deployed union's token count per cluster, so values differ from Tab. A2.",
+              "figure_id": "table-A15-15",
+              "figure_number": "A15",
+              "height": 264,
+              "image_path": "figures/2611.17930/table-012.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 860
+            },
+            {
+              "caption": "Table A18. Calibration-input sensitivity. Distinct window budgets from 12 calibrations per task at 2.5%, their frequencies, and videofidelity changes relative to the reference schedule. Window budgets are normalized to the target at deployment.",
+              "figure_id": "table-A18-17",
+              "figure_number": "A18",
+              "height": 392,
+              "image_path": "figures/2611.17930/table-013.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 748
+            },
+            {
+              "caption": "Table A14. Predicting union size from cluster statistics. Measured/predicted inflation, median over query clusters at 1% and 10%, and Spearman correlation across query clusters between predicted and measured inflation and pairwise overlap (range over five budgets). Hun.: HunyuanVideo.",
+              "figure_id": "table-A14-14",
+              "figure_number": "A14",
+              "height": 153,
+              "image_path": "figures/2611.17930/table-014.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 352
+            },
+            {
+              "caption": "Table A17. Structure reuse. Left: H3 video PSNR at 2.5%, ∆ against R = 4. Right: kernel speedup at 3.5%, computed from the refresh and reuse times of the R = 4 profile. Fresh µc recomputes centroids; reselect also rescores, reselects, and replans. More b uses 3.66/3.50% on T2V/I2V, matching R = 2 at 2.5% in the H3 ablation control.",
+              "figure_id": "table-A17-18",
+              "figure_number": "A17",
+              "height": 213,
+              "image_path": "figures/2611.17930/table-015.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 494
+            },
+            {
+              "caption": "Table A12. Union size and accuracy. Means over captured inputs. ρ: executed density (%); infl.: ratio to each query's own prefix; tiles: density under contiguous query tiles of the same size. ∆SNR: gain from executing the union rather than the own prefix, both with a per-query residual.",
+              "figure_id": "table-A12-11",
+              "figure_number": "A12",
+              "height": 193,
+              "image_path": "figures/2611.17930/table-016.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 932
+            },
+            {
+              "caption": "Table A13. Query-cluster size. Vary CQ at a 3.5% budget on one capture per generator. Rows: queries per cluster; ρ: pair density (%); SNR: attention accuracy (dB); Sp.: exact-branch speedup over FA3 using FlashInfer variable-block attention.",
+              "figure_id": "table-A13-9",
+              "figure_number": "A13",
+              "height": 173,
+              "image_path": "figures/2611.17930/table-017.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 836
+            },
+            {
+              "caption": "Table A11. Selection overlap within query clusters. Token-weighted Jaccard, excluding context keys. Compare our low-rank space (ours), the original space (orig.), contiguous tiles, and random sets, with equal mean query counts. Values average captured inputs.",
+              "figure_id": "table-A11-10",
+              "figure_number": "A11",
+              "height": 115,
+              "image_path": "figures/2611.17930/table-018.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 852
+            },
+            {
+              "caption": "Table A16. Per-tile decisions versus the union. Both use the same exact-attention backend. Each query cluster retains its union budget but selects by summed member mass. H3 videos, 2.5% budget; ∆PSNR with standard error, ∆SSIM/∆LPIPS ×100.",
+              "figure_id": "table-A16-16",
+              "figure_number": "A16",
+              "height": 83,
+              "image_path": "figures/2611.17930/table-019.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 436
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.17930/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.17930",
+          "relevance": 8,
+          "selection_reason": "Training-free sparse attention for video diffusion transformers, improves efficiency.",
+          "summary_status": "generated",
+          "title": "Token2Tile: Token-Wise Sparse Attention with Tile Execution through a Low-Rank Space for Video DiTs",
+          "tldr": "Token2Tile accelerates video diffusion attention by combining token-level sparsity with GPU-friendly tile execution while preserving near-dense quality.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            },
+            {
+              "subtopic_ids": [
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Multi-view 3D transformers such as VGGT reconstruct a scene from a set of unposed images in a single forward pass, predicting camera poses, depth and 3D points, but the cost of their global attention grows quadratically with the num- ber of images. Accelerators borrowed from large language models assume that each token attends to only a few oth- ers; on these models they lose accuracy or gain little speed. We study the global attention of three multi-view transform- ers on seven datasets and find that every layer plays one of three roles: it averages over the whole scene, matches points across many images, or anchors on the first image, whose coordinates the outputs use. Building on this anal- ysis, we propose Regime-AWare ATTention Approximation (RAWATTA), a training-free method that runs attention in 8- bit precision and keeps 16-bit precision only in the layers where a worst-case calibration check requires it. Its fast set- ting, RAWATTA-Fast, also approximates attention in a few averaging and anchoring layers, while matching layers and the first image keep all their keys. On a 12 GB GPU at 50 im- ages, RAWATTA runs VGGT faster than the released code, mostly through our CUDA engine, and loses at most about one point of pose accuracy (AUC@3) on any dataset; RAWATTA-Fast is slightly faster and less accurate. Both fit 200 images, where the released code runs out of memory at 100.",
+          "arxiv_id": "2611.17629",
+          "arxiv_url": "https://arxiv.org/abs/2611.17629",
+          "authors": [
+            "Muhammed Izzet Sezer, Sevval Belkis Dikkaya"
+          ],
+          "bullets": [
+            "Global attention in multi-view 3D transformers is costly because its complexity grows quadratically with the number of images.",
+            "The study identifies three layer roles: scene-wide averaging, cross-image point matching, and anchoring to the first image.",
+            "RAWATTA uses 8-bit attention by default and retains 16-bit precision when a worst-case calibration check requires it.",
+            "RAWATTA-Fast additionally approximates attention in selected averaging and anchoring layers while preserving full keys for matching layers and the first image.",
+            "On VGGT, RAWATTA is faster than the released implementation, loses at most about one AUC@3 pose-accuracy point, and supports 200 images on a 12 GB GPU where the baseline runs out of memory at 100."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Regimes and tolerance in VGGT-Ω. Top: normalised entropy (black) and attention mass on frame 0 (red) per global block at 10, 50 and 200 frames; background: regime at N=10. Bottom: ∆AUC@3 when one block alone uses frame attention or merging (ETH3D and 7-Scenes); numbers shown for drops of at least 1.5. Grey “R”/“–” columns: register-only blocks, never changed.",
+              "figure_id": "figure-2-15",
+              "figure_number": "2",
+              "height": 406,
+              "image_path": "figures/2611.17629/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1000
+            },
+            {
+              "caption": "Figure 6. Latency vs frames (kitchen, 512×336, full forward, exclusive GPU). (a) Official VGGT-Ω runs out of memory at 100 frames on 12 GB. (b) On Blackwell, the exact engine alone is barely faster than Official at 200 frames; the gain comes from the method.",
+              "figure_id": "figure-6-1",
+              "figure_number": "6",
+              "height": 225,
+              "image_path": "figures/2611.17629/figure-002.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 460
+            },
+            {
+              "caption": "Figure 5. Searched vs fixed schedules (schedule only, bf16, PyTorch accuracy). (a) Schedules within 4 AUC@3 of dense. (b) Schedules that collapse; all of them touch a matching or anchoring block.",
+              "figure_id": "figure-5-21",
+              "figure_number": "5",
+              "height": 317,
+              "image_path": "figures/2611.17629/figure-003.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 1002
+            },
+            {
+              "caption": "Figure 3. Per-block attention statistics of VGGT-Ω (top), VGGT-1B (middle) and π3 (bottom), one panel per sequence length.",
+              "figure_id": "figure-3-10",
+              "figure_number": "3",
+              "height": 1502,
+              "image_path": "figures/2611.17629/figure-004.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 932
+            },
+            {
+              "caption": "Figure 4. FP8 P in VGGT-Ω. Left: flushed fraction and lost mass per head against normalised entropy. Middle: per-block P ·V error at N=90 for the static cast, pq, pa+pq and FP16 P . Right: mean and worst-block error against N .",
+              "figure_id": "figure-4-20",
+              "figure_number": "4",
+              "height": 752,
+              "image_path": "figures/2611.17629/figure-005.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 664
+            },
+            {
+              "caption": "Table 2. Engine vs method. Kernel time by category (Nsight Systems, 99–100% of the trunk; global attention grouped by block range: 0–9 and 22 are context, 10–13, 15, 16 matching (14 registeronly), 17–21 and 23 anchoring and late context), RTX 4070 SUPER, kitchen 512×336. Components: one Nsight session (they sum to 2232, 1736, 1619 ms); total: timed sessions as in Tab. 1; step ×: over the previous column, Official VGGT-Ω 3605 ms at N=50, OOM at 200.",
+              "figure_id": "table-2-7",
+              "figure_number": "2",
+              "height": 231,
+              "image_path": "figures/2611.17629/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 11. AUC@3 / AUC@30 (mean over three seeds) with N frames per sequence, and worst-dataset ∆AUC@3 against the exact engine (mean± std, ddof=1, over seeds). †Post hoc (selected after the main evaluation; Sec. R); its RE10K loss at 100/200 frames is the largest of any schedule we tested.",
+              "figure_id": "table-11-2",
+              "figure_number": "11",
+              "height": 575,
+              "image_path": "figures/2611.17629/table-007.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 1036
+            },
+            {
+              "caption": "Table 6. Paper name→ engine configuration.",
+              "figure_id": "table-6-13",
+              "figure_number": "6",
+              "height": 304,
+              "image_path": "figures/2611.17629/table-008.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 1036
+            },
+            {
+              "caption": "Table 10. Evaluation AUC@3 / AUC@30, seed 0, six datasets; native engine. Worst ∆ against the exact engine.",
+              "figure_id": "table-10-3",
+              "figure_number": "10",
+              "height": 383,
+              "image_path": "figures/2611.17629/table-009.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 1036
+            },
+            {
+              "caption": "Table 4. Accelerators on VGGT-Ω, same RTX 4070 SUPER, one timing session (exact engine, RAWATTA: three, 2237 ± 2, 1734± 1ms). Worst ∆AUC against Official over six datasets as in Tab. 1, or seed 0 (∗). †Released code ported onto VGGT-Ω, poses only; ‡in our engine at RAWATTA’s precision. ±0.00: ETH3D (one frame set) worst on every seed.",
+              "figure_id": "table-4-5",
+              "figure_number": "4",
+              "height": 239,
+              "image_path": "figures/2611.17629/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 19. Other models (Sec. 5.6 of the paper). PyTorch, SageAttention2 kernel of SpargeAttn [52], bf16. First row of each model: AUC@3; other rows: ∆AUC@3 against dense bf16, mean over three seeds (ETH3D: official frames). Worst: per-seed minimum over the six datasets, mean± std. Latency N=50 (Mip-NeRF 360 bicycle, lock held, one session). N=200 runs out of memory in PyTorch for every configuration of both models.",
+              "figure_id": "table-19-16",
+              "figure_number": "19",
+              "height": 243,
+              "image_path": "figures/2611.17629/table-011.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 976
+            },
+            {
+              "caption": "Table 8. Threshold sensitivity of threshold schedule. Worstdataset ∆AUC@3 against RAWATTA (six evaluation datasets, three seeds); latency N=50, one locked session. Perturbations not listed (tent −10/−20%, tanchor −10, +10, +20%, mdiffuse ±10%, manchor +10%) leave the schedule unchanged.",
+              "figure_id": "table-8-12",
+              "figure_number": "8",
+              "height": 211,
+              "image_path": "figures/2611.17629/table-012.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 496
+            },
+            {
+              "caption": "Table 12. Calibration vs evaluation data. “Disjoint”: level at which the evaluation data is disjoint from calibration.",
+              "figure_id": "table-12-26",
+              "figure_number": "12",
+              "height": 208,
+              "image_path": "figures/2611.17629/table-013.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 1140
+            },
+            {
+              "caption": "Table 15. Single vs marginal ∆AUC@3 (PyTorch) for the layers of the v1 schedule. Marginal: AUC(schedule) − AUC(schedule without the layer).",
+              "figure_id": "table-15-24",
+              "figure_number": "15",
+              "height": 239,
+              "image_path": "figures/2611.17629/table-014.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 496
+            },
+            {
+              "caption": "Table 14. Calibration set size and dataset (greedy, outdoor protocol, budget −1/ − 0.5). Evaluation worst ∆AUC@3 (PyTorch; Nine@50, ETH3D, 7-Scenes). Jaccard: overlap of (layer, operator) pairs with the 4-scene schedule.",
+              "figure_id": "table-14-25",
+              "figure_number": "14",
+              "height": 254,
+              "image_path": "figures/2611.17629/table-015.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 387
+            },
+            {
+              "caption": "Table 16. Global attention, 16 heads× 64, N×689 tokens, random bf16 inputs; ms (dense-equivalent TFLOPS). RTX 4070 SUPER, lock held.",
+              "figure_id": "table-16-19",
+              "figure_number": "16",
+              "height": 231,
+              "image_path": "figures/2611.17629/table-016.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 485
+            },
+            {
+              "caption": "Table 17. 7-Scenes-long (2 sequences, 512×384), RTX 4070 SUPER 12 GB: peak GiB / latency s / AUC@3. Ports keep Official’s fp32 weights. The schedule row is the multi-dataset schedule with SageAttention2+FP8 (after the duplicate-weight fix). ∗RAWATTA/earlierschedule cells ran while the GPU was shared: latency not reported, N=200 failed for lack of free memory (at 512×336 RAWATTA runs 200 frames at a 9.7 GiB engine peak, locked session).",
+              "figure_id": "table-17-9",
+              "figure_number": "17",
+              "height": 255,
+              "image_path": "figures/2611.17629/table-017.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 1036
+            },
+            {
+              "caption": "Table 1. Operating points on VGGT-Ω. ∆AUC@3 against the exact engine on six evaluation datasets (N=10), mean over three frame-sampling seeds. Worst: per-seed minimum over the datasets, mean± std over seeds; vs Off.: worst ∆3 against Official VGGT-Ω (Tab. 4). Latency: full forward, RTX 4070 SUPER, mean of timing sessions (supp.); × official: against Official at 3605 ms (out of memory at N≥100). Cal.: calibration samples (of three) passing the check. The sensitivity-only greedy search is post hoc; at 100/200 frames it loses 3.42/2.10 on RE10K, against 1.20/1.03 for RAWATTA-Fast (supp.).",
+              "figure_id": "table-1-6",
+              "figure_number": "1",
+              "height": 193,
+              "image_path": "figures/2611.17629/table-018.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1036
+            },
+            {
+              "caption": "Table 20. COLMAP-free NVS, test-view PSNR (pose-stage s). ∗Cell with the outlier-clipped initialisation. T&T train is poor for every row, including COLMAP; single-seed Deep Blending cells vary by ±3 dB between configurations.",
+              "figure_id": "table-20-17",
+              "figure_number": "20",
+              "height": 245,
+              "image_path": "figures/2611.17629/table-019.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 496
+            },
+            {
+              "caption": "Table 18. RTX PRO 6000 Blackwell Server Edition (sm 120, 96 GB, CUDA 13.0, torch 2.11). Kitchen 512×336 latency ms (peak MiB), and 7-Scenes-long AUC@3 / latency ms.",
+              "figure_id": "table-18-8",
+              "figure_number": "18",
+              "height": 162,
+              "image_path": "figures/2611.17629/table-020.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 960
+            },
+            {
+              "caption": "Table 22. Depth (δ1.25 in %, AbsRel) and point maps (Chamfer, GT units) at N=10. ETH3D: official frames (one value); 7-Scenes, NRGBD: three seeds.",
+              "figure_id": "table-22-18",
+              "figure_number": "22",
+              "height": 131,
+              "image_path": "figures/2611.17629/table-021.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 496
+            },
+            {
+              "caption": "Table 24. Latency in ms (frames per second) at small N , kitchen, one locked session. Peak memory: engine peak (ours) or max memory allocated with weights (Official), so the two are not strictly comparable.",
+              "figure_id": "table-24-23",
+              "figure_number": "24",
+              "height": 141,
+              "image_path": "figures/2611.17629/table-022.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 504
+            },
+            {
+              "caption": "Table 23. Latency at N=50 (kitchen 512×336) over separate locked sessions: session medians and mean± std.",
+              "figure_id": "table-23-22",
+              "figure_number": "23",
+              "height": 84,
+              "image_path": "figures/2611.17629/table-023.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 504
+            },
+            {
+              "caption": "Table 25. Random placements of RAWATTA-Fast’s operators. Worst ∆3, worst ∆30 against the exact engine; ms at N=50.",
+              "figure_id": "table-25-4",
+              "figure_number": "25",
+              "height": 90,
+              "image_path": "figures/2611.17629/table-024.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 496
+            },
+            {
+              "caption": "Table 5. Ablations of RAWATTA-Fast at RAWATTA’s precision: worst ∆AUC@3 against RAWATTA over six datasets, mean± std of the per-seed worst over three seeds; mean ∆3: six-dataset mean. Rows d–d2: five random draws (range of per-draw worst values). Rows d1, d2 are against the exact engine (RAWATTA-Fast: −0.80 ± 0.17): d1 draws layers outside 10–16; d2 draws frame layers from context blocks 0–8 and merge layers from context or anchoring blocks. Latency N=50, one timing session.",
+              "figure_id": "table-5-14",
+              "figure_number": "5",
+              "height": 79,
+              "image_path": "figures/2611.17629/table-025.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 7. Statistics of one dense pass predict which layers tolerate an operator. Rank AUC: probability that the statistic places a tolerant layer (single-layer worst-dataset ∆AUC@3 ≥ −1) on the tolerant side of an intolerant one; 1 is a perfect ranking. Statistics at N=10; at 50 and 200 frames they differ by ≤0.03.",
+              "figure_id": "table-7-11",
+              "figure_number": "7",
+              "height": 38,
+              "image_path": "figures/2611.17629/table-026.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 500
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2611.17629/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.17629",
+          "relevance": 8,
+          "selection_reason": "Proposes a training-free attention approximation for multi-view 3D transformers, improving efficiency while preserving accuracy, relevant to efficient AI and 3D foundation models.",
+          "summary_status": "generated",
+          "title": "Training-Free Acceleration of Multi-View 3D Transformers via Regime-Aware Attention Approximation",
+          "tldr": "RAWATTA accelerates multi-view 3D transformers without retraining by adapting attention precision and approximation to each layer’s functional regime.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "3d-foundation-models"
+              ],
+              "topic_id": "3d-vision"
+            },
+            {
+              "subtopic_ids": [
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Adversarial training is one of the most reliable defenses against adversarial attacks, but its high computational cost must generally be paid anew for each task. Robust foundation models offer a promising alternative: adversarially pretrain a model once and then transfer its robustness to downstream tasks through lightweight adaptation. However, a fundamental question remains open: can robustness acquired during pretraining transfer to unseen tasks without further adversarial training? In this study, we answer this question affirmatively. A single model adversarially pretrained at scale can achieve optimal robustness on new tasks without additional task-specific training. Specifically, we show that, for a family of Gaussian-mixture classification tasks, a sufficiently deep linear transformer adversarially trained across tasks can asymptotically attain the robust Bayes error on previously unseen tasks through in-context learning from clean demonstrations. By contrast, a standardly trained model cannot. We further analyze convergence under gradient flow, an accuracy--robustness trade-off, and demonstration complexity.",
+          "arxiv_id": "2610.07754",
+          "arxiv_url": "https://arxiv.org/abs/2610.07754",
+          "authors": [
+            "Soichiro Kumano"
+          ],
+          "bullets": [
+            "Studies whether robustness learned during pretraining transfers to new tasks.",
+            "Shows this transfer for Gaussian-mixture classification with sufficiently deep linear transformers.",
+            "Adversarially trained models asymptotically achieve robust Bayes error on unseen tasks via clean demonstrations.",
+            "Standardly trained models do not achieve the same robust performance.",
+            "Also analyzes gradient-flow convergence, the accuracy–robustness trade-off, and demonstration complexity."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.CV",
+            "stat.ML"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Robust zero-one errors for d = 100, r = 10, and ϵ = 0.08. Means and sample standard deviations are shown over three runs in the left panel and five runs in the other panels.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 216,
+              "image_path": "figures/2610.07754/figure-001.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 822
+            },
+            {
+              "caption": "Table 1: Clean/robust accuracy (%) of six-layer transformers with softmax attention on real-world data, reported as mean ± sample standard deviation across five independent runs.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 95,
+              "image_path": "figures/2610.07754/table-002.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 782
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2610.07754/hero.webp",
+          "novelty": 9,
+          "pdf_url": "https://arxiv.org/pdf/2610.07754",
+          "relevance": 8,
+          "selection_reason": "Demonstrates that adversarially trained linear transformers achieve optimal robustness via in-context learning, connecting Efficient Attention and Test-Time Learning.",
+          "summary_status": "generated",
+          "title": "Adversarially Trained Linear Transformers Are Optimal Robust In-Context Learners for Gaussian Mixtures",
+          "tldr": "Adversarially pretrained deep linear transformers can transfer optimal robustness to unseen Gaussian-mixture classification tasks through clean in-context demonstrations, without task-specific adversarial training.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Accurate bioactivity prediction is a central challenge in early-stage drug discovery, as individual assays often contain too few measurements to train reliable models independently. Meta-learning offers a principled approach to this few-shot setting, but assay heterogeneity may limit its effectiveness. Here, we test this hypothesis and show that meta-learning performance degrades as meta-training tasks become more heterogeneous. To address this, we introduce MetaHeta, a meta-learning framework that accounts for assay heterogeneity by conditioning predictions on auxiliary data from related assays, with relatedness defined flexibly from available assay information. The architecture of MetaHeta combines linear attention over large auxiliary datasets with exact attention over scarce task-specific context, enabling efficient scaling to the former without compromising exact attention over the latter. We demonstrate the benefits of our approach on assays from ChEMBL and BindingDB, improving few-shot bioactivity prediction and downstream compound prioritization in retrospective Bayesian optimization.",
+          "arxiv_id": "2610.07079",
+          "arxiv_url": "https://arxiv.org/abs/2610.07079",
+          "authors": [
+            "Michal Kmicikiewicz",
+            "Tommy Rochussen",
+            "Vincent Fortuin",
+            "Ewa Szczurek"
+          ],
+          "bullets": [
+            "Few-shot assay datasets often lack enough measurements for reliable independent models.",
+            "Meta-learning performance declines when meta-training assays are highly heterogeneous.",
+            "MetaHeta conditions predictions on auxiliary data from flexibly defined related assays.",
+            "It combines linear attention for large auxiliary datasets with exact attention for scarce task-specific context.",
+            "Experiments on ChEMBL and BindingDB show improved prediction and retrospective Bayesian-optimization compound prioritization."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Architecture overview of MetaHeta. A shared input MLP embeds context, target, and concatenated auxiliary observations, augmented with task-of-origin indicators, with target activities masked to 0. Encoder layers use exact self-attention for the context and FAVOR+ for auxiliary data, followed by context-to-auxiliary and target-to-context cross-attention. When Daux = ∅, the auxiliary branch is skipped. Finally, an output MLP parameterizes a mean-field Gaussian predictive distribution. Formal definitions of the attention operators are given in Appendix F.",
+              "figure_id": "figure-2-10",
+              "figure_number": "2",
+              "height": 252,
+              "image_path": "figures/2610.07079/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 814
+            },
+            {
+              "caption": "Figure 5: R2 os and inference time of MetaHeta and ICICL-TNP with varying cardinality of Daux. Auxiliary conditioning improves predictive performance with modest incremental cost. Our architecture processes five auxiliary datasets faster than ICICL-TNP processes a single one.",
+              "figure_id": "figure-5-9",
+              "figure_number": "5",
+              "height": 370,
+              "image_path": "figures/2610.07079/figure-002.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 827
+            },
+            {
+              "caption": "Figure 4: Retrospective Bayesian optimization trajectories on eight BindingDB assays. Dashed horizontal lines ( ) mark the activity threshold for the top 5% of compounds in each assay; MetaHeta is the only method to identify such compounds in every assay.",
+              "figure_id": "figure-4-7",
+              "figure_number": "4",
+              "height": 401,
+              "image_path": "figures/2610.07079/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 827
+            },
+            {
+              "caption": "Figure 3: Effect of meta-training task heterogeneity on few-shot bioactivity prediction. Performance of all the considered methods generally deteriorates as Dcore",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 312,
+              "image_path": "figures/2610.07079/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 827
+            },
+            {
+              "caption": "Figure 7: NLL of MetaHeta and ICICL-TNP with varying cardinality of Daux.",
+              "figure_id": "figure-7-6",
+              "figure_number": "7",
+              "height": 263,
+              "image_path": "figures/2610.07079/figure-005.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 826
+            },
+            {
+              "caption": "Figure 6: Effect of meta-training task heterogeneity on few-shot bioactivity prediction. Performance of all the considered methods generally deteriorates as Dcore",
+              "figure_id": "figure-6-4",
+              "figure_number": "6",
+              "height": 221,
+              "image_path": "figures/2610.07079/figure-006.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 818
+            },
+            {
+              "caption": "Table 2: Performance comparison on FS-Mol. MetaHeta ranks best across seven of eight metric– context-size combinations, and ranks second on the remaining one.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 283,
+              "image_path": "figures/2610.07079/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 824
+            },
+            {
+              "caption": "Table 1: Few-shot prediction on EPHB test tasks after meta-training onDcore meta. MetaHeta matches or exceeds all baselines across both metrics and all context sizes.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 150,
+              "image_path": "figures/2610.07079/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 822
+            },
+            {
+              "caption": "Table 4: Average rank across retrospective Bayesian optimization tasks. For each assay, methods are ranked according to their final best-observed activity averaged over five random seeds; ranks are then averaged across the eight assays.",
+              "figure_id": "table-4-5",
+              "figure_number": "4",
+              "height": 287,
+              "image_path": "figures/2610.07079/table-009.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 264
+            },
+            {
+              "caption": "Table 3: Quantitative characterization of kinase relatedness across heterogeneity regimes. ρact: average pairwise Pearson correlation between kinase activity profiles over the PKIS2 compound panel; dsite: average pairwise normalized Hamming distance across the 29 active-site residues identified by Sheridan et al. (2009).",
+              "figure_id": "table-3-8",
+              "figure_number": "3",
+              "height": 117,
+              "image_path": "figures/2610.07079/table-010.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 314
+            }
+          ],
+          "first_seen_at": "2026-11-15T21:00:00-05:00",
+          "hero_figure": "figures/2610.07079/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2610.07079",
+          "relevance": 8,
+          "selection_reason": "Introduces MetaHeta, a meta-learning framework combining linear attention (Efficient AI) with meta-learning (Adaptation) to handle assay heterogeneity in few-shot prediction.",
+          "summary_status": "generated",
+          "title": "Few-Shot Bioactivity Prediction with Meta-Learning under Assay Heterogeneity",
+          "tldr": "MetaHeta improves few-shot bioactivity prediction by adapting meta-learning to heterogeneous assays through related-assay information and efficient attention.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-12",
       "paper_count": 2,
       "papers": [
@@ -51523,5 +52578,5 @@
   "schema_version": 1,
   "subtopic_id": "efficient-attention",
   "topic_id": "efficient-ai",
-  "total_paper_count": 250
+  "total_paper_count": 256
 }

@@ -6,10 +6,13 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Video Diffusion
 
-**302 papers total**
+**305 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-15 | [JVT: Just Video Transformer makes pixel-space video diffusion simple](https://arxiv.org/abs/2611.18549) | Video Generation and Understanding: Video Diffusion | JVT shows that a simple large-patch DiT-style Transformer can perform competitive pixel-space video diffusion without specialized architectures or pretrained autoencoders. | 8 | 8 |
+| 2026-11-15 | [TelePhysica: Agentic Reconstruction of Physically Interactive Scenes](https://arxiv.org/abs/2611.18078) | World Models: Interactive World Models; Video Generation and Understanding: Video Diffusion | TelePhysica reconstructs a physically executable 3D scene from one image, verifies equilibrium, and uses simulated interactions to control trajectory-grounded video generation. | 8 | 8 |
+| 2026-11-15 | [Token2Tile: Token-Wise Sparse Attention with Tile Execution through a Low-Rank Space for Video DiTs](https://arxiv.org/abs/2611.17930) | Video Generation and Understanding: Video Diffusion; Efficient AI: Efficient Attention | Token2Tile accelerates video diffusion attention by combining token-level sparsity with GPU-friendly tile execution while preserving near-dense quality. | 8 | 8 |
 | 2026-11-14 | [Track4D: Representing Dense 3D Tracking for Video Diffusion Models](https://arxiv.org/abs/2611.15287) | Video Generation and Understanding: Video Diffusion | Track4D repurposes pretrained video diffusion models for dense 3D point tracking by encoding 3D trajectories as video-like representations. | 7 | 7 |
 | 2026-11-14 | [Artemis: Geometry-Grounded Multi-Agent Driving World Models with Shared 3D State and Progressive Memory Update](https://arxiv.org/abs/2610.07031) | World Models: Interactive World Models; Video Generation and Understanding: Video Diffusion | Artemis is a geometry-grounded multi-agent driving world model that maintains a shared 3D state and progressively updated memory to generate more consistent multi-view video and recover dynamic agents and backgrounds. | 9 | 8 |
 | 2026-11-12 | [Back to Pixels: Lifting Latent Video Diffusion into Pixel Space](https://arxiv.org/abs/2611.17336) | Video Generation and Understanding: Video Diffusion | PixVid lifts a pretrained latent video diffusion model into pixel space to enable higher-resolution, framewise, and more interactive video generation. | 7 | 6 |

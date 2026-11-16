@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Embodied Memory
 
-**261 papers total**
+**262 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-15 | [Towards a Systematic Study of Embodied System 2 over Full Task Execution Cycles](https://arxiv.org/abs/2610.17657) | Embodied AI; Adaptation and Memory: Embodied Memory | SCOPER systematically evaluates and improves embodied System 2 reasoning across complete task cycles, including planning, execution monitoring, and recovery from failures. | 9 | 8 |
 | 2026-11-12 | [AstroMemBench: A Benchmark for Memory Systems in Embodied Spacecraft Agents](https://arxiv.org/abs/2611.16590) | Embodied AI; Adaptation and Memory: Embodied Memory | AstroMemBench evaluates whether memory systems help embodied spacecraft agents recover and use operational history under realistic mission constraints. | 8 | 7 |
 | 2026-11-12 | [STVLA: Spatial-aware and Temporal-memory forVision-Language-Action Models](https://arxiv.org/abs/2611.16589) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation; Multimodal Foundation Models: Spatial Intelligence; Adaptation and Memory: Embodied Memory | STVLA improves vision-language-action policies by combining spatial scene geometry with task-history memory for more reliable robotic manipulation. | 9 | 8 |
 | 2026-11-12 | [HeMeR: Heterogeneous Memory Reconciliation for Embodied Agents via Structured KV Reuse](https://arxiv.org/abs/2611.16487) | Efficient AI: KV Cache and Memory Efficiency; Adaptation and Memory: Embodied Memory | HeMeR speeds up embodied-agent inference by selectively reconciling KV caches when heterogeneous memory contents change. | 9 | 8 |
