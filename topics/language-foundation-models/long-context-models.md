@@ -6,10 +6,13 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Long-Context Models
 
-**145 papers total**
+**148 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-16 | [Bilateral Log-Linear Attention](https://arxiv.org/abs/2611.18974) | Efficient AI: Efficient Attention; Language Foundation Models: Long-Context Models | Bilateral log-linear attention improves long-context recall by adding a second, origin-anchored hierarchy while preserving logarithmic computational and memory costs. | 8 | 8 |
+| 2026-11-16 | [MeltKV: Memory-Aligned KV Cache Compression via Variable-Bit Packed Vector Quantization for Long-Context LLMs](https://arxiv.org/abs/2611.18652) | Efficient AI: KV Cache and Memory Efficiency; Language Foundation Models: Long-Context Models | MeltKV compresses long-context LLM KV caches to as little as 1 bit while reducing memory use and decoding latency through alignment-aware variable-bit packing and shared codebooks. | 8 | 7 |
+| 2026-11-16 | [GraphNIAH: A Benchmark for Long-Context Reasoning over Real-World Graphs](https://arxiv.org/abs/2610.41704) | Language Foundation Models: Long-Context Models | GraphNIAH is a contamination-resistant benchmark testing whether LLMs can perform long-context, multi-hop reasoning over real scientific citation graphs. | 7 | 7 |
 | 2026-11-12 | [Folio: Recoverable Multi-Resolution Context Folding for Long-Horizon Language Agents](https://arxiv.org/abs/2611.16627) | Language Foundation Models: LLM Memory, Long-Context Models | Folio manages long-horizon agent context by programmatically folding multi-resolution history and enabling targeted recovery, improving task completion while reducing time and cost in the reported evaluation. | 8 | 7 |
 | 2026-11-12 | [Where in the Input Does a One-Pass Decision Encoder Look?](https://arxiv.org/abs/2611.16477) | Language Foundation Models: Long-Context Models | A one-pass decision encoder often misses or mishandles evidence placed later in the input, and neither confidence nor truncation signals reliably reveal the failure. | 6 | 6 |
 | 2026-11-12 | [Keep Images in Sight: Visual Position Re-Anchoring for Long-Context MLLMs](https://arxiv.org/abs/2611.15100) | Multimodal Foundation Models: Multimodal Large Language Models; Efficient AI: KV Cache and Memory Efficiency; Language Foundation Models: Long-Context Models | Visual Position Re-Anchoring improves long-context MLLMs’ access to earlier images by adjusting cached visual positions before answering questions. | 8 | 7 |

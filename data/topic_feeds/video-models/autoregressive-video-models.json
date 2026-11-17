@@ -1,6 +1,930 @@
 {
   "days": [
     {
+      "date": "2026-11-16",
+      "paper_count": 4,
+      "papers": [
+        {
+          "abstract": "Long video generation should keep the subject and background consistent while supporting rich, natural motion. However, autoregressive models are often distilled with distribution matching distillation (DMD) over short windows, which does not train them to keep this consistency over long ranges. As a result, the subject and background can drift over time. Methods that manage the key-value (KV) cache retain or retrieve history to reduce drift. Yet this history may itself have drifted. We propose Reference Forcing, which uses the initial frames as an appearance reference. We first build a teacher that uses attention masks to force each region of a new frame to attend to the same region in the initial frames. The teacher finds these regions with off-the-shelf segmentation models. We then distill this behavior into a separate attention path of the student, which needs no external models at inference. We further introduce value correction, which corrects drifted values in the KV cache toward the matching values of drift-free initial frames. Experiments show that Reference Forcing achieves state-of-the-art subject and background consistency among long-video methods on different base models, and its advantage grows with video length. Ablations show both components are needed to gain consistency without losing motion. More visualizations and code are available at https://zhaosheng-thu.github.io/reference-force/",
+          "arxiv_id": "2611.21559",
+          "arxiv_url": "https://arxiv.org/abs/2611.21559",
+          "authors": [
+            "Sheng Zhao, Haitian Zheng, Weikai Lin, Junjie Zhao, Yuhao Zhu"
+          ],
+          "bullets": [
+            "Addresses consistency loss caused by training autoregressive video models on short windows.",
+            "Uses segmentation-guided attention masks to make new-frame regions attend to matching regions in the initial frames.",
+            "Distills this reference-guided behavior into a separate student attention path that requires no external models at inference.",
+            "Applies value correction to move drifted KV-cache values toward corresponding values from the initial frames.",
+            "Reports state-of-the-art subject and background consistency across different base models, with larger gains for longer videos; both components preserve motion."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of Reference Forcing. (a) Each chunk Xn is generated from the first chunk X0, the recent window, and noisy tokens, with the anchor path of (b) and the value correction of (c). (b) In every layer, the student adds an anchor path (LoRA on the query and keys, and the anchor gate w) to the frozen native attention and learns to match the prediction of a teacher whose anchor path is masked by the subject mask and the background flow. (c) Value correction moves the values of the drifted chunk Xn−2 toward their key-matched values in X0, with the anchor gate w learned in (b) as strength.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 360,
+              "image_path": "figures/2611.21559/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 898
+            },
+            {
+              "caption": "Figure 3. Qualitative comparison. All methods share the prompt and first chunk; boxes mark subject changes, magnified in the zoom column. Left: the dark visor of the astronaut turns transparent in baselines but stays dark in Reference Forcing. Right: in baselines, the face of the woman becomes lighter and the strap on her left shoulder wider and brighter, whereas Reference Forcing keeps both.",
+              "figure_id": "figure-3-1",
+              "figure_number": "3",
+              "height": 428,
+              "image_path": "figures/2611.21559/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 893
+            },
+            {
+              "caption": "Figure 9. More qualitative comparisons (1/3). Layout as in Figure 3. The massive cloud figure turns into a thin figure in MemRoPE, LongLive-RAG, and ∞-RoPE and is blurred in Deep Forcing. Reference Forcing keeps its shape, color, and details from the first frame while it still moves.",
+              "figure_id": "figure-9-4",
+              "figure_number": "9",
+              "height": 734,
+              "image_path": "figures/2611.21559/figure-003.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 1051
+            },
+            {
+              "caption": "Figure 8. Gain of the anchor path. Top left: change of each metric relative to the default gain of 1. Top right: consistency (mean of subject, background, and L-Consistency) against motion (mean of dynamic degree and tracking strength), each normalized over the seven gains; the upper right is better. Bottom: the same prompt and initial noise with different gains. A higher gain gives more consistency and less motion: a low gain loses the church and the octopus, a high gain nearly freezes the scene, and the default keeps both moving.",
+              "figure_id": "figure-8-11",
+              "figure_number": "8",
+              "height": 295,
+              "image_path": "figures/2611.21559/figure-004.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 881
+            },
+            {
+              "caption": "Figure 4. Similarity to the first frame. DINOv2 similarity of the subject and the background to the first frame, averaged over MovieGen prompts, on LongLive (120 seconds) and on Self-Forcing (30 seconds). Base: LongLive and Self-Forcing without a long-video method. Arrows: the gap between Reference Forcing and Base at the last time.",
+              "figure_id": "figure-4-3",
+              "figure_number": "4",
+              "height": 188,
+              "image_path": "figures/2611.21559/figure-005.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 830
+            },
+            {
+              "caption": "Figure 12. Videos of different lengths generated by Reference Forcing. Each row shows seven frames evenly spaced over the video. From top to bottom: a 12-hour video and five 2-hour videos, each generated in one pass without restarts or stitching.",
+              "figure_id": "figure-12-10",
+              "figure_number": "12",
+              "height": 483,
+              "image_path": "figures/2611.21559/figure-006.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 896
+            },
+            {
+              "caption": "Figure 5. Consistency against motion. Change in LConsistency and tracking strength relative to LongLive (origin), with standard error. (a) The anchor path and value correction added one at a time. (b) Other ways to train the anchor path. (c) Other strengths of value correction. Only Reference Forcing raises L-Consistency substantially while keeping the motion of LongLive.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 242,
+              "image_path": "figures/2611.21559/figure-007.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 453
+            },
+            {
+              "caption": "Figure 6. Flicker artifacts from correcting Xn−1. Frame-to-frame change of one video when value correction corrects Xn−1, or both Xn−1 and Xn−2, instead of Xn−2 only; gray lines mark chunk boundaries, and the images show the difference between the two frames at the dashed one. Correcting Xn−1 causes flicker at the chunk boundaries.",
+              "figure_id": "figure-6-8",
+              "figure_number": "6",
+              "height": 248,
+              "image_path": "figures/2611.21559/figure-008.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 395
+            },
+            {
+              "caption": "Figure 7. Anchor gate w on generated videos. Left: frames and w (orange) at 20, 40, and 60 seconds for a changing background (BG), appearing new subjects (New), and a changing pose (Pose). Right: distribution of w for subject tokens (Subj.), background tokens also visible in the first chunk (Bg.), and new content (New). w stays high on the subject and low on new content.",
+              "figure_id": "figure-7-9",
+              "figure_number": "7",
+              "height": 192,
+              "image_path": "figures/2611.21559/figure-009.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 883
+            },
+            {
+              "caption": "Table 1. Comparison on MovieGenBench. VBench-Long scores of 30-, 60-, and 120-second videos; all methods use the same KV cache capacity (12 latent frames) and start from the same noise. Rank: average rank over the six columns. Bold: best; underline: second.",
+              "figure_id": "table-1-12",
+              "figure_number": "1",
+              "height": 619,
+              "image_path": "figures/2611.21559/table-010.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 902
+            },
+            {
+              "caption": "Table 2. Pairwise evaluation by VLM judge and by user study. Percentage of comparisons in which Reference Forcing is preferred over each method on MovieGen prompts, with 95% confidence intervals. Bold marks values whose interval lies above 50. Both prefer Reference Forcing in consistency and motion against most methods.",
+              "figure_id": "table-2-2",
+              "figure_number": "2",
+              "height": 229,
+              "image_path": "figures/2611.21559/table-011.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 902
+            },
+            {
+              "caption": "Table 3. Matching accuracy of value correction. Matches between recent chunks and the first chunk in 64 videos generated by Reference Forcing, compared with optical flow from RAFT [41] with a forward-backward check. Precision: share of matches within one token of the token that the flow points to. Coverage: share of the tokens visible in the first chunk under the flow that are matched.",
+              "figure_id": "table-3-6",
+              "figure_number": "3",
+              "height": 109,
+              "image_path": "figures/2611.21559/table-012.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 544
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.21559/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.21559",
+          "relevance": 8,
+          "selection_reason": "Long video generation with drift correction for autoregressive models, fits autoregressive video models.",
+          "summary_status": "generated",
+          "title": "Reference Forcing: Long Video Generation with Region-Guided Drift Correction",
+          "tldr": "Reference Forcing reduces long-video subject and background drift by using initial frames as stable appearance references during generation.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "autoregressive-video-models"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Few-step autoregressive video diffusion enables efficient long video generation, but inference still incurs substantial computational costs from repeated denoising and KV cache operations. Existing acceleration methods reduce parts of this overhead, while historical KV reading and cache construction remain costly across video chunks. To address these challenges, we propose ScoutCache, a training-free framework that jointly optimizes denoising, historical KV reading, and cache construction. We observe that shallow feature changes provide useful information for estimating clean latent updates, while historical KV dependence varies across Transformer layers and attention heads but remains relatively stable across video chunks. Based on these observations, we develop Conditional Denoising Readout (CDR) to estimate intermediate denoising updates from shallow feature changes and known noise variations. We further introduce Output Risk Guided Historical KV Reading (ORHR) to allocate historical reading budgets based on attention output perturbations, and Content and Coverage Guided Sparse Cache Construction (CCSC) to reduce cache construction costs by selecting informative spatial tokens while maintaining spatial coverage. Extensive experiments on Self-Forcing and LongLive using VBench and MovieGen demonstrate that ScoutCache achieves up to 2.28$\\times$ and 1.86$\\times$ speedups, respectively, while consistently improving generation quality without modifying pretrained model parameters.",
+          "arxiv_id": "2611.21038",
+          "arxiv_url": "https://arxiv.org/abs/2611.21038",
+          "authors": [
+            "Hao Tan, Jinghui Qin, Xuming Hu"
+          ],
+          "bullets": [
+            "Targets the remaining inference bottlenecks in long-video generation: repeated denoising and KV-cache operations across video chunks.",
+            "Uses Conditional Denoising Readout (CDR) to estimate intermediate denoising updates from shallow feature changes and known noise variations.",
+            "Applies Output Risk Guided Historical KV Reading (ORHR) to allocate historical KV-reading budgets across layers and attention heads.",
+            "Uses Content and Coverage Guided Sparse Cache Construction (CCSC) to select informative spatial tokens while preserving coverage.",
+            "Achieves up to 2.28× speedup on Self-Forcing and 1.86× on LongLive, with consistently improved quality and no pretrained-parameter changes."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. The top shows the overall inference pipeline, integrating denoising acceleration and KV cache optimization. The bottom illustrates three components. (a) CDR estimates clean latent updates from noise variations and shallow feature changes. (b) ORHR allocates historical KV reading budgets based on attention output perturbations. (c) CCSC reduces cache construction costs through content and coverage guided spatial token selection.",
+              "figure_id": "figure-2-12",
+              "figure_number": "2",
+              "height": 510,
+              "image_path": "figures/2611.21038/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 877
+            },
+            {
+              "caption": "Figure 3. Qualitative comparison of video generation results. We show four sampled frames for each prompt, comparing ScoutCache with the original backbones, Dummy Forcing, and Forcing-KV.",
+              "figure_id": "figure-3-8",
+              "figure_number": "3",
+              "height": 348,
+              "image_path": "figures/2611.21038/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 894
+            },
+            {
+              "caption": "Figure 5. Hyperparameter analysis of ScoutCache. (a,b) Tradeoff between Total Score and speedup under different normalized historical reading budgets B/(LH) on Self-Forcing and LongLive. (c-e) Effects of shallow feature projection dimension rs, staleness threshold A, and regularization scale λ/m on generation quality and speedup using Self-Forcing.",
+              "figure_id": "figure-5-14",
+              "figure_number": "5",
+              "height": 427,
+              "image_path": "figures/2611.21038/figure-003.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 826
+            },
+            {
+              "caption": "Figure 9. Analysis of historical KV reading effects on generation quality. (a) Consecutive reference frames and spatial changes in previousframe bias after restoring omitted historical KV reads. Blue and orange indicate increased and decreased bias, respectively. (b) Distribution of bias changes on Self-Forcing and LongLive, with percentages indicating the proportion of videos showing increased bias.",
+              "figure_id": "figure-9-7",
+              "figure_number": "9",
+              "height": 416,
+              "image_path": "figures/2611.21038/figure-004.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 740
+            },
+            {
+              "caption": "Figure 10. Additional qualitative comparison of video generation results.",
+              "figure_id": "figure-10-13",
+              "figure_number": "10",
+              "height": 1100,
+              "image_path": "figures/2611.21038/figure-005.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 944
+            },
+            {
+              "caption": "Figure 7. Mechanism analysis of ORHR. (a) Unequal historical KV dependence across Transformer layers and heads. (b) Attention output errors under uniform reading and ORHR with the same budget of 720 frame accesses. (c) Output NMSE across subsequent video chunks using the early calibrated allocation, demonstrating consistently lower errors without recalibration.",
+              "figure_id": "figure-7-11",
+              "figure_number": "7",
+              "height": 160,
+              "image_path": "figures/2611.21038/figure-006.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 398
+            },
+            {
+              "caption": "Figure 6. Mechanism analysis of CDR. (a) Spatial distribution of prediction error reduction compared with no update. (b) Contributions of known noise variations and shallow feature changes to error reduction. (c) Normalized update errors under different input configurations with the same frozen readout, showing the benefit of combining both inputs.",
+              "figure_id": "figure-6-10",
+              "figure_number": "6",
+              "height": 165,
+              "image_path": "figures/2611.21038/figure-007.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 373
+            },
+            {
+              "caption": "Figure 8. Mechanism analysis of CCSC. (a) Proxy mismatch under fixed spatial positions and content guided selection. (b) Spatial coverage under equal selection budgets, showing how spatial grouping avoids uncovered regions. (c) Accumulated coverage across latent frames, demonstrating how coverage priority refreshes previously unvisited positions.",
+              "figure_id": "figure-8-9",
+              "figure_number": "8",
+              "height": 155,
+              "image_path": "figures/2611.21038/figure-008.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 391
+            },
+            {
+              "caption": "Table 6. Detailed video quality scores on Self-Forcing. The 5s results report the VBench Quality, Semantic, and Total scores. The 30s, 60s, and 120s results report six VBench-Long dimensions and the Total Score.",
+              "figure_id": "table-6-6",
+              "figure_number": "6",
+              "height": 733,
+              "image_path": "figures/2611.21038/table-009.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 898
+            },
+            {
+              "caption": "Table 1. Quantitative comparison on Self-Forcing across different video durations. Latency is measured in seconds. ▲ indicates a Total Score higher than the original backbone. The best and second best results are highlighted in bold and underline, respectively.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 235,
+              "image_path": "figures/2611.21038/table-010.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1048
+            },
+            {
+              "caption": "Table 4. Breakdown of diffusion generation time across different video durations on Self-Forcing and LongLive. All times are measured in seconds. Denoising includes historical KV reading, while Other includes online calibration and remaining overhead.",
+              "figure_id": "table-4-4",
+              "figure_number": "4",
+              "height": 821,
+              "image_path": "figures/2611.21038/table-011.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 498
+            },
+            {
+              "caption": "Table 7. Detailed video quality scores on LongLive. The 5s results report the VBench Quality, Semantic, and Total scores. The 30s, 60s, and 120s results report six VBench-Long dimensions and the Total Score.",
+              "figure_id": "table-7-15",
+              "figure_number": "7",
+              "height": 733,
+              "image_path": "figures/2611.21038/table-012.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 644
+            },
+            {
+              "caption": "Table 3. Ablation studies of ScoutCache on MovieGen. Additional evaluations verify the component contributions across video durations and backbones. Latency is measured in seconds.",
+              "figure_id": "table-3-1",
+              "figure_number": "3",
+              "height": 460,
+              "image_path": "figures/2611.21038/table-013.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 390
+            },
+            {
+              "caption": "Table 2. Quantitative comparison on LongLive across different video durations. Latency is measured in seconds. ▲ indicates a Total Score higher than the original backbone. The best and second best results are highlighted in bold and underline, respectively.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 168,
+              "image_path": "figures/2611.21038/table-014.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1048
+            },
+            {
+              "caption": "Table 5. Comparison of KV cache construction strategies. Latency is measured in milliseconds.",
+              "figure_id": "table-5-5",
+              "figure_number": "5",
+              "height": 117,
+              "image_path": "figures/2611.21038/table-015.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 486
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.21038/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.21038",
+          "relevance": 7,
+          "selection_reason": "Training-free acceleration of few-step autoregressive video diffusion via KV cache and denoising optimizations.",
+          "summary_status": "generated",
+          "title": "ScoutCache: Efficient Few-Step Autoregressive Video Diffusion via Conditional Readout and Selective Caching",
+          "tldr": "ScoutCache is a training-free framework that accelerates few-step autoregressive video diffusion by reducing denoising, historical KV reading, and cache construction costs while improving generation quality.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion",
+                "autoregressive-video-models"
+              ],
+              "topic_id": "video-models"
+            },
+            {
+              "subtopic_ids": [
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Real-time camera-controlled video re-filming aims to synthesize target views from a streaming source video under online user-specified camera trajectories. This task poses two key challenges: maintaining synchronization and content consistency across views, and achieving low-latency rendering with long-horizon stability. Existing approaches are predominantly designed for offline full-sequence processing and rely on bidirectional attention or costly depth-based geometric preprocessing, making them unsuitable for low-latency streaming scenarios. To address these limitations, we develop a teacher-to-student framework that distills a high-fidelity bidirectional re-filming teacher into a few-step causal autoregressive student. We introduce Cross-Frame Injection to interleave each incoming source frame with its synchronized target latent, thereby establishing direct cross-view correspondence and improving content consistency. To ensure stable long-horizon generation, we further propose Shared Relative RoPE, which bounds temporal indices within the pretrained range, and Cycle Streaming Tuning, which exposes the student to extended cyclic trajectories during streaming training. These designs enable low-latency online video re-filming with precise camera control and sustained spatiotemporal consistency over long streaming rollouts.",
+          "arxiv_id": "2611.20461",
+          "arxiv_url": "https://arxiv.org/abs/2611.20461",
+          "authors": [
+            "Youcan Xu, Xinjie Huang, Jiaxin Shi, Hengye Lyu, Zhen Wang, Jun Xiao, Long Chen"
+          ],
+          "bullets": [
+            "Targets online novel-view video synthesis under user-specified camera trajectories.",
+            "Distills a high-fidelity bidirectional teacher into a few-step causal autoregressive student.",
+            "Cross-Frame Injection links each incoming source frame with its synchronized target latent for cross-view consistency.",
+            "Shared Relative RoPE and Cycle Streaming Tuning support stable long-horizon streaming generation.",
+            "The abstract reports precise camera control and sustained spatiotemporal consistency, without specific quantitative results."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of the two-stage training pipeline of LiveView. Stage 1: We train a bidirectional camera-controlled V2V teacher, where Cross-Frame Injection interleaves synchronized source–target latents and camera ray embeddings. Stage 2: We distill the teacher into a few-step causal DiT via distribution matching distillation (DMD), enhanced with Cycle Streaming Tuning and Shared Relative RoPE (SR-RoPE) for stable long-horizon streaming generation.",
+              "figure_id": "figure-2-2",
+              "figure_number": "2",
+              "height": 442,
+              "image_path": "figures/2611.20461/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 983
+            },
+            {
+              "caption": "Figure 4. Qualitative comparison with state-of-the-art methods. The top is the short clip and the bottom is long clip.",
+              "figure_id": "figure-4-6",
+              "figure_number": "4",
+              "height": 594,
+              "image_path": "figures/2611.20461/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 984
+            },
+            {
+              "caption": "Figure 5. Qualitative ablation study on 177-frame videos. Red boxes highlight failure cases. Rows correspond to the settings in Table 2.",
+              "figure_id": "figure-5-4",
+              "figure_number": "5",
+              "height": 339,
+              "image_path": "figures/2611.20461/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 984
+            },
+            {
+              "caption": "Figure 3. Shared Relative RoPE. Each source–target pair shares the same temporal index. Here, f = fmax denotes the maximum temporal index, and R denotes the rotary operation in Eq. 1.",
+              "figure_id": "figure-3-1",
+              "figure_number": "3",
+              "height": 340,
+              "image_path": "figures/2611.20461/figure-004.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 464
+            },
+            {
+              "caption": "Table 1. Quantitative comparison with SOTA methods on short and long video clips. Our method maintains competitive visual quality and maintains accurate camera control while significantly reducing inference time. Best results are in bold and second best are underlined.",
+              "figure_id": "table-1-5",
+              "figure_number": "1",
+              "height": 581,
+              "image_path": "figures/2611.20461/table-005.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1010
+            },
+            {
+              "caption": "Table 2. Ablation study in 177 frames. Rows (A–B) compare condition-injection strategies under the full pipeline; rows (C–F) ablate the two long-horizon designs on top of Cross-Frame Injection.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 309,
+              "image_path": "figures/2611.20461/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 998
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.20461/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.20461",
+          "relevance": 5,
+          "selection_reason": "Real-time camera-controlled video re-filming via a causal autoregressive student model, directly relevant to autoregressive video generation.",
+          "summary_status": "generated",
+          "title": "LiveView: Real-Time Camera-Controlled Re-filming of Streaming Videos",
+          "tldr": "LiveView enables low-latency, camera-controlled re-filming of streaming video with consistent views over long rollouts.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "autoregressive-video-models"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Generative models play a rapidly growing role in the design and simulation of molecules. The most widely used applications of generative models are in large language models (LLMs), owing to the natural flexibility of language for specifying and answering queries. However, generalist LLMs do not effectively handle large sets of 3D coordinates, whereas specialist generative models of 3D molecules cannot reach the controllability afforded by language. To bridge these capabilities, we propose Nahual, a decoder-only autoregressive diffusion model for any sequence of text and 3D molecules. To enable expressive autoregression on continuous coordinates, we propose next-token diffusion, whereby a causal transformer denoises each token while attending to the clean tokens before it, without increasing context size. We train Nahual on a curated set of twelve 3D chemistry tasks ranging from microsolvation to molecular conformer search to adsorption on metal surfaces, with associated evaluation metrics and baselines. The result is a single set of end-to-end-trained weights that simultaneously performs all tasks and surpasses state-of-the-art models specialized for crystal structure prediction and property-conditional molecule generation. Our results demonstrate the viability of scaling generalist decoder-only models for native multimodal understanding and generation across language and chemistry. Code is available at https://github.com/the-matter-lab/nahual.",
+          "arxiv_id": "2611.19072",
+          "arxiv_url": "https://arxiv.org/abs/2611.19072",
+          "authors": [
+            "Austin H. Cheng, Marcel M\\\"uller, Andreas Burger, Yeonghun Kang, Tsz Wai Ko, Marta Skreta, Luka Mucko, Ella Miray Rajaonson, Cher Tian Ser, J\\'er\\^ome F. Gonthier, Alex Zook, Varinia Bernales, Al\\'an Aspuru-Guzik"
+          ],
+          "bullets": [
+            "Addresses the gap between language models’ controllability and specialist models’ ability to handle 3D molecular coordinates.",
+            "Uses causal-transformer next-token diffusion to autoregressively denoise continuous coordinate tokens without enlarging context.",
+            "Trained end-to-end across twelve 3D chemistry tasks, spanning microsolvation, conformer search, and metal-surface adsorption.",
+            "A single model performs all tasks and surpasses specialized baselines for crystal structure prediction and property-conditional molecule generation.",
+            "Demonstrates the feasibility of generalist multimodal models for language-and-chemistry generation."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.AI",
+            "cs.CL",
+            "physics.chem-ph"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 36 OC20NEB median full-system RMSD for all reactions combined and for each reaction type. Methods are linear interpolation (grey), MIC linear interpolation (lavender), and Nahual best-of-1 (blue) and best-of-3 (green).",
+              "figure_id": "figure-36-23",
+              "figure_number": "36",
+              "height": 408,
+              "image_path": "figures/2611.19072/figure-001.webp",
+              "kind": "figure",
+              "page": 45,
+              "width": 794
+            },
+            {
+              "caption": "Figure 1 Nahual processes any sequence of text and 3D molecules via next-token prediction. A token (a,x) has a discrete part a (a word ID or atomic number) and a continuous part x ∈ R3 (zero-padding for words, atomic position for atoms). Nahual’s general structure allows it to be trained simultaneously on 12 different 3D chemistry tasks.",
+              "figure_id": "figure-1-10",
+              "figure_number": "1",
+              "height": 677,
+              "image_path": "figures/2611.19072/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 984
+            },
+            {
+              "caption": "Figure 4 A single instance of Nahual solves a diverse set of 3D chemistry tasks: placing adsorbates on metal surfaces and in porous MOFs, MOF and molecular property prediction, conditional molecule generation, and nudged elastic band initialization. Prompts are shown verbatim.",
+              "figure_id": "figure-4-25",
+              "figure_number": "4",
+              "height": 637,
+              "image_path": "figures/2611.19072/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 984
+            },
+            {
+              "caption": "Figure 5 (a) QM9 property-conditional generation, scored by EGNN-MAE (lower is better), for GPT-5.4, the EGNN variant of PropMolFlow (Appendix Table 9), single-sample Nahual, and Nahual with self-reward@5. (b) COV-R on GEOM-DRUGS versus RMSD threshold, mean (blue) and median (orange) over the 932 test molecules, for Nahual (solid), DiTMC+PE(3)-L [67] (dashed), and DMT-L [68] at 0.75Å (stars). (c) QCG-10 EwT@10 by number of waters N . Nahual results are means over two seeds.",
+              "figure_id": "figure-5-37",
+              "figure_number": "5",
+              "height": 598,
+              "image_path": "figures/2611.19072/figure-004.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 972
+            },
+            {
+              "caption": "Figure 2 Next-token diffusion with Nahual. (left) Next-token diffusion provides both the clean current sequence and the noisy next sequence as input. Each token is noised at an independent timestep. (right) The first stack is an LLM-initialized Mixture-of-Transformers (MoT) [34]. It encodes the parallel discrete and continuous stream into hidden states hi+1 and predicts the next discrete token’s logits yi+1. A conditioning stem combines hi+1, the embedding of the predicted next discrete token ai+1, and a Fourier embedding of ti+1 into per-token conditioning vectors zi+1. The second stack is a causal diffusion denoiser modulated by per-token adaptive layer normalization.",
+              "figure_id": "figure-2-42",
+              "figure_number": "2",
+              "height": 404,
+              "image_path": "figures/2611.19072/figure-005.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 986
+            },
+            {
+              "caption": "Figure 3 A single instance of Nahual solves a diverse set of 3D chemistry tasks: transition-state search, noncovalent dimer assembly, building lanthanide coordination complexes, microsolvation with a variable number of waters, inorganic crystal structure prediction, and molecular conformer search. Prompts are shown verbatim.",
+              "figure_id": "figure-3-1",
+              "figure_number": "3",
+              "height": 877,
+              "image_path": "figures/2611.19072/figure-006.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 982
+            },
+            {
+              "caption": "Figure 27 ODAC25: median best-of-k adsorbate RMSD vs. sample budget. Figure28 ODAC25: median best-of-k full-system RMSD vs. sample budget.",
+              "figure_id": "figure-27-27",
+              "figure_number": "27",
+              "height": 285,
+              "image_path": "figures/2611.19072/figure-007.webp",
+              "kind": "figure",
+              "page": 40,
+              "width": 986
+            },
+            {
+              "caption": "Figure 15 LnQM connectivity match rate: Nahual (k=1) vs. Architector pipeline stages.",
+              "figure_id": "figure-15-8",
+              "figure_number": "15",
+              "height": 271,
+              "image_path": "figures/2611.19072/figure-008.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 668
+            },
+            {
+              "caption": "Figure 7 Next-token diffusion. Diffusion Loss [21] equips a transformer with a lightweight per-token diffusion head, but conditioning is bottlenecked through a fixed-size vector. Diffusion Forcing [24] lets the denoiser attend to the full sequence, but in training it sees only noisy context. Our proposed next-token diffusion grounds the transformer in the clean previous sequence and denoises only the next sequence.",
+              "figure_id": "figure-7-41",
+              "figure_number": "7",
+              "height": 423,
+              "image_path": "figures/2611.19072/figure-009.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 835
+            },
+            {
+              "caption": "Figure 18 Microsolvation (QCG-10) on three test prompts (one per column). Top row: xTB-CREST reference cluster. Bottom row: the Nahual prediction.",
+              "figure_id": "figure-18-30",
+              "figure_number": "18",
+              "height": 560,
+              "image_path": "figures/2611.19072/figure-010.webp",
+              "kind": "figure",
+              "page": 32,
+              "width": 986
+            },
+            {
+              "caption": "Figure 24 Alloy on three test prompts at the 25/50/75th percentile of adsorbate RMSD (one per column). Top row: Nahual prediction at k=1. Bottom row: ground-truth structure. Red/green/blue arrows mark the three lattice vectors and the wireframe box outlines the periodic cell.",
+              "figure_id": "figure-24-38",
+              "figure_number": "24",
+              "height": 560,
+              "image_path": "figures/2611.19072/figure-011.webp",
+              "kind": "figure",
+              "page": 37,
+              "width": 986
+            },
+            {
+              "caption": "Figure 25 FG on three test prompts at the 25/50/75th percentile of adsorbate RMSD (one per column). Top row: Nahual prediction at k=1. Bottom row: ground-truth functional-group adsorbate. Lattice arrows and wireframe box mark the periodic cell.",
+              "figure_id": "figure-25-39",
+              "figure_number": "25",
+              "height": 560,
+              "image_path": "figures/2611.19072/figure-012.webp",
+              "kind": "figure",
+              "page": 37,
+              "width": 986
+            },
+            {
+              "caption": "Figure 14 NCI Atlas dimer assembly on three test prompts (one per column). Top row: Nahual prediction (cyan) overlaid on the reference dimer. Bottom row: CREST prediction (yellow) overlaid on the same reference dimer.",
+              "figure_id": "figure-14-12",
+              "figure_number": "14",
+              "height": 558,
+              "image_path": "figures/2611.19072/figure-013.webp",
+              "kind": "figure",
+              "page": 29,
+              "width": 986
+            },
+            {
+              "caption": "Figure 29 ODAC25 adsorbate-in-MOF placements on three test prompts (one per column). Top row: Nahual prediction at k=1. Bottom row: ground-truth structure. Each prompt has several reference geometries, and we show the first. Lattice arrows and wireframe box mark the periodic cell.",
+              "figure_id": "figure-29-26",
+              "figure_number": "29",
+              "height": 558,
+              "image_path": "figures/2611.19072/figure-014.webp",
+              "kind": "figure",
+              "page": 40,
+              "width": 986
+            },
+            {
+              "caption": "Figure 12 NCI Atlas dimer RMSD: per-method box (top) and per-prompt CDF (bottom) on a shared log-RMSD axis.",
+              "figure_id": "figure-12-24",
+              "figure_number": "12",
+              "height": 520,
+              "image_path": "figures/2611.19072/figure-015.webp",
+              "kind": "figure",
+              "page": 28,
+              "width": 586
+            },
+            {
+              "caption": "Figure 23 Median best-of-k full-system RMSD vs. sample budget per subset (Alloy / FG / OCD).",
+              "figure_id": "figure-23-29",
+              "figure_number": "23",
+              "height": 245,
+              "image_path": "figures/2611.19072/figure-016.webp",
+              "kind": "figure",
+              "page": 36,
+              "width": 794
+            },
+            {
+              "caption": "Figure 9 Sequence-length distribution of the training mixture in tokens. The training data contain N = 1,396,153 sequences. Blue: unweighted raw corpus. Red: weighted, the distribution seen during training. Top: linear scale. Bottom: log scale.",
+              "figure_id": "figure-9-4",
+              "figure_number": "9",
+              "height": 535,
+              "image_path": "figures/2611.19072/figure-017.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 710
+            },
+            {
+              "caption": "Figure 8 Evaluation over training for next-token diffusion and DiffMLP (Appendix B.1), two seeds each, every 5,000 steps from 5K to 115K. Each task is evaluated on a fixed subset of at most 128 test prompts (10 molecules for GEOM-DRUGS), so values differ from Table 1. Crosses mark non-finite metrics from failed generations. OC20NEB pools the three reaction types.",
+              "figure_id": "figure-8-15",
+              "figure_number": "8",
+              "height": 1148,
+              "image_path": "figures/2611.19072/figure-018.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 796
+            },
+            {
+              "caption": "Figure 16 LnQM lanthanide complexes built from the natural-language description. Nahual prediction (cyan) overlaid on the LnQM ground-truth geometry.",
+              "figure_id": "figure-16-9",
+              "figure_number": "16",
+              "height": 413,
+              "image_path": "figures/2611.19072/figure-019.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 986
+            },
+            {
+              "caption": "Figure 30 MOF property prediction parity plots. Rows: GPT-5.4-high (3-shot) and Nahual. Columns: QMOF bandgap, CoRE MOF DB surface area, and CoRE MOF DB pore volume. The dashed line is y = x.",
+              "figure_id": "figure-30-33",
+              "figure_number": "30",
+              "height": 474,
+              "image_path": "figures/2611.19072/figure-020.webp",
+              "kind": "figure",
+              "page": 41,
+              "width": 794
+            },
+            {
+              "caption": "Figure 32 QM9 property prediction parity plots for Nahual, one panel per property. The dashed line is y=x. The few predictions outside the axes are drawn at the border.",
+              "figure_id": "figure-32-19",
+              "figure_number": "32",
+              "height": 433,
+              "image_path": "figures/2611.19072/figure-021.webp",
+              "kind": "figure",
+              "page": 42,
+              "width": 668
+            },
+            {
+              "caption": "Figure 13 NCI Atlas dimer RMSD: best-of-k scaling vs. sample budget. Left: mean. Right: median.",
+              "figure_id": "figure-13-13",
+              "figure_number": "13",
+              "height": 362,
+              "image_path": "figures/2611.19072/figure-022.webp",
+              "kind": "figure",
+              "page": 29,
+              "width": 794
+            },
+            {
+              "caption": "Figure 21 GEOM-DRUGS coverage versus threshold δ for Nahual on the 932 scored test molecules. Left: COV-R, the fraction of reference conformers within δÅ of some generated conformer. Right: COV-P, the fraction of generated conformers within δ of some reference. Blue is the mean over molecules and orange is the median. Nahual (solid) is averaged over two seeds. DiTMC+PE(3)-L (dashed) is extracted from the plots of Frank et al. [67], which stop at 1.5Å. Stars mark the published performance of DMT-L at the standard threshold of 0.75Å (dotted line).",
+              "figure_id": "figure-21-22",
+              "figure_number": "21",
+              "height": 330,
+              "image_path": "figures/2611.19072/figure-023.webp",
+              "kind": "figure",
+              "page": 35,
+              "width": 821
+            },
+            {
+              "caption": "Figure 33 QM9 conditional generation EGNN-MAE (lower is better). Nahual bars are means over two seeds, and PropMolFlow is its EGNN variant (Appendix Table 9).",
+              "figure_id": "figure-33-3",
+              "figure_number": "33",
+              "height": 330,
+              "image_path": "figures/2611.19072/figure-024.webp",
+              "kind": "figure",
+              "page": 43,
+              "width": 810
+            },
+            {
+              "caption": "Figure 17 Energy within Threshold (EwT) at k=1, k=3, and k=10 by number of waters N . Nahual with xTB relaxation beats the bulk-water cutout baseline at every N . Nahual bars are means over two seeds, and open circles mark bars of height zero.",
+              "figure_id": "figure-17-40",
+              "figure_number": "17",
+              "height": 312,
+              "image_path": "figures/2611.19072/figure-025.webp",
+              "kind": "figure",
+              "page": 31,
+              "width": 815
+            },
+            {
+              "caption": "Figure 19 MP-20 crystal structure prediction: best-of-k MatchRate scaling for Nahual against DiffCSP’s published k=1 / k=20 numbers.",
+              "figure_id": "figure-19-20",
+              "figure_number": "19",
+              "height": 404,
+              "image_path": "figures/2611.19072/figure-026.webp",
+              "kind": "figure",
+              "page": 33,
+              "width": 586
+            },
+            {
+              "caption": "Figure 34 QM9 conditional generation, one test prompt for each of α, ∆ϵ, ϵHOMO, ϵLUMO, µ, and Cv. For each property, the Nahual-generated molecule (Nahual) is shown above the QM9 molecule with the same target value (Ground truth).",
+              "figure_id": "figure-34-32",
+              "figure_number": "34",
+              "height": 964,
+              "image_path": "figures/2611.19072/figure-027.webp",
+              "kind": "figure",
+              "page": 44,
+              "width": 794
+            },
+            {
+              "caption": "Figure 11 T1x transition-state predictions. Nahual prediction (cyan) overlaid on the reference.",
+              "figure_id": "figure-11-34",
+              "figure_number": "11",
+              "height": 279,
+              "image_path": "figures/2611.19072/figure-028.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 986
+            },
+            {
+              "caption": "Figure 10 T1x transition-state RMSD on the test set of Duan et al., as per-prompt violins (top) and CDF (bottom) on a shared log-RMSD axis.",
+              "figure_id": "figure-10-35",
+              "figure_number": "10",
+              "height": 492,
+              "image_path": "figures/2611.19072/figure-029.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 552
+            },
+            {
+              "caption": "Figure 22 Median best-of-k adsorbate RMSD vs. sample budget per subset (Alloy / FG / OCD).",
+              "figure_id": "figure-22-28",
+              "figure_number": "22",
+              "height": 246,
+              "image_path": "figures/2611.19072/figure-030.webp",
+              "kind": "figure",
+              "page": 36,
+              "width": 794
+            },
+            {
+              "caption": "Figure 35 QM9 polarizability (α) sweep: Nahual-generated molecules for six target values of α, increasing from left to right. Molecules with larger α are typically larger, and the model recovers this trend without explicit supervision.",
+              "figure_id": "figure-35-31",
+              "figure_number": "35",
+              "height": 154,
+              "image_path": "figures/2611.19072/figure-031.webp",
+              "kind": "figure",
+              "page": 44,
+              "width": 794
+            },
+            {
+              "caption": "Figure 20 MP-20 crystal structure prediction. Nahual’s predicted unit cells, aligned to the Materials Project reference with StructureMatcher.",
+              "figure_id": "figure-20-21",
+              "figure_number": "20",
+              "height": 181,
+              "image_path": "figures/2611.19072/figure-032.webp",
+              "kind": "figure",
+              "page": 33,
+              "width": 986
+            },
+            {
+              "caption": "Figure 31 QM9 property prediction MAE@1 (lower is better) for Nahual, GPT-5.4-high (3-shot), and the EGNN regressor.",
+              "figure_id": "figure-31-17",
+              "figure_number": "31",
+              "height": 191,
+              "image_path": "figures/2611.19072/figure-033.webp",
+              "kind": "figure",
+              "page": 42,
+              "width": 794
+            },
+            {
+              "caption": "Table 1 A single generalist Nahual versus per-task baselines. Best per row in bold. Lower is better for ↓ and higher for ↑. Root-mean-square deviation (RMSD) is in Å. For “@k”, we sample k responses per test example and take the best score. Nahual entries report mean ± standard error over two training seeds. Task details, metric definitions, and more baselines are in Appendix G.",
+              "figure_id": "table-1-11",
+              "figure_number": "1",
+              "height": 775,
+              "image_path": "figures/2611.19072/table-034.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 956
+            },
+            {
+              "caption": "Table 2 Next-token diffusion versus a per-token MLP denoiser (DiffMLP). The models differ only in the denoiser. Entries are mean ± standard error over two training seeds under the protocol of Table 1. The better mean is in bold. †Includes one malformed DiffMLP prediction of 822 eV. Without it, the DiffMLP MAE is 0.467 eV.",
+              "figure_id": "table-2-7",
+              "figure_number": "2",
+              "height": 775,
+              "image_path": "figures/2611.19072/table-035.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 894
+            },
+            {
+              "caption": "Table 6 GEOM-DRUGS results, with parameter counts in parentheses. -R is recall and -P is precision. Best in bold, second best underlined. Baseline numbers are from the original papers. All methods use the 1,000-molecule test split of GeoMol and Torsional Diffusion. We follow the evaluation protocol of Torsional Diffusion, which skips molecules whose reference conformers do not match their SMILES, keeping only 932 molecules. Nahual is the mean over two seeds.",
+              "figure_id": "table-6-16",
+              "figure_number": "6",
+              "height": 389,
+              "image_path": "figures/2611.19072/table-036.webp",
+              "kind": "table",
+              "page": 34,
+              "width": 894
+            },
+            {
+              "caption": "Table 9 QM9 conditional generation EGNN-MAE. Baselines from EEGSDE to PropMolFlow are taken from Zeng et al. [82]. QM9 (lower-bound) is the EGNN’s error on ground-truth structures. Random and # Atoms are null baselines. Nahual (k=1) scores the first sample. Nahual (self-reward@5) draws 5 samples per prompt, predicts the property of each itself, and keeps the one closest to the target. Best per column among generation methods in bold.",
+              "figure_id": "table-9-2",
+              "figure_number": "9",
+              "height": 400,
+              "image_path": "figures/2611.19072/table-037.webp",
+              "kind": "table",
+              "page": 43,
+              "width": 690
+            },
+            {
+              "caption": "Table 7 Per-prompt failure-mode rates on the 270-prompt ODAC25 test split. Nahual entries are mean ± standard error over two training seeds. k=1 uses the first sample, and k=10 the sample with the lowest adsorbate RMSD. Steric clash: some adsorbate–framework distance is below 0.85× the sum of covalent radii. Adsorbate exploded : the largest intra-adsorbate distance exceeds the DFT reference maximum by more than 1Å. Adsorbate floats far : the closest adsorbate–framework distance exceeds 4Å.",
+              "figure_id": "table-7-14",
+              "figure_number": "7",
+              "height": 136,
+              "image_path": "figures/2611.19072/table-038.webp",
+              "kind": "table",
+              "page": 39,
+              "width": 518
+            },
+            {
+              "caption": "Table 3 Training data mixture used for the reported Nahual checkpoint.",
+              "figure_id": "table-3-36",
+              "figure_number": "3",
+              "height": 551,
+              "image_path": "figures/2611.19072/table-039.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 856
+            },
+            {
+              "caption": "Table 5 Inference cost of each evaluation for one checkpoint, as node-equivalent wall-clock on a 4×GB200 node (total GPU time divided by four).",
+              "figure_id": "table-5-6",
+              "figure_number": "5",
+              "height": 392,
+              "image_path": "figures/2611.19072/table-040.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 627
+            },
+            {
+              "caption": "Table 4 Test-set sizes used for evaluation.",
+              "figure_id": "table-4-5",
+              "figure_number": "4",
+              "height": 390,
+              "image_path": "figures/2611.19072/table-041.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 590
+            },
+            {
+              "caption": "Table 8 QM9 property prediction MAE@1 on the 13,083-molecule test split. EGNN is the pretrained property predictor of EEGSDE. GPT-5.4-high (3-shot) numbers are those of Table 1. Best per column in bold, lower is better.",
+              "figure_id": "table-8-18",
+              "figure_number": "8",
+              "height": 140,
+              "image_path": "figures/2611.19072/table-042.webp",
+              "kind": "table",
+              "page": 42,
+              "width": 710
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.19072/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.19072",
+          "relevance": 4,
+          "selection_reason": "Next-token diffusion for autoregressive generation over continuous coordinates is a technically meaningful idea transferable to autoregressive video generation and video world models.",
+          "summary_status": "generated",
+          "title": "Nahual: A Sequence Model for Language and Atoms",
+          "tldr": "Nahual is a decoder-only multimodal sequence model that jointly generates language and 3D molecular structures using next-token diffusion.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "autoregressive-video-models"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-15",
       "paper_count": 1,
       "papers": [
@@ -11990,5 +12914,5 @@
   "schema_version": 1,
   "subtopic_id": "autoregressive-video-models",
   "topic_id": "video-models",
-  "total_paper_count": 57
+  "total_paper_count": 61
 }

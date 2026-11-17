@@ -1,6 +1,884 @@
 {
   "days": [
     {
+      "date": "2026-11-16",
+      "paper_count": 7,
+      "papers": [
+        {
+          "abstract": "Long-horizon vision-language navigation (VLN) requires agents to track instruction progress and recover from local errors before they propagate across subtasks. However, executors trained on expert trajectories encounter policy-induced state shifts during deployment, and their stop signals do not reliably indicate subtask completion. We introduce Learning and Verifying Progress for VLN (LeaP-VLN), an agentic VLN system that couples progress-aware execution with independent progress verification through plan--execute--verify--recover cycles. LeaP-VLN leverages progress both explicitly, through a progress verifier that verifies subtask completion before the agent advances and triggers dual-phase recovery upon route deviation, and implicitly, by co-training the executor on progress reasoning and action prediction to enhance the executor's progress awareness and corrective control. To adapt the executor to this closed-loop interface, we propose a two-stage progress-enhanced curriculum: behavior cloning on expert demonstrations, followed by joint training on demonstrations, expert action corrections, and progress-reasoning supervision. Policy-generated trajectories expose the executor to both intra-subtask drift and inter-subtask state shifts, aligning training with the deviations encountered during closed-loop execution. Extensive experiments on R2R-CE and RxR-CE demonstrate state-of-the-art success rates among monocular methods trained without additional navigation datasets, while real-world experiments further validate the effectiveness of LeaP-VLN in long-horizon navigation.",
+          "arxiv_id": "2611.20676",
+          "arxiv_url": "https://arxiv.org/abs/2611.20676",
+          "authors": [
+            "Kangjie Zhou, Sukai Wang, Yuhan Xiao, Qinghang Liu, Zhejia Wen, ChunXuan Jiao, Wei Shan, Guanghui Ren, Maoqing Yao, Chang Liu"
+          ],
+          "bullets": [
+            "Addresses executor drift and unreliable stopping decisions that can cause errors to propagate across subtasks.",
+            "Uses plan–execute–verify–recover cycles with a progress verifier that confirms subtask completion and triggers dual-phase recovery after route deviations.",
+            "Co-trains the executor on action prediction and progress reasoning to improve progress awareness and corrective control.",
+            "Adapts training through a two-stage curriculum using expert demonstrations, corrections, progress supervision, and policy-generated trajectories.",
+            "Achieves state-of-the-art success rates among monocular methods without additional navigation datasets on R2R-CE and RxR-CE, with further validation in real-world experiments."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 2. Overview of the proposed closed-loop agentic framework with test-time verification and recovery. Two-stage progress-enhanced curriculum learning, which clones expert actions and then co-trains intra- and inter-subtask on-policy action corrections with progress-reasoning supervision, produces the low-level VLN executor, while the high-level multimodal agent maintains landmark memory and accepted anchors and orchestrates subtask planning, progress verification, and dual-phase failure recovery.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 353,
+              "image_path": "figures/2611.20676/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1029
+            },
+            {
+              "caption": "Fig. 1. Comparison of long-horizon VLN execution paradigms. End-toend policies map the complete route instruction and visual observations directly to actions, with route progress implicitly inferred within the action policy. Hierarchical planner–executor pipelines without outcome verification dispatch local subtasks and advance based on executor termination. Our LeaP-VLN couples progress-aware execution with progress verification and dual-phase recovery to ground subtask transitions in observed outcomes and limit error propagation.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 477,
+              "image_path": "figures/2611.20676/figure-002.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 483
+            },
+            {
+              "caption": "Fig. 5. Qualitative visualization of long-horizon instruction following. The complete navigation instruction is shown at the top of each example. For every subtask, the egocentric observation is paired with the corresponding top-down map, where the colored trajectory indicates the agent’s stage-wise navigation progress. In the top example, the agent sequentially executes all subtasks and successfully reaches the target location. In the bottom example, the verifier detects a mid-route deviation and triggers a subtask retry, enabling successful completion.",
+              "figure_id": "figure-5-4",
+              "figure_number": "5",
+              "height": 487,
+              "image_path": "figures/2611.20676/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1032
+            },
+            {
+              "caption": "Fig. 7. Real-world long-horizon navigation on the AgiBot Genie 02 robot. LeaP-VLN decomposes the route instruction into three local subtasks: approaching the divider, passing the sink, and stopping before the toilet. For each subtask, the top image shows the robot’s third-person start state and the bottom row shows the corresponding egocentric image.",
+              "figure_id": "figure-7-7",
+              "figure_number": "7",
+              "height": 325,
+              "image_path": "figures/2611.20676/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 973
+            },
+            {
+              "caption": "Fig. 3. Low-level VLN executor training. (a) Boundary-aligned localinstruction data generation cleans and merges segment annotations, aligns frame–action targets, and adds explicit STOP supervision at subtask boundaries. (b) The two-stage progress-enhanced curriculum first initializes the executor by behavior cloning, then collects intra- and inter-subtask on-policy rollouts for expert action correction and progress reasoning, and finally jointly trains on all supervision.",
+              "figure_id": "figure-3-8",
+              "figure_number": "3",
+              "height": 360,
+              "image_path": "figures/2611.20676/figure-005.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 504
+            },
+            {
+              "caption": "Fig. 6. Qualitative effects of progress co-training on action prediction. Without co-training, the executor either continues after task completion (top) or stops prematurely (bottom). Co-training improves action-progress consistency, producing STOP for completed subtasks and continued execution for unfinished ones.",
+              "figure_id": "figure-6-5",
+              "figure_number": "6",
+              "height": 272,
+              "image_path": "figures/2611.20676/figure-006.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 494
+            },
+            {
+              "caption": "Fig. 4. Comparison with Uni-NaVid and StreamVLN on hard episodes (ground-truth action sequences exceed 50 steps) in VLN-CE.",
+              "figure_id": "figure-4-9",
+              "figure_number": "4",
+              "height": 269,
+              "image_path": "figures/2611.20676/figure-007.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 455
+            },
+            {
+              "caption": "TABLE II ABLATION OF THE PROPOSED FRAMEWORK COMPONENTS ON THE R2R-CE AND RXR-CE VAL-UNSEEN SPLITS.",
+              "figure_id": "table-II-3",
+              "figure_number": "II",
+              "height": 199,
+              "image_path": "figures/2611.20676/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 497
+            },
+            {
+              "caption": "TABLE I COMPARISON ON THE R2R-CE AND RXR-CE VAL-UNSEEN SPLITS.",
+              "figure_id": "table-I-2",
+              "figure_number": "I",
+              "height": 474,
+              "image_path": "figures/2611.20676/table-009.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1052
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.20676/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.20676",
+          "relevance": 9,
+          "selection_reason": "Long-horizon VLN with progress verification, directly on vision-language navigation.",
+          "summary_status": "generated",
+          "title": "Learning and Verifying Progress: Closed-Loop Agentic Planning with Progress-Enhanced Execution for Long-Horizon Vision-Language Navigation",
+          "tldr": "LeaP-VLN improves long-horizon vision-language navigation by combining progress-aware execution with independent verification and recovery in a closed loop.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Driving vision-language-action (VLA) models can accept navigation instructions, yet predicting a driver's trajectory does not establish that a model follows the instruction. We study how driving-language supervision is collected and evaluated, distinguishing prospective instructions issued before an action from retrospective labels written after observing it. We develop ADVLAT-Engine to synchronize spoken instructions, road-scene video, and vehicle trajectories, and compare three navigation apps on 48 replayed routes. On 87 maneuvers announced by both Google Maps and a passenger, the passenger uses more scene-dependent language. We evaluate four open driving VLAs before and after fine-tuning on prospective navigation-app drives. Fine-tuning reduces passenger-drive trajectory error by 23-59%, but instruction effects remain inconsistent. At real intersections, counterfactual instructions reveal stronger responsiveness: fine-tuned Alpamayo~2 Super gains 31 and 18 accuracy points at 15 and 5~m, while Qwen-Drive follows alternative maneuvers more reliably with a discrete command than with a sentence. We additionally collected retrospective annotations from four people for the driving recordings and describe controlled comparisons of annotation content, timing, and downstream learning; those analyses are pending. Our findings separate maneuver prediction from instruction-following and establish a framework for comparing prospective and retrospective supervision.",
+          "arxiv_id": "2611.20631",
+          "arxiv_url": "https://arxiv.org/abs/2611.20631",
+          "authors": [
+            "Angel Martinez-Sanchez, Ross Greer"
+          ],
+          "bullets": [
+            "Distinguishes prospective instructions given before actions from retrospective labels written after observing them.",
+            "Introduces ADVLAT-Engine to synchronize spoken instructions, road video, and vehicle trajectories.",
+            "Across 48 replayed routes and 87 shared maneuvers, passengers used more scene-dependent language than Google Maps.",
+            "Fine-tuning on prospective navigation-app drives reduced passenger-drive trajectory error by 23–59%, but instruction effects remained inconsistent.",
+            "Counterfactual intersection tests showed improved responsiveness for some models, while Qwen-Drive followed alternative maneuvers more reliably from discrete commands than sentences."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI",
+            "cs.LG",
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 4. Example navigation-app recording with a GNSS route, speech-completion positions, transcribed prompts, and associated camera frames. The original prompts were spoken during the drive, rather than written after viewing its outcome.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 512,
+              "image_path": "figures/2611.20631/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1076
+            },
+            {
+              "caption": "Fig. 1. Instruction sources differ in authorship (machine or human) and timing (retrospective or prospective). Retrospective labels are created after observing a completed drive; navigation apps and passengers issue prospective instructions before the relevant action. ADVLAT-Engine collects the latter alongside synchronized vision and trajectories. Temporal order motivates, but does not by itself identify, causal instruction effects.",
+              "figure_id": "figure-1-3",
+              "figure_number": "1",
+              "height": 491,
+              "image_path": "figures/2611.20631/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1076
+            },
+            {
+              "caption": "Fig. 5. Passenger-drive example: observed trajectory and pretrained/fine-tuned model predictions compared with fine-tuned predictions after removing the passenger instruction. A single trajectory illustration complements, but does not replace, paired error and counterfactual instruction tests.",
+              "figure_id": "figure-5-5",
+              "figure_number": "5",
+              "height": 236,
+              "image_path": "figures/2611.20631/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1076
+            },
+            {
+              "caption": "Fig. 3. ADVLAT-Engine synchronizes spoken navigation or passenger instructions, forward camera observations, and vehicle localization to form instruction–vision–trajectory training examples.",
+              "figure_id": "figure-3-7",
+              "figure_number": "3",
+              "height": 560,
+              "image_path": "figures/2611.20631/figure-004.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 2. Illustrative causal graphs, with observed pre-instruction context S, latent common causes U , prospective instruction L, recorded action A, and retrospective label L′. (a) A genuine request can influence the driver’s subsequent action, but U can confound the association. (b) A post-hoc label depends on the completed action and cannot affect that already-recorded action. (c) Our paired recordings provide both instruction types for the same action. Arrows depict possible dependencies, not an identified causal effect; some context and annotator-specific influences are omitted for clarity.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 170,
+              "image_path": "figures/2611.20631/figure-005.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 940
+            },
+            {
+              "caption": "TABLE III PASSENGER-DRIVE TEST, 3-S HORIZON. ADE AND FDE IN METERS; EFFECT = INSTRUCTED MINUS UNINSTRUCTED ADE (NEGATIVE INDICATES IMPROVEMENT), WITH 95% CI. TURN IS LEFT/RIGHT ACCURACY (%).",
+              "figure_id": "table-III-2",
+              "figure_number": "III",
+              "height": 253,
+              "image_path": "figures/2611.20631/table-006.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 664
+            },
+            {
+              "caption": "TABLE IV COUNTERFACTUAL RESULTS AT THE HAND-MARKED STOP LINE. ACCURACY IN %, GAIN IN PERCENTAGE POINTS, STEER IN DEGREES (SIGNED LEFT-MINUS-RIGHT). AT 0 M, driven USES THE RECORDED APPROACH AND parked USES REPEATED FRAMES AND STATIONARY EGO HISTORY. BOLD HIGHLIGHTS MAXIMUM ACCURACY/GAIN WITHIN A CONDITION, INCLUDING TIES.",
+              "figure_id": "table-IV-4",
+              "figure_number": "IV",
+              "height": 220,
+              "image_path": "figures/2611.20631/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 572
+            },
+            {
+              "caption": "TABLE II PASSENGER AND GOOGLE MAPS PROMPTS ON THE SAME 87 MANEUVERS (% UNLESS INDICATED).",
+              "figure_id": "table-II-9",
+              "figure_number": "II",
+              "height": 205,
+              "image_path": "figures/2611.20631/table-008.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 388
+            },
+            {
+              "caption": "TABLE I NAVIGATION-APP PROMPTS ON 170 SHARED MANEUVERS (%); MEDIAN FIRST-PROMPT LEADS ARE MEASURED AT REPLAYED SPEED.",
+              "figure_id": "table-I-8",
+              "figure_number": "I",
+              "height": 243,
+              "image_path": "figures/2611.20631/table-009.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 288
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.20631/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.20631",
+          "relevance": 9,
+          "selection_reason": "Driving VLA models with prospective/retrospective language supervision directly addresses vision-language navigation and vision-language-action.",
+          "summary_status": "generated",
+          "title": "Instructions Before Actions: Prospective and Retrospective Language Supervision for Driving Vision-Language-Action Data",
+          "tldr": "The study shows that driving VLAs can predict trajectories without reliably following instructions, and that prospective, scene-dependent language plus counterfactual tests better reveal instruction responsiveness.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-navigation",
+                "vision-language-action"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Language-guided navigation enables mobile robots to interpret natural language commands and navigate toward user-specified targets in unstructured environments. However, integrating open-vocabulary visual perception with classical robotics pipelines for mapping and navigation remains a challenging problem. In this work, we present a complete ROS2-based system that combines frontier-based exploration, open-vocabulary object detection using Grounding DINO, depth-based 3D localization, and semantic mapping to enable end-to-end vision-language grounded navigation in simulation. The system accepts natural language commands such as ``go to the yellow box,'' detects candidate objects from RGB images using text prompts, estimates their positions in the world frame, and generates navigation goals executed by the Nav2 stack. In a Gazebo-based indoor environment with a TurtleBot3 robot, the system autonomously explored the room, detected three of the five target objects, and successfully executed both natural language navigation commands tested, without task-specific training. The results indicate that open-vocabulary grounding models can be integrated into classical navigation pipelines, though performance is limited by detection uncertainty, depth-based localization error, and incomplete exploration coverage. These findings highlight both the feasibility and current limitations of deploying vision-language grounded navigation systems using lightweight, CPU-only architectures.",
+          "arxiv_id": "2611.20558",
+          "arxiv_url": "https://arxiv.org/abs/2611.20558",
+          "authors": [
+            "Ravindran Vasoor Saravanan, Chittin Varunav Ravi, Madhumita Singh, Thirulok Sundar Mohan Rasu"
+          ],
+          "bullets": [
+            "Addresses the challenge of integrating language-grounded perception with mapping and navigation in unstructured environments.",
+            "Uses Grounding DINO for text-prompted object detection, depth-based world-frame localization, frontier exploration, semantic mapping, and Nav2 goal execution.",
+            "In a Gazebo TurtleBot3 setup, the robot detected three of five target objects and successfully completed both tested language-navigation commands without task-specific training.",
+            "Performance is limited by detection uncertainty, depth-localization errors, and incomplete exploration coverage.",
+            "Demonstrates feasibility with a lightweight, CPU-only architecture, but remains evaluated in simulation."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 1. System architecture of the vision-language grounded navigation pipeline, showing the five-layer structure from Gazebo simulation through sensor processing, perception, planning, and mission control.",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 248,
+              "image_path": "figures/2611.20558/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 2. Gazebo simulation environment containing five geometric objects used for evaluation.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 279,
+              "image_path": "figures/2611.20558/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 3. Frontier detection on the Cartographer occupancy grid. White cells denote known free space, black cells denote walls/obstacles, and gray cells denote unknown regions. Frontier cells (the boundary between free and unknown space) are clustered, and the weighted strategy selects the navigation goal shown.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 321,
+              "image_path": "figures/2611.20558/figure-003.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 316
+            },
+            {
+              "caption": "TABLE I FRONTIER EXPLORATION STATISTICS (REPRESENTATIVE RUN)",
+              "figure_id": "table-I-3",
+              "figure_number": "I",
+              "height": 195,
+              "image_path": "figures/2611.20558/table-004.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 350
+            },
+            {
+              "caption": "TABLE II OBJECT DETECTION RESULTS BY CLASS",
+              "figure_id": "table-II-4",
+              "figure_number": "II",
+              "height": 140,
+              "image_path": "figures/2611.20558/table-005.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 516
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.20558/hero.webp",
+          "novelty": 5,
+          "pdf_url": "https://arxiv.org/pdf/2611.20558",
+          "relevance": 8,
+          "selection_reason": "Language-guided semantic navigation system for mobile robots, directly relevant to embodied vision-language navigation.",
+          "summary_status": "generated",
+          "title": "Vision-Language Grounded Semantic Navigation for Autonomous Mobile Robots",
+          "tldr": "A ROS2 system combines open-vocabulary vision, 3D localization, semantic mapping, and classical navigation to let a mobile robot follow natural-language commands in simulation.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-navigation",
+                "robot-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Existing feedback-based methods for online vision-and-language navigation (VLN) primarily learn from current episode outcomes, leaving previously acquired feedback underutilized. Inspired by human episodic memory, we propose R2A, an online VLN adaptation framework that continually reuses successful and failed navigation experiences for policy learning. Specifically, Success-Failure Memory (SFM) retains successful and failed navigation episodes with acquired feedback and retrieves task-relevant experiences based on incoming instructions, enabling historical feedback to guide subsequent navigation. Prior-Anchored Adaptation (PAA) learns from these experiences by reinforcing successful trajectories and suppressing failed ones relative to a frozen pretrained policy, while regularizing behavioral drift. Together, these modules enable continual feedback reuse and stable policy adaptation without source-domain data or expert supervision. Extensive experiments across three benchmarks, REVERIE, R2R, and R2R-CE, and five navigation backbones demonstrate consistent performance gains. On the REVERIE validation unseen split, R2A improves DUET's SR from 46.98% to 69.84% and SPL from 33.73% to 50.98%.",
+          "arxiv_id": "2611.19901",
+          "arxiv_url": "https://arxiv.org/abs/2611.19901",
+          "authors": [
+            "Chenhao Ding, Jizhou Han, Lixin Xiu, Muyao Wang, Songlin Dong, Hideki Nakayama"
+          ],
+          "bullets": [
+            "Addresses the underuse of feedback from previous navigation episodes in online VLN.",
+            "Success-Failure Memory retrieves task-relevant successful and failed experiences using incoming instructions.",
+            "Prior-Anchored Adaptation reinforces successful trajectories, suppresses failed ones, and limits drift from a frozen pretrained policy.",
+            "Evaluated on REVERIE, R2R, and R2R-CE with five navigation backbones, showing consistent gains.",
+            "On REVERIE unseen validation, DUET’s SR rises from 46.98% to 69.84% and SPL from 33.73% to 50.98%."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of R2A. (a) The agent navigates using the adapted policy and obtains queried feedback or a self-predicted outcome. (b) Success–Failure Memory: Before navigation, the incoming instruction triggers the retrieval of the most similar experience from the entire memory based on instruction similarity, together with a randomly sampled experience. (c) Prior-Anchored Adaptation: The preceding episode and recalled experiences jointly update the policy through reference-relative outcome learning and pretrained-policy regularization.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 406,
+              "image_path": "figures/2611.19901/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1005
+            },
+            {
+              "caption": "Figure 5. Qualitative examples of task-cued recall on REVERIE val-unseen. (a) Failure memory: recalling a previously failed navigation experience helps the agent avoid stopping at an incorrect sink. (b) Success memory: recalling a successful experience guides the agent toward the target phone. In both cases, Task-Cued Recall reaches the intended destination, while uniform replay fails.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 579,
+              "image_path": "figures/2611.19901/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 1. Learning from past successes and failures for navigation. (a) People recall successful experiences and mistakes to guide navigation. (b) Similar visual cues may cause an agent to confuse a kitchen with a laundry room; replaying a past failure helps correct this mistake. Inspired by episodic memory, R2A reuses successful and failed experiences with outcome feedback for adaptation.",
+              "figure_id": "figure-1-3",
+              "figure_number": "1",
+              "height": 389,
+              "image_path": "figures/2611.19901/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1027
+            },
+            {
+              "caption": "Figure 3. Feedback efficiency and online adaptation on REVERIE val-unseen. (a) Performance under different feedback budgets. (b) Comparison of feedback query strategies. (c) Evolution of navigation SR throughout online adaptation.",
+              "figure_id": "figure-3-5",
+              "figure_number": "3",
+              "height": 319,
+              "image_path": "figures/2611.19901/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1016
+            },
+            {
+              "caption": "Table 1. Comparison with test-time adaptation methods on REVERIE. Bold indicates the best TTA result within each.",
+              "figure_id": "table-1-9",
+              "figure_number": "1",
+              "height": 575,
+              "image_path": "figures/2611.19901/table-005.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1036
+            },
+            {
+              "caption": "Table 2. Comparison with VLN-TTA methods on R2R-CE.",
+              "figure_id": "table-2-2",
+              "figure_number": "2",
+              "height": 411,
+              "image_path": "figures/2611.19901/table-006.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 492
+            },
+            {
+              "caption": "Table 3. Comparison with VLN-TTA methods on R2R.",
+              "figure_id": "table-3-1",
+              "figure_number": "3",
+              "height": 513,
+              "image_path": "figures/2611.19901/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 496
+            },
+            {
+              "caption": "Table 4. Effects of feedback replay and prior anchoring. Results use DUET on REVERIE and R2R val-unseen. Success-only memory retains failure feedback in current updates; w/o failure feedback excludes it from both current updates and replay.",
+              "figure_id": "table-4-4",
+              "figure_number": "4",
+              "height": 264,
+              "image_path": "figures/2611.19901/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 491
+            },
+            {
+              "caption": "Table 5. Comparison of replay strategies on val unseen.",
+              "figure_id": "table-5-8",
+              "figure_number": "5",
+              "height": 204,
+              "image_path": "figures/2611.19901/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 500
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.19901/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.19901",
+          "relevance": 9,
+          "selection_reason": "Online VLN adaptation with episodic memory and continual feedback reuse, directly matching vision-language navigation and embodied memory.",
+          "summary_status": "generated",
+          "title": "Remember, Replay, Adapt: Learning from Past Experience in Online Vision-and-Language Navigation",
+          "tldr": "R2A improves online vision-and-language navigation by retrieving past successful and failed episodes and adapting the policy without source data or expert supervision.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning",
+                "embodied-memory"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Although object-goal navigation (ObjectNav) approaches are usually evaluated in simulation, which offers scale and repeatable environments, real-world deployments are rarely examined beyond feasibility demonstrations. This paper presents the deployment of Room-Mediated Co-occurrence, an ObjectNav policy that reasons over Room Probability Vectors (RPVs), on two robotic platforms (Boston Dynamics Spot and Clearpath Robotics TurtleBot 4) through a robot-agnostic ROS 2 bridge. We study how these semantic priors generalise to physical environments and describe the adaptations required to transfer RPV from simulation to hardware, covering sensing, localisation, and the action interface. Across 66 trials on Spot, searching for 11 object categories from two starting positions in a university postgraduate research facility, RPV achieves a raw Success Rate (SR) of 0.455. Our analysis identifies undetected glass walls, entry into off-limits areas, limited usable depth range, target size, and mismatch between the room lexicon and physical layout as plausible contributors to the 8.4 percentage-point gap between the real-world SR and the reported simulated SR of 0.539. Code is available at https://github.com/Matthew-K-Chua/rpv-ros2-bridge.",
+          "arxiv_id": "2611.19720",
+          "arxiv_url": "https://arxiv.org/abs/2611.19720",
+          "authors": [
+            "Matthew Chua, Adam Scicluna, Gavin Paul"
+          ],
+          "bullets": [
+            "Addresses the limited real-world evaluation of simulation-focused object-goal navigation.",
+            "Deploys Room-Mediated Co-occurrence, which uses Room Probability Vectors to guide object searches.",
+            "Adapts sensing, localisation, and action interfaces for Boston Dynamics Spot and TurtleBot 4.",
+            "On Spot, evaluates 11 object categories from two starting positions in a university research facility.",
+            "Identifies glass walls, restricted areas, limited depth sensing, target size, and room-layout mismatch as likely causes of the real-to-simulation performance gap."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of the system architecture designed to port RPV to a ROS 2 system with an accessible Ethernet port. Green arrows indicate the forward data path, and red dashed arrows indicate the return path.",
+              "figure_id": "figure-2-4",
+              "figure_number": "2",
+              "height": 198,
+              "image_path": "figures/2611.19720/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 6: Chosen frontiers (crosshairs) and paths (green) overlaid on value maps for trial 36, “fridge” (top), and trial 62, “whiteboard marker” (bottom), at the policy steps labelled in each panel. The fridge search shows kitchen-side object signals eventually outweighing those of the laboratory. The whiteboard-marker search shows a near-flat value map for a high-entropy target and repeated switches between distant frontiers.",
+              "figure_id": "figure-6-2",
+              "figure_number": "6",
+              "height": 502,
+              "image_path": "figures/2611.19720/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1052
+            },
+            {
+              "caption": "Figure 3: Annotated hardware for Spot and TurtleBot 4. The on-board sensing module comprises a Raspberry Pi 4, RealSense D435, portable battery, and an Ethernet connection to the robot. It communicates with the off-board GPU host over Wi-Fi.",
+              "figure_id": "figure-3-5",
+              "figure_number": "3",
+              "height": 496,
+              "image_path": "figures/2611.19720/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 508
+            },
+            {
+              "caption": "Figure 1: The Boston Dynamics Spot platform searches for the target object “fridge” using Room-Mediated Cooccurrence. We mount a custom low-cost on-board ROS 2 sensing module onto Spot that gathers RGB-D data and relays velocity commands to the robot. The green trail outlines the policy’s chosen path in this successful trial.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 477,
+              "image_path": "figures/2611.19720/figure-004.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 475
+            },
+            {
+              "caption": "Figure 5: Failure modes aggregated by target-size class.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 352,
+              "image_path": "figures/2611.19720/figure-005.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 458
+            },
+            {
+              "caption": "Figure 4: Distribution of policy steps to first detection and stopping over successful physical RPV trials. The vertical axis is logarithmic.",
+              "figure_id": "figure-4-6",
+              "figure_number": "4",
+              "height": 329,
+              "image_path": "figures/2611.19720/figure-006.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 433
+            },
+            {
+              "caption": "Table 1: Deviations of our real-world deployment from the benchmarked RPV pipeline.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 244,
+              "image_path": "figures/2611.19720/table-007.webp",
+              "kind": "table",
+              "page": 3,
+              "width": 960
+            },
+            {
+              "caption": "Table 2: Successes out of three trials per starting position, and the mean number of policy steps to first detection and to stop over successful trials.",
+              "figure_id": "table-2-8",
+              "figure_number": "2",
+              "height": 350,
+              "image_path": "figures/2611.19720/table-008.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 492
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.19720/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.19720",
+          "relevance": 9,
+          "selection_reason": "Focuses on Object-Goal Navigation (ObjectNav) and its sim-to-real transfer, a core topic in embodied AI involving visual navigation and instruction following.",
+          "summary_status": "generated",
+          "title": "Sim-to-Real Room-Mediated Object-Goal Navigation with ROS 2 and Nav2",
+          "tldr": "This paper transfers a room-semantic ObjectNav policy from simulation to two real robots using a robot-agnostic ROS 2/Nav2 bridge, achieving a 0.455 success rate on Spot across 66 trials.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "When a vision-and-language navigation policy generates an action sequence autoregressively, the robot waits for a chain of dependent predictions. A small discrete action vocabulary makes it possible to score all short-horizon plans in parallel. We introduce VLN-Flash, a training-free decoder that evaluates the complete action-prefix tree in a single forward pass. Branch-specific attention and matched token positions preserve the original policy's conditional action distribution for each prefix in exact arithmetic. We use the score margin between the stepwise-greedy prefix and its strongest alternative at each depth to decide how many actions to execute. The robot then executes the plan with the highest joint score at the chosen depth before observing again. On matched inputs, VLN-Flash achieves a nearly $3\\times$ speedup in action decoding over native autoregression on Uni-NaVid and StreamVLN. Compared with the native autoregressive decoders, it improves success rate and success weighted by path length (SPL) on R2R-CE and RxR-CE, with success gains up to 2.7 percentage points. On a Unitree GO2, VLN-Flash improves navigation success and cuts the mean wait between actions by about 160 ms after subtracting network transmission time.",
+          "arxiv_id": "2611.19287",
+          "arxiv_url": "https://arxiv.org/abs/2611.19287",
+          "authors": [
+            "Ruizhe Xie, Honghua Chen, Binglin Wang, Tong Guo, Xu Tang, Puti Yan, Shaoxiong Cai"
+          ],
+          "bullets": [
+            "Addresses the latency of autoregressive action-by-action decoding in robot navigation.",
+            "Training-free decoder evaluates the complete short-horizon action-prefix tree in one forward pass while preserving conditional action distributions.",
+            "Uses score margins to adaptively choose how many actions to execute before observing again.",
+            "Achieves nearly 3× faster action decoding and improves success/SPL, with success gains up to 2.7 percentage points on reported benchmarks.",
+            "On a Unitree GO2, improves navigation success and reduces mean inter-action wait by about 160 ms, excluding network transmission time."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1. Overview of parallel action decoding. The instruction and observation history are formatted as the model query x, followed by candidate action tokens. An attention mask restricts each candidate action token to attending only to the query, its branch ancestors, and itself. The VLN backbone processes the resulting sequence in a single forward pass. The hidden state of the last query token and those of all candidate tokens are then decoded into action distributions through the shared LM head. The last query token predicts the first action, so K = 3 uses two candidate levels. Scoring K = 4 adds a third level with 27 candidate tokens.",
+              "figure_id": "figure-1-8",
+              "figure_number": "1",
+              "height": 381,
+              "image_path": "figures/2611.19287/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1034
+            },
+            {
+              "caption": "Figure 5. Real-world deployment trajectories on a Unitree GO2. The left and right scenes show a corridor and a classroom, respectively. In each scene, both methods start from the same position and receive the same instruction shown above. Baseline and Ours correspond to the autoregressive and parallel decoding variants of StreamVLN, respectively. Across the decision steps shown in these two scenes, our method reduces the average wait by 172 ms.",
+              "figure_id": "figure-5-10",
+              "figure_number": "5",
+              "height": 643,
+              "image_path": "figures/2611.19287/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 2. Comparison between autoregressive and parallel decoding. Autoregressive decoding (left) requires three sequential forward passes to predict a1, a2, and a3, whereas parallel decoding (right) computes all candidate action distributions in a single forward pass. For each action prediction, the visible tokens (highlighted) are identical along the corresponding branch in both methods, yielding equivalent conditional action distributions in exact arithmetic.",
+              "figure_id": "figure-2-9",
+              "figure_number": "2",
+              "height": 214,
+              "image_path": "figures/2611.19287/figure-003.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 496
+            },
+            {
+              "caption": "Figure 3. Adaptive execution via joint path scoring. Nodes are labeled with conditional action probabilities, while L(path) denotes cumulative joint log-probabilities. The greedy path can be outscored by the selected path in joint probability. The scan compares the fixed greedy prefix with its strongest alternative at each depth. When their score margin falls below δ, the highestscoring branch at that depth is executed and deeper actions are skipped. Here, m1 = 0.58 > δ continues the scan, whereas m2 = −0.18 < δ at δ = 0.2 selects a left turn followed by a forward step (L → F ).",
+              "figure_id": "figure-3-12",
+              "figure_number": "3",
+              "height": 362,
+              "image_path": "figures/2611.19287/figure-004.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 496
+            },
+            {
+              "caption": "Figure 4. Success rates on the GO2 over 20 trials per environment, using the same StreamVLN policy, instructions, and start poses. Bar labels show success rates and successful-trial counts.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 250,
+              "image_path": "figures/2611.19287/figure-005.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 483
+            },
+            {
+              "caption": "Figure 6. Additional Unitree GO2 deployments. (a) Office. “Turn left ahead, walk to the door, and stop in front of it.” (b) Outdoors. “Go straight along this road, climb the stairs, and stop before the glass railing.” (c) Classroom. “Go straight down this road to the end, and stop beside the table at the podium on your left.”",
+              "figure_id": "figure-6-11",
+              "figure_number": "6",
+              "height": 189,
+              "image_path": "figures/2611.19287/figure-006.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1036
+            },
+            {
+              "caption": "Table 1. Complete-reply latency across decoders. Speedup is relative to native autoregression on the same backbone.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 252,
+              "image_path": "figures/2611.19287/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 776
+            },
+            {
+              "caption": "Table 5. Joint selection and adaptive execution. Joint only selects the plan with the highest joint score at a fixed depth (two actions for Uni-NaVid and four for StreamVLN); Ours selects the depth adaptively. Metrics and rank markers follow Table 2.",
+              "figure_id": "table-5-6",
+              "figure_number": "5",
+              "height": 274,
+              "image_path": "figures/2611.19287/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 421
+            },
+            {
+              "caption": "Table 6. Adaptive versus fixed execution (SR/SPL, %). All variants select plans by joint score. Fixed variants execute up to k actions and end early on stop. Avg. k refers to adaptive execution and excludes the final decision ending in stop. Bold and underline mark the best and second-best SR/SPL scores.",
+              "figure_id": "table-6-7",
+              "figure_number": "6",
+              "height": 194,
+              "image_path": "figures/2611.19287/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 454
+            },
+            {
+              "caption": "Table 4. StreamVLN action-decoding latency with a preloaded cache. Timing starts with the cached history and current query ready, excluding visual preprocessing and cache construction. For each trajectory, the median of ten timed repetitions is used; values average the three trajectories.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 160,
+              "image_path": "figures/2611.19287/table-010.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 496
+            },
+            {
+              "caption": "Table 3. Mean latency (ms) to generate a complete reply at each prediction horizon K.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 150,
+              "image_path": "figures/2611.19287/table-011.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 483
+            },
+            {
+              "caption": "Table 2. Navigation performance on the val-unseen splits. The Published row lists results from the original papers; Reproduced evaluates the same checkpoints as Ours with their native decoders. SR, SPL, and OS are percentages; NE is in meters. Bold and underline mark the best and second-best results within each backbone and dataset.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 183,
+              "image_path": "figures/2611.19287/table-012.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 822
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.19287/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.19287",
+          "relevance": 9,
+          "selection_reason": "Training-free parallel action decoding for vision-and-language navigation policies; directly in embodied navigation.",
+          "summary_status": "generated",
+          "title": "VLN-Flash: Parallel Action Decoding with Adaptive Execution for Vision-and-Language Navigation",
+          "tldr": "VLN-Flash speeds up vision-and-language navigation by scoring short action plans in parallel and adaptively executing the safest-length plan.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Efficient aerial visual-language navigation (VLN) requires reducing model storage and inference costs while maintaining instruction-conditioned action prediction. We present ARC-VLN, a token-type-aware recursive computation framework built on a language backbone with shared parameters. ARC-VLN retains full-depth computation for text and action tokens while adaptively selecting exit depths for visual tokens. Representations of early-exiting visual tokens are retained, and active-token compaction shortens the sequences processed by subsequent recursive blocks. To mitigate routing collapse to a single exit depth, we design a dedicated learning strategy that encourages the model to distribute visual tokens across multiple exit depths.On OpenFly's Test-Seen and Test-Unseen subsets, ARC-VLN achieves the lowest navigation error and the highest success rate and success weighted by path length among all compared methods. Meanwhile, it reduces the average number of decision steps per trajectory, total floating-point operations, mean model inference time per trajectory, and average GPU memory usage during inference, indicating its great potential as a VLN backbone for lightweight applications.",
+          "arxiv_id": "2611.18696",
+          "arxiv_url": "https://arxiv.org/abs/2611.18696",
+          "authors": [
+            "Xiang Zhang, Xiangyu Dong, Yang Lu, Xiaoguang Ma"
+          ],
+          "bullets": [
+            "Targets lower storage, computation, latency, and memory costs in instruction-conditioned aerial VLN.",
+            "Uses shared-parameter recursive computation with token-type-aware routing: text and action tokens run to full depth, while visual tokens exit adaptively.",
+            "Retains early-exited visual representations and compacts active tokens to shorten later processing.",
+            "Introduces a learning strategy that distributes visual tokens across multiple exit depths and avoids routing collapse.",
+            "On OpenFly Test-Seen and Test-Unseen, reports the best navigation error, success rate, and success weighted by path length among compared methods, while also reducing inference costs."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 6. Distribution of visual token exit depths in ARC-VLN on Test-Seen and Test-Unseen.",
+              "figure_id": "figure-6-5",
+              "figure_number": "6",
+              "height": 450,
+              "image_path": "figures/2611.18696/figure-001.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 7. Spatial visualization of visual token exit depths in ARC-VLN.",
+              "figure_id": "figure-7-6",
+              "figure_number": "7",
+              "height": 485,
+              "image_path": "figures/2611.18696/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 4. Stop success conversion rates in the ablation study on Test-Seen.",
+              "figure_id": "figure-4-3",
+              "figure_number": "4",
+              "height": 129,
+              "image_path": "figures/2611.18696/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 5. Stop success conversion rates in the ablation study on Test-Unseen.",
+              "figure_id": "figure-5-1",
+              "figure_number": "5",
+              "height": 129,
+              "image_path": "figures/2611.18696/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 529
+            },
+            {
+              "caption": "TABLE I Comparison of navigation performance, parameter efficiency and computational efficiency on the OpenFly benchmark",
+              "figure_id": "table-I-7",
+              "figure_number": "I",
+              "height": 455,
+              "image_path": "figures/2611.18696/table-005.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE III Ablation results for navigation performance and efficiency on the OpenFly benchmark",
+              "figure_id": "table-III-4",
+              "figure_number": "III",
+              "height": 405,
+              "image_path": "figures/2611.18696/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE II Model configurations for the ablation study of ARC-VLN",
+              "figure_id": "table-II-2",
+              "figure_number": "II",
+              "height": 173,
+              "image_path": "figures/2611.18696/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 362
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.18696/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.18696",
+          "relevance": 9,
+          "selection_reason": "Presents ARC-VLN, an adaptive recursive computing framework for Visual-Language Navigation that reduces inference costs while maintaining high performance.",
+          "summary_status": "generated",
+          "title": "ARC-VLN: Adaptive Recursive Computing-based Visual-Language Navigation",
+          "tldr": "ARC-VLN makes aerial visual-language navigation more efficient by adaptively early-exiting visual tokens while preserving full computation for language and action tokens.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-15",
       "paper_count": 5,
       "papers": [
@@ -24588,5 +25466,5 @@
   "schema_version": 1,
   "subtopic_id": "vision-language-navigation",
   "topic_id": "embodied-ai",
-  "total_paper_count": 151
+  "total_paper_count": 158
 }

@@ -1,6 +1,161 @@
 {
   "days": [
     {
+      "date": "2026-11-16",
+      "paper_count": 1,
+      "papers": [
+        {
+          "abstract": "Masked modeling is the dominant self-supervised paradigm for point-cloud videos. However, it leaks the information it is meant to predict, whether it reconstructs masked points as in MAE-style methods or predicts their latent features. Because point-cloud tokens are anchored at points sampled from each frame, querying a target at its own position reveals where its geometry has moved, in reconstruction and latent prediction alike. For latent predictors, random spatio-temporal masks introduce a further shortcut, as visible frames on both sides of each target allow interpolation rather than forecasting. The pretext task thus reduces to completion. Once the target positions are withheld, a masked latent predictor performs only slightly better than copying the last frame. To remove this leakage, we propose PointWM, a latent world model that turns completion into forecasting by predicting the features and geometry of future frames from strictly earlier context. Each target is queried only with its last-seen position and timestamp, while a latent action learned without annotations is meant to capture the part of the future that the past leaves undetermined. On HOI4D action segmentation with a P4Transformer backbone, PointWM improves F1@50 over training from scratch by 24.9 offline and 29.1 under strictly causal inference. These results show the promise of latent world models as a leakage-free pretraining paradigm for point-cloud videos.Our code is publicly available at https://github.com/InitalZ/PointWM.",
+          "arxiv_id": "2611.20090",
+          "arxiv_url": "https://arxiv.org/abs/2611.20090",
+          "authors": [
+            "Zhuoyue Zhang, Jian Liu, Jihua Zhu, Ajmal Saeed Mian"
+          ],
+          "bullets": [
+            "Masked point-cloud video modeling can leak target motion through target positions and bidirectional temporal context.",
+            "PointWM converts completion into forecasting using only earlier frames, last-seen target positions, and timestamps.",
+            "An unsupervised latent action models future information not determined by the past.",
+            "On HOI4D action segmentation with a P4Transformer, it improves F1@50 by 24.9 offline and 29.1 with strictly causal inference versus training from scratch.",
+            "The method is evaluated for point-cloud video pretraining and its broader effectiveness beyond this setting is not established in the abstract."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. Overview of PointWM. Target branch. EMA copies of the tokenizer and encoder encode the full clip without gradients into target latents h (Latenth). Observation branch. The student encodes the same full clip into zf ; the latent-action modules read these features, which are regularized by LVIC. Context branch. With causal temporal masking retaining only the frames before a one-frame gap, the weight-shared student encodes these frames into zc. Queried with last-seen anchor coordinates, target timestamps, and a latent action at, the predictor outputs target latents ĥ (Latentp) and residual anchor displacements from the last-seen coordinates. The latent predictions are supervised by Llat (L1 to the stop-gradient h), and the anchor displacements by the Chamfer loss Lpos. Latent action modeling. An inverse dynamics model (IDM) qψ infers a posterior over at from the change between pooled frames of zf . The prior pω is conditioned only on the last context frame of zc and the horizon. The loss LKL couples them with one-sided stop-gradients, allowing the prior to limit what the posterior encodes while the posterior teaches the prior. Action switch. During training, the predictor receives the posterior sample, which is replaced by the prior mean for 30% of clips. When the future is unobserved, the switch selects the prior. Only the student tokenizer and encoder are fine-tuned downstream.",
+              "figure_id": "figure-3-11",
+              "figure_number": "3",
+              "height": 649,
+              "image_path": "figures/2611.20090/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 2. Self-supervised objectives for point-cloud video representation learning, viewed through target-position information. Explicit motion supervision fits hand-designed proxies. Contrastive learning faces ambiguous negatives under temporal redundancy. Masked latent prediction samples targets at random and queries them with their true positions, inheriting the leakage shown in Figure 1(b). With last-seen anchors as queries, PointWM forecasts the features and geometry of future frames from earlier context.",
+              "figure_id": "figure-2-4",
+              "figure_number": "2",
+              "height": 551,
+              "image_path": "figures/2611.20090/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 4. Forecast skill over copy-last versus forecast step on HOI4D. Shading denotes the 95% CI over clips, and 0 corresponds to copying the last context frame. Each color denotes one model. Block and Leak are queried at test time with target positions (solid) or last-seen anchors (dashed), while Last and PointWM are queried with last-seen anchors. Block uses block masks only, and Leak adds causal masks. Both are trained with target-position queries.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 332,
+              "image_path": "figures/2611.20090/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 496
+            },
+            {
+              "caption": "Figure 1. Why target positions matter for point-cloud videos. (a) In RGB video, target positions come from a fixed grid and carry no information about the future. (b) Sampled from the target frame itself, point-cloud anchors have positions that leak where the geometry moves. (c) Using last-seen anchor positions and target timestamps as queries, PointWM forecasts both target features and anchor locations.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 438,
+              "image_path": "figures/2611.20090/figure-004.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 496
+            },
+            {
+              "caption": "Figure 5. Anchor forecasts at three forecast steps. Gray points show the raw target point cloud. The top row shows last-seen anchors (copy-last), and the bottom row shows PointWM’s positionhead forecast.",
+              "figure_id": "figure-5-5",
+              "figure_number": "5",
+              "height": 395,
+              "image_path": "figures/2611.20090/figure-005.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 1. Latent forecasting by frozen pretrained models on HOI4D, averaged over t+1 to t+6. Skill against copy-last (CL), the context mean (CM), and linear extrapolation (LE) is (cosmodel − cosbase)/(1− cosbase). CL∗ queries with the true target anchors as a leakage diagnostic. ∆R2 is the explained variance of the feature change over all and moving (mov.) tokens, and cos is the direction cosine between predicted and true change. Teacher act. reads the latent action from EMA-teacher frame differences.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 172,
+              "image_path": "figures/2611.20090/table-006.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 496
+            },
+            {
+              "caption": "Table 5. Component ablation. Each row changes one factor of the row it names. Row (f) is PointWM, and rows (g) to (l) are variants of it. Rows (i) to (l) change only the target query (σ = 0.02 / 0.20). Skill denotes forecast skill over copy-last, averaged over t+1 to t+6 with the protocol of Table 1. Rank denotes the effective rank of frame-pooled student features on the HOI4D test split. Seg10% denotes offline HOI4D action segmentation F1@50 with 10% of the training videos labeled. Online denotes causal F1@50 with the protocol of Table 4. MSR denotes MSR-Action3D accuracy.",
+              "figure_id": "table-5-9",
+              "figure_number": "5",
+              "height": 334,
+              "image_path": "figures/2611.20090/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 2. Offline action segmentation on HOI4D (150-frame inputs). Rows marked with † are unofficial results. PointWM (shaded) reports the mean± std over three seeds. Each seed is selected on validation F1@50 and evaluated once on the 892 test videos. Gains compare PointWM with the backbone without pretraining (the first row of each block).",
+              "figure_id": "table-2-8",
+              "figure_number": "2",
+              "height": 333,
+              "image_path": "figures/2611.20090/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 456
+            },
+            {
+              "caption": "Table 4. Strictly causal online action segmentation on HOI4D (150-frame sequences, no look-ahead). Our runs (Leak, Last, PointWM) report the mean± std over three seeds. PointWM is shaded. Gains compare PointWM with the backbone without pretraining (the P4Transformer row) and with Leak.",
+              "figure_id": "table-4-6",
+              "figure_number": "4",
+              "height": 263,
+              "image_path": "figures/2611.20090/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 504
+            },
+            {
+              "caption": "Table 3. Action recognition accuracy (%) on MSR-Action3D. PointWM (shaded) is pretrained on HOI4D, fine-tuned end to end, and evaluated at the last epoch on all 297 test videos. Results report the mean± std over three seeds. Gains compare PointWM with the backbone without pretraining (the PST-Transformer and P4Transformer rows).",
+              "figure_id": "table-3-7",
+              "figure_number": "3",
+              "height": 203,
+              "image_path": "figures/2611.20090/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 500
+            },
+            {
+              "caption": "Table 6. Latent-action design. Skill over copy-last at t+6 uses the action from the context-only prior (Prior) or the posterior on the observed future (Post., an oracle reference). ∆act denotes the increase in latent L1 error at t+6 when the posterior comes from another clip in the batch; larger values mean the forecast depends more on the clip’s own action. Clip var. denotes the share (%) of posterior-mean variance between rather than within clips; lower values indicate less scene identity. Seg10% as in Table 5.",
+              "figure_id": "table-6-10",
+              "figure_number": "6",
+              "height": 155,
+              "image_path": "figures/2611.20090/table-011.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.20090/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.20090",
+          "relevance": 8,
+          "selection_reason": "Directly proposes a latent world model for point-cloud video forecasting with unsupervised latent actions.",
+          "summary_status": "generated",
+          "title": "Latent World Modeling for Point-Cloud Video Pretraining",
+          "tldr": "PointWM enables leakage-free self-supervised pretraining for point-cloud videos by forecasting future geometry and features from past context rather than completing masked frames.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "latent-action-models",
+                "video-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-15",
       "paper_count": 1,
       "papers": [
@@ -22045,5 +22200,5 @@
   "schema_version": 1,
   "subtopic_id": "latent-action-models",
   "topic_id": "world-models",
-  "total_paper_count": 117
+  "total_paper_count": 118
 }

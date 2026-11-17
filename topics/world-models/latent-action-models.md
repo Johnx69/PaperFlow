@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Latent Action Models
 
-**117 papers total**
+**118 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-16 | [Latent World Modeling for Point-Cloud Video Pretraining](https://arxiv.org/abs/2611.20090) | World Models: Latent Action Models, Video World Models | PointWM enables leakage-free self-supervised pretraining for point-cloud videos by forecasting future geometry and features from past context rather than completing masked frames. | 8 | 8 |
 | 2026-11-15 | [Beyond Prediction Gain: LASR as a Metric for Action-Grounded Latents in World Models](https://arxiv.org/abs/2611.17775) | World Models: Latent Action Models | LASR evaluates whether world-model latents encode genuine action-related information rather than merely predictive shortcuts such as state or task identity. | 9 | 8 |
 | 2026-11-14 | [SALA: Semantically Aligned Latent Actions Enable Dual-Axis Scaling of Embodied Foundation Models](https://arxiv.org/abs/2611.17110) | Embodied AI: Vision-Language-Action, Learning from Human Videos; World Models: Latent Action Models | SALA aligns latent actions across human and robot videos using language-guided semantic supervision, enabling embodied foundation models to benefit from scaling both general and task-specific human video. | 9 | 8 |
 | 2026-11-12 | [Latent Imagination for Parameterized Action Spaces](https://arxiv.org/abs/2611.15744) | Embodied AI: Robot Learning and Manipulation; World Models: Latent Action Models | HyLI combines model-based sample efficiency with fast single-pass action selection for parameterized-action MDPs. | 7 | 7 |

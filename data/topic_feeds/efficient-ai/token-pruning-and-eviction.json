@@ -1,6 +1,2072 @@
 {
   "days": [
     {
+      "date": "2026-11-16",
+      "paper_count": 10,
+      "papers": [
+        {
+          "abstract": "Visual token pruning reduces the inference cost of Vision-Language-Action (VLA) models, but attention-based scores do not directly measure a token's effect on the predicted action. We define action sensitivity as the magnitude of the first-order action change when a token is replaced by its camera's mean token and estimate it for all tokens with a single backward pass. Computing it online is costly: scoring on the full (unpruned) graph needs an extra forward pass at every control step. Scoring on the pruned forward pass is cheaper but causes scoring-graph lock-in: removed tokens lose their direct paths through later layers and tend to receive lower scores, making those locations less likely to return. On replayed observations, even with a random conditioning mask, pruned-graph scoring re-selects 59% of the mask's tokens, versus 6% expected by chance; attention histories show a similar bias. POKE (Probe Offline, Keep Efficiently) computes full-graph action sensitivities offline and distills them into a student with under 0.3M parameters. At inference, the student scores the current observation without backpropagation or previous masks, and score-guided diversity selection retains the tokens. Keeping 32 of 512 visual tokens on LIBERO, POKE achieves 95.2% success on OpenVLA-OFT and 90.8% on $\\pi_{0.5}$ at $1.85\\times$ and $1.26\\times$ speedups, outperforming attention-, diversity-, and distillation-based pruners, with larger margins on LIBERO-Plus.",
+          "arxiv_id": "2611.21033",
+          "arxiv_url": "https://arxiv.org/abs/2611.21033",
+          "authors": [
+            "Jaehyuk Lee, Yeajin Lee, Suhyun Bae, Donghun Lee"
+          ],
+          "bullets": [
+            "Attention scores poorly reflect how visual tokens affect predicted actions, while online action-sensitivity scoring is computationally expensive and biased by prior pruning.",
+            "POKE computes full-graph action sensitivities offline and distills them into a student with fewer than 0.3M parameters.",
+            "At inference, the student scores observations without backpropagation or previous masks, and diversity selection retains informative tokens.",
+            "Keeping 32 of 512 tokens achieves 95.2% success on OpenVLA-OFT and 90.8% on π0.5, with 1.85× and 1.26× speedups on LIBERO.",
+            "The method reports larger gains on LIBERO-Plus than competing attention-, diversity-, and distillation-based pruners."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Method overview. (a) Offline training: a frozen full-graph VLA produces single-probe action-sensitivity labels, which are distilled into a lightweight student. (b) Inference: student predicts token scores, and MMDP selects diverse tokens from scoring candidates.",
+              "figure_id": "figure-2-18",
+              "figure_number": "2",
+              "height": 466,
+              "image_path": "figures/2611.21033/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 998
+            },
+            {
+              "caption": "Figure 4. All methods on OpenVLA-OFT Long task 6 (B = 32), from the same initial state as Figure 3. Layout and borders follow Figure 3.",
+              "figure_id": "figure-4-28",
+              "figure_number": "4",
+              "height": 606,
+              "image_path": "figures/2611.21033/figure-002.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 3. Qualitative rollouts on OpenVLA-OFT Long task 6 (B = 32) from the same initial state, showing frames and the applied third-person mask. VLA-Pruner times out at step 520 (red); POKE (top-k) succeeds at step 220 (green). Figure 4 adds more results.",
+              "figure_id": "figure-3-16",
+              "figure_number": "3",
+              "height": 304,
+              "image_path": "figures/2611.21033/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 1. Motivation on OpenVLA-OFT. (a) LIBERO-Goal, 64/512 tokens; rows: third-person/wrist; clear patches: retained. Attention misses the target plate kept by action sensitivity. (b) LIBERO-Long, B = 32, 9 closed-loop episodes (mean, IQR). Left: cumulative number of distinct tokens ever retained; pruned-graph scoring keeps returning to the same tokens. Right: share of score assigned to tokens outside the previous mask; 19% on the pruned graph vs. 77% on the full graph (dotted: uniform scores).",
+              "figure_id": "figure-1-13",
+              "figure_number": "1",
+              "height": 287,
+              "image_path": "figures/2611.21033/figure-004.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1029
+            },
+            {
+              "caption": "Table 9. Task-level success rates (%) for online methods and DivPrune on OpenVLA-OFT (B = 32). The four methods are evaluated in one session per suite. Graph effect is full minus pruned scoring with top-k selection, in percentage points.",
+              "figure_id": "table-9-39",
+              "figure_number": "9",
+              "height": 333,
+              "image_path": "figures/2611.21033/table-005.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 864
+            },
+            {
+              "caption": "Table 1. LIBERO success rates (%) and speedups over Vanilla (×) with B retained visual tokens. †: our adaptation. Gray: online diagnostic probes (§4.5), excluded from bold along with Vanilla; on π0.5 their backward passes run in eager mode, so their speedups are against eager Vanilla (Table 26). POKE uses its B = 32 checkpoints at all budgets; timing details in Appendix 13.",
+              "figure_id": "table-1-38",
+              "figure_number": "1",
+              "height": 592,
+              "image_path": "figures/2611.21033/table-006.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1036
+            },
+            {
+              "caption": "Table 12. Scoring graphs and mask overlap on OpenVLA-OFT (B = 32). Overlap is consecutive-mask Jaccard, averaged first within episodes and then across episodes. Online methods are evaluated in one session per suite. POKE Long success is mean±SD over three training seeds; POKE overlap uses one checkpoint (seed 0). These seed averages differ from the singlecheckpoint results in Table 1.",
+              "figure_id": "table-12-20",
+              "figure_number": "12",
+              "height": 198,
+              "image_path": "figures/2611.21033/table-007.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 487
+            },
+            {
+              "caption": "Table 7. POKE student training records. Frame counts follow subsampling every eight environment steps. Recall measures overlap between the student’s and teacher’s top-B sets on validation observations. Label-generation cost is GPU time spent building the teacher cache.",
+              "figure_id": "table-7-9",
+              "figure_number": "7",
+              "height": 365,
+              "image_path": "figures/2611.21033/table-008.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 782
+            },
+            {
+              "caption": "Table 11. Task-level POKE success rates (%) on π0.5 at B = 32. Each task is evaluated over 50 episodes. Top-k and MMDP denote the two POKE selection rules. Entries report single-checkpoint results, rather than averages over training seeds; task IDs are suite-specific.",
+              "figure_id": "table-11-27",
+              "figure_number": "11",
+              "height": 365,
+              "image_path": "figures/2611.21033/table-009.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 652
+            },
+            {
+              "caption": "Table 2. Additional policies and benchmark at B = 32 of 256 visual tokens (success, %). Top: autoregressive OpenVLA on LIBERO. Bottom: open-pi-zero π0 (Bridge checkpoint) on SimplerEnv WidowX visual matching, 240 episodes per task; its student is trained on real BridgeData V2 frames. Details and full results appear in Appendices 10 and 11.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 292,
+              "image_path": "figures/2611.21033/table-010.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 496
+            },
+            {
+              "caption": "Table 3. LIBERO-Plus retention by perturbation category at B = 32 on a stratified 25% subset (2,508 perturbed tasks, one episode each), pooled over the four suites. Vanilla: success (%); other rows: success relative to Vanilla. Policies and students are unchanged (trained on unperturbed demonstrations). Per-suite success appears in Appendix 12.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 291,
+              "image_path": "figures/2611.21033/table-011.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 496
+            },
+            {
+              "caption": "Table 4. Teacher supervision at B = 32 (success, %). Only the teacher labels differ (Appendix 8). ±: mean±SD over three training seeds, separate from the Table 1 checkpoint; other entries use the Table 1 checkpoint.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 154,
+              "image_path": "figures/2611.21033/table-012.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 496
+            },
+            {
+              "caption": "Table 6. Teacher probe count on π0.5 Long and Goal (B = 32; success %, 500 episodes). One checkpoint per P ; P = 1 is from Table 1. Label costs are GPU-hours; Long P = 3, 5 are scaled from measured P = 8. Inference cost is unchanged.",
+              "figure_id": "table-6-15",
+              "figure_number": "6",
+              "height": 150,
+              "image_path": "figures/2611.21033/table-013.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 494
+            },
+            {
+              "caption": "Table 5. History-graph interventions (OFT Long, B = 32, single runs). Pruned/full: graph used to compute history or probe scores; current-frame signals are computed before the cut; overlap: Jaccard. VP denotes VLA-Pruner; SpecPrune† uses its fixedbudget static stage (Appendix 9.5).",
+              "figure_id": "table-5-14",
+              "figure_number": "5",
+              "height": 142,
+              "image_path": "figures/2611.21033/table-014.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 15. SpecPrune-VLA† history-graph and path conditions (LIBERO-Long, B = 32, 500 episodes, one run per condition). Re-entry is the mean number of entering tokens per pruned control step. The last four columns split re-entering tokens by the set that selected them: Vglobal order (including the fill), Vlocal only, Vdyn only, or both current-frame sets. Current-frame only is the sum of the last three, the analogue of the Svl-only fraction of Table 14.",
+              "figure_id": "table-15-25",
+              "figure_number": "15",
+              "height": 286,
+              "image_path": "figures/2611.21033/table-015.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 826
+            },
+            {
+              "caption": "Table 26. π0.5 latency (ms) and speedups in eager mode, where every method, including online-probe backward passes, runs on the same execution path. Speedups are medians of paired ratios over five processes (ranges in brackets); Vanilla omits masked camera/prompt padding as in Table 27.",
+              "figure_id": "table-26-22",
+              "figure_number": "26",
+              "height": 163,
+              "image_path": "figures/2611.21033/table-016.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 494
+            },
+            {
+              "caption": "Table 27. Latency (ms/call) and speedups at B = 32. Speedups are medians of paired ratios with randomized method order; brackets give ranges over five independent processes. For π0.5, the image encoder, prefix, and denoising loop use CUDA graphs; selection and probe backward passes run outside them. Vanilla uses the same path with masked camera/prompt padding omitted. See Appendix 7.5.",
+              "figure_id": "table-27-33",
+              "figure_number": "27",
+              "height": 285,
+              "image_path": "figures/2611.21033/table-017.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 664
+            },
+            {
+              "caption": "Table 23. OpenVLA-OFT latency (ms/call) and paired speedups over Vanilla, using Appendix 7.5. Only Goal is timed at B = 128. The final column reports speedups only.",
+              "figure_id": "table-23-21",
+              "figure_number": "23",
+              "height": 275,
+              "image_path": "figures/2611.21033/table-018.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 868
+            },
+            {
+              "caption": "Table 8. Training records of π0.5 Long students for teacher probe count P . Val KL and Recall@32 are measured against each row’s own validation labels. Because the targets differ with P , these values do not directly compare student quality across rows. The P = 1 row is from Table 7.",
+              "figure_id": "table-8-10",
+              "figure_number": "8",
+              "height": 139,
+              "image_path": "figures/2611.21033/table-019.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 383
+            },
+            {
+              "caption": "Table 13. Scoring graphs and mask overlap on π0.5 (B = 32), using the definition in Table 12. Masks were recorded for Spatial and Object. All values use a single run, matching the success rates in Table 1.",
+              "figure_id": "table-13-19",
+              "figure_number": "13",
+              "height": 188,
+              "image_path": "figures/2611.21033/table-020.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 487
+            },
+            {
+              "caption": "Table 19. LIBERO success rates (%) for autoregressive OpenVLA at B = 32 of 256 visual tokens, with 500 episodes per suite. Parentheses in online-probe names indicate the scoring graph. Bold marks the highest non-Vanilla value in each column, including ties.",
+              "figure_id": "table-19-36",
+              "figure_number": "19",
+              "height": 254,
+              "image_path": "figures/2611.21033/table-021.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 471
+            },
+            {
+              "caption": "Table 17. Per-suite and joint students on π0.5. Validation metrics use each suite’s validation frames; success uses MMDP at B = 32 with 500 episodes per suite. Per-suite success values are from Table 1.",
+              "figure_id": "table-17-37",
+              "figure_number": "17",
+              "height": 194,
+              "image_path": "figures/2611.21033/table-022.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 496
+            },
+            {
+              "caption": "Table 18. Cross-suite transfer on OpenVLA-OFT. A POKE student trained using one suite’s teacher labels is evaluated on another without retraining. B = 64 changes both suite and budget. Parentheses give differences (pp) from target-suite training; italic VP values are target-suite baselines.",
+              "figure_id": "table-18-35",
+              "figure_number": "18",
+              "height": 163,
+              "image_path": "figures/2611.21033/table-023.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 492
+            },
+            {
+              "caption": "Table 20. Latency (ms/call) and speedup over Vanilla on OpenVLA Goal (B = 32), using the protocol in Appendix 7.5.",
+              "figure_id": "table-20-12",
+              "figure_number": "20",
+              "height": 185,
+              "image_path": "figures/2611.21033/table-024.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 316
+            },
+            {
+              "caption": "Table 22. LIBERO-Plus success (%) by suite at B = 32. Avg.: unweighted mean over suites; Ret.: Avg. relative to Vanilla. The Total column of Table 3 pools tasks across suites and can differ slightly.",
+              "figure_id": "table-22-17",
+              "figure_number": "22",
+              "height": 303,
+              "image_path": "figures/2611.21033/table-025.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 496
+            },
+            {
+              "caption": "Table 36. Mask fidelity at shared observations (OFT Long, B = 32, 625 frames from Vanilla rollouts). Deviation is normalized by a random mask (lower is better); below random: fraction of frames with a smaller deviation than the random mask. VP’s temporal signal is updated along the shared trajectory. This measures mask quality on common reference states, not on each method’s own deployment states.",
+              "figure_id": "table-36-30",
+              "figure_number": "36",
+              "height": 129,
+              "image_path": "figures/2611.21033/table-026.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 487
+            },
+            {
+              "caption": "Table 24. Success rates (%) when reusing masks for R control steps: OpenVLA, B = 32, online full-graph probe MMDP. Scoring once every R control steps reduces its amortized frequency to 1/R, while masks become stale.",
+              "figure_id": "table-24-24",
+              "figure_number": "24",
+              "height": 117,
+              "image_path": "figures/2611.21033/table-027.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 379
+            },
+            {
+              "caption": "Table 10. MMDP minus top-k success rates (pp) for POKE on OpenVLA-OFT Long (B = 32), shown separately for three training seeds.",
+              "figure_id": "table-10-40",
+              "figure_number": "10",
+              "height": 150,
+              "image_path": "figures/2611.21033/table-028.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 836
+            },
+            {
+              "caption": "Table 28. Budget-dependent π0.5 latency (ms) and speedups with CUDA graphs. FLOPs are percentages of the unpruned VLM backbone; values for B = 64, 128 are estimates from layer-wise token counts.",
+              "figure_id": "table-28-32",
+              "figure_number": "28",
+              "height": 217,
+              "image_path": "figures/2611.21033/table-029.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 489
+            },
+            {
+              "caption": "Table 31. Replacement versus deletion deviations (Set 2). The ratio is Drepl/Ddelete. Within-frame Spearman compares the seven masks evaluated at one observation.",
+              "figure_id": "table-31-4",
+              "figure_number": "31",
+              "height": 160,
+              "image_path": "figures/2611.21033/table-030.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 496
+            },
+            {
+              "caption": "Table 37. Task-level median normalized deviations on shared Long observations (Set 3, B = 32; lower is better). The lower block reports two-sided task-level sign tests, with counts of tasks favoring a/b based on the median paired frame-wise difference. This statistic need not equal the difference of the separate task medians in the upper block.",
+              "figure_id": "table-37-29",
+              "figure_number": "37",
+              "height": 408,
+              "image_path": "figures/2611.21033/table-031.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 489
+            },
+            {
+              "caption": "Table 34. Action deviations relative to random masks with the same B = 32 and camera quotas (Set 1, delete k; lower is better). Dev./random: on each frame, every mask’s deviation is divided by the mean deviation of the n = 32 random masks on that frame, and the table reports the median of this ratio over the 120 frames; all masks on a frame share the denominator, so withinframe orderings and the paired tests in Table 35 do not depend on it. Below random: the fraction of the 120 × 32 frame–randommask pairs in which the mask’s deviation is strictly lower (ties count against the mask). The Random row is the reference by definition (1.000 and 0.500), not a measured value.",
+              "figure_id": "table-34-8",
+              "figure_number": "34",
+              "height": 273,
+              "image_path": "figures/2611.21033/table-032.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 496
+            },
+            {
+              "caption": "Table 33. Alignment of action-effect directions (Set 2). Pairwise cosine statistics are averaged within each frame and then across frames. The isotropic reference uses independent uniform unit vectors in R56.",
+              "figure_id": "table-33-7",
+              "figure_number": "33",
+              "height": 117,
+              "image_path": "figures/2611.21033/table-033.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 389
+            },
+            {
+              "caption": "Table 14. Detailed history-graph interventions (OpenVLA-OFT Long, B = 32, one run). Success is in percent. Trimmed overlap excludes each episode’s first three pruned control steps, during which full-width warmup entries can remain in the history. Re-entry is the mean number of entering tokens per control step; Svl-only is the pooled re-entry fraction defined in the text. Act. support is the mean number of tokens with nonzero temporal scores over the trimmed interval.",
+              "figure_id": "table-14-26",
+              "figure_number": "14",
+              "height": 139,
+              "image_path": "figures/2611.21033/table-034.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 722
+            },
+            {
+              "caption": "Table 16. Shadow scoring on OFT Long demonstration frames (B = 32, 3,157 frames). All conditions use the same probe at each frame and differ only in the graph; the reference is the P = 1 full-graph selection. Excl. mass and Full mass are the shares of the condition’s and the full-graph scores on tokens outside the conditioning mask.",
+              "figure_id": "table-16-34",
+              "figure_number": "16",
+              "height": 103,
+              "image_path": "figures/2611.21033/table-035.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 496
+            },
+            {
+              "caption": "Table 25. Per-stage π0.5 latency (ms, B = 32; median of 20 repetitions per entry). Image encoding, the VLM prefix, the 10-step denoising loop, and the full sampling call are each timed with CUDA events and device synchronization around the call, on a synthetic observation with a fixed keep set (no token selection). All entries come from one session; in every row the stage sum matches the full call within 0.5 ms. The full call excludes input/output transforms, token selection, and the device-to-host copy, which the endto-end timings in Table 27 include (83.2 vs. 81.4 ms for Vanilla under CUDA graphs in the same session). Prefix GFLOPs count the VLM backbone only.",
+              "figure_id": "table-25-23",
+              "figure_number": "25",
+              "height": 111,
+              "image_path": "figures/2611.21033/table-036.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 489
+            },
+            {
+              "caption": "Table 29. Paired-episode analyses of the scoring graph on OpenVLA-OFT Goal (B = 32). A only counts episodes where A succeeds and B fails. Exact p values use a two-sided binomial test on discordant pairs. Holm correction treats the three comparisons as one family.",
+              "figure_id": "table-29-5",
+              "figure_number": "29",
+              "height": 117,
+              "image_path": "figures/2611.21033/table-037.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 918
+            },
+            {
+              "caption": "Table 30. Resampling stability of π0.5 teacher labels: 200 Long validation frames and eight samples per condition. Values are means across frames, with between-frame SDs in parentheses. Recall uses 16 tokens per camera (32 in total).",
+              "figure_id": "table-30-6",
+              "figure_number": "30",
+              "height": 127,
+              "image_path": "figures/2611.21033/table-038.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 496
+            },
+            {
+              "caption": "Table 35. Frame-paired Wilcoxon signed-rank tests (Set 1, n = 120, delete k). Negative differences favor A. These exploratory tests do not account for within-episode dependence and are not used as confirmatory evidence of significance or equivalence.",
+              "figure_id": "table-35-31",
+              "figure_number": "35",
+              "height": 163,
+              "image_path": "figures/2611.21033/table-039.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 744
+            },
+            {
+              "caption": "Table 21. SimplerEnv paired comparison with VLA-Pruner (π0, B = 32). Entries: episodes where only the method succeeds / only VLA-Pruner succeeds (two-sided exact McNemar p), 240 episodes per task.",
+              "figure_id": "table-21-11",
+              "figure_number": "21",
+              "height": 73,
+              "image_path": "figures/2611.21033/table-040.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.21033/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.21033",
+          "relevance": 8,
+          "selection_reason": "Action-sensitivity-based visual token pruning for VLA models, combining token efficiency with embodied policy inference.",
+          "summary_status": "generated",
+          "title": "POKE: Probe Offline, Keep Efficiently for Vision-Language-Action Models",
+          "tldr": "POKE efficiently prunes VLA visual tokens by offline-distilling action sensitivity, achieving strong task performance with substantial inference speedups.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-action"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Diffusion Transformers (DiTs) have achieved strong performance in generation based video editing, but suffer from high inference latency due to the long token sequences formed by conditioning inputs and generated videos. Although training-free sparse attention reduces this cost, existing methods typically apply a fixed retention ratio or a single threshold shared across all tokens. In this work, we view video editing as conditional generation and identify a key insight: attention demand varies significantly both across different key sources (e.g., source videos, reference images, audio, text, and generated videos) and across queries within each source. Motivated by this, we propose QASK-Edit (Query-Adaptive Sparsity over Key Sources for Video Editing), a training-free sparse attention framework that allocates computation independently for each query and key source. Specifically, for each query, QASK-Edit considers both the attention mass and approximation risk of each block. It then evaluates candidate routing thresholds against each key source's risk budget, choosing exact computation or approximations to dynamically adjust sparsity for each query. Extensive experiments on three video editing models demonstrate that QASK-Edit achieves up to $1.46\\times$ end-to-end speedup over dense attention pipeline while preserving both editing quality and unedited region fidelity. Furthermore, QASK-Edit generalizes directly to Reference-to-Video generation, delivering up to $1.36\\times$ speedup while maintaining generation quality.",
+          "arxiv_id": "2611.20704",
+          "arxiv_url": "https://arxiv.org/abs/2611.20704",
+          "authors": [
+            "Hengrui Liu, Wenbo Xu, Ziqi Sheng, Wei lu"
+          ],
+          "bullets": [
+            "Addresses high inference latency caused by long conditioning and video token sequences.",
+            "Training-free routing adapts computation across sources such as videos, images, audio, text, and generated content.",
+            "Balances attention mass and approximation risk to select source-specific thresholds per query.",
+            "Achieves up to 1.46× end-to-end speedup in video editing while preserving editing quality and unedited regions.",
+            "Also applies to Reference-to-Video generation, achieving up to 1.36× speedup without degrading quality."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of QASK-Edit. The process begins with the generation of summaries for blocks, sub-blocks, and second-level sub-blocks. For each query tile, we independently select a routing threshold for each key source within the risk budget, based on the residual risk introduced by approximate calculations. This routing threshold then determines whether to perform exact or approximate calculations. Finally, we aggregate the contributions of all key sources into a single softmax and output the final result.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 386,
+              "image_path": "figures/2611.20704/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 1. Qualitative video editing results of QASK-Edit on MiniMax-H3. Three sampled frames are shown for each source–edited video pair, covering diverse editing tasks such as clothing modification, object replacement, and scene recoloring. The results demonstrate high-quality edits with preserved temporal consistency.",
+              "figure_id": "figure-1-8",
+              "figure_number": "1",
+              "height": 332,
+              "image_path": "figures/2611.20704/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 4. Sensitivity to the risk budget. Default budgets are scaled by c, and T (c) denotes generation latency. Quality changes are measured in score points relative to c = 1.",
+              "figure_id": "figure-4-6",
+              "figure_number": "4",
+              "height": 346,
+              "image_path": "figures/2611.20704/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 494
+            },
+            {
+              "caption": "Figure 3. Attention requirements vary across key sources and within each source. For each source, we report the mean minimum block count and percentage required to cover 90% of its dense attention mass, along with their average within-task standard deviations.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 338,
+              "image_path": "figures/2611.20704/figure-004.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 471
+            },
+            {
+              "caption": "Table 1. Quantitative comparison of video editing quality and efficiency across three video editing models.",
+              "figure_id": "table-1-7",
+              "figure_number": "1",
+              "height": 739,
+              "image_path": "figures/2611.20704/table-005.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1044
+            },
+            {
+              "caption": "Table 2. Ablation of source-specific and query-adaptive routing.",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 400,
+              "image_path": "figures/2611.20704/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 4. Generalization to reference-conditioned video generation.",
+              "figure_id": "table-4-3",
+              "figure_number": "4",
+              "height": 335,
+              "image_path": "figures/2611.20704/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 3. Relative reductions compared with the offline-calibrated source-fixed β baseline. Each entry reports attention output error reduction / exact block ratio reduction (%). Negative exact block ratio reductions indicate increased allocation. o and e denote original and edited streams.",
+              "figure_id": "table-3-4",
+              "figure_number": "3",
+              "height": 38,
+              "image_path": "figures/2611.20704/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.20704/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.20704",
+          "relevance": 8,
+          "selection_reason": "Adaptive sparse attention for efficient video editing; directly addresses attention efficiency and token sparsity.",
+          "summary_status": "generated",
+          "title": "QASK-Edit: Adaptive Sparse Attention Across Queries and Key Sources for Efficient Video Editing",
+          "tldr": "QASK-Edit accelerates diffusion-transformer video editing by adaptively sparsifying attention for each query and key source while preserving quality and fidelity.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction",
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Visual token pruning improves the efficiency of multimodal large language models (MLLMs) by removing redundant visual tokens, yet the reliability of existing selection signals has not been systematically examined. We analyze token selection under semantics-preserving perturbations and across representative pruning criteria, revealing two limitations. First, attention-based importance shifts non-uniformly under perturbations, so magnitude alone cannot distinguish stable evidence from unstable saliency (local instability). Second, attention- and diversity-based methods select substantially different subsets despite comparable performance, showing that useful evidence is not confined to a unique subset (global inconsistency). These findings motivate reliable token-set construction. We instantiate this perspective in CoRePruner, a training-free framework combining instruction-aware diversity with reliability-aware attention. Across image benchmarks, multiple MLLM architectures, and token budgets, CoRePruner improves performance, especially under aggressive pruning, and remains competitive on video benchmarks. Our results establish reliability as a central consideration in visual token selection.",
+          "arxiv_id": "2611.20505",
+          "arxiv_url": "https://arxiv.org/abs/2611.20505",
+          "authors": [
+            "Chaehee Song, Seokil Ham, KiHyun Seol, Jihyun Lee, Yubin Choi, Changick Kim"
+          ],
+          "bullets": [
+            "Attention importance can change unevenly under semantics-preserving perturbations, exposing local instability.",
+            "Different pruning criteria often select substantially different token subsets despite similar performance, revealing global inconsistency.",
+            "CoRePruner is a training-free method using instruction-aware diversity and reliability-aware attention.",
+            "It improves performance across image benchmarks, MLLM architectures, and token budgets, particularly under aggressive pruning, while remaining competitive for video.",
+            "The study argues that reliability should be a central criterion for visual token selection."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 5: Method overview of CoRePruner. Stage I selects task-relevant diverse tokens using DPP with an instruction-modulated kernel. Stage II selects reliability-aware attention anchors from the remaining tokens. The final token set is S∗ = S ∪A.",
+              "figure_id": "figure-5-19",
+              "figure_number": "5",
+              "height": 370,
+              "image_path": "figures/2611.20505/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 950
+            },
+            {
+              "caption": "Figure 4: Overlap between attention- and diversity-based selections: attention-only (blue), diversity-only (yellow), and shared tokens (pink).",
+              "figure_id": "figure-4-10",
+              "figure_number": "4",
+              "height": 356,
+              "image_path": "figures/2611.20505/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 571
+            },
+            {
+              "caption": "Figure 2: Attention instability under semantics-preserving perturbations. Perturbation parameters are shown in parentheses: padding colors (RGB), Gaussian noise (std), and resolution scaling (ratio).",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 504,
+              "image_path": "figures/2611.20505/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 464
+            },
+            {
+              "caption": "Figure 1: Limitations of existing criteria and CoRePruner. (1) Local instability: attention shifts across semantically equivalent inputs. (2) Global inconsistency: attention and diversity select different tokens yet perform similarly. CoRePruner combines stable attention with instruction-aligned coverage to construct reliable token sets.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 317,
+              "image_path": "figures/2611.20505/figure-004.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 455
+            },
+            {
+              "caption": "Figure 6: Effects of token allocation and perturbation count. Left: Accuracy generally peaks near a Stage II ratio of 0.3 across token budgets. Right: Performance versus the number of perturbed images K used to estimate attention reliability, with fluctuations when K ≥ 4.",
+              "figure_id": "figure-6-2",
+              "figure_number": "6",
+              "height": 230,
+              "image_path": "figures/2611.20505/figure-005.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 457
+            },
+            {
+              "caption": "Figure 7: Feature-space coverage of retained tokens, measured by the RMS-std of their features, across Stage I ratios on GQA (Left) and TextVQA (Right) with LLaVA-1.5-7B. Coverage peaks at intermediate ratios, supporting complementary token selection.",
+              "figure_id": "figure-7-3",
+              "figure_number": "7",
+              "height": 230,
+              "image_path": "figures/2611.20505/figure-006.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 451
+            },
+            {
+              "caption": "Figure 8: Ablation of the Stage-II token allocation ratio on MMBench. Performance peaks at 0.5, indicating that reasoning-centric benchmarks benefit from a larger allocation to reliability-aware tokens.",
+              "figure_id": "figure-8-16",
+              "figure_number": "8",
+              "height": 296,
+              "image_path": "figures/2611.20505/figure-007.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 401
+            },
+            {
+              "caption": "Figure 11: Low-overlap cases between diversity-based and attention-based token selections. For questions targeting background or peripheral cues, attention-based selection focuses on salient regions while instruction-aware diversity captures subtle task-relevant evidence. Notation follows Figure 9.",
+              "figure_id": "figure-11-20",
+              "figure_number": "11",
+              "height": 266,
+              "image_path": "figures/2611.20505/figure-008.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 937
+            },
+            {
+              "caption": "Figure 10: High-overlap cases between diversity-based and attention-based token selections. When questions target prominent foreground objects, both strategies converge on the queried instance, leading to relatively high IoU. Notation follows Figure 9.",
+              "figure_id": "figure-10-21",
+              "figure_number": "10",
+              "height": 263,
+              "image_path": "figures/2611.20505/figure-009.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 928
+            },
+            {
+              "caption": "Figure 3: Effect of attention uncertainty on pruning utility (GQA). (a) Accuracy after removing highuncertainty, low-uncertainty, or low-attention tokens. (b) Accuracy after removing low-, middle-, or highuncertainty tokens under different pruning budgets.",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 458,
+              "image_path": "figures/2611.20505/figure-010.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 428
+            },
+            {
+              "caption": "Figure 9: Comparison of token selection for the same image under different instructions. Instruction-aware diversity-based token selection (yellow) shifts toward instructions-relevant regions, while attention-based token selection (blue) focuses on visually salient areas. Overlap is shown in pink.",
+              "figure_id": "figure-9-24",
+              "figure_number": "9",
+              "height": 363,
+              "image_path": "figures/2611.20505/figure-011.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 414
+            },
+            {
+              "caption": "Table 3: Performance comparison on Qwen2.5-VL-7B under constrained token budgets. Consistent improvements show that CoRePruner generalizes to architectures with different visual-token generation mechanisms, with margins widening as the budget tightens. Notation follows Table 2.",
+              "figure_id": "table-3-8",
+              "figure_number": "3",
+              "height": 481,
+              "image_path": "figures/2611.20505/table-012.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 950
+            },
+            {
+              "caption": "Table 11: Performance comparison on LLaVA-NeXT-7B under identical token budgets. CoRePruner consistently improves performance, demonstrating that our method generalizes beyond the LLaVA-1.5 backbone. Notation follows Table 2.",
+              "figure_id": "table-11-4",
+              "figure_number": "11",
+              "height": 702,
+              "image_path": "figures/2611.20505/table-013.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 950
+            },
+            {
+              "caption": "Table 2: Performance comparison on LLaVA-1.5-7B under strict visual token budgets (128, 64, 32). CoRePruner, CoRePruner†, and CoRePruner‡ use cosine, RBF, and polynomial diversity kernels, respectively, demonstrating the plug-and-play nature. Avg. is the mean over 9 benchmarks, and Rel. is the average performance retention. CoRePruner achieves the best overall performance, with larger gains under aggressive pruning.",
+              "figure_id": "table-2-22",
+              "figure_number": "2",
+              "height": 819,
+              "image_path": "figures/2611.20505/table-014.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 950
+            },
+            {
+              "caption": "Table 5: Efficiency analysis on LLaVA-NeXT-7B with 320 tokens. CoRePruner matches prior pruning methods in prefill and decode latency and KV cache size, with additional GPU memory overhead. Prefill is reported per input and decode per generated token (ms); KV cache in MB, and memory in GB. Prefill and decode exclude vision encoding and token selection.",
+              "figure_id": "table-5-17",
+              "figure_number": "5",
+              "height": 173,
+              "image_path": "figures/2611.20505/table-015.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 461
+            },
+            {
+              "caption": "Table 4: Video-understanding performance on MVBench and VideoMME with Qwen2.5-VL-7B. CoRePruner matches or exceeds the strongest baseline on most metrics, with clearer gains under 85% and 90% token reduction.",
+              "figure_id": "table-4-7",
+              "figure_number": "4",
+              "height": 331,
+              "image_path": "figures/2611.20505/table-016.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 950
+            },
+            {
+              "caption": "Table 8: Core software packages used for model inference and evaluation.",
+              "figure_id": "table-8-15",
+              "figure_number": "8",
+              "height": 173,
+              "image_path": "figures/2611.20505/table-017.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 383
+            },
+            {
+              "caption": "Table 14: Performance of LLaVA-1.5-7B under 128- and 64-token budgets. CoRePruner results are reported as mean±standard deviation over five seeds. Notation follows Table 2.",
+              "figure_id": "table-14-13",
+              "figure_number": "14",
+              "height": 412,
+              "image_path": "figures/2611.20505/table-018.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 952
+            },
+            {
+              "caption": "Table 15: Stage-wise and ρ-form ablation on LLaVA-1.5-7B under 128- and 64-token budgets. Results are reported as mean±standard deviation over five seeds.",
+              "figure_id": "table-15-12",
+              "figure_number": "15",
+              "height": 353,
+              "image_path": "figures/2611.20505/table-019.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 950
+            },
+            {
+              "caption": "Table 6: Ablation analysis on LLaVA-1.5-7B. Stage Ionly and Stage II-only use a single stage; w/o Reliability replaces the Stage II score with raw attention. Both stages contribute, and removing the stability weighting lowers accuracy on every metric at both budgets.",
+              "figure_id": "table-6-18",
+              "figure_number": "6",
+              "height": 316,
+              "image_path": "figures/2611.20505/table-020.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 461
+            },
+            {
+              "caption": "Table 7: Attention and uncertainty statistics of the high-uncertainty (U ↑) and low-uncertainty (U ↓) token groups used in Figure 3(a). For a fair comparison, the two groups are constructed to have closely matched attention-score distributions, including similar mean attention magnitudes, allowing the effect of uncertainty to be examined while controlling for raw attention strength.",
+              "figure_id": "table-7-14",
+              "figure_number": "7",
+              "height": 325,
+              "image_path": "figures/2611.20505/table-021.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 461
+            },
+            {
+              "caption": "Table 10: Evaluation benchmarks, evaluation splits, and the number of evaluation samples used in our experiments.",
+              "figure_id": "table-10-9",
+              "figure_number": "10",
+              "height": 244,
+              "image_path": "figures/2611.20505/table-022.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 458
+            },
+            {
+              "caption": "Table 13: Quantitative analysis of token prominence under perturbations. The high Ratio (up to 3.13) and Recall@k (up to 0.91) show that tokens identified as important under clean inputs remain prominent and are largely preserved within the perturbed top-k set.",
+              "figure_id": "table-13-23",
+              "figure_number": "13",
+              "height": 132,
+              "image_path": "figures/2611.20505/table-023.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 369
+            },
+            {
+              "caption": "Table 1: Attention- and diversity-based pruning achieve broadly comparable accuracy despite low token-set overlap; the overlap decreases under tighter budgets.",
+              "figure_id": "table-1-11",
+              "figure_number": "1",
+              "height": 302,
+              "image_path": "figures/2611.20505/table-024.webp",
+              "kind": "table",
+              "page": 3,
+              "width": 329
+            },
+            {
+              "caption": "Table 12: Performance (%) on GQA after removing tokens selected by attention vs. random pruning. (a) On clean images, removing the top-k attended tokens (Tk) causes a larger accuracy drop than removing randomly selected tokens. (b) On perturbed images, we remove Tk identified from clean inputs. Removing Tk still results in a substantially larger performance drop than random pruning.",
+              "figure_id": "table-12-25",
+              "figure_number": "12",
+              "height": 192,
+              "image_path": "figures/2611.20505/table-025.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 858
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.20505/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.20505",
+          "relevance": 7,
+          "selection_reason": "Analyzes and improves visual token pruning reliability in multimodal LLMs, directly fitting token pruning/eviction and MLLM efficiency.",
+          "summary_status": "generated",
+          "title": "How Reliable Is Visual Token Selection? Rethinking Pruning in Multimodal LLMs",
+          "tldr": "Visual token pruning can be unreliable, so CoRePruner combines diversity and stability-aware attention to retain useful visual evidence more effectively.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "multimodal-large-language-models"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "GPTQ is the de facto standard solver for layer-wise post-training quantization (PTQ) of large language models, yet the solver itself has received less attention than weight preprocessing and cross-layer objectives. We target a bottleneck of GPTQ: its greedy procedure optimizes continuous group scales separately from the assignment of discrete integers. Evaluating each integer candidate with its closed-form optimal scale has been used for per-channel quantization; JointQ extends it to group-wise quantization, where a row's scales are coupled through the Hessian, and applies it to refine the GPTQ solution. Each local-search move changes one integer and recomputes its group's optimal scale in closed form, accounting for the other groups through the full Hessian; all scales are periodically re-solved jointly. The search starts from a row-wise selection among scale-refitted candidates including the GPTQ solution, so unregularized JointQ never has a larger layer-wise calibration error than GPTQ. JointQ preserves the GPTQ output format and is thus a drop-in replacement. Across four models and four settings, JointQ improves six-task average zero-shot accuracy over vanilla GPTQ in 14 of 16 comparisons and perplexity in 12 of 16. The mean accuracy gain increases from 0.0044 in W4G128 to 0.1559 in W3 per-channel, and JointQ also improves average accuracy over GPTQ with MSE-based scale search and activation ordering in all eight per-channel comparisons, though rarely in G128. An ablation shows that JointQ's diagonal Tikhonov regularization mitigates severe W3 per-channel perplexity degradation, so the largest gains are not due to the local search alone. Overall, JointQ's primary empirical benefit is downstream accuracy preservation in challenging low-bit and large-group regimes. Code is available in the OneComp library at https://github.com/FujitsuResearch/OneCompression.",
+          "arxiv_id": "2611.20384",
+          "arxiv_url": "https://arxiv.org/abs/2611.20384",
+          "authors": [
+            "Keiji Kimura, Yuma Ichikawa"
+          ],
+          "bullets": [
+            "Targets GPTQ’s greedy separation of discrete integer selection from continuous scale optimization.",
+            "Uses Hessian-aware local search: each integer update recomputes its group’s closed-form optimal scale, followed by periodic joint scale refinement.",
+            "Starts from scale-refitted GPTQ candidates, so unregularized JointQ does not increase layer-wise calibration error relative to GPTQ.",
+            "Across four models and four settings, it improves average zero-shot accuracy in 14/16 comparisons and perplexity in 12/16.",
+            "Diagonal Tikhonov regularization helps prevent severe W3 per-channel perplexity degradation; JointQ remains a drop-in GPTQ replacement."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.CL"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Layer-type-wise unregularized output-error ratios on the common calibration inputs for Llama-2-7B. At each layer, X is the BF16-model calibration activation used by all methods and to form H = XX⊤ for quantization. For each layer type, ∥(W − Ŵ )X∥2F is summed over all transformer blocks and normalized by the corresponding GPTQ sum; “total” sums all seven layer types before normalization. A ratio below one indicates a lower error than GPTQ.",
+              "figure_id": "figure-1-8",
+              "figure_number": "1",
+              "height": 452,
+              "image_path": "figures/2611.20384/figure-001.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 720
+            },
+            {
+              "caption": "Figure 2: Layer-type-wise unregularized output-error ratios for Llama-3-8B.",
+              "figure_id": "figure-2-7",
+              "figure_number": "2",
+              "height": 452,
+              "image_path": "figures/2611.20384/figure-002.webp",
+              "kind": "figure",
+              "page": 46,
+              "width": 720
+            },
+            {
+              "caption": "Figure 3: Layer-type-wise unregularized output-error ratios for Qwen3-8B.",
+              "figure_id": "figure-3-5",
+              "figure_number": "3",
+              "height": 452,
+              "image_path": "figures/2611.20384/figure-003.webp",
+              "kind": "figure",
+              "page": 47,
+              "width": 720
+            },
+            {
+              "caption": "Figure 4: Layer-type-wise unregularized output-error ratios for Qwen3-14B.",
+              "figure_id": "figure-4-4",
+              "figure_number": "4",
+              "height": 452,
+              "image_path": "figures/2611.20384/figure-004.webp",
+              "kind": "figure",
+              "page": 47,
+              "width": 720
+            },
+            {
+              "caption": "Table 1: WikiText-2 perplexity (↓) and average zero-shot accuracy (↑). JointQ uses the layer-specific diagonal regularization in Table 6 (Appendix D). Bold denotes the better quantized result for each model and setting.",
+              "figure_id": "table-1-17",
+              "figure_number": "1",
+              "height": 384,
+              "image_path": "figures/2611.20384/table-005.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 700
+            },
+            {
+              "caption": "Table 3: Staged ablation of the unregularized JointQ pipeline and stabilization. Bold denotes the best result in each row and metric.",
+              "figure_id": "table-3-6",
+              "figure_number": "3",
+              "height": 365,
+              "image_path": "figures/2611.20384/table-006.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 494
+            },
+            {
+              "caption": "Table 8: GPTQ⋆ versus JointQ. Bold denotes the better quality result within each model and setting.",
+              "figure_id": "table-8-15",
+              "figure_number": "8",
+              "height": 475,
+              "image_path": "figures/2611.20384/table-007.webp",
+              "kind": "table",
+              "page": 44,
+              "width": 630
+            },
+            {
+              "caption": "Table 2: JointQ versus GPTQ-MSE. Entries count model-level wins/ties/losses for JointQ; ∆ Avg. is the mean JointQ accuracy gain.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 171,
+              "image_path": "figures/2611.20384/table-008.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 398
+            },
+            {
+              "caption": "Table 4: Additional W2G32 results. Bold denotes the better quantized result within each model.",
+              "figure_id": "table-4-2",
+              "figure_number": "4",
+              "height": 352,
+              "image_path": "figures/2611.20384/table-009.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 492
+            },
+            {
+              "caption": "Table 5: Tolerances and thresholds of Algorithms 1–3, fixed in all experiments.",
+              "figure_id": "table-5-11",
+              "figure_number": "5",
+              "height": 459,
+              "image_path": "figures/2611.20384/table-010.webp",
+              "kind": "table",
+              "page": 40,
+              "width": 720
+            },
+            {
+              "caption": "Table 7: GPTQ-MSE versus JointQ. Bold denotes the better quality result within each model and setting.",
+              "figure_id": "table-7-1",
+              "figure_number": "7",
+              "height": 475,
+              "image_path": "figures/2611.20384/table-011.webp",
+              "kind": "table",
+              "page": 43,
+              "width": 470
+            },
+            {
+              "caption": "Table 9: GPTQ⋆ versus JointQ (GPTQ⋆ cand.) in G128. Bold denotes the better quality result within each model and setting.",
+              "figure_id": "table-9-9",
+              "figure_number": "9",
+              "height": 292,
+              "image_path": "figures/2611.20384/table-012.webp",
+              "kind": "table",
+              "page": 45,
+              "width": 610
+            },
+            {
+              "caption": "Table 6: Layer-type-specific regularization strengths λ, shared across model families. All settings use η = 0.5. In the four main settings, adaptive retry applies to the entries with λ = 0; it is disabled in W2G32.",
+              "figure_id": "table-6-16",
+              "figure_number": "6",
+              "height": 209,
+              "image_path": "figures/2611.20384/table-013.webp",
+              "kind": "table",
+              "page": 41,
+              "width": 616
+            },
+            {
+              "caption": "Table 10: System-level calibration sensitivity in W3G128. Values are mean ± sample standard deviation over 20 paired seeds. Avg. is the six-task mean accuracy. Bold denotes lower mean PPL or higher mean accuracy.",
+              "figure_id": "table-10-10",
+              "figure_number": "10",
+              "height": 154,
+              "image_path": "figures/2611.20384/table-014.webp",
+              "kind": "table",
+              "page": 45,
+              "width": 646
+            },
+            {
+              "caption": "Table 11: Effect of the JointQ stabilization policy. ∆ is JointQ minus JointQ w/o stab.; lower ∆ PPL and higher ∆ Avg. favor JointQ. Wins are counted over 20 paired seeds. Bold denotes the lower mean PPL.",
+              "figure_id": "table-11-18",
+              "figure_number": "11",
+              "height": 219,
+              "image_path": "figures/2611.20384/table-015.webp",
+              "kind": "table",
+              "page": 48,
+              "width": 698
+            },
+            {
+              "caption": "Table 12: JointQ (GPTQ⋆ cand.) versus GPTQ⋆. Negative ∆ PPL and positive ∆ Avg. favor JointQ (GPTQ⋆ cand.). Wins are counted over 20 paired seeds.",
+              "figure_id": "table-12-20",
+              "figure_number": "12",
+              "height": 217,
+              "image_path": "figures/2611.20384/table-016.webp",
+              "kind": "table",
+              "page": 48,
+              "width": 652
+            },
+            {
+              "caption": "Table 14: Detailed results for Llama-3-8B.",
+              "figure_id": "table-14-14",
+              "figure_number": "14",
+              "height": 232,
+              "image_path": "figures/2611.20384/table-017.webp",
+              "kind": "table",
+              "page": 49,
+              "width": 604
+            },
+            {
+              "caption": "Table 13: Detailed results for Llama-2-7B.",
+              "figure_id": "table-13-19",
+              "figure_number": "13",
+              "height": 231,
+              "image_path": "figures/2611.20384/table-018.webp",
+              "kind": "table",
+              "page": 48,
+              "width": 590
+            },
+            {
+              "caption": "Table 15: Detailed results for Qwen3-8B.",
+              "figure_id": "table-15-13",
+              "figure_number": "15",
+              "height": 231,
+              "image_path": "figures/2611.20384/table-019.webp",
+              "kind": "table",
+              "page": 49,
+              "width": 590
+            },
+            {
+              "caption": "Table 16: Detailed results for Qwen3-14B.",
+              "figure_id": "table-16-12",
+              "figure_number": "16",
+              "height": 229,
+              "image_path": "figures/2611.20384/table-020.webp",
+              "kind": "table",
+              "page": 49,
+              "width": 590
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.20384/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.20384",
+          "relevance": 8,
+          "selection_reason": "Introduces JointQ, a method for joint scale-and-integer quantization in LLMs that improves accuracy in low-bit regimes by optimizing scales and integers jointly.",
+          "summary_status": "generated",
+          "title": "JointQ: Joint Scale-and-Integer Quantization for Large Language Models",
+          "tldr": "JointQ improves GPTQ post-training quantization by jointly refining integer assignments and group scales, especially in challenging low-bit and large-group settings.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Video diffusion transformers rely on 3D full attention over tens of thousands of spatiotemporal tokens, and its quadratic cost dominates inference latency. Sparse attention reduces this cost, but existing methods face a dilemma: static methods apply predefined masks and cannot capture input-dependent attention, whereas dynamic methods reconstruct the sparse mask repeatedly, paying online to rediscover positional structure that is largely stable across inputs. To this end, we propose PoCoAttn, a training-free sparse attention framework that separates input-stable from input-dependent attention and resolves the former offline and the latter online. PoCoAttn features: (1) A relative-offset analysis of 3D query-key pairs, which shows that video attention decomposes into an input-stable positional prior that carries most of the attention mass and a small content-dependent residual. (2) A position-content collaborative sparse attention mechanism, which retrieves positional keys from offline-calibrated tables, selects content keys online with a head-adaptive ratio between the two sources, and compensates for the discarded keys to approximate full attention. (3) A step-adaptive budget allocation algorithm, which models how early-step sparse attention errors are amplified along the denoising trajectory and derives the optimal sparsity budget per step. Extensive experiments across four video diffusion models and three tasks show that PoCoAttn consistently achieves a better speed-fidelity Pareto frontier than state-of-the-art (SOTA) methods, improving PSNR by 1.9 to 5.0 dB over baselines and delivering up to 4.1$\\times$ attention and 2.0$\\times$ denoising speedups over dense FlashAttention-3 attention.",
+          "arxiv_id": "2611.20307",
+          "arxiv_url": "https://arxiv.org/abs/2611.20307",
+          "authors": [
+            "Jianwen Wu, Meiling Wang, Junkang Zhou, Yipeng Shen, Haoran You"
+          ],
+          "bullets": [
+            "Addresses the quadratic cost of 3D full attention over large spatiotemporal token sequences.",
+            "Separates mostly input-stable positional attention from a smaller input-dependent content residual.",
+            "Retrieves positional keys from offline-calibrated tables, selects content keys online, and compensates for discarded keys.",
+            "Allocates sparsity budgets across denoising steps based on error amplification, with head-adaptive position/content ratios.",
+            "Across four video diffusion models and three tasks, reports 1.9–5.0 dB PSNR gains over baselines and up to 4.1× attention and 2.0× denoising speedups versus dense FlashAttention-3."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of PoCoAttn. (a) PoCoAttn decomposes attention into an input-stable positional part and an input-dependent content part. (b) At inference, each query tile looks up its positional key tiles in the positional table, selects content keys by pooled-query scores, and merges the discarded keys into virtual keys by weighted pooling; the per-head position–content ratio is solved offline. (c) The positional table is compiled offline from the per-head positional prior Ph(∆), obtained by averaging calibration attention over each relative offset ∆. (d) The step-wise budget ρs is solved offline by minimizing the local error et(ρt) weighted by its amplification A(t).",
+              "figure_id": "figure-2-4",
+              "figure_number": "2",
+              "height": 347,
+              "image_path": "figures/2611.20307/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1029
+            },
+            {
+              "caption": "Figure 8. Qualitative comparison of video generation. Our method achieves better visual fidelity at lower density.",
+              "figure_id": "figure-8-7",
+              "figure_number": "8",
+              "height": 273,
+              "image_path": "figures/2611.20307/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 3. Relative position alone captures substantial attention mass. Attention maps of three representative Wan2.1-14B heads at denoising step 10, for a query in latent frame f=10 and keys in frames f−1, f , f+1. Under the same 15% key budget, the positional prior extracted from the same prompt captures head-specific patterns missed by hand-crafted templates and approaches the per-query oracle. Recall measures the retained attention mass; rel. err. measures the relative ℓ2 error of the sparse attention output against the dense one.",
+              "figure_id": "figure-3-11",
+              "figure_number": "3",
+              "height": 238,
+              "image_path": "figures/2611.20307/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1030
+            },
+            {
+              "caption": "Figure 4. Attention decomposes into an input-stable positional prior and an input-dependent content residual. Each column corresponds to a different prompt. The bottom row shows the residual attention that content adds on top of the positional prior.",
+              "figure_id": "figure-4-9",
+              "figure_number": "4",
+              "height": 404,
+              "image_path": "figures/2611.20307/figure-004.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 491
+            },
+            {
+              "caption": "Figure 7. Step-dependent error and amplification. One 5- step window runs oracle block-sparse attention; all other steps are dense. (a) Final PSNR. Higher is better. (b) Local attention error induced in the window. (c) Amplification of that error to the final output; Gaussian noise follows the same decay.",
+              "figure_id": "figure-7-1",
+              "figure_number": "7",
+              "height": 204,
+              "image_path": "figures/2611.20307/figure-005.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 493
+            },
+            {
+              "caption": "Figure 6. Selection and compensation are complementary. (a) Single-layer attention error without compensation, versus ratio η; grey bars show the share of heads assigned each η. (b) Error left relative to the positional table alone; compensation removes most of the error that selection leaves on global heads.",
+              "figure_id": "figure-6-12",
+              "figure_number": "6",
+              "height": 175,
+              "image_path": "figures/2611.20307/figure-006.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 492
+            },
+            {
+              "caption": "Figure 5. Positional recall is head-dependent but consistent across inputs. (a) Recall of the 40 heads in layer 30 of Wan2.114B at a 25% key budget: positional table alone, gain from moving half the budget to online content keys, and the mass left on discarded keys. (b) Per-head recall of the positional table: offline estimate (8 calibration prompts) versus actual on 8 unseen prompts.",
+              "figure_id": "figure-5-10",
+              "figure_number": "5",
+              "height": 179,
+              "image_path": "figures/2611.20307/figure-007.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 477
+            },
+            {
+              "caption": "Table 1. Quantitative comparison of video generation quality and efficiency. Bold indicates the best sparse-method results. Density is the fraction of query–key pairs actually computed in the sparse attention calls; percentages in parentheses are target density settings. †Lower speedup than originally reported, as our fused dense baseline is faster than their official dense run (App. D).",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 620,
+              "image_path": "figures/2611.20307/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1031
+            },
+            {
+              "caption": "Table 5. Step-schedule ablation on Wan2.1. All rows run PoCoAttn at 25% average density and differ only in how the budget is allocated across denoising steps (bars: early→late). E is the error proxy in Sec. 4.3; Solved is our schedule that minimizes it.",
+              "figure_id": "table-5-6",
+              "figure_number": "5",
+              "height": 137,
+              "image_path": "figures/2611.20307/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 4. Component ablation on Wan2.1. Pos.: positional keys from the table; Cont.: online content keys; Comp.: compensation.",
+              "figure_id": "table-4-5",
+              "figure_number": "4",
+              "height": 121,
+              "image_path": "figures/2611.20307/table-010.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 3. Results on the NVIDIA B200 (Wan2.1-T2V-14B, 720p).",
+              "figure_id": "table-3-8",
+              "figure_number": "3",
+              "height": 116,
+              "image_path": "figures/2611.20307/table-011.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 488
+            },
+            {
+              "caption": "Table 2. Video editing on Bernini. Speedup over dense FA3.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 115,
+              "image_path": "figures/2611.20307/table-012.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 485
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.20307/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.20307",
+          "relevance": 8,
+          "selection_reason": "Training-free sparse attention for video diffusion with offline positional priors and online key selection; fits efficient attention and video diffusion.",
+          "summary_status": "generated",
+          "title": "PoCoAttn: Position-Content Collaborative Sparse Attention for Fast and High-Fidelity Video Generation",
+          "tldr": "PoCoAttn accelerates video diffusion transformers with training-free sparse attention by combining offline positional patterns, online content selection, and step-adaptive sparsity budgets.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction",
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Multimodal large language models (MLLMs) encode a high-resolution image into thousands of visual tokens, which dominate the cost of the prefill stage. Visual token reduction removes most of these tokens, but two problems remain at extreme budgets. The vision encoder still processes every patch of the image, and the few surviving tokens often miss the small regions that hold the answer. In this paper, we propose Glance-ETD, a two-stage token reduction framework guided by a lightweight question-conditioned scorer. In the first stage, a glance encoder views the image at low resolution and re-encodes only the question-relevant regions at native resolution. In the second stage, Evidence-Tempered Diversity (ETD) selects the final tokens by combining diversity with the evidence predicted by the scorer, so that the kept tokens cover the scene and retain the answer. A single-rollout self-distillation recipe trains the MLLM with the glance encoder. With only 5% of the visual tokens, Glance-ETD retains 91.6% of the full-token performance of Qwen3.5-4B across fourteen benchmarks and outperforms the strongest prior method, LT-OPD, by 17.3 points and the same training recipe with DivPrune by 6.0. It also speeds up the time to first token on 4K images by 3.1x and generalizes to three other MLLMs and to high-resolution document benchmarks, with the largest gains on text-rich tasks.",
+          "arxiv_id": "2611.20006",
+          "arxiv_url": "https://arxiv.org/abs/2611.20006",
+          "authors": [
+            "Yuxuan Wang, Guangxiang Zhao, Yuxuan Tian, Yahui Han, Xinyu Tan, Feiyu Wang, Zongwei Lv, Xiangzheng Zhang, Lin Sun, Tong Yang"
+          ],
+          "bullets": [
+            "Addresses the cost of processing thousands of image tokens and the risk of missing small, answer-relevant regions.",
+            "Uses a two-stage, question-conditioned process: low-resolution region glancing followed by native-resolution re-encoding of relevant areas.",
+            "Selects final tokens with Evidence-Tempered Diversity, balancing scene coverage with predicted answer evidence.",
+            "At 5% of visual tokens, retains 91.6% of Qwen3.5-4B’s full-token performance across 14 benchmarks and improves over prior baselines.",
+            "Provides 3.1× faster time to first token on 4K images, with especially strong gains on text-rich tasks and transfer to other MLLMs."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. Glance-ETD. (a) Training: the student (glance encoder and LLM) selects with DivPrune, rolls out, and is distilled token by token towards a frozen full-token teacher; the scorer fϕ is trained separately on box targets with the MLLM frozen. (b) Inference: Stage 1 (Sec. 3.2) encodes the image at a quarter of the patches, the scorer fϕ picks the 25% of the coarse cells with the highest question relevance, and only these are re-encoded at native resolution, giving a grid X with all N native positions. Stage 2 (Sec. 3.3) maps X and the question to an evidence map p, and ETD greedily selects K tokens of X by di(Npi) 0.25 (shown for q1, on an illustrative evidence map).",
+              "figure_id": "figure-3-8",
+              "figure_number": "3",
+              "height": 647,
+              "image_path": "figures/2611.20006/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 2. Two problems at a strict 5% visual-token budget on Qwen3.5-4B. (a) Time to first token on HR-Bench 4K for the full-token model, pruning after the ViT, and Glance-ETD (Tab. S14). Each bar is split into vision encoding, selection, LLM prefill and CPU preprocessing. Pruning after the ViT still spends 2.64 s in the encoder; the glance encoder cuts that stage to 0.57 s. (b) One TextVQA image at the same budget: outlines are kept tokens and the dotted box is the answer. DivPrune keeps 1 of 10 text tokens, relevance top-K keeps all 10 but little context, and ETD keeps 4 plus context. (c) On 4,123 TextVQA validation questions with a model self-distilled at this budget, bars are the share of tokens overlapping the answer OCR box and diamonds the share of questions keeping at least one. The dashed line is the 5% budget.",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 229,
+              "image_path": "figures/2611.20006/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1023
+            },
+            {
+              "caption": "Figure 4. Efficiency at strict 5%, measured on one A800 in bf16. (a) Retention over the nine benchmarks against TTFT speedup on HR-Bench 4K; the dashed line is the Pareto front. (b) Peak memory on HR-Bench 4K at batch 1, 4 and 8. (c) TTFT and (d) end-to-end speed-up at batch 1, on three benchmarks per model ordered by image size. Tab. S15 covers every benchmark of both models, and Tab. S14 and Fig. S2 the rest of the measurements.",
+              "figure_id": "figure-4-6",
+              "figure_number": "4",
+              "height": 223,
+              "image_path": "figures/2611.20006/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1019
+            },
+            {
+              "caption": "Figure 1. Retention across visual-token budgets on Qwen3.5-4B: the mean over nine benchmarks1 of each score divided by our nonthinking full-token score, with the same number of tokens per image. Solid lines are trained models2; dashed lines are training-free and run on the released model, as in their papers. At 5% of the tokens, Glance-ETD keeps 93.3% (the mean of three training seeds; the other budgets use one seed), 17.5 points above DivPrune.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 440,
+              "image_path": "figures/2611.20006/figure-004.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 468
+            },
+            {
+              "caption": "Figure 5. Retention over nine benchmarks at strict 5% on four MLLMs. SD is self-distillation with the dense encoder; Tab. S13 gives the numbers.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 168,
+              "image_path": "figures/2611.20006/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 490
+            },
+            {
+              "caption": "Table 1. Comparison with token-reduction methods on Qwen3.5-4B and Gemma 4 E4B-it at a strict 5% budget, where every method keeps the same number K of visual tokens per image. Methods are grouped into training-free methods, learned modules trained with the MLLM frozen (ETD trains only its scorer), and methods that adapt the MLLM. The two self-distillation rows share the same training recipe and differ only in the token selector; Self-distillation + ETD is our method with the dense encoder. Ret. is the score on each benchmark relative to the same model’s full-token score, averaged over the fourteen benchmarks. Self-distilled rows report the mean ± std over three training seeds (Tab. S1). ‡GQA answers are lower-cased before scoring.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 805,
+              "image_path": "figures/2611.20006/table-006.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1031
+            },
+            {
+              "caption": "Table 3. Ablation of the design choices in Glance-ETD on Qwen3.5-4B and Gemma 4 E4B-it at a strict 5% budget. Each row changes one choice of the full pipeline: Stage 1 rows change which glance cells are re-encoded, and Stage 2 rows change how tokens are selected. Ret. is the retention over the nine LT-OPD benchmarks (six of which are shown), and ∆ is its change from the full pipeline. All rows use training seed 0; three-seed means of seven Qwen rows keep the same order (Sec. D.2).",
+              "figure_id": "table-3-4",
+              "figure_number": "3",
+              "height": 357,
+              "image_path": "figures/2611.20006/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1036
+            },
+            {
+              "caption": "Table 2. Component ablation on Qwen3.5-4B at a strict 5% budget. Glance: glance encoder, otherwise dense. ETD: evidencetempered selection, otherwise DivPrune. The 10× and 1× LR groups self-distil the MLLM with that ViT learning rate (1× is the LT-OPD recipe); No train is the released model. Ret.: retention over the nine LT-OPD benchmarks, mean ± std over three seeds for trained models. TFLOPs: ViT + LLM prefill on HR-Bench 4K. Shaded: Glance-ETD.",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 313,
+              "image_path": "figures/2611.20006/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.20006/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.20006",
+          "relevance": 8,
+          "selection_reason": "Visual token selection for MLLMs, directly relevant to efficient AI and multimodal foundation models.",
+          "summary_status": "generated",
+          "title": "Glance, then Select: Evidence-Tempered Visual Token Selection for Extremely Compressed Multimodal LLMs",
+          "tldr": "Glance-ETD aggressively reduces visual tokens while preserving answer-relevant evidence, achieving strong multimodal performance and faster inference at extreme compression.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "multimodal-large-language-models"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Reflective skill optimizers improve multi-turn LLM agents by revising instructions from failed and successful rollouts, yet accumulating edge-case rules bloats prompts, inflates token use, and pushes agents into long, error-prone loops. We introduce EfficientSkill, a two-step framework that first discovers a reliable skill without token penalties, and then warm-starts accuracy-guarded pruning from that skill to compress instructions, bound agent turns, and offload reusable code into workspace utilities with zero implementation prompt cost. Across four frontier, mid-tier, and open-weight models on MATH-500, ALFWorld, and SpreadsheetBench, EfficientSkill cuts output tokens over unconstrained EvoSkill on 11 of 12 configurations (by up to 80%) while raising mean accuracy on every benchmark, including +14.3 and +17.5 percentage-point gains on SpreadsheetBench with Gemini 3.8 Flash and Grok 4.1 Fast by replacing stalled loops with compact workflows. By shrinking both generated tokens and replayed history, EfficientSkill lowers total token usage and serving cost across every evaluated configuration, with or without full-prefix KV caching.",
+          "arxiv_id": "2611.19823",
+          "arxiv_url": "https://arxiv.org/abs/2611.19823",
+          "authors": [
+            "Deep Shah, Sanket Badhe, Nehal Kathrotia, Priyanka Tiwari"
+          ],
+          "bullets": [
+            "Targets prompt bloat, excessive token consumption, and error-prone loops in reflective multi-turn agents.",
+            "Uses a two-stage process: penalty-free skill discovery followed by accuracy-guarded pruning and code offloading to workspace utilities.",
+            "Evaluated across four models on MATH-500, ALFWorld, and SpreadsheetBench.",
+            "Reduced output tokens in 11 of 12 configurations, by up to 80% versus unconstrained EvoSkill, while improving mean accuracy on every benchmark.",
+            "Lowered total token usage and serving cost across all configurations, with or without full-prefix KV caching."
+          ],
+          "categories": [
+            "cs.CL",
+            "cs.AI",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Overview of EFFICIENTSKILL. From minimal seed S0, Phase 1 repairs failed rollouts on frozen agent M without token penalties to discover anchor skill A∗. Warm-starting from A∗, Phase 2 prunes episodic output tokens (Eout) under a ≥ 0.90A∗ validation gate, yielding concise rules and zero-body-cost workspace tools (S∗).",
+              "figure_id": "figure-1-6",
+              "figure_number": "1",
+              "height": 429,
+              "image_path": "figures/2611.19823/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 769
+            },
+            {
+              "caption": "Figure 2: Pruning Acts as Regularization. Mean heldout pass rate across all four models improves on every benchmark under EFFICIENTSKILL, led by +7.5 points on SPREADSHEETBENCH (+7.6 unrounded).",
+              "figure_id": "figure-2-11",
+              "figure_number": "2",
+              "height": 221,
+              "image_path": "figures/2611.19823/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 440
+            },
+            {
+              "caption": "Figure 3: Starting Point Matters. Pruning directly from seed S0 stalls and reverts (N = 280), whereas warm-starting from A∗ (EFFICIENTSKILL) reaches 72.5% and 81.1%.",
+              "figure_id": "figure-3-15",
+              "figure_number": "3",
+              "height": 223,
+              "image_path": "figures/2611.19823/figure-003.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 440
+            },
+            {
+              "caption": "Table 9: Phase 2 optimization spend and deployment break-even episodes (NBE). Columns report Phase 2 targetmodel evaluation spend (Cprune), reflection batch count (Kbatch), estimated Claude Opus 5.5 meta-optimizer spend (Ĉmeta ≈ $0.12Kbatch), per-episode serving savings (∆Cost = Costevo − Costours) under standard uncached billing vs. provider prefix caching (“KV-Prov”), and NBE for target-model spend alone vs. all-in (Cprune + Ĉmeta).",
+              "figure_id": "table-9-9",
+              "figure_number": "9",
+              "height": 353,
+              "image_path": "figures/2611.19823/table-004.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 941
+            },
+            {
+              "caption": "Table 8: Held-out test token usage and per-episode serving cost under unconstrained EVOSKILL vs. EFFICIENTSKILL (Ntest = 280 tasks per benchmark), expanding Table 2. “Turn-1” (I1) is mean input tokens on Turn 1; “Provider KV (KV-Prov)” discounts the reused conversation prefix It−1 on turns t ≥ 2 at each provider’s published cached-read rate (see pricing note below). Bold marks strictly lower values per pair.",
+              "figure_id": "table-8-8",
+              "figure_number": "8",
+              "height": 559,
+              "image_path": "figures/2611.19823/table-005.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 908
+            },
+            {
+              "caption": "Table 1: Held-out test performance (Ntest = 280) comparing EVOSKILL against EFFICIENTSKILL in task pass rate (%), mean turns (T̄ ), and mean output tokens per episode (Eout, including reasoning).",
+              "figure_id": "table-1-10",
+              "figure_number": "1",
+              "height": 431,
+              "image_path": "figures/2611.19823/table-006.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 950
+            },
+            {
+              "caption": "Table 2: SKILL.md word counts (EVOSKILL→ EFFICIENTSKILL), billed input-token change, and standard servingcost change across all 12 held-out test configurations (Ntest = 280).",
+              "figure_id": "table-2-1",
+              "figure_number": "2",
+              "height": 425,
+              "image_path": "figures/2611.19823/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 950
+            },
+            {
+              "caption": "Table 4: Pruning directly from the minimal seed skill (S0) vs. warm-starting from A∗ (EFFICIENTSKILL). “Val Pass” shows the selected skill’s validation accuracy; for seed-pruning runs that roll back to S0, ∗ marks the highest validation accuracy reached by any rejected checkpoint candidate. “Test OutTok” reports cumulative output tokens across Ntest = 280 tasks, with the per-episode mean in parentheses.",
+              "figure_id": "table-4-2",
+              "figure_number": "4",
+              "height": 284,
+              "image_path": "figures/2611.19823/table-008.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 946
+            },
+            {
+              "caption": "Table 6: Validation progression (S0 → A∗) and held-out test accuracy and cumulative output tokens (Ntest = 280) under unconstrained EVOSKILL (A∗), the default 10% relative floor (≥ 0.90A∗), and the 5%-point absolute slack floor (≥ A∗ − 5%).",
+              "figure_id": "table-6-13",
+              "figure_number": "6",
+              "height": 438,
+              "image_path": "figures/2611.19823/table-009.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 950
+            },
+            {
+              "caption": "Table 5: Skill-package word counts and validation/test progression on SPREADSHEETBENCH (Nval = 40, Ntest = 280). “Next 6 Checkpoints” shows the validation pass rate and output-token range across candidate skills evaluated after A∗; none beat A∗, so EVOSKILL retains its A∗ skill. On Gemma 4 26B, A∗ = 17/40 (42.5%), and rounding the 10% allowance (round(0.10× 17) = 2 tasks) sets the discrete validation floor to 15/40 (37.5%).",
+              "figure_id": "table-5-12",
+              "figure_number": "5",
+              "height": 291,
+              "image_path": "figures/2611.19823/table-010.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 877
+            },
+            {
+              "caption": "Table 10: Paired trajectory on SPREADSHEETBENCH Task 15380 for Gemini 3.8 Flash. “Out Tok” reports total output tokens (reasoning + visible completion) per turn or turn range.",
+              "figure_id": "table-10-4",
+              "figure_number": "10",
+              "height": 602,
+              "image_path": "figures/2611.19823/table-011.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 950
+            },
+            {
+              "caption": "Table 12: Paired trajectory on ALFWORLD task T20190911_131350_027076 (“put clean spoon on the table”) for Gemini 3.8 Flash.",
+              "figure_id": "table-12-5",
+              "figure_number": "12",
+              "height": 580,
+              "image_path": "figures/2611.19823/table-012.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 950
+            },
+            {
+              "caption": "Table 13: Paired trajectory on MATH-500 problem test_precalculus_190 (sin 20◦ sin 40◦ . . . sin 160◦, Gemini 3.8 Flash).",
+              "figure_id": "table-13-14",
+              "figure_number": "13",
+              "height": 306,
+              "image_path": "figures/2611.19823/table-013.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 950
+            },
+            {
+              "caption": "Table 11: Paired trajectory on SPREADSHEETBENCH Task 36191 for Grok 4.1 Fast.",
+              "figure_id": "table-11-3",
+              "figure_number": "11",
+              "height": 158,
+              "image_path": "figures/2611.19823/table-014.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 950
+            },
+            {
+              "caption": "Table 3: Benchmark specifications, frozen 20%/10%/70% dataset splits (seed 42; 1,198 unique tasks: 400-task SPREADSHEETBENCH-Verified, first 80/40/280 of shuffled MATH-500 for matched Ntest = 280, and 398 ALFWORLD games balanced across all 6 task types), action spaces with per-episode turn caps, and deterministic binary verifiers.",
+              "figure_id": "table-3-7",
+              "figure_number": "3",
+              "height": 39,
+              "image_path": "figures/2611.19823/table-015.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 950
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.19823/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.19823",
+          "relevance": 7,
+          "selection_reason": "Reduces token usage and serving cost in multi-turn agents via instruction pruning and code offloading, directly relevant to token and memory efficiency.",
+          "summary_status": "generated",
+          "title": "EfficientSkill: Learning Skills for Token-Efficient Multi-Turn Agents",
+          "tldr": "EfficientSkill learns reliable agent instructions first, then prunes and refactors them to reduce token use and looping while preserving or improving accuracy.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction",
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Recent efforts to improve the efficiency of multimodal large language models (MLLMs) have explored visual token pruning, quantization, and feature compression. However, the properties that determine whether transformed visual tokens remain usable by a frozen decoder are not well characterized. We introduce \\textbf{TIVS (Token Identity Versus Statistics)}, a training-free intervention framework that separately studies sequence permutation, token retention, numerical precision, and statistical replacement under controlled conditions. On 192 POPE questions, three token permutations change TinyLLaVA accuracy by only $-0.17$ percentage points on average, while changing 4.69\\% of individual predictions. Diagonal and rank-64 Gaussian replacements decrease accuracy by 25.0 and 28.1 points on the same subset. Further experiments with exact moment constraints, quantization error, token retention, and additional visual tasks reveal how strongly the effects depend on the original feature values and the evaluation setting. These findings provide an empirical basis for assessing visual token transformations in frozen MLLMs and designing more reliable multimodal interfaces.",
+          "arxiv_id": "2611.19745",
+          "arxiv_url": "https://arxiv.org/abs/2611.19745",
+          "authors": [
+            "Yikang Qiao, Jianye Zeng, Duan Huang, Ziying Song"
+          ],
+          "bullets": [
+            "Introduces a training-free framework separating permutation, retention, precision, and statistical replacement effects.",
+            "On 192 POPE questions, three token permutations changed TinyLLaVA accuracy by only −0.17 points on average, despite altering 4.69% of predictions.",
+            "Diagonal and rank-64 Gaussian replacements reduced accuracy by 25.0 and 28.1 points, respectively.",
+            "Additional experiments show that transformation effects depend on original feature values and evaluation setting.",
+            "Provides empirical guidance for evaluating visual-token transformations and designing multimodal interfaces."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1. Overview of TIVS. TIVS systematically investigates visual token transformations in frozen MLLMs. The results highlight the importance of preserving token-level numerical identity for visual understanding.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 731,
+              "image_path": "figures/2611.19745/figure-001.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 472
+            },
+            {
+              "caption": "Figure 3. Measured token features. Actual non-CLS TinyLLaVA features from one fixed image under clean, permutation and diagonal Gaussian replacement. All panels use the same 24 clean selected channels and token-row selection.",
+              "figure_id": "figure-3-13",
+              "figure_number": "3",
+              "height": 325,
+              "image_path": "figures/2611.19745/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 913
+            },
+            {
+              "caption": "Figure 2. Controlled visual token interventions. TinyLLaVA features are transformed before the frozen projector and inserted into the visual positions of the language sequence. Retention reduces the number of slots. Decoder and binary readout remain fixed.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 298,
+              "image_path": "figures/2611.19745/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 950
+            },
+            {
+              "caption": "Figure 7. Quantization error and decision changes. Each point is an observed question and bit width in the new 64-question run. Error is the relative Frobenius deviation before FP16 conversion.",
+              "figure_id": "figure-7-8",
+              "figure_number": "7",
+              "height": 306,
+              "image_path": "figures/2611.19745/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 916
+            },
+            {
+              "caption": "Figure 10. Sensitivity across tasks. Changes relative to the task specific clean score, with exploratory paired image-cluster intervals where estimable. ChartQA uses short answer numeric tolerance. MMBench uses fixed option order.",
+              "figure_id": "figure-10-12",
+              "figure_number": "10",
+              "height": 320,
+              "image_path": "figures/2611.19745/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 837
+            },
+            {
+              "caption": "Figure 11. Matched decoder input backbone comparison. Changes on the same 48 POPE questions. Every measured model uses its native visual encoder and prompt format.",
+              "figure_id": "figure-11-11",
+              "figure_number": "11",
+              "height": 290,
+              "image_path": "figures/2611.19745/figure-006.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 475
+            },
+            {
+              "caption": "Figure 12. Layer sensitivity. Differences relative to clean at each hidden state index, with the native −2 choice marked. Every layer is passed through the original frozen projector.",
+              "figure_id": "figure-12-10",
+              "figure_number": "12",
+              "height": 376,
+              "image_path": "figures/2611.19745/figure-007.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 454
+            },
+            {
+              "caption": "Figure 8. Bit-width sensitivity analysis. POPE accuracy under quantization on 64 questions.",
+              "figure_id": "figure-8-6",
+              "figure_number": "8",
+              "height": 272,
+              "image_path": "figures/2611.19745/figure-008.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 448
+            },
+            {
+              "caption": "Figure 9. Token retention across budgets. Measured first, last, uniform and random-subset retention on 64 POPE questions. The clean score is the 100% reference.",
+              "figure_id": "figure-9-9",
+              "figure_number": "9",
+              "height": 228,
+              "image_path": "figures/2611.19745/figure-009.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 421
+            },
+            {
+              "caption": "Figure 5. Historical 64-question POPE pilot. Recorded accuracy across the original intervention arms. The dashed horizontal line marks 50/64 correct for clean.",
+              "figure_id": "figure-5-15",
+              "figure_number": "5",
+              "height": 421,
+              "image_path": "figures/2611.19745/figure-010.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 455
+            },
+            {
+              "caption": "Figure 6. Finite-sample moment diagnostics. Relative mean and covariance errors. Each point represents an individual image. Horizontal bars indicate median values",
+              "figure_id": "figure-6-2",
+              "figure_number": "6",
+              "height": 420,
+              "image_path": "figures/2611.19745/figure-011.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 453
+            },
+            {
+              "caption": "Figure 4. Paired binary margins under permutation. The locally repeated 64-question POPE run contains four prediction flips at despite identical clean and permuted accuracy. Points represent actual recorded margins.",
+              "figure_id": "figure-4-14",
+              "figure_number": "4",
+              "height": 416,
+              "image_path": "figures/2611.19745/figure-012.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 425
+            },
+            {
+              "caption": "Table 2. Strong controls on the shared 48-question POPE subset. Means across three random seeds. Exact constraints refer to the FP32 intervention tensors before model-dtype conversion.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 209,
+              "image_path": "figures/2611.19745/table-013.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 496
+            },
+            {
+              "caption": "Table 1. Expanded TinyLLaVA POPE evaluation. All conditions share 192 questions and 32 images. Permutation is the average of three seeds. The 95% intervals are paired image-cluster intervals for accuracy change.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 209,
+              "image_path": "figures/2611.19745/table-014.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 387
+            },
+            {
+              "caption": "Table 3. Exploratory cross-task results on TinyLLaVA. Each task has 48 questions, with its own scoring protocol.",
+              "figure_id": "table-3-7",
+              "figure_number": "3",
+              "height": 139,
+              "image_path": "figures/2611.19745/table-015.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.19745/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.19745",
+          "relevance": 8,
+          "selection_reason": "Empirical study of visual token transformations in MLLMs, directly relevant to token pruning/eviction and MLLM efficiency.",
+          "summary_status": "generated",
+          "title": "TIVS: Mapping the Sensitivity Landscape of Visual Token Transformations in MLLMs",
+          "tldr": "TIVS shows that frozen MLLMs are relatively insensitive to visual-token order but highly sensitive to changes in token statistics and values.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "multimodal-large-language-models"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Federated fine-tuning enables Large Language Models (LLMs) to collaboratively adapt to distributed private data. However, long-context fine-tuning on resource-constrained devices faces substantial challenges arising from excessive activation memory, heterogeneous token-importance patterns across clients, and communication overhead. To address these challenges, we propose SMELL, a Sparsity-aware and Memory-Efficient federated fine-tuning framework for Long-context LLMs. SMELL integrates three complementary mechanisms: Local Sparse-Forward Adaptation (LSFA), Consensus-Anchored Sparsity Coordination (CASC), and Communication-Efficient Progressive Update Recovery (CPUR). These mechanisms jointly enable memory-efficient local adaptation, heterogeneity-aware sparsity coordination, and lightweight model-update transmission. Experiments on OPT-350M and LLaMA2-7B demonstrate that SMELL reduces peak memory consumption by up to 88.35% compared with conventional fine-tuning and 13.25% compared with forward-only LoRA fine-tuning at a 16K context length. Furthermore, SMELL improves fine-tuning performance under certain non-IID settings and supports compact update transmission with progressive reconstruction, demonstrating its potential for resource-efficient federated long-context LLM adaptation.",
+          "arxiv_id": "2611.19349",
+          "arxiv_url": "https://arxiv.org/abs/2611.19349",
+          "authors": [
+            "Yin Xu, Yongbo Yang, He Sun, Miao Sun, Mingjun Xiao"
+          ],
+          "bullets": [
+            "Addresses excessive activation memory, client-specific token-importance patterns, and communication overhead in federated long-context fine-tuning.",
+            "Combines Local Sparse-Forward Adaptation, Consensus-Anchored Sparsity Coordination, and Communication-Efficient Progressive Update Recovery.",
+            "Reduces peak memory by up to 88.35% versus conventional fine-tuning and 13.25% versus forward-only LoRA at 16K context length.",
+            "Evaluated on OPT-350M and LLaMA2-7B, with improved performance under certain non-IID settings and compact progressive update transmission.",
+            "Scope: results focus on the reported models, 16K context length, and selected non-IID federated settings."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.AI",
+            "cs.DC"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 4. Overview of the SMELL framework, comprising three key mechanisms: LSFA, CASC, and CPUR.",
+              "figure_id": "figure-4-10",
+              "figure_number": "4",
+              "height": 483,
+              "image_path": "figures/2611.19349/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1076
+            },
+            {
+              "caption": "Fig. 2. Peak memory of LoRA, LongLoRA and Jenga on OPT-350M (top) and OPT-1.3B (bottom).",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 289,
+              "image_path": "figures/2611.19349/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 1. Peak memory of full fine-tuning, LoRA and Jenga on LLaMA2-7B.",
+              "figure_id": "figure-1-3",
+              "figure_number": "1",
+              "height": 285,
+              "image_path": "figures/2611.19349/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 3. ZOO gradient variance (left) and the required number of resampling steps (right) across datasets and batch sizes.",
+              "figure_id": "figure-3-9",
+              "figure_number": "3",
+              "height": 221,
+              "image_path": "figures/2611.19349/figure-004.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 5. (a)–(c) Cosine similarity versus the number of accumulated channels for three vector dimensions and per-channel rates of 1/8, 1/4, and 1/2. Error bars show 95% t-based confidence intervals over 50 trials. (d) End-to-end NLL on DistilBERT/arXiv (α = 0.3) over 60 rounds. Combo (train) and Combo (train+eval) share one training run. The two curves differ in whether the consensus mask is applied when scoring the test set.",
+              "figure_id": "figure-5-1",
+              "figure_number": "5",
+              "height": 230,
+              "image_path": "figures/2611.19349/figure-005.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 1065
+            },
+            {
+              "caption": "TABLE I DESCRIPTION OF MAJOR NOTATIONS",
+              "figure_id": "table-I-7",
+              "figure_number": "I",
+              "height": 444,
+              "image_path": "figures/2611.19349/table-006.webp",
+              "kind": "table",
+              "page": 3,
+              "width": 529
+            },
+            {
+              "caption": "TABLE IV CASC ABLATIONS AFTER 30 ROUNDS ON (A) OPT-350M/DISCOVERY AND (B) DISTILBERT/ARXIV, EACH EVALUATED ON 500 TEST SAMPLES.",
+              "figure_id": "table-IV-5",
+              "figure_number": "IV",
+              "height": 398,
+              "image_path": "figures/2611.19349/table-007.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 524
+            },
+            {
+              "caption": "TABLE II PEAK ALLOCATED MEMORY IN GB FOR LLAMA2-7B AND OPT-350M IN BF16, WITH LORA RANK r = 8 WHERE APPLICABLE.",
+              "figure_id": "table-II-6",
+              "figure_number": "II",
+              "height": 208,
+              "image_path": "figures/2611.19349/table-008.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 1072
+            },
+            {
+              "caption": "TABLE V END-TO-END EVALUATION ON DISTILBERT/ARXIV WITH α = 0.3. WE REPORT R59 RESULTS AFTER 60 ROUNDS ON 500 TEST SAMPLES.",
+              "figure_id": "table-V-2",
+              "figure_number": "V",
+              "height": 259,
+              "image_path": "figures/2611.19349/table-009.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 529
+            },
+            {
+              "caption": "TABLE III RESAMPLING DIRECTIONS D OVER A UNIFIED 8-ROUND WINDOW.",
+              "figure_id": "table-III-4",
+              "figure_number": "III",
+              "height": 119,
+              "image_path": "figures/2611.19349/table-010.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 504
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.19349/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.19349",
+          "relevance": 7,
+          "selection_reason": "Sparsity-aware memory-efficient federated fine-tuning for long-context LLMs directly targets token-importance sparsity and memory reduction.",
+          "summary_status": "generated",
+          "title": "SMELL: Sparsity-aware Memory Efficient Federated Fine-tuning for Long-context LLMs",
+          "tldr": "SMELL enables memory- and communication-efficient federated fine-tuning of long-context LLMs on resource-constrained devices through sparsity-aware adaptation and coordination.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Decision models such as Jev return probabilities over caller-defined options and are increasingly used for classification. Large label spaces challenge both accuracy and scalability: larger menus can impair decisions, increase input costs, and exceed option limits. Hierarchical classification reduces menu size but introduces serial calls and error propagation. We propose AdaMenu, which builds a compact candidate menu from retrieved labeled examples and makes a single decision-model request. Its candidate labels adapt to the query, and its default setting also adjusts menu size using aggregated retrieval scores. We evaluate AdaMenu with open and closed decision models on four label sets containing up to 1,016 labels. It outperforms TypeSafe's beam-search baseline on all 16 model and label-set pairs where both methods run, improving accuracy by 16.6-34.3 percentage points. Relative to the full menu on the three smaller label sets, accuracy differences range from -0.5 to +7.2 percentage points, while input token usage falls by factors of 3.2-22.9. AdaMenu also runs when option limits exclude the full menu, including settings where the hierarchical baseline is unavailable.",
+          "arxiv_id": "2611.19005",
+          "arxiv_url": "https://arxiv.org/abs/2611.19005",
+          "authors": [
+            "Jiangze Yan, Yi Shen, Jieyun Huang, Wenjing Zhang, Zhaoxiang Liu, Ning Wang, Kai Wang, Shiguo Lian"
+          ],
+          "bullets": [
+            "Large label spaces can reduce accuracy, increase input costs, and exceed decision-model option limits.",
+            "AdaMenu builds a compact, query-specific menu from retrieved labeled examples and can adapt its size using retrieval scores.",
+            "It avoids the serial calls and error propagation of hierarchical classification by using a single decision-model request.",
+            "Across four label sets with up to 1,016 labels, AdaMenu outperformed TypeSafe’s beam-search baseline in every comparable setting.",
+            "Compared with full menus on smaller label sets, it reduced input tokens by 3.2–22.9× while changing accuracy by −0.5 to +7.2 percentage points."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.CL"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3: Accuracy versus input tokens per query (log-scale x-axis). Points show medians over the models available for each method; vertical bars show the interquartile range of accuracy.",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 365,
+              "image_path": "figures/2611.19005/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 932
+            },
+            {
+              "caption": "Figure 2: Greedy label-tree traversal versus AdaMenu, on the query of Figure 1. Left: successive decisions along the tree can exclude the correct branch early. Right: retrieval constructs an adaptive candidate menu (partially shown), followed by a single decision-model request.",
+              "figure_id": "figure-2-7",
+              "figure_number": "2",
+              "height": 469,
+              "image_path": "figures/2611.19005/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 912
+            },
+            {
+              "caption": "Figure 4: Per-model accuracy of the hierarchical baseline (beam 3), AdaMenu and, where the model accepts it, the full menu. n/a: the tree has nodes with more children than Jeff-1.0-Large reads.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 250,
+              "image_path": "figures/2611.19005/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 456
+            },
+            {
+              "caption": "Figure 1: Large menus challenge accuracy and scalability. (a) A small menu keeps input cost low. (b) More options can reduce accuracy and increase input cost, even within the option limit. (c) Menus exceeding the limit are rejected.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 388,
+              "image_path": "figures/2611.19005/figure-004.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 425
+            },
+            {
+              "caption": "Table 6: Accuracy (%) of every method and model. Full, Split: all labels in one request, read in one pass (Full) or split by the model’s serving code into groups read in several passes (Split). Greedy, Beam-3: variants of the hierarchical baseline. K, τ : AdaMenu with K ∈ {5, 10, 20} candidates or adaptive. Coverage: share of queries whose gold label is among the candidates of each AdaMenu setting. –: not available (no supplied label tree, or more options than the model accepts).",
+              "figure_id": "table-6-11",
+              "figure_number": "6",
+              "height": 667,
+              "image_path": "figures/2611.19005/table-005.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 829
+            },
+            {
+              "caption": "Table 5: First-step routing per model (%). Full (the full menu, read in one pass or split) / AdaMenu: share of the method’s predictions under the gold label’s top-level node. Tree: share of queries whose greedy first step picks that node. leaf|top: accuracy of greedy descent among the queries it routed correctly. –: menu not accepted.",
+              "figure_id": "table-5-10",
+              "figure_number": "5",
+              "height": 196,
+              "image_path": "figures/2611.19005/table-006.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 946
+            },
+            {
+              "caption": "Table 3: Accuracy (%) of the full menu, the hierarchical baseline (Tree, beam 3) and AdaMenu; best per model and label set in bold. Full: the model reads all labels in one pass. Split: its serving code splits them into groups read in several passes, within one request. –: not available for the model. AdaMenu uses adaptive menu sizes, except K=10 for Jeff-1.0-Large. Top-1 kNN candidate: AdaMenu without the model request (an ablation). Every method and model: Table 6.",
+              "figure_id": "table-3-3",
+              "figure_number": "3",
+              "height": 173,
+              "image_path": "figures/2611.19005/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 946
+            },
+            {
+              "caption": "Table 4: Cost of Jev-1.14 per method: Tokens are input tokens per query (all requests); USD is the price per 1,000 queries. Tree: the hierarchical baseline with beam 3. –: no supplied label tree (BANKING77) or menu rejected (O*NET).",
+              "figure_id": "table-4-2",
+              "figure_number": "4",
+              "height": 165,
+              "image_path": "figures/2611.19005/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 457
+            },
+            {
+              "caption": "Table 7: AdaMenu with the full bank, a hash-selected tenth and a stratified tenth (every label with an example in the full bank keeps at least one). No ex.: labels without any example. Cov.: coverage of the adaptive candidates (%). Top-1: accuracy of the top-1 kNN candidate (%). AdaMenu accuracy (%): adaptive menu sizes, except K=10 for Jeff-1.0-Large.",
+              "figure_id": "table-7-6",
+              "figure_number": "7",
+              "height": 367,
+              "image_path": "figures/2611.19005/table-009.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 862
+            },
+            {
+              "caption": "Table 1: The decision models and how they read a menu: options in one forward pass (One read), most options in one question (Most), and what happens to a longer menu. Jev-1.14 is hosted; the open models are served by us.",
+              "figure_id": "table-1-8",
+              "figure_number": "1",
+              "height": 173,
+              "image_path": "figures/2611.19005/table-010.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 431
+            },
+            {
+              "caption": "Table 2: Label sets. Depth: levels of the label tree. Fanout: the most children of any node, i.e., the largest menu used by the hierarchical baseline.",
+              "figure_id": "table-2-9",
+              "figure_number": "2",
+              "height": 131,
+              "image_path": "figures/2611.19005/table-011.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 368
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.19005/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.19005",
+          "relevance": 6,
+          "selection_reason": "Query-adaptive label menus reduce input tokens for decision models, improving efficiency.",
+          "summary_status": "generated",
+          "title": "AdaMenu: Query-Adaptive Menus for Decision Models over Large Label Spaces",
+          "tldr": "AdaMenu improves classification over large label spaces by retrieving a query-adaptive candidate menu and making one decision-model call, reducing input cost while maintaining or improving accuracy.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-15",
       "paper_count": 4,
       "papers": [
@@ -68731,5 +70797,5 @@
   "schema_version": 1,
   "subtopic_id": "token-pruning-and-eviction",
   "topic_id": "efficient-ai",
-  "total_paper_count": 351
+  "total_paper_count": 361
 }

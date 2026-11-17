@@ -1,6 +1,929 @@
 {
   "days": [
     {
+      "date": "2026-11-16",
+      "paper_count": 3,
+      "papers": [
+        {
+          "abstract": "Sequence models represent past context at different resolutions, using token-level keys and values, fixed-size recurrent states, or hierarchies of compressed summaries. Full attention supports strong associative recall but requires quadratic work during training and prefill and a linearly growing key-value cache during inference. Linear attention and state-space models reduce these costs through fixed-size recurrent memory, but this compression can limit recall. Log-linear attention offers a middle ground by maintaining logarithmically many state matrices. However, its hierarchy favors finer resolution near the current query while compressing earlier context into coarser summaries. To complement this allocation of resolution, we introduce bilateral log-linear attention, which pairs the existing hierarchy with a second hierarchy anchored at the sequence origin. By combining their reads, the two branches provide finer access to both early and recent context while remaining causal. We derive recurrent and chunkwise parallel formulations for the added branch, preserving log-linear training and prefill work, logarithmic decoding work per token, and logarithmic persistent state storage at fixed feature dimensions and chunk size. In multi-query associative recall, this design raises mean overall test accuracy from 76.37% to 96.12% over forward log-linear attention across multiple training seeds. For pretrained language models under approximate parameter matching, it raises the mean score on six selected RULER needle-in-a-haystack tasks from 26.97% to 50.03% at a context length of 6144 tokens. In the same setting, bilateral attention also outperforms forward log-linear attention on seven of eight downstream retrieval tasks, including question answering and information extraction.",
+          "arxiv_id": "2611.18974",
+          "arxiv_url": "https://arxiv.org/abs/2611.18974",
+          "authors": [
+            "Kazi Ashik Islam, Guojing Cong"
+          ],
+          "bullets": [
+            "Full attention recalls well but has quadratic training/prefill cost and a linearly growing inference cache.",
+            "The method complements the existing recent-context hierarchy with a second hierarchy anchored at the sequence start, enabling finer access to both early and recent tokens while remaining causal.",
+            "Recurrent and chunkwise-parallel formulations retain log-linear training and prefill work, logarithmic decoding per token, and logarithmic persistent state storage.",
+            "Mean associative-recall accuracy improves from 76.37% to 96.12%; selected RULER retrieval scores improve from 26.97% to 50.03% at 6,144-token context.",
+            "It outperforms forward log-linear attention on seven of eight downstream retrieval tasks, including question answering and information extraction."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4: MQAR test accuracy. All four models have two layers and hidden size 64, with sequence length 512 and K ∈ {32, 64, 96, 128} key–value pairs. Bars and curves show means over ten final training seeds (10–19); error bars and shading show ±1 sample standard deviation, with shaded bands clipped to [0, 100%]. All runs share the same fixed datasets, so the spread reflects variation across training seeds. Accuracy is averaged over queries within each example and then over examples; the overall score weights the four loads equally.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 320,
+              "image_path": "figures/2611.18974/figure-001.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 937
+            },
+            {
+              "caption": "Figure 1: Context representation in Linear attention / Mamba-2 and Log-linear attention. At t = 14, the causal prefix contains 15 tokens. (a) Linear attention and Mamba-2 summarize the entire prefix in one state matrix per head; scalar decay changes its contents without creating separate temporal buckets. (b) Log-linear attention groups tokens into buckets of sizes 8, 4, 2, 1, labeled by braces as B(ℓ) t . Each bucket is represented by a separate state matrix of the same dimension and is read with its own level weight λ(ℓ) t . The nonempty levels are 4, 3, 2, 0; level 1 is empty (S(1) t = 0). Color indicates bucket size, not attention strength. The hierarchical construction follows Guo et al. (2026).",
+              "figure_id": "figure-1-10",
+              "figure_number": "1",
+              "height": 627,
+              "image_path": "figures/2611.18974/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 831
+            },
+            {
+              "caption": "Figure 3: Reverse branch attention mask structure and parallel computation. (a) Rows are queries and columns are source tokens for a 15-token sequence; distinct outline hues identify stationary source buckets (C0, C1, C2, C3), with faint matching cell fills. The stationary buckets match the reverse hierarchy in Figure 2(b). Dashed outlines mark within-bucket causal triangles; solid outlines mark completed-bucket rectangles. C3 has no rectangle because no query follows its completion. (b,c) The regions for C2 are expanded into symbolic entries and compact forms. Mcausal",
+              "figure_id": "figure-3-5",
+              "figure_number": "3",
+              "height": 510,
+              "image_path": "figures/2611.18974/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 920
+            },
+            {
+              "caption": "Figure 2: Complementary context resolution. At t = 14, the forward Fenwick view groups 15 positions into buckets of sizes 8, 4, 2, 1, while the stationary reverse view uses sizes 1, 2, 4, 8. Braces label the visible buckets Bf,(ℓ)",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 517,
+              "image_path": "figures/2611.18974/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 829
+            },
+            {
+              "caption": "Table 3: Language-modeling results under layer matching and approximate parameter matching. Parentheses give depth; parameter counts are in millions. PPL is perplexity (↓); all other scores are percentages (↑). LM-Eval averages six selected accuracy scores; RULER-NIAH averages six selected tasks separately at each length; retrieval averages eight tasks. Bold denotes the best result among Mamba-2, log-linear, and bilateral within each panel. The bilateral rows use the same checkpoint. WikiText-2 rolling PPL uses a 6144-token context for all models.",
+              "figure_id": "table-3-13",
+              "figure_number": "3",
+              "height": 331,
+              "image_path": "figures/2611.18974/table-005.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 978
+            },
+            {
+              "caption": "Table 8: Selected language-model configurations. Counts include all learnable parameters. The approximately parameter-matched log-linear model uses an MLP width of 2320. Both panels reuse the same bilateral checkpoint.",
+              "figure_id": "table-8-4",
+              "figure_number": "8",
+              "height": 300,
+              "image_path": "figures/2611.18974/table-006.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 978
+            },
+            {
+              "caption": "Table 9: Language-modeling and commonsense-reasoning results. The first two metric columns are perplexities (↓); the remaining columns are accuracy percentages (↑). The six-task average excludes perplexities. WikiText-2 uses a 6144-token context for all models. Bold denotes the best result among Mamba-2, log-linear, and bilateral within each panel.",
+              "figure_id": "table-9-6",
+              "figure_number": "9",
+              "height": 300,
+              "image_path": "figures/2611.18974/table-007.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 978
+            },
+            {
+              "caption": "Table 10: RULER-NIAH results at context length 2048. Each task uses the same 500 prepared examples for every model. Scores are percentages; higher is better. Avg. is the unweighted mean over the six tasks. Bold denotes the best result among Mamba-2, log-linear, and bilateral within each panel.",
+              "figure_id": "table-10-9",
+              "figure_number": "10",
+              "height": 299,
+              "image_path": "figures/2611.18974/table-008.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 977
+            },
+            {
+              "caption": "Table 11: RULER-NIAH results at context length 4096. Each task uses the same 500 prepared examples for every model. Scores are percentages; higher is better. Avg. is the unweighted mean over the six tasks. Bold denotes the best result among Mamba-2, log-linear, and bilateral within each panel.",
+              "figure_id": "table-11-8",
+              "figure_number": "11",
+              "height": 298,
+              "image_path": "figures/2611.18974/table-009.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 978
+            },
+            {
+              "caption": "Table 12: RULER-NIAH results at context length 6144. Each task uses the same 500 prepared examples for every model. Scores are percentages; higher is better. Avg. is the unweighted mean over the six tasks. Bold denotes the best result among Mamba-2, log-linear, and bilateral within each panel.",
+              "figure_id": "table-12-15",
+              "figure_number": "12",
+              "height": 299,
+              "image_path": "figures/2611.18974/table-010.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 977
+            },
+            {
+              "caption": "Table 1: Complexity in terms of sequence-length at fixed model dimensions and chunk size, following Guo et al. (2026). Training time refers to complexity over a length-T sequence; decode work is for one new token. Decode memory refers to persistent recurrent state or KV cache storage.",
+              "figure_id": "table-1-11",
+              "figure_number": "1",
+              "height": 112,
+              "image_path": "figures/2611.18974/table-011.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 796
+            },
+            {
+              "caption": "Table 13: Downstream retrieval scores under the common evaluation protocol. SWDE, SQuAD completion, FDA, TriviaQA, and DROP use their full-dataset evaluations. Scores are percentages; higher is better. Avg. is the unweighted mean over the eight retrieval tasks, counting each NQ variant separately. Bold denotes the best result among Mamba-2, log-linear, and bilateral within each panel.",
+              "figure_id": "table-13-14",
+              "figure_number": "13",
+              "height": 300,
+              "image_path": "figures/2611.18974/table-012.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 978
+            },
+            {
+              "caption": "Table 2: Attention-core work and matrix-state storage per head for a length-T sequence, at fixed feature dimensions and chunk size. Lf levels suffice for the forward hierarchy, while Lr counts nonempty reverse levels; both grow logarithmically with T . Storage counts one matrix per level, including empty forward levels, and excludes shared feature-generation history, parameters, and training activations.",
+              "figure_id": "table-2-16",
+              "figure_number": "2",
+              "height": 148,
+              "image_path": "figures/2611.18974/table-013.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 768
+            },
+            {
+              "caption": "Table 4: Arithmetic work per sequence and head for the unpadded scan algorithm. Scan bounds assume a work-efficient additive scan. Scaling and accumulation include both within-bucket and later-query rows.",
+              "figure_id": "table-4-7",
+              "figure_number": "4",
+              "height": 192,
+              "image_path": "figures/2611.18974/table-014.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 486
+            },
+            {
+              "caption": "Table 5: MQAR model sizes and selected learning rates. All models have two layers and hidden size 64. Counts include tied embeddings once.",
+              "figure_id": "table-5-12",
+              "figure_number": "5",
+              "height": 141,
+              "image_path": "figures/2611.18974/table-015.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 978
+            },
+            {
+              "caption": "Table 7: Overall MQAR test accuracy (%) for all ten final training seeds. All runs use the same fixed training, validation, and test data. Bold denotes the best accuracy among Mamba-2, log-linear, and bilateral for each training seed.",
+              "figure_id": "table-7-3",
+              "figure_number": "7",
+              "height": 255,
+              "image_path": "figures/2611.18974/table-016.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 978
+            },
+            {
+              "caption": "Table 6: MQAR test accuracy in percent, reported as mean ± sample standard deviation across ten training seeds (10–19). The overall score gives equal weight to the four memory loads. Standard deviations are in percentage points. Bold means indicate the highest accuracy among Mamba-2, log-linear, and bilateral.",
+              "figure_id": "table-6-17",
+              "figure_number": "6",
+              "height": 140,
+              "image_path": "figures/2611.18974/table-017.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 978
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.18974/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.18974",
+          "relevance": 8,
+          "selection_reason": "Bilateral log-linear attention improves efficiency and long-context recall.",
+          "summary_status": "generated",
+          "title": "Bilateral Log-Linear Attention",
+          "tldr": "Bilateral log-linear attention improves long-context recall by adding a second, origin-anchored hierarchy while preserving logarithmic computational and memory costs.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Large Language Models (LLMs) increasingly rely on long contexts, making Key-Value (KV) caches dominate memory usage and inference latency. Existing vector quantization (VQ) methods effectively compress KV caches to sub-4-bit levels but often overlook inefficiencies in memory alignment and decoding speed. This work introduces MeltKV, a memory-latency co-optimized KV cache quantization framework for long-context LLM serving. MeltKV employs a memory-aligned variable-bit index packing scheme that adaptively assigns bit-widths to grouped key channels and compactly stores indices within standard data-types, eliminating redundant bits. Additionally, head-wise codebook sharing reduces the total codebook size while maintaining accuracy. Experiments demonstrate that MeltKV effectively compresses KV representations to sub-4-bit levels down to 1 bit and, at comparable perplexity, achieves 48.1% lower memory usage and 52.9% lower latency than state-of-the-art VQ methods.",
+          "arxiv_id": "2611.18652",
+          "arxiv_url": "https://arxiv.org/abs/2611.18652",
+          "authors": [
+            "Jiyun Han, Seongjoon Cho, Seungkyu Choi"
+          ],
+          "bullets": [
+            "Targets KV-cache memory and inference-latency bottlenecks in long-context LLM serving.",
+            "Adaptively assigns bit-widths to grouped key channels and packs indices into standard data types to remove redundant bits.",
+            "Shares codebooks across attention heads to reduce codebook storage while preserving accuracy.",
+            "Reaches sub-4-bit compression, down to 1 bit, with comparable perplexity.",
+            "Reports 48.1% lower memory usage and 52.9% lower latency than prior VQ methods at comparable perplexity."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Overview of KV cache vector quantization and its storage trade-offs during prefill and decoding.",
+              "figure_id": "figure-1-3",
+              "figure_number": "1",
+              "height": 445,
+              "image_path": "figures/2611.18652/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 499
+            },
+            {
+              "caption": "Figure 4: The proposed index bit-packing methods. Indices are packed into byte-aligned uint8/uint16 formats.",
+              "figure_id": "figure-4-10",
+              "figure_number": "4",
+              "height": 262,
+              "image_path": "figures/2611.18652/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 499
+            },
+            {
+              "caption": "Figure 6: End-to-end computation flow of MeltKV.",
+              "figure_id": "figure-6-13",
+              "figure_number": "6",
+              "height": 291,
+              "image_path": "figures/2611.18652/figure-003.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1046
+            },
+            {
+              "caption": "Figure 9: Latency and PPL comparisons on Llama-3-8BInstruct under 2-bit KV quantization across context lengths: (a) prefill latency and PPL, and (b) end-to-end latency.",
+              "figure_id": "figure-9-8",
+              "figure_number": "9",
+              "height": 377,
+              "image_path": "figures/2611.18652/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 501
+            },
+            {
+              "caption": "Figure 7: Fused KV Cache Attention on GPU.",
+              "figure_id": "figure-7-14",
+              "figure_number": "7",
+              "height": 313,
+              "image_path": "figures/2611.18652/figure-005.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 492
+            },
+            {
+              "caption": "Figure 3: Channel-subspace inertia and variance analysis.",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 273,
+              "image_path": "figures/2611.18652/figure-006.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 499
+            },
+            {
+              "caption": "Figure 5: Perplexity vs. index memory usage on Llama-2-7B.",
+              "figure_id": "figure-5-11",
+              "figure_number": "5",
+              "height": 215,
+              "image_path": "figures/2611.18652/figure-007.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 509
+            },
+            {
+              "caption": "Figure 8: On Llama-3-8B under 3-bit quantization, (a) KV cache compression ratio over FP16, and (b) prefill latency.",
+              "figure_id": "figure-8-4",
+              "figure_number": "8",
+              "height": 205,
+              "image_path": "figures/2611.18652/figure-008.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 499
+            },
+            {
+              "caption": "Figure 2: (a) Effective vs. actual VQ bit-widths with padding overhead; (b) Codebook-size trade-off between latency and perplexity (PPL).",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 199,
+              "image_path": "figures/2611.18652/figure-009.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 500
+            },
+            {
+              "caption": "Figure 10: Memory–latency trade-off on Llama-3-8B at 8K under comparable PPL: (a) memory footprint and (b) TTFT and Time Per Output Token (TPOT) latency.",
+              "figure_id": "figure-10-9",
+              "figure_number": "10",
+              "height": 194,
+              "image_path": "figures/2611.18652/figure-010.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 499
+            },
+            {
+              "caption": "Table 2: Architectural specifications of the evaluated models.",
+              "figure_id": "table-2-2",
+              "figure_number": "2",
+              "height": 191,
+              "image_path": "figures/2611.18652/table-011.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 508
+            },
+            {
+              "caption": "Table 3: Perplexity on Wikitext-2 and zero-shot accuracy of various LLMs across different effective bit-level settings.",
+              "figure_id": "table-3-1",
+              "figure_number": "3",
+              "height": 470,
+              "image_path": "figures/2611.18652/table-012.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 498
+            },
+            {
+              "caption": "Table 1: Perplexity (↓) sensitivity of KV representations to codebook-sharing granularity under fixed codebook budgets.",
+              "figure_id": "table-1-12",
+              "figure_number": "1",
+              "height": 271,
+              "image_path": "figures/2611.18652/table-013.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 498
+            },
+            {
+              "caption": "Table 5: Downstream performance by calibration dataset.",
+              "figure_id": "table-5-7",
+              "figure_number": "5",
+              "height": 245,
+              "image_path": "figures/2611.18652/table-014.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2611.18652/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.18652",
+          "relevance": 8,
+          "selection_reason": "KV cache compression via variable-bit vector quantization for long-context LLM serving, directly fitting KV cache efficiency and long-context topics.",
+          "summary_status": "generated",
+          "title": "MeltKV: Memory-Aligned KV Cache Compression via Variable-Bit Packed Vector Quantization for Long-Context LLMs",
+          "tldr": "MeltKV compresses long-context LLM KV caches to as little as 1 bit while reducing memory use and decoding latency through alignment-aware variable-bit packing and shared codebooks.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "The needle-in-a-haystack (NIAH) benchmark was introduced as a test for measuring a model's ability to find small relevant facts within a very large body of input text. However, existing NIAH benchmarks each suffer from one or more of the following limitations: (1) reliance on synthetic data, so their evaluations may not generalize to real-world settings; (2) reuse of previously published datasets, leading to the risk of benchmark contamination; (3) dependence on manual annotation, which requires human effort to create and update data and is prone to future benchmark contamination; and (4) unrealistic simplification of long-context multi-hop reasoning where each next step is trivial given previous steps, while real-world reasoning often requires planning over multiple possible proof paths. To address these limitations, we introduce \\Benchmark, a dynamic benchmark built from real citation relationships among scientific papers published after the evaluated models' knowledge cutoff date, which utilizes real-world information while ensuring no benchmark contamination. The fully automated benchmark construction pipeline samples representative subgraphs of the citation graph formed by these papers and converts each subgraph into a long-context QA example with a verifiable answer. We use GraphNIAH to evaluate eight LLMs from the GPT-5.6, Gemini-3, and Qwen3.5 families. We find that accuracy falls as questions require longer reasoning paths: at question depths of 16 and 32, the GPT-5.6 and Qwen3.5 models answer YES/NO questions no better than random guessing, mostly by answering NO; four of the eight models answer no counting example correctly, and the others model get worse as the subgraph size increases. These findings suggest that current LLMs often stop searching the citation relationships in their context before they reach the answer, even though every fact they need is in the context.",
+          "arxiv_id": "2610.41704",
+          "arxiv_url": "https://arxiv.org/abs/2610.41704",
+          "authors": [
+            "Minh-Nam Tran",
+            "Abulhair Saparov"
+          ],
+          "bullets": [
+            "Addresses limitations of prior NIAH benchmarks, including synthetic data, reused datasets, manual annotation, and overly simple reasoning paths.",
+            "Automatically builds verifiable long-context QA examples from citation subgraphs of papers published after evaluated models’ knowledge cutoffs.",
+            "Evaluates eight LLMs across the GPT-5.6, Gemini-3, and Qwen3.5 families.",
+            "Accuracy declines as reasoning depth and subgraph size increase; at depths 16 and 32, some models perform no better than random guessing on YES/NO questions.",
+            "Results suggest models often stop searching citation relationships before reaching answers, despite all required facts being present in context."
+          ],
+          "categories": [
+            "cs.CL"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "FIGURE 2: Abstract visualization of three reachability tasks in GraphNIAH. Each task is visualized with the question and ground truth answer from an example, together with the connected components constructed for that task. Each paper node in the diagram represents a paper, while each edge between two paper nodes represents the citation relationship between the two papers (i.e., cites or cited_by relationships). Orange and blue paper nodes indicate source and target papers, respectively. For the YES/NO reachability task shown in panel (b), the source and target paper nodes are unreachable from each other because they belong to different connected components, resulting in the NO label for this example. Green highlights around some paper nodes and citation edges in the diagrams indicate the correct paths the model must take to travel from the source paper to the target paper. For the reachability counting task (c), the answer counts all other papers starting from the source paper, so the entire source component is highlighted in green.",
+              "figure_id": "figure-2-33",
+              "figure_number": "2",
+              "height": 460,
+              "image_path": "figures/2610.41704/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 929
+            },
+            {
+              "caption": "FIGURE 12: System prompt for the multiple-choice reachability task.",
+              "figure_id": "figure-12-4",
+              "figure_number": "12",
+              "height": 679,
+              "image_path": "figures/2610.41704/figure-002.webp",
+              "kind": "figure",
+              "page": 38,
+              "width": 950
+            },
+            {
+              "caption": "FIGURE 11: System prompt for the YES/NO reachability task.",
+              "figure_id": "figure-11-45",
+              "figure_number": "11",
+              "height": 658,
+              "image_path": "figures/2610.41704/figure-003.webp",
+              "kind": "figure",
+              "page": 37,
+              "width": 950
+            },
+            {
+              "caption": "FIGURE 3: Accuracy by question depth (top row) and component size (bottom row). The dashed gray line denotes random guessing accuracy. Due to cost limitations, GPT-5.6-SOL was not run for question depth 4.",
+              "figure_id": "figure-3-31",
+              "figure_number": "3",
+              "height": 484,
+              "image_path": "figures/2610.41704/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 943
+            },
+            {
+              "caption": "FIGURE 1: Three kinds of NIAH tests. In each row, the left column shows the LLM input context with its needles, and the yellow boxes show the text of needles; the right column shows the question and its search space from s to t. Single-hop NIAH (Kamradt, 2023) needs one lookup, and in RULER (Hsieh et al., 2024) and BABILong (Kuratov et al., 2024) the next step is unambiguous. In GraphNIAH, needles describe papers and their references; s and t lie in different connected components (dashed line), so the model must search all paths from s to answer NO.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 164,
+              "image_path": "figures/2610.41704/figure-005.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 433
+            },
+            {
+              "caption": "FIGURE 8: Question templates for the three reachability tasks. Placeholders in braces denote example-specific values.",
+              "figure_id": "figure-8-34",
+              "figure_number": "8",
+              "height": 563,
+              "image_path": "figures/2610.41704/figure-006.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 950
+            },
+            {
+              "caption": "FIGURE 10: Concentration parameter selection results. Top: In-degree distributions of the filtered Semantic Scholar citation graph and generated examples using the selected value α⋆ = 0.1, shown on linear (left) and logarithmic (right) axes. Bottom: Mean KL divergence S(α) with 95% bootstrap intervals (left) and bootstrap selection frequencies (right).",
+              "figure_id": "figure-10-6",
+              "figure_number": "10",
+              "height": 595,
+              "image_path": "figures/2610.41704/figure-007.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 935
+            },
+            {
+              "caption": "FIGURE 13: System prompt for the reachability counting task.",
+              "figure_id": "figure-13-12",
+              "figure_number": "13",
+              "height": 865,
+              "image_path": "figures/2610.41704/figure-008.webp",
+              "kind": "figure",
+              "page": 39,
+              "width": 950
+            },
+            {
+              "caption": "FIGURE 5: Accuracy by context length.",
+              "figure_id": "figure-5-43",
+              "figure_number": "5",
+              "height": 237,
+              "image_path": "figures/2610.41704/figure-009.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 454
+            },
+            {
+              "caption": "FIGURE 6: Accuracy by distractor type.",
+              "figure_id": "figure-6-44",
+              "figure_number": "6",
+              "height": 218,
+              "image_path": "figures/2610.41704/figure-010.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 450
+            },
+            {
+              "caption": "FIGURE 4: Accuracy by reachability task; each dashed gray line denotes random guessing accuracy.",
+              "figure_id": "figure-4-30",
+              "figure_number": "4",
+              "height": 204,
+              "image_path": "figures/2610.41704/figure-011.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 450
+            },
+            {
+              "caption": "FIGURE 7: Accuracy by reasoning effort.",
+              "figure_id": "figure-7-16",
+              "figure_number": "7",
+              "height": 203,
+              "image_path": "figures/2610.41704/figure-012.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 450
+            },
+            {
+              "caption": "FIGURE 15: Response-format reminders for the three reachability tasks. Placeholders in braces denote examplespecific values.",
+              "figure_id": "figure-15-32",
+              "figure_number": "15",
+              "height": 394,
+              "image_path": "figures/2610.41704/figure-013.webp",
+              "kind": "figure",
+              "page": 40,
+              "width": 950
+            },
+            {
+              "caption": "FIGURE 14: User prompt template shared by all tasks.",
+              "figure_id": "figure-14-11",
+              "figure_number": "14",
+              "height": 386,
+              "image_path": "figures/2610.41704/figure-014.webp",
+              "kind": "figure",
+              "page": 39,
+              "width": 950
+            },
+            {
+              "caption": "FIGURE 9: APA-style template used to render each paper. Placeholders in braces denote example-specific values.",
+              "figure_id": "figure-9-35",
+              "figure_number": "9",
+              "height": 364,
+              "image_path": "figures/2610.41704/figure-015.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 461
+            },
+            {
+              "caption": "TABLE 2: Statistics of the evaluated examples. Each row is one value of the tested variable of an experiment; the reasoning effort experiment uses the same examples for all three efforts, and these are also the 200k examples of the target context length experiment. Overall counts each distinct example once. Cells show mean±std over examples. Words are whitespace-separated. Context covers the needles and distractors, without the question and instructions. Input tokens cover the whole prompt, including the system prompt, counted with the GPT tokenizer (o200k_base). Needles is the number of needles, one for each paper of the components generated for the task that cites another paper in its component; Needle words is the percentage of context words that belong to needles. Nodes is the number of papers of the subgraph that appear in the context, including the additional components of disjoint-component. GraphNIAH is an evaluation benchmark and has no training or development split.",
+              "figure_id": "table-2-36",
+              "figure_number": "2",
+              "height": 709,
+              "image_path": "figures/2610.41704/table-016.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 950
+            },
+            {
+              "caption": "TABLE 1: Comparison of NIAH benchmarks across five desiderata: (1) support for multi-hop reasoning, (2) use of real data, (3) the ability to update benchmark data in the future, (4) construction without manual annotation, and (5) support for non-linear reasoning. Here, non-linear reasoning requires searching among possible proof paths to find a valid proof or establish that none exists, which is in contrast with linear reasoning, where each next proof step is unambiguous given the previous steps.",
+              "figure_id": "table-1-8",
+              "figure_number": "1",
+              "height": 361,
+              "image_path": "figures/2610.41704/table-017.webp",
+              "kind": "table",
+              "page": 2,
+              "width": 950
+            },
+            {
+              "caption": "TABLE 19: Accuracy (%) of each model on each task in the distractor type experiment (§4.5), with reasoning effort low. Overall pools all distractor types. The number of examples per task differs between columns because the task of each example is sampled at random. Below each accuracy value is its 95% Wilson confidence interval.",
+              "figure_id": "table-19-7",
+              "figure_number": "19",
+              "height": 673,
+              "image_path": "figures/2610.41704/table-018.webp",
+              "kind": "table",
+              "page": 30,
+              "width": 943
+            },
+            {
+              "caption": "TABLE 6: Accuracy (%) of each model on the multiple-choice reachability examples of the question depth experiment (§4.2), with reasoning effort low. Overall pools all question depths. The number of examples differs between columns because the task of each example is sampled at random. Below each accuracy value is its 95% Wilson confidence interval. Bold marks the highest accuracy in each column. †GPT-5.6-SOL has fewer examples than the other models in this cell (93 Overall), so it is not bold. A dash marks a missing result.",
+              "figure_id": "table-6-26",
+              "figure_number": "6",
+              "height": 508,
+              "image_path": "figures/2610.41704/table-019.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 725
+            },
+            {
+              "caption": "TABLE 5: Accuracy (%) of each model on the YES/NO reachability examples of the question depth experiment (§4.2), with reasoning effort low. Overall pools all question depths. The number of examples differs between columns because the task of each example is sampled at random. Below each accuracy value is its 95% Wilson confidence interval. Bold marks the highest accuracy in each column. †GPT-5.6-SOL has fewer examples than the other models in this cell (111 Overall), so it is not bold. A dash marks a missing result.",
+              "figure_id": "table-5-25",
+              "figure_number": "5",
+              "height": 511,
+              "image_path": "figures/2610.41704/table-020.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 719
+            },
+            {
+              "caption": "TABLE 7: Accuracy (%) of each model on the reachability counting examples of the question depth experiment (§4.2), with reasoning effort low. Overall pools all question depths. The number of examples differs between columns because the task of each example is sampled at random. Below each accuracy value is its 95% Wilson confidence interval. Bold marks the highest accuracy in each column. †GPT-5.6-SOL has fewer examples than the other models in this cell (96 Overall), so it is not bold. A dash marks a missing result.",
+              "figure_id": "table-7-41",
+              "figure_number": "7",
+              "height": 511,
+              "image_path": "figures/2610.41704/table-021.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 704
+            },
+            {
+              "caption": "TABLE 8: Accuracy (%) of each model on the YES/NO reachability examples of the component size experiment (§4.2), with reasoning effort low. Overall pools all component sizes. The number of examples differs between columns because the task of each example is sampled at random. Below each accuracy value is its 95% Wilson confidence interval. Bold marks the highest accuracy in each column. †GPT-5.6-SOL has fewer examples than the other models in these cells (12 at 100, 7 at 150, and 89 Overall), so they are not bold.",
+              "figure_id": "table-8-42",
+              "figure_number": "8",
+              "height": 508,
+              "image_path": "figures/2610.41704/table-022.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 704
+            },
+            {
+              "caption": "TABLE 9: Accuracy (%) of each model on the multiple-choice reachability examples of the component size experiment (§4.2), with reasoning effort low. Overall pools all component sizes. The number of examples differs between columns because the task of each example is sampled at random. Below each accuracy value is its 95% Wilson confidence interval. Bold marks the highest accuracy in each column. †GPT-5.6-SOL has fewer examples than the other models in these cells (8 at 100, 11 at 150, and 79 Overall), so they are not bold.",
+              "figure_id": "table-9-2",
+              "figure_number": "9",
+              "height": 511,
+              "image_path": "figures/2610.41704/table-023.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 719
+            },
+            {
+              "caption": "TABLE 10: Accuracy (%) of each model on the reachability counting examples of the component size experiment (§4.2), with reasoning effort low. Overall pools all component sizes. The number of examples differs between columns because the task of each example is sampled at random. Below each accuracy value is its 95% Wilson confidence interval. Bold marks the highest accuracy in each column. †GPT-5.6-SOL has fewer examples than the other models in these cells (7 at 100, 8 at 150, and 85 Overall), so they are not bold.",
+              "figure_id": "table-10-3",
+              "figure_number": "10",
+              "height": 508,
+              "image_path": "figures/2610.41704/table-024.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 704
+            },
+            {
+              "caption": "TABLE 20: Pairwise comparison of the distractor types in the distractor type experiment (§4.5), with reasoning effort low. All tasks are pooled, because the task of each example is sampled at random, independently of its distractor type. Each cell gives the accuracy with the second distractor type minus the accuracy with the first, in percentage points, and below it the p-value of Fisher’s exact test after the Holm correction for the ten pairs of each model. The last row gives the p-value of the χ2 test of whether accuracy is the same for all five distractor types.",
+              "figure_id": "table-20-47",
+              "figure_number": "20",
+              "height": 560,
+              "image_path": "figures/2610.41704/table-025.webp",
+              "kind": "table",
+              "page": 31,
+              "width": 817
+            },
+            {
+              "caption": "TABLE 24: Accuracy (%) of each model in the component size experiment (§4.2), with reasoning effort low. Each component size has 100 examples, and Overall pools all component sizes. Below each accuracy value is its 95% Wilson confidence interval. Bold marks the highest accuracy in each column. †GPT-5.6-SOL has fewer examples than the other models in these cells (27 at 100, 26 at 150, and 253 Overall), so they are not bold.",
+              "figure_id": "table-24-38",
+              "figure_number": "24",
+              "height": 479,
+              "image_path": "figures/2610.41704/table-026.webp",
+              "kind": "table",
+              "page": 32,
+              "width": 704
+            },
+            {
+              "caption": "TABLE 23: Accuracy (%) of each model in the question depth experiment (§4.2), with reasoning effort low. Each question depth has 100 examples, and Overall pools all question depths. Below each accuracy value is its 95% Wilson confidence interval. Bold marks the highest accuracy in each column. †GPT-5.6-SOL has fewer examples than the other models in this cell (300 Overall), so it is not bold. A dash marks a missing result.",
+              "figure_id": "table-23-37",
+              "figure_number": "23",
+              "height": 478,
+              "image_path": "figures/2610.41704/table-027.webp",
+              "kind": "table",
+              "page": 32,
+              "width": 704
+            },
+            {
+              "caption": "TABLE 33: Cost and response time of each model in the reasoning effort experiment (§4.6). #Examples counts the examples that the model answered, and each cell shows mean±std over these examples. Output tokens are the completion tokens reported by the provider, including reasoning tokens. Response time runs from sending the successful request to receiving its response, so it excludes waits before sending and failed attempts. Cost is the LiteLLM estimate from the token counts of each response and the provider’s prices, in US cents per example and US dollars in total. ∗Sent at the flex service tier, which has lower prices and can respond more slowly.",
+              "figure_id": "table-33-22",
+              "figure_number": "33",
+              "height": 325,
+              "image_path": "figures/2610.41704/table-028.webp",
+              "kind": "table",
+              "page": 35,
+              "width": 923
+            },
+            {
+              "caption": "TABLE 34: Cost and response time of each model in the target context length experiment (§4.4), with reasoning effort low. The 200k rows reuse the answers of the reasoning effort experiment. #Examples counts the examples that the model answered, and each cell shows mean±std over these examples. Output tokens are the completion tokens reported by the provider, including reasoning tokens. Response time runs from sending the successful request to receiving its response, so it excludes waits before sending and failed attempts. Cost is the LiteLLM estimate from the token counts of each response and the provider’s prices, in US cents per example and US dollars in total. ∗Sent at the flex service tier, which has lower prices and can respond more slowly.",
+              "figure_id": "table-34-23",
+              "figure_number": "34",
+              "height": 283,
+              "image_path": "figures/2610.41704/table-029.webp",
+              "kind": "table",
+              "page": 35,
+              "width": 908
+            },
+            {
+              "caption": "TABLE 18: Mean output tokens and reasoning tokens per example of each model before and after adding the “None of these targets is reachable from the source.” option, on the same examples as Table 17, with reasoning effort low. Below each mean is its standard deviation. Output tokens are the completion tokens that the provider reports, and reasoning tokens are the tokens that it reports as reasoning. Median change is the median over the examples of After minus Before, and p is the two-sided Wilcoxon signed-rank test of this difference; the p-values are not adjusted for multiple tests.",
+              "figure_id": "table-18-9",
+              "figure_number": "18",
+              "height": 334,
+              "image_path": "figures/2610.41704/table-030.webp",
+              "kind": "table",
+              "page": 29,
+              "width": 671
+            },
+            {
+              "caption": "TABLE 29: Cost and response time of each model in the question depth experiment (§4.2), with reasoning effort low. #Examples counts the examples that the model answered, and each cell shows mean±std over these examples. Output tokens are the completion tokens reported by the provider, including reasoning tokens. Response time runs from sending the successful request to receiving its response, so it excludes waits before sending and failed attempts. Cost is the LiteLLM estimate from the token counts of each response and the provider’s prices, in US cents per example and US dollars in total. ∗Sent at the flex service tier, which has lower prices and can respond more slowly.",
+              "figure_id": "table-29-14",
+              "figure_number": "29",
+              "height": 269,
+              "image_path": "figures/2610.41704/table-031.webp",
+              "kind": "table",
+              "page": 34,
+              "width": 787
+            },
+            {
+              "caption": "TABLE 30: Cost and response time of each model in the component size experiment (§4.2), with reasoning effort low. #Examples counts the examples that the model answered, and each cell shows mean±std over these examples. Output tokens are the completion tokens reported by the provider, including reasoning tokens. Response time runs from sending the successful request to receiving its response, so it excludes waits before sending and failed attempts. Cost is the LiteLLM estimate from the token counts of each response and the provider’s prices, in US cents per example and US dollars in total. ∗Sent at the flex service tier, which has lower prices and can respond more slowly.",
+              "figure_id": "table-30-15",
+              "figure_number": "30",
+              "height": 268,
+              "image_path": "figures/2610.41704/table-032.webp",
+              "kind": "table",
+              "page": 34,
+              "width": 787
+            },
+            {
+              "caption": "TABLE 11: YES/NO reachability accuracy (%) of each model on YES-label and NO-label examples of the question depth experiment (§4.2), with reasoning effort low. Overall pools all question depths. Below each accuracy value is its 95% Wilson confidence interval. †GPT-5.6-SOL has fewer examples than the other models in these cells: YES-label, 55 Overall; NO-label, 56 Overall. A dash marks a missing result.",
+              "figure_id": "table-11-5",
+              "figure_number": "11",
+              "height": 948,
+              "image_path": "figures/2610.41704/table-033.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 837
+            },
+            {
+              "caption": "TABLE 12: YES/NO reachability accuracy (%) of each model on YES-label and NO-label examples of the component size experiment (§4.2), with reasoning effort low. Overall pools all component sizes. Below each accuracy value is its 95% Wilson confidence interval. †GPT-5.6-SOL has fewer examples than the other models in these cells: YES-label, 6 at 100, 4 at 150, and 45 Overall; NO-label, 6 at 100, 3 at 150, and 44 Overall.",
+              "figure_id": "table-12-40",
+              "figure_number": "12",
+              "height": 948,
+              "image_path": "figures/2610.41704/table-034.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 837
+            },
+            {
+              "caption": "TABLE 3: Ground truth answers of the evaluated examples in Table 2: the number of YES-label and NO-label examples, of multiple-choice examples whose correct option has each letter, and of counting examples. Within each value of the tested variable, YES/NO labels are assigned in pairs and option letters in groups of four (Appendix A.2.5). The ground truth count of a counting example is its component size minus one. A dash marks a task that the row does not contain.",
+              "figure_id": "table-3-24",
+              "figure_number": "3",
+              "height": 731,
+              "image_path": "figures/2610.41704/table-035.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 711
+            },
+            {
+              "caption": "TABLE 27: Accuracy (%) of each model in the distractor type experiment (§4.5), with reasoning effort low. Each distractor type has 100 examples, and Overall pools all distractor types. Below each accuracy value is its 95% Wilson confidence interval. Bold marks the highest accuracy in each column.",
+              "figure_id": "table-27-18",
+              "figure_number": "27",
+              "height": 247,
+              "image_path": "figures/2610.41704/table-036.webp",
+              "kind": "table",
+              "page": 33,
+              "width": 887
+            },
+            {
+              "caption": "TABLE 14: Percentage of the YES/NO reachability examples of the task experiment (§4.3) that each model answers NO, overall and by question depth k, with reasoning effort low. In this experiment, the question depth of each example is sampled uniformly at random. Below each percentage is its 95% Wilson confidence interval. The first row is the percentage of NO-label examples, that is, the percentage of NO answers of a model that is always correct. Every answer is YES or NO, so the percentage of YES answers is 100 minus the value shown.",
+              "figure_id": "table-14-29",
+              "figure_number": "14",
+              "height": 279,
+              "image_path": "figures/2610.41704/table-037.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 698
+            },
+            {
+              "caption": "TABLE 17: Multiple-choice reachability accuracy (%) of each model on the multiple-choice examples of the task experiment (§4.3), with reasoning effort low, before and after we append a fifth option, “None of these targets is reachable from the source.” The context, the four original options, and the ground truth answer are unchanged, so the new option is never correct. #Examples counts the examples that the model answered both before and after, and both accuracies use only these examples. Below each accuracy value is its 95% Wilson confidence interval. Change is After minus Before, in percentage points. Gained / lost gives the number of examples that become correct (+) and wrong (−) after the option is added, and below it the p-value of the exact McNemar test. Random guessing is the expected accuracy of uniformly random answers (Appendix D), with four options before and five after.",
+              "figure_id": "table-17-10",
+              "figure_number": "17",
+              "height": 240,
+              "image_path": "figures/2610.41704/table-038.webp",
+              "kind": "table",
+              "page": 29,
+              "width": 723
+            },
+            {
+              "caption": "TABLE 16: Reachability counting accuracy (%) of each model in the task experiment (§4.3) by component size, with reasoning effort low. In this experiment, the component size of each example is sampled uniformly at random from the integers in [100, 250]. Below each accuracy value is its 95% Wilson confidence interval. Bold marks the highest accuracy in each column.",
+              "figure_id": "table-16-27",
+              "figure_number": "16",
+              "height": 279,
+              "image_path": "figures/2610.41704/table-039.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 579
+            },
+            {
+              "caption": "TABLE 26: Accuracy (%) of each model in the task experiment (§4.3), with reasoning effort low. Each task has 100 examples, and Overall pools all three tasks. Below each accuracy value is its 95% Wilson confidence interval. Bold marks the highest accuracy in each column.",
+              "figure_id": "table-26-19",
+              "figure_number": "26",
+              "height": 246,
+              "image_path": "figures/2610.41704/table-040.webp",
+              "kind": "table",
+              "page": 33,
+              "width": 621
+            },
+            {
+              "caption": "TABLE 21: Paired comparison of the reasoning efforts in the reasoning effort experiment (§4.6). Each model answers the same 100 examples at every effort. Each cell gives the number of examples that become correct (+) and that become wrong (−) when the effort changes as in the column header, and below it the p-value of the exact McNemar test.",
+              "figure_id": "table-21-46",
+              "figure_number": "21",
+              "height": 215,
+              "image_path": "figures/2610.41704/table-041.webp",
+              "kind": "table",
+              "page": 31,
+              "width": 571
+            },
+            {
+              "caption": "TABLE 13: YES/NO reachability accuracy (%) of each model on YES-label and NO-label examples of the task experiment (§4.3), with reasoning effort low. Below each accuracy value is its 95% Wilson confidence interval. Bold marks the highest accuracy in each column.",
+              "figure_id": "table-13-39",
+              "figure_number": "13",
+              "height": 246,
+              "image_path": "figures/2610.41704/table-042.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 483
+            },
+            {
+              "caption": "TABLE 28: Accuracy (%) of each model in the reasoning effort experiment (§4.6). All reasoning efforts use the same 100 examples. Below each accuracy value is its 95% Wilson confidence interval. Bold marks the highest accuracy in each column.",
+              "figure_id": "table-28-17",
+              "figure_number": "28",
+              "height": 247,
+              "image_path": "figures/2610.41704/table-043.webp",
+              "kind": "table",
+              "page": 33,
+              "width": 477
+            },
+            {
+              "caption": "TABLE 25: Accuracy (%) of each model in the target context length experiment (§4.4), with reasoning effort low. The 200k results reuse the examples and answers of the reasoning effort experiment. Below each accuracy value is its 95% Wilson confidence interval. Bold marks the highest accuracy in each column.",
+              "figure_id": "table-25-20",
+              "figure_number": "25",
+              "height": 234,
+              "image_path": "figures/2610.41704/table-044.webp",
+              "kind": "table",
+              "page": 33,
+              "width": 471
+            },
+            {
+              "caption": "TABLE 15: Outcomes of the reachability counting answers of each model in the task experiment (§4.3), with reasoning effort low, as a percentage of its 100 counting examples; below each percentage is its 95% Wilson confidence interval. Exact, Too low, Too high, and No number add up to 100%: Too low and Too high compare a wrong numeric answer with the ground truth count, and No number covers responses without a number in the final answer block, including responses without an answer block. Within 10% includes exact answers. Median ratio is the median of the predicted count divided by the ground truth count over the numeric answers.",
+              "figure_id": "table-15-28",
+              "figure_number": "15",
+              "height": 215,
+              "image_path": "figures/2610.41704/table-045.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 825
+            },
+            {
+              "caption": "TABLE 32: Cost and response time of each model in the distractor type experiment (§4.5), with reasoning effort low. #Examples counts the examples that the model answered, and each cell shows mean±std over these examples. Output tokens are the completion tokens reported by the provider, including reasoning tokens. Response time runs from sending the successful request to receiving its response, so it excludes waits before sending and failed attempts. Cost is the LiteLLM estimate from the token counts of each response and the provider’s prices, in US cents per example and US dollars in total. ∗Sent at the flex service tier, which has lower prices and can respond more slowly.",
+              "figure_id": "table-32-21",
+              "figure_number": "32",
+              "height": 165,
+              "image_path": "figures/2610.41704/table-046.webp",
+              "kind": "table",
+              "page": 35,
+              "width": 767
+            },
+            {
+              "caption": "TABLE 31: Cost and response time of each model in the task experiment (§4.3), with reasoning effort low. #Examples counts the examples that the model answered, and each cell shows mean±std over these examples. Output tokens are the completion tokens reported by the provider, including reasoning tokens. Response time runs from sending the successful request to receiving its response, so it excludes waits before sending and failed attempts. Cost is the LiteLLM estimate from the token counts of each response and the provider’s prices, in US cents per example and US dollars in total. ∗Sent at the flex service tier, which has lower prices and can respond more slowly.",
+              "figure_id": "table-31-13",
+              "figure_number": "31",
+              "height": 164,
+              "image_path": "figures/2610.41704/table-047.webp",
+              "kind": "table",
+              "page": 34,
+              "width": 767
+            },
+            {
+              "caption": "TABLE 22: Fisher’s exact test of whether accuracy in the target context length experiment (§4.4) differs between two target context lengths, with reasoning effort low. Each cell gives the accuracy (%) at the two context lengths and below it the two-sided p-value. Each target context length has its own examples, so the test treats the answers at two lengths as independent samples. Examples per target context length: 100 (200k), 50 (500k), 50 (922k).",
+              "figure_id": "table-22-48",
+              "figure_number": "22",
+              "height": 169,
+              "image_path": "figures/2610.41704/table-048.webp",
+              "kind": "table",
+              "page": 31,
+              "width": 561
+            }
+          ],
+          "first_seen_at": "2026-11-16T21:00:00-05:00",
+          "hero_figure": "figures/2610.41704/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2610.41704",
+          "relevance": 7,
+          "selection_reason": "Long-context reasoning benchmark over real-world graphs directly targets LLM long-context capabilities.",
+          "summary_status": "generated",
+          "title": "GraphNIAH: A Benchmark for Long-Context Reasoning over Real-World Graphs",
+          "tldr": "GraphNIAH is a contamination-resistant benchmark testing whether LLMs can perform long-context, multi-hop reasoning over real scientific citation graphs.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-12",
       "paper_count": 3,
       "papers": [
@@ -32293,5 +33216,5 @@
   "schema_version": 1,
   "subtopic_id": "long-context-models",
   "topic_id": "language-foundation-models",
-  "total_paper_count": 145
+  "total_paper_count": 148
 }

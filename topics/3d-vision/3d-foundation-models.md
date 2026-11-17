@@ -6,10 +6,16 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # 3D Foundation Models
 
-**302 papers total**
+**308 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-16 | [GHySSeg: Real-Time Geometric Ground and Road Segmentation for Hybrid Solid-State LiDAR](https://arxiv.org/abs/2611.21507) | Embodied AI: Robot Navigation; 3D Vision: 3D Foundation Models | GHySSeg uses scan-curve geometry to segment ground and drivable road from hybrid solid-state LiDAR in real time without training or a GPU. | 9 | 7 |
+| 2026-11-16 | [Lift, See, Act: Hierarchical Robot Policy Pretraining with 3D Foundation Models](https://arxiv.org/abs/2611.20481) | Embodied AI: Learning from Human Videos; 3D Vision: 3D Foundation Models | LSA pretrains robot policies from human videos by learning dense 3D, geometric, and interaction-aware representations before acting. | 9 | 8 |
+| 2026-11-16 | [HoloGene: Learning to Lift Sliced Spatial Transcriptomics to Holistic 3D Gene Fields](https://arxiv.org/abs/2611.20368) | 3D Vision: 3D Foundation Models | HoloGene reconstructs continuous 3D gene-expression fields from sparse 2D spatial-transcriptomics sections using acquisition-aware anisotropic neural representations. | 8 | 9 |
+| 2026-11-16 | [Symmetry Fingerprinting with Geometric Learnable Invariants Transformers](https://arxiv.org/abs/2611.20150) | Multimodal Foundation Models: Spatial Intelligence; 3D Vision: 3D Foundation Models | A soft-equivariant transformer learns which geometric symmetries matter for a task and exposes them through an interpretable symmetry fingerprint. | 8 | 9 |
+| 2026-11-16 | [AerialOcc: Unified 3D Aerial Perception without Task-Specific Head](https://arxiv.org/abs/2611.18770) | 3D Vision: 3D Foundation Models | AerialOcc uses a unified 3D occupancy representation to support multiple aerial perception tasks without task-specific prediction heads. | 8 | 7 |
+| 2026-11-16 | [Exists, Valid: Calibrated Validity of Stored 3D Geometry Across Long Observation Gaps](https://arxiv.org/abs/2611.18672) | 3D Vision: 3D Foundation Models | A probabilistic filter estimates whether stored 3D geometry still exists and remains valid across long gaps between LiDAR surveys, while producing well-calibrated uncertainty. | 7 | 8 |
 | 2026-11-15 | [EcoVGGT: Pinned-Key Inference for Efficient and Streamable Feed-Forward 3D Reconstruction from Long Videos](https://arxiv.org/abs/2611.18099) | 3D Vision: 3D Foundation Models; Efficient AI: Token Pruning and Eviction, Efficient Attention | EcoVGGT makes long-video feed-forward 3D reconstruction efficient and streamable by using a small, fixed set of evenly spaced key frames. | 8 | 7 |
 | 2026-11-15 | [Multi-level latent-diffusion adaptation for cross-region point cloud segmentation of ancient terraces](https://arxiv.org/abs/2611.18033) | 3D Vision: 3D Foundation Models | MELD adapts lidar point-cloud terrace segmentation across archaeological regions by refining hierarchical features with target-domain latent diffusion, improving cross-region F1 without target labels. | 8 | 8 |
 | 2026-11-15 | [Training-Free Acceleration of Multi-View 3D Transformers via Regime-Aware Attention Approximation](https://arxiv.org/abs/2611.17629) | 3D Vision: 3D Foundation Models; Efficient AI: Efficient Attention | RAWATTA accelerates multi-view 3D transformers without retraining by adapting attention precision and approximation to each layer’s functional regime. | 8 | 7 |
