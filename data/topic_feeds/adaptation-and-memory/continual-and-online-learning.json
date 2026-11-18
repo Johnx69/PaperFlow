@@ -1,6 +1,2860 @@
 {
   "days": [
     {
+      "date": "2026-11-17",
+      "paper_count": 14,
+      "papers": [
+        {
+          "abstract": "LLM agents increasingly drive their own learning. Self-improvement methods delegate various components of model optimization to the models themselves. As models become more capable, this motivates a basic question: do these increasingly capable models still need us to specify how they should self-improve? In this paper we study an autonomous paradigm in which, given basic primitives, resources, and a general goal for self-improvement, agents construct their own self-learning algorithm for context-based optimization. Using the setting of gameplay as a testbed, a frozen LLM agent is given a compute budget and tools for collecting experience and updating text documents, and allowed to freely experiment without an externally imposed loop or access to real-world data. We find that sufficiently capable models do self-improve under these conditions, demonstrating strategies that align with classic cognitive frameworks for self-regulated learning and constructs from machine learning literature on self-generated curricula. Furthermore, we study the extent to which the learned text artifacts transfer to external benchmarks, observing improvement across different game horizons, mechanics, and 3D navigation.",
+          "arxiv_id": "2611.23219",
+          "arxiv_url": "https://arxiv.org/abs/2611.23219",
+          "authors": [
+            "Shobhita Sundaram, Cansu Sancaktar, Phillip Isola"
+          ],
+          "bullets": [
+            "Studies whether agents need explicit instructions for how to self-improve.",
+            "Agents receive basic tools, resources, a goal, and a compute budget, but no prescribed learning loop or real-world data.",
+            "In gameplay, agents construct their own context-based self-learning algorithms and update text artifacts from collected experience.",
+            "Their strategies resemble self-regulated learning and self-generated curricula from prior cognitive and machine-learning research.",
+            "Learned artifacts improve performance across different game horizons, mechanics, and 3D navigation tasks."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Do capable models specify their own self-improvement? We give a frozen LLM (here, Claude Opus-5) the general goal of improving itself at gameplay, and place it in a constrained workspace. We do not provide real games to practice on, or prescribe a particular self-improvement loop. We instead provide a toolset {Read, Write, Bash, Gameplay}, and allow the teacher to generate its own games and organize its own learning procedure. At the start (t = 0) the teacher uses its tools to build a test game, spawn a player session to play that game, analyze the result, and then update the player context (e.g., skill files). Later (t = 60), the teacher decides to write an adversarial game and observe the player attempt it with and without the optimized context. The teacher then uses the observed failure mode to make another context update.",
+              "figure_id": "figure-1-7",
+              "figure_number": "1",
+              "height": 658,
+              "image_path": "figures/2611.23219/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 895
+            },
+            {
+              "caption": "Figure 7: Self-improving agents use learnability-seeking task selection. (left) Across models, most generated games are easy. (right) Newer model generations spend the most effort (# replays) on games with low to medium win rates. Observed win rates are computed over the first k plays for each game (k ∈ [2, 6]). This can lead to an inverted-U resembling learnability objectives in asymmetric self-play and UED.",
+              "figure_id": "figure-7-9",
+              "figure_number": "7",
+              "height": 354,
+              "image_path": "figures/2611.23219/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 956
+            },
+            {
+              "caption": "Figure 6: Self-improving models display human-recognizable learning strategies. Alignment scores to 13 subprocesses of Zimmerman’s self-regulated learning cycle, annotated by an LLM judge and averaged over 3 teacher sessions per model. Models that self-improve score higher across most subprocesses. Average over seeds; individual seeds in Appendix D.2.",
+              "figure_id": "figure-6-8",
+              "figure_number": "6",
+              "height": 302,
+              "image_path": "figures/2611.23219/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 954
+            },
+            {
+              "caption": "Figure 8: Excerpts from a Claude Opus-5 teacher session with high alignment to self-regulated learning subprocesses. In the first example (task-strategies) the teacher writes a random level generator and BFS solver to filter generated games for difficulty and employs A/B testing to identify where its optimized text artifacts are useful. In the second (learning goal orientation) the teacher designs an adversarial game to test its advice and runs validation tests across earlier games to identify regressions.",
+              "figure_id": "figure-8-22",
+              "figure_number": "8",
+              "height": 578,
+              "image_path": "figures/2611.23219/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 921
+            },
+            {
+              "caption": "Figure 11: Generalization with respect to progressively richer information, via context and toolsets. (Left) We run teacher sessions using Python Gameplay with increasingly detailed descriptions of PuzzleScript-Narrow games. Performance initially improves both on the same games, and ARC-AGI-3 transfer, however at higher levels of detail transfer plateaus. (Right) We ablate the teacher’s toolset and Gameplay constraints; performance initially improves on both PuzzleScript-t20 and PuzzleScript-t30 with richer toolsets, however declines on PuzzleScript-t30 after adding t20-specific token and turn budgets. Error bars show ±1 SD over three independent teacher seeds.",
+              "figure_id": "figure-11-14",
+              "figure_number": "11",
+              "height": 318,
+              "image_path": "figures/2611.23219/figure-005.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 712
+            },
+            {
+              "caption": "Figure 5: Algorithmically measured behaviors. (Left: Game play and design) Newer models more often use A/B Testing (generated games played with and without teacher-written artifacts) and produce fewer games that have low complexity and low difficulty (optimal solution length < 5 and 100% teacher-observed win rate). (Right: Updates) For GPT and GLM, newer generations exhibit more updates that improve the observed win rate on at least one self-generated game. For Opus and GLM, newer models prefer smaller context updates.",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 216,
+              "image_path": "figures/2611.23219/figure-006.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 956
+            },
+            {
+              "caption": "Figure 9: Improvements from self-organized learning transfer across benchmarks. Player performance is evaluated at intermediate context updates along the self-learning trajectory on PuzzleScript-t20, PuzzleScript-t30, ARCAGI-L1 and MazeBench. The context optimized under our canonical setting, Gameplay (PS-t20), improves over the unoptimized baseline (dashed line) on PuzzleScript games with both 20- and 30-turn horizons. These gains transfer to different game engines and representations in ARC-AGI-L1 and MazeBench. We also compare progressively richer teacher toolsets, starting from Read/Write, adding Bash, and then PuzzleScript-Gameplay tools. Error bars show ±1 SD over three independent teacher seeds.",
+              "figure_id": "figure-9-30",
+              "figure_number": "9",
+              "height": 229,
+              "image_path": "figures/2611.23219/figure-007.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 962
+            },
+            {
+              "caption": "Figure 4: Recent models self-improve. Results on PuzzleScript-t20 for two models in each family. Newer generations self-improve over the baseline while older generations fail to do so. Error bars are ±1 SD over 3 seeds.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 193,
+              "image_path": "figures/2611.23219/figure-008.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 858
+            },
+            {
+              "caption": "Figure 10: PuzzleScript-specific gameplay is not essential for transfer. We compare Python-Gameplay tool to the PuzzleScriptGameplay tool with and without imposed token-budgets.",
+              "figure_id": "figure-10-31",
+              "figure_number": "10",
+              "height": 251,
+              "image_path": "figures/2611.23219/figure-009.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 372
+            },
+            {
+              "caption": "Figure 12: Examples of evaluation benchmarks.",
+              "figure_id": "figure-12-26",
+              "figure_number": "12",
+              "height": 411,
+              "image_path": "figures/2611.23219/figure-010.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 727
+            },
+            {
+              "caption": "Figure 27: Timeline for Claude Opus 4.6, seed 1.",
+              "figure_id": "figure-27-16",
+              "figure_number": "27",
+              "height": 645,
+              "image_path": "figures/2611.23219/figure-011.webp",
+              "kind": "figure",
+              "page": 33,
+              "width": 960
+            },
+            {
+              "caption": "Figure 34: Timeline for GLM 4.7, seed 2.",
+              "figure_id": "figure-34-32",
+              "figure_number": "34",
+              "height": 579,
+              "image_path": "figures/2611.23219/figure-012.webp",
+              "kind": "figure",
+              "page": 37,
+              "width": 960
+            },
+            {
+              "caption": "Figure 28: Timeline for Claude Opus 4.6, seed 2.",
+              "figure_id": "figure-28-15",
+              "figure_number": "28",
+              "height": 566,
+              "image_path": "figures/2611.23219/figure-013.webp",
+              "kind": "figure",
+              "page": 33,
+              "width": 960
+            },
+            {
+              "caption": "Figure 30: Timeline for GPT 5.6-Sol, seed 1.",
+              "figure_id": "figure-30-18",
+              "figure_number": "30",
+              "height": 558,
+              "image_path": "figures/2611.23219/figure-014.webp",
+              "kind": "figure",
+              "page": 35,
+              "width": 851
+            },
+            {
+              "caption": "Figure 20: Timeline for Claude Opus 5, seed 3.",
+              "figure_id": "figure-20-5",
+              "figure_number": "20",
+              "height": 485,
+              "image_path": "figures/2611.23219/figure-015.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 883
+            },
+            {
+              "caption": "Figure 19: Timeline for Claude Opus 5, seed 2.",
+              "figure_id": "figure-19-10",
+              "figure_number": "19",
+              "height": 442,
+              "image_path": "figures/2611.23219/figure-016.webp",
+              "kind": "figure",
+              "page": 29,
+              "width": 960
+            },
+            {
+              "caption": "Figure 32: Timeline for GPT 5.6-Sol, seed 3.",
+              "figure_id": "figure-32-25",
+              "figure_number": "32",
+              "height": 436,
+              "image_path": "figures/2611.23219/figure-017.webp",
+              "kind": "figure",
+              "page": 36,
+              "width": 952
+            },
+            {
+              "caption": "Figure 26: Timeline for GLM 5.3, seed 3.",
+              "figure_id": "figure-26-29",
+              "figure_number": "26",
+              "height": 412,
+              "image_path": "figures/2611.23219/figure-018.webp",
+              "kind": "figure",
+              "page": 32,
+              "width": 957
+            },
+            {
+              "caption": "Figure 23: Timeline for GPT 6-Astra, seed 3.",
+              "figure_id": "figure-23-35",
+              "figure_number": "23",
+              "height": 419,
+              "image_path": "figures/2611.23219/figure-019.webp",
+              "kind": "figure",
+              "page": 31,
+              "width": 891
+            },
+            {
+              "caption": "Figure 25: Timeline for GLM 5.3, seed 2.",
+              "figure_id": "figure-25-28",
+              "figure_number": "25",
+              "height": 444,
+              "image_path": "figures/2611.23219/figure-020.webp",
+              "kind": "figure",
+              "page": 32,
+              "width": 831
+            },
+            {
+              "caption": "Figure 24: Timeline for GLM 5.3, seed 1.",
+              "figure_id": "figure-24-33",
+              "figure_number": "24",
+              "height": 375,
+              "image_path": "figures/2611.23219/figure-021.webp",
+              "kind": "figure",
+              "page": 31,
+              "width": 961
+            },
+            {
+              "caption": "Figure 22: Timeline for GPT 6-Astra, seed 2.",
+              "figure_id": "figure-22-34",
+              "figure_number": "22",
+              "height": 400,
+              "image_path": "figures/2611.23219/figure-022.webp",
+              "kind": "figure",
+              "page": 31,
+              "width": 879
+            },
+            {
+              "caption": "Figure 21: Timeline for GPT 6-Astra, seed 1.",
+              "figure_id": "figure-21-6",
+              "figure_number": "21",
+              "height": 370,
+              "image_path": "figures/2611.23219/figure-023.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 895
+            },
+            {
+              "caption": "Figure 33: Timeline for GLM 4.7, seed 1.",
+              "figure_id": "figure-33-24",
+              "figure_number": "33",
+              "height": 326,
+              "image_path": "figures/2611.23219/figure-024.webp",
+              "kind": "figure",
+              "page": 36,
+              "width": 961
+            },
+            {
+              "caption": "Figure 18: Timeline for Claude Opus 5, seed 1.",
+              "figure_id": "figure-18-11",
+              "figure_number": "18",
+              "height": 313,
+              "image_path": "figures/2611.23219/figure-025.webp",
+              "kind": "figure",
+              "page": 29,
+              "width": 960
+            },
+            {
+              "caption": "Figure 31: Timeline for GPT 5.6-Sol, seed 2.",
+              "figure_id": "figure-31-17",
+              "figure_number": "31",
+              "height": 334,
+              "image_path": "figures/2611.23219/figure-026.webp",
+              "kind": "figure",
+              "page": 35,
+              "width": 811
+            },
+            {
+              "caption": "Figure 17: Optimal solution lengths of teacher-generated games, averaged over three teacher seeds per model.",
+              "figure_id": "figure-17-21",
+              "figure_number": "17",
+              "height": 231,
+              "image_path": "figures/2611.23219/figure-027.webp",
+              "kind": "figure",
+              "page": 28,
+              "width": 953
+            },
+            {
+              "caption": "Figure 2: Examples of evaluation benchmarks. Sample games from our transfer benchmark, ordered in increasing distance from our canonical self-optimization setting: (1) PuzzleScript (same game engine, different horizon splits), (2) ARC-AGI-3 (different engine and representation), (3) MazeBench (3D navigation and mechanics in isometric ASCII projections).",
+              "figure_id": "figure-2-23",
+              "figure_number": "2",
+              "height": 109,
+              "image_path": "figures/2611.23219/figure-028.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 870
+            },
+            {
+              "caption": "Figure 29: Timeline for Claude Opus 4.6, seed 3.",
+              "figure_id": "figure-29-13",
+              "figure_number": "29",
+              "height": 921,
+              "image_path": "figures/2611.23219/figure-029.webp",
+              "kind": "figure",
+              "page": 34,
+              "width": 961
+            },
+            {
+              "caption": "Figure 16: Measured performance gains on Claude Opus-5 teacher-generated games. Teacher-observed improvement correlates on average to empirically measured improvement over 8 rollouts.",
+              "figure_id": "figure-16-20",
+              "figure_number": "16",
+              "height": 270,
+              "image_path": "figures/2611.23219/figure-030.webp",
+              "kind": "figure",
+              "page": 28,
+              "width": 723
+            },
+            {
+              "caption": "Figure 13: Individual seeds for GEPA and self-organized learning runs.",
+              "figure_id": "figure-13-4",
+              "figure_number": "13",
+              "height": 412,
+              "image_path": "figures/2611.23219/figure-031.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 457
+            },
+            {
+              "caption": "Table 1: Cross-model transfer of selfoptimized context on PuzzleScript-t20. Mean ± std over three seeds.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 148,
+              "image_path": "figures/2611.23219/table-032.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 389
+            },
+            {
+              "caption": "Table 3: Teacher–player session settings.",
+              "figure_id": "table-3-12",
+              "figure_number": "3",
+              "height": 193,
+              "image_path": "figures/2611.23219/table-033.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 666
+            },
+            {
+              "caption": "Table 4: Win rate (%) on saturated game levels. Error is ± 1 std over three Claude Opus-5 teacher seeds.",
+              "figure_id": "table-4-19",
+              "figure_number": "4",
+              "height": 324,
+              "image_path": "figures/2611.23219/table-034.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 466
+            },
+            {
+              "caption": "Table 2: Evaluation settings for each benchmark.",
+              "figure_id": "table-2-27",
+              "figure_number": "2",
+              "height": 146,
+              "image_path": "figures/2611.23219/table-035.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 730
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.23219/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.23219",
+          "relevance": 7,
+          "selection_reason": "Explores autonomous LLM-agent self-improvement through deployment-time context and text-artifact updates, fitting test-time adaptation and agent memory.",
+          "summary_status": "generated",
+          "title": "Do LLM Agents Still Need to Be Told How to Self-Improve?",
+          "tldr": "Sufficiently capable LLM agents can autonomously devise self-improvement strategies and transfer what they learn across diverse gameplay tasks.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "test-time-learning",
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            },
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Histopathological analysis of whole-slide images (WSIs) plays a critical role in cancer diagnosis, and multiple instance learning (MIL) is widely adopted for WSI analysis under weak supervision. As new tumor subtypes are introduced, extending existing MIL models requires learning new classes while retaining knowledge of previously learned ones. This presents a class-incremental learning challenge, where models must acquire new classes with limited access to historical training data and recognize all learned classes without task identifiers at inference. A major obstacle is forgetting, as updates to feature aggregation and prediction modules can degrade performance on previously learned classes. To address this challenge, we propose \\textbf{EviSlide-MIL}, a class-incremental WSI framework that integrates multiple learnable queries per class with a shared prediction module. The queries aggregate frozen patch features into class-specific representations, while the shared prediction module limits parameter growth across incremental stages. By freezing queries associated with previously learned classes, EviSlide-MIL preserves their attention patterns for identical inputs, while experience replay and knowledge distillation further mitigate forgetting as shared parameters are updated. Experiments on eight tumor subtypes from The Cancer Genome Atlas demonstrate that EviSlide-MIL achieves improved performance and reduced forgetting compared with competing methods across most learning settings, demonstrating its potential for scalable and knowledge-preserving WSI classification. Code and pretrained models will be released.",
+          "arxiv_id": "2611.23212",
+          "arxiv_url": "https://arxiv.org/abs/2611.23212",
+          "authors": [
+            "Zhouhan Qian, Sicheng Chen, Chad Wong, Tianyi Zhang, Enhui Chai, Zeyu Liu, Fei Xia"
+          ],
+          "bullets": [
+            "Addresses catastrophic forgetting when MIL models learn new WSI tumor subtypes without full historical data or task identifiers.",
+            "Uses multiple learnable queries per class to aggregate frozen patch features into class-specific representations.",
+            "Employs a shared prediction module to limit parameter growth across incremental stages.",
+            "Freezes old class queries and combines experience replay with knowledge distillation to preserve prior knowledge.",
+            "Experiments across eight TCGA tumor subtypes show improved performance and reduced forgetting in most learning settings versus competing methods."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 2: Overview of EviSlide-MIL. (a) Four class-specific queries aggregate frozen WSI patch features. Shared projection enables classification across all seen classes. (b) Multi-query pooling extracts patch-level evidence through attention-weighted aggregation. (c) Experience replay and knowledge distillation from a frozen teacher support retention during incremental learning.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 454,
+              "image_path": "figures/2611.23212/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1062
+            },
+            {
+              "caption": "Fig. 7: Pairwise minus unary scoring. GigaPath is a matched architecture control. Other rows compare separately executed archived versions. Each row contains 16 fold/order/seed pairs. Diamonds show means.",
+              "figure_id": "figure-7-5",
+              "figure_number": "7",
+              "height": 348,
+              "image_path": "figures/2611.23212/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 467
+            },
+            {
+              "caption": "Fig. 4: Four queries in LUSC and LUAD validation cases. Both cases retain full 4,096-anchor normalization and a shared asinh display scale. Case B displays 4,016 anchors in a tissue-selected ROI without renormalization. Red rings mark unmodified maxima.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 583,
+              "image_path": "figures/2611.23212/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1068
+            },
+            {
+              "caption": "Fig. 3: Development-stage retention. GigaPath means over eight conditions per order. A–E follow Tab. 3. Old recall starts at stage two. All controls retain memory and student replay forwards.",
+              "figure_id": "figure-3-8",
+              "figure_number": "3",
+              "height": 396,
+              "image_path": "figures/2611.23212/figure-004.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 520
+            },
+            {
+              "caption": "Fig. 1: Motivation. (a) Class-incremental WSI classification with limited replay. (b) Updating attention can alter aggregated evidence. (c) Updating the shared predictor can change class scores.",
+              "figure_id": "figure-1-3",
+              "figure_number": "1",
+              "height": 491,
+              "image_path": "figures/2611.23212/figure-005.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 518
+            },
+            {
+              "caption": "Fig. 5: Query and predictor controls. (a) Four-query minus single-query F1 in 16 matched conditions. (b) F1 versus predictor size. Counts include frozen queries and exclude the encoder.",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 450,
+              "image_path": "figures/2611.23212/figure-006.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 517
+            },
+            {
+              "caption": "Fig. 6: Learned query aggregation minus mean pooling. (a) Changes in final F1 score. (b) Changes in forgetting. Both are measured in percentage points (pp). Circles and triangles represent forward and reverse class orders, respectively, while diamonds indicate mean differences. Dashed lines mark zero change.",
+              "figure_id": "figure-6-4",
+              "figure_number": "6",
+              "height": 260,
+              "image_path": "figures/2611.23212/figure-007.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 492
+            },
+            {
+              "caption": "Fig. 8: Replay CE determines the KD effect. Thick lines average 16 conditions; thin lines show each order.",
+              "figure_id": "figure-8-7",
+              "figure_number": "8",
+              "height": 252,
+              "image_path": "figures/2611.23212/figure-008.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 485
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.23212/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.23212",
+          "relevance": 8,
+          "selection_reason": "Class-incremental learning for WSI classification, fits continual learning.",
+          "summary_status": "generated",
+          "title": "EviSlide-MIL: Multi-Query Pooling and Shared Prediction for Class-Incremental Whole-Slide Image Classification",
+          "tldr": "EviSlide-MIL enables class-incremental whole-slide image classification by adding new tumor classes while preserving knowledge of previously learned ones.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Enabling large language models (LLMs) to autonomously conduct training and improve target models is an important foundation for recursive self-improvement (RSI). As LLMs expand their role from being trained to conducting training, their model-training capability warrants dedicated study and systematic development. To this end, we construct RSI-Prime, a dataset for improving model-training capability, comprising 350 complete experimental trajectories across seven task categories. To help LLMs learn to make high-quality experimental decisions from training practice, we perform fine-grained decision identification and quality annotation, then apply decision-level loss masking to exclude supervision on low-quality behavior. Experiments with GLM-5.3 on PostTrainBench, a benchmark for autonomous post-training, show that training on RSI-Prime yields a 31.95% relative improvement in overall performance over the original GLM-5.3, highlighting a path toward future RSI systems in which models autonomously sustain their own advancement.",
+          "arxiv_id": "2611.23138",
+          "arxiv_url": "https://arxiv.org/abs/2611.23138",
+          "authors": [
+            "Dewu Zheng, Yang Ye, Hongyu Zhang, Jun Yu, Yanlin Wang"
+          ],
+          "bullets": [
+            "Introduces a dataset of 350 complete training-experiment trajectories spanning seven task categories.",
+            "Annotates individual experimental decisions for quality and masks supervision on low-quality behavior.",
+            "Evaluated with GLM-5.3 on PostTrainBench for autonomous post-training.",
+            "Training on RSI-Prime produces a 31.95% relative improvement over the original GLM-5.3.",
+            "The work focuses on developing model-training capability as a foundation for future RSI systems."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of the RSI-Prime pipeline.",
+              "figure_id": "figure-2-11",
+              "figure_number": "2",
+              "height": 627,
+              "image_path": "figures/2611.23138/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 924
+            },
+            {
+              "caption": "Figure 1: Three paradigms of model training: manual, model-assisted, and fully automated.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 272,
+              "image_path": "figures/2611.23138/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 938
+            },
+            {
+              "caption": "Figure 3: Action taxonomy and decision quality in RSI-Prime.",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 459,
+              "image_path": "figures/2611.23138/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 916
+            },
+            {
+              "caption": "Figure 4: Decision quality by action type across supervision strategies. Bars report quality pass rates for the 20 secondary action types grouped into the five categories used in Figure 3. Overall is the fraction of qualified records pooled across these action types; Other is omitted.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 436,
+              "image_path": "figures/2611.23138/figure-004.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 940
+            },
+            {
+              "caption": "Table 3: PostTrainBench v1.2 results for the Qwen3-4B target model. Superscripts report relative gains in Overall over the original GLM-5.3 agent.",
+              "figure_id": "table-3-10",
+              "figure_number": "3",
+              "height": 459,
+              "image_path": "figures/2611.23138/table-005.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 950
+            },
+            {
+              "caption": "Table 2: PostTrainBench v1.2 benchmark weights, rounded to two decimal places.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 185,
+              "image_path": "figures/2611.23138/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 458
+            },
+            {
+              "caption": "Table 1: Supervision before and after decision-level masking.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 122,
+              "image_path": "figures/2611.23138/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 385
+            },
+            {
+              "caption": "Table 5: Action distribution over decision records. Rounded shares need not sum to exactly 100%.",
+              "figure_id": "table-5-9",
+              "figure_number": "5",
+              "height": 175,
+              "image_path": "figures/2611.23138/table-008.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 419
+            },
+            {
+              "caption": "Table 6: Supervision retention (%) within each action category, calculated over linked messages.",
+              "figure_id": "table-6-8",
+              "figure_number": "6",
+              "height": 173,
+              "image_path": "figures/2611.23138/table-009.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 401
+            },
+            {
+              "caption": "Table 8: Our evaluation of the original GLM-5.3 agent: individual task scores and means over three valid independent runs per benchmark.",
+              "figure_id": "table-8-7",
+              "figure_number": "8",
+              "height": 152,
+              "image_path": "figures/2611.23138/table-010.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 396
+            },
+            {
+              "caption": "Table 7: Human audit of 400 randomly sampled decision records. Acceptance rates use adjudicated judgments; raw agreement and Cohen’s κ use the initial independent judgments.",
+              "figure_id": "table-7-6",
+              "figure_number": "7",
+              "height": 134,
+              "image_path": "figures/2611.23138/table-011.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 431
+            },
+            {
+              "caption": "Table 4: Comparison of supervision strategies on RSI-Prime.",
+              "figure_id": "table-4-12",
+              "figure_number": "4",
+              "height": 134,
+              "image_path": "figures/2611.23138/table-012.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 950
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.23138/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.23138",
+          "relevance": 8,
+          "selection_reason": "Focuses on Recursive Self-Improvement (RSI) by training models to train models. This is a significant advancement in LLM capabilities and continual learning, directly relevant to the research interests.",
+          "summary_status": "generated",
+          "title": "RSI-Prime: Training Models to Train Models",
+          "tldr": "RSI-Prime trains LLMs to make better model-training decisions, improving autonomous post-training performance and supporting recursive self-improvement.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            },
+            {
+              "subtopic_ids": [
+                "large-language-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Analytic continual learning replaces iterative gradient updates with closed-form ridge regression over frozen pre-trained representations, summarizing all past sessions in two running sufficient statistics: the feature autocorrelation matrix $\\Sigma_t$ and the class cross-correlation matrix $\\Gamma_t$. Lifting backbone features into a wide random code of dimension $M \\gg D$ substantially improves linear separability across tasks, but forces $\\Sigma_t$ to grow quadratically as $\\mathcal{O}(M^2)$. Under a fixed persistent memory envelope $\\Bcal$, a learner faces a fundamental structural trade-off: store exact pairwise co-activations inside a narrower feature code, or expand to a wide code while compressing cross-coordinate interactions. We observe that the coordinate self-variances $v_t = \\diag(\\Sigma_t)$ and class statistics $\\Gamma_t$ grow only linearly with $M$, whereas off-diagonal interactions dominate memory. We introduce \\method (\\textbf{Co}ordinate-\\textbf{Re}stored \\textbf{A}nalytic \\textbf{C}ontinual \\textbf{L}earning), which retains $(v_t, \\Gamma_t)$ exactly, maintains off-diagonal co-activations through a streaming rank-$q$ factor $F_t$, restores exact diagonal variances via $\\Sighat_t = F_t^\\top F_t + \\Diag(v_t - \\diag(F_t^\\top F_t))$, and solves the full $M\\times C$ normal equations via the Woodbury identity. Across five class-incremental benchmarks on frozen ViT-B/16, \\method matches dense full-covariance readouts within $0.09$ points while cutting persistent state by $90.7\\%$ ($35.9$ vs.\\ $385.3$ MiB). Under equal memory envelopes of $16$--$80$ MiB, prioritizing expansion width $M$ over covariance rank $q$ outperforms exact narrow readouts in $17$ of $18$ configurations by up to $+2.19$ points.",
+          "arxiv_id": "2611.23040",
+          "arxiv_url": "https://arxiv.org/abs/2611.23040",
+          "authors": [
+            "Elena Voss, Pixel Nomand, Marcus Hale, Sofia Reyes"
+          ],
+          "bullets": [
+            "Analytic continual learning stores feature and class sufficient statistics, but wide random codes make covariance storage quadratic in feature width.",
+            "CoReACL retains feature variances and class statistics exactly while approximating off-diagonal covariance with a streaming rank-q factor.",
+            "A diagonal correction restores exact variances, and Woodbury identities solve the resulting full-width readout efficiently.",
+            "Across five benchmarks, it matches dense covariance readouts within 0.09 points while reducing persistent memory by 90.7%.",
+            "With equal 16–80 MiB budgets, wider feature codes beat exact narrower readouts in 17 of 18 configurations, by up to 2.19 points."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of CORE-ACL at session t. I. Frozen backbone features are lifted into a wide sparse random code Φt ∈ Rnt×M . II. Under persistent memory budget B, CORE-ACL splits state maintenance into an exact linear pathway for coordinate self-variances vt and class cross-correlations Γt, and a rank-q spectral merge pathway for off-diagonal interactions Ft. III. Exact diagonal variance restoration repairs the truncated covariance into Σ̂t, and a Woodbury normal-equation solve yields the full-width classifier Wt ∈ RM×C .",
+              "figure_id": "figure-2-10",
+              "figure_number": "2",
+              "height": 314,
+              "image_path": "figures/2611.23040/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 5. Supplementary controls. (a) On CUB-200, CORE-ACL outperforms both Dense Narrow (M2) and Upper-Triangular Packed Narrow ( 1 2 M2) across all three memory envelopes. (b) Rank-calibrated hold-out selection (CORE-ACL⋆) eliminates Session-1 refit collapse across all truncated rules at 36 MiB. (c) Mean off-diagonal class-prototype correlation across pipeline stages.",
+              "figure_id": "figure-5-15",
+              "figure_number": "5",
+              "height": 321,
+              "image_path": "figures/2611.23040/figure-002.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 996
+            },
+            {
+              "caption": "Figure 1. The width–interaction allocation trade-off in analytic continual learning. (a) Dense autocorrelation storage (Σt) scales quadratically as O(M2), whereas CORE-ACL (q=840) scales linearly with width M and reduces persistent memory by 90.7% at M=104. (b) Under fixed memory envelopes (B ∈ {16, 36} MiB) with GCV regularization, reallocating bytes from covariance rank q to expansion width M consistently improves stage-average accuracy Ā over exact narrow ridge, except when rank falls below a dataset-specific floor (q=318 on CIFAR-100). (c) Stage-average accuracy saturates rapidly as interaction rank q grows, matching the 385 MiB full-covariance ceiling (dotted lines) already at q=840 (35.9 MiB).",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 338,
+              "image_path": "figures/2611.23040/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1015
+            },
+            {
+              "caption": "Figure 6. Spectral decay and session-by-task accuracy heatmaps. (a) Normalized singular spectrum of the retained factor FTF ⊤ T : CIFAR100 exhibits a flatter tail than CUB-200 and VTAB-50, explaining why q = 256 underfits CIFAR-100. (b, c) CIFAR-100 session-by-task accuracy matrices at 36 MiB for Exact Narrow vs. CORE-ACL.",
+              "figure_id": "figure-6-13",
+              "figure_number": "6",
+              "height": 338,
+              "image_path": "figures/2611.23040/figure-004.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 997
+            },
+            {
+              "caption": "Figure 3. Mechanism diagnostics. (a) Median fraction of coordinate self-variance ∥F:,i∥22/vi captured by the rank-q factor across sessions; CORE-ACL restores the diagonal to 1.0 exactly. (b) Session-1 CUB-200 accuracy across forced penalties γ: small γ triggers Γ⊥ blow-up in unrestored LR and uncalibrated COREACL, whereas CORE-ACL⋆ selects γ=107 (star). (c) Cumulative accuracy trajectory At across 10 CIFAR-100 sessions.",
+              "figure_id": "figure-3-7",
+              "figure_number": "3",
+              "height": 549,
+              "image_path": "figures/2611.23040/figure-005.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 484
+            },
+            {
+              "caption": "Figure 4. Stream fidelity, solver speedup, and cross-backbone transfer. (a) Session-wise gapAt−Afull t relative to dense full covariance. (b) Normal-equation solve latency and temporary buffer on RTX 3090 (15.0× speedup and memory reduction). (c) Paired ∆Ā gains of CORE-ACL over state-matched Exact Narrow across ResNet-50, DINOv2-g/14, and 20-session horizons.",
+              "figure_id": "figure-4-9",
+              "figure_number": "4",
+              "height": 544,
+              "image_path": "figures/2611.23040/figure-006.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 479
+            },
+            {
+              "caption": "Table 1. Benchmark comparison on frozen ViT-B/16 across five class-incremental datasets (mean over 5 seeds). We report stage-average accuracy Ā (%), final accuracyAT (%), and persistent continuation state (MiB, on CIFAR-100). Best overall accuracy is bold; best among compact-state analytic methods (< 60 MiB) is underlined.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 456,
+              "image_path": "figures/2611.23040/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Table 7. Generalization across ResNet-50, DINOv2 ViT-g/14, and 20-/50-session horizons at matched 36 MiB state (5 seeds; 3 for T=50).",
+              "figure_id": "table-7-14",
+              "figure_number": "7",
+              "height": 386,
+              "image_path": "figures/2611.23040/table-008.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 910
+            },
+            {
+              "caption": "Table 6. Iso-memory width–rank allocations under GCV (3 seeds). In 17 of 18 wide allocations, CORE-ACL improves over Exact Narrow; the sole negative cell is CIFAR-100 at 16 MiB full width (q = 318), where intermediate width (M = 5,000, q = 738) succeeds.",
+              "figure_id": "table-6-16",
+              "figure_number": "6",
+              "height": 309,
+              "image_path": "figures/2611.23040/table-009.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 756
+            },
+            {
+              "caption": "Table 8. Hold-out validation and refit across B ∈ {16, 36, 80} MiB, plus comparison against Upper-Triangular Packed Exact Narrow ( 1 2 Mp(Mp + 1)). Values are Ā (%) over 3 seeds.",
+              "figure_id": "table-8-12",
+              "figure_number": "8",
+              "height": 502,
+              "image_path": "figures/2611.23040/table-010.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 764
+            },
+            {
+              "caption": "Table 2. Iso-memory comparison at B=36 MiB under hold-out validation and refit (3 seeds, Ā in %). Unrestored LR, FD, and RFD receive q+1 rows to match the M variance scalars of COREACL. CORE-ACL⋆ applies rank-calibrated hold-out selection.",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 253,
+              "image_path": "figures/2611.23040/table-011.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 3. Ablation of retained sufficient-statistic components (M=10,000, q=840, shared GCV grid, 5 seeds). Reporting both Ā andAT (%) exposes the intermediate-vs.-final trade-off of span restriction.",
+              "figure_id": "table-3-5",
+              "figure_number": "3",
+              "height": 194,
+              "image_path": "figures/2611.23040/table-012.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 4. Complete 5-seed benchmark results (mean ± SD) on CIFAR-100, CUB-200, and VTAB-50, complementing Table 1 with Backward Transfer (BWT, %) and total non-backbone deployment footprint (Total MiB, including projection P and readout WT ).",
+              "figure_id": "table-4-2",
+              "figure_number": "4",
+              "height": 754,
+              "image_path": "figures/2611.23040/table-013.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 848
+            },
+            {
+              "caption": "Table 5. Sensitivity of CORE-ACL to retained interaction rank q ∈ {128, 256, 512, 840, 1536, 3072} at M = 10,000 (5 seeds, GCV).",
+              "figure_id": "table-5-3",
+              "figure_number": "5",
+              "height": 218,
+              "image_path": "figures/2611.23040/table-014.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 886
+            },
+            {
+              "caption": "Table 9. Ablation of sparse lifting hyperparameters (TopK ratio k/M and row degree s) and 40-point fine-grid regularization control on CIFAR-100 and CUB-200 (q = 840, Ā in %).",
+              "figure_id": "table-9-11",
+              "figure_number": "9",
+              "height": 125,
+              "image_path": "figures/2611.23040/table-015.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 744
+            },
+            {
+              "caption": "Table 10. Computational latency, normal-equation solve speedup (RTX 3090), and peak GPU memory (RTX A5000) at B = 36 MiB.",
+              "figure_id": "table-10-8",
+              "figure_number": "10",
+              "height": 118,
+              "image_path": "figures/2611.23040/table-016.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 960
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.23040/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.23040",
+          "relevance": 7,
+          "selection_reason": "Memory-budgeted analytic continual learning; fits continual/online learning.",
+          "summary_status": "generated",
+          "title": "Variance Restoration over Covariance Rank: Memory-Budgeted Analytic Continual Learning",
+          "tldr": "CoReACL enables wide-feature analytic continual learning under tight memory by compressing covariance interactions while preserving exact coordinate variances.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Agent skills use past experience and current observations to guide decisions and actions on related tasks. This experience is retained in skill state, whose reuse can amortize inference-time reasoning and environment interaction. When environment changes, parts of this state can become outdated while others remain useful. Across four task settings and two models, we compare skill reuse before and after environment changes. Previously beneficial skills can reduce task performance by over 10 percentage points or increase execution cost by nearly 40% relative to no skill. Task success can also remain unchanged while execution savings decline. These effects depend on which environment-specific details become outdated and the agent's ability to compensate using current observations. We introduce selective maintenance, which replays checks from successful executions without additional model calls. It verifies whether observed differences conflict with skill state, repairs affected content, and validates updates, rebuilding when local repair is insufficient. No description of the change is supplied. Relative to reusing stale state, maintenance improves task accuracy by up to 67pp and reduces execution steps by up to 37%. These results suggest that preserving a skill's inference time value as environments evolve requires selectively maintaining its state.",
+          "arxiv_id": "2611.22525",
+          "arxiv_url": "https://arxiv.org/abs/2611.22525",
+          "authors": [
+            "\\\"Omer Faruk Akg\\\"ul, Shuli Jiang, Yuting Zhang, Yi Zhang, Xiaohan Fei, Wei Xia, Stefano Soatto"
+          ],
+          "bullets": [
+            "Previously useful skills may lower task performance by over 10 percentage points or raise execution cost by nearly 40% after changes.",
+            "The impact depends on which environment details become outdated and whether current observations let the agent compensate.",
+            "Selective maintenance replays checks from successful executions to detect conflicts, repair affected state, validate updates, or rebuild when needed.",
+            "Across four task settings and two models, maintenance improves accuracy by up to 67 percentage points and reduces execution steps by up to 37% versus stale-state reuse.",
+            "Scope: results cover the evaluated task settings, models, and environment changes; no change description is provided to the agent."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.CL"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4: Examples of environment transitions. Each card shows one transition, the content retained from W0 that the change invalidates, and where the changed information can still be found in W1. Quoted text is taken from the skills used in our experiments.",
+              "figure_id": "figure-4-15",
+              "figure_number": "4",
+              "height": 623,
+              "image_path": "figures/2611.22525/figure-001.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 950
+            },
+            {
+              "caption": "Figure 2: Selective skill maintenance. Checks derived automatically from retained skill state and successful executions are stored with reference observations and source links, then replayed before reuse without model calls. Verification determines whether observed changes conflict with the retained state and localizes affected content. An LLM selectively repairs that state, rebuilding when repair or localization is insufficient. Candidate updates are validated for task performance and execution cost before replacing the existing state.",
+              "figure_id": "figure-2-2",
+              "figure_number": "2",
+              "height": 227,
+              "image_path": "figures/2611.22525/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 950
+            },
+            {
+              "caption": "Figure 5: Selected instructions from the verification and repair prompts. Text is quoted from the TB-2 system prompts; brackets mark omitted passages. Full prompts accompany the code.",
+              "figure_id": "figure-5-6",
+              "figure_number": "5",
+              "height": 260,
+              "image_path": "figures/2611.22525/figure-003.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 950
+            },
+            {
+              "caption": "Figure 1: Environmental changes can leave skill state partly outdated. (a) An illustrative change in an MCP server’s communication requirements invalidates a saved connection setting while leaving most of the procedure useful. (b) The four evaluation settings and their environment changes. (c) On tax-form completion, benefits over the corresponding no-skill baseline (dashed line) decline after a form revision and recover with maintenance.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 227,
+              "image_path": "figures/2611.22525/figure-004.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 940
+            },
+            {
+              "caption": "Figure 3: Authoring-style instructions (condensed).",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 373,
+              "image_path": "figures/2611.22525/figure-005.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 458
+            },
+            {
+              "caption": "Table 13: Maintenance results by policy. Parentheses show the performance gain (percentage points) or cost reduction relative to no skill in W1. Green marks improvement over No maintenance; red marks negative performance gain under No maintenance. Colors describe the reported means. Cost is in agent turns, except for ScienceWorld steps. †Archived runs matched by run name. ‡The candidate failed validation, so the policy keeps the stale skill. §Rebuilding covers 30 of 41 variations; these entries show absolute outcomes on that subset.",
+              "figure_id": "table-13-17",
+              "figure_number": "13",
+              "height": 555,
+              "image_path": "figures/2611.22525/table-006.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 761
+            },
+            {
+              "caption": "Table 1: Skill value before and after environment changes (cache-heavy variants; procedural variants in Table 7). Cells report no-skill → σ0, where the same skill state σ0 is reused across environment versions; parentheses show marginal task contribution ∆U or relative execution-cost reduction S. Performance is measured by pass rate on TB-2, field accuracy on IRS, task success on APPWORLD, and normalized score on SCIENCEWORLD. Execution cost is measured in agent turns, except on SCIENCEWORLD, where we use environment steps. LU and LS measure losses in these relative benefits across the change. Red marks losses, green improvements, and dark red negative performance gains in W1. Percentage points are abbreviated as pp.",
+              "figure_id": "table-1-12",
+              "figure_number": "1",
+              "height": 236,
+              "image_path": "figures/2611.22525/table-007.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 875
+            },
+            {
+              "caption": "Table 3: Responses to stale skill state on IRS. Each row: 50 trajectories (5 forms × 10 applicants). Inspects: reads the current form before submitting the first final program. Obsolete write: writes to a field present in W0 but absent from W1; counted among inspecting trajectories. ∆: inspecting minus non-inspecting differences in field accuracy (pp) and total turns, within forms containing both groups (Appendix C). Red highlights lower inspection rates, more obsolete writes, or additional turns; green, larger accuracy differences.",
+              "figure_id": "table-3-16",
+              "figure_number": "3",
+              "height": 132,
+              "image_path": "figures/2611.22525/table-008.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 381
+            },
+            {
+              "caption": "Table 6: Evaluation tasks and metrics. IRS uses ten applicants for each of five form families.",
+              "figure_id": "table-6-3",
+              "figure_number": "6",
+              "height": 132,
+              "image_path": "figures/2611.22525/table-009.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 356
+            },
+            {
+              "caption": "Table 7: Performance and cost with procedural skills before and after the change. Cells follow Table 1; colors describe the direction of the reported difference, not statistical significance.",
+              "figure_id": "table-7-9",
+              "figure_number": "7",
+              "height": 235,
+              "image_path": "figures/2611.22525/table-010.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 875
+            },
+            {
+              "caption": "Table 9: IRS runtime response under stale-skill reuse. Each row covers 50 trajectories (5 forms × 10 applicants). Inspects: reads the current form before its first final program. Obsolete write: writes to a field name that exists only in W0. Accuracy and turns are pooled over forms; within-form contrasts are in Table 3.",
+              "figure_id": "table-9-11",
+              "figure_number": "9",
+              "height": 150,
+              "image_path": "figures/2611.22525/table-011.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 372
+            },
+            {
+              "caption": "Table 8: Paired authoring-style comparisons. Entries are cache-heavy minus procedural, in percentage points, with 95% paired-bootstrap intervals.",
+              "figure_id": "table-8-10",
+              "figure_number": "8",
+              "height": 131,
+              "image_path": "figures/2611.22525/table-012.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 401
+            },
+            {
+              "caption": "Table 14: Selective minus No maintenance. Both columns are in percentage points, with 95% pairedbootstrap intervals. Cost reduction uses the no-skill W1 cost as its denominator. The paired units are 38 TB-2 task–change pairs, 51 AppWorld tasks, and 41 ScienceWorld variations.",
+              "figure_id": "table-14-14",
+              "figure_number": "14",
+              "height": 259,
+              "image_path": "figures/2611.22525/table-013.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 415
+            },
+            {
+              "caption": "Table 11: Inputs to maintenance. The maintainer receives observed changes and execution feedback; no external changelog is supplied.",
+              "figure_id": "table-11-5",
+              "figure_number": "11",
+              "height": 175,
+              "image_path": "figures/2611.22525/table-014.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 900
+            },
+            {
+              "caption": "Table 10: Inspecting trajectories by form, out of 10 per form.",
+              "figure_id": "table-10-8",
+              "figure_number": "10",
+              "height": 117,
+              "image_path": "figures/2611.22525/table-015.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 289
+            },
+            {
+              "caption": "Table 12: TB-2 trigger outcomes. Each style is evaluated on 38 transitions; the conflict rows count those labeled as invalidating retained skill content. The separate control suite contains 62 equivalent changes. Verification counts use the Opus maintenance runs.",
+              "figure_id": "table-12-7",
+              "figure_number": "12",
+              "height": 103,
+              "image_path": "figures/2611.22525/table-016.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 329
+            },
+            {
+              "caption": "Table 15: Elapsed time for a complete replay. Times are seconds. Median entries with two endpoints summarize the range of medians across the recorded timing groups; the observed range spans individual invocations.",
+              "figure_id": "table-15-13",
+              "figure_number": "15",
+              "height": 99,
+              "image_path": "figures/2611.22525/table-017.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 296
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22525/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.22525",
+          "relevance": 8,
+          "selection_reason": "Selective maintenance of agent skill state in evolving environments; relevant to test-time/continual adaptation and agent memory.",
+          "summary_status": "generated",
+          "title": "When Agent Skills Go Stale: Runtime Behavior and Selective Maintenance in Evolving Environments",
+          "tldr": "Stale agent skills can harm accuracy and efficiency after environment changes, while selective maintenance restores much of their value without extra model calls.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "test-time-learning",
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            },
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Fast System-1 models enable responsive actions but struggle with complex or unfamiliar tasks. Large language model (LLM)-based System-2 provides strong reasoning capabilities, yet repeated invocation incurs substantial latency and computational costs. To bridge this gap, we propose JevRSI, a System-1/System-2 collaboration framework that transforms LLM reasoning into transferable decision support through recursive harness improvement. A Jev-style System-1 model enables low-latency action selection, while an asynchronous System-2 LLM develops a modular harness. The harness integrates procedures, state memory, and world models to provide decision contexts spanning the past, present, and future. Utility-driven retrieval selects modules based on both contextual relevance and their utility on previous tasks. Environmental feedback guides targeted revisions and enables recursive self-improvement. Experiments across three datasets show that JevRSI consistently improves decision quality, matching or surpassing LLM agents in several settings. It preserves low-latency execution with favorable performance-cost trade-offs. Moreover, System-2 development interventions decrease as the harness evolves, amortizing System-2 costs through continuous improvement. Our project is available at https://github.com/usail-hkust/JevRSI.",
+          "arxiv_id": "2611.22432",
+          "arxiv_url": "https://arxiv.org/abs/2611.22432",
+          "authors": [
+            "Siqi Lai, Haitao Li, Hao Liu"
+          ],
+          "bullets": [
+            "Addresses the latency and computational cost of repeatedly invoking LLM-based System-2 reasoning.",
+            "Builds a modular harness containing procedures, state memory, and world models for richer decision context.",
+            "Uses utility-driven retrieval and environmental feedback to select and recursively revise harness modules.",
+            "Experiments on three datasets show improved decision quality, matching or surpassing LLM agents in several settings while preserving low-latency execution.",
+            "As the harness improves, fewer System-2 interventions are needed, amortizing reasoning costs over time."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1. The overview of JevRSI framework.",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 532,
+              "image_path": "figures/2611.22432/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1008
+            },
+            {
+              "caption": "Figure 2. Cost-effectiveness comparison results. All decisionmodel calls are uniformly priced using the TypeSafe Jev API.",
+              "figure_id": "figure-2-2",
+              "figure_number": "2",
+              "height": 304,
+              "image_path": "figures/2611.22432/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 485
+            },
+            {
+              "caption": "Figure 5. Ablation study results over four JevRSI variants.",
+              "figure_id": "figure-5-4",
+              "figure_number": "5",
+              "height": 296,
+              "image_path": "figures/2611.22432/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 484
+            },
+            {
+              "caption": "Figure 3. Inference time comparison results.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 210,
+              "image_path": "figures/2611.22432/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 487
+            },
+            {
+              "caption": "Figure 4. Harness development step distribution in training split.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 180,
+              "image_path": "figures/2611.22432/figure-005.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 488
+            },
+            {
+              "caption": "Table 2. Overall comparison results. We use Success Rate@1 (SR@1) to measure the performance of agents. Parentheses indicate relative improvement over the vanilla decision model.",
+              "figure_id": "table-2-7",
+              "figure_number": "2",
+              "height": 565,
+              "image_path": "figures/2611.22432/table-006.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 488
+            },
+            {
+              "caption": "Table 1. Statistics of the datasets.",
+              "figure_id": "table-1-6",
+              "figure_number": "1",
+              "height": 101,
+              "image_path": "figures/2611.22432/table-007.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 488
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22432/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.22432",
+          "relevance": 7,
+          "selection_reason": "System-1/System-2 decision harness with recursive self-improvement from environmental feedback; relevant to deployment-time adaptation and cost-efficient inference.",
+          "summary_status": "generated",
+          "title": "Think Once, Act Fast: Cost-Effective Recursive Self-Improvement for Decision Model Harness",
+          "tldr": "JevRSI combines a fast System-1 decision model with an asynchronously improving System-2 harness to deliver stronger decisions at lower ongoing reasoning cost.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "test-time-learning",
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Progressive neural-collapse classifiers can learn strong task-local decision boundaries while failing the global Class-IL decision. We identify the failure as routing drift: under an expanding equiangular tight frame (ETF) classifier, a held-out sample can remain separable within its true task block, yet receive its largest global score from another block. This produces high Task-IL accuracy but low Class-IL accuracy, and small replay buffers can mask the problem because stored samples are optimized repeatedly and often remain well routed. We formalize route accuracy directly from the global class argmax and use it to separate within-task discrimination from cross-task score comparability. This decomposition suggests a classifier-level correction: preserve the global ETF frame, but add class-local reliability evidence when transported class measures deviate from the neural-collapse ideal. We develop Reliability-Calibrated Routing (RCR), a lightweight post-hoc classifier that composes standardized ETF alignment with radial plausibility around transported, NC-shrunk class representatives. Across three datasets and two fixed replay-buffer budgets, this NC-consistent correction gives the best Class-IL FAA on five of six settings and reduces Class-IL forgetting on all six. The largest gains occur in harder routing regimes: up to $+6.75$ FAA over the reported reference, and up to $+8.03$ FAA and $+8.62$ final route accuracy in paired evaluations, while preserving Task-IL performance. These results position routing drift as a measurable failure mode of ETF-based continual learning and show that reliability-calibrated class evidence can repair part of the lost global routing without retraining the representation. Code and evaluation artifacts are available at https://towzeur.github.io/RCR/.",
+          "arxiv_id": "2611.22429",
+          "arxiv_url": "https://arxiv.org/abs/2611.22429",
+          "authors": [
+            "Nicolas Larue"
+          ],
+          "bullets": [
+            "Neural-collapse classifiers can separate samples within their task while routing them to the wrong task block globally, causing high Task-IL but low Class-IL accuracy.",
+            "The paper formalizes route accuracy from the global class argmax to distinguish within-task discrimination from cross-task score comparability.",
+            "Reliability-Calibrated Routing (RCR) combines standardized ETF alignment with radial plausibility around transported, neural-collapse-shrunk class representatives.",
+            "Across three datasets and two replay-buffer budgets, RCR achieves the best Class-IL FAA in five of six settings and reduces forgetting in all six.",
+            "Reported gains reach up to +6.75 FAA over the reference and preserve Task-IL performance, with larger improvements in difficult routing regimes."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 5: RCR changes the route boundary without changing the backbone. A held-out CIFAR-100 feature z is shown in a local two-dimensional slice passing through the original high-dimensional feature, so z has the same scores as in evaluation. The black curve is the route boundary between the correct task block and the ETF-predicted wrong block in that slice. (a) Under ETF scoring, z lies in the red region: a wrong task block wins globally even though nearby features from the correct class remain coherent. (b) RCR keeps ETF evidence but adds transported radial plausibility around pt c, moving the route boundary so the same feature falls in the correct-task region. Filled stars denote current ETF vertices, hollow stars denote previous prototypes, and triangles denote transported prototypes. Classes are selected only to visualize one corrected routing case; this selection is not used for training, hyperparameter choice, or evaluation.",
+              "figure_id": "figure-5-3",
+              "figure_number": "5",
+              "height": 274,
+              "image_path": "figures/2611.22429/figure-001.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 733
+            },
+            {
+              "caption": "Figure 4: Replay routing is optimistic. Replay samples stay well routed while held-out test routing collapses on Seq-CIFAR-100/200; mean ± std over three seeds.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 166,
+              "image_path": "figures/2611.22429/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 278
+            },
+            {
+              "caption": "Figure 1: Routing drift as a logit-level failure. The correct class can win within its task block while a different block contains the global argmax. Routing drift is therefore not a within-task class error; it is a cross-task score-comparability error.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 943,
+              "image_path": "figures/2611.22429/figure-003.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 64
+            },
+            {
+              "caption": "Figure 2: Class-IL needs both events. A prediction is globally correct only when the true task block wins and the correct class wins inside that block.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 187,
+              "image_path": "figures/2611.22429/figure-004.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 198
+            },
+            {
+              "caption": "Table 1: RCR improves the global decision by repairing route accuracy. On the same frozen ProNC checkpoints, Class-IL and Route increase together while Task-IL remains nearly unchanged. Parentheses report deltas against sETF; all entries are averaged over seeds 0,1,2.",
+              "figure_id": "table-1-4",
+              "figure_number": "1",
+              "height": 289,
+              "image_path": "figures/2611.22429/table-005.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 698
+            },
+            {
+              "caption": "Table 5: Replay-fitted calibration does not explain RCR. A task-bias calibration fit on replay labels is evaluated on held-out Seq-CIFAR-100/200 test features at the final task. It worsens routing, confirming that the replay buffer is not a reliable calibration set.",
+              "figure_id": "table-5-5",
+              "figure_number": "5",
+              "height": 92,
+              "image_path": "figures/2611.22429/table-006.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 488
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22429/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.22429",
+          "relevance": 8,
+          "selection_reason": "Addresses routing drift in continual learning with a post-hoc reliability-calibrated classifier correction.",
+          "summary_status": "generated",
+          "title": "When Neural Collapse Fails to Route: Routing Drift in Continual Learning",
+          "tldr": "Reliability-Calibrated Routing repairs global class-routing failures in neural-collapse continual-learning classifiers without retraining representations.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Lifelong embodied navigation requires agents to accumulate experience through continuous interaction and reuse it for subsequent goal searches. Existing memory-enhanced methods typically retain historical observations or construct structured scene representations. However, storing observations or high-dimensional semantic embeddings incurs growing storage costs. Meanwhile, structured representations support retrieval and semantic reasoning but do not explicitly evolve accumulated experience into environment-specific knowledge. To address these limitations, we propose Experience-Evolving Memory (EvoNav), a novel two-timescale memory framework. It organizes semantic observations, spatial relations, and task-feedback cues into sparse experience atoms. During online operation, experience atoms continually consolidate repeated observations and form dynamic links based on transitions. At the slower timescale, EvoNav distills accumulated category co-occurrences and feedback signals into environment-specific structural knowledge without relying on predefined object--room relations. For each new goal, EvoNav combines direct goal evidence from experience atoms with learned structural knowledge to guide goal-directed search on the current traversability map. Experiments on single-goal, sequential multi-floor, and multimodal navigation demonstrate effective experience reuse and improved path efficiency with compact persistent memory, together with successful transfer to a real robot.",
+          "arxiv_id": "2611.22321",
+          "arxiv_url": "https://arxiv.org/abs/2611.22321",
+          "authors": [
+            "Weitao An, Chenghao Xu, Xu Yang, Cheng Deng"
+          ],
+          "bullets": [
+            "Addresses the growing storage costs and limited knowledge evolution of observation- and embedding-based navigation memories.",
+            "Uses a two-timescale memory that stores sparse experience atoms and continually consolidates repeated observations, transitions, and task feedback.",
+            "Distills category co-occurrences and feedback into structural knowledge without predefined object–room relations.",
+            "Combines direct goal evidence with learned structural knowledge to guide search on the current traversability map.",
+            "Demonstrates experience reuse, improved path efficiency, compact persistent memory, and real-robot transfer across multiple navigation settings."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of EvoNav. (a) Sparse experience atoms retain compact geometry, semantics, observation anchors, relations, and feedback. (b) Online consolidation associates repeated observations with existing atoms and creates new atoms for unmatched experience. (c) Experience-to-Knowledge evolution extracts environment-specific class associations, transition patterns, and feedback-calibrated reliability. (d) AGEP fuses direct evidence with structural support, ranks candidate atoms, grounds them in current ObjectMap instances, and constrains planning using the 3-D traversability map.",
+              "figure_id": "figure-2-11",
+              "figure_number": "2",
+              "height": 465,
+              "image_path": "figures/2611.22321/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 3. Experience-to-Knowledge evolution in an explored scene. Left: a bird’s-eye view of the observed HM3D scene. Middle: consolidated atoms in the shared world coordinate system. Right: category-level structural knowledge evolved from atom relations, including proximity, atom-level co-visibility, and framelevel category co-visibility.",
+              "figure_id": "figure-3-12",
+              "figure_number": "3",
+              "height": 145,
+              "image_path": "figures/2611.22321/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 487
+            },
+            {
+              "caption": "Figure 4. Qualitative Cross-Floor-Required navigation on MFMON. The episode contains three ordered goals, Chair → TV → Toilet, and requires one floor transition.",
+              "figure_id": "figure-4-4",
+              "figure_number": "4",
+              "height": 285,
+              "image_path": "figures/2611.22321/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 483
+            },
+            {
+              "caption": "Figure 1. Motivation of EvoNav. (a) The trade-off between core persistent semantic-memory footprint and partial path length, which weights partial task progress by the path efficiency of successful subtasks, on MFMON. (b) Appearance-recall memories retain snapshots or high-dimensional visual features and return previously observed views, whereas EvoNav consolidates interaction histories into sparse experience atoms and evolves environmentspecific structural knowledge.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 225,
+              "image_path": "figures/2611.22321/figure-004.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 496
+            },
+            {
+              "caption": "Figure 5. Real-world navigation results. Without additional tuning, EvoNav localizes and reaches target objects in a real indoor environment, demonstrating effective sim-to-real transfer.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 212,
+              "image_path": "figures/2611.22321/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 489
+            },
+            {
+              "caption": "Table 3. Position-wise Global SR/SPL on MFMON under the prefix protocol (%). All positions use 927 episodes as the denominator, with unexecuted later goals assigned zero.",
+              "figure_id": "table-3-10",
+              "figure_number": "3",
+              "height": 246,
+              "image_path": "figures/2611.22321/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 744
+            },
+            {
+              "caption": "Table 4. Cross-floor decomposition on HM3D-MFMON under the prefix protocol (%).",
+              "figure_id": "table-4-5",
+              "figure_number": "4",
+              "height": 283,
+              "image_path": "figures/2611.22321/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 498
+            },
+            {
+              "caption": "Table 6. Component ablations on HM3D-MFMON (%).",
+              "figure_id": "table-6-9",
+              "figure_number": "6",
+              "height": 195,
+              "image_path": "figures/2611.22321/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 1. HM3D ObjectNav validation results (%). TF denotes training-free with respect to task-specific navigation data, and LLM denotes the use of an LLM for semantic reasoning.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 219,
+              "image_path": "figures/2611.22321/table-009.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 437
+            },
+            {
+              "caption": "Table 5. Official GOAT-Bench Val-Unseen subtask-based, episode-macro results (%).",
+              "figure_id": "table-5-8",
+              "figure_number": "5",
+              "height": 195,
+              "image_path": "figures/2611.22321/table-010.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 483
+            },
+            {
+              "caption": "Table 2. Results on all 927 HM3D-MFMON episodes under the prefix protocol (%). SeqSR/SeqSPL are strict episode-level metrics, whereas PR/PPL measure goal-level partial completion within each episode.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 174,
+              "image_path": "figures/2611.22321/table-011.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 7. Core persistent-memory footprint and access cost per episode, measured on an NVIDIA A6000 GPU.",
+              "figure_id": "table-7-6",
+              "figure_number": "7",
+              "height": 150,
+              "image_path": "figures/2611.22321/table-012.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 508
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22321/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.22321",
+          "relevance": 8,
+          "selection_reason": "Lifelong embodied navigation with evolving experience memory fits navigation and embodied memory topics.",
+          "summary_status": "generated",
+          "title": "Beyond Episodic Recall: Experience-to-Knowledge Evolution for Lifelong Embodied Navigation",
+          "tldr": "EvoNav evolves compact navigation experiences into environment-specific knowledge, enabling more efficient lifelong goal search and transfer to a real robot.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning",
+                "embodied-memory"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Ensuring robust safety alignment of large language models (LLMs) is increasingly difficult as adversarial attacks evolve and outpace alignment pipelines built on pre-collected data. Existing co-evolutionary frameworks let the defender chase a moving attacker, yet their training dynamics expose two compounding pathologies: \\emph{attack strategy collapse}, where the attacker overfits to a narrow set of high-reward rewrites, and \\emph{defense adversarial forgetting}, where the defender loses competence against earlier attacks as the attack distribution drifts. Existing remedies are partial: attacker-side diversity rewards score textual novelty rather than strategy novelty, and defender-side replay relies on discrete judge scores that ignore estimation uncertainty, response stochasticity, and defender non-stationarity. We introduce \\textbf{\\method}, a diversity-driven adversarial co-evolution framework that targets both pathologies jointly. On the attacker side, \\method couples an explicit two-dimensional strategy space (risk category $\\times$ attack style) with a \\emph{normalized marginal coverage gain} reward, providing a bounded, non-vanishing exploration signal at the strategy layer. On the defender side, \\method maintains a unified \\emph{Bayesian adversarial replay pool} whose Beta--Bernoulli threat posteriors are refreshed by time decay and sampled via Thompson sampling, anchoring defender training to an evolving threat landscape. Across standard safety, automated-attacker, and general-capability benchmarks, \\method improves robustness to out-of-distribution attacks while preserving general capabilities, and yields broader attacker strategy coverage.",
+          "arxiv_id": "2611.22278",
+          "arxiv_url": "https://arxiv.org/abs/2611.22278",
+          "authors": [
+            "Peng Yu, Xiaoyu Wen, Zhida He, Ziyuan Zhou, Han Qi, Shao Zhang, Qiaosheng Zhang, Ying Wen, Chaochao Lu"
+          ],
+          "bullets": [
+            "Addresses attacker strategy collapse and defender adversarial forgetting in evolving adversarial training.",
+            "Models attack diversity across risk categories and attack styles rather than relying on textual novelty.",
+            "Uses normalized marginal coverage gain to provide a bounded exploration signal for attackers.",
+            "Maintains a Bayesian adversarial replay pool with time-decayed Beta–Bernoulli posteriors and Thompson sampling.",
+            "Abstract reports improved out-of-distribution robustness, preserved general capabilities, and broader attack-strategy coverage across several benchmark types."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of DACE. Two phases: Phase 1 (Warm-up) SFTs the attacker on strategyconditioned CoT data to produce ⟨think, strategy, answer⟩ outputs. Phase 2 (Co-Evolution) alternates attacker-first: (i) attacker RL with normalized marginal coverage gain over the attack strategy space, and (ii) defender RL on a mixed batch Dtrain = Dnew ∪Dreplay of fresh and replayed attacks. The unified archive tracks both strategy frequencies (for the coverage reward) and per-entry Beta–Bernoulli threat posteriors (refreshed by per-round time decay and Thompson sampling).",
+              "figure_id": "figure-2-13",
+              "figure_number": "2",
+              "height": 437,
+              "image_path": "figures/2611.22278/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 818
+            },
+            {
+              "caption": "Figure 4: Training dynamics of DACE. Four per-step curves extracted from the released training logs: (a) the fraction of strategy cells with at least one archived successful attack, (b) the absolute number of archived attacks, (c) the Shannon entropy of the empirical strategy distribution (normalized), and (d) the mean Beta–Bernoulli posterior harmfulness over currently archived entries.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 596,
+              "image_path": "figures/2611.22278/figure-002.webp",
+              "kind": "figure",
+              "page": 38,
+              "width": 813
+            },
+            {
+              "caption": "Figure 1: Motivation. Left: standard co-evolution collapses the attacker onto a few high-reward cells, leaving the defender trained on a biased slice of the threat landscape. Right: DACE structures the attack space into a risk-category × attack-style grid and maintains a Bayesian adversarial replay pool, so co-evolution is jointly driven by strategy-level coverage and refreshed threat memory.",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 235,
+              "image_path": "figures/2611.22278/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 824
+            },
+            {
+              "caption": "Table 3: Defender robustness to out-of-distribution automated attackers. All rows are evaluated on HarmBench through the OpenRT [56] framework with GPT-4o as an independent judge. For generalization to unseen attackers, lower ASR is better. Baseline results are taken from MAGIC [57].",
+              "figure_id": "table-3-12",
+              "figure_number": "3",
+              "height": 409,
+              "image_path": "figures/2611.22278/table-004.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 518
+            },
+            {
+              "caption": "Table 7: Structural comparison with co-evolutionary safety alignment frameworks.",
+              "figure_id": "table-7-18",
+              "figure_number": "7",
+              "height": 233,
+              "image_path": "figures/2611.22278/table-005.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 764
+            },
+            {
+              "caption": "Table 1: Safety evaluation on harmful refusal and benign compliance. For safety evaluation, lower ASR is better; higher RTA / Comply is better. Baseline results are taken from MAGIC [57].",
+              "figure_id": "table-1-5",
+              "figure_number": "1",
+              "height": 378,
+              "image_path": "figures/2611.22278/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 827
+            },
+            {
+              "caption": "Table 2: General-capability evaluation. For the evaluation of instruction-following, knowledge, and general reasoning, higher is better on all benchmarks. Baseline results are taken from MAGIC [57].",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 307,
+              "image_path": "figures/2611.22278/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 782
+            },
+            {
+              "caption": "Table 8: The 12 risk categories of S.",
+              "figure_id": "table-8-10",
+              "figure_number": "8",
+              "height": 719,
+              "image_path": "figures/2611.22278/table-008.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 827
+            },
+            {
+              "caption": "Table 6: Multi-turn attack evaluation with X-Teaming [43] on Qwen2.5-7B-Instruct. Multi-turn ASR counts a harmful seed as successfully attacked if any of its 10 adversarial strategies succeeds; JailBreak Rate (JB) is the fraction of all generated strategies that jailbreak the model. Imp. denotes the relative improvement over the base Qwen model. Baseline results are taken from MAGIC [57].",
+              "figure_id": "table-6-22",
+              "figure_number": "6",
+              "height": 123,
+              "image_path": "figures/2611.22278/table-009.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 590
+            },
+            {
+              "caption": "Table 10: The 10 attack styles of C.",
+              "figure_id": "table-10-17",
+              "figure_number": "10",
+              "height": 296,
+              "image_path": "figures/2611.22278/table-010.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 827
+            },
+            {
+              "caption": "Table 21: Attacker transfer to frontier defenders. Attack success rate (%) on 320 HarmBench vanilla-harmful behaviors judged by GPT-4o; higher is a stronger attacker. Only the attacker-LLM role differs between rows: the OpenRT framework, judge, query budget, and hyperparameters are identical. Neither frontier defender appears anywhere in attacker training. 1-shot applies the attacker once with no outer search. GCG is omitted as it requires white-box gradients. Single-seed.",
+              "figure_id": "table-21-23",
+              "figure_number": "21",
+              "height": 166,
+              "image_path": "figures/2611.22278/table-011.webp",
+              "kind": "table",
+              "page": 37,
+              "width": 594
+            },
+            {
+              "caption": "Table 12: Shared GRPO and optimization hyperparameters for DACE and co-evolution baselines.",
+              "figure_id": "table-12-20",
+              "figure_number": "12",
+              "height": 398,
+              "image_path": "figures/2611.22278/table-012.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 826
+            },
+            {
+              "caption": "Table 17: Re-evaluation of Table 1 checkpoints under two independent judges. Columns and protocol match Table 1; only the judge changes, and neither judge is used anywhere in training or during checkpoint selection. Baseline rows are quoted from MAGIC [57], Tables 10 and 11, which report no Self-RedTeam row for the Llama3.1-8B-Instruct block; only the DACE rows are ours. Sample sizes per column: 337, 412, 2,000, 300, 1,500, 320, 655, 200, 313, 250, 250, as in Table 1.",
+              "figure_id": "table-17-9",
+              "figure_number": "17",
+              "height": 464,
+              "image_path": "figures/2611.22278/table-013.webp",
+              "kind": "table",
+              "page": 35,
+              "width": 826
+            },
+            {
+              "caption": "Table 19: Per-seed safety results across three co-evolution seeds (Qwen2.5-7B-Instruct). Scored by Qwen3Guard under the protocol of Table 1. The mean row carries the sample standard deviation beneath it; ±0.000 denotes a standard deviation below 5× 10−4. Of the three MAGIC seeds, one is the published run [57] and two are local re-runs under the same training protocol as DACE.",
+              "figure_id": "table-19-14",
+              "figure_number": "19",
+              "height": 324,
+              "image_path": "figures/2611.22278/table-014.webp",
+              "kind": "table",
+              "page": 36,
+              "width": 827
+            },
+            {
+              "caption": "Table 15: Isolating the contribution of the strategy grid. Panel (a) adds the grid to MAGIC’s RL training without the coverage reward (WildJailBreak adversarial ASR, lower is better; rows shared with Table 13). Panels (b) and (c) report ASR (%) on 600 WildJailBreak vanilla harmful prompts judged by GPT-4o, as in Table 4, where higher is a stronger attacker. In (b) the grid is given to an untrained attacker at test time; in (c) it is given to the defender as a description of what it may face. All rows are single-seed and are reported here for transparency and full reproducibility.",
+              "figure_id": "table-15-19",
+              "figure_number": "15",
+              "height": 318,
+              "image_path": "figures/2611.22278/table-015.webp",
+              "kind": "table",
+              "page": 32,
+              "width": 744
+            },
+            {
+              "caption": "Table 20: Per-seed general-capability results across the same three seeds (Qwen2.5-7B-Instruct). Higher is better on all columns; each column reports per-seed values, protocol as in Table 2.",
+              "figure_id": "table-20-15",
+              "figure_number": "20",
+              "height": 264,
+              "image_path": "figures/2611.22278/table-016.webp",
+              "kind": "table",
+              "page": 36,
+              "width": 810
+            },
+            {
+              "caption": "Table 13: Full ablation on DACE’s components (Qwen2.5-7B-Instruct). G / D / R denote the strategy grid, the coverage-gain reward, and the Bayesian replay pool. Rows differ only in which switches are enabled, at matched budgets; the subset marked ⋆ forms a chain in which each successive row turns on exactly one further switch, and the decomposition in the text follows that chain. The w/o SFT warm-start row keeps all three switches and instead removes the Phase-1 initialization, so it is read separately. All rows are single-seed and are reported for transparency rather than any formal statistical comparison. Baseline and MAGIC rows are reproduced from MAGIC [57].",
+              "figure_id": "table-13-3",
+              "figure_number": "13",
+              "height": 271,
+              "image_path": "figures/2611.22278/table-017.webp",
+              "kind": "table",
+              "page": 30,
+              "width": 740
+            },
+            {
+              "caption": "Table 4: Attacker transferability across defenders. The attack success rate (%) on 600 WildJailbreak vanilla harmful prompts judged by GPT-4o. Read row-wise, a higher ASR means a stronger attacker; read column-wise, a lower ASR means a stronger defender. Avg. averages the four unseen defenders; the shaded Avg. cells contrast MAGIC’s collapse at step 300 with DACE’s continued gain.",
+              "figure_id": "table-4-11",
+              "figure_number": "4",
+              "height": 226,
+              "image_path": "figures/2611.22278/table-018.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 840
+            },
+            {
+              "caption": "Table 5: Multi-level attack diversity comparison. Strategy-level (Coverage of the 120 grid cells, Shannon entropy with upper bound 4.787), semantic-level (SBERT cosine), and textual-level (SelfBLEU, Distinct-2) metrics over the last 15 training steps and the final DACE replay pool. As MAGIC declares no strategy, its strategy-level metrics come from fair post-hoc annotation (Appendix G.3).",
+              "figure_id": "table-5-21",
+              "figure_number": "5",
+              "height": 132,
+              "image_path": "figures/2611.22278/table-019.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 598
+            },
+            {
+              "caption": "Table 9: Mapping of DACE’s 12 risk categories to Llama-Guard-4 codes.",
+              "figure_id": "table-9-16",
+              "figure_number": "9",
+              "height": 337,
+              "image_path": "figures/2611.22278/table-020.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 486
+            },
+            {
+              "caption": "Table 11: DACE training hyperparameters (main-experiment defaults).",
+              "figure_id": "table-11-2",
+              "figure_number": "11",
+              "height": 277,
+              "image_path": "figures/2611.22278/table-021.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 432
+            },
+            {
+              "caption": "Table 18: Replacing the in-training judge (Qwen2.5-7B-Instruct). Columns and protocol match Table 1; all rows are still scored by Qwen3Guard, and the Train judge column states which model supplied the reward during co-evolution, with all other training settings held exactly fixed. The WildGuard-trained row is therefore evaluated by a judge it never optimized against. Single-seed.",
+              "figure_id": "table-18-8",
+              "figure_number": "18",
+              "height": 196,
+              "image_path": "figures/2611.22278/table-022.webp",
+              "kind": "table",
+              "page": 35,
+              "width": 827
+            },
+            {
+              "caption": "Table 14: Mechanism diagnostics for the ablated configurations (Qwen2.5-7B-Instruct). Left: strategy collapse, reported as coverage entropy / grid coverage of the online archive (entropy upper bound log 120 = 4.787; coverage upper bound 100%). Right: adversarial forgetting, reported as the ASR of 4,000 attacks archived around the given step when replayed against the final defender of the same run. Entries are not emphasized because the two panels diagnose different failure modes rather than rank configurations. All rows are single-seed and should therefore be interpreted cautiously.",
+              "figure_id": "table-14-24",
+              "figure_number": "14",
+              "height": 152,
+              "image_path": "figures/2611.22278/table-023.webp",
+              "kind": "table",
+              "page": 31,
+              "width": 732
+            },
+            {
+              "caption": "Table 16: Agreement between declared and post-hoc re-labelled strategies (Qwen2.5-7B-Instruct, single-seed). 4,000 rewrites re-labelled at each step by a classifier that supplies no training signal and is entirely independent of attacker declarations. Joint requires both axes to match and is the strictest criterion. Entries are not emphasized because the table is an audit rather than a comparison.",
+              "figure_id": "table-16-7",
+              "figure_number": "16",
+              "height": 103,
+              "image_path": "figures/2611.22278/table-024.webp",
+              "kind": "table",
+              "page": 33,
+              "width": 422
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22278/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.22278",
+          "relevance": 5,
+          "selection_reason": "Bayesian adversarial replay pool directly addresses catastrophic forgetting under distribution shift, transferable to continual learning.",
+          "summary_status": "generated",
+          "title": "DACE: Diversity-Driven Adversarial Co-Evolution for Robust LLM Safety Alignment",
+          "tldr": "DACE improves LLM safety alignment by jointly promoting diverse attack strategies and uncertainty-aware replay of past threats during adversarial co-evolution.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Model-based offline-to-online reinforcement learning (RL) enables sample-efficient adaptation by leveraging offline pre-training for online fine-tuning. However, the distribution shifts between offline and online stages often hinder fine-tuning performance. Many existing methods encode the optimism-pessimism trade-off through a single-objective formulation. Selecting its trade-off coefficient through online fine-tuning can require costly bi-level optimization. We identify the balance established during offline training as a key challenge: in our motivating experiments, optimistic policies adapt better to novel tasks, whereas pessimistic policies perform better on the same online tasks. To address this challenge, we propose a bi-objective formulation that captures this trade-off, yielding a Pareto policy pool during offline training. This policy pool enables adaptive selection during online fine-tuning across diverse online tasks. To generate the pool, we introduce Multi-Objective Soft Actor-critIC (MOSAIC), which solves bi-objective problems and constructs diverse Pareto policies. After offline training, a contextual bandit algorithm hierarchically selects the most suitable policy for fine-tuning at each online interaction step. Empirically, our pipeline, Hierarchical Pareto Policy Pool (HiP3), achieves the strongest aggregate performance across both same and novel online tasks and maintains its advantage under stronger distribution shifts. Comprehensive ablations further clarify the roles of the policy pool, MOSAIC-based pool construction, and the online selection mechanism.",
+          "arxiv_id": "2611.22172",
+          "arxiv_url": "https://arxiv.org/abs/2611.22172",
+          "authors": [
+            "Guochen Zhou, Yijun Yang, Qiqi Duan, Qing Su, Weiming Ou, Li Shen, Shihao Ji, Yuhui Shi, Zhisong Zhang"
+          ],
+          "bullets": [
+            "Offline-to-online distribution shifts make it difficult to choose a fixed optimism–pessimism balance.",
+            "Optimistic policies adapt better to novel tasks, while pessimistic policies perform better on familiar online tasks.",
+            "The method formulates the trade-off as a bi-objective problem and constructs a Pareto policy pool with MOSAIC.",
+            "A hierarchical contextual bandit selects the most suitable policy during online fine-tuning.",
+            "HiP3 achieves the strongest aggregate performance across same and novel tasks, including under stronger distribution shifts."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of Hierarchical Pareto Policy Pool (HiP3). In the offline stage (gray box), our MOSAIC algorithm generates a diverse pool of Pareto policies exhibiting varying optimism-pessimism trade-offs via multi-objective optimization with reference vectors and neighborhood search. In the online stage (blue box), a contextual bandit (LinUCB [33]) selects a candidate policy conditioned on the current state from the top-K subset; the selected policy is then fine-tuned via a Dyna-style method [15].",
+              "figure_id": "figure-2-25",
+              "figure_number": "2",
+              "height": 256,
+              "image_path": "figures/2611.22172/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 829
+            },
+            {
+              "caption": "Figure 1: (a) Pareto policy pool discovered by HiP3, containing policies with different optimism-pessimism trade-offs. P1 maximizes model-predicted return (most optimistic), P4 minimizes uncertainty (most pessimistic), while P2 and P3 represent balanced trade-offs. (b) On the novel online task (details in Appendix C.1), optimistic P1 achieves the highest return. (c) On the same online task, pessimistic P4 achieves the highest return. Together, these results motivate preserving multiple trade-off policies offline and deferring the choice among them to online adaptation, rather than committing to a single trade-off in advance.",
+              "figure_id": "figure-1-9",
+              "figure_number": "1",
+              "height": 218,
+              "image_path": "figures/2611.22172/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 706
+            },
+            {
+              "caption": "Figure 6: Ablation study on the number of policies K when fine-tuning the policy pool on six novel online tasks. The normalized score is averaged over 5 random seeds (each with 10 evaluations). The curves exclusively illustrate the performance during the online stage, where LinUCB is used for policy selection from the pool.",
+              "figure_id": "figure-6-2",
+              "figure_number": "6",
+              "height": 391,
+              "image_path": "figures/2611.22172/figure-003.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 694
+            },
+            {
+              "caption": "Figure 11: Ablation study on the policy selection algorithms for six novel online tasks. The normalized score is averaged over 5 random seeds (each with 10 evaluations). The curves exclusively illustrate the performance during the online stage, where various bandit algorithms are evaluated.",
+              "figure_id": "figure-11-13",
+              "figure_number": "11",
+              "height": 390,
+              "image_path": "figures/2611.22172/figure-004.webp",
+              "kind": "figure",
+              "page": 29,
+              "width": 694
+            },
+            {
+              "caption": "Figure 5: Heat maps visualize the policy preferences Pt, obtained by softmax-normalizing the LinUCB scores. HiP3 executes kt = argmaxk Pt(k) at each interaction step. A sharply peaked preference profile indicates a clear preference for one candidate, whereas a diffuse profile indicates smaller preference margins among candidates. The accompanying curves compare HiP3 with the five candidate policies on two representative novel online tasks. Additional quantitative and qualitative analyses are provided in Appendix D.5.2.",
+              "figure_id": "figure-5-17",
+              "figure_number": "5",
+              "height": 220,
+              "image_path": "figures/2611.22172/figure-005.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 819
+            },
+            {
+              "caption": "Figure 4: Ablations on novel online tasks: (a) removing the policy pool; (b) policy-selection algorithms. Full curves are provided in Figure 10 and Figure 11 in the Appendix, respectively.",
+              "figure_id": "figure-4-23",
+              "figure_number": "4",
+              "height": 212,
+              "image_path": "figures/2611.22172/figure-006.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 822
+            },
+            {
+              "caption": "Figure 3: Offline-to-online learning curves on the same and novel online tasks. The blue and yellow shaded regions denote offline pre-training and online fine-tuning, respectively. Curves are averaged over 5 random seeds with 10 evaluations per seed, and shaded areas show standard deviation. Full results across all datasets are available in Figure 8 and Figure 9 in the Appendix.",
+              "figure_id": "figure-3-11",
+              "figure_number": "3",
+              "height": 214,
+              "image_path": "figures/2611.22172/figure-007.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 811
+            },
+            {
+              "caption": "Figure 8: Offline-to-online learning curves on the same online tasks. Curves show mean over five seeds; shaded regions denote standard deviation.",
+              "figure_id": "figure-8-28",
+              "figure_number": "8",
+              "height": 1052,
+              "image_path": "figures/2611.22172/figure-008.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 656
+            },
+            {
+              "caption": "Figure 9: Offline-to-online learning curves on the novel online tasks. These tasks are generated via modifying the gravity, noise scales, and reward functions of the original MuJoCo tasks. Curves show mean over five seeds; shaded regions denote standard deviation.",
+              "figure_id": "figure-9-22",
+              "figure_number": "9",
+              "height": 1052,
+              "image_path": "figures/2611.22172/figure-009.webp",
+              "kind": "figure",
+              "page": 28,
+              "width": 656
+            },
+            {
+              "caption": "Figure 7: Online policy-selection dynamics across the novel online tasks. The heat maps visualize the policy preferences Pt obtained by softmax-normalizing the LinUCB scores at each online interaction step. The visualizations show whether the selector develops a concentrated preference for one candidate or maintains comparable preferences across multiple candidates during adaptation.",
+              "figure_id": "figure-7-4",
+              "figure_number": "7",
+              "height": 1050,
+              "image_path": "figures/2611.22172/figure-010.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 627
+            },
+            {
+              "caption": "Figure 10: Complete comparison between HiP3 and the single-policy variant on four representative novel online tasks. Curves show mean and standard deviation over five seeds.",
+              "figure_id": "figure-10-14",
+              "figure_number": "10",
+              "height": 215,
+              "image_path": "figures/2611.22172/figure-011.webp",
+              "kind": "figure",
+              "page": 29,
+              "width": 694
+            },
+            {
+              "caption": "Table 1: Performance comparison on the same and novel online tasks. Novel online tasks are created by modifying the environments’ gravity, friction, noise, and reward terms. Scores for each dataset are",
+              "figure_id": "table-1-10",
+              "figure_number": "1",
+              "height": 321,
+              "image_path": "figures/2611.22172/table-012.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 822
+            },
+            {
+              "caption": "Table 20: Complete comparison between HiP3 and its single-policy variant on all 12 novel online tasks. The single-policy variant removes the offline Pareto policy pool while retaining the same model-based online fine-tuning procedure. HiP3 uses the five seeds reported in the main results, while the single-policy variant uses three seeds per task. Both methods use the same offline data, environment model, SAC-based backbone, and online fine-tuning budget.",
+              "figure_id": "table-20-8",
+              "figure_number": "20",
+              "height": 336,
+              "image_path": "figures/2611.22172/table-013.webp",
+              "kind": "table",
+              "page": 30,
+              "width": 498
+            },
+            {
+              "caption": "Table 5: The hyper-parameters used for environment model M",
+              "figure_id": "table-5-26",
+              "figure_number": "5",
+              "height": 208,
+              "image_path": "figures/2611.22172/table-014.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 410
+            },
+            {
+              "caption": "Table 21: Performance comparison on the same and novel online tasks. The novel online tasks are generated by adjusting the gravity, noise scales, and reward functions of the original MuJoCo environments. ∗ indicates the results reported by the paper. Note that FamO2O reports results with a 1M-step online fine-tuning budget and is therefore not directly budget-matched to the 100K-step setting used for the other methods. We fine-tune all other methods for 100K steps, using the same hyper-parameter settings provided by the original papers. Scores for each dataset are normalized",
+              "figure_id": "table-21-33",
+              "figure_number": "21",
+              "height": 812,
+              "image_path": "figures/2611.22172/table-015.webp",
+              "kind": "table",
+              "page": 31,
+              "width": 827
+            },
+            {
+              "caption": "Table 2: Performance under more challenging distribution shifts. We modify environment dynamics and reward functions to create harder adaptation scenarios. (Notations: hc = halfcheetah, hop = hopper, wk = walker2d; r = random, mr = medium-replay.)",
+              "figure_id": "table-2-24",
+              "figure_number": "2",
+              "height": 203,
+              "image_path": "figures/2611.22172/table-016.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 632
+            },
+            {
+              "caption": "Table 10: The hyper-parameters of HiP3 used for offline and online learning on the MuJoCo tasks.",
+              "figure_id": "table-10-16",
+              "figure_number": "10",
+              "height": 491,
+              "image_path": "figures/2611.22172/table-017.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 818
+            },
+            {
+              "caption": "Table 6: Comparison with Linear Scalarization Method",
+              "figure_id": "table-6-18",
+              "figure_number": "6",
+              "height": 162,
+              "image_path": "figures/2611.22172/table-018.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 618
+            },
+            {
+              "caption": "Table 18: Impact of bandit model capacity on online adaptation performance",
+              "figure_id": "table-18-1",
+              "figure_number": "18",
+              "height": 156,
+              "image_path": "figures/2611.22172/table-019.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 518
+            },
+            {
+              "caption": "Table 3: Ablation and controlled comparison studies. (a) Comparison with a matched linearscalarization baseline. (b) Comparison of candidate-set initialization strategies, including targetinteraction-free candidate ranking via FQE.",
+              "figure_id": "table-3-32",
+              "figure_number": "3",
+              "height": 185,
+              "image_path": "figures/2611.22172/table-020.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 806
+            },
+            {
+              "caption": "Table 4: Quantitative analysis of LinUCB policy selection behavior on 12 novel online task settings. The dominant policy is defined as the candidate selected most frequently over the full online run. Its selection frequency is the fraction of online steps assigned to that candidate.",
+              "figure_id": "table-4-31",
+              "figure_number": "4",
+              "height": 104,
+              "image_path": "figures/2611.22172/table-021.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 632
+            },
+            {
+              "caption": "Table 9: Computation cost comparison for online stage",
+              "figure_id": "table-9-7",
+              "figure_number": "9",
+              "height": 117,
+              "image_path": "figures/2611.22172/table-022.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 390
+            },
+            {
+              "caption": "Table 11: Generality of the optimism-pessimism crossover behavior. Optimistic and pessimistic policies are selected before observing the online task and independently fine-tuned for 100K online steps without Top-K ranking, LinUCB selection, or policy switching. The results show a consistent crossover between adaptation on the same and novel online tasks.",
+              "figure_id": "table-11-15",
+              "figure_number": "11",
+              "height": 186,
+              "image_path": "figures/2611.22172/table-023.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 518
+            },
+            {
+              "caption": "Table 14: Absolute transient degradation and recovery analysis during online fine-tuning. Minimum normalized scores are averaged over three seeds. Recovery steps are reported as median [minimum, maximum] across seeds.",
+              "figure_id": "table-14-20",
+              "figure_number": "14",
+              "height": 214,
+              "image_path": "figures/2611.22172/table-024.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 602
+            },
+            {
+              "caption": "Table 15: Sensitivity analysis of the uncertainty-squashing constant κ and reference-vector range (τa, τb). Default configurations are bolded. Each non-default setting changes only the corresponding hyperparameter while keeping all other configurations fixed.",
+              "figure_id": "table-15-30",
+              "figure_number": "15",
+              "height": 175,
+              "image_path": "figures/2611.22172/table-025.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 560
+            },
+            {
+              "caption": "Table 16: Sensitivity analysis of the perturbation size ϵ and similarity threshold ψ. Default configurations are bolded. The same experimental protocol is used across all settings.",
+              "figure_id": "table-16-29",
+              "figure_number": "16",
+              "height": 175,
+              "image_path": "figures/2611.22172/table-026.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 522
+            },
+            {
+              "caption": "Table 17: Ablation study on world model training impact",
+              "figure_id": "table-17-3",
+              "figure_number": "17",
+              "height": 157,
+              "image_path": "figures/2611.22172/table-027.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 772
+            },
+            {
+              "caption": "Table 22: Comparisons with model-based reinforcement learning baselines. * indicates results reported by the paper. FOWM results are reported from its paper; TD-MPC2 is evaluated for 100K online training steps.",
+              "figure_id": "table-22-27",
+              "figure_number": "22",
+              "height": 180,
+              "image_path": "figures/2611.22172/table-028.webp",
+              "kind": "table",
+              "page": 32,
+              "width": 760
+            },
+            {
+              "caption": "Table 19: Ablation study for different number of reference vectors. For fairness, we fix the total training budget to 1M steps and allocate it evenly across reference vectors. When too many reference vectors are used, each policy receives insufficient training, leading to performance deterioration. Conversely, too few reference vectors reduce the diversity of the policy pool. The ablation study shows that using five reference vectors achieves the best balance between policy diversity and overall performance.",
+              "figure_id": "table-19-12",
+              "figure_number": "19",
+              "height": 175,
+              "image_path": "figures/2611.22172/table-029.webp",
+              "kind": "table",
+              "page": 29,
+              "width": 522
+            },
+            {
+              "caption": "Table 8: Computation cost comparison for offline stage",
+              "figure_id": "table-8-6",
+              "figure_number": "8",
+              "height": 117,
+              "image_path": "figures/2611.22172/table-030.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 668
+            },
+            {
+              "caption": "Table 7: End-to-end computational cost of matched HiP3 variants. All variants use the same total 1M-step offline policy-optimization budget and 100K-step online fine-tuning budget. Wall-clock times are averaged over 3 seeds on a common NVIDIA A6000 GPU.",
+              "figure_id": "table-7-5",
+              "figure_number": "7",
+              "height": 117,
+              "image_path": "figures/2611.22172/table-031.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 618
+            },
+            {
+              "caption": "Table 13: Relative performance drop comparison on same and novel online tasks. The drop is measured between the pre-fine-tuning performance and the minimum performance during online adaptation. (Notations: r = random, mr = medium-replay.)",
+              "figure_id": "table-13-19",
+              "figure_number": "13",
+              "height": 184,
+              "image_path": "figures/2611.22172/table-032.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 814
+            },
+            {
+              "caption": "Table 12: Generalization to additional domains. We evaluate HiP3 on high-dimensional manipulation tasks (Adroit) and navigation tasks (Maze2D), and compare with widely-used O2O RL baselines (Cal-QL, AWAC, CQL). HiP3 achieves competitive or superior performance across domains.",
+              "figure_id": "table-12-21",
+              "figure_number": "12",
+              "height": 136,
+              "image_path": "figures/2611.22172/table-033.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 586
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22172/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.22172",
+          "relevance": 6,
+          "selection_reason": "Offline-to-online RL with Pareto policy pool; transferable to robot policy learning and online adaptation.",
+          "summary_status": "generated",
+          "title": "Towards Optimism-Pessimism Trade-off in Model-based Offline-to-Online Reinforcement Learning",
+          "tldr": "HiP3 improves offline-to-online RL by learning a diverse pool of optimistic–pessimistic policies offline and selecting among them adaptively online.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Language agents rely on long-term memory to personalize responses across extended interactions, yet stored facts quietly go stale as the world changes, and an agent often learns that using memory hurt only through delayed feedback after acting on an outdated record. Before the memory store is updated, how far should that negative feedback propagate: should it suppress memory use only on future queries for that same fact (a local policy), or also across other stored facts (a global policy)? Existing memory systems implicitly fix one of these two sharing scopes at design time. We formulate this online scope choice under hidden validity and delayed feedback as memory conflict governance, and prove that neither fixed policy is sufficient on its own. We then propose RegimeCouncil, a lightweight paired-evidence router that retains both scopes as advisors and arbitrates between them online without retraining the LLM. Using revealed comparisons between answering with memory and answering without memory (the no-memory anchor), a Local Advisor tracks the latest outcome on the queried fact alone, while a Global Advisor pools recent outcomes across all stored facts. A Meta Governor follows the Local Advisor by default to avoid cross-fact interference and switches to the Global Advisor only when global pooling accumulates a strictly positive recent utility margin, guaranteeing finite-time switching under delayed feedback. Across LongMemEval update streams and real-world historical drift on TempLAMA and TAQA with Qwen3-30B-A3B and GPT-4o, RegimeCouncil outperforms the better fixed-scope policy by 5.2-7.3 points on primary disagreement episodes and across all 30 held-out settings, while ablations show that removing any of its three modules reduces accuracy by 2-7 points.",
+          "arxiv_id": "2611.22113",
+          "arxiv_url": "https://arxiv.org/abs/2611.22113",
+          "authors": [
+            "Qingcan Kang, Mingyang Liu, Shixiong Kai, Tao Zhong, Mingxuan Yuan"
+          ],
+          "bullets": [
+            "Addresses stale long-term memories and delayed feedback when memory validity is hidden.",
+            "Maintains Local and Global Advisors, using comparisons with a no-memory answer as evidence.",
+            "A Meta Governor defaults to local updates and switches to global sharing only after positive pooled utility accumulates.",
+            "Provides a finite-time switching guarantee under delayed feedback.",
+            "Outperforms the better fixed-scope policy by 5.2–7.3 points across reported disagreement episodes and held-out settings; removing modules lowers accuracy by 2–7 points."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of RegimeCouncil. (1) At step t, a query arrives for key kt; whether the stored record is valid is hidden from the prompt, and the router chooses between injecting memory (at=1) and using the no-memory anchor (at=0). (2) The Global Advisor pools recent paired outcomes across all keys, whereas the Local Advisor reads only the latest revealed outcome on key kt. (3) The Meta Governor compares what each advisor would have scored over recent revealed episodes, follows Local by default, and switches to Global only when At > 0. (4) After a delay of at most τ steps, the episode’s paired outcome arrives and updates both advisors and the governor.",
+              "figure_id": "figure-2-17",
+              "figure_number": "2",
+              "height": 446,
+              "image_path": "figures/2611.22113/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 790
+            },
+            {
+              "caption": "Figure 1: Three regimes of influence scale, i.e., the propagation scope of delayed feedback: (1) a single fact when drift is isolated; (2) a store-wide use-threshold after a cluster of corrections; and (3) a cold-start prior from pooled outcomes when the queried fact has no local history.",
+              "figure_id": "figure-1-6",
+              "figure_number": "1",
+              "height": 292,
+              "image_path": "figures/2611.22113/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 790
+            },
+            {
+              "caption": "Figure 3: Accuracy vs. harmful-memory exposure on the harm-exposure schedule. Blue circles: Global window. Green squares: Local (per-key). Orange diamonds: no / always memory. Red star: RegimeCouncil. Black outlines mark the best Global and best Local settings from Table 14.",
+              "figure_id": "figure-3-14",
+              "figure_number": "3",
+              "height": 452,
+              "image_path": "figures/2611.22113/figure-003.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 814
+            },
+            {
+              "caption": "Table 6: Module ablation on Schedules A and B (full-stream accuracy, %). Each row removes one component of the full router. Without Global or without Local, the remaining advisor is used alone. Without the Meta Governor (§3.5) the row falls below either advisor alone in all four settings (on Schedule A, 6.8 points on Qwen and 6.5 on GPT-4o; 21.8 and 17.2 disagreement-slice points). Removing Local roughly doubles harmful exposure in all four settings. ∆acc is computed from unrounded accuracies.",
+              "figure_id": "table-6-11",
+              "figure_number": "6",
+              "height": 409,
+              "image_path": "figures/2611.22113/table-004.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 660
+            },
+            {
+              "caption": "Table 11: Development comparison, disagreement-slice points and harmful-episode counts, pooled over five tags and both models (refresh 96). The frozen rule has higher accuracy and fewer harmful episodes in every family, including the family Schedule A is drawn from. Per model the accuracy margins are +0.62 (Qwen) and +0.40 (GPT-4o).",
+              "figure_id": "table-11-22",
+              "figure_number": "11",
+              "height": 150,
+              "image_path": "figures/2611.22113/table-005.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 498
+            },
+            {
+              "caption": "Table 4: Real-world historical drift on TempLAMA (120 keys) and TAQA (100 keys), disagreementslice accuracy (%). Switch times follow true historical change years with matched per-key snapshot lag and frozen windows. All eight key-bootstrap 95% CIs (5,000 replicates) lie strictly above zero.",
+              "figure_id": "table-4-20",
+              "figure_number": "4",
+              "height": 224,
+              "image_path": "figures/2611.22113/table-006.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 618
+            },
+            {
+              "caption": "Table 2: Disagreement-slice gap on the 54-key pool with per-key snapshot lag matched to the 16-key protocol (refresh=324). All eight key-bootstrap 95% intervals (5,000 replicates) lie strictly above zero. Gap is RC minus Best G/L (points); windows stay frozen.",
+              "figure_id": "table-2-16",
+              "figure_number": "2",
+              "height": 224,
+              "image_path": "figures/2611.22113/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 494
+            },
+            {
+              "caption": "Table 18: Varying the snapshot commit interval at fixed outcome delay τ=1 across Schedules A, B, and C on both models (mean full-stream accuracy, %). Since each of the 16 keys is visited once per 16-episode pass, commit intervals ≤ 16 correspond to immediate write-back before the key’s next visit.",
+              "figure_id": "table-18-4",
+              "figure_number": "18",
+              "height": 212,
+              "image_path": "figures/2611.22113/table-008.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 736
+            },
+            {
+              "caption": "Table 10: Every surplus-based governor outperforms the better fixed scale on all 30 held-out settings; the choice of governor mainly changes harmful exposure. Gaps are disagreement-slice points over max(G,L) (upper-middle element of the 30 sorted values; sample two-sided medians for Followrecent-winner, CUSUM, and Wm=8 are +8.0, +7.8, and +7.3 in Table 17), alongside the worst setting. Switch rate is the fraction of consecutive disagreement episodes on which the governor changes advisor. Excess harm is the mean number of episodes per setting, beyond the safest fixed scale, in which the policy acts on memory that is worse than the anchor.",
+              "figure_id": "table-10-23",
+              "figure_number": "10",
+              "height": 223,
+              "image_path": "figures/2611.22113/table-009.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 732
+            },
+            {
+              "caption": "Table 14: Complementary Pareto summary on the harm-exposure schedule.",
+              "figure_id": "table-14-13",
+              "figure_number": "14",
+              "height": 266,
+              "image_path": "figures/2611.22113/table-010.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 586
+            },
+            {
+              "caption": "Table 1: Main results on the two primary held-out schedules: disagreement-slice accuracy (%) and full-stream accuracy (%) with key-cluster bootstrap 95% CIs (5,000 replicates). RC denotes RegimeCouncil; G and L denote the Global and Local Advisors used alone; Best G/L is max(G,L); Gap is RC minus Best G/L (points); Agree-only removes the Meta Governor (§4.3). Jointly resampling all four evaluations yields a full-stream gap of +1.9 [0.9,3.1] and a slice gap of +5.1 [2.3,8.1].",
+              "figure_id": "table-1-7",
+              "figure_number": "1",
+              "height": 171,
+              "image_path": "figures/2611.22113/table-011.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 818
+            },
+            {
+              "caption": "Table 17: Comparison across Case 1 (30 held-out settings, 33,792 episodes), Case 2 (54-key clustered shifts sync multi and sync switch), and Case 1+2 (54-key two-stage stream with asynchronous flips followed by store-wide flips; disagreement-slice accuracy in % and total harmful episodes). Default RegimeCouncil achieves the lowest harmful exposure on the 30 settings (707) and outperforms standalone tie-deferral by +27.9 points under clustered corrections while reducing harmful episodes by 59% on sync switch (37 vs. 91) and 26% on two-stage streams (75 vs. 102); RC-refined achieves the highest accuracy across both regimes.",
+              "figure_id": "table-17-5",
+              "figure_number": "17",
+              "height": 243,
+              "image_path": "figures/2611.22113/table-012.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 764
+            },
+            {
+              "caption": "Table 5: Revelation slice on the cached main streams (accuracy, %). Pre is the 96 episodes before any snapshot commit: Global, Local, and RegimeCouncil tie, and ndis=0. Post gap is RC−max(G,L) on disagreements after the first commit, equal to Table 1.",
+              "figure_id": "table-5-10",
+              "figure_number": "5",
+              "height": 134,
+              "image_path": "figures/2611.22113/table-013.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 560
+            },
+            {
+              "caption": "Table 8: Report-only disagreement gaps (points) versus the best advisor at the same Wg . All twelve entries are positive; the smallest is Schedule B, Qwen, at Wg=16 (+1.8). Not used for selection.",
+              "figure_id": "table-8-2",
+              "figure_number": "8",
+              "height": 110,
+              "image_path": "figures/2611.22113/table-014.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 776
+            },
+            {
+              "caption": "Table 9: Disagreement-slice gap (points) on two held-out schedule families, 16-key caches, frozen windows. independent switch is positive on all four settings; poisson flip is positive on all four with smaller gaps.",
+              "figure_id": "table-9-3",
+              "figure_number": "9",
+              "height": 88,
+              "image_path": "figures/2611.22113/table-015.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 811
+            },
+            {
+              "caption": "Table 7: Report-only disagreement gaps (points) on Schedule A. Larger gates shrink the gain. Not used for selection.",
+              "figure_id": "table-7-1",
+              "figure_number": "7",
+              "height": 139,
+              "image_path": "figures/2611.22113/table-016.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 498
+            },
+            {
+              "caption": "Table 12: TempLAMA real-drift stream (120 keys, real switch times, matched snapshot lag), disagreement-slice accuracy (%). Gap is RC minus Best G/L (points). The large GPT-4o gap is driven by the fixed Global and Local scales collapsing to ≈66% on the slice, not by an unusual RC level. Full-stream gaps are 3.0 and 3.1 points on Qwen and 5.4 and 5.3 points on GPT-4o (Schedules A and B). The difference from follow-recent-winner and CUSUM is within ≈0.7 points. All four key-bootstrap 95% CIs (5000 replicates) are above zero (P (gap>0)=1.00); each ablation reduces accuracy (without Local −5.7 to −7.0, without Global −3.0 to −5.4, without Meta Governor −3.9 to −5.8). Holding refresh = 96 while K grows shortens the per-key lag below the protocol and is not comparable.",
+              "figure_id": "table-12-19",
+              "figure_number": "12",
+              "height": 129,
+              "image_path": "figures/2611.22113/table-017.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 556
+            },
+            {
+              "caption": "Table 13: TAQA real-drift stream (100 keys, real switch times, matched snapshot lag), disagreementslice accuracy (%). Gap is RC minus Best G/L (points). Full-stream gaps are 3.4 and 3.5 points on Qwen and 3.7 and 3.8 points on GPT-4o (Schedules A and B). The difference from follow-recentwinner and CUSUM is within ≈ 0.6 points. All four key-bootstrap 95% CIs (5000 replicates) are above zero (P (gap>0)=1.00); each ablation reduces accuracy (without Local −3.9 to −5.3, without Global −3.4 to −3.8, without Meta Governor −3.5 to −5.2).",
+              "figure_id": "table-13-18",
+              "figure_number": "13",
+              "height": 130,
+              "image_path": "figures/2611.22113/table-018.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 540
+            },
+            {
+              "caption": "Table 15: Observable-conflict selection on MemoryAgentBench 64K (held-out %, n=68). Not a RegimeCouncil score: both writes are in the prompt, and the choice is between generic retrieval and last-write-wins. Lifts of the selected policy over Gen@5: 35.3 points on GPT-4o and 25.0 on Qwen. Generic k=20 never certifies.",
+              "figure_id": "table-15-12",
+              "figure_number": "15",
+              "height": 87,
+              "image_path": "figures/2611.22113/table-019.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 752
+            },
+            {
+              "caption": "Table 16: Two disagreement steps on Schedule A (Qwen). Global pools the last 32 paired advantages; Local reads only the current key. Meta overrides Local only if recent counterfactual surplus is strictly positive.",
+              "figure_id": "table-16-21",
+              "figure_number": "16",
+              "height": 88,
+              "image_path": "figures/2611.22113/table-020.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 548
+            },
+            {
+              "caption": "Table 19: Varying the outcome revelation delay τ at fixed commit interval 6K (disagreement-slice gap vs. max(G,L), points). For each pool, the first row reports the default RegimeCouncil and the second row reports RC-refined (tie-deferring Local with the Meta Governor).",
+              "figure_id": "table-19-8",
+              "figure_number": "19",
+              "height": 148,
+              "image_path": "figures/2611.22113/table-021.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 830
+            },
+            {
+              "caption": "Table 3: Module ablations on Schedule A (change in full-stream accuracy, points), keeping all windows and thresholds frozen. Full accuracy levels and harmful-exposure counts appear in Table 6.",
+              "figure_id": "table-3-15",
+              "figure_number": "3",
+              "height": 109,
+              "image_path": "figures/2611.22113/table-022.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 336
+            },
+            {
+              "caption": "Table 20: Performance under realistic feedback conditions across all 30 held-out settings and perepisode computational overhead relative to the Global Advisor alone.",
+              "figure_id": "table-20-9",
+              "figure_number": "20",
+              "height": 42,
+              "image_path": "figures/2611.22113/table-023.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 830
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22113/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.22113",
+          "relevance": 8,
+          "selection_reason": "Addresses memory conflict governance in LLM agents with online scope selection, fitting continual learning and LLM memory.",
+          "summary_status": "generated",
+          "title": "RegimeCouncil: Paired-Evidence Routing For Memory Conflict Governance In LLM Agents",
+          "tldr": "RegimeCouncil adaptively chooses whether delayed memory-feedback should remain fact-local or generalize across facts, improving conflict handling over either fixed policy.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            },
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Large language model agents accumulate experience in memory, and how that memory evolves during interaction is as important as what it stores. Recent methods update memory online, yet both the operators that transform memory and the rules that select them remain fixed by design. We propose EvoDisco, which formulates agent memory evolution as evolutionary strategy discovery: the agent must discover which operator to apply, when to apply it, and how to instantiate it, rather than rewriting memory under a static operator schedule. A learnable policy conditions on the current memory state and recent task history, then selects and instantiates one of four semantic operators---Abstract, Refine, Bridge, and Reframe---which respectively compress related memories, decompose overloaded entries, connect weakly linked experiences, and reorganize retrieved reasoning chains. The policy is updated with a bi-level fitness. An inner signal scores each transformation using a retrieval-quality improvement regularized by memory complexity. An outer signal scores strategic efficacy over a window of past decisions, combining historical operator-utility regret, utility-prediction error, and selection diversity. Under a one-pass online plus frozen-transfer protocol on ALFWorld, WebShop, and LifelongAgentBench (OS and DB), EvoDisco improves over strong memory baselines including MemP and MemRL. The largest gains are on ALFWorld ($+8.8$ online / $+12.9$ frozen-transfer points over MemP; $+16.4$ / $+17.9$ over MemRL). Ablations attribute these gains to both fitness levels and the operator library.",
+          "arxiv_id": "2611.22102",
+          "arxiv_url": "https://arxiv.org/abs/2611.22102",
+          "authors": [
+            "Mingyang Liu, Qingcan Kang, Shixiong Kai, Kaichao Liang, Xiaojin Fu, Tao Zhong, Linqi Song"
+          ],
+          "bullets": [
+            "Addresses the limitation of fixed memory-update operators and schedules in evolving LLM-agent memory.",
+            "Uses a policy conditioned on memory state and recent task history to select and instantiate Abstract, Refine, Bridge, or Reframe operators.",
+            "Trains the policy with bi-level fitness: transformation-level retrieval gains regularized by memory complexity, and strategy-level historical efficacy, prediction accuracy, and diversity.",
+            "Evaluated under one-pass online plus frozen-transfer settings on ALFWorld, WebShop, and LifelongAgentBench (OS and DB).",
+            "Reports improvements over MemP and MemRL, with the largest ALFWorld gains; ablations support the importance of both fitness levels and the operator library."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Overview of EvoDisco. A frozen language model interacts with a one-pass task stream, retrieves a subgraph, and writes new memories after each episode. A strategy policy reads the memory-graph state and selects one of four operators—ABSTRACT, REFINE, BRIDGE, and REFRAME—which the operator executor applies to the graph. Immediate utility scores each edit by the change in retrieval quality regularized by graph complexity. Every N events, strategic efficacy combines operator-utility regret, utility-prediction error, and selection diversity, and updates the policy. Evolution runs only before the cutoff; afterward the agent continues to write memories. Held-out evaluation freezes the accumulated memory.",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 474,
+              "image_path": "figures/2611.22102/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 976
+            },
+            {
+              "caption": "Figure 5: Two applied edits from the Table 1 runs, read left to right: the graph fragment before the edit, the operator that was applied, the structure written into the graph, and a later retrieval. (a) ALFWorld. ABSTRACT (k=1) links a meta-strategy to a 13-note neighborhood and prunes nothing. Five of the six linked notes remain in the frozen graph and are shown. At stream position 1579, a new statue-to-coffeetable episode retrieves only that strategy and succeeds in 9 steps. The same game reaches the 50-step limit under No Memory, RAG, Self-RAG, Mem0, and MemP. (b) OS. REFINE (categorical, m=4) splits one log-backup procedure into four children and keeps the parent. At stream position 170, the instruction to copy .log files from /var/log into /backup retrieves the copy child, that parent, and one other copy note, and succeeds in 3 steps. The same five systems fail that instruction.",
+              "figure_id": "figure-5-9",
+              "figure_number": "5",
+              "height": 573,
+              "image_path": "figures/2611.22102/figure-002.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 976
+            },
+            {
+              "caption": "Figure 4: ALFWorld strategic-efficacy terms once the window contains K = 20 attempts (events 20–400), including",
+              "figure_id": "figure-4-8",
+              "figure_number": "4",
+              "height": 450,
+              "image_path": "figures/2611.22102/figure-003.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 979
+            },
+            {
+              "caption": "Table 5: Hyperparameters used in the reported EvoDisco experiments.",
+              "figure_id": "table-5-1",
+              "figure_number": "5",
+              "height": 377,
+              "image_path": "figures/2611.22102/table-004.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 977
+            },
+            {
+              "caption": "Table 2: ALFWorld ablations. Online and Transfer denote success rates (%). ∆Transfer is the difference from Full in percentage points. Bold denotes the highest success rate in each column.",
+              "figure_id": "table-2-7",
+              "figure_number": "2",
+              "height": 251,
+              "image_path": "figures/2611.22102/table-005.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 976
+            },
+            {
+              "caption": "Table 1: Online and frozen-memory transfer success rates (%). Online SR is measured over the full training stream. Transfer SR is measured on the held-out split with all memory writes and evolution disabled. Bold denotes the highest value in each column.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 248,
+              "image_path": "figures/2611.22102/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 978
+            },
+            {
+              "caption": "Table 3: Cross-benchmark transfer of the operator-selection policy. Values are frozen-memory transfer success rates (%). The ALFWorld-trained policy is held fixed while each target graph is constructed from scratch. ∆Transfer is relative to the target-trained Full model, in percentage points.",
+              "figure_id": "table-3-6",
+              "figure_number": "3",
+              "height": 192,
+              "image_path": "figures/2611.22102/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 977
+            },
+            {
+              "caption": "Table 7: OS ablations (%). Deltas are relative to Full (Table 1). Best in each column is bold.",
+              "figure_id": "table-7-10",
+              "figure_number": "7",
+              "height": 215,
+              "image_path": "figures/2611.22102/table-008.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 422
+            },
+            {
+              "caption": "Table 4: Two timescales of evolution feedback. Graph modification is performed by operator execution.",
+              "figure_id": "table-4-5",
+              "figure_number": "4",
+              "height": 87,
+              "image_path": "figures/2611.22102/table-009.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 522
+            },
+            {
+              "caption": "Table 6: Split sizes and per-episode step budgets.",
+              "figure_id": "table-6-2",
+              "figure_number": "6",
+              "height": 132,
+              "image_path": "figures/2611.22102/table-010.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 514
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22102/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.22102",
+          "relevance": 8,
+          "selection_reason": "Proposes evolutionary strategy discovery for agent memory evolution, directly relevant to continual/online learning and LLM memory.",
+          "summary_status": "generated",
+          "title": "EvoDisco: Strategy Discovery for Evolving Agent Memory",
+          "tldr": "EvoDisco enables agents to learn which memory-evolution strategy to apply, when, and how, improving online and frozen-transfer performance across several benchmarks.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            },
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "We study the discounted reinforcement learning (RL) problem in a setting where the underlying environment changes between deployments. Each deployment provides $H$ observations from a fixed MDP. The reward function and transition kernel are fixed within each deployment. Across deployments, at most an $\\epsilon >0$ fraction of the reward and transition kernel entries may change. In this setting, learning each model to deploy from scratch may discard useful observations from past deployments, whereas pooling all past observations can bias the estimates of entries that have already changed. We then propose an algorithm that for each state and action pair, selects how much history to reuse to estimate the reward and probabilities of the next state. We start with observations from the current deployment and add earlier deployment observations one at a time, the most recent first. After each addition, we check whether a single average reward agrees with the estimates from all histories considered until that point. We apply the same check to the distribution of next states. For each estimate, we leverage the last history that passes these aforementioned checks. The optimal control policy is then computed on top of the fitted MDP. We characterize the average gap between the optimal return and the return of the learner's policies over a finite number of deployments. We demonstrate that when $0< |S|\\epsilon \\leq 2$, with $|S|$ being the cardinality of the state space, our algorithm needs only the observations from the most recent $O(1/\\epsilon)$ deployments, and achieves a long-run average gap of at most $\\widetilde{O}(\\sqrt{\\epsilon/H})$.",
+          "arxiv_id": "2611.21879",
+          "arxiv_url": "https://arxiv.org/abs/2611.21879",
+          "authors": [
+            "Sreejeet Maity, Sukanya Modak, Leonardo F. Toso"
+          ],
+          "bullets": [
+            "Addresses the tradeoff between discarding useful historical data and bias from pooling observations whose reward or transition entries have changed.",
+            "Selects history separately for each state–action pair, adding deployments from most recent backward.",
+            "Checks reward consistency and next-state distribution consistency across the accumulated histories, retaining the longest history that passes.",
+            "Computes the optimal policy on the resulting fitted MDP and analyzes its average performance gap over finitely many deployments.",
+            "Scope: discounted RL with \\(H\\) observations per deployment and at most an \\(\\epsilon\\) fraction of model entries changing between deployments."
+          ],
+          "categories": [
+            "cs.LG",
+            "stat.ML"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 2. (Top) Evolution of the expected average policy loss E[Lρ K,H ] for ϵ = 0.02, with four reward entries and four transition rows changing per deployment boundary. (Bottom) Results for ϵ = 0.005, with one reward entry and one transition row changing per boundary. In both settings, the proposed method achieves the lowest average policy loss by the end of the experiment, while the loss of full history increases as deployments accumulate. Over the final 40 deployments, our method reduces average policy loss relative to shared history by 28.2% for ϵ = 0.02 and 65.2% for ϵ = 0.005. The insets show that reusing past observations also reduces the loss relative to restart early in each deployment.",
+              "figure_id": "figure-2-2",
+              "figure_number": "2",
+              "height": 561,
+              "image_path": "figures/2611.21879/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 435
+            },
+            {
+              "caption": "Fig. 1. Sparse reward and transition changes across deployments Mk−2,Mk−1,Mk . Red cells are the entries that change.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 121,
+              "image_path": "figures/2611.21879/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 519
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.21879/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.21879",
+          "relevance": 7,
+          "selection_reason": "Online RL with adaptive reuse of past observations under changing MDPs; directly fits continual/online learning.",
+          "summary_status": "generated",
+          "title": "Adaptive Memory for Online Reinforcement Learning under Sparse Model Changes",
+          "tldr": "An adaptive history-selection method reuses only reliable past deployment data in changing MDPs, achieving a long-run policy gap of \\(\\widetilde{O}(\\sqrt{\\epsilon/H})\\) while needing only the latest \\(O(1/\\epsilon)\\) deployments when \\(0<|S|\\epsilon\\le2\\).",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Agents are increasingly built to learn from experience: they keep conversation histories, memory files, retrieved notes and skills, and reuse what worked before. We show that this experience turns against them when their tools change silently. We test a range of models with tools defined as in the Model Context Protocol (MCP). After a silent change, experienced agents fail on most tasks, while agents new to the task mostly succeed. We call this failure Experience Rot. Experienced agents copy their earlier call instead of checking the current interface, even when the tool definition shows the change. Then they report success. When the documentation is incomplete, experience is what makes agents succeed. After a change, the same experience leaves them worse off than no experience at all. The failure appears in every form of memory we test and grows with the amount of experience. Simple remedies fall short: announcing the update barely helps, and pointing the agent to the documentation fails whenever the documentation does not spell out the answer.",
+          "arxiv_id": "2611.20922",
+          "arxiv_url": "https://arxiv.org/abs/2611.20922",
+          "authors": [
+            "Zhen Xu",
+            "Hang Yin",
+            "Zitao Zhang",
+            "Kevin Zhao",
+            "Xuefeng Liu"
+          ],
+          "bullets": [
+            "Introduces “Experience Rot,” where prior memories, histories, notes, and skills become liabilities after tool changes.",
+            "Tests agents using tools defined under the Model Context Protocol (MCP).",
+            "After silent changes, experienced agents fail on most tasks while task-new agents mostly succeed.",
+            "The failure occurs across all tested memory types and worsens with more experience; agents often incorrectly report success.",
+            "Simple fixes—announcing updates or referring agents to documentation—are insufficient, especially when documentation is incomplete."
+          ],
+          "categories": [
+            "cs.CL",
+            "cs.AI",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: (a) Success on the same final tasks with no, valid and out-of-date experience, ± one standard error. “Field”: a renamed field, a changed structure or a changed set of values, with an untyped write tool or with a typed definition that lists the current fields. “Meaning of a number”: a number keeps its range and changes its meaning. (b) Share of failed runs with out-of-date experience whose final reply tells the user that the task is done. Six models; numbers in Table 4.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 288,
+              "image_path": "figures/2611.20922/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 884
+            },
+            {
+              "caption": "Figure 4: (a) Success on final tasks that need the earlier task, by where the experience is stored. (b) Success with one, three or ten earlier tasks in the conversation. Five changes, six models, ± one standard error; numbers in Tables 5 and 7.",
+              "figure_id": "figure-4-4",
+              "figure_number": "4",
+              "height": 275,
+              "image_path": "figures/2611.20922/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 888
+            },
+            {
+              "caption": "Figure 5: Success with out-of-date experience and model calls per task, by what is added to the final task. Upper block: complete documentation (five changes; †run separately on the same task instances, where nothing added gives 0.45). Lower block: incomplete documentation (four changes). Six models; lines mark ± one standard error. The dashed line marks success with valid experience (2.9 and 3.1 calls), the dotted line success without experience with incomplete documentation.",
+              "figure_id": "figure-5-5",
+              "figure_number": "5",
+              "height": 381,
+              "image_path": "figures/2611.20922/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 452
+            },
+            {
+              "caption": "Figure 6: Success when the agent did the earlier task itself and when we wrote it, with and without a readback step. Above each group: the share of runs with out-of-date experience that read back after the first write. Five changes, six models, ± one standard error.",
+              "figure_id": "figure-6-9",
+              "figure_number": "6",
+              "height": 223,
+              "image_path": "figures/2611.20922/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 408
+            },
+            {
+              "caption": "Table 3: Preregistered contrasts (estimate ± one standard error). P1–P2: complete documentation; P3: additions to the final task, success with out-of-date experience under each addition minus success without it; P4: where the experience is stored; P5: who wrote the earlier task; P6: how much experience. A prediction holds when the 95% percentile interval lies on the predicted side; for contrasts without a prediction, the sign is reported when the interval excludes zero.",
+              "figure_id": "table-3-6",
+              "figure_number": "3",
+              "height": 636,
+              "image_path": "figures/2611.20922/table-005.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 950
+            },
+            {
+              "caption": "Table 8: Per model, complete documentation and typed tool definitions: success by arm, and old usage and read-back with out-of-date experience; success with outof-date experience when the documentation is added to the task message, and under the instruction to verify and correct.",
+              "figure_id": "table-8-17",
+              "figure_number": "8",
+              "height": 167,
+              "image_path": "figures/2611.20922/table-006.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 461
+            },
+            {
+              "caption": "Table 15: Instruction in the task message and storedobject responses: success by model. ∗From Table 6.",
+              "figure_id": "table-15-8",
+              "figure_number": "15",
+              "height": 196,
+              "image_path": "figures/2611.20922/table-007.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 461
+            },
+            {
+              "caption": "Table 1: The changes. In the first three, a field or value changes, and a typed tool definition lists the fields or values of the running version. In the others, a number keeps its range but changes its meaning, and the tool definition is the same in both versions (for example an integer from 1 to 4). ∗Used only with incomplete documentation.",
+              "figure_id": "table-1-10",
+              "figure_number": "1",
+              "height": 186,
+              "image_path": "figures/2611.20922/table-008.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 461
+            },
+            {
+              "caption": "Table 18: Incomplete documentation by model: success, and the read-back rate with out-of-date experience.",
+              "figure_id": "table-18-12",
+              "figure_number": "18",
+              "height": 185,
+              "image_path": "figures/2611.20922/table-009.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 461
+            },
+            {
+              "caption": "Table 2: Conditions. Each change runs in both directions. Instances per change, direction and arm: six with complete documentation and for the additions to the final task, three for the storage, amount and authorship conditions, and twelve with incomplete documentation. The meaning-of-a-number case with complete documentation includes the reply-default change, which is reported separately (Appendix G.5). The nothing-added and valid arms of the additions, and the single earlier task in the amount-of-experience comparison, come from the completedocumentation conditions. †Run after the other conditions on the same task instances, with its own preregistration (Appendix H). ‡Not preregistered. Six models, 12,624 episodes.",
+              "figure_id": "table-2-7",
+              "figure_number": "2",
+              "height": 190,
+              "image_path": "figures/2611.20922/table-010.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 950
+            },
+            {
+              "caption": "Table 5: Experience stored in different forms, with final requests that refer to the earlier task. Success and cost ± one standard error; lookup, old usage and content of the first write for out-of-date experience. “Content right” means that the first write carries the information from the earlier task (for example the right participants), whatever the field names. Five changes, six models. The last two rows add the service version or the current documentation to the memory file (Section 7); they were run with valid and out-of-date experience only.",
+              "figure_id": "table-5-3",
+              "figure_number": "5",
+              "height": 193,
+              "image_path": "figures/2611.20922/table-011.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 950
+            },
+            {
+              "caption": "Table 4: Success on the final task with no, valid and out-of-date experience, and the cost (valid minus out-of-date), each ± one standard error. Lookup is given for no experience / out-of-date experience; old usage, read-back and the share of failed runs whose final reply reports the task as done are given for out-of-date experience. “Field or value”: the field-name, structure and value changes, with an untyped write tool or with a typed definition that lists the current fields. “Meaning of a number”: the priority-direction and weekday changes, and with incomplete documentation also the month and duration changes. Six models.",
+              "figure_id": "table-4-2",
+              "figure_number": "4",
+              "height": 163,
+              "image_path": "figures/2611.20922/table-012.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 950
+            },
+            {
+              "caption": "Table 6: Additions to the final task, complete documentation, out-of-date experience. “Nothing added” is the out-of-date arm without additions (five changes). With valid experience the same changes give 1.00 success and 2.9 model calls.",
+              "figure_id": "table-6-20",
+              "figure_number": "6",
+              "height": 187,
+              "image_path": "figures/2611.20922/table-013.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 950
+            },
+            {
+              "caption": "Table 9: Complete documentation by change. Top block: untyped tool; middle: typed tool that lists the current fields or values; bottom: meaning of a number.",
+              "figure_id": "table-9-18",
+              "figure_number": "9",
+              "height": 234,
+              "image_path": "figures/2611.20922/table-014.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 461
+            },
+            {
+              "caption": "Table 7: Who wrote the earlier task (top) and how many earlier tasks there are (bottom): success and cost ± one standard error. The first row of each block is the agent’s own single earlier task.",
+              "figure_id": "table-7-16",
+              "figure_number": "7",
+              "height": 146,
+              "image_path": "figures/2611.20922/table-015.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 461
+            },
+            {
+              "caption": "Table 12: Complete documentation, typed tool definitions, out-of-date experience (350 runs): the six most frequent combinations of lookup before the first write, old usage in the first write, read-back after it, and outcome.",
+              "figure_id": "table-12-14",
+              "figure_number": "12",
+              "height": 167,
+              "image_path": "figures/2611.20922/table-016.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 461
+            },
+            {
+              "caption": "Table 16: Incomplete documentation: the tool definition and the documentation give the range of each value but not its meaning, and the earlier request says what the values mean on its version. Success ± one standard error; process measures as in Table 4; second write: share of runs with more than one write. The two instructions are appended to the final task message (Section 7). Four changes, six models.",
+              "figure_id": "table-16-11",
+              "figure_number": "16",
+              "height": 176,
+              "image_path": "figures/2611.20922/table-017.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 937
+            },
+            {
+              "caption": "Table 10: Calendar changes, complete documentation: share of first writes whose start time has the same format (seconds, offset) and whose payload has the same field order as the earlier call. For agents without experience the comparison is with the earlier call of the out-of-date run on the same task instance.",
+              "figure_id": "table-10-19",
+              "figure_number": "10",
+              "height": 109,
+              "image_path": "figures/2611.20922/table-018.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 458
+            },
+            {
+              "caption": "Table 11: Complete documentation, all changes except the reply default: runs with reasoning or reply text before the first write, and the share of those that mention a plan to check the documentation or refer to an earlier task.",
+              "figure_id": "table-11-15",
+              "figure_number": "11",
+              "height": 99,
+              "image_path": "figures/2611.20922/table-019.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 458
+            },
+            {
+              "caption": "Table 17: Incomplete documentation by change: success ± one standard error.",
+              "figure_id": "table-17-13",
+              "figure_number": "17",
+              "height": 165,
+              "image_path": "figures/2611.20922/table-020.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 741
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.20922/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.20922",
+          "relevance": 7,
+          "selection_reason": "Shows experience can hurt agents when tools change; relevant to continual learning and agent memory.",
+          "summary_status": "generated",
+          "title": "Experience Rot: Experienced Agents Fail Where Novices Succeed",
+          "tldr": "Agents with accumulated experience can fail more than novices when tools change silently, because they repeat past calls instead of checking the current interface.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            },
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-16",
       "paper_count": 26,
       "papers": [
@@ -116171,5 +119025,5 @@
   "schema_version": 1,
   "subtopic_id": "continual-and-online-learning",
   "topic_id": "adaptation-and-memory",
-  "total_paper_count": 605
+  "total_paper_count": 619
 }

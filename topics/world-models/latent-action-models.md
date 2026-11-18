@@ -6,10 +6,13 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Latent Action Models
 
-**118 papers total**
+**121 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-17 | [WoRD: Diffusion-Based Posterior Inference for Online Goal Recognition](https://arxiv.org/abs/2611.23192) | Embodied AI: Robot Navigation; World Models: Latent Action Models; Video Generation and Understanding: Video Understanding | WoRD uses diffusion-based trajectory inference to maintain calibrated, multimodal beliefs about an agent’s goal from partial motion observations. | 8 | 8 |
+| 2026-11-17 | [Manufacturing Differential Sparsity: Planner-Hardware Co-Design for Efficient World Model Planning](https://arxiv.org/abs/2611.22483) | World Models: Latent Action Models; Efficient AI: Token Pruning and Eviction | A planner–hardware co-design accelerates JEPA-style world-model MPC by deliberately creating differential bit-level sparsity among candidate action sequences. | 9 | 8 |
+| 2026-11-17 | [ReLAP: Latent Action Pretraining through Recurrent Video Prediction in JEPA Space](https://arxiv.org/abs/2611.22077) | Embodied AI: Robot Learning and Manipulation; World Models: Latent Action Models, Video World Models | ReLAP learns temporally coherent latent actions from unlabeled videos via recurrent JEPA-space prediction, enabling efficient vision-language robot control. | 9 | 9 |
 | 2026-11-16 | [Latent World Modeling for Point-Cloud Video Pretraining](https://arxiv.org/abs/2611.20090) | World Models: Latent Action Models, Video World Models | PointWM enables leakage-free self-supervised pretraining for point-cloud videos by forecasting future geometry and features from past context rather than completing masked frames. | 8 | 8 |
 | 2026-11-15 | [Beyond Prediction Gain: LASR as a Metric for Action-Grounded Latents in World Models](https://arxiv.org/abs/2611.17775) | World Models: Latent Action Models | LASR evaluates whether world-model latents encode genuine action-related information rather than merely predictive shortcuts such as state or task identity. | 9 | 8 |
 | 2026-11-14 | [SALA: Semantically Aligned Latent Actions Enable Dual-Axis Scaling of Embodied Foundation Models](https://arxiv.org/abs/2611.17110) | Embodied AI: Vision-Language-Action, Learning from Human Videos; World Models: Latent Action Models | SALA aligns latent actions across human and robot videos using language-guided semantic supervision, enabling embodied foundation models to benefit from scaling both general and task-specific human video. | 9 | 8 |

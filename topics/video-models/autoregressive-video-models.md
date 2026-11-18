@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Autoregressive Video Models
 
-**61 papers total**
+**62 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-17 | [FastFrames: Video Generation at Interactive Latency](https://arxiv.org/abs/2611.23226) | Video Generation and Understanding: Video Diffusion, Autoregressive Video Models; Efficient AI: KV Cache and Memory Efficiency | FastFrames accelerates autoregressive video diffusion to interactive latency by redesigning costly inference components while preserving or improving visual quality. | 9 | 8 |
 | 2026-11-16 | [Reference Forcing: Long Video Generation with Region-Guided Drift Correction](https://arxiv.org/abs/2611.21559) | Video Generation and Understanding: Autoregressive Video Models | Reference Forcing reduces long-video subject and background drift by using initial frames as stable appearance references during generation. | 8 | 8 |
 | 2026-11-16 | [ScoutCache: Efficient Few-Step Autoregressive Video Diffusion via Conditional Readout and Selective Caching](https://arxiv.org/abs/2611.21038) | Video Generation and Understanding: Video Diffusion, Autoregressive Video Models; Efficient AI: KV Cache and Memory Efficiency | ScoutCache is a training-free framework that accelerates few-step autoregressive video diffusion by reducing denoising, historical KV reading, and cache construction costs while improving generation quality. | 7 | 6 |
 | 2026-11-16 | [LiveView: Real-Time Camera-Controlled Re-filming of Streaming Videos](https://arxiv.org/abs/2611.20461) | Video Generation and Understanding: Autoregressive Video Models | LiveView enables low-latency, camera-controlled re-filming of streaming video with consistent views over long rollouts. | 5 | 6 |

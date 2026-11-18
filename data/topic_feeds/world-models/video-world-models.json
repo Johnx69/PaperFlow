@@ -1,6 +1,1789 @@
 {
   "days": [
     {
+      "date": "2026-11-17",
+      "paper_count": 12,
+      "papers": [
+        {
+          "abstract": "Recent world action models (WAMs) drop future prediction at inference, assuming that representations learned through auxiliary future supervision still benefit action generation. However, our layerwise analysis of Fast-WAM reveals a depth-dependent mismatch: while probes decode future state transitions more accurately from deeper visual layers, the gradients and visual focuses of the future and action objectives increasingly diverge with depth, leaving much of this predictive information unused by the action pathway. To address this issue, we introduce RelayWAM, which adds an explicit transition space between the video and action backbones. Conditioned on the task instruction, robot state, and current action estimate, recurrent transition layers extract step-relevant predictive cues across depth and relay them directly into the action attention, without generating future frames at inference. Experiments show that RelayWAM substantially amplifies the benefit of future supervision, translating into stronger generalization under distribution shifts in both simulation and real-world robot tasks. On LIBERO-Plus, RelayWAM achieves 72.03% mean success, compared to 56.42% without future supervision and 51.50% for Fast-WAM.",
+          "arxiv_id": "2611.22994",
+          "arxiv_url": "https://arxiv.org/abs/2611.22994",
+          "authors": [
+            "Fangchuan Wang, Hao Zhang, Qiyan Zhao, Huanqi Zhao, Guanting Ye, Xu-Yao Zhang, Yuqing Gao"
+          ],
+          "bullets": [
+            "Future information becomes more decodable in deeper visual layers, but its gradients and visual focus increasingly diverge from the action objective.",
+            "RelayWAM inserts instruction-, robot-state-, and action-conditioned recurrent transition layers between video and action backbones.",
+            "These layers extract predictive cues across depth and feed them into action attention without predicting future frames at inference.",
+            "The method strengthens the practical value of future supervision in simulated and real-world robot tasks.",
+            "On LIBERO-Plus, RelayWAM reaches 72.03% mean success, versus 56.42% without future supervision and 51.50% for Fast-WAM."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1. Overview of RelayWAM and the representation–utilization gap. Left: Training-focus attribution reveals that existing futuresupervised WAMs suffer from an objective mismatch—action relies on local gripper–object regions while future prediction attends to the whole scene—whereas RelayWAM aligns both focuses. Top right: Linear probing shows that future supervision writes rich predictive cues (∆R2) into deeper Video DiT layers. Bottom right: RelayWAM introduces an explicit transition space to relay these cues to the Action DiT without test-time future generation, reaching 72.03% success on LIBERO-Plus.",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 495,
+              "image_path": "figures/2611.22994/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 954
+            },
+            {
+              "caption": "Figure 4. Architecture of RelayWAM. Attached to selected intermediate and deep layers of the Video DiT, recurrent transition layers extract step-relevant future information from visual representations conditioned on the task instruction, robot state, current action estimate, and flow time. The extracted cues are progressively accumulated across depth into action-aligned transition tokens Tl, projected into transition keys and values (K̂l, V̂l), and injected directly into the native Action DiT attention. This enables action generation to leverage multi-depth predictive representations without generating future observations at inference time.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 444,
+              "image_path": "figures/2611.22994/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 958
+            },
+            {
+              "caption": "Figure 3. Action and future supervision diverge across depth in Fast-WAM. Top left: gradient energy projected onto top-k action and future directions shows that the two objectives share subspaces in shallow layers (layer 4) but become nearly orthogonal in deep layers (layer 28). Top right: held-out future R2 decoded from action-sensitive subspaces drops well below random subspaces of equal dimension as depth increases. Bottom: training-focus maps on “open the middle drawer” and top-10% focus concentration averaged over five tasks. Unlike Fast-WAM (solid), RelayWAM (dashed) keeps both objectives focused on task-relevant regions.",
+              "figure_id": "figure-3-12",
+              "figure_number": "3",
+              "height": 474,
+              "image_path": "figures/2611.22994/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 966
+            },
+            {
+              "caption": "Figure 5. Real-world apple picking on a Piper robotic arm. Left: qualitative rollouts under out-of-distribution apple placements with leaf occlusion (top) and colored ambient lighting perturbations (bottom). Right: success rates (%) across 20 trials per setting. Without any large-scale embodied pretraining (unlike DM0.5), RelayWAM outperforms Fast-WAM across all settings and maintains strong robustness under severe illumination shifts (70% vs. 15%).",
+              "figure_id": "figure-5-5",
+              "figure_number": "5",
+              "height": 342,
+              "image_path": "figures/2611.22994/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1004
+            },
+            {
+              "caption": "Figure 6. Controlled 2×2 ablation of future supervision and the transition space. LIBERO-Plus success rate (%) versus layer20 future predictability (R2) across all four controlled variants. Adding future supervision alone (w/o transition space) raises R2 but yields only a +5.2-point success gain over the base model (w/o both), whereas introducing the transition space unlocks the utility of predictive features and amplifies the gain to +15.6 points (72.03% overall).",
+              "figure_id": "figure-6-11",
+              "figure_number": "6",
+              "height": 339,
+              "image_path": "figures/2611.22994/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 476
+            },
+            {
+              "caption": "Figure 2. Causal erasure of future information in Fast-WAM vs. RelayWAM. We erase residual future directions from a sliding window of 4 consecutive Video DiT layers read by the action pathway, leaving the video backbone unchanged. Top: held-out R2 of the residual future decoded after future erasure (solid red) versus variance-matched random erasure of the same rank (dashed blue). Bottom: resulting action shift normalized by noise-resampling variance, plotted at the center of each erased window. While FastWAM (left) is insensitive to future erasure, RelayWAM (right) shows a pronounced action shift across intermediate-to-deep layers (layers 12–20), confirming active utilization of predictive cues. Shaded bands indicate 95% confidence intervals over episodes.",
+              "figure_id": "figure-2-9",
+              "figure_number": "2",
+              "height": 370,
+              "image_path": "figures/2611.22994/figure-006.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 443
+            },
+            {
+              "caption": "Table 1. Results on LIBERO-Plus [15] under distribution shifts – We report success rates (%) across seven perturbation types; Total is the success rate over all evaluation episodes, following [15]. Joint denotes joint future–action decoding at inference, while FFI denotes future-free inference without explicit future generation at test time. Darker and lighter blue cells mark the best and second-best result in each column.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 330,
+              "image_path": "figures/2611.22994/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1046
+            },
+            {
+              "caption": "Table 2. Results on LIBERO [38]. VLA denotes visionlanguage-action policies without future prediction, Joint denotes joint future–action inference, and FFI denotes future-free inference.",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 245,
+              "image_path": "figures/2611.22994/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 3. Results on LIBERO-PRO [78] under challenging distribution shifts – We report success rates (%) across five generalization dimensions. FFI denotes future-free inference without explicit future generation at test time.",
+              "figure_id": "table-3-7",
+              "figure_number": "3",
+              "height": 215,
+              "image_path": "figures/2611.22994/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 4. Ablation study – Success rates (%) on LIBERO, LIBERO-Plus, and LIBERO-PRO, reported with the same metric as Tables 1 to 3. Darker and lighter blue cells mark the best and second-best result in each column.",
+              "figure_id": "table-4-10",
+              "figure_number": "4",
+              "height": 205,
+              "image_path": "figures/2611.22994/table-010.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 500
+            },
+            {
+              "caption": "Table 5. Future decodability (R2 l (S), Eq. (C3)) across 8- dimensional subspaces. Random reports the median over 12 covariance-matched draws.",
+              "figure_id": "table-5-8",
+              "figure_number": "5",
+              "height": 140,
+              "image_path": "figures/2611.22994/table-011.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 437
+            },
+            {
+              "caption": "Table 6. Causal erasure across four-layer windows in Fast-WAM.",
+              "figure_id": "table-6-3",
+              "figure_number": "6",
+              "height": 196,
+              "image_path": "figures/2611.22994/table-012.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 404
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22994/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.22994",
+          "relevance": 8,
+          "selection_reason": "Relays future-predictive supervision into action generation for world-action policies.",
+          "summary_status": "generated",
+          "title": "Making Future-Predictive Representations Actionable",
+          "tldr": "RelayWAM makes future-predictive visual representations actionable by relaying task-relevant transition cues directly into action generation, improving robustness to distribution shifts.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-action"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "video-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Video world models should maintain a world that keeps evolving as the viewpoint changes. Yet when the camera turns away and returns, current models often freeze the unobserved scene, lose objects, or change their appearance, because content outside the view has no representation that keeps changing. We present PanoEvo, which uses a Panoramic Evolver to evolve the world state in the latent space of a panoramic video diffusion model, where every viewing direction is present at every time step, so the scene evolves whether or not it is observed. Existing panoramic video models are not trained to evolve a scene from a single image or the objects within it, so we build PanoEvo-Data, an event-centric dataset from real 360{\\deg} videos, and train the Panoramic Evolver coarse-to-fine as an image-to-panoramic-video model. Since each view covers only a small part of the low-resolution panorama, directly projected views are blurry and often show low-quality details or structural errors. A Perspective Renderer, built on a perspective video diffusion model, reads this state via latent-space projection and direction-restricted cross-attention to render sharp, high-quality views. PanoEvo achieves the best overall score among 23 publicly evaluated models on WRBench and the highest total score on STEVO-Bench. Code, models, and data will be released.",
+          "arxiv_id": "2611.22733",
+          "arxiv_url": "https://arxiv.org/abs/2611.22733",
+          "authors": [
+            "Longtao Jiang, Mingfei Han, Jianmin Bao, Tingjun Dai, Jinjie Wei, Zhiran Zhang, Xin Tao, Zhihui Li, Salman Khan, Xiaojun Chang"
+          ],
+          "bullets": [
+            "Addresses the failure of video world models to evolve off-screen content as viewpoints change.",
+            "Uses a Panoramic Evolver to update all viewing directions in latent space at every time step.",
+            "Introduces PanoEvo-Data, an event-centric dataset from real 360° videos, and trains the evolver coarse-to-fine from images to panoramic video.",
+            "Uses a Perspective Renderer with latent projection and direction-restricted cross-attention to generate detailed views from the panoramic state.",
+            "Reports the best overall score among 23 publicly evaluated models on WRBench and the highest total score on STEVO-Bench."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of PanoEvo. (a) E turns an image I0 and optional text y into an evolving panoramic latent W , the world state, from which R renders a video V along any trajectory C. (b) E is fine-tuned in two stages and writes observed cells back from zref. (c) R reads W via projected latent maps and frustum cross-attention, where each video token attends to panoramic tokens within ρ of its ray.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 495,
+              "image_path": "figures/2611.22733/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 4. Qualitative comparison. Views at t=20 (turning away), 38 (farthest), and 76 (returned), with the subject boxed.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 397,
+              "image_path": "figures/2611.22733/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 3. Construction of PanoEvo-Data. A shared quality gate feeds three branches, two for the stages of E and one for R.",
+              "figure_id": "figure-3-11",
+              "figure_number": "3",
+              "height": 272,
+              "image_path": "figures/2611.22733/figure-003.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 5. Qualitative ablation. Each row adds one component (columns: t=20, 38, 76). Zero-shot, the woman walks past instead of setting her handbag down, the Completion stage has her squat as her bag vanishes, the Evolution stage completes the action out of view, and the Renderer sharpens it without altering the state.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 412,
+              "image_path": "figures/2611.22733/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 485
+            },
+            {
+              "caption": "Table 2. Results on WRBench. Baselines are grouped by viewpoint condition as in [29]. Params: backbone size (total for MoE); for PanoEvo, both DiTs with added modules. Content Avg. averages Integ. and the four spatial/state metrics, and Spatial–State Avg. only the",
+              "figure_id": "table-2-1",
+              "figure_number": "2",
+              "height": 627,
+              "image_path": "figures/2611.22733/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1022
+            },
+            {
+              "caption": "Table 5. Effect of the Perspective Renderer. Both rows use the same Panoramic Evolver output, and “w/o Renderer” projects the decoded panorama directly. Sharpness: Laplacian variance.",
+              "figure_id": "table-5-4",
+              "figure_number": "5",
+              "height": 304,
+              "image_path": "figures/2611.22733/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 3. Results on STEVO-Bench (%). Baseline scores are the official leaderboard values reported in ReMind [50].",
+              "figure_id": "table-3-5",
+              "figure_number": "3",
+              "height": 271,
+              "image_path": "figures/2611.22733/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 488
+            },
+            {
+              "caption": "Table 6. Ablation of the Perspective Renderer components. Each variant removes one component, is trained for 13,500 steps, and is tested on the same E output. Removing frustum attention also removes the read-out loss. Imaging: VBench imaging quality.",
+              "figure_id": "table-6-9",
+              "figure_number": "6",
+              "height": 163,
+              "image_path": "figures/2611.22733/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 1. PanoEvo-Data. Three subsets from real 360◦ videos, split by source video and sharing no time windows.",
+              "figure_id": "table-1-10",
+              "figure_number": "1",
+              "height": 146,
+              "image_path": "figures/2611.22733/table-009.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 496
+            },
+            {
+              "caption": "Table 7. Inference cost for one 77-frame view. Parameters and FLOPs are those of the diffusion transformers, excluding encoders and VAEs. FLOPs of E are amortized over the five camera settings rendered from one panorama in WRBench (unamortized in parentheses). Peak memory is that of diffusion sampling.",
+              "figure_id": "table-7-8",
+              "figure_number": "7",
+              "height": 126,
+              "image_path": "figures/2611.22733/table-010.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 4. Training stages of E on WRBench. All rows use direct projection to isolate E . ∆Avg.: change over the previous row.",
+              "figure_id": "table-4-3",
+              "figure_number": "4",
+              "height": 64,
+              "image_path": "figures/2611.22733/table-011.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22733/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.22733",
+          "relevance": 9,
+          "selection_reason": "Panoramic world-state evolution for video world models; evolves unobserved scenes in latent space and renders views via diffusion, directly advancing world-model prediction.",
+          "summary_status": "generated",
+          "title": "Evolve in Panorama, Render in View: Panoramic World State Evolution for Video World Models",
+          "tldr": "PanoEvo maintains an evolving panoramic world state and renders sharp viewpoint-specific video, reducing scene freezing, object loss, and appearance changes when the camera revisits unseen areas.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Driving world models forecast what a vehicle's sensors will record next. Most forecast camera video and some add LiDAR, but thermal cameras, which still see in darkness and some adverse weather, are rarely a forecast target, and to our knowledge no world model forecasts all three sensors. We study joint forecasting of RGB, thermal, and LiDAR on real adverse-weather sequences of the DSERT-RoLL dataset. We post-train a pretrained video world model for each sensor and represent LiDAR as a depth video aligned with the RGB camera, with densification and encoding chosen by what the model's video tokenizer can reconstruct. A tri-sensor model sees all three sensors as one video. We score LiDAR in meters against measured returns and compare against persistence baselines passed through the same tokenizer as the model. With this matching, an apparent loss of the thermal model to persistence in fog disappears. On all 58 validation sequences in six weather conditions, post-trained RGB and thermal forecasts beat compression-matched persistence. Joint training lowers the LiDAR error at 2s by 2.1m at a small cost in camera fidelity, and only the tri-sensor model's LiDAR forecasts beat persistence in mean error. Blanking one sensor degrades the forecasts of the others more in snow than in fog.",
+          "arxiv_id": "2611.22669",
+          "arxiv_url": "https://arxiv.org/abs/2611.22669",
+          "authors": [
+            "Faysal Mehrab Chowdhury, Md. Mahfuzur Rahman, Ahmed Rafi Hasan, Kishor Datta Gupta, Mohd Ariful Haque, Savannah Shannon"
+          ],
+          "bullets": [
+            "Addresses the lack of world models forecasting RGB, thermal, and LiDAR together, especially under darkness and adverse weather.",
+            "Post-trains a pretrained video world model for each sensor and represents aligned LiDAR as a depth video; a tri-sensor model processes all modalities jointly.",
+            "Evaluated on 58 DSERT-RoLL validation sequences across six weather conditions using compression-matched persistence baselines.",
+            "RGB and thermal forecasts outperform matched persistence; joint training reduces LiDAR error at 2 seconds by 2.1 m with a small camera-fidelity cost.",
+            "Removing one sensor harms the others more in snow than fog, indicating stronger cross-modal dependence in snow."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview. (a) RGB and thermal frames are cropped and resized to 1280 × 704 videos; LiDAR sweeps become a depth video aligned with the RGB camera. (b) The single-sensor models forecast each video on its own; the tri-sensor model forecasts a 2× 2 grid of all three sensors, with the fourth tile left black. (c) Cosmos-Predict2.5 with low-rank adapters forecasts 20 frames from 5 observed frames. (d) Tri-sensor forecasts are split back into their sensors, and every forecast is scored against the real future.",
+              "figure_id": "figure-2-9",
+              "figure_number": "2",
+              "height": 413,
+              "image_path": "figures/2611.22669/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1031
+            },
+            {
+              "caption": "Figure 1. Forecasting beyond the camera. From five observed frames, our models forecast the next 2 s of RGB, thermal, and LiDAR depth in real adverse weather. Shown: the last forecast frame (2 s) of one fog window. Columns: real future, two samples of the tri-sensor model, and the single-sensor model. The tri-sensor LiDAR forecasts stay close to the real depth, while the single-sensor LiDAR forecast is distorted. The camera forecasts of the two models look similar; in all of them, the vehicle on the left differs from the real future and between samples.",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 491,
+              "image_path": "figures/2611.22669/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 3. A Light Snow window at night, a condition absent from training. One sample per model; in (a), model columns show the observed input as reproduced by each model. The forecasts of the two models are very close in all three sensors and keep the car ahead and the scene layout. In (b), the tri-sensor sample leaves more gaps than the real future in the near-range LiDAR depth (bottom of the image).",
+              "figure_id": "figure-3-5",
+              "figure_number": "3",
+              "height": 897,
+              "image_path": "figures/2611.22669/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 486
+            },
+            {
+              "caption": "Table 2. Forecasting on the full DSERT-RoLL validation set (58 sequences, six weather conditions, 300 windows), 2 s horizon. All rows are scored at the tile resolution of the tri-sensor model (Sec. 4.3). The post-trained single-sensor models beat both persistence baselines on every camera metric. The tri-sensor camera forecasts are close to the single-sensor ones in PSNR and SSIM, but their thermal LPIPS is not better than persistence. For LiDAR, only the tri-sensor model beats persistence in mean error, while persistence stays best at near range. Camera metrics on scene-visible windows (RGB 285, thermal 280). Bold = best, underline = second best, excluding the real future. – = not applicable or not measured.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 205,
+              "image_path": "figures/2611.22669/table-004.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1022
+            },
+            {
+              "caption": "Table 6. Reliance grows from fog to snow. Degradation of a forecast when another sensor is blanked in the observed frames (positive = worse). Tri-sensor model, initial split, one sample per blanked run. Snow pools Light and Heavy Snow (2 sequences each), so snow values are indicative. †95% interval includes zero.",
+              "figure_id": "table-6-7",
+              "figure_number": "6",
+              "height": 186,
+              "image_path": "figures/2611.22669/table-005.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 446
+            },
+            {
+              "caption": "Table 3. Gains over compression-matched persistence by weather condition. Paired difference (forecast minus compression-matched persistence), 2 s horizon, 95% cluster-bootstrap intervals over sequences. Single-sensor models at full resolution; the tri-sensor row is compared with persistence at tile resolution. Number of sequences in parentheses (L. = Light, H. = Heavy). Camera metrics on scenevisible windows; Heavy Snow has no scene-visible camera window. Bold = better, ∗ = worse, plain = no clear difference. Heavy Snow has two sequences, so no verdict is given.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 186,
+              "image_path": "figures/2611.22669/table-006.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1002
+            },
+            {
+              "caption": "Table 4. Joint training helps LiDAR; the camera forecasts change little. Paired differences (tri-sensor minus single-sensor), both at tile resolution, 2 s horizon, full validation set, 95% clusterbootstrap intervals over sequences; camera metrics on scenevisible windows. All intervals exclude zero except for RGB PSNR.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 343,
+              "image_path": "figures/2611.22669/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 466
+            },
+            {
+              "caption": "Table 1. The LiDAR depth video is designed against the tokenizer. PSNR in dB. (a) Without closing, holes survive densification and the tokenizer turns them into wrong depths. Measured on frames 5–29 of one Clear sequence. (b) Logarithmic and inverse-depth codes help near range but hurt overall and far range; near < 10m, far ≥ 30m. Measured on 4 windows per evaluated weather of the initial split. – = not measured.",
+              "figure_id": "table-1-8",
+              "figure_number": "1",
+              "height": 297,
+              "image_path": "figures/2611.22669/table-008.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 481
+            },
+            {
+              "caption": "Table 5. Post-training helps every sensor. Paired differences, all 90 windows of the initial split, 95% cluster-bootstrap intervals over sequences. All intervals exclude zero.",
+              "figure_id": "table-5-6",
+              "figure_number": "5",
+              "height": 185,
+              "image_path": "figures/2611.22669/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 487
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22669/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.22669",
+          "relevance": 8,
+          "selection_reason": "Driving world model forecasting future RGB, thermal, and LiDAR sensor observations.",
+          "summary_status": "generated",
+          "title": "Beyond the Camera: A Tri-Modal Driving World Model for Future RGB, Thermal, and LiDAR Forecasting in Adverse Weather",
+          "tldr": "A tri-modal driving world model jointly forecasts future RGB, thermal, and LiDAR observations, improving LiDAR prediction while revealing cross-sensor benefits in adverse weather.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "World Action Models (WAMs) jointly generate future video and robot actions through iterative denoising. Few-step distillation reduces the number of model evaluations, but its coarse updates can move the student away from the teacher's trajectory. We propose Anchored Path Matching (APM), which supervises endpoint and short-transition predictions from states reached by the student. From each state, we continue the teacher to zero noise and use its endpoint and first intermediate state as targets. Modality-routed adapters learn to match both targets from the same starting state. When the two gradients conflict, anchor-priority updates preserve the endpoint gradient and remove the opposing component of the local gradient within each modality. One checkpoint supports 1-, 2-, and 4-step joint generation. The sampling budget can be chosen at deployment without retraining or teacher queries. On RoboTwin 2.0, we train only on Clean demonstrations and evaluate directly on the domain-randomized Random setting. At one step, APM improves closed-loop success over continued base distillation at matched inference budgets by 2.0 percentage points on Clean and 1.4 on Random. Video peak signal-to-noise ratio (PSNR) rises from 30.169 to 32.317 dB, with gains in structural similarity (SSIM) and learned perceptual image patch similarity (LPIPS). On two real-robot tasks, APM improves success over the one-step teacher and reduces control-cycle latency by $21.3\\times$ relative to the eight-step teacher.Project page: https://jialonglong.github.io/Anchored-Path-Matching/.",
+          "arxiv_id": "2611.22592",
+          "arxiv_url": "https://arxiv.org/abs/2611.22592",
+          "authors": [
+            "Jialong Liu, Junjie He, Yandu Chen, Bin Zhou, Heng Su, Peijun Tang, Jianan Wang, Changhao Chen"
+          ],
+          "bullets": [
+            "Few-step distillation can cause student rollouts to drift from the teacher’s trajectory.",
+            "APM supervises both the teacher’s final denoised prediction and an intermediate transition from student-reached states.",
+            "Modality-routed adapters match these targets, while anchor-priority updates resolve conflicting gradients.",
+            "A single checkpoint supports deployment-time selection of 1-, 2-, or 4-step generation without retraining or teacher queries.",
+            "On RoboTwin 2.0 and two real-robot tasks, APM improves success and substantially lowers control-cycle latency; video quality also improves."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Anchored Path Matching (APM). (a) One teacher continuation from zr supplies the restart endpoint and next nonzero-time local target. The gray path supplies the Original anchor used in ablation. Φp→q",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 522,
+              "image_path": "figures/2611.22592/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1029
+            },
+            {
+              "caption": "Figure 4. Single-step video quality gains over continued base distillation. PSNR and SSIM show differences of means; LPIPS shows relative reduction of means. Positive values indicate improvement. Evaluation uses 500 shared contexts at 1/1 video/action steps. Orig. denotes Original and F denotes field supervision; APM is Restart + Field.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 250,
+              "image_path": "figures/2611.22592/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 929
+            },
+            {
+              "caption": "Figure 3. Local and endpoint prediction tradeoffs. Reductions are relative to APM (Restart, No Field) at the origin. Rows: transitions 0.5 → 0.375 and 0.5 → 0.25, both paired with endpoint 0.5→0. Columns: video-latent and normalized-action MSE. Positive values indicate lower error; shading marks improvement on both axes. Bars show marginal 95% paired bootstrap intervals, not joint regions. No Field omits local supervision; No Projection sums gradients; APM applies projection.",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 455,
+              "image_path": "figures/2611.22592/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 490
+            },
+            {
+              "caption": "Figure 1. Student-state deviation in few-step generation. Coarse student transitions can depart from the dense teacher trajectory and change the remaining prediction. APM constructs restart-anchor and local-field supervision at student-reached states. Naive and APM use the same initial condition and four steps; squares denote video states and circles denote action states.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 360,
+              "image_path": "figures/2611.22592/figure-004.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 491
+            },
+            {
+              "caption": "Table 1. Manipulation performance on RoboTwin 2.0. Clean uses standard conditions; Random applies domain randomization. Local evaluations use 50 tasks and 2,500 episodes per condition. Avg. averages the two success rates; ∆ is the gain over Continued at the same budget (percentage points), computed before rounding. Bold identifies APM. V/A denotes video/action steps; each student uses one checkpoint. †: reported by DirectWAM [43]; other FlashWAM results are local.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 377,
+              "image_path": "figures/2611.22592/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 504
+            },
+            {
+              "caption": "Table 2. Correction ablations. Correction variants share initialization and training length. Field/Proj. enable local supervision/gradient projection. Cells report Clean/Random success (%); columns give video/action steps. Shared and Continued denote initialization and continued distillation.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 222,
+              "image_path": "figures/2611.22592/table-006.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 504
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22592/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.22592",
+          "relevance": 9,
+          "selection_reason": "Distills world action models that jointly generate video and robot actions for bimanual manipulation.",
+          "summary_status": "generated",
+          "title": "Distilling World Action Models for Efficient Bimanual Manipulation via Anchored Path Matching",
+          "tldr": "Anchored Path Matching distills World Action Models into flexible 1-, 2-, and 4-step policies for faster bimanual manipulation while preserving teacher trajectories.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "video-world-models",
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Action-conditioned world models are increasingly used as world models for planning, yet a world model that makes plausible, realistic-looking videos that are consistent with the training data can produce poor decisions. We address two key questions: (1) when can we trust a world model for planning, and (2) what should we do when we cannot? We introduce CURE (Certify, Upweight, Rollout, Explore), a certificate-guided technique that assesses whether a world model can be trusted for planning and determines what to do next: whether to upweight the training data to debias the model; roll out more samples at test time; or explore by collecting new data where support (how well the training data cover the planner's decisions) is missing. We deploy CURE across multiple domains, spanning simulated physics based on PhyWorld, MuJoCo arm control, and Language-Table pushing in simulation and on real videos. The decisions our certificate trusts have lower regret than those it does not (e.g., 0.06 vs. 0.38 on Language-Table sim and 0.07 vs. 0.38 on MuJoCo contact), whereas video perceptual quality does not identify good decisions. By focusing on decision quality rather than perceptual quality, CURE lowers regret over the best pessimistic decision rule by 10-25% across support levels, and over world-action models, search and policy learning by 41-64%, given the same data.",
+          "arxiv_id": "2611.22561",
+          "arxiv_url": "https://arxiv.org/abs/2611.22561",
+          "authors": [
+            "Raphael C. Kim, Michele Santacatterina, Jingsen Zhu, Ramin Zabih"
+          ],
+          "bullets": [
+            "Realistic-looking, training-consistent videos do not guarantee good planning decisions.",
+            "CURE uses certificates to assess whether the model’s support covers the planner’s decisions.",
+            "Depending on the diagnosis, it upweights data, rolls out more samples, or explores unsupported regions.",
+            "Across physics, robotic control, and pushing tasks in simulation and real videos, trusted decisions had lower regret than untrusted ones.",
+            "Focusing on decision quality reduced regret by 10–25% versus a pessimistic rule and 41–64% versus several alternative methods under equal data."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. CURE in action. Top: MuJoCo contact. Bottom: Language-Table sim. Left: the standard world model’s chosen action misses the goal in the real rollout (true outcome shown). Middle: CURE’s certificate decides the fix. Top: the certificate is below zero because the training data has too little support for the needed action, so CURE collects new clips (Explore). Bottom: the certificate passes, so CURE acts, with the upweighted model and more rollouts per action (Upweight, Rollout). Right: CURE’s chosen action reaches the goal. The regret numbers are normalized such that 0 is the best action in the bank, and 1 is a random action on average.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 395,
+              "image_path": "figures/2611.22561/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1017
+            },
+            {
+              "caption": "Figure 2. CURE. We estimate the behavior policy π̂b and the weights α̂ on the training data, and the model error ε̂ on a validation set. We then train the candidate models (standard, debiased, retargeted) and certify each one (D1). If none passes, we collect new clips where the certificate fails and re-certify, until the clip budget is spent (D2). We keep the model with the largest certificate margin (D3), and spend extra rollouts only on contended actions, those too close to the top score to tell apart, that have support (D4). Full procedure in the supplementary material.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 490,
+              "image_path": "figures/2611.22561/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 472
+            },
+            {
+              "caption": "Figure 5. Test-time compute helps only where the model has support. Regret against number of candidates scored K. Hollow: low; filled: partial; dotted: high support.",
+              "figure_id": "figure-5-4",
+              "figure_number": "5",
+              "height": 326,
+              "image_path": "figures/2611.22561/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 465
+            },
+            {
+              "caption": "Figure 1. Convincing video does not mean a better action. World models make decisions by generating videos as imagined rollouts, predicting the regret from the videos, and picking the action with the lowest predicted regret. A more convincing video may still predict regret badly, and choose an action that fails in the true rollout (top). A less convincing video, despite the visible artifacts (ghosting, blurring and smearing of the arm), can predict accurately and select a better action (bottom).",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 284,
+              "image_path": "figures/2611.22561/figure-004.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 488
+            },
+            {
+              "caption": "Figure 4. The certificate predicts decision error while video quality does not. Setting: Language-Table sim. (a) Regret against the percentile of each signal (smoothed; 95% bands). LPIPS is negated, so higher means better video. (b) Regret of trusted and withheld decisions. PSNR and LPIPS trust the same share as the certificate.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 204,
+              "image_path": "figures/2611.22561/figure-005.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 490
+            },
+            {
+              "caption": "Table 1. CURE has the lowest regret at every support level. Regret (lower is better), averaged over kick2c, Language-Table sim and real, and MuJoCo contact, with 95% intervals. All rows share the model, data (incl. CURE’s 300 clips at low support) and evaluation. Rollout uses 16 rollouts per action; †4, as for the baselines. Gray: step not called, so equal to CURE. ‡Uses ten world models instead of one. Baselines are described in Sec. 3.2; per-domain results are in the supplement.",
+              "figure_id": "table-1-5",
+              "figure_number": "1",
+              "height": 551,
+              "image_path": "figures/2611.22561/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22561/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.22561",
+          "relevance": 8,
+          "selection_reason": "Action-conditioned world models for planning with certificate-guided trust and data-support diagnosis.",
+          "summary_status": "generated",
+          "title": "Plausible Videos Can Lead to Poor Decisions: Diagnosing and CURE-ing World Models for Planning",
+          "tldr": "CURE diagnoses when video world models are reliable for planning and chooses whether to debias training data, sample more rollouts, or collect new data to reduce decision regret.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-world-models",
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Visual world models predict future visual states conditioned on actions, but recursive errors in entity poses and spatial relations limit their long-horizon prediction for robot planning and control. We ask whether a separately predicted relational state can correct this drift without restructuring the visual model. This is challenging because graph nodes and visual states share neither elements nor a feature space. We propose Joint Graph--Visual Dynamics Correction (JointGV), a plug-in based on a cross-granularity dynamics hypothesis: despite their different representations, graph-node and visual-state changes describe the same physical transition. JointGV rolls out a task-conditioned scene graph alongside the visual world model, couples their predicted changes, and combines the resulting graph-motion context with graph-predicted node positions to compute a bounded residual. Graph-learning and correction gradients do not propagate into the original visual dynamics. We attach JointGV to DINO-WM (spatial tokens) and DreamerV3 (a global latent state), evaluating both on DMC Cheetah Run and Walker Walk across three seeds and extending the evaluation to contact-rich manipulation with DMC Finger Turn Hard. Across 32-step rollouts, JointGV improves structural and visual-prediction accuracy, reducing joint-position error by 11--28\\%. For spatial tokens, learned graph--visual change coupling gives lower error than broadcasting the same mean graph-motion context to every token, particularly when non-adjacent parts appear close together in the image. On real-robot inverted-pendulum sequences, JointGV reduces DINO-WM's 32-step pole-angle error from $12.56^\\circ$ to $6.69^\\circ$ and improves DreamerV3 and LeWorldModel as well. In simulated inverted-pendulum control, an actor trained with JointGV-corrected rollouts completes 46 of 50 episodes, compared with none using the original rollouts.",
+          "arxiv_id": "2611.22543",
+          "arxiv_url": "https://arxiv.org/abs/2611.22543",
+          "authors": [
+            "Tian Lyu, Yichen Jiang, Ziyuan Cheng, Yunda Yan, Xiangyu Pan, Junjie Jiang, Jialin Yu, Boyu Ning, Pietro Li\\`o, Fan Mo"
+          ],
+          "bullets": [
+            "Addresses recursive drift in entity poses and spatial relations during long-horizon prediction for robot planning and control.",
+            "Rolls out a scene graph alongside the visual model, couples graph and visual changes, and applies a bounded residual using graph-motion context and node positions.",
+            "Acts as a plug-in for DINO-WM and DreamerV3 without backpropagating graph-learning or correction gradients into the original visual dynamics.",
+            "Across 32-step rollouts, reduces joint-position error by 11–28%; on real inverted-pendulum sequences, lowers DINO-WM pole-angle error from 12.56° to 6.69°.",
+            "In simulated inverted-pendulum control, JointGV-corrected rollouts enable 46/50 successful episodes versus none with original rollouts."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.AI",
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of JointGV. Given the current RGB observation and action, the original visual world model (yellow) predicts the uncorrected next visual state Zt+1 and its change ∆Zt. In parallel, JointGV (blue) uses Relation Transformer (RelTR) features to construct a task-conditioned scene graph and predicts the node-feature change ∆N̂t. For the spatial-token case shown here, learned projections map the visual-token and graph-node changes into a shared space, where a change-alignment adapter produces the graph-motion context. The predicted node positions provide a complementary position context. A bounded, gated correction combines these contexts with the original visual prediction to produce Ẑt+1 = Zt+1 + Ct. Setting Ct = 0 recovers the original prediction. Decoded images are shown only for visualization; the global-state adapter is described in Sec. 3.4.",
+              "figure_id": "figure-2-10",
+              "figure_number": "2",
+              "height": 504,
+              "image_path": "figures/2611.22543/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 829
+            },
+            {
+              "caption": "Figure 3. Qualitative comparison of DINO-WM and JointGV on a held-out DMC Cheetah Run sequence. Columns show rollout steps 2, 8, 16, 24, and 32; adjacent maps show absolute RGB error amplified by four using the shared decoder. Red arrows mark representative structural differences. Kv denotes the self-fed visual training horizon and ω the propagated correction-gradient fraction. Additional episodes and videos are provided in Sec. S8.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 561,
+              "image_path": "figures/2611.22543/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 829
+            },
+            {
+              "caption": "Figure 1. Motivation. (a) DINO-WM open-loop predictions initialized from real-robot inverted-pendulum observations increasingly deviate from the observed pole. (b) Pole-angle error rises with rollout horizon for all three models, while JointGV reduces this structural drift.",
+              "figure_id": "figure-1-3",
+              "figure_number": "1",
+              "height": 686,
+              "image_path": "figures/2611.22543/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 446
+            },
+            {
+              "caption": "Figure 4. Qualitative comparison on a held-out DMC Walker Walk validation sequence. Columns show rollout steps 2, 8, 16, 24, and 32, with absolute RGB error amplified by a factor of four. JointGV uses the DreamerV3 global-state change to pool the graph-node changes and applies the result as a bounded global correction. The corrected rollout better preserves the articulated pose at later steps.",
+              "figure_id": "figure-4-4",
+              "figure_number": "4",
+              "height": 271,
+              "image_path": "figures/2611.22543/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 882
+            },
+            {
+              "caption": "Figure 6. Preliminary physical RM65-B control trial. The two actors start from comparable pole angles. At 1.27 seconds, the pole controlled using the original visual-world-model rollout has fallen to −83.3◦, whereas the actor using the JointGV-corrected rollout keeps it near upright at −2.7◦. This trial demonstrates short-duration physical deployment rather than stable six-second balancing.",
+              "figure_id": "figure-6-9",
+              "figure_number": "6",
+              "height": 272,
+              "image_path": "figures/2611.22543/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 446
+            },
+            {
+              "caption": "Figure 5. Per-window effect across four model–task pairings. Each value is the relative change in 32-step average joint-position error from the original prediction to JointGV; values below zero indicate improvement. JointGV improves 99%, 66%, 89%, and 83% of the respective test windows, showing that the aggregate gains are not produced by a small subset of rollouts.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 240,
+              "image_path": "figures/2611.22543/figure-006.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 458
+            },
+            {
+              "caption": "Table 1. DINO-WM results on 280 matched DMC Cheetah Run test windows. Values at horizon H average steps 1 through H; Token MSE denotes DINOv2-token MSE. Rows are single runs and are compared only within matched blocks. ∗The visual-residual controls adapt residual-correction principles rather than reproduce the cited methods. §The annotation-matched control uses the same auxiliary node targets but receives no predicted graph states or graph features. †The cosine run has its own matched backbone. Three-seed results and additional ablations are provided in Sec. S6.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 331,
+              "image_path": "figures/2611.22543/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 881
+            },
+            {
+              "caption": "Table 2. JointGV across visual states and control tasks. Values are average joint-position errors over rollout steps 1–32, reported as mean and standard deviation across three independently trained seeds. Every model–task pairing improves in all three seeds. Per-horizon and visual metrics are provided in Sec. S6.",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 119,
+              "image_path": "figures/2611.22543/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 752
+            },
+            {
+              "caption": "Table 3. DINO-WM on 280 DMC Finger Turn Hard test windows. Values at H average steps 1 through H; additional metrics are provided in Sec. S6.",
+              "figure_id": "table-3-5",
+              "figure_number": "3",
+              "height": 112,
+              "image_path": "figures/2611.22543/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 379
+            },
+            {
+              "caption": "Table 4. MuJoCo inverted-pendulum control. Actors are trained with original or JointGV-corrected DINO-WM rollouts; rewardhead MSE is a diagnostic.",
+              "figure_id": "table-4-8",
+              "figure_number": "4",
+              "height": 105,
+              "image_path": "figures/2611.22543/table-010.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 396
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22543/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.22543",
+          "relevance": 9,
+          "selection_reason": "Addresses recursive errors in visual world models for long-horizon robot planning by correcting entity poses and spatial relations using scene graphs. This fits Video World Models (predicting future states) and Spatial Intelligence (spatial relations).",
+          "summary_status": "generated",
+          "title": "JointGV: Structure-Aware Correction of Visual World Models with Parallel Graph Dynamics for Long-Horizon Modeling",
+          "tldr": "JointGV improves long-horizon visual world-model predictions by correcting visual dynamics with parallel, task-conditioned scene-graph predictions.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "spatial-intelligence"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Robot failures are difficult to collect at scale, limiting the range of failure scenarios represented in robot learning datasets. We present FailureGen, a method for generating synthetic videos with temporal event annotations by reusing action trajectories from recorded failures. The method comprises four stages: (1) fine-tuning an action-conditioned Cosmos world model on successful and failed real executions; (2) annotating source recordings to identify failure-associated donor segments and compatible successful hosts; (3) transferring donor motion into host contexts, with optional spatial offsets, to generate continuous video rollouts; and (4) annotating and filtering the generated samples according to observed events and visual quality. We study two implementations with different tasks and robot configurations, with visual failure detection serving as one downstream application. In a preliminary comparison, a detector trained on real and generated data achieves an average precision of 0.51, compared with 0.41 using real data alone, and detects 33 of 36 failure intervals, compared with 28 of 36. By reusing observed failures in additional contexts, FailureGen expands the data available for studying robot failures and developing downstream learning methods.",
+          "arxiv_id": "2611.22367",
+          "arxiv_url": "https://arxiv.org/abs/2611.22367",
+          "authors": [
+            "Akul Santhosh, Chaitra Sathe, Aastha Jhunjhunwala"
+          ],
+          "bullets": [
+            "Addresses the difficulty of collecting robot failures at scale and broad coverage.",
+            "Fine-tunes a world model on successful and failed executions, then transfers failure-associated donor segments into compatible host trajectories.",
+            "Generates continuous rollouts with optional spatial offsets, followed by event annotation and visual-quality filtering.",
+            "Evaluated in two task and robot configurations, with visual failure detection as a downstream application.",
+            "In a preliminary comparison, adding generated data improved average precision from 0.41 to 0.51 and detected 33/36 versus 28/36 failure intervals."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: FailureGen architecture. Successful and failed source executions support world-model adaptation through forward- and inverse-dynamics supervision. At generation time, a successful host supplies visual context and nominal motion, while a failure donor supplies motion for a selected intervention. Motion transfer and optional spatial offsets construct the conditioning sequence for the adapted world model. Generated videos are labeled according to their observed events, with a cleanup filter for unreliable examples. Each retained example includes the video, its associated motion sequence, and temporal event labels.",
+              "figure_id": "figure-1-3",
+              "figure_number": "1",
+              "height": 277,
+              "image_path": "figures/2611.22367/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 648
+            },
+            {
+              "caption": "Figure 2: Failure transfer in industrial manipulation. Top: a real donor execution in which a reel falls outside the bin. Middle: the real host recording, which supplies the initial scene and object appearance. Bottom: the FailureGen continuation, which preserves the host context while reproducing the donor’s drop behavior with different timing and object motion. Columns show elapsed clip time; red outlines highlight the falling or dropped object.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 344,
+              "image_path": "figures/2611.22367/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 664
+            },
+            {
+              "caption": "Figure 4: Failure transfer for drawer placement. Rows show the real donor, real host, and generated continuation. The generated can is released outside the drawer while the host scene is retained. Wrist-camera insets show the release obscured in the main view. Times are relative to each clip; red outlines highlight the released can.",
+              "figure_id": "figure-4-4",
+              "figure_number": "4",
+              "height": 358,
+              "image_path": "figures/2611.22367/figure-003.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 815
+            },
+            {
+              "caption": "Figure 3: Failure transfer for object placement. Top: the donor releases a can outside the box. Middle: the host carries a bottle toward the box. Bottom: the generated continuation preserves the host’s bottle and scene while depicting premature release onto the table. Times are relative to each clip; red outlines highlight the released object.",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 287,
+              "image_path": "figures/2611.22367/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 652
+            },
+            {
+              "caption": "Table 3: Industrial fine-tuning configurations. Update counts describe the configured five-epoch runs. Real 1:1 and Real 5:1 denote negative-to-positive sampling ratios; Aug. denotes real plus FailureGen data.",
+              "figure_id": "table-3-7",
+              "figure_number": "3",
+              "height": 172,
+              "image_path": "figures/2611.22367/table-005.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 452
+            },
+            {
+              "caption": "Table 2: Failure detection on the three-task ViFailback subset. Values show real-only → FailureGenaugmented performance (%). Bold values indicate improvements.",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 110,
+              "image_path": "figures/2611.22367/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 826
+            },
+            {
+              "caption": "Table 1: Industrial failure recognition on the shared real evaluation subset. Events are detected failure intervals out of 36; clean alarms are clean episodes containing an alert out of 41. Real-only reports the stronger of the evaluated real-only configurations. The full configuration comparison is provided in the appendix.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 89,
+              "image_path": "figures/2611.22367/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 464
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22367/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.22367",
+          "relevance": 8,
+          "selection_reason": "Action-conditioned world model generates synthetic robot failure videos by reusing trajectories; directly fits interactive and video world models.",
+          "summary_status": "generated",
+          "title": "FailureGen: Scalable Robot Failure Data Generation with World Models",
+          "tldr": "FailureGen uses an action-conditioned world model to generate diverse, temporally annotated robot-failure videos by transplanting observed failure motions into successful execution contexts.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-world-models",
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "The physical world has inertia: it evolves from what already exists rather than being recreated at every instant. However, many existing video world models lack an explicit mechanism for inertial state evolution, leaving the continuity of motion and structure implicit in video prediction. During autoregressive rollouts, repeated reconstruction can accumulate errors and destabilize the predicted dynamics. To address this limitation, we introduce InertialWorld, an Inertial Video World Model that makes inertia a structural prior for autoregressive prediction: existing scene evidence is carried across time rather than reconstructed at every step. Central to this formulation is Inertial Memory, which turns memory from passive predictive context into an evolving video state with two complementary views: a dense Eulerian grid preserves scene-aligned evidence, while persistent Lagrangian carriers bind local content to learned canonical coordinates. At each step, the model transports the carrier content according to action-conditioned motion, predicts the complete next video state from the transported carriers and dense grid, and uses a learned gate to combine transported and newly predicted content into the memory for the next step. Extensive experiments across multiple domains, including robot manipulation, 3D game simulation, and open-world navigation, demonstrate that InertialWorld achieves competitive autoregressive prediction performance against strong video world model baselines. Codes link: https://github.com/YuanGao-YG/InertialWorld",
+          "arxiv_id": "2611.22314",
+          "arxiv_url": "https://arxiv.org/abs/2611.22314",
+          "authors": [
+            "Yuan Gao, Fan Xu, Yu Guo, Yuxu Lu, Zhengru Fang, Hao Wu, Xiaomeng Huang"
+          ],
+          "bullets": [
+            "Addresses error accumulation and unstable dynamics caused by repeatedly reconstructing each video frame.",
+            "Uses Inertial Memory with a dense Eulerian grid and persistent Lagrangian carriers tied to canonical coordinates.",
+            "Transports carrier content using action-conditioned motion, predicts the next video state, and gates transported versus newly predicted content.",
+            "Performs competitively with strong video world-model baselines across robot manipulation, 3D game simulation, and open-world navigation.",
+            "The abstract establishes broad evaluation but does not specify numerical gains or detailed limitations."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overall architecture of INERTIALWORLD. A frozen encoder extracts the rollout-level Context code and initializes Inertial Memory. Its dense Eulerian grid preserves scene-aligned evidence, while action-conditioned Lagrangian carriers transport persistent regional content. A learned gate combines carried and newly predicted content, and a frozen decoder reconstructs future frames from the fixed Context code and predicted Dynamic codes.",
+              "figure_id": "figure-2-12",
+              "figure_number": "2",
+              "height": 340,
+              "image_path": "figures/2611.22314/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 825
+            },
+            {
+              "caption": "Figure 4: Qualitative comparison across the three evaluation domains. We show predicted frames at steps 8, 16, 24, and 32 for RT-1 robot manipulation, CSGO game simulation, and RECON embodied navigation. Each method uses its native conditioning interface, while all rows within a domain share the same episode, anchor, and action sequence. Red boxes mark structurally informative regions at the final step.",
+              "figure_id": "figure-4-7",
+              "figure_number": "4",
+              "height": 608,
+              "image_path": "figures/2611.22314/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 829
+            },
+            {
+              "caption": "Figure 5: Representative 64-step RT-1 case study. Red boxes trace a local region from Context through occlusion around t=30 and its subsequent recovery, which remains preserved at t=64. Bottom rows show carrier correspondence, Lagrangian transport share, and post-carry write for INERTIALWORLD.",
+              "figure_id": "figure-5-11",
+              "figure_number": "5",
+              "height": 669,
+              "image_path": "figures/2611.22314/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 826
+            },
+            {
+              "caption": "Figure 3: Prediction quality throughout the 32-step RT-1 rollout. Each curve reports the episodelevel mean at every predicted frame under the same 1,024-episode protocol as Table 1.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 255,
+              "image_path": "figures/2611.22314/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 848
+            },
+            {
+              "caption": "Figure 7: Real2Sim policy evaluation.",
+              "figure_id": "figure-7-17",
+              "figure_number": "7",
+              "height": 197,
+              "image_path": "figures/2611.22314/figure-005.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 476
+            },
+            {
+              "caption": "Figure 1: From memory to inertia. All three paradigms predict ot+1 from ot and action at. (a) Direct prediction reconstructs each next observation, leaving persistence implicit. (b) Recurrent memory retains the past as predictive context, but a generic transition need not use predicted motion to advance stored content. (c) INERTIALWORLD actively evolves its memory: action-conditioned coordinate motion carries bound content before gated prediction updates the state.",
+              "figure_id": "figure-1-6",
+              "figure_number": "1",
+              "height": 184,
+              "image_path": "figures/2611.22314/figure-006.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 816
+            },
+            {
+              "caption": "Figure 6: GT-grounded motion fidelity on RT-1. Colored diamonds denote episode means and capped horizontal bars denote one episode standard deviation over the same 1,024 episodes and 32 predicted frames as the RT-1 block of Table 1.",
+              "figure_id": "figure-6-16",
+              "figure_number": "6",
+              "height": 149,
+              "image_path": "figures/2611.22314/figure-007.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 820
+            },
+            {
+              "caption": "Table 1: Autoregressive video prediction on RT-1, CSGO, and RECON using released baseline checkpoints. Every method predicts 32 future frames. Best results within each dataset are in bold, and second-best results are underlined. Pixel errors are measured on RGB values normalized to [0, 1].",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 427,
+              "image_path": "figures/2611.22314/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 848
+            },
+            {
+              "caption": "Table 4: Shared architecture of the frozen tokenizer and video world model. Parameter counts exclude the frozen tokenizer.",
+              "figure_id": "table-4-9",
+              "figure_number": "4",
+              "height": 187,
+              "image_path": "figures/2611.22314/table-009.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 836
+            },
+            {
+              "caption": "Table 5: Complete world-model optimization recipe. Each row gives the exact Full-model definition and coefficient, its staging, and whether the matched Plain AR control retains it. “Shared” denotes the same target, coefficient, and schedule.",
+              "figure_id": "table-5-13",
+              "figure_number": "5",
+              "height": 246,
+              "image_path": "figures/2611.22314/table-010.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 836
+            },
+            {
+              "caption": "Table 7: Frozen evaluation protocols. Context is excluded from all reported metrics.",
+              "figure_id": "table-7-5",
+              "figure_number": "7",
+              "height": 273,
+              "image_path": "figures/2611.22314/table-011.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 827
+            },
+            {
+              "caption": "Table 11: Persistent-state mechanism diagnostics over 64-step RT-1 rollouts. Mean ± episode sample standard deviation over all 35 eligible episodes. Each statistic is reduced within an episode before cross-episode aggregation; percentages display shares and gate values multiplied by 100. These internal diagnostics are descriptive and do not share a universal better direction.",
+              "figure_id": "table-11-14",
+              "figure_number": "11",
+              "height": 511,
+              "image_path": "figures/2611.22314/table-012.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 848
+            },
+            {
+              "caption": "Table 2: Paired motion-fidelity margins on RT-1. INERTIALWORLD-favorable paired differences and 95% bootstrap intervals over 1,024 episodes. All 12 intervals exclude zero and survive Holmcorrected paired sign-flip tests (pHolm = 1.2×10−4).",
+              "figure_id": "table-2-18",
+              "figure_number": "2",
+              "height": 186,
+              "image_path": "figures/2611.22314/table-013.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 852
+            },
+            {
+              "caption": "Table 10: 64-step RT-1 prediction. Mean ± episode sample standard deviation over all 35 of the 1,024 frozen test episodes that contain 64 aligned future frames. Metrics average ot+1:t+64; the common anchor ot and any method-native history are conditioning only. Best and second-best results are shown in bold and underlined.",
+              "figure_id": "table-10-4",
+              "figure_number": "10",
+              "height": 229,
+              "image_path": "figures/2611.22314/table-014.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 832
+            },
+            {
+              "caption": "Table 8: Native baseline interfaces used in the paired 32-frame evaluation. Hk denotes k conditioning frames available to a released model; it does not denote scored output.",
+              "figure_id": "table-8-15",
+              "figure_number": "8",
+              "height": 73,
+              "image_path": "figures/2611.22314/table-015.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 827
+            },
+            {
+              "caption": "Table 9: Paired uncertainty against every baseline. Each cell reports the INERTIALWORLDfavorable episode-mean margin ∆ and its paired 95% bootstrap interval. Positive values favor INERTIALWORLD. All unmarked cells also pass the jointly Holm-corrected paired sign-flip test; † marks the sole statistically unresolved cell.",
+              "figure_id": "table-9-3",
+              "figure_number": "9",
+              "height": 84,
+              "image_path": "figures/2611.22314/table-016.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 827
+            },
+            {
+              "caption": "Table 12: Scope of the trained RT-1 ablations. Every variant is trained independently from scratch for 30k steps and evaluated on the same ordered 1,024-episode protocol.",
+              "figure_id": "table-12-10",
+              "figure_number": "12",
+              "height": 227,
+              "image_path": "figures/2611.22314/table-017.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 836
+            },
+            {
+              "caption": "Table 13: Paired persistence improvements. Each baseline cell reports the Full-model-favorable episode-mean difference ∆ = baseline − Full and its pointwise paired 95% percentile-bootstrap interval obtained from 50,000 bootstrap replicates of the same eligible paired episodes, not from additional test episodes. Positive values favor the Full model; blue rows identify the reference method.",
+              "figure_id": "table-13-8",
+              "figure_number": "13",
+              "height": 40,
+              "image_path": "figures/2611.22314/table-018.webp",
+              "kind": "table",
+              "page": 29,
+              "width": 827
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22314/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.22314",
+          "relevance": 8,
+          "selection_reason": "Inertial video world model with Eulerian/Lagrangian memory and action-conditioned transport for autoregressive prediction, directly advancing video and interactive world models.",
+          "summary_status": "generated",
+          "title": "Inertial Video World Models",
+          "tldr": "InertialWorld stabilizes autoregressive video-world-model rollouts by explicitly carrying scene state forward through an evolving inertial memory.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-world-models",
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Physical agents must use what they previously saw or touched after visibility or contact is lost. Their actions change the implications of these remembered facts. We introduce executable perceptual memory (EPM), a world-model framework that advances explicit perceptual state alongside neural latent dynamics during imagination. Its evolving read-out informs reward prediction, value estimation and policy learning. We align reward inputs with the transitions that produced them and supervise the reward head on open-loop rollouts of recorded actions. On Memory Maze $13\\times13$, EPM reaches 30.37 return at 1M interactions, compared with 23.37 when the same evolving read-out informs only policy and value on a common perceptual front end: a gain of 7.00 [3.80, 10.21]. The complete method also improves control on $9\\times9$ and in MiniWorld. Probes of remembered, out-of-view arrivals show stronger reward anticipation in both visual implementations. Concentration, tactile recovery and real tactile frames demonstrate complementary roles of remembered facts in imagined-policy training, motion-dependent decisions and sensory-content retention. EPM connects persistent perception to the predicted consequences and learning signals of a world model for Physical AI.",
+          "arxiv_id": "2611.22294",
+          "arxiv_url": "https://arxiv.org/abs/2611.22294",
+          "authors": [
+            "Xianyao Li, Ruitong Tian, Rui Min, Fang Xu, Jing Du"
+          ],
+          "bullets": [
+            "Addresses how physical agents can use visual or tactile information after it is no longer observable.",
+            "Advances an explicit perceptual state alongside neural latent dynamics during imagined rollouts.",
+            "Aligns rewards with the transitions that produced them and trains reward prediction on open-loop recorded-action rollouts.",
+            "On 13×13 Memory Maze, reaches 30.37 return at 1M interactions versus 23.37 for a policy/value-only readout.",
+            "Additional tests show benefits across maze sizes and MiniWorld, with improved reward anticipation for remembered out-of-view events."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.AI",
+            "cs.CV",
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1. Executable perceptual memory within a world model. Perception maintains facts beyond immediate visibility. Policy actions advance neural dynamics and explicit local state in parallel, coupled by predicted motion. The evolving read-out informs reward prediction and actor–critic learning; rewards, continuation and values form imagined return targets. Reward training uses transition-aligned inputs and open-loop supervision (Sec. 3). Above: an example observation and schematic futures for a remembered landmark. Below: the joint rollout and its evolving read-out uh.",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 510,
+              "image_path": "figures/2611.22294/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1004
+            },
+            {
+              "caption": "Figure 3. Reward anticipation from perceptual history. (a,b) Net anticipation for visible targets and remembered, out-of-view targets satisfying each model’s arrival-anticipation condition (RA). (c) Their difference, the memory deficit. Points and bars are means and 95% t intervals over twelve labels per implementation. Both arms have evolved policy/value read-outs and OL training; EPM additionally supplies reward read-outs. Numbers give paired differences.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 320,
+              "image_path": "figures/2611.22294/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1030
+            },
+            {
+              "caption": "Figure 6. Training the reward interface. (a) Posterior reward training pairs each reward with the read-out advanced from the preceding memory, not with the state stored after the next write or target switch. (b) The open-loop term rolls the prior along recorded actions, compares the shared reward head with real future rewards and masks steps after an episode reset. Double bars mark stopped gradients on features; dashed arrows show gradients into the reward head.",
+              "figure_id": "figure-6-17",
+              "figure_number": "6",
+              "height": 508,
+              "image_path": "figures/2611.22294/figure-003.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 998
+            },
+            {
+              "caption": "Figure 2. Control with executable perceptual memory. Mean return at evaluation checkpoints; bars show one standard error over initialization labels. Each panel is a separate experiment with a common front end across its arms. Brackets mark the paired endpoint gain of EPM over Evolved, which lacks reward access and the open-loop loss. Table 2 gives endpoint returns and component effects.",
+              "figure_id": "figure-2-19",
+              "figure_number": "2",
+              "height": 351,
+              "image_path": "figures/2611.22294/figure-004.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1022
+            },
+            {
+              "caption": "Figure 4. History matters at different stages of decision making. (a) Deployed Concentration return of policies trained on imagined trajectories with remembered card identities resampled or kept, and of a policy trained in the real environment; dots are training seeds. (b) Tactile recovery progress of the evolved-state chooser minus each reference on 48 new worlds with varying excursions; bars show 95% paired t intervals over worlds. The primary comparison uses a state-free command informed of excursion side; the hollow marker is a reference that also carries state by motion.",
+              "figure_id": "figure-4-6",
+              "figure_number": "4",
+              "height": 291,
+              "image_path": "figures/2611.22294/figure-005.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1028
+            },
+            {
+              "caption": "Figure 5. Real perceptual content retained for later queries. Top: fixed-index, unmodified training-set GelSight Mini frames (Real Tactile MNIST, Schneider et al.; CC BY 2.0), written into eight six-byte slots. Bottom: digit-identity accuracy of a late query after 32 touches on held-out objects; dots are training seeds.",
+              "figure_id": "figure-5-13",
+              "figure_number": "5",
+              "height": 445,
+              "image_path": "figures/2611.22294/figure-006.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 490
+            },
+            {
+              "caption": "Table 3. Comparison with external world-model agents on 13 × 13. Mean returns with training budgets. External methods use three training seeds; our agents use six initialization labels. The upper group uses visual odometry without heading correction where a front end is supplied; the lower pair shares the headingcorrected front end and is a separate experiment.",
+              "figure_id": "table-3-1",
+              "figure_number": "3",
+              "height": 242,
+              "image_path": "figures/2611.22294/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 466
+            },
+            {
+              "caption": "Table 7. Label-level mean returns at the endpoint (48 evaluation identities per label). Labels are indexed within each experiment.",
+              "figure_id": "table-7-7",
+              "figure_number": "7",
+              "height": 562,
+              "image_path": "figures/2611.22294/table-008.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 1036
+            },
+            {
+              "caption": "Table 2. Control results and component effects. Upper: mean return at the endpoint. Lower: pre-specified paired differences ∆ with 95% t intervals over initialization labels; n+ is the number of labels with a positive difference. Each task is a separate experiment with a common front end across its arms. R denotes direct reward access and OL the open-loop reward loss. The 13 × 13 experiment trains the four non-held arms. The interaction is the reward-access effect for evolved minus held read-outs.",
+              "figure_id": "table-2-18",
+              "figure_number": "2",
+              "height": 412,
+              "image_path": "figures/2611.22294/table-009.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1014
+            },
+            {
+              "caption": "Table 4. Memory Maze 9 × 9: all pre-specified contrasts at every evaluation checkpoint. n = 12 initialization labels; ∆ with paired 95% t interval, number of positive labels n+ and exact two-sided sign-flip p. The endpoint is 1M.",
+              "figure_id": "table-4-11",
+              "figure_number": "4",
+              "height": 302,
+              "image_path": "figures/2611.22294/table-010.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 1022
+            },
+            {
+              "caption": "Table 6. MiniWorld 9× 9: all pre-specified contrasts at every evaluation checkpoint. n = 12 initialization labels; ∆ with paired 95% t interval, number of positive labels n+ and exact two-sided sign-flip p. The endpoint is 2M.",
+              "figure_id": "table-6-8",
+              "figure_number": "6",
+              "height": 302,
+              "image_path": "figures/2611.22294/table-011.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 882
+            },
+            {
+              "caption": "Table 8. Reward-anticipation levels. Means with 95% t intervals over twelve labels. D = AVIS −AMEM∩RA. Paired contrasts between EPM and Evolved+OL are given in the text.",
+              "figure_id": "table-8-3",
+              "figure_number": "8",
+              "height": 377,
+              "image_path": "figures/2611.22294/table-012.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 702
+            },
+            {
+              "caption": "Table 9. Policy/value-only comparison on Memory Maze 13×13. Six initialization labels, 48 identity-paired evaluation mazes per label. Return differences and 95% paired t intervals use labels as the unit; pflip is the exact two-sided sign-flip sensitivity analysis. The primary sequence tests Evolved versus observation-only at 500k, then 1M. All other rows are secondary. †The t interval and sign-flip test disagree at the 0.05 level. Shared arms make the contrasts correlated.",
+              "figure_id": "table-9-4",
+              "figure_number": "9",
+              "height": 275,
+              "image_path": "figures/2611.22294/table-013.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 814
+            },
+            {
+              "caption": "Table 11. Policy/value-only comparison, all initialization labels and budgets. Returns are means over 48 mazes. The three contrasts compare intact returns; dependence is intact minus masked return. O denotes observation-only and F denotes held.",
+              "figure_id": "table-11-20",
+              "figure_number": "11",
+              "height": 412,
+              "image_path": "figures/2611.22294/table-014.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 776
+            },
+            {
+              "caption": "Table 10. Read-out dependence differences in the policy/value-only comparison (descriptive). Dependence is the intact-minus-masked return within an arm. Intervals are paired t intervals over six labels; sign-flip p values are sensitivity analyses. Masking affects the observation read-out and, where present, its direct actor/critic path. These differences share intact returns with Table 9 and are not independent evidence.",
+              "figure_id": "table-10-21",
+              "figure_number": "10",
+              "height": 276,
+              "image_path": "figures/2611.22294/table-015.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 748
+            },
+            {
+              "caption": "Table 12. Clock-only control on 13 × 13 without heading correction: six initialization labels and 48 common evaluation mazes. E = evolved geometry; H = held; C = clock-only (age advances, geometry is held). Returns and read-out dependence are listed as E / H / C. Within-label differences use paired-maze bootstrap 95% intervals; dependence is intact minus masked return.",
+              "figure_id": "table-12-16",
+              "figure_number": "12",
+              "height": 479,
+              "image_path": "figures/2611.22294/table-016.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 756
+            },
+            {
+              "caption": "Table 13. Tactile branch evaluation on twelve held-out worlds. At each lost-contact anchor, ten fixed eight-step branches are executed and predicted from the same history. Top-1 is agreement with the best real branch; lower prediction error and regret are better. Contrasts use world-level bootstrap 95% intervals. Two passes differ on three worlds (largest 5.1 mm); all worlds are retained.",
+              "figure_id": "table-13-15",
+              "figure_number": "13",
+              "height": 292,
+              "image_path": "figures/2611.22294/table-017.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 802
+            },
+            {
+              "caption": "Table 14. Real tactile frames (Real Tactile MNIST, GelSight Mini): late query after T touches using an offline background computed from all 256 touches of the round; 48-byte payload plus up to 9 bytes of validity/age metadata; 100 held-out objects, mean ± std over 3 seeds (model selection on a fixed 50-round validation split). Q1 = digit identity, Q2 = material at a held-out position. Identity-query improvements over no history and proprioception are supported on all three seeds; material-query improvements are supported on two, with one unresolved. B denotes the payload budget; six-byte slots occupy 12/48/126 bytes at budgets 16/48/128.",
+              "figure_id": "table-14-10",
+              "figure_number": "14",
+              "height": 242,
+              "image_path": "figures/2611.22294/table-018.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 1036
+            },
+            {
+              "caption": "Table 1. Navigation arms. All encode the same perceptual memory. Entries specify direct imagined read-outs. R = reward access; OL = open-loop reward loss. Reward access is tested with OL.",
+              "figure_id": "table-1-14",
+              "figure_number": "1",
+              "height": 185,
+              "image_path": "figures/2611.22294/table-019.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 379
+            },
+            {
+              "caption": "Table 5. Memory Maze 13× 13: all pre-specified contrasts at every evaluation checkpoint. n = 6 initialization labels; ∆ with paired 95% t interval, number of positive labels n+ and exact two-sided sign-flip p. The endpoint is 1M.",
+              "figure_id": "table-5-12",
+              "figure_number": "5",
+              "height": 183,
+              "image_path": "figures/2611.22294/table-020.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 968
+            },
+            {
+              "caption": "Table 15. Synthetic pretraining for real tactile memory. Differences in identity accuracy at 32 touches, in percentage points, over twenty initialization labels with paired 95% t intervals. Budgets are labeled real-training rounds; preprocessing uses within-window causal backgrounds.",
+              "figure_id": "table-15-9",
+              "figure_number": "15",
+              "height": 140,
+              "image_path": "figures/2611.22294/table-021.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 686
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22294/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.22294",
+          "relevance": 8,
+          "selection_reason": "Introduces executable perceptual memory advancing explicit state alongside latent dynamics in a world model for embodied agents.",
+          "summary_status": "generated",
+          "title": "Perception into Imagination: Executable Memory for World Models",
+          "tldr": "Executable perceptual memory improves world-model imagination by carrying remembered perceptual state forward and linking it to predicted rewards, values, and actions.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "video-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "embodied-memory"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Videos provide a rich source of physical interaction for learning robot behavior without action annotations, yet effective latent actions must capture not only local transitions but also how those transitions evolve over time. We introduce ReLAP, a latent-action pretraining framework that couples local transition learning with recurrent multi-step prediction in a frozen JEPA representation space. A shared inverse dynamics model infers compact continuous latent actions from adjacent observations, while a latent world model recurrently predicts the future JEPA features. Because each predicted feature becomes the context for the next transition, errors at later steps backpropagate through the rollout to earlier latent actions, encouraging temporally coherent dynamics beyond pairwise reconstruction. We transfer this representation to a vision-language model using two complementary objectives: latent distillation from the frozen inverse teacher and recurrent future-feature prediction through the frozen latent world model. The resulting policy is then adapted to robot demonstrations with action flow matching. At deployment, the explicit latent-action and world-model branches are removed, and the fine-tuned VLM predicts physical actions directly, reducing inference complexity. With only 11M pretraining samples and 1.06B trainable parameters, ReLAP achieves 97.9% on standard LIBERO and 70.0% over zero-shot LIBERO-Plus perturbations. On the LARY latent-action benchmark, ReLAP ranks second in both mean regression error and mean classification accuracy among the compared methods. These results demonstrate that recurrent action-free latent action pretraining can learn compact, temporally structured, and transferable representations for downstream robot control.",
+          "arxiv_id": "2611.22077",
+          "arxiv_url": "https://arxiv.org/abs/2611.22077",
+          "authors": [
+            "R. Gnana Praveen, Ali Rouzbayani, Zhiying Jiang, Bidhan Roy"
+          ],
+          "bullets": [
+            "Addresses the limitation of pairwise latent-action learning, which may miss how physical transitions evolve over time.",
+            "Uses a shared inverse dynamics model for compact latent actions and a recurrent latent world model for multi-step JEPA feature prediction.",
+            "Transfers the learned representation to a vision-language model through latent distillation and recurrent future-feature prediction, then adapts it with action flow matching.",
+            "At deployment, removes the auxiliary latent-action and world-model branches so the VLM directly predicts robot actions.",
+            "Achieves 97.9% on LIBERO, 70.0% on zero-shot LIBERO-Plus perturbations, and ranks second on both LARY metrics among compared methods."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 2. Overview of ReLAP. Stage 1 learns temporally coherent latent actions from unlabeled human and robot video through local and recurrent prediction in frozen JEPA features. Stage 2 trains a vision-language model to predict the latent sequence from the current image and instruction under the frozen Stage-1 models. Stage 3 adds a flow-matching action expert of alternating DiT blocks conditioned on the VLM context, the predicted latent actions, and the current and predicted future JEPA features; the forward model stays trainable under the terminal feature loss.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 358,
+              "image_path": "figures/2611.22077/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 822
+            },
+            {
+              "caption": "Fig. 4. Representative ReLAP rollouts on three LIBERO-Long tasks, viewed from the main camera. Each row shows six frames of one successful episode in temporal order.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 341,
+              "image_path": "figures/2611.22077/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 552
+            },
+            {
+              "caption": "Fig. 1. (a) Conventional latent action models infer a latent action from an observed transition and reconstruct its immediate consequence. (b) ReLAP infers a sequence of continuous latent actions and recurrently rolls them out in JEPA feature space, allowing later prediction errors to supervise earlier latent actions and encouraging temporal coherence across the sequence.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 418,
+              "image_path": "figures/2611.22077/figure-003.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 425
+            },
+            {
+              "caption": "Fig. 3. Stage-1 video mixture. Outer ring: each source’s share of the 11.1M available 1.6-second training windows. Inner ring: its share of sampled training examples under the mixture weights.",
+              "figure_id": "figure-3-8",
+              "figure_number": "3",
+              "height": 266,
+              "image_path": "figures/2611.22077/figure-004.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 458
+            },
+            {
+              "caption": "TABLE III COMPARISION OF LATENT ACTION PROBES OF DIFFERENT LATENT ACTION METHODS ON LARY BENCHMARK [4]",
+              "figure_id": "table-III-2",
+              "figure_number": "III",
+              "height": 181,
+              "image_path": "figures/2611.22077/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 500
+            },
+            {
+              "caption": "TABLE IV LATENT ACTION PROBE ANALYSIS OF RELAP",
+              "figure_id": "table-IV-3",
+              "figure_number": "IV",
+              "height": 250,
+              "image_path": "figures/2611.22077/table-006.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 533
+            },
+            {
+              "caption": "TABLE I PERFORMANCE COMPARISON ON LIBERO.",
+              "figure_id": "table-I-7",
+              "figure_number": "I",
+              "height": 305,
+              "image_path": "figures/2611.22077/table-007.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 412
+            },
+            {
+              "caption": "TABLE II PERFORMANCE COMPARISON ON LIBERO PLUS.",
+              "figure_id": "table-II-4",
+              "figure_number": "II",
+              "height": 191,
+              "image_path": "figures/2611.22077/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 644
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22077/hero.webp",
+          "novelty": 9,
+          "pdf_url": "https://arxiv.org/pdf/2611.22077",
+          "relevance": 9,
+          "selection_reason": "Latent action pretraining through recurrent video prediction in JEPA space, fitting latent action models, video world models, and robot policy learning.",
+          "summary_status": "generated",
+          "title": "ReLAP: Latent Action Pretraining through Recurrent Video Prediction in JEPA Space",
+          "tldr": "ReLAP learns temporally coherent latent actions from unlabeled videos via recurrent JEPA-space prediction, enabling efficient vision-language robot control.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "latent-action-models",
+                "video-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "World models have shown great potential in serving as a simulator for robot manipulation. However, existing models are either fit to a single environment or lack ability to simulate long-horizon contact-rich events. We present DreamFAR, a world model whose dynamics model is trained from scratch on a large robot-native teleoperation dataset, with no internet-video pretraining. We present an architecture and learning recipe designed for training on robot-native data. DreamFAR is significantly smaller than the high-performance video generation models, yet shows better understanding of contact and causality, and runs 10 FPS on a commercial GPU. Experimentally, DreamFAR significantly outperforms existing models in predicting the long-horizon future. We further demonstrate various applications where DreamFAR can be used, including policy evaluation and mixed-data co-training. Project page: https://www.yimingdou.com/DreamFAR/",
+          "arxiv_id": "2611.22001",
+          "arxiv_url": "https://arxiv.org/abs/2611.22001",
+          "authors": [
+            "Yiming Dou, Botao He, Antonio Loquercio, Andrew Owens, Jitendra Malik, Sumedh Anand Sontakke, Ruoshi Liu"
+          ],
+          "bullets": [
+            "Addresses the limited environment scope and poor long-horizon contact simulation of existing world models.",
+            "Trains from scratch on a large robot-native teleoperation dataset, without internet-video pretraining.",
+            "Introduces an architecture and learning recipe tailored to robot-native data.",
+            "Runs at 10 FPS on a commercial GPU while outperforming existing models on long-horizon future prediction.",
+            "Supports applications including policy evaluation and mixed-data co-training."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 8: Contact-based memory keeps placed objects persistent. Three models with the same architecture but different memory selection. We show one frame from a rollout of each model. Without memory the bin is empty, sparse time-strided memory hallucinates its contents, and contact-based memory matches the real observation.",
+              "figure_id": "figure-8-7",
+              "figure_number": "8",
+              "height": 525,
+              "image_path": "figures/2611.22001/figure-001.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 972
+            },
+            {
+              "caption": "Figure 2: Overview of DreamFAR: (a) Each view is encoded as per-position latents projected onto the unit sphere and decoded by a flow decoder. (b) When the robot makes or breaks contact with an object, we insert the corresponding keyframe into contact memory, which are index by end effector pose. (c) We use a transformer that has a number of design decisions that make it well suited to streaming and long-horizon generation.",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 586,
+              "image_path": "figures/2611.22001/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 964
+            },
+            {
+              "caption": "Figure 5: Metric Drift on ABC over one minute. We evaluate the video prediction performance of DreamFAR and the existing baseline models on standard video quality metrics, including PSNR, LPIPS and FID. We run 60-s rollout (600 frames) on 1,000 held-out episodes and average the results into 10-s bins. DreamFAR degrades the slowest on all three metrics and significantly outperforms all baseline models, indicating the stability of its long-horizon prediction.",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 335,
+              "image_path": "figures/2611.22001/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 962
+            },
+            {
+              "caption": "Figure 4: Visual comparison against baselines on a long-horizon prediction. We run 60-s rollout on an episode of “write a sentence on a whiteboard” task, and qualitatively compare DreamFAR against the existing baseline models. IWS collapses within seconds, WEAVER hallucinates texture drastically in the wrist view, Cosmos-Predict 2.5 drifts and over-sharpens texture, while DreamFAR manages to keep the scene layout and the manipulated objects consistent over the whole minute, and it even predicts the writings on the whiteboard that is visually similar to the GT.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 921,
+              "image_path": "figures/2611.22001/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 959
+            },
+            {
+              "caption": "Figure 6: Policy evaluation inside DreamFAR against the real robot. We run policy evaluation on both the real robot and inside the DreamFAR. (a) shows the task progress over time for one episode of the “t-shirt folding” task, on the real robot (×) and inside DreamFAR (◦). (b) summarizes the mean progress per policy and task. The simulator is generally optimistic in absolute progress but preserves the ranking on two of three tasks.",
+              "figure_id": "figure-6-5",
+              "figure_number": "6",
+              "height": 461,
+              "image_path": "figures/2611.22001/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 962
+            },
+            {
+              "caption": "Figure 3: Rollouts on diverse interactions. DreamFAR predicts accurate dynamics across diverse interactions, including compositional assembly (Lego), tool and container use (bags, bread, plates) and deformable objects (skirt).",
+              "figure_id": "figure-3-9",
+              "figure_number": "3",
+              "height": 909,
+              "image_path": "figures/2611.22001/figure-006.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 974
+            },
+            {
+              "caption": "Figure 7: Co-training with demonstrations collected inside DreamFAR. DreamFAR enables real-time teleoperation without a real robot, and we collect 75 demonstrations of the “place bags of chips into a basket” task in both real and simulated environments. The π0 policy finetuned on the combination of both nearly doubles the real-only performance.",
+              "figure_id": "figure-7-6",
+              "figure_number": "7",
+              "height": 170,
+              "image_path": "figures/2611.22001/figure-007.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 400
+            },
+            {
+              "caption": "Table 1: Contact-based memory improves long-horizon prediction. We run rollout of up to 60 s using the three models of Fig. 8 on the held-out episodes. Metrics against the real video are averaged over the two wrist views. DINO is the cosine similarity of DINOv2 features (Oquab et al., 2023). Contact-based memory achieves the best performance on every metric.",
+              "figure_id": "table-1-8",
+              "figure_number": "1",
+              "height": 134,
+              "image_path": "figures/2611.22001/table-008.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 461
+            },
+            {
+              "caption": "Table 2: Tokenizer reconstruction on held-out episodes. Single-frame reconstruction at 256× 256 per view; PSNR in dB.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 117,
+              "image_path": "figures/2611.22001/table-009.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 398
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22001/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.22001",
+          "relevance": 8,
+          "selection_reason": "Real-time long-horizon world model for robot manipulation trained on robot-native data, fitting video and interactive world-model prediction.",
+          "summary_status": "generated",
+          "title": "DreamFAR: Real-Time and Long-Horizon Interaction with Diverse Objects",
+          "tldr": "DreamFAR is a compact, real-time robot world model that simulates diverse object interactions over long horizons with strong contact and causal understanding.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-world-models",
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Deepfake detectors often perform well on the dataset they are trained on, but their performance drops when tested on videos from different datasets. In this paper, we study whether a predictive video model can provide a signal that generalizes better across datasets. Instead of relying only on generator-specific artifacts, as many existing detectors do, we use a model trained to predict natural video and measure the difference between what it predicts and what it observes in a video. Using V-JEPA 2.1, we keep the encoder frozen and adapt the predictor using rank-16 LoRA. We define the difference between the predictor output and the frozen encoder target as the prediction residual. We hypothesize that manipulated clips produce, on average, larger prediction residuals than authentic clips, and use this as our consistency-margin prior. We process these residuals using a lightweight Latent Consistency Head (LCH), which separates residual magnitude from direction for training and classification. To test whether the direction of the consistency margin affects cross-dataset generalization, we compare standard and reversed margin objectives while keeping the remaining training setup fixed. We match the two settings on FF++ validation performance before evaluating them on unseen data. The reversed-margin setting exhibits a larger cross dataset generalization gap on average, providing evidence that the direction of the consistency margin affects cross-dataset transfer. Our complete model adds only 8.25M trainable parameters, which is 2.47% of the total 334M parameters. Trained only on FF++, it achieves an AUC of 90.5 on Celeb-DFv2 and performs well across several other cross-dataset benchmarks. Our ablations show that separating residual magnitude from direction, reducing dataset-specific variation, and using a low-rank projection improve cross-dataset generalization in our experiments.",
+          "arxiv_id": "2611.21846",
+          "arxiv_url": "https://arxiv.org/abs/2611.21846",
+          "authors": [
+            "Pradip Gupta, Shubham Mandloi, Ravi Kumar Satzoda, Sujeeth Bharadwaj, Yassine Benajiba, Dan Roth"
+          ],
+          "bullets": [
+            "Deepfake detectors often lose accuracy across datasets because they rely on generator-specific artifacts.",
+            "The method uses V-JEPA 2.1 with a frozen encoder, a rank-16 LoRA-adapted predictor, and a Latent Consistency Head to analyze prediction residual magnitude and direction.",
+            "It tests standard versus reversed consistency-margin objectives; the reversed direction produces a larger cross-dataset generalization gap.",
+            "Trained only on FF++, the model reaches 90.5 AUC on Celeb-DFv2 and performs well on other cross-dataset benchmarks.",
+            "Ablations support separating residual magnitude from direction, reducing dataset-specific variation, and using low-rank projection; the model adds 8.25M trainable parameters."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of ConsistencyNet. V-JEPA 2.1 constructs prediction residuals for prediction lengths δ ∈ {2, 4}. LCH processes the residual using PASC, ℓ2 normalization, parallel projections, SAP, and temporal aggregation before real/fake classification. Residual magnitude is used separately by the consistency-margin objective.",
+              "figure_id": "figure-2-7",
+              "figure_number": "2",
+              "height": 297,
+              "image_path": "figures/2611.21846/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 820
+            },
+            {
+              "caption": "Figure 3: Prediction residuals before and after LCH on unseen Celeb-DFv2 videos. t-SNE visualization of (a) raw video-level prediction residuals and (b) the final consistency representations used for classification. Real and forged samples largely overlap before LCH, while the learned representations show clearer class separation after LCH.",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 404,
+              "image_path": "figures/2611.21846/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 829
+            },
+            {
+              "caption": "Figure 1: Spatial distribution of prediction errors. Average spatial maps of large forecast errors for real and forged videos, together with their difference.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 313,
+              "image_path": "figures/2611.21846/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 829
+            },
+            {
+              "caption": "Figure 4: Visualization of prediction residuals for real and forged clips. (a) Real clip and (b) its prediction-error map; (c) forged clip and (d) its prediction-error map. (e) Difference between the forged and real prediction-error maps, computed as forged minus real. Positive values indicate regions with larger prediction error for the forged clip.",
+              "figure_id": "figure-4-4",
+              "figure_number": "4",
+              "height": 315,
+              "image_path": "figures/2611.21846/figure-004.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 829
+            },
+            {
+              "caption": "Table 1: Cross-dataset generalization. Video-level AUC (%) on unseen datasets. All methods are trained on FF++. For DE-2024∗, values unavailable in the original papers are evaluated by us using the authors’ released checkpoints and inference pipelines.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 467,
+              "image_path": "figures/2611.21846/table-005.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 830
+            },
+            {
+              "caption": "Table 3: Ablation study. Video-level AUC (%) on four unseen datasets. Avg. is the mean across datasets and ∆ is the change from the full model.",
+              "figure_id": "table-3-8",
+              "figure_number": "3",
+              "height": 607,
+              "image_path": "figures/2611.21846/table-006.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 826
+            },
+            {
+              "caption": "Table 4: Parameter accounting for ConsistencyNet. Trainable and frozen parameters are counted from the stated architecture. LCH uses four parallel projection heads for each prediction length, together with learned projection-head, SAP, and cross-length gates.",
+              "figure_id": "table-4-5",
+              "figure_number": "4",
+              "height": 503,
+              "image_path": "figures/2611.21846/table-007.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 828
+            },
+            {
+              "caption": "Table 2: Cross-manipulation evaluation on DF40 face swap. Video-level AUC (%) on eight unseen face-swap generators.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 270,
+              "image_path": "figures/2611.21846/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 830
+            },
+            {
+              "caption": "Table 5: Training hyperparameters of ConsistencyNet. The same configuration is used across all reported runs.",
+              "figure_id": "table-5-9",
+              "figure_number": "5",
+              "height": 680,
+              "image_path": "figures/2611.21846/table-009.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 829
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.21846/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.21846",
+          "relevance": 6,
+          "selection_reason": "Uses a predictive video world model's residual as a consistency prior for deepfake detection; relevant to video world models and video understanding.",
+          "summary_status": "generated",
+          "title": "Can a World Model Predict a Deepfake Video? A Consistency Margin Prior for Deepfake Detection",
+          "tldr": "A frozen world model’s prediction residuals can provide a transferable signal for detecting deepfakes across unseen datasets.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-16",
       "paper_count": 14,
       "papers": [
@@ -72715,5 +74498,5 @@
   "schema_version": 1,
   "subtopic_id": "video-world-models",
   "topic_id": "world-models",
-  "total_paper_count": 345
+  "total_paper_count": 357
 }

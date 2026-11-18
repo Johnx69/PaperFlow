@@ -6,10 +6,14 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Long-Context Models
 
-**148 papers total**
+**152 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-17 | [LMLineage: Content Lineage and Context Governance for LLM Agents](https://arxiv.org/abs/2611.22511) | Language Foundation Models: LLM Memory, Long-Context Models | LMLineage traces each agent output sentence to supporting context without model internals or extra inference, then safely compacts context that has drifted out of use. | 7 | 7 |
+| 2026-11-17 | [A Log-Timescale Perturbation Bound for Selective State Space Models at Every Sequence Length](https://arxiv.org/abs/2611.21952) | Language Foundation Models: Large Language Models, Long-Context Models | A log-timescale analysis gives selective state space models a sequence-length-independent perturbation bound without requiring a positive lower bound on the timescale, though the resulting block-level bounds are still very loose in practice. | 6 | 6 |
+| 2026-11-17 | [Lost in a Few Heads: Diagnosing and Repairing Block Selection in Sparse Attention](https://arxiv.org/abs/2611.21917) | Efficient AI: Token Pruning and Eviction, Efficient Attention; Language Foundation Models: Long-Context Models | A small number of blind attention heads cause most sparse-attention retrieval failures, and selectively repairing them largely restores full-attention accuracy at much of sparse serving’s speed benefit. | 8 | 7 |
+| 2026-11-17 | [Limite 1B - Violetto: Technical Report](https://arxiv.org/abs/2611.21646) | Language Foundation Models: Large Language Models, Long-Context Models | Limite 1B - Violetto is a compact, high-throughput model specialized for single-turn mathematical reasoning, achieving strong benchmark results with low-cost inference. | 8 | 6 |
 | 2026-11-16 | [Bilateral Log-Linear Attention](https://arxiv.org/abs/2611.18974) | Efficient AI: Efficient Attention; Language Foundation Models: Long-Context Models | Bilateral log-linear attention improves long-context recall by adding a second, origin-anchored hierarchy while preserving logarithmic computational and memory costs. | 8 | 8 |
 | 2026-11-16 | [MeltKV: Memory-Aligned KV Cache Compression via Variable-Bit Packed Vector Quantization for Long-Context LLMs](https://arxiv.org/abs/2611.18652) | Efficient AI: KV Cache and Memory Efficiency; Language Foundation Models: Long-Context Models | MeltKV compresses long-context LLM KV caches to as little as 1 bit while reducing memory use and decoding latency through alignment-aware variable-bit packing and shared codebooks. | 8 | 7 |
 | 2026-11-16 | [GraphNIAH: A Benchmark for Long-Context Reasoning over Real-World Graphs](https://arxiv.org/abs/2610.41704) | Language Foundation Models: Long-Context Models | GraphNIAH is a contamination-resistant benchmark testing whether LLMs can perform long-context, multi-hop reasoning over real scientific citation graphs. | 7 | 7 |

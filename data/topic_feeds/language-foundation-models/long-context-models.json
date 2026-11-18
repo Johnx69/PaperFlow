@@ -1,6 +1,776 @@
 {
   "days": [
     {
+      "date": "2026-11-17",
+      "paper_count": 4,
+      "papers": [
+        {
+          "abstract": "Interpretability for AI agents should not be confined to understanding the model's internal weights. It must also cover the agent's reasoning and decision-making process over multi-source context. We present LMLineage, an out-of-band system that attributes every output sentence of an agent session to its supporting input spans with calibrated confidences, without requiring white-box access to the model or any additional inference passes. On top of the lineage metadata, we build concept-drift micro compaction: instead of waiting for the context-length limit and summarizing everything, the system detects when previously used input documents have stopped being referenced (\"drifted\") and surgically compacts only those, preserving user instructions verbatim. We evaluate on a multi-tier corpus: 71 gold annotated sentences from 10 Chinese web-QA cases, plus 90 turns of independently collected multi-turn sessions across three generator models (gpt-4o-mini, qwen3.8-27b, deepseek-v4-flash). Results show that (i) window-level embedding similarity is far better aligned with LLM paraphrasing than whole document or lexical matching; (ii) the greedy-window fast path is both faster and more accurate on average than exhaustive line-matching (a multiple-comparisons bias in the latter inflates web recall at the cost of overall accuracy); (iii) per-turn attribution completes in 1s on a single GPU, remaining stable as context accumulates to 40 turns; and (iv) concept-drift detection is conservative (0% false compaction) with recall bounded by attribution accuracy. We further describe the concept-drift micro compaction design and an interactive incident-tracing/memory-cleaning case study. A companion patent application covers the lineage construction method.",
+          "arxiv_id": "2611.22511",
+          "arxiv_url": "https://arxiv.org/abs/2611.22511",
+          "authors": [
+            "Wei Hou, Jingxin Geng, Xin Chen, Zheqing Jiang"
+          ],
+          "bullets": [
+            "Uses calibrated lineage metadata to attribute output sentences to input spans across multi-source, multi-turn contexts.",
+            "Detects concept drift and compacts only no-longer-referenced documents while preserving user instructions verbatim.",
+            "Window-level embedding similarity better captures paraphrased support than whole-document or lexical matching.",
+            "A greedy-window method is faster and more accurate on average than exhaustive line matching; attribution remains stable through 40 turns and completes in about 1 second per turn on one GPU.",
+            "Drift compaction is conservative, reporting 0% false compaction, with recall limited by attribution accuracy."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.CL"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: System architecture. Session events flow asynchronously from the agent to the lineage server; the attribution worker writes window triplets to the metadata store, which serves downstream applications (micro-compaction, incident tracing, audit).",
+              "figure_id": "figure-1-6",
+              "figure_number": "1",
+              "height": 521,
+              "image_path": "figures/2611.22511/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 976
+            },
+            {
+              "caption": "Figure 2: Fishbone UI schematic. Center spine: output beats (turn, compaction, memory-promote). Left ribs: context & history (system prompt above, prior turns/memory below). Right ribs: inflow this turn (user prompt above, tool calls/results/web below). Expanding a beat reveals per-sentence cards with (type, value, confidence) triplets. Colors are shared across all views.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 547,
+              "image_path": "figures/2611.22511/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 976
+            },
+            {
+              "caption": "Figure 3: Fishbone view of a production-captured OpenClaw agent session (§3.4). Expanded sentence cards show per-sentence provenance triplets, e.g., sent 22 inherits (user prompt · user input, 72%) + (model · compaction, 28%); sent 26 inherits (tool · ls output, 66%) + (model, 34%).",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 559,
+              "image_path": "figures/2611.22511/figure-003.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 356
+            },
+            {
+              "caption": "Table 1: Attribution accuracy against gold-labeled sentences (gpt-4o-mini n=63; qwen3.8-27b n=65; deepseek-v4-flash n=70). Fine acc. = exact source-type match (user prompt / web / model).",
+              "figure_id": "table-1-4",
+              "figure_number": "1",
+              "height": 202,
+              "image_path": "figures/2611.22511/table-004.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 622
+            },
+            {
+              "caption": "Table 4: ECE at two granularities (10-bin). Lower is better.",
+              "figure_id": "table-4-2",
+              "figure_number": "4",
+              "height": 152,
+              "image_path": "figures/2611.22511/table-005.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 486
+            },
+            {
+              "caption": "Table 3: Concept-drift detection over 10 replayed sessions.",
+              "figure_id": "table-3-7",
+              "figure_number": "3",
+              "height": 169,
+              "image_path": "figures/2611.22511/table-006.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 706
+            },
+            {
+              "caption": "Table 2: Multi-session evaluation (greedy path, gpt-4o-mini generator). Accuracy is stable across session lengths; latency stays ∼1 s/turn as context grows because window search is per-document, not per-sentence.",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 127,
+              "image_path": "figures/2611.22511/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 656
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22511/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.22511",
+          "relevance": 7,
+          "selection_reason": "Out-of-band attribution and concept-drift compaction for LLM agent context and memory governance; relevant to LLM memory and long-context management.",
+          "summary_status": "generated",
+          "title": "LMLineage: Content Lineage and Context Governance for LLM Agents",
+          "tldr": "LMLineage traces each agent output sentence to supporting context without model internals or extra inference, then safely compacts context that has drifted out of use.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "llm-memory",
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Mamba models deployed on streaming data, such as limit order book updates, run far past the sequence lengths they were trained on. A guarantee on how much a small change of input can move the hidden state therefore has to hold at every length. The closest existing bound we know of measures the change of the timescale additively, and it grows linearly with the sequence length unless the timescale is bounded away from zero. In this paper, we measure the change on a log scale instead. The key observation is that the decay factor of each step then moves by at most a fixed fraction of that step's input weight, so the per-step errors cannot pile up. Using this, we prove that two runs of a selective-scan cell from a common start stay within a bound that holds at every length, shrinks to zero with the size of the change and needs no lower bound on the timescale. We give a construction showing that, for small changes, this bound is within a factor of about 2 of the best possible, and we extend it to the update used in Mamba's released code when the timescale is bounded above. We then evaluate block-level bounds built from the theorem on two small models trained on one day of order book data. With a bounded timescale, a bound built on the existing analysis is tighter than ours for at most the first 8 steps. With Mamba's softplus timescale, whose certified lower bound is as small as $10^{-21}$, it is looser at every length. Our bounds hold for every input to a block, but they remain more than five orders of magnitude above the changes that gradient attacks find.",
+          "arxiv_id": "2611.21952",
+          "arxiv_url": "https://arxiv.org/abs/2611.21952",
+          "authors": [
+            "Jack Humphries, Daniel Midgley"
+          ],
+          "bullets": [
+            "Existing additive-timescale bounds can grow linearly with sequence length unless the timescale is bounded away from zero.",
+            "Measuring timescale changes logarithmically prevents per-step errors from accumulating and yields a bound valid at every sequence length.",
+            "The bound vanishes with the input perturbation and is within about a factor of 2 of optimal for small changes.",
+            "The analysis extends to Mamba’s released update when the timescale is bounded above.",
+            "On two small order-book models, the new bounds outperform existing analysis beyond 8 steps or at all lengths with softplus timescales, but remain over five orders of magnitude above gradient-attack changes."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: (a) Change of the transition e−λ∆ against λ∆ when log∆ changes by 0.1 and when λ∆ changes by 0.01, with the input weight 1− Ā. The two changes of λ∆ are equal at λ∆ ≈ 0.095, where the two curves of the change of the transition cross. The first change stays below e0.1−1 ≈ 0.105 times the input weight. The second exceeds the whole input weight for λ∆ below about 0.0099. At λ∆ = 10−4 it is 99.5 times the input weight. (b) The gap |ht− h̃t| in the construction of Proposition 4 for ρ = 0.5, M = 1 and η = 0. The nominal λ∆t alternates between 0.05 e0.5 and 0.05. The gap settles at about 0.4895, just below the value 2M tanh(ρ/2) ≈ 0.4898 that it approaches as the timescales tend to 0. The panel shows the bound E ≈ 1.297 of Theorem 3 and the trivial bound 2M + η = 2.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 377,
+              "image_path": "figures/2611.21952/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 931
+            },
+            {
+              "caption": "Figure 2: Largest gap found by numerical search in one cell with λ = 1 and M = 1, with both runs started from 0. The left and middle panels show the largest gap found against the length T for the bounded and the softplus map, at ρ = 0.01 and η = 0. They also show the bound of Theorem 3, the additive baseline (5) with and without the floor ∆(inf Z), and the trivial bound 2M + η = 2. The gap levels off at about half of the theorem’s bound. On the softplus map the two forms of the baseline coincide at every length shown. The right panel shows the largest gap found at T = 1000, divided by the theorem’s bound E, against ρ for η = 0 and η = 0.1. The curve for each η is the value η+2M tanh(ρ/2) that the construction of Proposition 4 approaches, divided by E. Every point lies less than 0.01 per cent below the curve, and none lies above it.",
+              "figure_id": "figure-2-4",
+              "figure_number": "2",
+              "height": 371,
+              "image_path": "figures/2611.21952/figure-002.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 927
+            },
+            {
+              "caption": "Figure 3: Data-free output slopes of block 0 of each arm against the sequence length L. The flat line, labelled log-timescale, is our certificate, which uses the constant E of Theorem 3 in every cell. Without a floor the additive baseline (5) grows linearly, and with the certified floor it levels off as L → ∞. On the bounded arm both forms of the baseline pass the flat line near L = 8. On the softplus arm the smallest certified floor is about 10−21, and the two forms of the baseline overlap at every length shown.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 404,
+              "image_path": "figures/2611.21952/figure-003.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 899
+            },
+            {
+              "caption": "Table 1: Data-free output slopes of each block of the two arms, maximised over output coordinates and rounded up. The additive columns use the baseline (5) without a floor at L = 5000 and with the certified floor as L → ∞. Each ratio divides the unrounded additive slope to its left by the unrounded slope in the Theorem 3 column. The crossing L is the length at which the affine baseline without a floor reaches the flat bound of Theorem 3. A crossing of none means that the baseline is the larger bound at every length.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 175,
+              "image_path": "figures/2611.21952/table-004.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 910
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.21952/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.21952",
+          "relevance": 6,
+          "selection_reason": "Theoretical perturbation bounds for selective state space models used in LLMs; relevant to long-context and streaming language models.",
+          "summary_status": "generated",
+          "title": "A Log-Timescale Perturbation Bound for Selective State Space Models at Every Sequence Length",
+          "tldr": "A log-timescale analysis gives selective state space models a sequence-length-independent perturbation bound without requiring a positive lower bound on the timescale, though the resulting block-level bounds are still very loose in practice.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "large-language-models",
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Sparse attention models read a few blocks of keys for every query at a fixed budget and can lose much of their long-context retrieval accuracy at that budget. We ask where this loss is made. Using exact attention mass selection at the shipped budget as an oracle, we show that the selector under-ranks the needle rather than running out of budget. We find attention heads that miss the needle by running a calibration probe that teacher-forces the answer and reads two quantities in every head. The first is the needle attention that the selector forfeits, and the second is the share of the answer's log-probability that fixing the head's selection restores, integrated along the path from the shipped selector to full attention. Four checkpoints of the InfLLM-V2 family and NOSA-8B lose multi-key retrieval in the same three blind heads, which attend to the needle while a mean-pooled key summary dilutes its single decisive token. Full attention in those heads or a 4-bit scorer that keeps the shipped budget recovers most of the loss without training. On MiniCPM4.1-8B at 64K, either fix lifts multi-key retrieval accuracy from 54.1 to 97.5%, level with full attention in every head. In production serving engines, full attention in those heads keeps 84 to 89% of the time to first token (TTFT) that sparse attention saves at 32K to 128K context length. Beyond the InfLLM-V2 selector lineage, one unified rule flags attention heads above a threshold swept on each checkpoint until they close most of the gap to full attention on calibration prompts. A similar small set of blind attention heads carry the loss for the SeerAttention-R gates, NSA, and DashAttention, whereas many such heads exist in MoBA. On Qwen3-8B with the SeerAttention-R gates, full attention in 18 of 288 key-value heads lifts multi-key retrieval accuracy from 29.8 to 97.7%.",
+          "arxiv_id": "2611.21917",
+          "arxiv_url": "https://arxiv.org/abs/2611.21917",
+          "authors": [
+            "Wenhe Zhang, Boxing Chen"
+          ],
+          "bullets": [
+            "Exact-attention analysis shows the main issue is selector mis-ranking of relevant blocks, not exhausting the fixed budget.",
+            "A teacher-forced calibration probe identifies heads that attend to the needle but lose it when mean-pooled key summaries dilute its decisive token.",
+            "For InfLLM-V2 and NOSA-8B, the same three blind heads explain much of the multi-key retrieval loss; similar patterns appear in several other sparse-attention methods.",
+            "Repairing flagged heads with full attention or a 4-bit scorer preserves the shipped budget and recovers most of the loss without training.",
+            "Reported gains include MiniCPM4.1-8B improving from 54.1% to 97.5% at 64K, while selective full attention retains 84–89% of sparse attention’s TTFT savings; MoBA shows many more blind heads."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4: Method overview. (a) InfLLM-V2 scores each block from mean-pooled keys, gathers the top-k blocks and attends to them in every head. (b) A needle probe, run once per checkpoint, compares the shipped selection with exact attention mass at the same budget, which explains the failure, and keeps the heads with the largest gain of fixing their selection. (c) In the flagged heads, full attention reads every block, and every other head keeps the shipped selector. A 4-bit scorer that keeps the shipped budget can replace full attention in those heads.",
+              "figure_id": "figure-4-21",
+              "figure_number": "4",
+              "height": 413,
+              "image_path": "figures/2611.21917/figure-001.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 746
+            },
+            {
+              "caption": "Figure 1: Where the selector forfeits the needle. Per key-value head, the needle recall that the shipped selector loses against exact mass, times the attention the head puts on the needle block, on calibration prompts at 32K, or 16K for Dash-8B and NSA-8B. The first group holds the five checkpoints of the MiniCPM4-8B lineage, with the InfLLM-V2 selector or the NOSA variant of it, head 0 above head 1. Dash-8B and NSA-8B share the backbone under other selectors, and the last band is Qwen3-8B under the SeerAttention-R gate, heads 0 to 7 from the top. Outlined heads are the heads that each model’s fixes use, the three blind heads in the lineage and the heads of the threshold rule on the other selectors. Scores at or below 10−4 share the lightest color.",
+              "figure_id": "figure-1-9",
+              "figure_number": "1",
+              "height": 593,
+              "image_path": "figures/2611.21917/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 798
+            },
+            {
+              "caption": "Figure 7: Latency against the dense model on one H100. (a) TTFT of InfLLM-V2-8B at batch size one in CPM.cu, the inference engine that OpenBMB ships for these checkpoints. (b) Attention time of one decode step of 64 sequences over all 32 layers in the release’s kernels. The label above each bar of a fix is the share of the sparse model’s saving that it keeps.",
+              "figure_id": "figure-7-16",
+              "figure_number": "7",
+              "height": 396,
+              "image_path": "figures/2611.21917/figure-003.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 793
+            },
+            {
+              "caption": "Figure 2: Inside a blind head. One calibration prompt of InfLLM-V2-8B at 32K, ten teacherforced answer tokens. Top, the blind head L9.h0. Bottom, L26.h0, whose selector finds the needle. (a) Attention mass of the key blocks around the needle, averaged over the query heads of the group. Outlined blocks are read by the shipped selector and dotted blocks by exact mass selection. (b) At one answer token, the pooled score of every free block against its attention mass, the needle block in red, with the shipped cutoff dashed and the exact mass cutoff dotted. The blind head attends to the needle, but the pooled score leaves the needle block below the shipped cutoff, while exact mass keeps it.",
+              "figure_id": "figure-2-10",
+              "figure_number": "2",
+              "height": 549,
+              "image_path": "figures/2611.21917/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 797
+            },
+            {
+              "caption": "Figure 5: The loss by needle depth. MK3 accuracy in five bands of the needle’s position in the prompt, at prompt lengths from 16K to 128K, for the shipped selector, full attention in the blind heads and full attention. The native range ends at 32K for InfLLM-V2-8B and at 64K for MiniCPM4.1-8B. About 40 prompts per cell, from the 200 prompts of the first seed at each length.",
+              "figure_id": "figure-5-14",
+              "figure_number": "5",
+              "height": 421,
+              "image_path": "figures/2611.21917/figure-005.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 795
+            },
+            {
+              "caption": "Figure 3: Pooling erases the needle’s lead on every probed token of the calibration prompts, InfLLM-V2-8B at 32K, in the query head of each group with the most needle mass. The horizontal axis is the needle block’s lead over the block at the selection cutoff under exact mass. The vertical axis is its lead under the pooled score. Both axes are in nats, the units of the natural logarithm (Cover & Thomas, 2006), so that each sign reproduces whether that selection keeps the needle. Where the selector finds the needle, the two leads move together. In the blind heads, the pooled lead stays near zero whatever the exact lead, and a quarter to more than half of the tokens fall in the shaded window of Proposition 1, kept by exact mass and lost by pooling.",
+              "figure_id": "figure-3-22",
+              "figure_number": "3",
+              "height": 406,
+              "image_path": "figures/2611.21917/figure-006.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 783
+            },
+            {
+              "caption": "Figure 6: How many heads carry the loss. The share of the gap between the shipped selector and full attention in every head that full attention in the top heads by fix gain closes on calibration prompts, at each step of the threshold sweep. The dashed line is the share ρ = 0.9, and the marked point is the count the rule keeps.",
+              "figure_id": "figure-6-20",
+              "figure_number": "6",
+              "height": 399,
+              "image_path": "figures/2611.21917/figure-007.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 794
+            },
+            {
+              "caption": "Figure 8: The deficit grows with the length (MK3 at the shipped budget, 200 prompts per point, 100 at 96K and 128K). The 16K, 24K and 48K points are draws of the same generator seed as the first seed at 32K and 64K, and the flagged heads are those calibrated at 32K. The shaded ranges lie beyond each model’s native range.",
+              "figure_id": "figure-8-18",
+              "figure_number": "8",
+              "height": 424,
+              "image_path": "figures/2611.21917/figure-008.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 794
+            },
+            {
+              "caption": "Table 3: What each fix gains and costs on InfLLM-V2-8B at 32K. MK3 and common word extraction (CWE) as mean over five seeds. PopQA, Natural Questions (NQ) and HotpotQA are HELMET’s retrieval-augmented question answering at its default size, 600 examples each from 100 questions for PopQA and NQ and from 200 for HotpotQA, every arm on H100. Bytes are read per cached token and decode step beyond the blocks every sparse method reads, as in Table 5, at 32K for the larger budget, whose extra blocks are a fixed count per step. The two rows marked 16 CWE heads run the scorer in the 16 heads calibrated on common word extraction’s own prompts.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 234,
+              "image_path": "figures/2611.21917/table-009.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 782
+            },
+            {
+              "caption": "Table 5: Against published selectors on the two checkpoints that Fu et al. (2026) evaluate, MK3 and the mean of RULER’s 12 tasks at the shipped budget. Quest scores a block by the bound from the per-channel extremes of its keys, Double Sparsity and Loki by the group’s attention on 16 label channels and on 32 principal directions chosen from each prompt’s own keys, all three in every head at the decode and question tokens, and SnapKV (Li et al., 2024) selects at decode the blocks that the last 32 prompt tokens attend to most. “Loki, flagged heads” acts at every token of the flagged heads at the scorer’s bytes. Bytes per cached token is what a method reads per cached token and decode step beyond the blocks every sparse method reads, and the whole cache for Dense.",
+              "figure_id": "table-5-23",
+              "figure_number": "5",
+              "height": 286,
+              "image_path": "figures/2611.21917/table-010.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 677
+            },
+            {
+              "caption": "Table 2: Multi-key retrieval (MK3) on the five seeds held out from every design choice, mean over five seeds. The first seed guided the design choices. “Full Attention, Flagged Heads” gives the flagged heads full attention at every token. “Decode”, “+ Question” and “Every Token” are the 4-bit scorer in the flagged heads at the decode tokens, also at the question tokens and at every token.",
+              "figure_id": "table-2-13",
+              "figure_number": "2",
+              "height": 234,
+              "image_path": "figures/2611.21917/table-011.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 748
+            },
+            {
+              "caption": "Table 7: OpenAI MRCR on the SeerAttention-R gates, by its official metric on all 593 prompts of its bins from 8K to 32K. The flagged heads are those of Table 6, chosen on synthetic multi-key prompts. “Random” is the mean over three random sets of as many heads, none of them flagged.",
+              "figure_id": "table-7-15",
+              "figure_number": "7",
+              "height": 216,
+              "image_path": "figures/2611.21917/table-012.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 722
+            },
+            {
+              "caption": "Table 1: Where the multi-key loss is made. Each row applies Equation 3 at the tokens and heads its label names and keeps the shipped selector elsewhere. Dense rows read every block without a selector. The mean over the five seeds held out from every design choice, 200 prompts each. In all tables, bold is the best number and underlined the second best, full attention excluded.",
+              "figure_id": "table-1-28",
+              "figure_number": "1",
+              "height": 225,
+              "image_path": "figures/2611.21917/table-013.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 830
+            },
+            {
+              "caption": "Table 4: Choosing a fix for an unknown workload on InfLLM-V2-8B at 32K. The fixes of Table 3 on 17 task types of the first seed, the 12 RULER tasks, HELMET’s PopQA, Natural Questions, HotpotQA and JSON key-value retrieval, and LongFuncEval. “Worst Change” is the largest loss against the shipped selector on any one task, with that task, and “Mean Change” averages the 17 tasks. “Beats Shipped” is the share of 10,000 random mixtures of the tasks in which the fix scores above the shipped selector, with weights drawn uniformly over the tasks and, after the slash, over the three benchmarks and then their tasks.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 194,
+              "image_path": "figures/2611.21917/table-014.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 794
+            },
+            {
+              "caption": "Table 6: The rule on other selector designs. The flagged heads are those above the threshold that closes ρ = 0.9 of the gap on calibration prompts, key-value heads for the block selectors and query heads for MoBA. “Full Attention” and “4-bit Scorer” are the two fixes in the flagged heads. The scorer acts at each release’s budget, at the decode tokens on Dash-8B and at every token on MoBA. “Echo” and “Random” give full attention to as many heads by RazorAttention’s echo score and at random. ‡NSA-8B ships no dense path, so its dense column selects every block.",
+              "figure_id": "table-6-19",
+              "figure_number": "6",
+              "height": 231,
+              "image_path": "figures/2611.21917/table-015.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 830
+            },
+            {
+              "caption": "Table 10: What the calibration source and the score decide on InfLLM-V2-8B. The heads that the forfeited attention flags from each source and the three best heads by each score, with MK3 at 32K for the scorer at every token of those heads. When no head is flagged, the scorer is the shipped selector.",
+              "figure_id": "table-10-8",
+              "figure_number": "10",
+              "height": 286,
+              "image_path": "figures/2611.21917/table-016.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 640
+            },
+            {
+              "caption": "Table 9: Three versions of the fix gain. The count the rule keeps, the first step of the √ 2 sweep that closes 90 percent of the gap on calibration prompts, for the first-order, complete and integrated versions of the fix gain, the last of them Equation 5.",
+              "figure_id": "table-9-7",
+              "figure_number": "9",
+              "height": 243,
+              "image_path": "figures/2611.21917/table-017.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 694
+            },
+            {
+              "caption": "Table 11: A scan without the probe. The gain in MK3 at 32K when one key-value head of InfLLMV2-8B gets full attention and the other 63 keep the shipped selector.",
+              "figure_id": "table-11-11",
+              "figure_number": "11",
+              "height": 130,
+              "image_path": "figures/2611.21917/table-018.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 398
+            },
+            {
+              "caption": "Table 16: The calibration per checkpoint on one H100, over its 200 calibration prompts. The sweep step is the median over the steps that were run. “Gap Recovered” is the share of the logprobability gap between the shipped selector and full attention that the integrated gains of all units sum to.",
+              "figure_id": "table-16-24",
+              "figure_number": "16",
+              "height": 244,
+              "image_path": "figures/2611.21917/table-019.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 776
+            },
+            {
+              "caption": "Table 15: Share and step. The count the integrated rule keeps at each share with the step √ 2 and at each step with the share 0.9. MoBA’s sweep is not monotone in the count.",
+              "figure_id": "table-15-25",
+              "figure_number": "15",
+              "height": 253,
+              "image_path": "figures/2611.21917/table-020.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 694
+            },
+            {
+              "caption": "Table 19: Real data. LongFuncEval (Kate et al., 2025), LongCodeU (Li et al., 2025), RepoQA (Liu et al., 2024a), OpenAI MRCR (OpenAI, 2025) and OOLONG (Bertsch et al., 2025), each with its own data, prompts and metric. The scorer acts at every token of the three flagged heads.",
+              "figure_id": "table-19-4",
+              "figure_number": "19",
+              "height": 224,
+              "image_path": "figures/2611.21917/table-021.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 664
+            },
+            {
+              "caption": "Table 8: Selector settings of the lineage. The four checkpoints share the MiniCPM4-8B backbone, 32 layers of 32 query heads and 2 key-value heads of dimension 128. The selector scores keys mean-pooled over windows of 32 at a stride of 16, maps the window scores onto blocks of 64 tokens and always reads the initial block, a local window and the query’s own block. Tokens below the last column’s position attend densely.",
+              "figure_id": "table-8-27",
+              "figure_number": "8",
+              "height": 129,
+              "image_path": "figures/2611.21917/table-022.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 818
+            },
+            {
+              "caption": "Table 12: The rule on the lineage. The heads that the integrated fix gain ranks first on sixty calibration prompts, the count at the first step of its sweep that closes 90 percent of the gap on the 200 calibration prompts and the share of the gap closed there.",
+              "figure_id": "table-12-12",
+              "figure_number": "12",
+              "height": 131,
+              "image_path": "figures/2611.21917/table-023.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 756
+            },
+            {
+              "caption": "Table 13: Proposition 1 on the probed tokens of InfLLM-V2-8B at 32K. “Sparse Recall” is the share of probed tokens on which the shipped selector keeps the needle block. In each head’s query head with the most needle mass, “Needle Key” is the median margin of the needle key over the other keys of its block and “Rest of Block” the median of those other keys over the head’s median window, in nats, and “Exact Keeps” and “Pooled Loses” are the shares of tokens on which exact block mass keeps the needle block and the pooled score loses it. The last two columns give how often the three query heads with the most needle mass rank the needle block among their own top free blocks.",
+              "figure_id": "table-13-17",
+              "figure_number": "13",
+              "height": 171,
+              "image_path": "figures/2611.21917/table-024.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 830
+            },
+            {
+              "caption": "Table 14: Precision against resolution on InfLLM-V2-8B at 32K. Left, Proposition 2 against the probe on the five heads of Table 13. Predicted noise is √ D of the optimal uniform quantizer of a unit Gaussian, measured noise is the standard deviation of the logit error over that of the exact logits, and recall is the needle recall of the per-head criterion on the quantized keys minus that of exact mass. Right, keys averaged over windows of w tokens. MK3 is the criterion at the decode tokens of the flagged heads on each kind of key.",
+              "figure_id": "table-14-26",
+              "figure_number": "14",
+              "height": 150,
+              "image_path": "figures/2611.21917/table-025.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 586
+            },
+            {
+              "caption": "Table 20: Latency beside Figure 7, InfLLM-V2-8B on one H100. Left, the time per output token at batch size one in CPM.cu, to which the scorer is not ported. Right, the attention time of one prefill over all 32 layers in the release’s kernels, with the scorer at every prompt token.",
+              "figure_id": "table-20-5",
+              "figure_number": "20",
+              "height": 160,
+              "image_path": "figures/2611.21917/table-026.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 660
+            },
+            {
+              "caption": "Table 17: Where fixing the selector stops. MK3 on the first seed. Exact mass selects at every token and keeps the shipped budget. Where it falls short of full attention, the budget binds.",
+              "figure_id": "table-17-6",
+              "figure_number": "17",
+              "height": 140,
+              "image_path": "figures/2611.21917/table-027.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 744
+            },
+            {
+              "caption": "Table 18: Aggregation tasks on MiniCPM4.1-8B at 64K. RULER’s variable tracking and common word extraction on the first seed. Each fix acts in the three flagged heads or in their layers.",
+              "figure_id": "table-18-3",
+              "figure_number": "18",
+              "height": 108,
+              "image_path": "figures/2611.21917/table-028.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 714
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.21917/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.21917",
+          "relevance": 8,
+          "selection_reason": "Diagnoses and repairs block selection in sparse attention for long-context LLMs; directly relevant to efficient attention and long-context models.",
+          "summary_status": "generated",
+          "title": "Lost in a Few Heads: Diagnosing and Repairing Block Selection in Sparse Attention",
+          "tldr": "A small number of blind attention heads cause most sparse-attention retrieval failures, and selectively repairing them largely restores full-attention accuracy at much of sparse serving’s speed benefit.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction",
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "We present Limite 1B - Violetto, a one-billion-parameter model designed for high-throughput mathematical reasoning. Limite is trained from scratch on 237 billion tokens from a carefully curated, mathematics-centric corpus and supports context lengths of up to 131k tokens. Its architecture and training recipe were developed together to maximize reasoning capability while keeping training and inference costs low. Post-training combines knowledge distillation, targeted supervised fine-tuning, and RLVR on a curated curriculum. Limite achieves 94.01% on AIME 2026 and 74.25% on BeyondAIME, placing it among models many times its size on our evaluation suite. The model is deliberately only lightly instruction-tuned: it is intended primarily as a single-turn mathematical solver and as a fast, parallel component of larger systems, rather than as a general-purpose assistant. We release the model, its base and value checkpoints, and an optimized serving implementation under the Apache 2.0 license.",
+          "arxiv_id": "2611.21646",
+          "arxiv_url": "https://arxiv.org/abs/2611.21646",
+          "authors": [
+            "Mario Prignano, Gabriele Cirillo, Alessio Morosini, Luca Cerovaz, Alessandro Bartolocci, Emanuele Rodol\\`a, Giulio Starace, Francesco Pappone"
+          ],
+          "bullets": [
+            "Trained from scratch on 237 billion tokens from a mathematics-focused corpus.",
+            "Supports context lengths up to 131k tokens and uses a jointly designed architecture and training recipe for efficient reasoning.",
+            "Post-training combines knowledge distillation, targeted supervised fine-tuning, and RLVR.",
+            "Scores 94.01% on AIME 2026 and 74.25% on BeyondAIME, according to the report.",
+            "Released under Apache 2.0 with model checkpoints and an optimized serving implementation."
+          ],
+          "categories": [
+            "cs.CL",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Architecture of Limite 1B - Violetto. Left: a Transformer block ℓ, showing the simplified MUDD mixers at its input, gated value embeddings on the value branch, and Partial RoPE on local attention [4, 5]. Right: the 48-layer stack, arranged as 12 repetitions of three local-attention layers followed by one global-attention layer. Value embeddings are applied every third layer (ℓ ≡ 1 (mod 3)); they are omitted from the stack view for clarity.",
+              "figure_id": "figure-2-10",
+              "figure_number": "2",
+              "height": 709,
+              "image_path": "figures/2611.21646/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 829
+            },
+            {
+              "caption": "Figure 3: The post-training pipeline, from Limite 1B Base to Limite 1B - Violetto. We first distill the base model off-policy at a 65K context, average the last five distillation checkpoints, and apply DPO. Two RL runs follow, also at a 65K context. A first short SFT stage then trains on longer traces of up to 131K tokens, and its final checkpoint is souped with the checkpoint from the second RL run. A second short SFT stage, again on traces of up to 131K tokens, starts from this soup, and its final checkpoint is souped with the first soup. The last RL run starts from the second soup, uses a critic, and trains at a 131K context. Each bowl marks a souping step, a weighted average of checkpoints.",
+              "figure_id": "figure-3-8",
+              "figure_number": "3",
+              "height": 284,
+              "image_path": "figures/2611.21646/figure-002.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 829
+            },
+            {
+              "caption": "Figure 1: AIME 2026 accuracy against estimated training compute. Limite 1B - Violetto reaches 94.01% at 1.71 × 1021 FLOPs, one to three orders of magnitude below the models that match it. Appendix F explains the compute estimates, the score sources and the marked points.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 961,
+              "image_path": "figures/2611.21646/figure-003.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 979
+            },
+            {
+              "caption": "Figure 8: Value-model metrics during offline warm-up: (a) AUC on validation subset, (b) explained variance on validation subset, and (c) training and validation loss. All the plots share the x-axis that tracks the number of critic updates. These metrics are useful to evaluate the critic performance. AUC tells us about how able the critic is at ranking correct rollouts above incorrect ones, whereas explained variance measures the fraction of return variance removed by using the critic as a baseline. The dashed lines mark the phase transition at update 225 and the end of warm-up at update 501.",
+              "figure_id": "figure-8-16",
+              "figure_number": "8",
+              "height": 777,
+              "image_path": "figures/2611.21646/figure-004.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 829
+            },
+            {
+              "caption": "Figure 6: Double buffering across cohorts. 𝐶𝑘 denotes the 𝑘-th cohort and 𝑚𝑘 the number of mini-batches obtained from it. The white squares represent mini-batches schematically. The trainer performs one update per mini-batch while the next cohort is generated. 𝜋0 is the initial policy, and 𝜋𝐶𝑘+1 is the policy 𝜋𝐶𝑘 after completing 𝑚𝑘+1 updates on 𝐶𝑘+1 mini-batches.",
+              "figure_id": "figure-6-9",
+              "figure_number": "6",
+              "height": 300,
+              "image_path": "figures/2611.21646/figure-005.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 807
+            },
+            {
+              "caption": "Figure 9: First DPPO: complete training trajectory, including continuation beyond the selected checkpoint. Left: mean binary correctness reward across all responses in complete generated cohorts, including truncated responses. Right: mean token entropy on informative training minibatches. Dashed lines mark checkpoint 213.",
+              "figure_id": "figure-9-13",
+              "figure_number": "9",
+              "height": 438,
+              "image_path": "figures/2611.21646/figure-006.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 829
+            },
+            {
+              "caption": "Figure 10: Second RL run: complete training trajectory, including continuation beyond the selected checkpoint. Left: mean binary correctness reward across all responses in complete generated cohorts, including truncated responses. Right: mean token entropy on informative training minibatches. Dashed lines mark checkpoint 179.",
+              "figure_id": "figure-10-15",
+              "figure_number": "10",
+              "height": 438,
+              "image_path": "figures/2611.21646/figure-007.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 829
+            },
+            {
+              "caption": "Figure 11: Third RL run: complete training trajectory, including continuation beyond the selected checkpoint. Left: mean binary correctness reward across all responses in complete generated cohorts, including truncated responses. Right: mean token entropy on informative training minibatches. Dashed lines mark checkpoint 59.",
+              "figure_id": "figure-11-20",
+              "figure_number": "11",
+              "height": 435,
+              "image_path": "figures/2611.21646/figure-008.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 829
+            },
+            {
+              "caption": "Figure 4: Graphical representation of the LLM-based generator.",
+              "figure_id": "figure-4-17",
+              "figure_number": "4",
+              "height": 207,
+              "image_path": "figures/2611.21646/figure-009.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 816
+            },
+            {
+              "caption": "Figure 5: Diagram explaining the procedural generator.",
+              "figure_id": "figure-5-18",
+              "figure_number": "5",
+              "height": 158,
+              "image_path": "figures/2611.21646/figure-010.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 817
+            },
+            {
+              "caption": "Table 2: Architecture of the Limite base model. Layer indices ℓ start at 0. Parameter counts include the valueembedding table (38.8M); the input and output embeddings are shared and counted once.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 401,
+              "image_path": "figures/2611.21646/table-011.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 829
+            },
+            {
+              "caption": "Figure 7: Schematic illustration of state values along a successful rollout. The dashed line denotes the problemlevel baseline 𝑉 (𝑞).",
+              "figure_id": "figure-7-21",
+              "figure_number": "7",
+              "height": 162,
+              "image_path": "figures/2611.21646/figure-012.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 779
+            },
+            {
+              "caption": "Table 5: Benchmark accuracy (%) across post-training stages. Off-policy distillation, DPO pre-RL, First RL, and Second RL were evaluated with a context limit of 65,536 and a response-token cap of 61,440. Columns marked † (SFT post-RL and Third RL) were evaluated with a context limit of 131,072 and a response-token cap of 126,976, following the decision to extend the model’s context length and train for longer reasoning. Gains are percentage-point differences from the preceding stage, computed from displayed scores. Detailed results at 65K and 131K context lengths are reported in Appendix G.",
+              "figure_id": "table-5-11",
+              "figure_number": "5",
+              "height": 278,
+              "image_path": "figures/2611.21646/table-013.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 829
+            },
+            {
+              "caption": "Table 3: MATH-500 greedy generation accuracy (%) of the base checkpoint, the three single runs and their uniform soup, with and without thinking. With thinking, the prompt ends with an opening <think> token. Coloured numbers give the change from thinking relative to the same model without it. Bold marks the best value within each prompt setting.",
+              "figure_id": "table-3-14",
+              "figure_number": "3",
+              "height": 206,
+              "image_path": "figures/2611.21646/table-014.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 339
+            },
+            {
+              "caption": "Table 7: Results on mathematical reasoning benchmarks (pass@1, %, averaged over 32 samples per problem). Models above the line have at most 9B total parameters, and bold marks the best score in this group, together with any score whose standard-error interval overlaps it (Table 10). Models below the line are larger models included for reference. Unless marked, all scores come from our own evaluation: AIME, HMMT and the Apex Shortlist are graded with MathArena’s published grader, while BeyondAIME and ArXivMath are graded with Math-Verify on the final \\boxed{} answer. † Score taken from the MathArena leaderboard or from the official model card instead of being reproduced by us.",
+              "figure_id": "table-7-3",
+              "figure_number": "7",
+              "height": 435,
+              "image_path": "figures/2611.21646/table-015.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 837
+            },
+            {
+              "caption": "Table 1: Per-group optimizer hyperparameters, with Adam WD base 𝜆 = 0.005 and a NorMuon base WD of 1.2, applied as 𝜂2 ⋅𝜆⋅mult",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 234,
+              "image_path": "figures/2611.21646/table-016.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 789
+            },
+            {
+              "caption": "Table 10: Standard errors (percentage points) of the pass@1 scores in Table 7. For each of the 𝑅 = 32 generation repetitions, we compute accuracy over the full benchmark; the SE is the sample standard deviation of these accuracies divided by √ 𝑅. † denotes externally reported scores, for which no SE is available.",
+              "figure_id": "table-10-7",
+              "figure_number": "10",
+              "height": 277,
+              "image_path": "figures/2611.21646/table-017.webp",
+              "kind": "table",
+              "page": 34,
+              "width": 829
+            },
+            {
+              "caption": "Table 6: Mean generated response length (tokens) at a context limit of 131,072 and a response-token cap of 126,976.",
+              "figure_id": "table-6-12",
+              "figure_number": "6",
+              "height": 241,
+              "image_path": "figures/2611.21646/table-018.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 829
+            },
+            {
+              "caption": "Table 4: Accuracy (%) of the base checkpoint and of the final soup, without and with thinking. Few-shot prompts use MATH-style exemplars, which may not suit GSM8K: 4-shot for MATH-500 and AIME, 8-shot for GSM8K; thinking appends an opening <think> token. Sampling at 𝑇 = 0.6, top-𝑝 = 0.95, seed 0, 8,192 generated tokens within a 12,288-token context. Responses per problem: 4 for MATH-500, 1 for GSM8K, 32 for AIME; lenient scoring averaged over all responses.",
+              "figure_id": "table-4-19",
+              "figure_number": "4",
+              "height": 156,
+              "image_path": "figures/2611.21646/table-019.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 561
+            },
+            {
+              "caption": "Table 9: Benchmark accuracy (%) across post-training stages at a 128k context length. Gains are measured in percentage points relative to the immediately preceding checkpoint at the same context length. DPO and RL evaluations also used different concurrency settings between the 64k and 128k runs.",
+              "figure_id": "table-9-6",
+              "figure_number": "9",
+              "height": 186,
+              "image_path": "figures/2611.21646/table-020.webp",
+              "kind": "table",
+              "page": 34,
+              "width": 829
+            },
+            {
+              "caption": "Table 8: Benchmark accuracy (%) across post-training stages at a 64k context length. Gains are measured in percentage points relative to the immediately preceding checkpoint at the same context length. † SFT post-RL scores and gains are offline estimates from rollouts generated at 128k: responses were retokenized, truncated to 61,440 tokens, and evaluated with the same scorers. No new rollouts were generated at 64k. Original token sequences were not saved, and generation with a different limit may produce different responses. DPO and RL evaluations also used different concurrency settings between the 64k and 128k runs.",
+              "figure_id": "table-8-5",
+              "figure_number": "8",
+              "height": 82,
+              "image_path": "figures/2611.21646/table-021.webp",
+              "kind": "table",
+              "page": 34,
+              "width": 829
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.21646/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.21646",
+          "relevance": 8,
+          "selection_reason": "Technical report on a 1B math reasoning LLM with long context.",
+          "summary_status": "generated",
+          "title": "Limite 1B - Violetto: Technical Report",
+          "tldr": "Limite 1B - Violetto is a compact, high-throughput model specialized for single-turn mathematical reasoning, achieving strong benchmark results with low-cost inference.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "large-language-models",
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-16",
       "paper_count": 3,
       "papers": [
@@ -33216,5 +33986,5 @@
   "schema_version": 1,
   "subtopic_id": "long-context-models",
   "topic_id": "language-foundation-models",
-  "total_paper_count": 148
+  "total_paper_count": 152
 }

@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Vision-Language Navigation
 
-**158 papers total**
+**160 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-17 | [Fly as Instructed: Refining World-Action Policies for UAV Vision-Language Navigation](https://arxiv.org/abs/2611.22883) | Embodied AI: Vision-Language Navigation | A UAV vision-language navigation framework improves instruction following, progress tracking, termination, and obstacle avoidance through coordinated world-action refinements. | 8 | 7 |
+| 2026-11-17 | [GridDriver: On-Board BEV-Based Language Planning and Reasoning](https://arxiv.org/abs/2611.21924) | Embodied AI: Vision-Language Navigation, Robot Navigation, Vision-Language-Action; Multimodal Foundation Models: Multimodal Large Language Models, Spatial Intelligence | GridDriver enables efficient onboard autonomous driving by combining BEV perception, language reasoning, and continuous trajectory planning in a shared LLM framework. | 8 | 7 |
 | 2026-11-16 | [Learning and Verifying Progress: Closed-Loop Agentic Planning with Progress-Enhanced Execution for Long-Horizon Vision-Language Navigation](https://arxiv.org/abs/2611.20676) | Embodied AI: Vision-Language Navigation | LeaP-VLN improves long-horizon vision-language navigation by combining progress-aware execution with independent verification and recovery in a closed loop. | 9 | 8 |
 | 2026-11-16 | [Instructions Before Actions: Prospective and Retrospective Language Supervision for Driving Vision-Language-Action Data](https://arxiv.org/abs/2611.20631) | Embodied AI: Vision-Language Navigation, Vision-Language-Action | The study shows that driving VLAs can predict trajectories without reliably following instructions, and that prospective, scene-dependent language plus counterfactual tests better reveal instruction responsiveness. | 9 | 8 |
 | 2026-11-16 | [Vision-Language Grounded Semantic Navigation for Autonomous Mobile Robots](https://arxiv.org/abs/2611.20558) | Embodied AI: Vision-Language Navigation, Robot Navigation | A ROS2 system combines open-vocabulary vision, 3D localization, semantic mapping, and classical navigation to let a mobile robot follow natural-language commands in simulation. | 8 | 5 |

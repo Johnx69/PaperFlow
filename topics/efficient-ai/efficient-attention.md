@@ -6,10 +6,13 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Efficient Attention
 
-**264 papers total**
+**267 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-17 | [The Kernel Reality Check: Benchmarking and Distilling Efficient Attention at Scale](https://arxiv.org/abs/2611.22947) | Efficient AI: Efficient Attention | A systematic benchmark finds that kernelized attention usually does not beat FlashAttention on efficiency and often trails softmax in quality, though LARA++ can nearly close the quality gap at substantial computational cost. | 8 | 6 |
+| 2026-11-17 | [FM-Mamba: An Efficient Native 2D Selective State Space Model with Stability-Aware Discretization](https://arxiv.org/abs/2611.22061) | Efficient AI: Efficient Attention | FM-Mamba is a native 2D selective state space model that preserves spatial structure while using stability-aware, position- and direction-adaptive propagation. | 7 | 8 |
+| 2026-11-17 | [Lost in a Few Heads: Diagnosing and Repairing Block Selection in Sparse Attention](https://arxiv.org/abs/2611.21917) | Efficient AI: Token Pruning and Eviction, Efficient Attention; Language Foundation Models: Long-Context Models | A small number of blind attention heads cause most sparse-attention retrieval failures, and selectively repairing them largely restores full-attention accuracy at much of sparse serving’s speed benefit. | 8 | 7 |
 | 2026-11-16 | [Sparse Attention for Visual Generation: Toward Algorithm-System Co-Design](https://arxiv.org/abs/2611.21029) | Video Generation and Understanding: Video Diffusion; Efficient AI: Efficient Attention | A survey of sparse attention for visual generation that connects attention-pruning algorithms with hardware-aware system design to reduce the cost of long, high-resolution generation. | 7 | 6 |
 | 2026-11-16 | [QASK-Edit: Adaptive Sparse Attention Across Queries and Key Sources for Efficient Video Editing](https://arxiv.org/abs/2611.20704) | Efficient AI: Token Pruning and Eviction, Efficient Attention | QASK-Edit accelerates diffusion-transformer video editing by adaptively sparsifying attention for each query and key source while preserving quality and fidelity. | 8 | 7 |
 | 2026-11-16 | [Efficient Multi-View Generation with Iterative Global-Local Proxy Attention](https://arxiv.org/abs/2611.20703) | Efficient AI: Efficient Attention | GLPA accelerates consistent multi-view image and normal-map generation by replacing costly dense cross-view attention with refined global proxies while preserving detailed within-view processing. | 7 | 7 |

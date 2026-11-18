@@ -6,10 +6,15 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # 3D Foundation Models
 
-**308 papers total**
+**313 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-17 | [$\\pi^4$: A Foundation Model for 4D Scene Geometry and Motion](https://arxiv.org/abs/2611.23144) | 3D Vision: 3D Foundation Models | π⁴ is a compact unified foundation model that jointly reconstructs 4D scene geometry and motion from uncalibrated images or video in one pass. | 9 | 8 |
+| 2026-11-17 | [Uncovering the Invisible in Routine Radiology: Cross-Modal Detection of MRI-Verified Soft-Tissue Pathologies from CBCT via Physics-Guided 3D Self-Supervised Learning](https://arxiv.org/abs/2611.23042) | 3D Vision: 3D Foundation Models | Physics-guided self-supervised learning extracts MRI-verified soft-tissue pathology signals from routine CBCT scans despite limited paired data. | 6 | 7 |
+| 2026-11-17 | [CascadeJEPA: Enhancing 3D Geometric Representations via Spatially Coupled Cascaded Prediction](https://arxiv.org/abs/2611.22686) | World Models; 3D Vision: 3D Foundation Models | CascadeJEPA improves JEPA-based visual representations by preserving semantic ability while strengthening 3D geometric understanding through spatially coupled cascaded prediction. | 7 | 7 |
+| 2026-11-17 | [DSADiff: Data Structure-Aware Diffusion for Crystal Structure Prediction via Mitigating Complexity- and Imbalance-Induced Biases](https://arxiv.org/abs/2611.22050) | 3D Vision: 3D Foundation Models | DSADiff reduces generation bias in diffusion-based crystal structure prediction by adapting modeling and training to crystal complexity and elemental imbalance. | 7 | 8 |
+| 2026-11-17 | [Déjà-Events: Multi-view 3D Geometry with Event Cameras via Sparsity-Aware Adaptive Gating](https://arxiv.org/abs/2611.21302) | 3D Vision: 3D Foundation Models | Déjà-Events distils a feed-forward RGB 3D model into a compact event-only model that jointly predicts depth, camera pose, and pointmaps despite scarce 3D labels. | 6 | 6 |
 | 2026-11-16 | [GHySSeg: Real-Time Geometric Ground and Road Segmentation for Hybrid Solid-State LiDAR](https://arxiv.org/abs/2611.21507) | Embodied AI: Robot Navigation; 3D Vision: 3D Foundation Models | GHySSeg uses scan-curve geometry to segment ground and drivable road from hybrid solid-state LiDAR in real time without training or a GPU. | 9 | 7 |
 | 2026-11-16 | [Lift, See, Act: Hierarchical Robot Policy Pretraining with 3D Foundation Models](https://arxiv.org/abs/2611.20481) | Embodied AI: Learning from Human Videos; 3D Vision: 3D Foundation Models | LSA pretrains robot policies from human videos by learning dense 3D, geometric, and interaction-aware representations before acting. | 9 | 8 |
 | 2026-11-16 | [HoloGene: Learning to Lift Sliced Spatial Transcriptomics to Holistic 3D Gene Fields](https://arxiv.org/abs/2611.20368) | 3D Vision: 3D Foundation Models | HoloGene reconstructs continuous 3D gene-expression fields from sparse 2D spatial-transcriptomics sections using acquisition-aware anisotropic neural representations. | 8 | 9 |

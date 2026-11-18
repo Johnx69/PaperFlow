@@ -1,6 +1,716 @@
 {
   "days": [
     {
+      "date": "2026-11-17",
+      "paper_count": 3,
+      "papers": [
+        {
+          "abstract": "Kernelized attention methods, which aim to replace the $O(N^2)$ complexity of softmax attention with $O(N)$ alternatives, have been the focus of intense research in the last five years. Despite growing interest, systematic evaluations and fair comparisons across approaches and scales are still missing. We analyze kernelized attention in two halves and highlight prominent limitations on each. On efficiency, FlashAttention achieves lower memory consumption and faster wall-clock time than SOTA kernelized methods during training and in vision transformers across most sequence lengths (with inference-time memory in causal language models the only clear exception), contradicting the core assumption for pure kernelized attention used as a drop-in replacement for softmax. We also discover that reported efficiency gains often fail to reproduce against modern baselines. On quality, current kernelized methods leave gaps of 2-10 points relative to softmax under a unified distillation protocol, and model scala alone does not close these gaps. We show this gap is not intrinsic to kernelization: LARA++, a principled extension of LARA that approximates softmax via importance sampling with adaptive proposal distributions, recovers up to 99% of softmax accuracy. We establish that the gap is closable; however, the computational overhead remains substantial, leaving the efficiency wall intact. Code is available at https://github.com/firatoncel/KernelRealityCheckNeurIPS2026",
+          "arxiv_id": "2611.22947",
+          "arxiv_url": "https://arxiv.org/abs/2611.22947",
+          "authors": [
+            "F{\\i}rat \\\"Oncel, Cem Subakan, Mirco Ravanelli, \\c{C}a\\u{g}atay Y{\\i}ld{\\i}z"
+          ],
+          "bullets": [
+            "Existing efficiency claims for kernelized attention often fail to reproduce against modern baselines.",
+            "FlashAttention generally uses less memory and runs faster during training and in vision transformers; causal-language-model inference is the main exception.",
+            "Under a unified distillation protocol, current kernelized methods lag softmax by 2–10 points, and scaling alone does not eliminate the gap.",
+            "LARA++, using importance sampling with adaptive proposal distributions, recovers up to 99% of softmax accuracy.",
+            "The remaining computational overhead means improved quality does not resolve kernelized attention’s efficiency disadvantage."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 5: DeiT memory consumption with different model and input sizes.",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 280,
+              "image_path": "figures/2611.22947/figure-001.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 826
+            },
+            {
+              "caption": "Figure 2: Memory and computational efficiency across sequence lengths (GPT2-S, A100 GPU). Markers and solid lines are measured; dashed lines are log-domain extrapolations beyond 16K tokens or past out-of-memory.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 407,
+              "image_path": "figures/2611.22947/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 822
+            },
+            {
+              "caption": "Figure 6: Memory and computational efficiency across sequence lengths for ViT-B (top) and ViT-L (bottom), A100 GPU. The ordering matches ViT-S (Figure 1).",
+              "figure_id": "figure-6-19",
+              "figure_number": "6",
+              "height": 381,
+              "image_path": "figures/2611.22947/figure-003.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 822
+            },
+            {
+              "caption": "Figure 3: Standard LARA (top) vs. LARA++ (bottom). Same 16 query embeddings in both panels; colors mark proposal groups and ⋆ the landmark (group mean) defining each proposal. LARA groups contiguous positions, so each group mixes dissimilar queries and the landmarks collapse toward the global mean. LARA++ groups queries by similarity via greedy k-center clustering, giving tight groups with representative landmarks. The strip below each panel shows the group of each sequence position.",
+              "figure_id": "figure-3-20",
+              "figure_number": "3",
+              "height": 754,
+              "image_path": "figures/2611.22947/figure-004.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 331
+            },
+            {
+              "caption": "Figure 4: DINOv2 results across model scales. LARA++ (with 16 or 32 landmarks) closes the gap to softmax that standard LARA leaves open, and the gap narrows further with model capacity. On DINOv2-L, LARA++ (32) falls within 0.9 points of softmax on ImageNet classification and matches it on both semantic segmentation tasks, while reducing memory usage by approximately 2×. Memory includes the clustering stage; exact values are in Table 7. DINOv2-g results are in Table 17.",
+              "figure_id": "figure-4-4",
+              "figure_number": "4",
+              "height": 186,
+              "image_path": "figures/2611.22947/figure-005.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 824
+            },
+            {
+              "caption": "Figure 7: Memory and computational efficiency across sequence lengths for GPT2-M (top) and GPT2-L (bottom), A100 GPU. Markers and solid lines are measured; dashed lines are log-domain extrapolations.",
+              "figure_id": "figure-7-9",
+              "figure_number": "7",
+              "height": 793,
+              "image_path": "figures/2611.22947/figure-006.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 822
+            },
+            {
+              "caption": "Figure 1: Memory and computational efficiency across sequence lengths (ViT-S, A100 GPU).",
+              "figure_id": "figure-1-23",
+              "figure_number": "1",
+              "height": 196,
+              "image_path": "figures/2611.22947/figure-007.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 822
+            },
+            {
+              "caption": "Figure 8: Effect of landmark ratio on LARA++ efficiency. Number of landmarks (as fractions of sequence length: 1/64, 1/32, 1/16, 1/8) vs. LARA++ memory and computational time. Lower landmark ratios reduce memory but increase computation time. At 64K+, LARA++ achieves memory savings across all configurations, though time advantage only materializes for higher landmark ratios. All timings are full forward passes including the clustering stage. The legend label “LARA” refers to LARA++. Because the number of landmarks grows with N , the O(NC) clustering stage (Algorithm 1) is quadratic in N in this sweep.",
+              "figure_id": "figure-8-21",
+              "figure_number": "8",
+              "height": 161,
+              "image_path": "figures/2611.22947/figure-008.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 780
+            },
+            {
+              "caption": "Table 1: Top-1 ImageNet accuracy of distilled DeiT models. Linear attention methods consistently fail to recover softmax accuracy, leaving gaps of 1.8–10 points. LARA++ closes the gap to within 1.3 point.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 181,
+              "image_path": "figures/2611.22947/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 442
+            },
+            {
+              "caption": "Table 2: Accuracy at matched cost on DeiT. Columns 2–4: top-1 (%) / peak memory relative to the softmax teacher. Last column: DeiT-S/224 training step time; kernelized baselines use FLA kernels, and LARA++ includes clustering.",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 150,
+              "image_path": "figures/2611.22947/table-010.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 522
+            },
+            {
+              "caption": "Table 5: Vision transformers at 1536px (N = 9217), time (ms) / peak memory (MB). FlashAttention is the fastest and lowest-memory method in every row.",
+              "figure_id": "table-5-24",
+              "figure_number": "5",
+              "height": 174,
+              "image_path": "figures/2611.22947/table-011.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 830
+            },
+            {
+              "caption": "Table 3: Ablation study on DeiT-small comparing LARA variants (single run, seed 0; see Table 4 for repeated runs).",
+              "figure_id": "table-3-7",
+              "figure_number": "3",
+              "height": 231,
+              "image_path": "figures/2611.22947/table-012.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 468
+            },
+            {
+              "caption": "Table 6: Causal language models, time (ms) / peak memory (MB). Bold marks the best time and the best memory in each row.",
+              "figure_id": "table-6-25",
+              "figure_number": "6",
+              "height": 226,
+              "image_path": "figures/2611.22947/table-013.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 826
+            },
+            {
+              "caption": "Table 4: Repeated runs on DeiT-S/224 (top-1 %, 28 landmarks for LARA variants). Mean ± sample standard deviation over three independent seeds.",
+              "figure_id": "table-4-6",
+              "figure_number": "4",
+              "height": 163,
+              "image_path": "figures/2611.22947/table-014.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 586
+            },
+            {
+              "caption": "Table 7: DINOv2: ImageNet top-1 (%) / peak memory (MB), including clustering.",
+              "figure_id": "table-7-18",
+              "figure_number": "7",
+              "height": 173,
+              "image_path": "figures/2611.22947/table-015.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 653
+            },
+            {
+              "caption": "Table 8: DeiT-S per-step training cost and forward-pass cost.",
+              "figure_id": "table-8-8",
+              "figure_number": "8",
+              "height": 129,
+              "image_path": "figures/2611.22947/table-016.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 610
+            },
+            {
+              "caption": "Table 9: Clustering cost of LARA++ on DINOv2 (forward pass).",
+              "figure_id": "table-9-12",
+              "figure_number": "9",
+              "height": 129,
+              "image_path": "figures/2611.22947/table-017.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 794
+            },
+            {
+              "caption": "Table 10: Hardware-level cost on DINOv2-L (N = 257, batch size 8, A100).",
+              "figure_id": "table-10-13",
+              "figure_number": "10",
+              "height": 110,
+              "image_path": "figures/2611.22947/table-018.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 756
+            },
+            {
+              "caption": "Table 13: Hyperparameters of DINOv2 experiments. A limited amount of data is used.",
+              "figure_id": "table-13-11",
+              "figure_number": "13",
+              "height": 110,
+              "image_path": "figures/2611.22947/table-019.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 698
+            },
+            {
+              "caption": "Table 16: Hyperparameters of DiJiang DeiT experiments.",
+              "figure_id": "table-16-10",
+              "figure_number": "16",
+              "height": 109,
+              "image_path": "figures/2611.22947/table-020.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 698
+            },
+            {
+              "caption": "Table 15: Hyperparameters of Hedgehog DeiT experiments.",
+              "figure_id": "table-15-14",
+              "figure_number": "15",
+              "height": 110,
+              "image_path": "figures/2611.22947/table-021.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 690
+            },
+            {
+              "caption": "Table 14: Semantic segmentation finetuning details. VOC2012: 2 000 training images; ADE20K: 20 000.",
+              "figure_id": "table-14-15",
+              "figure_number": "14",
+              "height": 77,
+              "image_path": "figures/2611.22947/table-022.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 644
+            },
+            {
+              "caption": "Table 12: Hyperparameters of DeiT experiments. DeiT-base-384 uses 0.25 of training data per distillation epoch.",
+              "figure_id": "table-12-17",
+              "figure_number": "12",
+              "height": 68,
+              "image_path": "figures/2611.22947/table-023.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 610
+            },
+            {
+              "caption": "Table 11: DINOv2 results per task: softmax / LARA++ (32 landmarks) / LARA++ (16 landmarks).",
+              "figure_id": "table-11-16",
+              "figure_number": "11",
+              "height": 37,
+              "image_path": "figures/2611.22947/table-024.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 610
+            },
+            {
+              "caption": "Table 17: DINOv2-g (1.1B parameters) distilled to LARA++ with 32 landmarks (ratio ≈ 1/8).",
+              "figure_id": "table-17-22",
+              "figure_number": "17",
+              "height": 89,
+              "image_path": "figures/2611.22947/table-025.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 448
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22947/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.22947",
+          "relevance": 8,
+          "selection_reason": "Benchmarks and improves kernelized/linear attention, directly relevant to efficient attention.",
+          "summary_status": "generated",
+          "title": "The Kernel Reality Check: Benchmarking and Distilling Efficient Attention at Scale",
+          "tldr": "A systematic benchmark finds that kernelized attention usually does not beat FlashAttention on efficiency and often trails softmax in quality, though LARA++ can nearly close the quality gap at substantial computational cost.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "When applied to two-dimensional features such as images, Mamba-based methods either flatten the feature map into 1D sequences and fuse multiple scans, which breaks spatial adjacency and multiplies computation, or recurse directly on the 2D grid but rescale the recurrence with a fixed input-independent factor and aggregate only the predecessors on a single anti-diagonal, leaving the discrete step unconstrained by 2D stability theory. We propose \\textbf{FM-Mamba}, a native 2D selective state space model built on the general Fornasini--Marchesini (FM) model. Its coupled recurrence evolves along both spatial axes; cross-axis coupling induces a discrete diagonal-predecessor term $\\tilde A_0$, and two independent input-dependent step sizes $\\Delta_1(i,j)$, $\\Delta_2(i,j)$ govern propagation along the two axes, so that the coefficients adapt per position and per direction. A normalized ratio $r_k=a_{0,k}/(a_{1,k}a_{2,k})$ yields a closed-form piecewise bound on the two step sizes; when a configuration falls outside the stable interval the steps are projected onto this bound, and the criterion is re-verified per position after training, which suppresses systematic local amplification without global damping. The recurrence is executed by a dual-diagonal wavefront scan: each update gathers information from two anti-diagonals, and the input enters the current state through a single projection, so that neither training nor inference flattens the feature map. Code is available at https://github.com/BitSsm/FM-Mamba-Runtime",
+          "arxiv_id": "2611.22061",
+          "arxiv_url": "https://arxiv.org/abs/2611.22061",
+          "authors": [
+            "Shengyuan Hu, Yiyong Sun, Weihang Shan, Yongzhe Chang"
+          ],
+          "bullets": [
+            "Addresses inefficiency and spatial-adjacency loss from flattening 2D features, as well as stability limitations in prior recursive 2D Mamba methods.",
+            "Uses the Fornasini–Marchesini model with coupled recurrences along both spatial axes and a diagonal-predecessor interaction.",
+            "Employs two input-dependent step sizes per position and direction, constrained by a closed-form stability bound and projected when unstable.",
+            "Implements a dual-diagonal wavefront scan without flattening during training or inference.",
+            "Scope: the abstract describes the architecture and stability mechanism but does not report experimental results."
+          ],
+          "categories": [
+            "eess.SY",
+            "cs.AI",
+            "cs.CV",
+            "cs.SY"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Training process comparison. Left: the flattening baselines, 2M2D2AT and the three conditions of 2MFM2AT; right: 2MFM2AFM and its PSD variant in three conditions. Circles, squares, triangles and stars mark epochs 5, 10, 20 and 40, respectively; the horizontal axis is cumulative training time.",
+              "figure_id": "figure-2-2",
+              "figure_number": "2",
+              "height": 443,
+              "image_path": "figures/2611.22061/figure-001.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 987
+            },
+            {
+              "caption": "Figure 1. Dual-Diagonal Wavefront Scan: black marks the anti-diagonal i+j on which h(i, j) resides, red the anti-diagonal i+j−1 read through Ã1(i, j)h(i−1, j) and Ã2(i, j)h(i, j−1), and blue the anti-diagonal i+j−2 read through Ã0(i, j)h(i−1, j−1)",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 249,
+              "image_path": "figures/2611.22061/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 464
+            },
+            {
+              "caption": "Table 3. Test-set classification quality and inference performance",
+              "figure_id": "table-3-4",
+              "figure_number": "3",
+              "height": 514,
+              "image_path": "figures/2611.22061/table-003.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 1036
+            },
+            {
+              "caption": "Table 2. Training cost and validation quality",
+              "figure_id": "table-2-1",
+              "figure_number": "2",
+              "height": 488,
+              "image_path": "figures/2611.22061/table-004.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1036
+            },
+            {
+              "caption": "Table 1. The three conditions of A0",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 117,
+              "image_path": "figures/2611.22061/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 421
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22061/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.22061",
+          "relevance": 7,
+          "selection_reason": "Introduces a native 2D selective state space model for efficient processing of 2D features.",
+          "summary_status": "generated",
+          "title": "FM-Mamba: An Efficient Native 2D Selective State Space Model with Stability-Aware Discretization",
+          "tldr": "FM-Mamba is a native 2D selective state space model that preserves spatial structure while using stability-aware, position- and direction-adaptive propagation.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Sparse attention models read a few blocks of keys for every query at a fixed budget and can lose much of their long-context retrieval accuracy at that budget. We ask where this loss is made. Using exact attention mass selection at the shipped budget as an oracle, we show that the selector under-ranks the needle rather than running out of budget. We find attention heads that miss the needle by running a calibration probe that teacher-forces the answer and reads two quantities in every head. The first is the needle attention that the selector forfeits, and the second is the share of the answer's log-probability that fixing the head's selection restores, integrated along the path from the shipped selector to full attention. Four checkpoints of the InfLLM-V2 family and NOSA-8B lose multi-key retrieval in the same three blind heads, which attend to the needle while a mean-pooled key summary dilutes its single decisive token. Full attention in those heads or a 4-bit scorer that keeps the shipped budget recovers most of the loss without training. On MiniCPM4.1-8B at 64K, either fix lifts multi-key retrieval accuracy from 54.1 to 97.5%, level with full attention in every head. In production serving engines, full attention in those heads keeps 84 to 89% of the time to first token (TTFT) that sparse attention saves at 32K to 128K context length. Beyond the InfLLM-V2 selector lineage, one unified rule flags attention heads above a threshold swept on each checkpoint until they close most of the gap to full attention on calibration prompts. A similar small set of blind attention heads carry the loss for the SeerAttention-R gates, NSA, and DashAttention, whereas many such heads exist in MoBA. On Qwen3-8B with the SeerAttention-R gates, full attention in 18 of 288 key-value heads lifts multi-key retrieval accuracy from 29.8 to 97.7%.",
+          "arxiv_id": "2611.21917",
+          "arxiv_url": "https://arxiv.org/abs/2611.21917",
+          "authors": [
+            "Wenhe Zhang, Boxing Chen"
+          ],
+          "bullets": [
+            "Exact-attention analysis shows the main issue is selector mis-ranking of relevant blocks, not exhausting the fixed budget.",
+            "A teacher-forced calibration probe identifies heads that attend to the needle but lose it when mean-pooled key summaries dilute its decisive token.",
+            "For InfLLM-V2 and NOSA-8B, the same three blind heads explain much of the multi-key retrieval loss; similar patterns appear in several other sparse-attention methods.",
+            "Repairing flagged heads with full attention or a 4-bit scorer preserves the shipped budget and recovers most of the loss without training.",
+            "Reported gains include MiniCPM4.1-8B improving from 54.1% to 97.5% at 64K, while selective full attention retains 84–89% of sparse attention’s TTFT savings; MoBA shows many more blind heads."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4: Method overview. (a) InfLLM-V2 scores each block from mean-pooled keys, gathers the top-k blocks and attends to them in every head. (b) A needle probe, run once per checkpoint, compares the shipped selection with exact attention mass at the same budget, which explains the failure, and keeps the heads with the largest gain of fixing their selection. (c) In the flagged heads, full attention reads every block, and every other head keeps the shipped selector. A 4-bit scorer that keeps the shipped budget can replace full attention in those heads.",
+              "figure_id": "figure-4-21",
+              "figure_number": "4",
+              "height": 413,
+              "image_path": "figures/2611.21917/figure-001.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 746
+            },
+            {
+              "caption": "Figure 1: Where the selector forfeits the needle. Per key-value head, the needle recall that the shipped selector loses against exact mass, times the attention the head puts on the needle block, on calibration prompts at 32K, or 16K for Dash-8B and NSA-8B. The first group holds the five checkpoints of the MiniCPM4-8B lineage, with the InfLLM-V2 selector or the NOSA variant of it, head 0 above head 1. Dash-8B and NSA-8B share the backbone under other selectors, and the last band is Qwen3-8B under the SeerAttention-R gate, heads 0 to 7 from the top. Outlined heads are the heads that each model’s fixes use, the three blind heads in the lineage and the heads of the threshold rule on the other selectors. Scores at or below 10−4 share the lightest color.",
+              "figure_id": "figure-1-9",
+              "figure_number": "1",
+              "height": 593,
+              "image_path": "figures/2611.21917/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 798
+            },
+            {
+              "caption": "Figure 7: Latency against the dense model on one H100. (a) TTFT of InfLLM-V2-8B at batch size one in CPM.cu, the inference engine that OpenBMB ships for these checkpoints. (b) Attention time of one decode step of 64 sequences over all 32 layers in the release’s kernels. The label above each bar of a fix is the share of the sparse model’s saving that it keeps.",
+              "figure_id": "figure-7-16",
+              "figure_number": "7",
+              "height": 396,
+              "image_path": "figures/2611.21917/figure-003.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 793
+            },
+            {
+              "caption": "Figure 2: Inside a blind head. One calibration prompt of InfLLM-V2-8B at 32K, ten teacherforced answer tokens. Top, the blind head L9.h0. Bottom, L26.h0, whose selector finds the needle. (a) Attention mass of the key blocks around the needle, averaged over the query heads of the group. Outlined blocks are read by the shipped selector and dotted blocks by exact mass selection. (b) At one answer token, the pooled score of every free block against its attention mass, the needle block in red, with the shipped cutoff dashed and the exact mass cutoff dotted. The blind head attends to the needle, but the pooled score leaves the needle block below the shipped cutoff, while exact mass keeps it.",
+              "figure_id": "figure-2-10",
+              "figure_number": "2",
+              "height": 549,
+              "image_path": "figures/2611.21917/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 797
+            },
+            {
+              "caption": "Figure 5: The loss by needle depth. MK3 accuracy in five bands of the needle’s position in the prompt, at prompt lengths from 16K to 128K, for the shipped selector, full attention in the blind heads and full attention. The native range ends at 32K for InfLLM-V2-8B and at 64K for MiniCPM4.1-8B. About 40 prompts per cell, from the 200 prompts of the first seed at each length.",
+              "figure_id": "figure-5-14",
+              "figure_number": "5",
+              "height": 421,
+              "image_path": "figures/2611.21917/figure-005.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 795
+            },
+            {
+              "caption": "Figure 3: Pooling erases the needle’s lead on every probed token of the calibration prompts, InfLLM-V2-8B at 32K, in the query head of each group with the most needle mass. The horizontal axis is the needle block’s lead over the block at the selection cutoff under exact mass. The vertical axis is its lead under the pooled score. Both axes are in nats, the units of the natural logarithm (Cover & Thomas, 2006), so that each sign reproduces whether that selection keeps the needle. Where the selector finds the needle, the two leads move together. In the blind heads, the pooled lead stays near zero whatever the exact lead, and a quarter to more than half of the tokens fall in the shaded window of Proposition 1, kept by exact mass and lost by pooling.",
+              "figure_id": "figure-3-22",
+              "figure_number": "3",
+              "height": 406,
+              "image_path": "figures/2611.21917/figure-006.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 783
+            },
+            {
+              "caption": "Figure 6: How many heads carry the loss. The share of the gap between the shipped selector and full attention in every head that full attention in the top heads by fix gain closes on calibration prompts, at each step of the threshold sweep. The dashed line is the share ρ = 0.9, and the marked point is the count the rule keeps.",
+              "figure_id": "figure-6-20",
+              "figure_number": "6",
+              "height": 399,
+              "image_path": "figures/2611.21917/figure-007.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 794
+            },
+            {
+              "caption": "Figure 8: The deficit grows with the length (MK3 at the shipped budget, 200 prompts per point, 100 at 96K and 128K). The 16K, 24K and 48K points are draws of the same generator seed as the first seed at 32K and 64K, and the flagged heads are those calibrated at 32K. The shaded ranges lie beyond each model’s native range.",
+              "figure_id": "figure-8-18",
+              "figure_number": "8",
+              "height": 424,
+              "image_path": "figures/2611.21917/figure-008.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 794
+            },
+            {
+              "caption": "Table 3: What each fix gains and costs on InfLLM-V2-8B at 32K. MK3 and common word extraction (CWE) as mean over five seeds. PopQA, Natural Questions (NQ) and HotpotQA are HELMET’s retrieval-augmented question answering at its default size, 600 examples each from 100 questions for PopQA and NQ and from 200 for HotpotQA, every arm on H100. Bytes are read per cached token and decode step beyond the blocks every sparse method reads, as in Table 5, at 32K for the larger budget, whose extra blocks are a fixed count per step. The two rows marked 16 CWE heads run the scorer in the 16 heads calibrated on common word extraction’s own prompts.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 234,
+              "image_path": "figures/2611.21917/table-009.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 782
+            },
+            {
+              "caption": "Table 5: Against published selectors on the two checkpoints that Fu et al. (2026) evaluate, MK3 and the mean of RULER’s 12 tasks at the shipped budget. Quest scores a block by the bound from the per-channel extremes of its keys, Double Sparsity and Loki by the group’s attention on 16 label channels and on 32 principal directions chosen from each prompt’s own keys, all three in every head at the decode and question tokens, and SnapKV (Li et al., 2024) selects at decode the blocks that the last 32 prompt tokens attend to most. “Loki, flagged heads” acts at every token of the flagged heads at the scorer’s bytes. Bytes per cached token is what a method reads per cached token and decode step beyond the blocks every sparse method reads, and the whole cache for Dense.",
+              "figure_id": "table-5-23",
+              "figure_number": "5",
+              "height": 286,
+              "image_path": "figures/2611.21917/table-010.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 677
+            },
+            {
+              "caption": "Table 2: Multi-key retrieval (MK3) on the five seeds held out from every design choice, mean over five seeds. The first seed guided the design choices. “Full Attention, Flagged Heads” gives the flagged heads full attention at every token. “Decode”, “+ Question” and “Every Token” are the 4-bit scorer in the flagged heads at the decode tokens, also at the question tokens and at every token.",
+              "figure_id": "table-2-13",
+              "figure_number": "2",
+              "height": 234,
+              "image_path": "figures/2611.21917/table-011.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 748
+            },
+            {
+              "caption": "Table 7: OpenAI MRCR on the SeerAttention-R gates, by its official metric on all 593 prompts of its bins from 8K to 32K. The flagged heads are those of Table 6, chosen on synthetic multi-key prompts. “Random” is the mean over three random sets of as many heads, none of them flagged.",
+              "figure_id": "table-7-15",
+              "figure_number": "7",
+              "height": 216,
+              "image_path": "figures/2611.21917/table-012.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 722
+            },
+            {
+              "caption": "Table 1: Where the multi-key loss is made. Each row applies Equation 3 at the tokens and heads its label names and keeps the shipped selector elsewhere. Dense rows read every block without a selector. The mean over the five seeds held out from every design choice, 200 prompts each. In all tables, bold is the best number and underlined the second best, full attention excluded.",
+              "figure_id": "table-1-28",
+              "figure_number": "1",
+              "height": 225,
+              "image_path": "figures/2611.21917/table-013.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 830
+            },
+            {
+              "caption": "Table 4: Choosing a fix for an unknown workload on InfLLM-V2-8B at 32K. The fixes of Table 3 on 17 task types of the first seed, the 12 RULER tasks, HELMET’s PopQA, Natural Questions, HotpotQA and JSON key-value retrieval, and LongFuncEval. “Worst Change” is the largest loss against the shipped selector on any one task, with that task, and “Mean Change” averages the 17 tasks. “Beats Shipped” is the share of 10,000 random mixtures of the tasks in which the fix scores above the shipped selector, with weights drawn uniformly over the tasks and, after the slash, over the three benchmarks and then their tasks.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 194,
+              "image_path": "figures/2611.21917/table-014.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 794
+            },
+            {
+              "caption": "Table 6: The rule on other selector designs. The flagged heads are those above the threshold that closes ρ = 0.9 of the gap on calibration prompts, key-value heads for the block selectors and query heads for MoBA. “Full Attention” and “4-bit Scorer” are the two fixes in the flagged heads. The scorer acts at each release’s budget, at the decode tokens on Dash-8B and at every token on MoBA. “Echo” and “Random” give full attention to as many heads by RazorAttention’s echo score and at random. ‡NSA-8B ships no dense path, so its dense column selects every block.",
+              "figure_id": "table-6-19",
+              "figure_number": "6",
+              "height": 231,
+              "image_path": "figures/2611.21917/table-015.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 830
+            },
+            {
+              "caption": "Table 10: What the calibration source and the score decide on InfLLM-V2-8B. The heads that the forfeited attention flags from each source and the three best heads by each score, with MK3 at 32K for the scorer at every token of those heads. When no head is flagged, the scorer is the shipped selector.",
+              "figure_id": "table-10-8",
+              "figure_number": "10",
+              "height": 286,
+              "image_path": "figures/2611.21917/table-016.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 640
+            },
+            {
+              "caption": "Table 9: Three versions of the fix gain. The count the rule keeps, the first step of the √ 2 sweep that closes 90 percent of the gap on calibration prompts, for the first-order, complete and integrated versions of the fix gain, the last of them Equation 5.",
+              "figure_id": "table-9-7",
+              "figure_number": "9",
+              "height": 243,
+              "image_path": "figures/2611.21917/table-017.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 694
+            },
+            {
+              "caption": "Table 11: A scan without the probe. The gain in MK3 at 32K when one key-value head of InfLLMV2-8B gets full attention and the other 63 keep the shipped selector.",
+              "figure_id": "table-11-11",
+              "figure_number": "11",
+              "height": 130,
+              "image_path": "figures/2611.21917/table-018.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 398
+            },
+            {
+              "caption": "Table 16: The calibration per checkpoint on one H100, over its 200 calibration prompts. The sweep step is the median over the steps that were run. “Gap Recovered” is the share of the logprobability gap between the shipped selector and full attention that the integrated gains of all units sum to.",
+              "figure_id": "table-16-24",
+              "figure_number": "16",
+              "height": 244,
+              "image_path": "figures/2611.21917/table-019.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 776
+            },
+            {
+              "caption": "Table 15: Share and step. The count the integrated rule keeps at each share with the step √ 2 and at each step with the share 0.9. MoBA’s sweep is not monotone in the count.",
+              "figure_id": "table-15-25",
+              "figure_number": "15",
+              "height": 253,
+              "image_path": "figures/2611.21917/table-020.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 694
+            },
+            {
+              "caption": "Table 19: Real data. LongFuncEval (Kate et al., 2025), LongCodeU (Li et al., 2025), RepoQA (Liu et al., 2024a), OpenAI MRCR (OpenAI, 2025) and OOLONG (Bertsch et al., 2025), each with its own data, prompts and metric. The scorer acts at every token of the three flagged heads.",
+              "figure_id": "table-19-4",
+              "figure_number": "19",
+              "height": 224,
+              "image_path": "figures/2611.21917/table-021.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 664
+            },
+            {
+              "caption": "Table 8: Selector settings of the lineage. The four checkpoints share the MiniCPM4-8B backbone, 32 layers of 32 query heads and 2 key-value heads of dimension 128. The selector scores keys mean-pooled over windows of 32 at a stride of 16, maps the window scores onto blocks of 64 tokens and always reads the initial block, a local window and the query’s own block. Tokens below the last column’s position attend densely.",
+              "figure_id": "table-8-27",
+              "figure_number": "8",
+              "height": 129,
+              "image_path": "figures/2611.21917/table-022.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 818
+            },
+            {
+              "caption": "Table 12: The rule on the lineage. The heads that the integrated fix gain ranks first on sixty calibration prompts, the count at the first step of its sweep that closes 90 percent of the gap on the 200 calibration prompts and the share of the gap closed there.",
+              "figure_id": "table-12-12",
+              "figure_number": "12",
+              "height": 131,
+              "image_path": "figures/2611.21917/table-023.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 756
+            },
+            {
+              "caption": "Table 13: Proposition 1 on the probed tokens of InfLLM-V2-8B at 32K. “Sparse Recall” is the share of probed tokens on which the shipped selector keeps the needle block. In each head’s query head with the most needle mass, “Needle Key” is the median margin of the needle key over the other keys of its block and “Rest of Block” the median of those other keys over the head’s median window, in nats, and “Exact Keeps” and “Pooled Loses” are the shares of tokens on which exact block mass keeps the needle block and the pooled score loses it. The last two columns give how often the three query heads with the most needle mass rank the needle block among their own top free blocks.",
+              "figure_id": "table-13-17",
+              "figure_number": "13",
+              "height": 171,
+              "image_path": "figures/2611.21917/table-024.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 830
+            },
+            {
+              "caption": "Table 14: Precision against resolution on InfLLM-V2-8B at 32K. Left, Proposition 2 against the probe on the five heads of Table 13. Predicted noise is √ D of the optimal uniform quantizer of a unit Gaussian, measured noise is the standard deviation of the logit error over that of the exact logits, and recall is the needle recall of the per-head criterion on the quantized keys minus that of exact mass. Right, keys averaged over windows of w tokens. MK3 is the criterion at the decode tokens of the flagged heads on each kind of key.",
+              "figure_id": "table-14-26",
+              "figure_number": "14",
+              "height": 150,
+              "image_path": "figures/2611.21917/table-025.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 586
+            },
+            {
+              "caption": "Table 20: Latency beside Figure 7, InfLLM-V2-8B on one H100. Left, the time per output token at batch size one in CPM.cu, to which the scorer is not ported. Right, the attention time of one prefill over all 32 layers in the release’s kernels, with the scorer at every prompt token.",
+              "figure_id": "table-20-5",
+              "figure_number": "20",
+              "height": 160,
+              "image_path": "figures/2611.21917/table-026.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 660
+            },
+            {
+              "caption": "Table 17: Where fixing the selector stops. MK3 on the first seed. Exact mass selects at every token and keeps the shipped budget. Where it falls short of full attention, the budget binds.",
+              "figure_id": "table-17-6",
+              "figure_number": "17",
+              "height": 140,
+              "image_path": "figures/2611.21917/table-027.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 744
+            },
+            {
+              "caption": "Table 18: Aggregation tasks on MiniCPM4.1-8B at 64K. RULER’s variable tracking and common word extraction on the first seed. Each fix acts in the three flagged heads or in their layers.",
+              "figure_id": "table-18-3",
+              "figure_number": "18",
+              "height": 108,
+              "image_path": "figures/2611.21917/table-028.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 714
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.21917/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.21917",
+          "relevance": 8,
+          "selection_reason": "Diagnoses and repairs block selection in sparse attention for long-context LLMs; directly relevant to efficient attention and long-context models.",
+          "summary_status": "generated",
+          "title": "Lost in a Few Heads: Diagnosing and Repairing Block Selection in Sparse Attention",
+          "tldr": "A small number of blind attention heads cause most sparse-attention retrieval failures, and selectively repairing them largely restores full-attention accuracy at much of sparse serving’s speed benefit.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction",
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-16",
       "paper_count": 8,
       "papers": [
@@ -53831,5 +54541,5 @@
   "schema_version": 1,
   "subtopic_id": "efficient-attention",
   "topic_id": "efficient-ai",
-  "total_paper_count": 264
+  "total_paper_count": 267
 }

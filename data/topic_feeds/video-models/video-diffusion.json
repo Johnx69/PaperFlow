@@ -1,6 +1,1420 @@
 {
   "days": [
     {
+      "date": "2026-11-17",
+      "paper_count": 8,
+      "papers": [
+        {
+          "abstract": "Autoregressive video diffusion models generate frames based on new observations and inputs, making them a promising medium for interactive visual experiences. However, existing models are orders of magnitude too slow for fluid interaction. This paper introduces FastFrames, a family of fast autoregressive video diffusion models that achieves interactive latency without compromising quality. We profile the inference pipeline of state-of-the-art models and find that operations often treated as fixed implementation details, such as VAE decoding and KV cache updates, in fact account for over half of end-to-end inference latency. We challenge the assumption that these components are indispensable and replace them with lightweight alternatives. Our 1.3B variant runs at 36 ms per frame, or 28 responses per second (RPS), on a single B200 GPU while matching the generation quality of a state-of-the-art model that is nearly 8x slower. Our 14B variant runs at 45 ms per frame, or 22 RPS, on an 8x B200 GPU node and yields significantly better visual quality and realism. We show that FastFrames enables real-time interaction in applications such as camera-conditioned and physics-conditioned video generation.",
+          "arxiv_id": "2611.23226",
+          "arxiv_url": "https://arxiv.org/abs/2611.23226",
+          "authors": [
+            "Gene Chou, Guandao Yang, Fujun Luan, Lars Mescheder, Wei Dong, Stephan Richter, Vladlen Koltun"
+          ],
+          "bullets": [
+            "Existing autoregressive video diffusion models are too slow for fluid interactive experiences.",
+            "Profiling shows VAE decoding and KV-cache updates contribute over half of end-to-end inference latency.",
+            "FastFrames replaces these components with lightweight alternatives in a family of fast models.",
+            "The 1.3B model achieves 36 ms per frame on a single B200 GPU while matching a much slower state-of-the-art model’s quality.",
+            "The 14B model achieves 45 ms per frame on an 8×B200 node with significantly better visual quality and realism, enabling real-time camera- and physics-conditioned generation."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2 Inference pipeline and latency profiling for one autoregressive generation. State-of-the-art fewstep autoregressive video diffusion models generate each new frame by first updating the KV cache using the previous frame’s denoised latent (zi−1",
+              "figure_id": "figure-2-4",
+              "figure_number": "2",
+              "height": 644,
+              "image_path": "figures/2611.23226/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 863
+            },
+            {
+              "caption": "Figure 5 Interactive generation and latency results. Left: example of interaction with LingBot’s official implementation vs. with FastFrames optimizations. Given a single keypress, FastFrames is 16× faster to respond. Right: generation latency of officially released implementations and our optimized implementations. We measure steady-state latency on NVIDIA B200 GPUs at 832×480 resolution with a full KV cache and include distributed optimizations such as Ulysses where officially supported. Times include diffusion sampling (four steps for LingBot and three for RealWonder), action conditioning, KV-cache updates, and pixel decoding. Our optimizations provide speedups of 3× to 22×. See the project website for the video demonstration.",
+              "figure_id": "figure-5-3",
+              "figure_number": "5",
+              "height": 437,
+              "image_path": "figures/2611.23226/figure-002.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 972
+            },
+            {
+              "caption": "Figure 3 Comparing pixel decoders. Our pixel decoder (right) renders thin structures and details like hair and raindrops while being two orders of magnitude faster than Wan’s VAE (left). A single linear projection (middle) cannot render sharp outputs, but is sufficient for recognizing the scene and suggests that pixel rendering does not require an expensive decoder.",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 425,
+              "image_path": "figures/2611.23226/figure-003.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 982
+            },
+            {
+              "caption": "Figure 4 Qualitative comparisons. We compare FastFrames-S with Causal Forcing++ at 1.3B parameters and FastFrames-L with Krea-Realtime at 14B. Each example shows frames at 0 and 5 seconds. FastFrames-S achieves comparable visual sharpness to Causal Forcing++, such as the details in the sculpture (first example) and leaves (second example), while being nearly 8× faster. FastFrames-L achieves comparable visual realism to Krea-Realtime, including composition of “paper origami dragon” (third), and legible text of “stay curious” (fourth) while being 10× faster. See our website for video playback.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 1074,
+              "image_path": "figures/2611.23226/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 921
+            },
+            {
+              "caption": "Figure 1 Quality-speed tradeoff. VBench scores vs. per-frame latency. Upper left is better. Only FastFrames meets an acceptable threshold (Deber et al., 2015) for seamless interactivity (≤ 50ms latency, equivalently ≥ 20 responses per second (RPS)) while matching or exceeding comparable baselines in visual quality.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 402,
+              "image_path": "figures/2611.23226/figure-005.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 444
+            },
+            {
+              "caption": "Table 1 Quantitative comparisons in terms of end-to-end latency and VBench scores. All methods use the same evaluation prompts and seeds, run on one B200 GPU unless otherwise indicated, and are evaluated at",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 633,
+              "image_path": "figures/2611.23226/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 984
+            },
+            {
+              "caption": "Table 2 Additional latency profiling at 720p resolution and on H100 GPUs. FastFrames-S runs in 36 ms at 480p and in 127 ms at 720p on a B200 GPU. FastFrames-L runs in 45 ms at 480p and in 116 ms at 720p on 8 B200 GPUs. Savings from our lightweight network replacements are more noticeable at 720p. H100s are approximately 25% to 50% slower depending on the configuration.",
+              "figure_id": "table-2-7",
+              "figure_number": "2",
+              "height": 423,
+              "image_path": "figures/2611.23226/table-007.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 710
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.23226/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.23226",
+          "relevance": 9,
+          "selection_reason": "Fast autoregressive video diffusion with latency optimizations.",
+          "summary_status": "generated",
+          "title": "FastFrames: Video Generation at Interactive Latency",
+          "tldr": "FastFrames accelerates autoregressive video diffusion to interactive latency by redesigning costly inference components while preserving or improving visual quality.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion",
+                "autoregressive-video-models"
+              ],
+              "topic_id": "video-models"
+            },
+            {
+              "subtopic_ids": [
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "When a text-to-video diffusion model ignores part of a prompt, the usual first fix is to raise the classifier-free guidance scale. This paper is a measurement study of when that fix works. On Mochi, the same increase repairs failures on rare compositions (\"a snowy beach\") beyond what generating again does, does not repair negations (\"a highway with no vehicles\"), where it fixes fewer failures than generating again does, and changes nothing for events that must happen late in a clip (\"a sandcastle that a wave washes flat\"). Which of these happens can be known in advance, from the prompt and one inexpensive score. The score, which we call demand, measures how strongly the denoiser reacts to the part of the prompt that the failed video leaves out, and it is read from the first quarter of denoising, before any video exists. Our main finding is a condition: raising the scale is effective only when the prompt contains no negation and no event tied to a specific time, and when demand is sufficiently high, with recovery clearly higher above a fitted threshold than below it. Published corrections for the three failure types, used as fixed probes, behave as this account predicts. A short decision rule follows: before generating again, a user can tell whether the most common fix is worth trying, and what to use when it is not.",
+          "arxiv_id": "2611.23025",
+          "arxiv_url": "https://arxiv.org/abs/2611.23025",
+          "authors": [
+            "Taewon Kang, Matthias Zwicker"
+          ],
+          "bullets": [
+            "On Mochi, stronger guidance helps rare compositions such as “a snowy beach” more than regenerating.",
+            "It helps fewer negation failures, such as “a highway with no vehicles,” than generating again, and does not fix events that occur late in a clip.",
+            "A demand score, computed from the first quarter of denoising, measures the denoiser’s response to omitted prompt content before video generation finishes.",
+            "Guidance is effective when the prompt has no negation or time-specific event and demand exceeds a fitted threshold.",
+            "The study provides a decision rule for choosing between increasing guidance and generating again."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 6. Recovery against demand. Fraction of untreated failures repaired, by quartile of the failures’ demand, for the methods not designed for each failure type (in the legend, the negation, rare-composition, and temporal corrections are NEGATE, DCR, and TPD). Dashed line: fitted threshold. Gray band: what generating again repairs without any method. Only in rare composition do the methods rise above the band as demand grows, from the threshold D∗ = 0.59 on (details in Appendix L).",
+              "figure_id": "figure-6-9",
+              "figure_number": "6",
+              "height": 315,
+              "image_path": "figures/2611.23025/figure-001.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 3. Rare composition: a larger scale alone can be enough. In Figs. 3 to 5, a green underlined label marks the method the rule selects. This prompt’s demand (0.73) is above the threshold (D∗ = 0.59). Middle: a larger scale and nothing else brings snow and blossoms together (54% of failures repaired). Bottom: DCR reaches the same outcome with a natural palette (recovery .698); the raised scale saturates colors, because it amplifies every attribute at once [36].",
+              "figure_id": "figure-3-20",
+              "figure_number": "3",
+              "height": 249,
+              "image_path": "figures/2611.23025/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 475
+            },
+            {
+              "caption": "Figure 9. Recovery against the number k of models on which a prompt fails. For prompts that fail on Mochi, the probability that the correction designed for that failure type repairs them. NEGATE (negation) and TPD (temporal): recovery is lowest for prompts that fail on all three models (0.68 → 0.68 → 0.37; 0.81 → 0.54 → 0.46). Scale-up on temporal prompts (dashed) lies below TPD at every k (0.63 → 0.44 → 0.26). DCR (rare composition): no ordering (0.71 → 0.61 → 0.78), because models barely agree on which rare-composition prompts fail (ϕ ≈ 0.2).",
+              "figure_id": "figure-9-30",
+              "figure_number": "9",
+              "height": 377,
+              "image_path": "figures/2611.23025/figure-003.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 622
+            },
+            {
+              "caption": "Figure 11. Recovery against demand with a measured re-seed control. The gray band is the recovery that re-sampling alone achieves, measured from three untreated replicates (negation and temporal from Appendix K, rare composition from Appendix M; 95% bootstrap interval, resampling prompts), and the dotted line is its point estimate. Only the cells that Table 3 finds effective lie above the band; on rare composition every method rises above it at high demand. In the legend, the negation, rare-composition, and temporal corrections are NEGATE, DCR, and TPD.",
+              "figure_id": "figure-11-6",
+              "figure_number": "11",
+              "height": 275,
+              "image_path": "figures/2611.23025/figure-004.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 952
+            },
+            {
+              "caption": "Figure 10. Net recovery by demand quartile, computed over all prompts. Net recovery is the number of repaired prompts minus the number of broken prompts, divided by the number of untreated failures. Re-sampling alone would keep it at zero in every bin (zero line), so a curve that lies above zero and rises with demand shows an effect of the method and not of selection. In the legend, the negation, rare-composition, and temporal corrections are NEGATE, DCR, and TPD. Error bars are 95% bootstrap intervals, obtained by resampling prompts.",
+              "figure_id": "figure-10-7",
+              "figure_number": "10",
+              "height": 275,
+              "image_path": "figures/2611.23025/figure-005.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 932
+            },
+            {
+              "caption": "Figure 1. When raising the guidance scale helps, and what follows in practice (measured on Mochi; Table 3, Fig. 6). The effect of the scale is this paper’s finding; the alternatives in the first two boxes are published corrections on the failure type each was designed for.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 378,
+              "image_path": "figures/2611.23025/figure-006.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 1102
+            },
+            {
+              "caption": "Figure 13. A prompt that no correction reaches on one model succeeds untreated on another. On Mochi this prompt’s demand is 0.21, below its failure type’s threshold, and all four methods fail. CogVideoX registers the same request at 0.55, and its untreated clip shows the lightly crowded stadium (bottom, green underlined). Seventeen prompts in this failure type resist all four methods; twelve succeed untreated on another model. That rate matches what the other models’ overall success rates already imply, so we report it as an observation about model-specificity and not as a selection rule.",
+              "figure_id": "figure-13-14",
+              "figure_number": "13",
+              "height": 214,
+              "image_path": "figures/2611.23025/figure-007.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 600
+            },
+            {
+              "caption": "Figure 7. Where the two judging protocols part. (a) Original graded scores (1 to 5) of clips on which the protocols agree (blue) and disagree (red). Agreements concentrate at the extremes of the scale; disagreements carry intermediate scores at more than twice the rate (49% against 23%; Mann-Whitney p = 1.1 × 10−4). (b) Agreement per category, sorted; labels give failure type/category. Agreement is perfect where failure destroys or transforms the scene (temporal CAUSAL and STRUCTURAL) or where the forbidden content is categorical (negation AOC, LEN). Divergence is confined to scene-persistence categories, in which even a successful clip contains the default as a sub-description, and to graded-attribute categories, where the binary cut divides a continuum.",
+              "figure_id": "figure-7-12",
+              "figure_number": "7",
+              "height": 335,
+              "image_path": "figures/2611.23025/figure-008.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 882
+            },
+            {
+              "caption": "Figure 8. Untreated failure rate by failure type, category, and model. Cells span the full interval [0.00, 1.00].",
+              "figure_id": "figure-8-4",
+              "figure_number": "8",
+              "height": 265,
+              "image_path": "figures/2611.23025/figure-009.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 5. Temporal: only the position-aware correction delivers the event. Top: untreated, the castle stands to the last frame. Middle: a larger scale re-renders the same early scene. Bottom: TPD acts along the frame axis, and the wave arrives and flattens the castle (51% of failures repaired).",
+              "figure_id": "figure-5-19",
+              "figure_number": "5",
+              "height": 260,
+              "image_path": "figures/2611.23025/figure-010.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 475
+            },
+            {
+              "caption": "Figure 4. Negation: raising the scale does not remove the vehicles; NEGATE does. Middle: with a larger scale the vehicles persist. Bottom: NEGATE returns the same sunset road without vehicles (50% of failures repaired).",
+              "figure_id": "figure-4-18",
+              "figure_number": "4",
+              "height": 249,
+              "image_path": "figures/2611.23025/figure-011.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 475
+            },
+            {
+              "caption": "Figure 12. Dose-response of the guidance scale on the 160-prompt subsets. Left: net recovery against the same-seed clip at the default scale; the zero line is the expectation if the scale did nothing, and error bars are prompt-cluster bootstrap 95% intervals. Middle: failure rate, pooled over replicates. Right: mean HSV saturation of the clips (for negation and temporal prompts, measured at the two new scales). Only rare composition responds, at every raised scale, and its color saturation grows with the scale.",
+              "figure_id": "figure-12-13",
+              "figure_number": "12",
+              "height": 292,
+              "image_path": "figures/2611.23025/figure-012.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 986
+            },
+            {
+              "caption": "Figure 15. Where in the clip the model is asked to change something. Relative per-frame demand ∥dt[i]∥ (first-quarter steps, normalized per prompt) at normalized frame position i/F , for temporal prompts and for the pooled non-temporal control. The dotted line marks the mean event boundary γ̄ = 0.49.",
+              "figure_id": "figure-15-2",
+              "figure_number": "15",
+              "height": 275,
+              "image_path": "figures/2611.23025/figure-013.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 14. Where in denoising failing and succeeding prompts part. Difference in the per-step demand ratio ∥dt∥/∥ϵtext − ϵuncond∥ between failing and succeeding prompts (positive means failing prompts react more), per failure type, on the 47-prompt sample. The shaded band is the first quarter of the steps. Negation is above zero on every model and rare composition below, and the difference is established during structure formation.",
+              "figure_id": "figure-14-3",
+              "figure_number": "14",
+              "height": 274,
+              "image_path": "figures/2611.23025/figure-014.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 1036
+            },
+            {
+              "caption": "Table 1. The paper at a glance. Three failure types, the simpler prompt the model answers instead, the effect of the most common fix, what the demand score shows, and what works. All rates are on Mochi; p-values are exact McNemar tests against the untreated model. The re-seed rate is what generating again repairs without any method (Appendix L). Details are in Tables 2 and 3.",
+              "figure_id": "table-1-8",
+              "figure_number": "1",
+              "height": 332,
+              "image_path": "figures/2611.23025/table-015.webp",
+              "kind": "table",
+              "page": 2,
+              "width": 990
+            },
+            {
+              "caption": "Table 4. Categories of the three suites. Eight categories of 50 prompts each per failure type. Category names follow the papers that released the suites; example prompts in italics.",
+              "figure_id": "table-4-17",
+              "figure_number": "4",
+              "height": 617,
+              "image_path": "figures/2611.23025/table-016.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 1026
+            },
+            {
+              "caption": "Table 2. What demand shows. (a) Point-biserial correlation between failure and demand. Failing negations have higher demand than succeeding ones; failing rare-composition and temporal prompts have lower demand. The direction is the same on all three models. (b) Five-fold cross-validated gain in AUROC (Sec. 7); the last column uses category fixed effects. Full tables are in Appendix R.",
+              "figure_id": "table-2-28",
+              "figure_number": "2",
+              "height": 244,
+              "image_path": "figures/2611.23025/table-017.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 487
+            },
+            {
+              "caption": "Table 7. Each correction on its own failure type, and scale-up on temporal prompts (Mochi). Recovery: fraction of untreated failures that succeed under the method. Induction: fraction of untreated successes that fail under it. Net change: change in the failure rate. McNemar p: exact binomial test on the pairs that changed. Rows describe what guidance can do per failure type and are not to be compared with one another.",
+              "figure_id": "table-7-29",
+              "figure_number": "7",
+              "height": 140,
+              "image_path": "figures/2611.23025/table-018.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 798
+            },
+            {
+              "caption": "Table 11. The guidance scale along a geometric grid, against the same-seed clip at the default scale 4.5. Net recovery as in Appendix L (repaired minus broken pairs, over untreated failures; positive is an improvement), with prompt-cluster bootstrap intervals (5,000 resamples). The 9.0 rows pool the three shared-seed replicates (for negation and temporal prompts, those of Appendix K).",
+              "figure_id": "table-11-10",
+              "figure_number": "11",
+              "height": 298,
+              "image_path": "figures/2611.23025/table-019.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 744
+            },
+            {
+              "caption": "Table 5. Agreement between the unified judgment and the original per-suite judgments. Cohen’s κ with bootstrap 95% CIs, on a stratified sample that covers every model, failure type, and label value.",
+              "figure_id": "table-5-11",
+              "figure_number": "5",
+              "height": 139,
+              "image_path": "figures/2611.23025/table-020.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 560
+            },
+            {
+              "caption": "Table 6. Untreated failure and how far models share it. Left: failure rate per failure type under each model’s default sampling settings. Right: ϕ correlation of the per-prompt failure label between pairs of models.",
+              "figure_id": "table-6-5",
+              "figure_number": "6",
+              "height": 150,
+              "image_path": "figures/2611.23025/table-021.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 648
+            },
+            {
+              "caption": "Table 15. Transfer of demand across models (AUROC, Eq. 3, pooled over failure types). Row: the model on which demand is measured. Column: the model whose untreated failures it predicts.",
+              "figure_id": "table-15-25",
+              "figure_number": "15",
+              "height": 149,
+              "image_path": "figures/2611.23025/table-022.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 442
+            },
+            {
+              "caption": "Table 10. Shared-seed replication of the two borderline scale-up cells (Mochi, first 20 prompts per category). Repaired and broken count the pairs whose label changed between the untreated and the scale-up clip. The pooled p is an exact McNemar test on the changed pairs of all three replicates together; pooling is valid because, if the scale has no effect, a changed pair is equally likely to be a repair or a break in every replicate. Brackets give 95% bootstrap intervals on the net change, obtained by resampling prompts.",
+              "figure_id": "table-10-21",
+              "figure_number": "10",
+              "height": 242,
+              "image_path": "figures/2611.23025/table-023.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 852
+            },
+            {
+              "caption": "Table 17. Segmented fits of recovery on demand. Threshold (breakpoint) D∗ with bootstrap 95% CI, and the slopes before → after it. Per-method thresholds lie within the pooled bands.",
+              "figure_id": "table-17-16",
+              "figure_number": "17",
+              "height": 117,
+              "image_path": "figures/2611.23025/table-024.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 462
+            },
+            {
+              "caption": "Table 8. The eight cells generated for this study. Each correction runs on Mochi in its published configuration, with its reference slot filled by the target failure type’s p◦. The three cells in which a correction meets its own failure type and the temporal scale-up cell complete the grid of Table 3.",
+              "figure_id": "table-8-22",
+              "figure_number": "8",
+              "height": 140,
+              "image_path": "figures/2611.23025/table-025.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 860
+            },
+            {
+              "caption": "Table 9. Scale-up on CogVideoX (failure rates; recovery and induction as in Table 3). The rare-composition effect runs opposite to Mochi’s (−.175 there), and negation, which the raise does not help on Mochi (net within seed noise; Appendix K), is clearly helped here.",
+              "figure_id": "table-9-23",
+              "figure_number": "9",
+              "height": 96,
+              "image_path": "figures/2611.23025/table-026.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 736
+            },
+            {
+              "caption": "Table 13. AUROC gained when demand is added (five-fold cross-validation). Left: all text-only predictors with failure-type fixed effects (Eq. 6), against the same model plus one linear demand term. Center: demand and alignment slopes fitted per failure type, the form that the opposite directions of Table 14 call for. Right: within rare composition with category fixed effects; without those fixed effects the text-only predictors are at chance there on two of three models (Table 12).",
+              "figure_id": "table-13-24",
+              "figure_number": "13",
+              "height": 150,
+              "image_path": "figures/2611.23025/table-027.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 910
+            },
+            {
+              "caption": "Table 14. Direction of the relation between demand and failure. Point-biserial correlation between the failure label and firstquarter demand, per model and failure type. Demand itself is nonnegative (Eq. 1); the sign belongs to the correlation.",
+              "figure_id": "table-14-26",
+              "figure_number": "14",
+              "height": 117,
+              "image_path": "figures/2611.23025/table-028.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 442
+            },
+            {
+              "caption": "Table 12. Predicting failure from the prompt text alone. Five-fold cross-validated AUROC of Eq. (6) without the demand term (chance = 0.500): five complexity measures, the rarity rating r, and the encoder distance u, alone and combined. Left: pooled over failure types with failure-type fixed effects. Right: refit within each failure type, where fixed effects cannot help.",
+              "figure_id": "table-12-27",
+              "figure_number": "12",
+              "height": 150,
+              "image_path": "figures/2611.23025/table-029.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 832
+            },
+            {
+              "caption": "Table 16. The early steps suffice. Spearman ρ between demand over the first K steps and full-trajectory demand.",
+              "figure_id": "table-16-15",
+              "figure_number": "16",
+              "height": 96,
+              "image_path": "figures/2611.23025/table-030.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 412
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.23025/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.23025",
+          "relevance": 7,
+          "selection_reason": "Measurement study on guidance scale for text-to-video diffusion.",
+          "summary_status": "generated",
+          "title": "When a Larger Guidance Scale Repairs Text-to-Video Failures and When It Does Not",
+          "tldr": "A higher classifier-free guidance scale repairs some text-to-video failures—but not negations or late-timed events—and an early demand score predicts when it is worth trying.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Video world models should maintain a world that keeps evolving as the viewpoint changes. Yet when the camera turns away and returns, current models often freeze the unobserved scene, lose objects, or change their appearance, because content outside the view has no representation that keeps changing. We present PanoEvo, which uses a Panoramic Evolver to evolve the world state in the latent space of a panoramic video diffusion model, where every viewing direction is present at every time step, so the scene evolves whether or not it is observed. Existing panoramic video models are not trained to evolve a scene from a single image or the objects within it, so we build PanoEvo-Data, an event-centric dataset from real 360{\\deg} videos, and train the Panoramic Evolver coarse-to-fine as an image-to-panoramic-video model. Since each view covers only a small part of the low-resolution panorama, directly projected views are blurry and often show low-quality details or structural errors. A Perspective Renderer, built on a perspective video diffusion model, reads this state via latent-space projection and direction-restricted cross-attention to render sharp, high-quality views. PanoEvo achieves the best overall score among 23 publicly evaluated models on WRBench and the highest total score on STEVO-Bench. Code, models, and data will be released.",
+          "arxiv_id": "2611.22733",
+          "arxiv_url": "https://arxiv.org/abs/2611.22733",
+          "authors": [
+            "Longtao Jiang, Mingfei Han, Jianmin Bao, Tingjun Dai, Jinjie Wei, Zhiran Zhang, Xin Tao, Zhihui Li, Salman Khan, Xiaojun Chang"
+          ],
+          "bullets": [
+            "Addresses the failure of video world models to evolve off-screen content as viewpoints change.",
+            "Uses a Panoramic Evolver to update all viewing directions in latent space at every time step.",
+            "Introduces PanoEvo-Data, an event-centric dataset from real 360° videos, and trains the evolver coarse-to-fine from images to panoramic video.",
+            "Uses a Perspective Renderer with latent projection and direction-restricted cross-attention to generate detailed views from the panoramic state.",
+            "Reports the best overall score among 23 publicly evaluated models on WRBench and the highest total score on STEVO-Bench."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of PanoEvo. (a) E turns an image I0 and optional text y into an evolving panoramic latent W , the world state, from which R renders a video V along any trajectory C. (b) E is fine-tuned in two stages and writes observed cells back from zref. (c) R reads W via projected latent maps and frustum cross-attention, where each video token attends to panoramic tokens within ρ of its ray.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 495,
+              "image_path": "figures/2611.22733/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 4. Qualitative comparison. Views at t=20 (turning away), 38 (farthest), and 76 (returned), with the subject boxed.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 397,
+              "image_path": "figures/2611.22733/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 3. Construction of PanoEvo-Data. A shared quality gate feeds three branches, two for the stages of E and one for R.",
+              "figure_id": "figure-3-11",
+              "figure_number": "3",
+              "height": 272,
+              "image_path": "figures/2611.22733/figure-003.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 5. Qualitative ablation. Each row adds one component (columns: t=20, 38, 76). Zero-shot, the woman walks past instead of setting her handbag down, the Completion stage has her squat as her bag vanishes, the Evolution stage completes the action out of view, and the Renderer sharpens it without altering the state.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 412,
+              "image_path": "figures/2611.22733/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 485
+            },
+            {
+              "caption": "Table 2. Results on WRBench. Baselines are grouped by viewpoint condition as in [29]. Params: backbone size (total for MoE); for PanoEvo, both DiTs with added modules. Content Avg. averages Integ. and the four spatial/state metrics, and Spatial–State Avg. only the",
+              "figure_id": "table-2-1",
+              "figure_number": "2",
+              "height": 627,
+              "image_path": "figures/2611.22733/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1022
+            },
+            {
+              "caption": "Table 5. Effect of the Perspective Renderer. Both rows use the same Panoramic Evolver output, and “w/o Renderer” projects the decoded panorama directly. Sharpness: Laplacian variance.",
+              "figure_id": "table-5-4",
+              "figure_number": "5",
+              "height": 304,
+              "image_path": "figures/2611.22733/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 3. Results on STEVO-Bench (%). Baseline scores are the official leaderboard values reported in ReMind [50].",
+              "figure_id": "table-3-5",
+              "figure_number": "3",
+              "height": 271,
+              "image_path": "figures/2611.22733/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 488
+            },
+            {
+              "caption": "Table 6. Ablation of the Perspective Renderer components. Each variant removes one component, is trained for 13,500 steps, and is tested on the same E output. Removing frustum attention also removes the read-out loss. Imaging: VBench imaging quality.",
+              "figure_id": "table-6-9",
+              "figure_number": "6",
+              "height": 163,
+              "image_path": "figures/2611.22733/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 1. PanoEvo-Data. Three subsets from real 360◦ videos, split by source video and sharing no time windows.",
+              "figure_id": "table-1-10",
+              "figure_number": "1",
+              "height": 146,
+              "image_path": "figures/2611.22733/table-009.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 496
+            },
+            {
+              "caption": "Table 7. Inference cost for one 77-frame view. Parameters and FLOPs are those of the diffusion transformers, excluding encoders and VAEs. FLOPs of E are amortized over the five camera settings rendered from one panorama in WRBench (unamortized in parentheses). Peak memory is that of diffusion sampling.",
+              "figure_id": "table-7-8",
+              "figure_number": "7",
+              "height": 126,
+              "image_path": "figures/2611.22733/table-010.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 4. Training stages of E on WRBench. All rows use direct projection to isolate E . ∆Avg.: change over the previous row.",
+              "figure_id": "table-4-3",
+              "figure_number": "4",
+              "height": 64,
+              "image_path": "figures/2611.22733/table-011.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22733/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.22733",
+          "relevance": 9,
+          "selection_reason": "Panoramic world-state evolution for video world models; evolves unobserved scenes in latent space and renders views via diffusion, directly advancing world-model prediction.",
+          "summary_status": "generated",
+          "title": "Evolve in Panorama, Render in View: Panoramic World State Evolution for Video World Models",
+          "tldr": "PanoEvo maintains an evolving panoramic world state and renders sharp viewpoint-specific video, reducing scene freezing, object loss, and appearance changes when the camera revisits unseen areas.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Reference-to-video diffusion transformers pack the variational autoencoder (VAE) latents of all references and the generated tokens into one full-attention sequence, in which reference tokens make up about half. Because attention cost grows quadratically with sequence length, these tokens take up an even larger share of the attention computation, yet most of them are static, smooth or irrelevant to the output. To accelerate reference-conditioned generation, we propose pruning and caching of reference tokens for video generation (PCRG), a training-free, plug-and-play method that uses two signals the model already computes to assign each reference token to one of three tiers, namely pruned, cached or kept. The first is a low-level redundancy r from VAE latents, since a token whose latent barely changes over time or across its neighbors adds little new content. The second is a high-level importance g from the vision-language-model (VLM) conditioner, where the attention that the prompt and any first or last frames pay to a token tells whether the output needs to read it. Tokens that are not redundant are kept, and redundant tokens are cached if important and pruned otherwise. Pruned tokens leave the sequence before the first step with all rotary position embedding positions unchanged. Cached tokens have their keys and values computed once and reused, and kept tokens are processed as usual. On MiniMax-H3, already distilled to 8 timesteps and quantized to int8, PCRG is 1.57x faster end to end on our V2V-Bench and 1.49x faster on the public VACE-Benchmark, while the quality of VBench drops by only 0.24% and 0.17%, respectively. PCRG shortens the sequence rather than changing how attention is computed or which steps are run, so it also stacks on step caching and sparse attention. On V2V-Bench it reaches 1.86x with TeaCache, 1.82x with Spark at nearly unchanged fidelity and 2.15x with Veda.",
+          "arxiv_id": "2611.22717",
+          "arxiv_url": "https://arxiv.org/abs/2611.22717",
+          "authors": [
+            "Siyuan Wang, Haoran Li, Yi Yue, Tak L. Fung, Quan Chen"
+          ],
+          "bullets": [
+            "Targets the quadratic attention cost caused by reference tokens, which comprise roughly half of the sequence.",
+            "Ranks tokens using latent redundancy and VLM-derived importance, assigning them to prune, cache, or keep tiers.",
+            "Pruned tokens are removed before generation while preserving rotary positions; cached tokens reuse their keys and values.",
+            "Achieves 1.57× and 1.49× end-to-end speedups on two benchmarks with only 0.24% and 0.17% VBench quality drops.",
+            "Combines with existing acceleration methods, reaching up to 2.15× speedup in the reported experiments."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of PCRG. (a) Before step 1, the redundancy r of the VAE latents selects the redundant set R, the most redundant fraction ρ of each block. The importance g from the VLM marks the cells with g > σ as attended. (b) Pruned rows leave the packed sequence, and the remaining tokens keep their RoPE (①). Step 1 computes every remaining row (②). Steps 2–N skip the cached rows and reuse their keys and values from step 1 (③). In the attention maps (④), from step 2 on, a cached token keeps its key column but loses its query row, and a pruned token has neither.",
+              "figure_id": "figure-2-4",
+              "figure_number": "2",
+              "height": 368,
+              "image_path": "figures/2611.22717/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1023
+            },
+            {
+              "caption": "Figure 5. Pruning 60% of the reference cells by importance, no cache. Red boxes means the least attended first dropped. Blue boxes means the most attended first dropped. yellow boxes is GT and PCRG.",
+              "figure_id": "figure-5-8",
+              "figure_number": "5",
+              "height": 329,
+              "image_path": "figures/2611.22717/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Figure 3. Qualitative comparison on a V2V-Bench request. GT is the unpruned output, and the number in parentheses is the LPIPS to it. +TeaCache and +Spark combine PCRG with TeaCache and Spark.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 150,
+              "image_path": "figures/2611.22717/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1036
+            },
+            {
+              "caption": "Table 1. Accelerators on V2V-Bench and VACE-Benchmark. Speed, PSNR, SSIM, and LPIPS is end to end against the ground truth. Judge is the pairwise VLM score against the GT. VB-Q is the mean of six VBench dimensions in percent; changes quoted in the text are computed before rounding. The Bold and UNDERLINE denote the best and second-best results, respectively.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 509,
+              "image_path": "figures/2611.22717/table-004.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 483
+            },
+            {
+              "caption": "Table 2. Redundant-set selection on VACE-Benchmark with a reference video: by r, at random, or by inverted r. The Bold and UNDERLINE denote the best and second-best results, respectively.",
+              "figure_id": "table-2-2",
+              "figure_number": "2",
+              "height": 441,
+              "image_path": "figures/2611.22717/table-005.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 3. Pruning by importance on the V2V-Bench with an FLframe. The Bold and UNDERLINE denote the best and second-best results, respectively.",
+              "figure_id": "table-3-7",
+              "figure_number": "3",
+              "height": 275,
+              "image_path": "figures/2611.22717/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 416
+            },
+            {
+              "caption": "Table 5. Pruning reference images on the V2V-Bench requests with reference images. Images only and video only apply PCRG to one kind of reference, and the last two rows prune or cache every redundant image cell instead of splitting them by σ. The Bold and UNDERLINE denote the best and second-best results, respectively.",
+              "figure_id": "table-5-6",
+              "figure_number": "5",
+              "height": 229,
+              "image_path": "figures/2611.22717/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 479
+            },
+            {
+              "caption": "Table 4. Splitting the redundant set of PCRG between cache and prune tiers by σ, on VACE-Benchmark with a reference video.",
+              "figure_id": "table-4-5",
+              "figure_number": "4",
+              "height": 185,
+              "image_path": "figures/2611.22717/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 452
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22717/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.22717",
+          "relevance": 8,
+          "selection_reason": "Training-free pruning and caching of reference tokens in video diffusion transformers; directly targets token-level efficiency and video generation acceleration.",
+          "summary_status": "generated",
+          "title": "PCRG: Training-Free Pruning and Caching of Reference Tokens for Video Generation",
+          "tldr": "PCRG accelerates reference-conditioned video generation by training-free pruning and caching of redundant reference tokens with minimal quality loss.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction",
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Amodal perception enables humans to perceive entire objects even when parts are occluded, a remarkable cognitive skill that artificial intelligence struggles to replicate. Recent diffusion-based methods have extended amodal completion from images to videos, yet they lack auxiliary priors to guide the reconstruction of heavily occluded content and to maintain temporal consistency over long sequences. We present REVEAL (REconstructing VidEo Amodal content via Language and flow guidance), a unified diffusion-based framework that integrates complementary motion and semantic priors for video amodal completion. A user-provided text query serves a dual role: it drives open-vocabulary video segmentation to obtain visible masks, and it provides semantic guidance for texture reconstruction. For amodal segmentation, we introduce optical flow guidance: by warping visible masks from previous frames to the current frame, the flow-warped mask propagates visible content into occluded regions and approximates the object's current shape, providing a strong shape prior even under simultaneous deformation and occlusion. For texture completion, text guidance constrains the reconstruction of occluded appearance while providing a stable semantic reference that helps maintain visual coherence throughout the reconstruction. We also contribute LAVAT, a new benchmark featuring long video sequences paired with text descriptions, enabling evaluation of text-guided video amodal completion under heavy occlusion. Extensive experiments demonstrate that REVEAL achieves state-of-the-art performance on existing benchmarks while maintaining high-quality temporal consistency over extended sequences. The project page is available at: https://uark-aicv.github.io/REVEAL/.",
+          "arxiv_id": "2611.22645",
+          "arxiv_url": "https://arxiv.org/abs/2611.22645",
+          "authors": [
+            "Minh Tran, Winston Bounsavy, Ngan Le"
+          ],
+          "bullets": [
+            "Addresses video amodal completion under severe occlusion and long-term temporal consistency challenges.",
+            "Uses a text query for open-vocabulary visible-object segmentation and semantic texture reconstruction.",
+            "Introduces optical-flow mask warping to provide shape guidance for amodal segmentation across frames.",
+            "Introduces LAVAT, a benchmark of long videos with text descriptions for text-guided amodal completion.",
+            "Reports state-of-the-art performance on existing benchmarks with high temporal consistency over extended sequences."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3: Video Amodal Texture Completion Stage. The second stage conducts amodal texture completion with text guidance as semantic priors, leveraging pretrained diffusion models to reconstruct accurate content based on canonical object shapes and properties.",
+              "figure_id": "figure-3-17",
+              "figure_number": "3",
+              "height": 468,
+              "image_path": "figures/2611.22645/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 979
+            },
+            {
+              "caption": "Figure 2: Video Amodal Mask Segmentation Stage. The model uses optical flow as a motion prior, warping visible masks from previous frames to propagate shape information into occluded regions.",
+              "figure_id": "figure-2-16",
+              "figure_number": "2",
+              "height": 392,
+              "image_path": "figures/2611.22645/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 976
+            },
+            {
+              "caption": "Figure 5: Ablation of flow prior. Amodal mask prediction with and without flow prior on LAVAT.",
+              "figure_id": "figure-5-1",
+              "figure_number": "5",
+              "height": 473,
+              "image_path": "figures/2611.22645/figure-003.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 976
+            },
+            {
+              "caption": "Figure 6: Illustration of the flow prior under simultaneous deformation and occlusion. The object deforms while being occluded. The visible mask at frame T (green) covers only the unoccluded portion. Warping the previous frame’s mask to T via optical flow (purple) recovers regions that are currently hidden, providing a shape prior that captures the object’s motion and deformation. Our predicted amodal mask (yellow) closely matches the ground truth (orange).",
+              "figure_id": "figure-6-2",
+              "figure_number": "6",
+              "height": 314,
+              "image_path": "figures/2611.22645/figure-004.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 979
+            },
+            {
+              "caption": "Figure 7: Qualitative ablation of text guidance. Texture completion with and without text guidance on LAVAT. We also compare with VACE (Jiang et al., 2025) as an additional video inpainting baseline.",
+              "figure_id": "figure-7-9",
+              "figure_number": "7",
+              "height": 448,
+              "image_path": "figures/2611.22645/figure-005.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 979
+            },
+            {
+              "caption": "Figure 8: Text cross-attention visualization. Given the prompt “A man that is wearing a white shirt, a cap and a bag”, we visualize the cross-attention maps for individual tokens. Each token attends to its corresponding semantic region, demonstrating that text guidance provides spatially grounded priors.",
+              "figure_id": "figure-8-8",
+              "figure_number": "8",
+              "height": 435,
+              "image_path": "figures/2611.22645/figure-006.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 979
+            },
+            {
+              "caption": "Figure 4: Qualitative comparison between TACO (Lu et al., 2025), Diff-VAS (Chen et al., 2025), and our REVEAL on LAVAT-R benchmark.",
+              "figure_id": "figure-4-3",
+              "figure_number": "4",
+              "height": 973,
+              "image_path": "figures/2611.22645/figure-007.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 979
+            },
+            {
+              "caption": "Table 2: Quantitative comparison with state-of-the-art methods. Bold indicates the best performance.",
+              "figure_id": "table-2-11",
+              "figure_number": "2",
+              "height": 473,
+              "image_path": "figures/2611.22645/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 968
+            },
+            {
+              "caption": "Table 10: End-to-end evaluation from plain-text input on LAVAT-S. The first row upper-bounds Stage 2 with ground-truth amodal masks; the second row is our reported setting; the third row runs the full pipeline from the text prompt alone, with visible masks predicted by SAM3.",
+              "figure_id": "table-10-7",
+              "figure_number": "10",
+              "height": 117,
+              "image_path": "figures/2611.22645/table-009.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 986
+            },
+            {
+              "caption": "Table 1: Comparison of statistics with the existing video amodal completion datasets. For LAVAT, we report values for the synthetic subset (S) and real subset (R). # denotes “number of”.",
+              "figure_id": "table-1-10",
+              "figure_number": "1",
+              "height": 251,
+              "image_path": "figures/2611.22645/table-010.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 666
+            },
+            {
+              "caption": "Table 7: Text guidance ablation across occlusion difficulty on LAVAT-S. We report completion quality for our Stage-2 texture model with and without text guidance.",
+              "figure_id": "table-7-12",
+              "figure_number": "7",
+              "height": 106,
+              "image_path": "figures/2611.22645/table-011.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 968
+            },
+            {
+              "caption": "Table 3: Evaluation on LAVAT-R (real occlusions). We report text-video alignment (CLIP-T) and human preference (%) from a user study.",
+              "figure_id": "table-3-15",
+              "figure_number": "3",
+              "height": 151,
+              "image_path": "figures/2611.22645/table-012.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 802
+            },
+            {
+              "caption": "Table 4: Flow prior ablation across occlusion difficulty on LAVAT-S. We report amodal mIoU (↑).",
+              "figure_id": "table-4-4",
+              "figure_number": "4",
+              "height": 94,
+              "image_path": "figures/2611.22645/table-013.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 446
+            },
+            {
+              "caption": "Table 6: Flow-prior injection design ablation on LAVAT-S. Added params is on top of the 397.66Mparameter Stage-1 trainable set; Latency is per 25-frame 128×256 fp16 step on a single A6000. mIoU (↑) is reported across occlusion difficulty.",
+              "figure_id": "table-6-14",
+              "figure_number": "6",
+              "height": 140,
+              "image_path": "figures/2611.22645/table-014.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 766
+            },
+            {
+              "caption": "Table 5: Motion guidance ablation across motion and shape-change magnitudes on LAVAT-S. We report amodal mIoU (↑), grouping motion and shape change separately.",
+              "figure_id": "table-5-13",
+              "figure_number": "5",
+              "height": 128,
+              "image_path": "figures/2611.22645/table-015.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 690
+            },
+            {
+              "caption": "Table 9: Flow prior ablation across occlusion duration on LAVAT-S. Amodal mIoU (↑) over occluded frames, grouped by the number of consecutive frames the object has been occluded.",
+              "figure_id": "table-9-6",
+              "figure_number": "9",
+              "height": 141,
+              "image_path": "figures/2611.22645/table-016.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 660
+            },
+            {
+              "caption": "Table 8: Temporal consistency of text guidance across sequence lengths on LAVAT-S. We report Stage-2 texture completion results with and without text guidance using CLIP-F (↑) and FVD (↓). The with-text results are also reported in the “w/ Temporal Gen.” row of ??.",
+              "figure_id": "table-8-5",
+              "figure_number": "8",
+              "height": 128,
+              "image_path": "figures/2611.22645/table-017.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 660
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22645/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.22645",
+          "relevance": 6,
+          "selection_reason": "Diffusion-based video amodal completion with text and flow guidance, temporally consistent video generation.",
+          "summary_status": "generated",
+          "title": "REVEAL: Reconstructing Video Amodal Content via Language and Flow Guidance",
+          "tldr": "REVEAL uses language and optical flow to complete heavily occluded objects in long videos with coherent shapes and textures over time.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "State-of-the-art world models have been used to produce sequences of gameplay that accord with provided user-input actions. However, high quality, consistent gameplay generation often comes at the cost of inference speed, making real-time interactive play and ideation challenging. The substantial quantities of data used to train state-of-the-art models have also made custom training of these models appear impractical, limiting many of their potential uses in creative fields. In this work we demonstrate a major step towards efficient world models: achieving both fast high-quality inference, and improved data efficiency. This is done by replacing the next-token prediction paradigm with a two-stage discrete diffusion-based approach, introducing a lightweight refinement transformer which carries out iterative masked predictions. Building on an autoregressive world model capable of generating highly consistent and complex sequences over minutes (Kanervisto et al., 2025), we achieve substantial model speed-up (79x) with a modest quality trade-off. Additionally, we demonstrate that this model can be trained to reproduce high-quality, consistent gameplay using a dataset containing approximately one day (28 hours) of gameplay data. Our results demonstrate progress towards removing barriers to the use of world models in settings where real-time inference and data efficiency are essential.",
+          "arxiv_id": "2611.22497",
+          "arxiv_url": "https://arxiv.org/abs/2611.22497",
+          "authors": [
+            "Raluca Stevenson, David Bignell, Jennifer C. White, Tabish Rashid, Emanuele Aiello, Mariya Hendriksen, Junha Hyung, Sadegh Aliakbarian, Abdelhak Lemkhenter, Marko Tot, Katja Hofmann, Sarah Parisot"
+          ],
+          "bullets": [
+            "Targets the slow inference and heavy data requirements that limit interactive and creative uses of world models.",
+            "Replaces next-token prediction with two-stage discrete diffusion and iterative masked prediction via a lightweight refinement transformer.",
+            "Builds on an autoregressive model designed for consistent, complex gameplay over minutes.",
+            "Demonstrates high-quality, consistent gameplay training using approximately one day of gameplay data.",
+            "Scope: the speed–quality trade-off and data-efficiency claims are demonstrated for gameplay generation."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: WHAM-RT architecture. A large backbone transformer predicts all next-frame image tokens in one shot and compresses the context. A lightweight discrete diffusion transformer refines the prediction using the compressed context.",
+              "figure_id": "figure-1-14",
+              "figure_number": "1",
+              "height": 325,
+              "image_path": "figures/2611.22497/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 746
+            },
+            {
+              "caption": "Figure 6: Visual comparisons of gameplay generated by WHAM-RT and WHAM, compared to the ground truth video. World models receive the first 10 ground truth frames as input, as well as the actions entered in the ground truth video.",
+              "figure_id": "figure-6-8",
+              "figure_number": "6",
+              "height": 580,
+              "image_path": "figures/2611.22497/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 797
+            },
+            {
+              "caption": "Figure 4: Comparison of model FPS during inference with respect to the number of refinement iterations calculated using a batch size of 1 on a single H100 accelerator.",
+              "figure_id": "figure-4-6",
+              "figure_number": "4",
+              "height": 235,
+              "image_path": "figures/2611.22497/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 368
+            },
+            {
+              "caption": "Figure 5: Low data models evaluation. We measure FVD over time for our full dataset model (WHAM-RT Full) and small data models at two model sizes (WHAM-RT Low Data).",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 239,
+              "image_path": "figures/2611.22497/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 361
+            },
+            {
+              "caption": "Figure 10: Per metric results. We show individual metric results and the impact of temperature and iteration values on overall performance.",
+              "figure_id": "figure-10-10",
+              "figure_number": "10",
+              "height": 664,
+              "image_path": "figures/2611.22497/figure-005.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 816
+            },
+            {
+              "caption": "Figure 3: Impact of temperatures and iterations on FVD, FVMD, JEDI and normalised average values. For a given parameter and metric, we report mean and standard deviation values with respect to other parameters. We additionally show values for our default parameters (red line), and WHAM (green line). For all metrics, lower is better.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 910,
+              "image_path": "figures/2611.22497/figure-006.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 803
+            },
+            {
+              "caption": "Figure 12: Additional visual results showing gameplay generated by WHAM-RT and WHAM, compared to the ground truth video.",
+              "figure_id": "figure-12-4",
+              "figure_number": "12",
+              "height": 592,
+              "image_path": "figures/2611.22497/figure-007.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 813
+            },
+            {
+              "caption": "Figure 11: Additional visual results showing gameplay generated by WHAM-RT and WHAM, compared to the ground truth video.",
+              "figure_id": "figure-11-5",
+              "figure_number": "11",
+              "height": 591,
+              "image_path": "figures/2611.22497/figure-008.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 809
+            },
+            {
+              "caption": "Figure 8: Detailed quantitative results: heatmaps reporting computed metrics for all temperature and iteration settings.",
+              "figure_id": "figure-8-15",
+              "figure_number": "8",
+              "height": 1221,
+              "image_path": "figures/2611.22497/figure-009.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 818
+            },
+            {
+              "caption": "Figure 2: Heatmaps of agent locations on the sky garden map. Left: random sampling of 1000 sequences of 100 seconds each. Right: our curated dataset. The left image shows a bias towards the spawn points (a) and the corridors leading from them (b), and patchy coverage in the less frequently visited parts of the map, particularly the top and bottom extremities (c). Finally, the curated data captures rare occurrences, such as the extra paths between the spawn points and the main area (d).",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 202,
+              "image_path": "figures/2611.22497/figure-010.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 802
+            },
+            {
+              "caption": "Figure 7: Generated frames taken each minute from 2 long gameplay sequences with WHAM-RT.",
+              "figure_id": "figure-7-13",
+              "figure_number": "7",
+              "height": 183,
+              "image_path": "figures/2611.22497/figure-011.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 826
+            },
+            {
+              "caption": "Figure 9: Impact of temperature parameters on the normalised average of computed metrics (FVD, FVMD, JEDI) per number of iterations. Per metric results are available in Appendix B.",
+              "figure_id": "figure-9-9",
+              "figure_number": "9",
+              "height": 182,
+              "image_path": "figures/2611.22497/figure-012.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 816
+            },
+            {
+              "caption": "Table 3: The curated low-data model has higher feature-space density and coverage than the randomsubset model on longer rollouts.",
+              "figure_id": "table-3-3",
+              "figure_number": "3",
+              "height": 150,
+              "image_path": "figures/2611.22497/table-013.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 627
+            },
+            {
+              "caption": "Table 2: Long-horizon FVD (↓). Both low-data WHAM-RT variants outperform the full-data model on longer rollouts.",
+              "figure_id": "table-2-12",
+              "figure_number": "2",
+              "height": 140,
+              "image_path": "figures/2611.22497/table-014.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 590
+            },
+            {
+              "caption": "Table 1: WHAM-RT ablations. We compare full WHAM-RT with variants removing or perturbing the compressed context, as well as the backbone-only model. Lower FVD and higher FPS is better.",
+              "figure_id": "table-1-11",
+              "figure_number": "1",
+              "height": 140,
+              "image_path": "figures/2611.22497/table-015.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 540
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22497/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.22497",
+          "relevance": 9,
+          "selection_reason": "Fast, data-efficient action-conditioned world model via discrete diffusion; directly relevant to interactive world models and efficient video generation.",
+          "summary_status": "generated",
+          "title": "Towards Data-Efficient, Real-Time World Models",
+          "tldr": "A two-stage discrete diffusion world model enables 79× faster gameplay generation with modest quality loss and effective training from just 28 hours of data.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            },
+            {
+              "subtopic_ids": [],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Latent diffusion models rely on a decoder to map denoised latents to pixels, adding complexity and inference cost. We introduce Decoding Without a Decoder (DWD), which lets a finetuned diffusion transformer produce final pixels directly through a linear head. Unlike previous methods, where the denoising output leads to final pixels, DWD separates the two roles: the original denoising head continues to drive sampling, then the new DWD head predicts the pixels at the final step. We extend pretrained latent models with DWD efficiently by finetuning only the last few transformer blocks, training the DWD head with pixel quality losses while anchoring the denoising head to the pretrained model to preserve the sample trajectory. Across latent image and video generators, DWD removes the decoder and reduces inference cost while maintaining or even improving pixel quality. On Wan video generation, it visibly reduces detail distortion and flickering, lowering warping error by 23%. Remarkably, the same separation also improves pixel diffusion models that do not even use a decoder: a final-step DWD head produces substantially better texture detail in text-to-image generation, and improves ImageNet FID from 1.55 to 1.43, a new state of the art among pixel flow models.",
+          "arxiv_id": "2611.22287",
+          "arxiv_url": "https://arxiv.org/abs/2611.22287",
+          "authors": [
+            "Hansheng Chen, Shengqu Cai, Jan Ackermann, Rayhan Zirvi, Gordon Wetzstein, Xinchen Yan, Leonidas Guibas"
+          ],
+          "bullets": [
+            "Addresses the complexity and inference cost of decoders in latent diffusion models.",
+            "Adds a linear DWD pixel-prediction head while retaining the original denoising head for sampling.",
+            "Efficiently adapts pretrained models by finetuning only the final transformer blocks and anchoring the denoising behavior.",
+            "Works across image and video generators, reducing detail distortion and flickering; Wan’s warping error drops by 23%.",
+            "Also improves pixel diffusion models, raising ImageNet FID from 1.55 to 1.43 and enhancing texture detail."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3: Last-layer tokens support more accurate linear pixel reconstruction. We fit patchwise linear probes from denoised latents ẑ0 and last-layer tokens h to ground-truth pixels, keeping the pretrained models frozen. (a) Held-out relative RMSE, with percentages showing error reduction over the latent probe. (b, c) Probes of last-layer tokens preserve finer image detail and reduce video ghosting before finetuning.",
+              "figure_id": "figure-3-8",
+              "figure_number": "3",
+              "height": 376,
+              "image_path": "figures/2611.22287/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 829
+            },
+            {
+              "caption": "Figure 5: Text-to-image comparisons. Each pair shows the baseline (left) and its DWD extension (right) for the same prompt and seed. (a) On the latent FLUX.2 klein models, DWD closely matches the baseline’s content and texture without the decoder (zoom in to view detail). (b) On the pixel AnisoFlow model, DWD preserves the composition while recovering photorealistic texture in bark, foliage, and clouds. The large panels are zoomed crops, with the full image inset.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 387,
+              "image_path": "figures/2611.22287/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 744
+            },
+            {
+              "caption": "Figure 4: A nonzero final timestep is necessary for the DWD quality gain. (a) At tfinal=0, where the DWD head receives a fully denoised input, FID matches or trails the baseline’s, so the gain vanishes; a small positive timestep recovers it. Larger circles mark the defaults used in Table 1. (b) Qualitative results also confirm the trend: DWD at its default timestep recovers skin and fabric texture, while DWD at tfinal=0 is as smooth as the baseline. The large panels are zoomed crops, with the full image inset.",
+              "figure_id": "figure-4-3",
+              "figure_number": "4",
+              "height": 254,
+              "image_path": "figures/2611.22287/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 781
+            },
+            {
+              "caption": "Figure 7: Additional same-seed comparisons on AnisoFlow-L/16-T2I (1/3). Feather barbs and wool weave are recovered by DWD; the baseline blurs both into flat regions.",
+              "figure_id": "figure-7-2",
+              "figure_number": "7",
+              "height": 1190,
+              "image_path": "figures/2611.22287/figure-004.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 828
+            },
+            {
+              "caption": "Figure 2: Standard latent generation vs. DWD. (a) A standard generator samples a denoised latent and maps it to pixels with a decoder. (b) DWD retains the denoising head for latent denoising and adds a parallel DWD head that produces the final pixels only at the final step, bypassing this decoder. DWD finetunes the pretrained generator’s final blocks and heads (fire icon), while freezing all previous blocks (ice icon). Time t and conditioning c are omitted for clarity.",
+              "figure_id": "figure-2-4",
+              "figure_number": "2",
+              "height": 207,
+              "image_path": "figures/2611.22287/figure-005.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 826
+            },
+            {
+              "caption": "Figure 9: Additional same-seed comparisons on AnisoFlow-L/16-T2I (3/3). COCO and OneIG prompts. DWD recovers facial detail, fabric texture, and the individual cobblestones that the baseline smooths.",
+              "figure_id": "figure-9-5",
+              "figure_number": "9",
+              "height": 1205,
+              "image_path": "figures/2611.22287/figure-006.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 706
+            },
+            {
+              "caption": "Table 3: Results of text-to-video generation (832×480, 81 frames) on VBench. Shaded rows are our DWD extensions, finetuned from the baseline above them. Finetuned decoder keeps the baseline DiT and finetunes its decoder on the same data with the same pixel losses as DWD (Appendix B.1). The 8-bit baseline and its DWD extension both use FP8 W8A8 quantization with 8-bit SageAttention2 (Zhang et al., 2025).",
+              "figure_id": "table-3-11",
+              "figure_number": "3",
+              "height": 394,
+              "image_path": "figures/2611.22287/table-007.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 822
+            },
+            {
+              "caption": "Table 1: Results on ImageNet 256×256. Shaded rows are our DWD extensions, finetuned from the baseline above them. Italic rows are ablations: DWD-conv adds convolutional refinement, and w/o separate head fuses the DWD and denoising heads so that a single head receives both pixel losses and trajectory anchoring. DWD has slightly more parameters than the baseline denoiser mainly due to the duplicated timestep embedding MLP.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 377,
+              "image_path": "figures/2611.22287/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 820
+            },
+            {
+              "caption": "Table 2: Results of text-to-image generation (1024×1024). Shaded rows are our DWD extensions, finetuned from the baseline above them.",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 231,
+              "image_path": "figures/2611.22287/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 740
+            },
+            {
+              "caption": "Table 4: DWD finetuning settings per model. K is the number of finetuned blocks out of the total. Adv. start is the iteration at which the generator adversarial loss is switched on, after a discriminator warmup. λ is the trajectory anchoring weight in Eq. (2), and ptraj and ppix are the timestep ranges of the two losses before the timestep shift. Mixed-resolution runs use the batch sizes given in Appendix A.2, and FLUX.2 klein Base uses the model’s resolution-dependent shift (dyn.). GPU hours are estimated for H100 GPUs.",
+              "figure_id": "table-4-10",
+              "figure_number": "4",
+              "height": 192,
+              "image_path": "figures/2611.22287/table-010.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 822
+            },
+            {
+              "caption": "Table 5: Few-step video generation on 4-step Wan2.1 T2V 1.3B (BF16). All models use the same sampler timesteps.",
+              "figure_id": "table-5-9",
+              "figure_number": "5",
+              "height": 127,
+              "image_path": "figures/2611.22287/table-011.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 806
+            },
+            {
+              "caption": "Table 6: End-to-end latency and peak VRAM of 4-step models.",
+              "figure_id": "table-6-13",
+              "figure_number": "6",
+              "height": 135,
+              "image_path": "figures/2611.22287/table-012.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 498
+            },
+            {
+              "caption": "Table 7: Comparison with latent-to-pixel adaptation (1024×1024). Z-Image Turbo results are from its official report.",
+              "figure_id": "table-7-12",
+              "figure_number": "7",
+              "height": 177,
+              "image_path": "figures/2611.22287/table-013.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 656
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22287/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.22287",
+          "relevance": 6,
+          "selection_reason": "Removes decoder from latent diffusion transformers with a direct pixel-prediction head, improving video and image diffusion generation and reducing inference cost.",
+          "summary_status": "generated",
+          "title": "Decoding Without a Decoder: Direct Pixel Prediction from Diffusion Transformers",
+          "tldr": "DWD enables diffusion transformers to predict final pixels directly, eliminating the latent decoder while preserving or improving image and video quality.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "The effectiveness of a video diffusion model's inference budget depends on where computation is spent along the denoising trajectory. Across eight equal-budget inference configurations, VBench total scores span 4.80 points, highlighting the importance of explicit allocation design. Our key insight is that guidance evaluations are not equally valuable across diffusion time: retaining the sampling updates while selectively reusing guidance can preserve generation quality with fewer denoiser evaluations. We introduce BATMoS (Budget Aware Temporal Mixture of Strategies), which routes between fresh classifier-free guidance and cached guidance using a single pretrained denoiser. A magnitude-based temporal rule assigns guidance reuse to low-magnitude blocks and reserves fresh guidance for the remaining blocks, with a single integer controlling the computation budget. The resulting schedule requires no additional router training or per-budget threshold search. Evaluated on CogVideoX-2B with 4,720 videos per configuration across all sixteen official VBench dimensions, BATMoS achieves the highest total score among the eight allocation policies and comes within 0.10 points of full classifier-free guidance using 20\\% fewer branch evaluations. BATMoS also composes with feature reuse, reducing computation from 80 to 62 effective branch evaluations with a 0.11-point decrease in total score. These findings make temporal guidance allocation a practical mechanism for extracting more generation quality from a fixed inference budget.",
+          "arxiv_id": "2611.22028",
+          "arxiv_url": "https://arxiv.org/abs/2611.22028",
+          "authors": [
+            "Zhixu Du, Kuo Yang, Jingwei Sun, Hai \"Helen\" Li, Yiran Chen"
+          ],
+          "bullets": [
+            "Inference quality varies substantially with how a fixed computation budget is allocated along the denoising trajectory.",
+            "BATMoS routes between fresh classifier-free guidance and cached guidance using a single pretrained denoiser.",
+            "A magnitude-based temporal rule reuses guidance in low-magnitude blocks and reserves fresh evaluations elsewhere, controlled by one integer budget parameter.",
+            "On CogVideoX-2B across all 16 VBench dimensions, it achieves the best score among eight allocation policies and comes within 0.10 points of full guidance with 20% fewer branch evaluations.",
+            "Combined with feature reuse, it reduces effective branch evaluations from 80 to 62 with a 0.11-point score decrease."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 2: A guidance-magnitude profile gives a direct temporal budget control. (a) Mean normalized guidance magnitude from twelve ordinary full-CFG trajectories on CogVideoX-2B. The vertical axis is logarithmic. The shaded region contains the blocks selected for guidance reuse at 𝐵 = 80. (b) Replacing one five-update block of fresh CFG with guidance reuse saves five branch evaluations. A prefix of the fixed magnitude ranking determines the schedule, with 𝐵 = 100 − 5𝑘 .",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 318,
+              "image_path": "figures/2611.22028/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 923
+            },
+            {
+              "caption": "Fig. 3: Guidance allocation and feature reuse retain different quantities. (a) Full CFG refreshes the conditional– unconditional difference. A later guidance-reuse update combines that cached difference with a fresh conditional prediction. (b) Internal residual reuse operates inside two-branch CFG runs. Run boundaries refresh the stack, and one-branch guidance-reuse updates execute all blocks. The strip shows full-stack CFG (dark blue), guidance reuse (hatched red), and residual reuse (pale blue). Their update counts are 21, 20, and nine, yielding 62 effective NFE.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 291,
+              "image_path": "figures/2611.22028/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 950
+            },
+            {
+              "caption": "Table 2: Allocation changes video quality at a fixed computation budget. Eight guidance-allocation policies execute 80 full-stack branch evaluations. BATMoS has the highest total score among these policies. The reference rows report TeaCache at matched effective NFE and full 100-branch CFG. † marks separate-branch execution with BF16 prediction arithmetic. The remaining configurations use joint-branch execution with FP32 prediction arithmetic. All scores use the same 4,720-video population and official VBench aggregation.",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 314,
+              "image_path": "figures/2611.22028/table-003.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 818
+            },
+            {
+              "caption": "Table 3: Feature reuse extends the 80-branch BATMoS schedule to 62 effective NFE. The execution columns count sampler updates with full-stack CFG, full-stack guidance reuse, or CFG residual reuse. Every row retains 50 sampling updates. The complete operating range includes the 60-branch magnitude schedule and TeaCache’s lower-cost configurations.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 256,
+              "image_path": "figures/2611.22028/table-004.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 898
+            },
+            {
+              "caption": "Table 4: Guidance allocation and feature reuse affect different attributes. Frame-quality and temporal-consistency dimensions at 80 effective NFE. Δ is BATMoS minus TeaCache in raw dimension-score points. The Supplementary Material reports all sixteen dimensions.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 153,
+              "image_path": "figures/2611.22028/table-005.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 454
+            },
+            {
+              "caption": "Table 1: Prediction procedures sharing one denoiser. Costs count fresh full-stack branch evaluations. 𝑑𝑟 is the stored guidance difference and 𝑝𝑖−1 the previous prediction. Every procedure supplies a prediction to the sampler transition.",
+              "figure_id": "table-1-4",
+              "figure_number": "1",
+              "height": 153,
+              "image_path": "figures/2611.22028/table-006.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 438
+            }
+          ],
+          "first_seen_at": "2026-11-17T21:00:00-05:00",
+          "hero_figure": "figures/2611.22028/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.22028",
+          "relevance": 8,
+          "selection_reason": "Budget-aware guidance allocation for video diffusion directly fits video diffusion and efficient inference.",
+          "summary_status": "generated",
+          "title": "BATMoS: Budget-Aware Guidance Allocation for Efficient Video Diffusion",
+          "tldr": "BATMoS improves video diffusion efficiency by reusing guidance selectively over time, preserving near-full quality with fewer denoiser branch evaluations.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            },
+            {
+              "subtopic_ids": [],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-16",
       "paper_count": 12,
       "papers": [
@@ -64575,5 +65989,5 @@
   "schema_version": 1,
   "subtopic_id": "video-diffusion",
   "topic_id": "video-models",
-  "total_paper_count": 317
+  "total_paper_count": 325
 }

@@ -6,10 +6,15 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Learning from Human Videos
 
-**238 papers total**
+**243 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-17 | [TCP4D: A Unified Tool-Center-Point Tracking and Generation Model for Robot Manipulation](https://arxiv.org/abs/2611.23143) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation, Learning from Human Videos | TCP4D unifies TCP tracking and future trajectory generation from monocular robot videos, enabling cross-embodiment data augmentation and strong manipulation performance. | 9 | 9 |
+| 2026-11-17 | [HandRSI: Recursive Self-Improvement for Hand Pose Estimation](https://arxiv.org/abs/2611.22164) | Embodied AI: Learning from Human Videos; Adaptation and Memory: Test-Time Learning | HandRSI jointly improves hand-pose inference and estimation through recursive harness refinement and selective distillation, substantially reducing pose error and jitter on HOT3D and ARCTIC. | 7 | 7 |
+| 2026-11-17 | [EgoHandWAM: Probing the Role of Hand Motion in Egocentric World Action Modeling](https://arxiv.org/abs/2611.22151) | Embodied AI: Learning from Human Videos | Hand-motion history provides modest predictive information about upcoming egocentric views, mainly for visual features, while predicted motion and human-to-robot transfer offer limited benefits. | 7 | 6 |
+| 2026-11-17 | [HubEgo-100K: In-the-Wild Egocentric Video of Skilled Work for Robot Learning](https://arxiv.org/abs/2611.21938) | Embodied AI: Learning from Human Videos | HubEgo-100K v1.0 is a large, diverse dataset of real-world egocentric skilled-work videos with synchronized IMU data, designed to support more generalizable robot learning. | 9 | 8 |
+| 2026-11-17 | [From Human Videos to Bimanual Dexterous Manipulation Data: Confidence-Guided RL Refinement of Video Priors](https://arxiv.org/abs/2611.21908) | Embodied AI: Robot Learning and Manipulation, Learning from Human Videos | PriDex converts uncertain human-video demonstrations into executable bimanual robot data by confidence-guided reinforcement-learning refinement of object and wrist motion priors. | 9 | 8 |
 | 2026-11-16 | [WinDEX: Metric 3D Hand Motion Reconstruction in the Wild for Dexterous Teleoperation and Policy Learning](https://arxiv.org/abs/2611.21143) | Embodied AI: Robot Learning and Manipulation, Learning from Human Videos; 3D Vision | WinDEX enables fast, metric-scale 3D hand-motion reconstruction from in-the-wild stereo video for dexterous robot policy learning and real-time teleoperation. | 8 | 7 |
 | 2026-11-16 | [Lift, See, Act: Hierarchical Robot Policy Pretraining with 3D Foundation Models](https://arxiv.org/abs/2611.20481) | Embodied AI: Learning from Human Videos; 3D Vision: 3D Foundation Models | LSA pretrains robot policies from human videos by learning dense 3D, geometric, and interaction-aware representations before acting. | 9 | 8 |
 | 2026-11-16 | [XMimic and XSoma: Learning Humanoid Motion Tracking and Locomotion in Under a Minute](https://arxiv.org/abs/2611.20452) | Embodied AI: Robot Navigation, Robot Learning and Manipulation, Learning from Human Videos | XMimic and XSoma accelerate humanoid motion tracking and rough-terrain locomotion learning to under a minute by parallelizing and compiling model-based training across GPUs. | 9 | 8 |
