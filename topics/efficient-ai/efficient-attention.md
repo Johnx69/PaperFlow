@@ -6,10 +6,15 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Efficient Attention
 
-**267 papers total**
+**272 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-18 | [On-Policy Morphing into Hybrid Attention Models](https://arxiv.org/abs/2611.24809) | Efficient AI: Efficient Attention | FlashMorph2 selects full-attention layers on-policy and jointly adapts weights, improving hybrid Transformer quality efficiently across model scales. | 7 | 7 |
+| 2026-11-18 | [Spark-H3: Adaptive Block Sparse Attention for Video Diffusion Models](https://arxiv.org/abs/2611.24256) | Video Generation and Understanding: Video Diffusion; Efficient AI: Efficient Attention | Spark-H3 accelerates video diffusion attention by adaptively grouping and reweighting compressed blocks, achieving strong fidelity with substantially lower computation. | 8 | 8 |
+| 2026-11-18 | [Layer-Matched Sparse Attention for Low-Redundancy 3D Reconstruction](https://arxiv.org/abs/2611.23554) | Efficient AI: Efficient Attention | LMSA uses layer-specific sparse attention to preserve low-redundancy cross-view information while accelerating 3D reconstruction. | 7 | 7 |
+| 2026-11-18 | [Where Global Context and Weight Sharing Work in Compact Vision Backbones](https://arxiv.org/abs/2611.23446) | Efficient AI: Efficient Attention | Lightweight stage-specific self-attention improves compact EfficientNet recognition, while carefully designed weight sharing reduces parameters with a moderate accuracy trade-off. | 5 | 6 |
+| 2026-11-18 | [Optimize the Cob, Then the Kernel: Optimizing Beam Search for Generative Recommendation Inference](https://arxiv.org/abs/2611.23339) | Efficient AI: Efficient Attention, KV Cache and Memory Efficiency | A holistic beam-search optimization pipeline makes generative recommendation inference up to 25× faster than vLLM on Ascend NPUs without custom kernels. | 8 | 7 |
 | 2026-11-17 | [The Kernel Reality Check: Benchmarking and Distilling Efficient Attention at Scale](https://arxiv.org/abs/2611.22947) | Efficient AI: Efficient Attention | A systematic benchmark finds that kernelized attention usually does not beat FlashAttention on efficiency and often trails softmax in quality, though LARA++ can nearly close the quality gap at substantial computational cost. | 8 | 6 |
 | 2026-11-17 | [FM-Mamba: An Efficient Native 2D Selective State Space Model with Stability-Aware Discretization](https://arxiv.org/abs/2611.22061) | Efficient AI: Efficient Attention | FM-Mamba is a native 2D selective state space model that preserves spatial structure while using stability-aware, position- and direction-adaptive propagation. | 7 | 8 |
 | 2026-11-17 | [Lost in a Few Heads: Diagnosing and Repairing Block Selection in Sparse Attention](https://arxiv.org/abs/2611.21917) | Efficient AI: Token Pruning and Eviction, Efficient Attention; Language Foundation Models: Long-Context Models | A small number of blind attention heads cause most sparse-attention retrieval failures, and selectively repairing them largely restores full-attention accuracy at much of sparse serving’s speed benefit. | 8 | 7 |

@@ -6,10 +6,14 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Vision-Language Navigation
 
-**160 papers total**
+**164 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-18 | [NereidVLA: Learning to Understand and Navigate the Underwater World](https://arxiv.org/abs/2611.24864) | Embodied AI: Vision-Language Navigation, Robot Navigation, Vision-Language-Action | NereidVLA transfers marine spatial knowledge to language-guided 3D underwater navigation, achieving strong simulated and real-robot performance without real-environment fine-tuning. | 9 | 8 |
+| 2026-11-18 | [Allocentric Memory, Egocentric Acting: A Dual-Frame VLA for Urban Aerial Navigation](https://arxiv.org/abs/2611.24247) | Embodied AI: Vision-Language Navigation, Vision-Language-Action; Adaptation and Memory: Embodied Memory | CityNav-VLA combines egocentric perception with persistent allocentric map memory to improve language-guided urban UAV navigation. | 9 | 8 |
+| 2026-11-18 | [AeroRSI: Recursive Self-Improvement for Aerial Vision-Language Navigation](https://arxiv.org/abs/2611.24077) | Embodied AI: Vision-Language Navigation, Vision-Language-Action | AeroRSI improves aerial vision-language navigation by having UAV policies iteratively discover, verify, and learn from repairs to their own flight failures. | 9 | 8 |
+| 2026-11-18 | [A Hierarchical Onboard Vision-Language-Navigation Framework for Aerial Robots in Complex Environments](https://arxiv.org/abs/2611.23930) | Embodied AI: Vision-Language Navigation; Efficient AI: Token Pruning and Eviction | VLN-AR is a hierarchical onboard vision-language-navigation framework that enables UAVs to perform efficient, long-horizon navigation in complex environments under limited computational resources. | 9 | 7 |
 | 2026-11-17 | [Fly as Instructed: Refining World-Action Policies for UAV Vision-Language Navigation](https://arxiv.org/abs/2611.22883) | Embodied AI: Vision-Language Navigation | A UAV vision-language navigation framework improves instruction following, progress tracking, termination, and obstacle avoidance through coordinated world-action refinements. | 8 | 7 |
 | 2026-11-17 | [GridDriver: On-Board BEV-Based Language Planning and Reasoning](https://arxiv.org/abs/2611.21924) | Embodied AI: Vision-Language Navigation, Robot Navigation, Vision-Language-Action; Multimodal Foundation Models: Multimodal Large Language Models, Spatial Intelligence | GridDriver enables efficient onboard autonomous driving by combining BEV perception, language reasoning, and continuous trajectory planning in a shared LLM framework. | 8 | 7 |
 | 2026-11-16 | [Learning and Verifying Progress: Closed-Loop Agentic Planning with Progress-Enhanced Execution for Long-Horizon Vision-Language Navigation](https://arxiv.org/abs/2611.20676) | Embodied AI: Vision-Language Navigation | LeaP-VLN improves long-horizon vision-language navigation by combining progress-aware execution with independent verification and recovery in a closed loop. | 9 | 8 |

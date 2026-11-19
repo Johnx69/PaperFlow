@@ -1,6 +1,2549 @@
 {
   "days": [
     {
+      "date": "2026-11-18",
+      "paper_count": 12,
+      "papers": [
+        {
+          "abstract": "Visual foundation models provide powerful representations for diverse tasks, but their features become stale as visual content changes between image observations. Refreshing them requires new frames and repeated runs of a computationally expensive image encoder. We introduce ALIVE, an event-based method that incrementally updates native foundation model features between image observations. Given an anchor image, ALIVE uses subsequent events to transport and correct existing multi-layer features extracted by a frozen DINOv3 encoder. Its lightweight updater is trained end-to-end using only synthetic data, without downstream task supervision, and transfers directly to real-world event streams without any adaptation. Across three real-world datasets and five task-dataset settings spanning object detection, semantic segmentation, and depth estimation, ALIVE outperforms all evaluated event-based methods in every metric. On DSEC, when the anchor frame is 200,ms old, ALIVE improves over anchor-image predictions by 30.9,mAP in detection, 11.6,mIoU in segmentation, and 15.9% in depth AbsRel. Compared with image re-encoding, ALIVE reduces FLOPs by 82.4% and latency by a factor of 2.5.",
+          "arxiv_id": "2611.24579",
+          "arxiv_url": "https://arxiv.org/abs/2611.24579",
+          "authors": [
+            "Rong Zou, Haiqing Hao, Davide Scaramuzza"
+          ],
+          "bullets": [
+            "Addresses feature staleness when visual content changes between image observations.",
+            "Uses events to incrementally transport and correct multi-layer DINOv3 features from an anchor image.",
+            "Trains a lightweight updater end-to-end on synthetic data without downstream-task supervision and transfers to real event streams without adaptation.",
+            "Across three real-world datasets and five task settings, it outperforms evaluated event-based methods for detection, segmentation, and depth estimation.",
+            "On DSEC with a 200 ms-old anchor, it improves anchor predictions by 30.9 mAP, 11.6 mIoU, and 15.9% AbsRel, while reducing FLOPs by 82.4% and latency 2.5× versus image re-encoding."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of ALIVE. (a) Training uses synthetic RGB–event sequences. A frozen DINOv3 encodes every RGB frame: F0 initializes the feature state (with memory h0 = 0), and later frames provide teacher features Ft. For each event packet E(t−,t], the ALIVE updater Uθ predicts a displacement dt that transports both the features and the memory, a residual correction ∆t that yields Ut, and a signed, zero-sum 3× 3 kernel kt per token that refines Ut into F̂t. The ConvGRU memory ht conditions the residual and the refinement. All modules are trained jointly with feature-level losses only, without task labels or task heads. (b) The trained updater is applied without adaptation to real event streams. Moment matching aligns the per-channel statistics of F̂t with the anchor moments to produce the updated features F̄t, and frozen task heads trained on DINOv3 features of real RGB images read F̄t directly. Predictions are shown 200 ms after the anchor on DSEC, and detections are drawn on the RGB frame at that time for visualization only (C: car, P: person).",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 485,
+              "image_path": "figures/2611.24579/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 4. Qualitative comparison on test samples. Each column shows one sample at its target time, and each view is followed by a zoom of the framed region. The top four rows show the anchor frame, the events between the anchor and the target time (red: positive, blue: negative), the target frame, and the ground truth. The other rows show the predictions of the frozen heads from the features of each method. Detection: predictions in orange and ground truth dashed in green. Depth: red (near) to blue (far), with one range per sample. Apart from Current RGB, no method receives the target frame, and the ground truth is shown for reference only.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 840,
+              "image_path": "figures/2611.24579/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1033
+            },
+            {
+              "caption": "Figure 3. Accuracy versus update cost (top) and versus anchor age (bottom). Each column is one task–dataset setting, evaluated with a frozen task head shared by all methods. Top: accuracy pooled over all anchor ages against the time per feature update. The dashed line marks the stale anchor features, the dotted line marks the 5 ms limit for updates at 200 Hz, and the star marks the goal of reaching the accuracy of Current RGB within this limit. Current RGB encodes the target frame itself, which is unavailable between frames. Bottom: accuracy at each anchor age. The blue line connects the best baseline at each age, and its markers identify the method as in the top row. Arrows give the gain of ALIVE over the stale features at the longest age (for AbsRel, the relative decrease).",
+              "figure_id": "figure-3-5",
+              "figure_number": "3",
+              "height": 449,
+              "image_path": "figures/2611.24579/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1027
+            },
+            {
+              "caption": "Table 1. Comparison with baselines. Detection and segmentation scores are in %, and RMSE is in meters. The ∆ row gives the absolute gain for detection and segmentation and the relative change for depth. The cost of one feature update is measured on one NVIDIA GH200 (FP32, batch size 1, 640 × 640 inputs). GFLOPs count convolutions, matrix multiplications, and attention. Latency is the mean time per update over 40 consecutive updates and 12 runs on three DSEC clips, including event preprocessing but excluding anchor encoding, history initialization, and task heads. Bold and underlined values indicate the best and second-best results, excluding Current RGB.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 486,
+              "image_path": "figures/2611.24579/table-004.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Table 2. Ablation on DSEC of the inputs and modules (top) and of the training losses (bottom). Removing the memory also removes memory transport. Bold and underlined values indicate the best and second-best results.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 440,
+              "image_path": "figures/2611.24579/table-005.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 508
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.24579/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.24579",
+          "relevance": 8,
+          "selection_reason": "Introduces an event-based method to incrementally update foundation model features (DINOv3) at inference time, addressing feature staleness and efficiency.",
+          "summary_status": "generated",
+          "title": "ALIVE: Bring Foundation Features to Life with Events",
+          "tldr": "ALIVE efficiently keeps frozen visual foundation-model features current between image frames by using event streams, improving downstream vision tasks while avoiding repeated image encoding.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "spatial-intelligence"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            },
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Traditional long-horizon LLM agents often hand off context through full-history prompting, retaining all previous action--observation interactions. As execution proceeds, this history keeps growing, increasing inference cost and potentially degrading accuracy. Existing methods control this growth by preserving compact conclusions while removing earlier observations, but doing so can discard evidence that later becomes relevant. We introduce Semantic Context Handoff (SCH), whose central abstraction is state--evidence separation: a compact semantic state carries the agent's current interpretation, while supporting action--observation evidence remains separately addressable and can re-enter context when later execution makes it relevant, without separate summarization or retrieval-model calls. Empirically, SCH improves long-horizon agent performance while substantially reducing context cost. In a controlled 150-task SWE-bench study, SCH's evidence recovery improves Pass@1 from $80.0\\%$ to $86.9\\%$ at essentially unchanged token use and execution time. In the complete-system comparison, SCH achieves 86.9% Pass@1 while using 43% fewer tokens and 41% less wall-clock time than the strongest baseline by task performance. Across models and benchmarks, SCH consistently reduces token use relative to full-history prompting while remaining competitive with or improving upon the evaluated baselines. Trajectory analysis confirms that SCH recovers evidence from substantially earlier parts of the interaction history rather than merely preserving a recent context window.",
+          "arxiv_id": "2611.24357",
+          "arxiv_url": "https://arxiv.org/abs/2611.24357",
+          "authors": [
+            "Guolong Zheng, Chen Hou, Xu Yang, Jianshan Zhang, Tao Huang"
+          ],
+          "bullets": [
+            "Addresses growing full-history prompts that increase inference cost and can obscure relevant information.",
+            "Maintains a compact semantic state while keeping prior action–observation evidence separately addressable for on-demand reuse.",
+            "Requires no separate summarization or retrieval-model calls to recover evidence.",
+            "In a 150-task SWE-bench study, Pass@1 increased from 80.0% to 86.9% at essentially unchanged token use and execution time.",
+            "The complete system used 43% fewer tokens and 41% less wall-clock time than the strongest task-performance baseline."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: SCH workflow. The LLM receives the current semantic state together with relevant evidence and returns a sparse state delta and environment action. The controller updates the state, executes the action, stores the resulting action–observation evidence, and selects evidence for subsequent handoffs.",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 450,
+              "image_path": "figures/2611.24357/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 598
+            },
+            {
+              "caption": "Table 3: Breadth beyond the primary setting. All rows are single-run. DeepSeek SWE-bench appears in Table 2. AppWorld uses 417 MiniMax tasks and a separate frozen 200-task DeepSeek sample, so its blocks are not a controlled cross-model comparison.",
+              "figure_id": "table-3-7",
+              "figure_number": "3",
+              "height": 263,
+              "image_path": "figures/2611.24357/table-002.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 618
+            },
+            {
+              "caption": "Table 2: Primary complete-system comparison on frozen 150-task DeepSeek SWE-bench. Solved/Eval. aggregates three runs on the same tasks; Pass@1 is mean ± sample SD across runs. MAGE is paper-guided; Proactive Memory is adapted from its official implementation.",
+              "figure_id": "table-2-2",
+              "figure_number": "2",
+              "height": 144,
+              "image_path": "figures/2611.24357/table-003.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 618
+            },
+            {
+              "caption": "Table 4: Selected SWE-bench v6.3.1 implementation parameters from the released configuration.",
+              "figure_id": "table-4-6",
+              "figure_number": "4",
+              "height": 512,
+              "image_path": "figures/2611.24357/table-004.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 772
+            },
+            {
+              "caption": "Table 5: Primary-setting architectural-baseline and active-state rerun results. Values are estimated mean ± sample SD from the repeated-run aggregates supplied by the evaluation pipeline. Calls/task is included here because it was recorded for these newly run conditions; SCH’s headline Pass@1/token/time metrics remain in Table 2.",
+              "figure_id": "table-5-8",
+              "figure_number": "5",
+              "height": 109,
+              "image_path": "figures/2611.24357/table-005.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 764
+            },
+            {
+              "caption": "Table 8: Primary-run SCH mechanism statistics for 150 audited SWE-bench trajectories. Percentages with task counts use 150 as the denominator. These mechanism diagnostics refer to Run 1; the repeated effectiveness and efficiency results are reported separately in Tables 2 and 1. “Metadata only” denotes quantities aggregated from controller-emitted task/turn metadata rather than reconstructed from rendered prompt text.",
+              "figure_id": "table-8-3",
+              "figure_number": "8",
+              "height": 428,
+              "image_path": "figures/2611.24357/table-006.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 782
+            },
+            {
+              "caption": "Table 1: Controlled mechanism study on frozen 150-task DeepSeek SWE-bench. State/lifecycle machinery, action interface, controller limits, and evidence budget are fixed; only historical evidence selection changes. Mean ± sample SD over three runs.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 109,
+              "image_path": "figures/2611.24357/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 610
+            },
+            {
+              "caption": "Table 7: Selected historical evidence re-exposed around the focal revision in sympy sympy-17630. Ages are measured relative to revision step 71. The table abbreviates observations to their role in the repair; the released trajectory contains the canonical action–observation records.",
+              "figure_id": "table-7-10",
+              "figure_number": "7",
+              "height": 223,
+              "image_path": "figures/2611.24357/table-008.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 756
+            },
+            {
+              "caption": "Table 9: Primary-run token accounting and context-window diagnostics for the 150-task DeepSeek SWE-bench Full-History arm. Values marked ≈ are estimated from the Run 1 aggregate.",
+              "figure_id": "table-9-4",
+              "figure_number": "9",
+              "height": 585,
+              "image_path": "figures/2611.24357/table-009.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 598
+            },
+            {
+              "caption": "Table 6: Diagnostic component analysis. †Semantic State Only is from the earlier 50-task development cohort and has approximate runtime; the remaining rows are primary-run results on the frozen 150- task SWE-bench cohort. Repeated matched selector results appear in Table 1.",
+              "figure_id": "table-6-9",
+              "figure_number": "6",
+              "height": 126,
+              "image_path": "figures/2611.24357/table-010.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 652
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.24357/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.24357",
+          "relevance": 9,
+          "selection_reason": "Directly addresses memory management for long-horizon agents by separating state from evidence, reducing context cost while maintaining performance. Highly relevant to test-time adaptation and agent memory.",
+          "summary_status": "generated",
+          "title": "Semantic Context Handoff with On-Demand Evidence for Long-Horizon Agents",
+          "tldr": "Semantic Context Handoff separates compact agent state from recoverable evidence, improving long-horizon performance while reducing context costs.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Neural decoding of visual experience from electroencephalography (EEG) has achieved strong performance in intra-subject settings, but current methods fail to generalize across individuals: on the standard 200-way benchmark THINGS-EEG-2, top-1 accuracy drops from above 80% within subjects to about 32% for an unseen subject. Adapting a pre-trained encoder to new subjects and sessions typically requires labeled data, a bottleneck whose collection time severely limits practical device deployment. In a practical Brain-Computer Interface (BCI), however, the possible outcomes are known in advance and form a gallery of candidates, and the unlabeled EEG of the user accumulates as soon as the device is used. We propose a new setting, incremental transductive calibration, in which the decoder is calibrated regularly on all the unlabeled EEG received so far and on the known gallery, without any labels. This setting is closer to the conditions of a deployed BCI than the zero-shot and batch evaluations in current use. We evaluate it with a protocol in which queries arrive one at a time, with unknown and possibly unequal frequencies, and each query is decoded before it is used for calibration. In this setting, we introduce GALA : GAllery-Level Alignment, a label-free calibration method which registers the unlabeled EEG embeddings onto the gallery through shrinkage whitening, hubness correction and a Sinkhorn--Procrustes alignment with query frequencies estimated from the buffer, updated after every query. On THINGS-EEG-2, with a gallery of 200 images, it raises the top-1 accuracy on a new subject from 28% to 67% over 53 minutes of use. Across 60 evaluation settings that vary the gallery size, the query frequencies and the number of repetitions averaged per query, GALA is the most accurate label-free method in every setting, 6.6 points above the best competing method on average at the end of the stream.",
+          "arxiv_id": "2611.24206",
+          "arxiv_url": "https://arxiv.org/abs/2611.24206",
+          "authors": [
+            "Philippe Forest, Giulia Lioi, Mai Pham Quyen, Alix Lamouroux, Javen Shi, Adrien Merlini"
+          ],
+          "bullets": [
+            "Addresses the gap between strong within-subject decoding and poor generalization to unseen individuals without collecting labeled calibration data.",
+            "Introduces incremental transductive calibration: each EEG query is decoded first, then accumulated unlabeled data and the known candidate gallery are used for calibration.",
+            "GALA aligns EEG embeddings with the gallery using shrinkage whitening, hubness correction, and Sinkhorn–Procrustes alignment with continually estimated query frequencies.",
+            "On THINGS-EEG-2 with 200 candidate images, accuracy for a new subject improves from 28% to 67% over 53 minutes.",
+            "Across 60 settings, GALA is the most accurate label-free method, averaging 6.6 percentage points above the strongest competitor at stream end."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. Incremental transductive calibration on THINGS-EEG-2 (10 subjects, q = 20). Top-1 accuracy of the incoming queries, each decoded before it is used for calibration, in windows of one fifteenth of the stream, against stimulus time, for the uniform, skewed and partial streams (mean ± one standard deviation over three training seeds). The figure shows four methods, all with the ATM encoder; Table 1 reports every method.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 335,
+              "image_path": "figures/2611.24206/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1024
+            },
+            {
+              "caption": "Figure 4. Margin of GALA over the best other method on the last 30% of the queries of each stream, in points of top-1 accuracy, for every gallery size K and number of repetitions per query q. Blue: GALA is ahead.",
+              "figure_id": "figure-4-9",
+              "figure_number": "4",
+              "height": 297,
+              "image_path": "figures/2611.24206/figure-002.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 1022
+            },
+            {
+              "caption": "Figure 5. Calibration gain across encoders and image targets in the batch evaluation. Fraction of the zero-shot errors fixed by GALA against (a) the zero-shot top-1 accuracy and (b) the RSA between EEG and image embeddings, for the six encoders of Table 5 (circles) and for ATM trained against five other image targets (diamonds).",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 304,
+              "image_path": "figures/2611.24206/figure-003.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 730
+            },
+            {
+              "caption": "Figure 1. Evaluation settings. Top: in the standard zero-shot evaluation, each query is decoded alone against the gallery. In the standard transductive batch evaluation, the 200 test queries are calibrated together and each gallery image is queried exactly once. Bottom: in incremental transductive calibration, the gallery is known, but queries arrive one at a time with unequal frequencies, some gallery images are never queried, and the calibration at each step uses all the queries received so far.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 553,
+              "image_path": "figures/2611.24206/figure-004.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 492
+            },
+            {
+              "caption": "Figure 2. GALA. The unlabeled EEG embeddings of an unseen subject are whitened, compared with the gallery through cross-domain similarity local scaling, and registered onto it by a Sinkhorn normalization with estimated column masses bj and a soft Procrustes alignment. Each new query (blue) triggers one pass of this loop.",
+              "figure_id": "figure-2-10",
+              "figure_number": "2",
+              "height": 446,
+              "image_path": "figures/2611.24206/figure-005.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 496
+            },
+            {
+              "caption": "Figure 6. Uniform stream for each menu size K (rows) and number of averaged repetitions q (columns). Top-1 accuracy of the incoming queries, in windows of one fifteenth of the stream, against stimulus time, at 200 ms per repetition.",
+              "figure_id": "figure-6-13",
+              "figure_number": "6",
+              "height": 1199,
+              "image_path": "figures/2611.24206/figure-006.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 1023
+            },
+            {
+              "caption": "Figure 7. Skewed stream for each menu size K (rows) and number of averaged repetitions q (columns), as in Fig. 6.",
+              "figure_id": "figure-7-12",
+              "figure_number": "7",
+              "height": 1200,
+              "image_path": "figures/2611.24206/figure-007.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 1024
+            },
+            {
+              "caption": "Figure 8. Partial stream for each menu size K (rows) and number of averaged repetitions q (columns), as in Fig. 6.",
+              "figure_id": "figure-8-8",
+              "figure_number": "8",
+              "height": 1200,
+              "image_path": "figures/2611.24206/figure-008.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 1024
+            },
+            {
+              "caption": "Table 1. Incremental transductive calibration: top-1 accuracy (%) of the queries received after 1, 5 and 20 minutes of stimulus time, and at the end of the uniform stream. Every query is decoded before it is used for calibration (q = 20, mean over 10 subjects, three training seeds and ten stream orders; one seed for SCORE with its own encoder).",
+              "figure_id": "table-1-6",
+              "figure_number": "1",
+              "height": 342,
+              "image_path": "figures/2611.24206/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 848
+            },
+            {
+              "caption": "Table 5. Top-1 accuracy (%) across encoders after 1, 5, 10 and 20 minutes of the uniform, skewed and partial streams, and at the end of the uniform stream (53 minutes).",
+              "figure_id": "table-5-11",
+              "figure_number": "5",
+              "height": 681,
+              "image_path": "figures/2611.24206/table-010.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 852
+            },
+            {
+              "caption": "Table 2. Standard batch evaluation: top-1 accuracy (%) of 200-way cross-subject retrieval on THINGS-EEG-2, per held-out subject, with one 80-repetition query per gallery image.",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 363,
+              "image_path": "figures/2611.24206/table-011.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 890
+            },
+            {
+              "caption": "Table 3. Incremental transductive calibration on Alljoined-1.6M and THINGS-MEG: top-1 accuracy (%) on the last 30% of the queries of each stream (ATM, one training seed).",
+              "figure_id": "table-3-4",
+              "figure_number": "3",
+              "height": 230,
+              "image_path": "figures/2611.24206/table-012.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 872
+            },
+            {
+              "caption": "Table 4. Ablation of GALA components in the incremental setting: top-1 accuracy (%) after 1 and 20 minutes of each stream, and at the end of the uniform stream.",
+              "figure_id": "table-4-3",
+              "figure_number": "4",
+              "height": 298,
+              "image_path": "figures/2611.24206/table-013.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 473
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.24206/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.24206",
+          "relevance": 6,
+          "selection_reason": "Proposes incremental transductive calibration for EEG-based visual decoding, updating the decoder on unlabeled streaming data during deployment, fitting test-time and online learning.",
+          "summary_status": "generated",
+          "title": "GALA: Gallery-Level Alignment for Real-Life Vision Decoding from EEG",
+          "tldr": "GALA enables label-free, continual calibration of EEG vision decoders for unseen users, substantially improving cross-subject image decoding during real-time use.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "test-time-learning",
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Training-free open-vocabulary semantic segmentation (OVSS) has made strong progress by adapting CLIP-like representations to dense prediction, but its remaining errors are often local, structured, and tied to the active label space. A successful correction must be visually plausible, legal under the target vocabulary, and executable in the segmentation score field. We propose SEER, a training-free test-time repair layer for Semantic Evidence and Executable Region propagation. SEER casts post-prediction OVSS repair as evidence-conditioned label propagation. The OVSS score space proposes compact candidate labels, a frozen VLM verifies closed-set regional evidence, and an execution gate certifies whether the evidence is legally and semantically actionable. The accepted label is then propagated by an OVSS-side policy: coherent high-confidence regions allow broad propagation, while object- or boundary-risk cases use conservative score-grounded propagation. Across eight standard OVSS benchmarks, SEER reaches 58.0 average mIoU without updating OVSS weights. Matched-input controls isolate the repair mechanism, while resource measurements report the cost of the complete frozen system.",
+          "arxiv_id": "2611.24152",
+          "arxiv_url": "https://arxiv.org/abs/2611.24152",
+          "authors": [
+            "Junyang Chen, Xiao Li, Yiguo Qiao, Wenbin Li"
+          ],
+          "bullets": [
+            "Targets local, structured OVSS errors that depend on the active label vocabulary.",
+            "Uses OVSS scores to propose candidate labels and a frozen vision-language model to verify regional semantic evidence.",
+            "An execution gate accepts only evidence that is both vocabulary-legal and actionable in the segmentation score field.",
+            "Applies broad propagation to coherent high-confidence regions and conservative score-grounded propagation near objects or boundaries.",
+            "Achieves 58.0 average mIoU across eight standard OVSS benchmarks without updating OVSS weights; controls and resource measurements assess the repair mechanism and full-system cost."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of SEER. SEER converts regional VLM evidence into executable OVSS label propagation. From a fixed prediction, it selects ambiguous proposals, derives score-based candidates, and verifies them with multi-view closed-set reasoning. Score support and vocabulary legality certify the verified label, and the OVSS model controls its pixel propagation.",
+              "figure_id": "figure-2-17",
+              "figure_number": "2",
+              "height": 338,
+              "image_path": "figures/2611.24152/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 826
+            },
+            {
+              "caption": "Figure 4: Audit budget. More proposals improve repair quality; SEER stays above score-gated execution.",
+              "figure_id": "figure-4-22",
+              "figure_number": "4",
+              "height": 239,
+              "image_path": "figures/2611.24152/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 327
+            },
+            {
+              "caption": "Figure 3: Execution frontier. Bars show ∆ mIoU on VOC, PC, and ADE; the dashed line reports certified support. SEER reaches the strongest gains by turning broader verified evidence into executable propagation.",
+              "figure_id": "figure-3-10",
+              "figure_number": "3",
+              "height": 181,
+              "image_path": "figures/2611.24152/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 383
+            },
+            {
+              "caption": "Figure 14: COCO-Stuff visual examples. Stuff-heavy scenes highlight the value of label-spaceaware evidence: SEER corrects broad semantic regions while retaining pixel-level execution in the OVSS model.",
+              "figure_id": "figure-14-34",
+              "figure_number": "14",
+              "height": 1154,
+              "image_path": "figures/2611.24152/figure-004.webp",
+              "kind": "figure",
+              "page": 32,
+              "width": 814
+            },
+            {
+              "caption": "Figure 7: Boundary-sensitive and residual failure cases. SEER can recover proposal-supported regions absent from the initial top-1 prediction, but errors remain when proposals cross semantic boundaries, candidate labels are ambiguous, or the OVSS score field is weak. These cases motivate the execution gate and conservative propagation: plausible regional VLM evidence still needs scorefield-constrained pixel support.",
+              "figure_id": "figure-7-2",
+              "figure_number": "7",
+              "height": 379,
+              "image_path": "figures/2611.24152/figure-005.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 814
+            },
+            {
+              "caption": "Figure 6: Support-threshold stability. Joint scaling around the default constants (0.02, 0.20, 0.25) changes gains by at most 0.14 mIoU.",
+              "figure_id": "figure-6-19",
+              "figure_number": "6",
+              "height": 294,
+              "image_path": "figures/2611.24152/figure-006.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 380
+            },
+            {
+              "caption": "Figure 8: ADE20K visual examples. SEER repairs local semantic residues in indoor and scenecentric images while preserving the surrounding dense prediction structure.",
+              "figure_id": "figure-8-3",
+              "figure_number": "8",
+              "height": 1156,
+              "image_path": "figures/2611.24152/figure-007.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 814
+            },
+            {
+              "caption": "Figure 9: Cityscapes visual examples. SEER targets structured road-scene residues such as missing stuff regions, fragmented objects, and label-space confusions in a fixed OVSS prediction.",
+              "figure_id": "figure-9-35",
+              "figure_number": "9",
+              "height": 1156,
+              "image_path": "figures/2611.24152/figure-008.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 814
+            },
+            {
+              "caption": "Figure 10: PC59 visual examples. The repairs are localized to semantically supported regions and keep unrelated objects and stuff categories unchanged.",
+              "figure_id": "figure-10-21",
+              "figure_number": "10",
+              "height": 1156,
+              "image_path": "figures/2611.24152/figure-009.webp",
+              "kind": "figure",
+              "page": 28,
+              "width": 814
+            },
+            {
+              "caption": "Figure 12: VOC20 visual examples. Object-centric cases show that SEER repairs missing or confused object regions through closed-set evidence and score-space execution.",
+              "figure_id": "figure-12-7",
+              "figure_number": "12",
+              "height": 1156,
+              "image_path": "figures/2611.24152/figure-010.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 814
+            },
+            {
+              "caption": "Figure 13: VOC21 visual examples. SEER improves residual object and background errors under the active label space, complementing the quantitative gains reported in the main paper.",
+              "figure_id": "figure-13-40",
+              "figure_number": "13",
+              "height": 1156,
+              "image_path": "figures/2611.24152/figure-011.webp",
+              "kind": "figure",
+              "page": 31,
+              "width": 814
+            },
+            {
+              "caption": "Figure 11: PC60 visual examples. The fixed prediction often contains plausible but incomplete regions; SEER uses closed-set evidence to propagate executable labels where the OVSS score field supports them.",
+              "figure_id": "figure-11-11",
+              "figure_number": "11",
+              "height": 1154,
+              "image_path": "figures/2611.24152/figure-012.webp",
+              "kind": "figure",
+              "page": 29,
+              "width": 814
+            },
+            {
+              "caption": "Figure 15: COCO-Object visual examples. Object-boundary cases are more conservative, but SEER still repairs reliable regions when the closed candidate and execution gate agree.",
+              "figure_id": "figure-15-18",
+              "figure_number": "15",
+              "height": 1008,
+              "image_path": "figures/2611.24152/figure-013.webp",
+              "kind": "figure",
+              "page": 33,
+              "width": 814
+            },
+            {
+              "caption": "Table 1: Complete-system accuracy on eight OVSS benchmarks. Published baseline numbers follow the CorrCLIP-style evaluation configuration and are grouped by CLIP size. SEER is an accuracy–cost point, not an equal-resource comparison: it adds fixed SAM2 proposals and sparse local Qwen3.5-9B verification to CorrCLIP. Paired end-to-end cost and matched-input attribution are reported in Tab. 7 and Tab. 4.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 444,
+              "image_path": "figures/2611.24152/table-014.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 827
+            },
+            {
+              "caption": "Table 10: Deterministic execution contract. Fixed constants and routing rules are shared by all benchmarks; invalid or abstained audits never modify pixels.",
+              "figure_id": "table-10-33",
+              "figure_number": "10",
+              "height": 570,
+              "image_path": "figures/2611.24152/table-015.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 816
+            },
+            {
+              "caption": "Table 9: Unified protocol. Each row lists the experimental scope, the factor varied, and the quantities kept identical.",
+              "figure_id": "table-9-32",
+              "figure_number": "9",
+              "height": 265,
+              "image_path": "figures/2611.24152/table-016.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 792
+            },
+            {
+              "caption": "Table 6: VLM auditor transfer. All rows use the same replay protocol and differ only in the regional verifier.",
+              "figure_id": "table-6-26",
+              "figure_number": "6",
+              "height": 248,
+              "image_path": "figures/2611.24152/table-017.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 468
+            },
+            {
+              "caption": "Table 3: Evidence interface. Free-form asks the VLM to name a label, full label list exposes the whole vocabulary, and closed top-k contains the current/base label, up to k non-base scorederived alternatives, and uncertain.",
+              "figure_id": "table-3-8",
+              "figure_number": "3",
+              "height": 149,
+              "image_path": "figures/2611.24152/table-018.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 395
+            },
+            {
+              "caption": "Table 5: Multi-view evidence. Results use the default audit pool, verifier, candidates, gate, and propagation policy.",
+              "figure_id": "table-5-25",
+              "figure_number": "5",
+              "height": 131,
+              "image_path": "figures/2611.24152/table-019.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 404
+            },
+            {
+              "caption": "Table 4: Matched-input controls. Every row uses the same frozen prediction, proposals, candidates, audit pool, and 2,000-audit cap.",
+              "figure_id": "table-4-23",
+              "figure_number": "4",
+              "height": 127,
+              "image_path": "figures/2611.24152/table-020.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 406
+            },
+            {
+              "caption": "Table 26: Full-validation cross-base plug-in test. The same SEER rules are used for each OVSS base; ∆avg averages four benchmark gains.",
+              "figure_id": "table-26-13",
+              "figure_number": "26",
+              "height": 392,
+              "image_path": "figures/2611.24152/table-021.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 732
+            },
+            {
+              "caption": "Table 29: Proposal-space repair headroom. Oracle rows are analysis-only diagnostics, not inferencetime baselines. The full-pool oracle is the headroom row; the top-500 oracle is budget-limited and not a strict upper bound.",
+              "figure_id": "table-29-20",
+              "figure_number": "29",
+              "height": 472,
+              "image_path": "figures/2611.24152/table-022.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 823
+            },
+            {
+              "caption": "Table 2: Component diagnostics. Each row is an alternative repair setting, not a cumulative build-up. The initial values are an independently frozen diagnostic S, Y 0, not the published CorrCLIP row in Tab. 1; every delta uses this identical state.",
+              "figure_id": "table-2-9",
+              "figure_number": "2",
+              "height": 160,
+              "image_path": "figures/2611.24152/table-023.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 808
+            },
+            {
+              "caption": "Table 8: Proposal quality and execution coverage. Purity and semantic correctness are analysis-only measurements over the fixed audit pool.",
+              "figure_id": "table-8-39",
+              "figure_number": "8",
+              "height": 173,
+              "image_path": "figures/2611.24152/table-024.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 672
+            },
+            {
+              "caption": "Table 7: End-to-end cost (s/image). Validation-weighted measurements on the same hardware. Cached SEER reuses fixed SAM2 proposals; cold SEER includes proposal generation. Audit load averages 0.71 calls per image.",
+              "figure_id": "table-7-24",
+              "figure_number": "7",
+              "height": 110,
+              "image_path": "figures/2611.24152/table-025.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 598
+            },
+            {
+              "caption": "Table 12: Evidence interfaces. Absolute mIoU for the main gain table.",
+              "figure_id": "table-12-30",
+              "figure_number": "12",
+              "height": 164,
+              "image_path": "figures/2611.24152/table-026.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 395
+            },
+            {
+              "caption": "Table 13: Execution statistics. Closed evidence executes useful regions.",
+              "figure_id": "table-13-27",
+              "figure_number": "13",
+              "height": 147,
+              "image_path": "figures/2611.24152/table-027.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 395
+            },
+            {
+              "caption": "Table 21: Pixel statistics. Four-benchmark averages over executed repairs.",
+              "figure_id": "table-21-5",
+              "figure_number": "21",
+              "height": 161,
+              "image_path": "figures/2611.24152/table-028.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 416
+            },
+            {
+              "caption": "Table 22: Training-free cost. Selective proposal-level auditing with effective sharded verifier latency.",
+              "figure_id": "table-22-15",
+              "figure_number": "22",
+              "height": 156,
+              "image_path": "figures/2611.24152/table-029.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 479
+            },
+            {
+              "caption": "Table 24: End-to-end timing. Validationweighted cost with the default verifier.",
+              "figure_id": "table-24-16",
+              "figure_number": "24",
+              "height": 179,
+              "image_path": "figures/2611.24152/table-030.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 343
+            },
+            {
+              "caption": "Table 25: Cross-base uncertainty. Bootstrap intervals for the plug-in gains in Table 26.",
+              "figure_id": "table-25-14",
+              "figure_number": "25",
+              "height": 131,
+              "image_path": "figures/2611.24152/table-031.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 325
+            },
+            {
+              "caption": "Table 11: Proposal-source diagnostic. The main protocol uses SAM2 to align with the CorrCLIPstyle configuration; this diagnostic varies only the mask generator that supplies spatial domains.",
+              "figure_id": "table-11-31",
+              "figure_number": "11",
+              "height": 138,
+              "image_path": "figures/2611.24152/table-032.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 825
+            },
+            {
+              "caption": "Table 15: Execution filtering of VLM evidence. Candidate, filtered, and invalid/OOS rates use audited proposals as the denominator; raw accuracy and executed precision are measured on their corresponding pre- and post-filter subsets.",
+              "figure_id": "table-15-28",
+              "figure_number": "15",
+              "height": 163,
+              "image_path": "figures/2611.24152/table-033.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 825
+            },
+            {
+              "caption": "Table 14: Candidate-set size and verifier outcomes. Rates are averaged over the four mechanism benchmarks with 2,000 audited proposals each. Base + k alt. denotes the current/base label plus up to k non-base score-derived alternatives; uncertain is an abstention output. Target-in-set coverage is diagnosis-only. Repair and correct-output rates are normalized by all audited proposals; executed precision is reported separately in Table 15.",
+              "figure_id": "table-14-29",
+              "figure_number": "14",
+              "height": 100,
+              "image_path": "figures/2611.24152/table-034.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 825
+            },
+            {
+              "caption": "Table 16: Full propagation-policy replay over eight benchmarks. Gains are measured over the fixed prediction. Beneficial/harmful pixels are diagnostic statistics computed after evaluation.",
+              "figure_id": "table-16-41",
+              "figure_number": "16",
+              "height": 179,
+              "image_path": "figures/2611.24152/table-035.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 825
+            },
+            {
+              "caption": "Table 17: Pixel exposure of propagation policies. Harmful pixels are shown in millions; full mIoU gains, including COCO-Object, are reported in Table 16.",
+              "figure_id": "table-17-42",
+              "figure_number": "17",
+              "height": 169,
+              "image_path": "figures/2611.24152/table-036.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 825
+            },
+            {
+              "caption": "Table 18: Audited-pool priority replay. Values are mIoU gains over the fixed prediction when the same audited decisions are replayed under different proposal orderings.",
+              "figure_id": "table-18-4",
+              "figure_number": "18",
+              "height": 199,
+              "image_path": "figures/2611.24152/table-037.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 808
+            },
+            {
+              "caption": "Table 19: Relaxing executable certification. Removing the target/legal gate increases recall but permits many more writeback actions.",
+              "figure_id": "table-19-6",
+              "figure_number": "19",
+              "height": 150,
+              "image_path": "figures/2611.24152/table-038.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 602
+            },
+            {
+              "caption": "Table 32: Regional-evidence routing taxonomy. Rates are computed over routed audited proposals. Conservative routing records boundary-aware execution; residual pixel harm is reported in the preceding table.",
+              "figure_id": "table-32-36",
+              "figure_number": "32",
+              "height": 180,
+              "image_path": "figures/2611.24152/table-039.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 808
+            },
+            {
+              "caption": "Table 30: Image/class harm. Harmed-image rates and losses are measured after SEER repair; negative classes count class-IoU drops.",
+              "figure_id": "table-30-38",
+              "figure_number": "30",
+              "height": 131,
+              "image_path": "figures/2611.24152/table-040.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 729
+            },
+            {
+              "caption": "Table 31: Residual harm sources. Harmful-pixel rates are measured among modified pixels; source shares are normalized only over residual harmful pixels.",
+              "figure_id": "table-31-37",
+              "figure_number": "31",
+              "height": 129,
+              "image_path": "figures/2611.24152/table-041.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 552
+            },
+            {
+              "caption": "Table 23: Qwen3.5 resources. Unsharded local single-call profile.",
+              "figure_id": "table-23-12",
+              "figure_number": "23",
+              "height": 112,
+              "image_path": "figures/2611.24152/table-042.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 276
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.24152/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.24152",
+          "relevance": 8,
+          "selection_reason": "Proposes a training-free test-time repair layer for open-vocabulary segmentation using evidence-conditioned label propagation.",
+          "summary_status": "generated",
+          "title": "SEER: Semantic Evidence for Executable Region Propagation in Open-Vocabulary Semantic Segmentation",
+          "tldr": "SEER is a training-free test-time repair layer that improves open-vocabulary semantic segmentation by propagating verified, legally executable regional labels through the existing score field.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "multimodal-large-language-models"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            },
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Existing latent reasoners typically run for a preset latent horizon during inference. Intuitively, a longer horizon should provide more opportunity for reasoning. However, in this work, we find that extending latent Chain-of-Thought (CoT) to the full preset horizon may in fact degrade reasoning performance. We observe that latent CoT evolves through distinct functional stages, with earlier computation forming frontier reasoning states, while later computation mainly reorganizes existing candidates and can weaken gold candidate support. These findings motivate a rethink of fixed-horizon latent inference. To address this, we characterize the reasoning benefits of latent CoT by realized and remaining constructive progress. Empirically, we find that higher realized constructive progress corresponds to higher current reasoning accuracy, while more remaining progress corresponds to larger future gains from continued latent CoT. To this end, we introduce a lightweight method that estimates the remaining reasoning progress and adaptively adjusts the latent horizon during inference. Across representative latent CoT reasoners and multiple arithmetic benchmarks, our method improves reasoning accuracy by up to 7.2 percentage points while reducing latent computation by up to 29.0%, without retraining the LLM.",
+          "arxiv_id": "2611.24001",
+          "arxiv_url": "https://arxiv.org/abs/2611.24001",
+          "authors": [
+            "Tianxiang Chen, Jingyuan Zhou, Weiming Yang, Kaidi Yang"
+          ],
+          "bullets": [
+            "Fixed latent horizons can hurt performance because later reasoning may reorganize candidates and weaken support for the correct answer.",
+            "Latent CoT progresses through stages: early steps form frontier reasoning states, while later steps may provide diminishing or negative benefits.",
+            "The work characterizes progress using realized constructive progress and remaining constructive progress.",
+            "A lightweight estimator adaptively adjusts the inference horizon without retraining the language model.",
+            "Across multiple arithmetic benchmarks, it improves accuracy by up to 7.2 percentage points and reduces latent computation by up to 29.0%."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.AI",
+            "cs.CL"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4: Constructive progress completion across latent CoT. Bars show how constructive progress completion is distributed. The top strips summarize completion status at latent step t = 3, contrasting completed and still progressing. Triangles mark the first latent step where at least 75% of examples have completed constructive progress. Completion marks the first latent step where the latent CoT realizes all constructive progress.",
+              "figure_id": "figure-4-8",
+              "figure_number": "4",
+              "height": 460,
+              "image_path": "figures/2611.24001/figure-001.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 829
+            },
+            {
+              "caption": "Figure 2: An example of latent reasoning progress. We use the symbolic Coconut model from Zhu et al. (2026b) and roll it out for six latent steps to trace the reasoning progress. We report the top-6 candidates at each step, with highlighted nodes indicating high support.",
+              "figure_id": "figure-2-7",
+              "figure_number": "2",
+              "height": 212,
+              "image_path": "figures/2611.24001/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 829
+            },
+            {
+              "caption": "Figure 3: Latent progression and revision. (a) Gold candidate formation; (b) Gold candidate support. For trajectories whose answer is formed at the third latent step, (c) Correction and reversal rates, and (d) Accuracy over revision vs. the best accuracy reached along the trajectory.",
+              "figure_id": "figure-3-10",
+              "figure_number": "3",
+              "height": 196,
+              "image_path": "figures/2611.24001/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 826
+            },
+            {
+              "caption": "Figure 1: The full latent horizon can bury better reasoning outcomes. We evaluate six trained latent CoT reasoners across GPT-2 (Radford et al., 2019) and Llama-1B (Grattafiori et al., 2024) backbones, covering Coconut, CODI, and SIM-CoT variants. For each problem, we retrospectively stop latent reasoning at the first depth that produces a correct answer, if such a depth exists. Gray bars show accuracy at the preset full horizon, while colored bars show accuracy under this retrospective stopping point.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 175,
+              "image_path": "figures/2611.24001/figure-004.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 826
+            },
+            {
+              "caption": "Table 6: Comparison with transferred adaptive latent methods. All methods run on the same frozen reasoners with matched average latent computation, and none stops before our adaptation step. The upper bounds replace our estimate with the true remaining progress, or give each item its best stopping step under the same total computation. Subscripts indicate the difference relative to ours.",
+              "figure_id": "table-6-6",
+              "figure_number": "6",
+              "height": 326,
+              "image_path": "figures/2611.24001/table-005.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 822
+            },
+            {
+              "caption": "Table 2: Comparison of latent CoT performance under adaptive and fixed-preset inference. We report task accuracy (%) under maximum latent budgets of 4, 5, and 6 steps.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 456,
+              "image_path": "figures/2611.24001/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 818
+            },
+            {
+              "caption": "Table 1: Adaptive latent CoT inference. Full-K denotes the preset latent horizon while ours uses adaptive latent inference. Latent step saving (%) reports the average step reduction.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 242,
+              "image_path": "figures/2611.24001/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 830
+            },
+            {
+              "caption": "Table 5: Continuation signals under matched latent computation. All criteria use the same adaptive controller and differ only in the online signal used to allocate the remaining latent budget. We report final task accuracy under matched average latent computation, with subscripts indicating the difference relative to remaining progress.",
+              "figure_id": "table-5-5",
+              "figure_number": "5",
+              "height": 229,
+              "image_path": "figures/2611.24001/table-008.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 732
+            },
+            {
+              "caption": "Table 10: Future reasoning gains under estimated remaining progress. fϕ(X3) denotes the estimated remaining progress after 3 latent steps. Panel (a) reports task accuracy at Steps 3 and 4 under lower and higher fϕ(X3). Panel (b) reports future reasoning gain, measured by the change in Ĝt from Step 3 to Steps 4 and 5, under lower and higher fϕ(X3), with subscripts indicating the difference relative to lower fϕ(X3).",
+              "figure_id": "table-10-15",
+              "figure_number": "10",
+              "height": 364,
+              "image_path": "figures/2611.24001/table-009.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 830
+            },
+            {
+              "caption": "Table 11: Remaining-progress targets under matched latent computation. Each comparison keeps the trajectory representation, regressor, offline trajectories, and adaptive controller fixed, and differs only in the regression target. Panel (a) compares regression targets under the default design, with average latent computation matched at 4.49 steps. Panels (b)–(d) compare remaining progress with the current reasoning value under alternative designs. We report final task accuracy on GSM8K averaged over the four CODI-family reasoners, with subscripts indicating the difference relative to remaining progress.",
+              "figure_id": "table-11-1",
+              "figure_number": "11",
+              "height": 313,
+              "image_path": "figures/2611.24001/table-010.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 828
+            },
+            {
+              "caption": "Table 4: Reasoning gains across remaining constructive progress. Ω3 means the remaining constructive progress after 3 latent steps. Panel (a) reports task accuracy at Steps 3 and 4 under lower and higher Ω3. Panel (b) reports future reasoning gain, measured by the change in Ĝt from Step 3 to Steps 4 and 5, under lower and higher Ω3, with subscripts indicating the difference relative to lower Ω3. Panel (c) reports the change in future reasoning gain as Ωt decreases, with negative values indicating a decrease. We report GSM8K here and defer additional results to Appendix D.2.",
+              "figure_id": "table-4-13",
+              "figure_number": "4",
+              "height": 229,
+              "image_path": "figures/2611.24001/table-011.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 830
+            },
+            {
+              "caption": "Table 3: Reasoning performance across constructive progress. At latent depth t = 3, we compare task accuracy (%) across different levels of realized constructive progress, as defined in Section 4.2.",
+              "figure_id": "table-3-9",
+              "figure_number": "3",
+              "height": 204,
+              "image_path": "figures/2611.24001/table-012.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 827
+            },
+            {
+              "caption": "Table 8: Reasoning gains across remaining constructive progress. We report SVAMP. Ω3 means the remaining constructive progress after 3 latent steps. Panel (a) reports task accuracy at Steps 3 and 4 under lower and higher Ω3. Panel (b) reports future reasoning gain, measured by the change in Ĝt from Step 3 to Steps 4 and 5, under lower and higher Ω3, with subscripts indicating the difference relative to lower Ω3. Panel (c) reports the change in future reasoning gain as Ωt decreases, with negative values indicating a decrease.",
+              "figure_id": "table-8-12",
+              "figure_number": "8",
+              "height": 230,
+              "image_path": "figures/2611.24001/table-013.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 830
+            },
+            {
+              "caption": "Table 7: Marginal return ordering over continued latent CoT. Each entry reports the mean signed marginal-return gap between higher- and lower-remaining-progress trajectories over the subsequent additional compute intervals, together with the fraction of intervals with a nonnegative gap.",
+              "figure_id": "table-7-11",
+              "figure_number": "7",
+              "height": 213,
+              "image_path": "figures/2611.24001/table-014.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 830
+            },
+            {
+              "caption": "Table 9: Reasoning gains across remaining constructive progress. We report MultiArith. Ω3 means the remaining constructive progress after 3 latent steps. Panel (a) reports task accuracy at Steps 3 and 4 under lower and higher Ω3. Panel (b) reports future reasoning gain, measured by the change in Ĝt from Step 3 to Steps 4 and 5, under lower and higher Ω3, with subscripts indicating the difference relative to lower Ω3. Panel (c) reports the change in future reasoning gain as Ωt decreases, with negative values indicating a decrease.",
+              "figure_id": "table-9-14",
+              "figure_number": "9",
+              "height": 229,
+              "image_path": "figures/2611.24001/table-015.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 830
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.24001/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.24001",
+          "relevance": 7,
+          "selection_reason": "Adaptive latent horizon adjustment during inference improves reasoning accuracy and reduces compute, fitting test-time learning and efficiency.",
+          "summary_status": "generated",
+          "title": "Rethinking Fixed-Horizon Latent Reasoning",
+          "tldr": "Adaptive latent-horizon inference improves reasoning accuracy while reducing computation by stopping or extending latent CoT based on estimated remaining progress.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "When cues change what they predict, continuing to update a learned mapping may help an agent choose the appropriate action. We tested this in a one-step synthetic task by comparing a logistic state predictor that continued to learn from state labels with the same predictor frozen at transfer. We evaluated ten conditions in six held-out environments, with 1,296 paired runs per condition and 1,296,000 transfer records in total. Late action accuracy was 93.39% with online updates and 64.63% with frozen coefficients, a paired difference of 28.76 [8.73, 53.19] percentage points (95% environment-bootstrap interval). A direct policy reached 95.65% using the same predictions with a different action threshold. A contextual bandit reached 94.23% and earned more cumulative utility than the adaptive predictor. The bandit used the reward of its chosen action, which in this task reveals the true state when combined with that action. Weights based on development history lowered cumulative utility relative to neutral weights (difference -3.45 [-4.48, -2.43]). The adaptive predictor outperformed its frozen counterpart in late accuracy in each of the six test environments. The other comparisons show how the choice of action threshold and the information available in feedback affect what can be attributed to online adaptation.",
+          "arxiv_id": "2611.23836",
+          "arxiv_url": "https://arxiv.org/abs/2611.23836",
+          "authors": [
+            "Bin Yin"
+          ],
+          "bullets": [
+            "The study tests whether continuing to learn state labels helps an agent adapt when interaction cues change their meaning.",
+            "A logistic state predictor with online updates was compared with an identical predictor frozen at transfer across ten conditions and six held-out environments.",
+            "Late action accuracy was 93.39% with online updates versus 64.63% when frozen; the adaptive predictor won in all six environments.",
+            "A direct policy reached 95.65%, while a contextual bandit reached 94.23% and higher cumulative utility by exploiting reward feedback that revealed the true state.",
+            "Development-history-based weights reduced cumulative utility relative to neutral weights, highlighting the effects of weighting and feedback information."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Paired mean differences and their 95% environment-bootstrap intervals. The top row shows the comparison with the frozen learner. Separate horizontal scales in the lower row make the six smaller contrasts visible. Each column uses the units given above it.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 613,
+              "image_path": "figures/2611.23836/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 929
+            },
+            {
+              "caption": "Figure 1: Action accuracy during transfer. Each point summarizes the ten episodes ending at that position. Accuracy is averaged within each run, then within each environment and across the six environments. The four variants that change payoff weights are reported in the tables.",
+              "figure_id": "figure-1-8",
+              "figure_number": "1",
+              "height": 394,
+              "image_path": "figures/2611.23836/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 929
+            },
+            {
+              "caption": "Table 5: Late conditional action errors (%) with 95% environment-bootstrap intervals. Within each run, the denominators are the numbers of threat and support episodes, respectively, in episodes 81–100.",
+              "figure_id": "table-5-4",
+              "figure_number": "5",
+              "height": 342,
+              "image_path": "figures/2611.23836/table-003.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 631
+            },
+            {
+              "caption": "Table 2: Late action accuracy and cumulative utility across the ten conditions. Entries are equally weighted environment means with 95% environment-bootstrap intervals. Late accuracy uses episodes 81–100 and utility sums episodes 1–100.",
+              "figure_id": "table-2-7",
+              "figure_number": "2",
+              "height": 344,
+              "image_path": "figures/2611.23836/table-004.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 623
+            },
+            {
+              "caption": "Table 3: Paired differences between model conditions with 95% environment-bootstrap intervals. Each entry subtracts the right-hand condition from the left-hand condition within each of 1,296 units before averaging by environment. Accuracy differences are in percentage points.",
+              "figure_id": "table-3-9",
+              "figure_number": "3",
+              "height": 256,
+              "image_path": "figures/2611.23836/table-005.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 760
+            },
+            {
+              "caption": "Table 7: Full-transfer state-conditional mean utilities and Brier scores, with 95% environment-bootstrap intervals. A dash marks an undefined Brier score for a learner that outputs values without a probability estimate.",
+              "figure_id": "table-7-3",
+              "figure_number": "7",
+              "height": 277,
+              "image_path": "figures/2611.23836/table-006.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 712
+            },
+            {
+              "caption": "Table 6: Early action accuracy, normalized accuracy area, and first ten-episode threshold crossing. Entries give means and 95% environment-bootstrap intervals. A run that never crosses the threshold contributes 101 to the crossing score.",
+              "figure_id": "table-6-5",
+              "figure_number": "6",
+              "height": 278,
+              "image_path": "figures/2611.23836/table-007.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 706
+            },
+            {
+              "caption": "Table 4: Held-out environments and mean late action accuracy (%). The missing index is zero-based. A dash indicates that all cues retain nonzero state loadings. The flip count records selections before weakening or zeroing. Label flip gives the probability of flipping supervised state labels. Delay is measured in episodes.",
+              "figure_id": "table-4-6",
+              "figure_number": "4",
+              "height": 210,
+              "image_path": "figures/2611.23836/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 660
+            },
+            {
+              "caption": "Table 1: Payoff for each true state and action. The action that matches the state earns a positive payoff.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 114,
+              "image_path": "figures/2611.23836/table-009.webp",
+              "kind": "table",
+              "page": 2,
+              "width": 473
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.23836/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.23836",
+          "relevance": 7,
+          "selection_reason": "Examines online state-representation adaptation at transfer, fitting online and test-time learning.",
+          "summary_status": "generated",
+          "title": "Online State-Representation Adaptation under Synthetic Interaction-Cue Remapping",
+          "tldr": "Online updating substantially improves state-prediction accuracy after synthetic cue remapping, but action thresholds and richer feedback can yield similar or better performance.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "test-time-learning",
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Normal operating conditions can evolve after deployment, motivating test-time adaptation (TTA) of time-series anomaly detectors using incoming data. Yet the same stream may contain anomalies, so TTA with online updates must decide which test samples should be used for adaptation. This leaves a more basic question: even if updates are restricted to samples labeled as normal in the benchmark, does TTA reliably improve anomaly detection? We study this question with a controlled intervention that replaces the practical update selector with a rule that uses only samples labeled as normal in the benchmark, while keeping the rest of the online adaptation procedure unchanged. Across nine benchmark families, four optimizer configurations, and five random seeds, we obtain three main findings: (1) using only samples labeled as normal in the benchmark does not reliably improve detection; (2) practical TTA failures exhibit two distinct responses to this intervention, with 63 of 180 settings recovering a clear detection gain while 90 still show no clear detection gain; and (3) the updates reduce their immediate reconstruction objective across the evaluated settings, yet these reductions do not consistently lead to better anomaly ranking. Both failure patterns persist across alternative practical adaptation variants and modest perturbations of the benchmark labels. Together, these findings show that improving sample selection alone is not a complete solution to reconstruction-based TSAD TTA.",
+          "arxiv_id": "2611.23761",
+          "arxiv_url": "https://arxiv.org/abs/2611.23761",
+          "authors": [
+            "Jianhuan Mao, Mengxiao Zhu, Yue Pei, Lei Li, Haogang Zhu"
+          ],
+          "bullets": [
+            "Evaluates reconstruction-based time-series anomaly detection under controlled test-time adaptation.",
+            "Across nine benchmark families, four optimizer configurations, and five seeds, normal-only updates do not reliably improve detection.",
+            "Among 180 settings, 63 recover a clear detection gain, while 90 show no clear gain.",
+            "Reduced reconstruction objectives do not consistently translate into better anomaly ranking.",
+            "The observed failure patterns persist across practical adaptation variants and modest label perturbations."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure C.1: Representative Oracle normal-only score-shift cases for the AE backbone with AdamW at learning rate 10−4 and seeds 42–46. Within each seed, we compute the median score shift sOracle − sFrozen in class-specific Frozen-score decile bins, and each bar reports the median of these values across seeds. Blue bars denote normal points and red bars denote anomalous points; more negative values indicate stronger score reduction after Oracle normal-only adaptation. PUMP (left) illustrates a gain case, where high-scoring normal points are strongly compressed while low-scoring boundary anomalies are largely preserved. Daphnet (right) illustrates a failure case, where anomalous scores also decrease and detection worsens despite reconstruction-objective improvement. These illustrative decile bins are distinct from the 15%/30% tail definition used for the systematic selectivecompression and net-pair-gain analysis.",
+              "figure_id": "figure-C.1-6",
+              "figure_number": "C.1",
+              "height": 274,
+              "image_path": "figures/2611.23761/figure-001.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 822
+            },
+            {
+              "caption": "Figure 1: Matched-cell outcome categories from comparing practical TTA with oracle normal-only TTA. The figure plots paired cell-level gains over the frozen detector, with ∆orc on the x-axis and ∆prac on the y-axis. Dashed lines indicate the clear-gain threshold of +0.5 percentage points (pp). BI denotes a clear gain under both Practical and Oracle, OOG denotes a clear gain only under Oracle, NI denotes no clear gain under either setting, and POG denotes a clear gain only under Practical. No POG case occurs in the main grid.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 555,
+              "image_path": "figures/2611.23761/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 721
+            },
+            {
+              "caption": "Figure 2: Objective-level improvement versus detection-level improvement under Oracle normal-only TTA. Each point represents one dataset–optimizer–seed cell. The x-axis reports the immediate pre–post decrease in reconstruction loss on benchmark-labeled normal points contributing to Oracle updates; positive values indicate that the online updates decrease their immediate reconstruction objective. Objective decreases are averaged over benchmark-labeled normal update points within each physical entity and then aggregated by the median over finite entities; this diagnostic support can differ from the common physical support used for the paired detection effect. The y-axis reports the paired Oracle-minus-Frozen AUPRC effect in percentage points (pp). The dotted vertical line marks zero objective decrease, and the dashed horizontal line marks the +0.5 pp clear-gain threshold for AUPRC. Colors denote datasets.",
+              "figure_id": "figure-2-2",
+              "figure_number": "2",
+              "height": 494,
+              "image_path": "figures/2611.23761/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 643
+            },
+            {
+              "caption": "Table A.1: Dataset properties used in the main experiments. Obtained from indicates the repository or benchmark package from which the data were obtained for our experiments.",
+              "figure_id": "table-A.1-4",
+              "figure_number": "A.1",
+              "height": 256,
+              "image_path": "figures/2611.23761/table-004.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 827
+            },
+            {
+              "caption": "Table 1: Oracle-minus-Frozen paired AUPRC effects by dataset. For each dataset, results are summarized over the 20 combinations of four optimizer configurations and five random seeds. For each combination, the paired effect is the median of the effects across physical entities in the common support. Displayed values are in percentage points.",
+              "figure_id": "table-1-8",
+              "figure_number": "1",
+              "height": 223,
+              "image_path": "figures/2611.23761/table-005.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 748
+            },
+            {
+              "caption": "Table B.2: Outcome counts for selector, adaptation, and cadence variants over 45 matched cells per analysis, comprising nine datasets, AdamW at learning rate 10−4, and seeds 42–46. BI denotes both improve, OOG denotes Oracle-only gain, NI denotes neither improves, and POG denotes Practicalonly gain; a clear gain requires a paired AUPRC improvement over Frozen greater than 0.005 (0.5 percentage points). For cadence B, gradients are accumulated over blocks of B consecutive test windows before each optimizer step. Physical-entity support may differ across variants. EMA denotes exponential moving average. FPM denotes False Positive Mining and SANA denotes Spatiotemporally-Aware Normality Adaptation, the two evaluated CANDI components.",
+              "figure_id": "table-B.2-7",
+              "figure_number": "B.2",
+              "height": 223,
+              "image_path": "figures/2611.23761/table-006.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 656
+            },
+            {
+              "caption": "Table 2: Cross-backbone and update-scope outcome decomposition under matched Practical–Oracle adaptation comparisons. Each row contains 180 logical dataset–optimizer–seed cells. Entries report counts with row percentages in parentheses. BI denotes cells where both Practical and Oracle show a clear gain; OOG denotes cells with no clear Practical gain but a clear Oracle gain; NI denotes cells with no clear gain under either setting; and POG denotes cells with a clear Practical gain but no clear Oracle gain. A clear gain requires ∆ > 0.005. Each row is aggregated on its own matched Frozen–Practical–Oracle physical support. LSTMED denotes the LSTM-based encoder–decoder backbone.",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 152,
+              "image_path": "figures/2611.23761/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 660
+            },
+            {
+              "caption": "Table B.3: Outcome-category retention under benchmark-label perturbations on the same 45-cell AdamW-10−4, seed-42–46 robustness grid. Boundary dilation and erosion use segment-relative 10% perturbations. For false-negative contamination, anomalous points are relabeled as normal using a 10% anomaly-point budget and the fixed realization generated with seed 20260725. Each entry reports the number of cells whose outcome category matches the corresponding unperturbed analysis. Retention denotes category agreement, not sample availability. Mask-only perturbs only the Oracle update mask; evaluation-only perturbs the evaluation labels for all three arms; joint applies the same perturbed labels to both the Oracle update mask and the evaluation of all three arms.",
+              "figure_id": "table-B.3-3",
+              "figure_number": "B.3",
+              "height": 111,
+              "image_path": "figures/2611.23761/table-008.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 564
+            },
+            {
+              "caption": "Table B.1: Main-grid outcome counts for the matched Practical–Oracle comparison. The 180 cells correspond to nine datasets, four optimizer configurations, and five random seeds. BI: both improve; OOG: oracle-only gain; NI: neither improves; POG: practical-only gain. A clear gain means a paired AUPRC improvement over Frozen greater than 0.005 (0.5 percentage points).",
+              "figure_id": "table-B.1-9",
+              "figure_number": "B.1",
+              "height": 67,
+              "image_path": "figures/2611.23761/table-009.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 410
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.23761/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.23761",
+          "relevance": 8,
+          "selection_reason": "Directly studies test-time adaptation of time-series anomaly detectors under online updates.",
+          "summary_status": "generated",
+          "title": "When Normal-Only Updates Are Not Enough: Test-Time Adaptation in Reconstruction-Based Time-Series Anomaly Detection",
+          "tldr": "Using only benchmark-labeled normal samples for test-time updates often lowers reconstruction loss without reliably improving anomaly detection.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Spiking Neural Networks (SNNs) promise event-driven and energy-efficient vision, yet existing spiking vision transformers (S-ViTs) largely confine spiking tokens to fixed and uniform firing schemes along the temporal, spatial and channel dimensions, whereas suppressing the computational redundancy thus incurred calls for adaptive firing mechanisms that operate jointly across all three axes at test time. To this end, we propose the Adaptive Efficient Integrate-and-Fire (AdaE-IF) model, which consults the attention score of each spiking token and routes salient regions to fine-grained firing patterns while assigning energy-frugal coarse patterns to the remaining regions. Building on AdaE-IF, we further introduce Spiking Gated Self-Attention (S-GSA) and Spiking Local-Gated Unit (S-LGU), which enforce selective spike emission at token and channel granularity. We integrate the aforementioned mechanisms and modules into AdaS-ViT, a test-time adaptive-routing architecture trained with a progressive spatio-temporal curriculum that stabilizes the co-adaptation of firing precision and routing masks. Extensive experiments across benchmarks spanning diverse data scales and modalities demonstrate that AdaS-ViT consistently achieves highly competitive performance. Notably, on ImageNet-1k it consumes only 1.02 to 2.45 millijoules per image and attains an accuracy-per-energy ratio of 32$\\times$ to 72$\\times$, operating in an economical inference regime and thereby pushing the energy-efficiency boundary further.",
+          "arxiv_id": "2611.23728",
+          "arxiv_url": "https://arxiv.org/abs/2611.23728",
+          "authors": [
+            "Zecheng Hao, Zihan Huang, Shenghao Xie, Jiyuan Zhang, Zhaofei Yu, Tiejun Huang"
+          ],
+          "bullets": [
+            "Addresses redundant computation from fixed, uniform firing patterns in spiking vision transformers.",
+            "Uses attention-guided AdaE-IF routing to assign fine-grained firing to salient regions and coarse firing elsewhere.",
+            "Adds S-GSA and S-LGU for selective spike emission at token and channel granularity.",
+            "Trains routing and firing precision with a progressive spatio-temporal curriculum.",
+            "On ImageNet-1k, reports 1.02–2.45 mJ per image and a 32×–72× accuracy-per-energy ratio."
+          ],
+          "categories": [
+            "cs.NE",
+            "cs.AI",
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. Architecture of AdaS-ViT. Top: the macro pipeline stacks dual-mode AdaS-Blocks (S-GSA followed by S-LGU or S-FFN) over progressively downsampled token maps. Bottom: data flow of S-GSA, S-LGU and the parameterized S-FFN variants (I)(II) with convolution kernel size k and expansion ratio r.",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 629,
+              "image_path": "figures/2611.23728/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1016
+            },
+            {
+              "caption": "Figure 4. Fine-grained energy breakdown of AdaS-ViT Large on ImageNet-1k. Module-level (a)–(c) and Operator-level (d)–(f) statistics of SOPs and average spike firing rates. For each block, Bar hues identify the module family, the total height of a bar denotes the theoretical SOPs Upper-bound while its dark lower segment denotes the actually incurred SOPs, the curve on the right axis reports the average firing rate.",
+              "figure_id": "figure-4-4",
+              "figure_number": "4",
+              "height": 614,
+              "image_path": "figures/2611.23728/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1027
+            },
+            {
+              "caption": "Figure 1. AdaS-ViT establishes a compelling accuracy-energy frontier for spiking vision transformers. (a) Qualitative comparison of training paradigms over six axes covering training cost and inference behavior: prior paradigms trade these objectives against one another, whereas our test-time adaptive routing maintains a uniformly strong profile across all of them. (b) Quantitative comparison with prior SNN-based works on ImageNet-1k. The horizontal axis denotes top-1 accuracy and the vertical axis reports Ratio AE, i.e., the accuracy delivered per millijoule of inference energy. AdaS-ViT occupies the top-right region alone with the smallest bubble area, indicating markedly higher energy efficiency at a fraction of the parameters of prior art.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 394,
+              "image_path": "figures/2611.23728/figure-003.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 489
+            },
+            {
+              "caption": "Figure 2. AdaE-IF: from uniform to adaptive and efficient spike firing. Top-left: the firing-rate curve of a vanilla IF/LIF neuron is ideally a uniform staircase, yet diverse input current patterns {Ilt} yield divergent firing rates F̃l 1:T for identical average input current Ĩl1:T , which accumulate across layers into conversion error and spatio-temporal gradient inconsistency. Bottom: AdaE-IF maps each spike firing pattern to its bit-granular equivalent, aligning training gradients and enabling precise regulation of Synaptic Operations (SOPs); guided by the attention score of the spiking feature map (Middle), it routes each token to a coarse-grained pattern that preserves energy efficiency, or a fine-grained pattern that enhances representation at only marginal extra cost; jointly scheduled under an ultra-low energy budget (Top-right), the two modes realize test-time adaptive firing precision.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 277,
+              "image_path": "figures/2611.23728/figure-004.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 485
+            },
+            {
+              "caption": "Table 1. Comparison of representative SNN approaches across learning paradigms and network architectures on ImageNet-1k. Here T denotes the inference time-steps, Energy is the estimated inference energy per image, computed following the convention of [54]. Ratio AE quantifies the accuracy delivered per unit of energy cost, where a higher value indicates better energy efficiency.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 657,
+              "image_path": "figures/2611.23728/table-005.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1026
+            },
+            {
+              "caption": "Table 2. Generalization across data scales and modalities: comparison with prior SNN learning methods on static (CIFAR-10, CIFAR100) and neuromorphic (CIFAR10-DVS) benchmarks.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 311,
+              "image_path": "figures/2611.23728/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 975
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.23728/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.23728",
+          "relevance": 7,
+          "selection_reason": "Test-time adaptive token routing in spiking vision transformers to suppress computational redundancy, fitting efficient AI and test-time adaptation.",
+          "summary_status": "generated",
+          "title": "AdaS-ViT: Test-Time Adaptive Routing for Spiking Vision Transformers with Ultra-High Energy Efficiency",
+          "tldr": "AdaS-ViT adaptively routes spiking tokens across temporal, spatial, and channel dimensions to maintain competitive vision performance with very low inference energy.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Scientific experiments continually reveal prediction errors. Effective updates depend on which parameters change and which errors drive the correction. We introduce HypoLoop, a family of native weight-editing methods that connects these choices to experimental feedback. Fixed, numerically adaptive, and LLM-guided policies produce editing plans; numerical solvers compute weight patches, and internal validation selects the deployed predictor. Successive observations and validation records support revisions to editable locations and fitting rules. Experiments cover 22 scientific tasks and both DeepSeek and Claude. On Burgers, reallocating a matched parameter budget reduces error by 58.80% and 47.72% relative to fixed locations. On DIODE, positive-residual weighting reduces absolute relative error (AbsRel) by 13.35% in internal cross-validation, with the same 33 editable coordinates. Revising the complete plan across rounds lowers final AbsRel by 10.59% relative to keeping the initial plan fixed. SpaceNet7 and Make3D connect accepted edits to improved spatial predictions. These results show how experimental evidence can shape the update problem itself. Code: https://github.com/limengran98/HypoLoop.",
+          "arxiv_id": "2611.23718",
+          "arxiv_url": "https://arxiv.org/abs/2611.23718",
+          "authors": [
+            "Mengran Li, Xichen Yan, Bo Li, Chengyang Zhang, Jinfeng Xu, Zheng Lin, Zelin Zang, Zhen Lei, Jiebo Luo, Victor C. M. Leung, Stan Z. Li"
+          ],
+          "bullets": [
+            "Addresses the challenge of choosing editable parameters and error signals for effective weight editing.",
+            "Combines fixed, numerically adaptive, and LLM-guided planning with numerical weight-patch solvers and internal validation.",
+            "Uses successive observations and validation records to revise editable locations and fitting rules across rounds.",
+            "Evaluated on 22 scientific tasks with DeepSeek and Claude; reported gains include lower error on Burgers, DIODE, and other spatial prediction tasks.",
+            "Scope: improvements depend on the feedback-driven editing plans and the evaluated scientific tasks."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. The HypoLoop editing framework. (a) Feedback and editing history guide location selection, fitting-rule revision, weight optimization, and validation. (b) Localization contrasts fixed-pool and full-inventory parameter selection. (c) The DIODE comparison examines residual weighting at fixed locations.",
+              "figure_id": "figure-2-11",
+              "figure_number": "2",
+              "height": 496,
+              "image_path": "figures/2611.23718/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 998
+            },
+            {
+              "caption": "Figure 5. Visual depth correction (DeepSeek). Prediction/error pairs share scales within each case. Target error is the zero reference. Image AbsRel falls (a) from 0.4070 to 0.2425 with HL-Global, and (b) from 0.1285 to 0.0784 with HL-LLM. Gray denotes invalid pixels. Tables rank all eight methods jointly: best in bold, second-best underlined.",
+              "figure_id": "figure-5-8",
+              "figure_number": "5",
+              "height": 527,
+              "image_path": "figures/2611.23718/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1004
+            },
+            {
+              "caption": "Figure 6. Feedback-guided spatial correction on SpaceNet7 (Claude). The full region is shown for four controls and four HypoLoop configurations. Each method pairs prediction and FP/FN errors; target error is the zero reference. Region F1 rises from 0.5779 (Adam) to 0.7637 (HL-Global); full-split F1 rises from 0.2507 to 0.2899. Green marks predicted building changes for every method; purple is reserved for HypoLoop method names. Tables rank all eight methods jointly.",
+              "figure_id": "figure-6-15",
+              "figure_number": "6",
+              "height": 443,
+              "image_path": "figures/2611.23718/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1004
+            },
+            {
+              "caption": "Figure 14. Make3D math12-p-343t0 (Claude). HL-Global reaches 0.2352 AbsRel versus 0.2724 for Memory (13.63% lower). Each method pairs depth and AbsRel error.",
+              "figure_id": "figure-14-18",
+              "figure_number": "14",
+              "height": 543,
+              "image_path": "figures/2611.23718/figure-004.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 1006
+            },
+            {
+              "caption": "Figure 15. Make3D op29-p-325t000 (Claude). HL-LLM reaches 0.07849 AbsRel versus 0.1211 for Adam (35.21% lower). Each method pairs depth and AbsRel error.",
+              "figure_id": "figure-15-12",
+              "figure_number": "15",
+              "height": 543,
+              "image_path": "figures/2611.23718/figure-005.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 1006
+            },
+            {
+              "caption": "Figure 16. Make3D op27-p-077t000 (Deepseek). HL-LLM reaches 0.07843 AbsRel versus 0.1285 for Memory (38.98% lower). Each method pairs depth and AbsRel error.",
+              "figure_id": "figure-16-13",
+              "figure_number": "16",
+              "height": 543,
+              "image_path": "figures/2611.23718/figure-006.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 1006
+            },
+            {
+              "caption": "Figure 3. Allocating the same parameter budget to different locations. (a,b) Dynamic and fixed locations share the How proposal, fitting procedure, and acceptance rule. Both continue fitting with new feedback. Brackets show paired 95% confidence intervals for error reduction; the QP axis is truncated with breaks. (c) Model paths show fixed scopes (gray) and final dynamic scopes (purple), with an overlapping QP block. Each service’s trajectory shows selected blocks before B1, B2, and E, with matched budgets. A/B denote distinct coordinate slices within a layer. Appendix C details the full model structures and native-tensor changes.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 462,
+              "image_path": "figures/2611.23718/figure-007.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 997
+            },
+            {
+              "caption": "Figure 17. Make3D combined1-p-108t0 (Deepseek). HL-Global reaches 0.1 AbsRel versus 0.1597 for Calib (37.38% lower). Each method pairs depth and AbsRel error.",
+              "figure_id": "figure-17-17",
+              "figure_number": "17",
+              "height": 543,
+              "image_path": "figures/2611.23718/figure-008.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 1006
+            },
+            {
+              "caption": "Figure 18. Make3D op27-p-108t000 (Claude). HL-Global reaches 0.09752 AbsRel versus 0.1447 for Adam (32.61% lower). Each method pairs depth and AbsRel error.",
+              "figure_id": "figure-18-16",
+              "figure_number": "18",
+              "height": 543,
+              "image_path": "figures/2611.23718/figure-009.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 1006
+            },
+            {
+              "caption": "Figure 8. MVTec AD carpet (Deepseek). HypoLoop reaches 0.9771 AP versus 0.4914 for Adam (48.57 percentage points higher). Maps show absolute probability error.",
+              "figure_id": "figure-8-3",
+              "figure_number": "8",
+              "height": 357,
+              "image_path": "figures/2611.23718/figure-010.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 1022
+            },
+            {
+              "caption": "Figure 9. MVTec AD leather (Claude). HL-Global reaches 0.7699 AP versus 0.4339 for Adam (33.60 percentage points higher). Maps show absolute probability error.",
+              "figure_id": "figure-9-5",
+              "figure_number": "9",
+              "height": 357,
+              "image_path": "figures/2611.23718/figure-011.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 1022
+            },
+            {
+              "caption": "Figure 7. MVTec AD carpet (Deepseek). HypoLoop reaches 0.7776 AP versus 0.5899 for Adam (18.77 percentage points higher). Maps show absolute probability error.",
+              "figure_id": "figure-7-4",
+              "figure_number": "7",
+              "height": 356,
+              "image_path": "figures/2611.23718/figure-012.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 1022
+            },
+            {
+              "caption": "Figure 12. MPDD metal_plate (Deepseek). HL-Auto reaches 0.9984 AP versus 0.911 for Adam (8.74 percentage points higher). Maps show absolute probability error.",
+              "figure_id": "figure-12-22",
+              "figure_number": "12",
+              "height": 357,
+              "image_path": "figures/2611.23718/figure-013.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 1022
+            },
+            {
+              "caption": "Figure 10. MVTec AD leather (Claude). HypoLoop reaches 0.8159 AP versus 0.3527 for Adam (46.32 percentage points higher). Maps show absolute probability error.",
+              "figure_id": "figure-10-24",
+              "figure_number": "10",
+              "height": 356,
+              "image_path": "figures/2611.23718/figure-014.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 1022
+            },
+            {
+              "caption": "Figure 13. MPDD metal_plate (Claude). HL-Auto reaches 0.9977 AP versus 0.5662 for Adam (43.16 percentage points higher). Maps show absolute probability error.",
+              "figure_id": "figure-13-19",
+              "figure_number": "13",
+              "height": 356,
+              "image_path": "figures/2611.23718/figure-015.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 1022
+            },
+            {
+              "caption": "Figure 4. From error evidence to an executable fitting objective. (a) At the same 33 editable coordinates, positive-residual weighting lowers DIODE internal CV AbsRel by 13.35% relative to equal weighting; reversing its direction raises the error. Other fitting settings remain fixed. (b–d) Both arms continue fitting on new feedback. Revising the complete editing plan lowers final error by 10.59%, 5.61%, and 3.95% on DIODE, phonon peaks, and reaction–diffusion relative to keeping the initial plan fixed. Panels (b–d) use truncated axes with breaks; labels retain the full error values.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 275,
+              "image_path": "figures/2611.23718/figure-016.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 986
+            },
+            {
+              "caption": "Figure 19. Biology and ESOL cases (DeepSeek). Left: the ACSL3 example plots predicted and target expression at sampled gene coordinates. Full-gene MSE is 0.02539 for HL-Once versus 0.02783 for Memory. Right: single-molecule absolute error is 0.04876 for HL-Auto and HL-Fixed versus 1.264 for Calib. The square marker denotes zero prediction error.",
+              "figure_id": "figure-19-20",
+              "figure_number": "19",
+              "height": 408,
+              "image_path": "figures/2611.23718/figure-017.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 1016
+            },
+            {
+              "caption": "Figure 20. Lipophilicity and exfoliation-energy cases. Per-object absolute error on lipophilicity (Claude) is 0.005249 for HypoLoop versus 0.2490 for Adam. On exfoliation energy (DeepSeek), it is 0.7772 for HL-Global versus 12.09 for Adam. Square markers denote zero prediction error.",
+              "figure_id": "figure-20-21",
+              "figure_number": "20",
+              "height": 408,
+              "image_path": "figures/2611.23718/figure-018.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 994
+            },
+            {
+              "caption": "Figure 22. Advection and reaction–diffusion cases (Claude). Curves follow sampled spatial field coordinates; scores are full-field relative L2 errors. On advection, HL-Global obtains 9.868 × 10−4 versus 3.980 × 10−3 for Memory. On reaction–diffusion, HL-Once obtains 0.04716 versus 0.1443 for Calib.",
+              "figure_id": "figure-22-6",
+              "figure_number": "22",
+              "height": 406,
+              "image_path": "figures/2611.23718/figure-019.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 1021
+            },
+            {
+              "caption": "Figure 21. Phonon-peak and Burgers cases. Left: on the selected material (Claude), HL-Global reduces absolute error from 0.3002 for Adam to 0.006038; the square marker denotes zero error. Right: Burgers predictions (DeepSeek) are plotted along sampled spatial field coordinates. Full-field relative L2 error decreases from 0.1207 for Adam to 0.006426 for HL-Global.",
+              "figure_id": "figure-21-7",
+              "figure_number": "21",
+              "height": 405,
+              "image_path": "figures/2611.23718/figure-020.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 984
+            },
+            {
+              "caption": "Figure 24. Seismic-arrival and constrained-QP cases. Left: STEAD arrival responses at MLOD (Claude), with the target P arrival at 8.01 s. HL-Global picks 7.98 s, giving 0.03 s absolute error versus 0.07 s for Base, Memory, and Calib. Right: the QP example (DeepSeek) plots solution coordinates. The feasible solution’s relative objective gap decreases from 7.867 × 10−4 for Adam to 3.464 × 10−4 for HL-Global.",
+              "figure_id": "figure-24-9",
+              "figure_number": "24",
+              "height": 406,
+              "image_path": "figures/2611.23718/figure-021.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 1011
+            },
+            {
+              "caption": "Figure 23. Na-ion battery and MVTec AD cases (DeepSeek). Left: single-battery MAPE decreases from 46.84% for Adam to 0.2370% for HL-Once. Right: image-level pixel AP increases from 0.08490 for Adam to 0.7601 for HypoLoop, HL-LLM, and HL-Fixed (+67.52 percentage points). The ideal reference is zero MAPE and AP of one.",
+              "figure_id": "figure-23-10",
+              "figure_number": "23",
+              "height": 405,
+              "image_path": "figures/2611.23718/figure-022.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 980
+            },
+            {
+              "caption": "Figure 11. VisA chewinggum (Deepseek). HL-Once reaches 0.9223 AP versus 0.6129 for Base (30.94 percentage points higher). Maps show absolute probability error.",
+              "figure_id": "figure-11-23",
+              "figure_number": "11",
+              "height": 174,
+              "image_path": "figures/2611.23718/figure-023.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 1036
+            },
+            {
+              "caption": "Table 2. Absolute evaluation metrics for the 22 tasks in Table 1. Each cell reports DeepSeek (D) / Claude (C). Best and second-best methods are bold and underlined, respectively.",
+              "figure_id": "table-2-14",
+              "figure_number": "2",
+              "height": 933,
+              "image_path": "figures/2611.23718/table-024.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 1040
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.23718/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.23718",
+          "relevance": 6,
+          "selection_reason": "Weight-editing plans revised from successive experimental feedback; fits adaptation and continual updating of deployed predictors.",
+          "summary_status": "generated",
+          "title": "HypoLoop: Revising Weight-Editing Plans from Scientific Feedback",
+          "tldr": "HypoLoop uses scientific feedback to iteratively revise which weights to edit and how to fit them, improving prediction updates across diverse tasks.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "test-time-learning",
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "A frozen latent world model combined with sampling-based model predictive control is a visual planner. At deployment, the executed action can depart from the commanded one, and the frozen model has no way to notice. We show that the model can be run in reverse: for any hypothesized actuation shift, it predicts what it should have observed under that shift, and comparing this prediction with what was actually observed quantifies the shift and lets the planner correct itself. Unlike the residual energy, which mixes the shift with the model's own error, the score keeps only the part of the residual that a shift can produce. This shift score detects the shift with a locally optimal test, estimates it with Cramer-Rao error bars, names the dominant generator, and compensates the planner once an alarm fires. On PushT, TwoRoom and OGBench-Cube with a frozen latent world model, measured detection follows the prediction to within 0.05 AUROC. Self-correction raises success from 0.650 to 0.862 on PushT and from 0.378 to 0.432 on the harder Cube task, levels with an oracle that is told the true shift at the same block, better than five common test-time adaptation methods. On a real robotic arm, the score identifies a base-joint offset that no joint encoder registers and reduces the reach error from 36 mm to 3-5 mm, and under shifts drawn at random and sealed before the session, estimates recover 92-94% of the error reduction achieved with the true shift. The broader implication is that a frozen world model can act as a filter by predicting the future, testing action-interface uncertainty and validity, and finally correcting failures.",
+          "arxiv_id": "2611.23620",
+          "arxiv_url": "https://arxiv.org/abs/2611.23620",
+          "authors": [
+            "Siqing Li, Luming Yang, Yijia Jiao, Junze Deng, Alper Yilmaz"
+          ],
+          "bullets": [
+            "Addresses the inability of frozen planners to notice when executed actions differ from commands.",
+            "Runs the world model in reverse to score hypothesized actuation shifts against actual observations.",
+            "The shift-specific score separates actuator shifts from the model’s intrinsic prediction error and supports locally optimal detection, estimation, and source identification.",
+            "Self-correction improves success on PushT and Cube tasks and reduces real-robot reach error from 36 mm to 3–5 mm.",
+            "Scope: evaluation covers simulated manipulation tasks and a real robotic arm with sealed or unknown action shifts."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.CV",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. Overview of ACTUS. The frozen model plans as usual and the actuator applies the unknown shift T (θ) (red). The residual and one JVP per generator give (st, Ft), pooled into (S, F ) for alarm, the estimate δ̂; after the first alarm the planner re-plans through T (δ̂)−1.",
+              "figure_id": "figure-3-7",
+              "figure_number": "3",
+              "height": 266,
+              "image_path": "figures/2611.23620/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1022
+            },
+            {
+              "caption": "Figure 2. Energy against score (Prop. 1). (a) a shift moves the residual rt only inside the span of Jt (blue), the model error εt in all D directions. (b,d) change of the whitened energy E (grey) and of the score (blue) on PushT along two generator axes. (c) AUROC against the Fisher norm, 124 PushT shifts; line: Prop. 2.",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 355,
+              "image_path": "figures/2611.23620/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 492
+            },
+            {
+              "caption": "Figure 6. Real SO-101 arm. (a) Settings of the test environment. (b) Median paired reach error for the frozen planner with ACTUS (95% bootstrap interval). Shaded: the error of repeating the nominal reach unshifted. (c) Zero point θ̂0(gy) against the lateral gain measured by the encoders, 21 nominal blocks, two controllers. (d) Measured against predicted AUROC at n = 20, 13 shifts × 2 session blocks.",
+              "figure_id": "figure-6-5",
+              "figure_number": "6",
+              "height": 220,
+              "image_path": "figures/2611.23620/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 5. Recovery and its decomposition. (a) What each block is executed with; ring: alarm. (b) Success lost to the shift, split into the part by ACTUS and the three terms of Thm. 2. (c) Cube: success against the block τ where compensation enters. (d) Shifts constant, drifting, decaying or stepping at block 6: success of planners (150 episodes each); GN, Kal.: the two estimators of ACTUS.",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 309,
+              "image_path": "figures/2611.23620/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 494
+            },
+            {
+              "caption": "Figure 4. Shift detection. (a) AUROC (n = 20) by Fisher norm of the shift. (b) Measured against predicted GLR delay (Eq. (10)).",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 178,
+              "image_path": "figures/2611.23620/figure-005.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 491
+            },
+            {
+              "caption": "Table 1. Task success under actuation shifts. Shared frozen LeWM, planner, start–goal pairs, shift draws and replanning schedule. ∆: points against Frozen (shaded) and against ACTUS. Adapts: weights (W), residual modules (R). ms: update time per block before the alarm for 50 episodes on A100, three seeds. P/C: PushT / Cube. SR: Success Rate. †Compensation at the scheduled replanning for ablation.",
+              "figure_id": "table-1-4",
+              "figure_number": "1",
+              "height": 385,
+              "image_path": "figures/2611.23620/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 1022
+            },
+            {
+              "caption": "Table 2. ACTUS on a frozen DINO-WM. In-plane: prior restricted to rotation and gain. Alarmed: shifts raising the closedloop alarm. False alarms on held-out nominal fleets: 0%.",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 123,
+              "image_path": "figures/2611.23620/table-007.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 483
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.23620/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.23620",
+          "relevance": 8,
+          "selection_reason": "Frozen latent world model used for action-conditioned planning and self-correction; directly addresses test-time adaptation of embodied planners.",
+          "summary_status": "generated",
+          "title": "How Uncertain Is My Action? Self-Correcting Visual Planning with Frozen World Models",
+          "tldr": "A frozen visual world model can detect, estimate, and correct action-execution errors by comparing observed outcomes with shift-conditioned predictions.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Unlabeled test data can improve the zero-shot classifier of a vision-language model, yet transductive and test-time adaptation methods often fall below the zero-shot baseline when only a few vocabulary classes are present in a batch or when streams are correlated. We trace this failure to a shared design: every class owns independent parameters estimated from its own samples, so absent or rare classes are left at biased text anchors or fitted to foreign samples. We propose Graph-Regularized Anchor-displacement Field Transduction (GRAFT), which models the adapted prototypes as text anchors plus a displacement field that is partially pooled over a semantic class graph through a Gaussian Markov random field prior, together with an explicit class-presence model. Inference is closed-form and gradient-free on cached features. Anchor-only shrinkage and a single global shift are the two extreme settings of the prior; absent classes are provably harmonic extensions of the present ones, and the pooling strength can be chosen by empirical Bayes. Under the realistic batch and online protocols on eleven benchmarks and four ImageNet shifts, GRAFT improves over the zero-shot model in every setting and over anchor-based transduction where few classes are present.",
+          "arxiv_id": "2611.23591",
+          "arxiv_url": "https://arxiv.org/abs/2611.23591",
+          "authors": [
+            "Maxx Richard Rahman, Wolfgang Maass"
+          ],
+          "bullets": [
+            "Addresses failures of transductive adaptation caused by independently estimating each class from sparse or absent samples.",
+            "Represents adapted prototypes as text anchors plus graph-pooled displacement fields with a Gaussian Markov random field prior.",
+            "Uses an explicit class-presence model and closed-form, gradient-free inference on cached features.",
+            "Absent-class prototypes become harmonic extensions of present classes; pooling strength is selected via empirical Bayes.",
+            "Improves over zero-shot models across eleven benchmarks and four ImageNet shifts, and outperforms anchor-based transduction when few classes are present."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of GRAFT. Frozen encoders give features X and anchors T , which define the zero-shot prior ŷ, the sample graph Ws (from X , images to images) and the semantic class graph LT (from T , classes to classes). Closed-form updates alternate the E-step over z, using ŷ and Ws, with M-steps for the presence π, the displacement field D pooled over LT and the shared covariance; µ = T +D are the adapted prototypes and z the prediction.",
+              "figure_id": "figure-2-9",
+              "figure_number": "2",
+              "height": 448,
+              "image_path": "figures/2611.23591/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 986
+            },
+            {
+              "caption": "Figure 1. Per-class adaptation on a realistic batch (conceptual illustration). Classes A and B are present, C is absent, and all images are shifted from their anchors. (a) Per-class fitting lets C capture samples of B. (b) Anchor-only shrinkage leaves C at its biased anchor. (c) GRAFT lets C inherit B’s displacement and removes it through the presence model.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 169,
+              "image_path": "figures/2611.23591/figure-002.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 496
+            },
+            {
+              "caption": "Figure 7. Qualitative predictions in the low setting: ground truth (GT) and the predictions of the zero-shot model (ZS), StatA and GRAFT. Correct predictions in green, wrong ones in red.",
+              "figure_id": "figure-7-8",
+              "figure_number": "7",
+              "height": 234,
+              "image_path": "figures/2611.23591/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 354
+            },
+            {
+              "caption": "Figure 4. Top-1 accuracy versus the number of effective classes per batch (eleven-dataset mean, error bars: standard deviation over tasks); the dotted line is the zero-shot model.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 242,
+              "image_path": "figures/2611.23591/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 342
+            },
+            {
+              "caption": "Figure 3. Graph-pooled displacement field on a toy class graph (node size: nk). (a) Empirical displacements. (b) Independent shrinkage (λ = 0) leaves absent classes at their anchors. (c) Eq. (7) transfers displacements along the graph.",
+              "figure_id": "figure-3-10",
+              "figure_number": "3",
+              "height": 207,
+              "image_path": "figures/2611.23591/figure-005.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 408
+            },
+            {
+              "caption": "Table 1. Batch adaptation with a variable number of effective classes: top-1 accuracy (%) averaged over 1000 tasks and eleven datasets, CLIP ViT-B/16.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 377,
+              "image_path": "figures/2611.23591/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 860
+            },
+            {
+              "caption": "Table 2. Online adaptation: top-1 accuracy (%) over 100 runs and eleven datasets, batches of 128, CLIP ViT-B/16, for stream correlation γ ∈ {0.1, 0.01, 0.001} and the separate-class stream.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 234,
+              "image_path": "figures/2611.23591/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 479
+            },
+            {
+              "caption": "Table 5. Component ablation, top-1 accuracy (%): π presence, α anchor, λ graph coupling, EB empirical Bayes, Ws sample graph.",
+              "figure_id": "table-5-5",
+              "figure_number": "5",
+              "height": 191,
+              "image_path": "figures/2611.23591/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 331
+            },
+            {
+              "caption": "Table 3. Per-dataset top-1 accuracy (%) in the low setting (B=64, Keff ∈ [2, 10]), CLIP ViT-B/16.",
+              "figure_id": "table-3-6",
+              "figure_number": "3",
+              "height": 186,
+              "image_path": "figures/2611.23591/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 672
+            },
+            {
+              "caption": "Table 4. ImageNet (IN) and its shifts V2, Sketch (S), A and R in the low setting, top-1 accuracy (%), CLIP ViT-B/16.",
+              "figure_id": "table-4-7",
+              "figure_number": "4",
+              "height": 127,
+              "image_path": "figures/2611.23591/table-010.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 310
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.23591/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.23591",
+          "relevance": 8,
+          "selection_reason": "Test-time adaptation of VLMs with graph-regularized prototypes; fits test-time learning.",
+          "summary_status": "generated",
+          "title": "GRAFT: Graph-Regularized Prototype Fields for Realistic Test-Time Adaptation of VLMs",
+          "tldr": "GRAFT improves vision-language model test-time adaptation under few-class and correlated-stream settings by graph-regularizing prototype shifts and modeling class presence.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "We show that the importance of a LoRA adapter's initial input-subspace direction is regime-dependent, and we characterize this dependence in theory and experiment. This refines the recent view that spectral initializers help through update magnitude alone. Direction matters most when labeled data are scarce relative to the representation dimension and the activation subspace used for initialization captures supervised task structure. In this regime, the adapter's row span remains sensitive to its starting point, making task-aligned initialization especially useful. A spiked-covariance perturbation analysis characterizes the finite-sample stability of the estimated subspace. A first-step analysis of LoRA training explains why the subspace's alignment with the task matters and motivates an alignment coefficient $\\rho$ that closely tracks gains across classification tasks. We test this account with PivotLoRA, which initializes adapters from activation PCA at prediction-relevant positions and applies one output-preserving orthogonal pivot early in training. In few-shot BERT-base classification, PivotLoRA achieves the best average rank among 13 methods and improves over vanilla LoRA in 29 of 30 settings, even though it starts from a smaller input-factor initialization norm. Additional classification experiments extend the evaluation to 7B and 8B Llama decoders. Classification gains diminish with more labeled data, consistent with the proposed regime dependence. A targeted extension to completion-only reasoning also shows improvements on GSM8K and StrategyQA. These findings identify conditions under which initialization direction matters, with subspace-task alignment offering a low-cost diagnostic before training for classification.",
+          "arxiv_id": "2611.23428",
+          "arxiv_url": "https://arxiv.org/abs/2611.23428",
+          "authors": [
+            "Nischal Subedi, Cencheng Shen, Peng Zhao"
+          ],
+          "bullets": [
+            "The study refines the view that spectral initializers help only through update magnitude.",
+            "Theory and first-step analysis explain how finite-sample subspace stability and task alignment affect adaptation; alignment is summarized by coefficient ρ.",
+            "PivotLoRA uses activation PCA at prediction-relevant positions plus an early output-preserving orthogonal pivot.",
+            "It ranks best on average across 13 methods in few-shot BERT-base classification and improves over vanilla LoRA in 29 of 30 settings, despite a smaller initial input-factor norm.",
+            "Benefits shrink with more labeled data; extensions also report gains on 7B/8B Llama classification and GSM8K and StrategyQA."
+          ],
+          "categories": [
+            "cs.LG",
+            "stat.ML"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of PivotLoRA. Activations at supervised prediction positions initialize the row span of Aℓ, with Bℓ = 0 so that ∆Wℓ = 0. For classification, the activation source is the [CLS] representation (BERT) or the sequence mean (decoders); for completion-only reasoning, it comprises hidden states that predict supervised response tokens. After K epochs, PivotLoRA replaces the learned input basis with an orthonormal basis for the same row span and re-encodes Bℓ so that BℓAℓ is preserved.",
+              "figure_id": "figure-2-54",
+              "figure_number": "2",
+              "height": 260,
+              "image_path": "figures/2611.23428/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 826
+            },
+            {
+              "caption": "Figure 4: Eigenvalue spectrum and cumulative variance of frozen BERT-base [CLS] activations at N = 64. The top r = 8 components capture 38% of the total variance for AG News and 46% for SST-2. The spectra decay continuously, with no sharp finite-rank cutoff.",
+              "figure_id": "figure-4-36",
+              "figure_number": "4",
+              "height": 331,
+              "image_path": "figures/2611.23428/figure-002.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 790
+            },
+            {
+              "caption": "Figure 1: PCA estimation error vs. d/N . (a) Synthetic spiked covariance. (b) BERT-base [CLS] activations on AG News and SST-2. (c) Overlay. The shaded region marks the empirical high-d/N regime associated with the largest direction-aware gains in our experiments. Error bars show ±1 std.",
+              "figure_id": "figure-1-32",
+              "figure_number": "1",
+              "height": 239,
+              "image_path": "figures/2611.23428/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 751
+            },
+            {
+              "caption": "Figure 3: Alignment ρ versus PivotLoRA’s gain over LoRA across seven BERT tasks at N = 64 (CoLA in Matthews correlation points).",
+              "figure_id": "figure-3-20",
+              "figure_number": "3",
+              "height": 305,
+              "image_path": "figures/2611.23428/figure-004.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 387
+            },
+            {
+              "caption": "Figure 5: Data efficiency on AG News with BERT-base. The shaded region marks the high-d/N few-shot regime. The dashed line denotes the displayed full-data accuracy reference.",
+              "figure_id": "figure-5-17",
+              "figure_number": "5",
+              "height": 350,
+              "image_path": "figures/2611.23428/figure-005.webp",
+              "kind": "figure",
+              "page": 34,
+              "width": 524
+            },
+            {
+              "caption": "Table 4: Regime map. Mean gain of PivotLoRA over LoRA in points of each task’s primary metric, and settings won (details in Table 29). d/N is comparable within a backbone.",
+              "figure_id": "table-4-19",
+              "figure_number": "4",
+              "height": 205,
+              "image_path": "figures/2611.23428/table-006.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 391
+            },
+            {
+              "caption": "Table 17: Aggregate statistics across the 30 primary BERT-base few-shot settings. “Wins vs. PivotLoRA” counts settings in which the listed method has a strictly higher mean than PivotLoRA.",
+              "figure_id": "table-17-13",
+              "figure_number": "17",
+              "height": 316,
+              "image_path": "figures/2611.23428/table-007.webp",
+              "kind": "table",
+              "page": 29,
+              "width": 472
+            },
+            {
+              "caption": "Table 42: Learning-rate sensitivity at N = 64. Scores are unweighted averages of each task’s primary metric over AG News, SST-2, and CoLA. “Avg. anchor” uses the primary base learning-rate anchor ηA = 2× 10−4, together with each method’s prescribed factor-wise allocation. “Avg. best” averages each method’s best score over the base-rate sweep. For LoRA+, selection additionally includes ηB/ηA ∈ {4, 8, 16, 32}. Gaps are measured relative to PivotLoRA under the corresponding comparison.",
+              "figure_id": "table-42-30",
+              "figure_number": "42",
+              "height": 193,
+              "image_path": "figures/2611.23428/table-008.webp",
+              "kind": "table",
+              "page": 40,
+              "width": 582
+            },
+            {
+              "caption": "Table 18: Llama-2-7B few-shot classification, reported as mean ± standard deviation over three seeds. Bold marks the best mean among methods evaluated in the corresponding setting.",
+              "figure_id": "table-18-8",
+              "figure_number": "18",
+              "height": 151,
+              "image_path": "figures/2611.23428/table-009.webp",
+              "kind": "table",
+              "page": 30,
+              "width": 518
+            },
+            {
+              "caption": "Table 19: Llama-3.1-8B few-shot classification, reported as mean ± sample standard deviation over three seeds. EVA entries at N = 64 report population standard deviations because per-seed values were not retained. Bold marks the best mean among methods evaluated in the corresponding setting.",
+              "figure_id": "table-19-10",
+              "figure_number": "19",
+              "height": 151,
+              "image_path": "figures/2611.23428/table-010.webp",
+              "kind": "table",
+              "page": 30,
+              "width": 518
+            },
+            {
+              "caption": "Table 48: BERT-base training time and peak memory at N = 64 on SST-2, averaged over two seeds on one NVIDIA T4.",
+              "figure_id": "table-48-21",
+              "figure_number": "48",
+              "height": 387,
+              "image_path": "figures/2611.23428/table-011.webp",
+              "kind": "table",
+              "page": 42,
+              "width": 761
+            },
+            {
+              "caption": "Table 1: BERT-base, mean over six tasks and three seeds at each N ; rank and >LoRA over 30 settings. Bold/underline: best/second.",
+              "figure_id": "table-1-45",
+              "figure_number": "1",
+              "height": 347,
+              "image_path": "figures/2611.23428/table-012.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 394
+            },
+            {
+              "caption": "Table 8: GSM8K results. Accuracy is numeric exact match on the 1,319-example test set. Format is the percentage of generations following the trained answer format. The base model has no adapter and is evaluated once.",
+              "figure_id": "table-8-6",
+              "figure_number": "8",
+              "height": 204,
+              "image_path": "figures/2611.23428/table-013.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 606
+            },
+            {
+              "caption": "Table 5: Baseline-fidelity audit at N = 64, mean over three seeds. Each block is a separate matched run; compare within blocks. CoLA uses Matthews correlation.",
+              "figure_id": "table-5-15",
+              "figure_number": "5",
+              "height": 182,
+              "image_path": "figures/2611.23428/table-014.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 472
+            },
+            {
+              "caption": "Table 28: Class structure in frozen BERT [CLS] representations, averaged over three seeds. Columns denote the total number of labeled examples.",
+              "figure_id": "table-28-23",
+              "figure_number": "28",
+              "height": 371,
+              "image_path": "figures/2611.23428/table-015.webp",
+              "kind": "table",
+              "page": 33,
+              "width": 532
+            },
+            {
+              "caption": "Table 10: SST-2 accuracy, reported as mean ± standard deviation over three seeds. Columns denote the total number of labeled examples N .",
+              "figure_id": "table-10-43",
+              "figure_number": "10",
+              "height": 328,
+              "image_path": "figures/2611.23428/table-016.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 552
+            },
+            {
+              "caption": "Table 11: CoLA Matthews correlation, reported as mean ± standard deviation over three seeds.",
+              "figure_id": "table-11-42",
+              "figure_number": "11",
+              "height": 328,
+              "image_path": "figures/2611.23428/table-017.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 552
+            },
+            {
+              "caption": "Table 12: MNLI matched-validation accuracy, reported as mean ± standard deviation over three seeds.",
+              "figure_id": "table-12-44",
+              "figure_number": "12",
+              "height": 328,
+              "image_path": "figures/2611.23428/table-018.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 552
+            },
+            {
+              "caption": "Table 13: QNLI accuracy, reported as mean ± standard deviation over three seeds.",
+              "figure_id": "table-13-26",
+              "figure_number": "13",
+              "height": 327,
+              "image_path": "figures/2611.23428/table-019.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 552
+            },
+            {
+              "caption": "Table 14: RTE accuracy, reported as mean ± standard deviation over three seeds.",
+              "figure_id": "table-14-28",
+              "figure_number": "14",
+              "height": 327,
+              "image_path": "figures/2611.23428/table-020.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 552
+            },
+            {
+              "caption": "Table 15: AG News accuracy, reported as mean ± standard deviation over three seeds.",
+              "figure_id": "table-15-27",
+              "figure_number": "15",
+              "height": 327,
+              "image_path": "figures/2611.23428/table-021.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 552
+            },
+            {
+              "caption": "Table 16: BoolQ accuracy, reported as mean ± standard deviation over three seeds.",
+              "figure_id": "table-16-12",
+              "figure_number": "16",
+              "height": 327,
+              "image_path": "figures/2611.23428/table-022.webp",
+              "kind": "table",
+              "page": 29,
+              "width": 552
+            },
+            {
+              "caption": "Table 29: PivotLoRA gain over vanilla LoRA by regime, in points of each task’s primary metric (ROUGE-L for GPT-2).",
+              "figure_id": "table-29-18",
+              "figure_number": "29",
+              "height": 194,
+              "image_path": "figures/2611.23428/table-023.webp",
+              "kind": "table",
+              "page": 34,
+              "width": 648
+            },
+            {
+              "caption": "Table 9: StrategyQA results. Accuracy is yes/no exact match on the 687-example test split. Columns as in Table 8.",
+              "figure_id": "table-9-7",
+              "figure_number": "9",
+              "height": 203,
+              "image_path": "figures/2611.23428/table-024.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 606
+            },
+            {
+              "caption": "Table 21: GPT-2 few-shot summarization, ROUGE-L means over three seeds. “classification” uses eigenvalue-scaled rates with λratio = 16; “single rate” uses 2 × 10−4 for both factors, as in the reasoning experiments.",
+              "figure_id": "table-21-9",
+              "figure_number": "21",
+              "height": 183,
+              "image_path": "figures/2611.23428/table-025.webp",
+              "kind": "table",
+              "page": 30,
+              "width": 614
+            },
+            {
+              "caption": "Table 49: Llama-2-7B classification training cost on SST-2 at N = 64, using bf16 on one NVIDIA L4.",
+              "figure_id": "table-49-22",
+              "figure_number": "49",
+              "height": 173,
+              "image_path": "figures/2611.23428/table-026.webp",
+              "kind": "table",
+              "page": 42,
+              "width": 602
+            },
+            {
+              "caption": "Table 31: Five-seed confirmation on representative BERT-base settings using seeds 42–46. The confidence interval is a bootstrap interval for the mean paired difference, PivotLoRA minus LoRA.",
+              "figure_id": "table-31-35",
+              "figure_number": "31",
+              "height": 192,
+              "image_path": "figures/2611.23428/table-027.webp",
+              "kind": "table",
+              "page": 36,
+              "width": 536
+            },
+            {
+              "caption": "Table 47: Initialization overhead for BERT-base with 12 layers and rank r = 8 on an NVIDIA T4.",
+              "figure_id": "table-47-41",
+              "figure_number": "47",
+              "height": 192,
+              "image_path": "figures/2611.23428/table-028.webp",
+              "kind": "table",
+              "page": 41,
+              "width": 536
+            },
+            {
+              "caption": "Table 30: Activation-source ablation for BERT-base PivotLoRA at N = 64. Values are mean ± sample standard deviation over three paired seeds. Paired gains are computed as all-token minus target-position accuracy. The last two rows use different sources for query and value adapters.",
+              "figure_id": "table-30-25",
+              "figure_number": "30",
+              "height": 182,
+              "image_path": "figures/2611.23428/table-029.webp",
+              "kind": "table",
+              "page": 35,
+              "width": 556
+            },
+            {
+              "caption": "Table 24: Full fine-tuning, LoRA, and PivotLoRA on BERT-base at N = 64. Full fine-tuning is reported as mean ± standard deviation over three seeds. LoRA and PivotLoRA entries are the corresponding three-seed means from the primary tables.",
+              "figure_id": "table-24-53",
+              "figure_number": "24",
+              "height": 173,
+              "image_path": "figures/2611.23428/table-030.webp",
+              "kind": "table",
+              "page": 31,
+              "width": 536
+            },
+            {
+              "caption": "Table 25: Alignment ρ at N = 64 and PivotLoRA’s shared-protocol gain over vanilla LoRA.",
+              "figure_id": "table-25-38",
+              "figure_number": "25",
+              "height": 192,
+              "image_path": "figures/2611.23428/table-031.webp",
+              "kind": "table",
+              "page": 32,
+              "width": 464
+            },
+            {
+              "caption": "Table 36: Pivot timing on AG News. Values are accuracy means over three seeds.",
+              "figure_id": "table-36-48",
+              "figure_number": "36",
+              "height": 204,
+              "image_path": "figures/2611.23428/table-032.webp",
+              "kind": "table",
+              "page": 37,
+              "width": 368
+            },
+            {
+              "caption": "Table 34: Pivot timing on SST-2. Values are accuracy means over three seeds.",
+              "figure_id": "table-34-49",
+              "figure_number": "34",
+              "height": 203,
+              "image_path": "figures/2611.23428/table-033.webp",
+              "kind": "table",
+              "page": 37,
+              "width": 368
+            },
+            {
+              "caption": "Table 35: Pivot timing on CoLA. Values are Matthews correlation means over three seeds.",
+              "figure_id": "table-35-50",
+              "figure_number": "35",
+              "height": 202,
+              "image_path": "figures/2611.23428/table-034.webp",
+              "kind": "table",
+              "page": 37,
+              "width": 368
+            },
+            {
+              "caption": "Table 44: Direction versus learning-rate scaling controls at N = 64 using BERT-base. Values are mean ± standard deviation over three seeds from the separate diagnostic sweep.",
+              "figure_id": "table-44-29",
+              "figure_number": "44",
+              "height": 151,
+              "image_path": "figures/2611.23428/table-035.webp",
+              "kind": "table",
+              "page": 40,
+              "width": 456
+            },
+            {
+              "caption": "Table 43: Best swept scores by task at N = 64. Each score is selected over the base learningrate anchors {5× 10−5, 2× 10−4, 8× 10−4}. For LoRA+, selection additionally ranges over the differential ratios ηB/ηA ∈ {4, 8, 16, 32}.",
+              "figure_id": "table-43-31",
+              "figure_number": "43",
+              "height": 193,
+              "image_path": "figures/2611.23428/table-036.webp",
+              "kind": "table",
+              "page": 40,
+              "width": 332
+            },
+            {
+              "caption": "Table 6: BERT-base baselines run as released, mean over six tasks and three seeds. The last column counts the 30 task–N settings in which PivotLoRA has the higher mean.",
+              "figure_id": "table-6-16",
+              "figure_number": "6",
+              "height": 204,
+              "image_path": "figures/2611.23428/table-037.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 727
+            },
+            {
+              "caption": "Table 3: Llama-3.1-8B reasoning at N=128: accuracy (%) over three seeds, ± one sample SD. McNemar tests are exact and pooled over seeds.",
+              "figure_id": "table-3-47",
+              "figure_number": "3",
+              "height": 115,
+              "image_path": "figures/2611.23428/table-038.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 337
+            },
+            {
+              "caption": "Table 7: Configuration for the reasoning experiments, shared by both datasets.",
+              "figure_id": "table-7-1",
+              "figure_number": "7",
+              "height": 444,
+              "image_path": "figures/2611.23428/table-039.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 448
+            },
+            {
+              "caption": "Table 27: ρ over ten class-balanced N = 64 subsets per task, with the shared-protocol PivotLoRA gain from Table 25. CoLA was not included in this resampling.",
+              "figure_id": "table-27-24",
+              "figure_number": "27",
+              "height": 175,
+              "image_path": "figures/2611.23428/table-040.webp",
+              "kind": "table",
+              "page": 33,
+              "width": 722
+            },
+            {
+              "caption": "Table 46: Llama-3.1-8B per-seed classification results in bf16 on an NVIDIA L4.",
+              "figure_id": "table-46-40",
+              "figure_number": "46",
+              "height": 151,
+              "image_path": "figures/2611.23428/table-041.webp",
+              "kind": "table",
+              "page": 41,
+              "width": 698
+            },
+            {
+              "caption": "Table 45: Llama-2-7B per-seed classification results in bf16 on an NVIDIA L4.",
+              "figure_id": "table-45-39",
+              "figure_number": "45",
+              "height": 150,
+              "image_path": "figures/2611.23428/table-042.webp",
+              "kind": "table",
+              "page": 41,
+              "width": 698
+            },
+            {
+              "caption": "Table 37: Classification output-preservation and orthogonality diagnostics. The alignment change excludes layer 0 because its embedding-level [CLS] scatter is near zero.",
+              "figure_id": "table-37-2",
+              "figure_number": "37",
+              "height": 124,
+              "image_path": "figures/2611.23428/table-043.webp",
+              "kind": "table",
+              "page": 38,
+              "width": 825
+            },
+            {
+              "caption": "Table 41: Post-pivot learning-rate policy. Task columns average over the five values of N (CoLA in Matthews correlation); “Wins” counts the 15 task–N settings in which a variant exceeds TT-PCA.",
+              "figure_id": "table-41-14",
+              "figure_number": "41",
+              "height": 162,
+              "image_path": "figures/2611.23428/table-044.webp",
+              "kind": "table",
+              "page": 39,
+              "width": 618
+            },
+            {
+              "caption": "Table 38: Classification optimizer-state ablation on SST-2. Values are accuracy means over three seeds.",
+              "figure_id": "table-38-4",
+              "figure_number": "38",
+              "height": 111,
+              "image_path": "figures/2611.23428/table-045.webp",
+              "kind": "table",
+              "page": 38,
+              "width": 602
+            },
+            {
+              "caption": "Table 39: Classification optimizer-state ablation on CoLA. Values are Matthews correlation means over three seeds.",
+              "figure_id": "table-39-3",
+              "figure_number": "39",
+              "height": 110,
+              "image_path": "figures/2611.23428/table-046.webp",
+              "kind": "table",
+              "page": 38,
+              "width": 602
+            },
+            {
+              "caption": "Table 40: Classification optimizer-state ablation on AG News. Values are accuracy means over three seeds.",
+              "figure_id": "table-40-5",
+              "figure_number": "40",
+              "height": 109,
+              "image_path": "figures/2611.23428/table-047.webp",
+              "kind": "table",
+              "page": 38,
+              "width": 602
+            },
+            {
+              "caption": "Table 22: BERT-base on the full training split using seed 42. CoLA uses Matthews correlation, and the remaining tasks use accuracy.",
+              "figure_id": "table-22-52",
+              "figure_number": "22",
+              "height": 119,
+              "image_path": "figures/2611.23428/table-048.webp",
+              "kind": "table",
+              "page": 31,
+              "width": 540
+            },
+            {
+              "caption": "Table 23: Single-seed full-data audit with the reference PEFT implementation of PiSSA (seed 42). CoLA uses Matthews correlation; the other tasks use accuracy.",
+              "figure_id": "table-23-51",
+              "figure_number": "23",
+              "height": 109,
+              "image_path": "figures/2611.23428/table-049.webp",
+              "kind": "table",
+              "page": 31,
+              "width": 532
+            },
+            {
+              "caption": "Table 32: LoRA-DA on AG News. Values are accuracy means and standard deviations over three seeds. LoRA is rerun in the same sweep.",
+              "figure_id": "table-32-33",
+              "figure_number": "32",
+              "height": 90,
+              "image_path": "figures/2611.23428/table-050.webp",
+              "kind": "table",
+              "page": 36,
+              "width": 610
+            },
+            {
+              "caption": "Table 33: LoRA-DA on SST-2. Values are accuracy means and standard deviations over three seeds. LoRA is rerun in the same sweep.",
+              "figure_id": "table-33-34",
+              "figure_number": "33",
+              "height": 90,
+              "image_path": "figures/2611.23428/table-051.webp",
+              "kind": "table",
+              "page": 36,
+              "width": 610
+            },
+            {
+              "caption": "Table 26: Cross-split robustness check at N = 64. CoLA gains are in Matthews correlation points, and the other gains are in accuracy points.",
+              "figure_id": "table-26-37",
+              "figure_number": "26",
+              "height": 110,
+              "image_path": "figures/2611.23428/table-052.webp",
+              "kind": "table",
+              "page": 32,
+              "width": 448
+            },
+            {
+              "caption": "Table 2: Decoder-scale classification at N = 64, mean over three seeds.",
+              "figure_id": "table-2-46",
+              "figure_number": "2",
+              "height": 65,
+              "image_path": "figures/2611.23428/table-053.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 337
+            },
+            {
+              "caption": "Table 20: Llama-3.1-8B classification on BoolQ, reported as mean ± population standard deviation over three seeds (per-seed values were not retained).",
+              "figure_id": "table-20-11",
+              "figure_number": "20",
+              "height": 130,
+              "image_path": "figures/2611.23428/table-054.webp",
+              "kind": "table",
+              "page": 30,
+              "width": 298
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.23428/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.23428",
+          "relevance": 8,
+          "selection_reason": "Analyzes the importance of subspace direction in LoRA adapters for few-shot adaptation, providing a transferable technique for efficient model adaptation.",
+          "summary_status": "generated",
+          "title": "When Does Subspace Direction Matter for LoRA? Regime Analysis of the Magnitude Principle in Few-Shot Adaptation",
+          "tldr": "LoRA initialization direction matters most in low-data, high-dimensional settings when its activation subspace aligns with task-relevant structure, motivating PivotLoRA.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-17",
       "paper_count": 13,
       "papers": [
@@ -123415,5 +125958,5 @@
   "schema_version": 1,
   "subtopic_id": "test-time-learning",
   "topic_id": "adaptation-and-memory",
-  "total_paper_count": 619
+  "total_paper_count": 631
 }

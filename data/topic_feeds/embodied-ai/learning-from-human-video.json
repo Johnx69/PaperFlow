@@ -1,6 +1,1332 @@
 {
   "days": [
     {
+      "date": "2026-11-18",
+      "paper_count": 6,
+      "papers": [
+        {
+          "abstract": "We introduce $Z$-sight, a unified robot foundation model that couples vision-language-action (VLA) and generative latent world modeling. Video-based world action models (WAMs) show the value of joint future-and-action generation for control, yet inherit the heavy cost of video generators. Recent latent-space policies avoid pixel generation, yet typically align intermediate features or rely on frozen target encoders, decoupling future prediction from the VLM's native feature space. $Z$-sight instead predicts the future directly in the visual token space in which its VLM perceives the present. Coupling a foresight expert and a continuous action expert with the VLM in a mixture-of-transformers, $Z$-sight jointly denoises future spatial tokens and actions at inference without pixel reconstruction or external encoders. Trained on human video and robot trajectories, $Z$-sight achieves 81.9% success on SIMPLE (+9.6 points over the strongest baseline) and 73.3% across six Unitree G1 tasks (+20.0 points) at 110 ms per chunk, while remaining competitive on tabletop benchmarks.",
+          "arxiv_id": "2611.24940",
+          "arxiv_url": "https://arxiv.org/abs/2611.24940",
+          "authors": [
+            "Junjie Ye, Yiqi Zhao, Muchen Xu, Celina Shiyu Wang, Hao Dong, Ruohai Ge, Rong Xue, Benjamin J Kolligs, Aditya Dutt, Sasanka Nagavalli, Nassim A. Samad, Gaurav S. Sukhatme, Jyotirmoy V. Deshmukh, Yue Wang, Yuliang Guo"
+          ],
+          "bullets": [
+            "Addresses the cost of video-generative world models and the feature-space disconnect in existing latent policies.",
+            "Uses a mixture-of-transformers that couples the VLM with foresight and continuous action experts.",
+            "Predicts future spatial tokens directly in the VLM’s native visual-token space.",
+            "Trained on human videos and robot trajectories, it reports 81.9% success on SIMPLE and 73.3% across six Unitree G1 tasks at 110 ms per chunk.",
+            "Also remains competitive on tabletop benchmarks."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of Z-sight. (a)–(c) Training stages: VLM pre-training on human video, mid-training all streams on mixed robot-human data, and post-training on the target embodiment. (d) Architecture: The VLM processes observation history, state, and instructions, supervised by discrete FAST tokens (LFAST). A foresight expert denoises future spatial tokens against an EMA teacher (Lview). Simultaneously, an action expert generates continuous actions via flow matching (Lflow) while attending to the predicted future features.",
+              "figure_id": "figure-2-7",
+              "figure_number": "2",
+              "height": 444,
+              "image_path": "figures/2611.24940/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 920
+            },
+            {
+              "caption": "Figure 1. Z-sight predicts the future in the policy’s native representation space. Top: Z-sight performs diverse loco-manipulation tasks in a real-world setting. Bottom: comparison of policy designs. (a) Vision-language-action models (VLAs) map the current observation to actions through a VLM and an action expert. (b) World action models (WAMs) build on a pretrained video generator to predict future video alongside actions. (c) Z-sight (ours) co-denoises future spatial tokens and actions in the co-evolving visual space of its own VLM, allowing the action expert to read the forming prediction during generation.",
+              "figure_id": "figure-1-3",
+              "figure_number": "1",
+              "height": 617,
+              "image_path": "figures/2611.24940/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 934
+            },
+            {
+              "caption": "Figure 5. Results on SIMPLE. (a) Success rates by difficulty level and overall average. (b) Success rates across the 12 teleoperation tasks (averaged over L0–L2). Values are means over three evaluation passes of one checkpoint per method, with error bars showing ± one sample standard deviation across passes (ten episodes per task and level per pass). Z-sight leads at every difficulty level (81.9% average, +9.6 points over GR00T N1.7) and ranks first or tied on 11 of the 12 tasks.",
+              "figure_id": "figure-5-4",
+              "figure_number": "5",
+              "height": 358,
+              "image_path": "figures/2611.24940/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 920
+            },
+            {
+              "caption": "Figure 7. Real-world results on the Unitree G1. Success rate (SR) and progress score (%) over 10 trials per task. Solid bars and labels show SR, overlaid on translucent bars showing progress. Average weights all six tasks equally. We compare Fast-WAM (Yuan et al., 2026), π0.5 (Black et al., 2025a), GR00T N1.7 (NVIDIA, 2026), and Ψ0 (Wei et al., 2026a). Z-sight matches or exceeds every baseline on every task, raising overall success to 73.3% (+20.0 points over Fast-WAM) with the largest gains on multi-stage tasks.",
+              "figure_id": "figure-7-6",
+              "figure_number": "7",
+              "height": 260,
+              "image_path": "figures/2611.24940/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 925
+            },
+            {
+              "caption": "Figure 6. Real-world tasks. The six evaluation tasks on the Unitree G1 with task instructions overlaid. Dog and Puffs are short pick-and-place tasks, whereas Chair, Book, Trash, and Fruit are multi-stage loco-manipulation tasks requiring coordinated whole-body motion and dexterous grasping.",
+              "figure_id": "figure-6-5",
+              "figure_number": "6",
+              "height": 206,
+              "image_path": "figures/2611.24940/figure-005.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 983
+            },
+            {
+              "caption": "Figure 4. Training data. Pre-training uses 1,977 h of egocentric human video (inner arc) and mid-training uses all 4,731 h (outer circle), combining robot data with 20% human-data replay.",
+              "figure_id": "figure-4-22",
+              "figure_number": "4",
+              "height": 320,
+              "image_path": "figures/2611.24940/figure-006.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 399
+            },
+            {
+              "caption": "Figure 3. Attention mask of Z-sight. The VLM prefix attends causally and cannot see either expert. The foresight expert attends to the prefix and to itself. The action expert attends to the prefix, the foresight stream, and itself.",
+              "figure_id": "figure-3-14",
+              "figure_number": "3",
+              "height": 382,
+              "image_path": "figures/2611.24940/figure-007.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 382
+            },
+            {
+              "caption": "Table A.1. Shared architecture and prediction settings.",
+              "figure_id": "table-A.1-2",
+              "figure_number": "A.1",
+              "height": 277,
+              "image_path": "figures/2611.24940/table-008.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 660
+            },
+            {
+              "caption": "Table 3. Training ablations of the foresight stream. Scores (%), with subscripts showing relative drops from the full model, and gray marking the best. Removing either the future-prediction loss or the entire foresight branch consistently degrades success across real-world and simulated benchmarks, confirming that the gains come from continued predictive supervision rather than added model capacity.",
+              "figure_id": "table-3-11",
+              "figure_number": "3",
+              "height": 152,
+              "image_path": "figures/2611.24940/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 882
+            },
+            {
+              "caption": "Table 1. LIBERO success rates (%). Z-sight outperforms the VLA baselines and VLA-JEPA overall, while matching Motus.",
+              "figure_id": "table-1-12",
+              "figure_number": "1",
+              "height": 213,
+              "image_path": "figures/2611.24940/table-010.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 527
+            },
+            {
+              "caption": "Table 2. RoboTwin 2.0. Success rates (%) under clean (C2C) and randomized (C2R) evaluation.",
+              "figure_id": "table-2-13",
+              "figure_number": "2",
+              "height": 255,
+              "image_path": "figures/2611.24940/table-011.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 424
+            },
+            {
+              "caption": "Table 5. Foresight prediction and action quality. Pooled over 11,676 held-out G1 windows (predicted α, present β, unrelated γ, true future y).",
+              "figure_id": "table-5-19",
+              "figure_number": "5",
+              "height": 225,
+              "image_path": "figures/2611.24940/table-012.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 383
+            },
+            {
+              "caption": "Table 6. Future-stream interventions. Success rates (%) with fixed weights (σ = τ : shared schedule; σ = 1: pure noise).",
+              "figure_id": "table-6-21",
+              "figure_number": "6",
+              "height": 194,
+              "image_path": "figures/2611.24940/table-013.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 414
+            },
+            {
+              "caption": "Table 8. Inference latency on one RTX 4090 (ms). Zsight runs faster than π0.5, Ψ0, and Fast-WAM with online foresight.",
+              "figure_id": "table-8-20",
+              "figure_number": "8",
+              "height": 154,
+              "image_path": "figures/2611.24940/table-014.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 427
+            },
+            {
+              "caption": "Table D.1. Adaptation budgets on SIMPLE and real-world G1. Budgets are shown as optimizer steps × global batch size = sample presentations. Trainable modules list the default recipe.",
+              "figure_id": "table-D.1-16",
+              "figure_number": "D.1",
+              "height": 317,
+              "image_path": "figures/2611.24940/table-015.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 890
+            },
+            {
+              "caption": "Table B.1. Training datasets across stages. Hours are computed from frame counts at the native 30 Hz recording rate (10 Hz for our G1 demonstrations). Human datasets use the 48-D hand representation in the camera frame, whereas Humanoid Everyday uses it in the robot base frame.",
+              "figure_id": "table-B.1-23",
+              "figure_number": "B.1",
+              "height": 265,
+              "image_path": "figures/2611.24940/table-016.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 990
+            },
+            {
+              "caption": "Table A.3. Target-domain adaptation schedules. Batch sizes are global. LR denotes peak expert learning rate, with a 0.1× multiplier on the vision tower and the listed multiplier on the language model (LM). History and stride refer to the causal video encoder in frames and dataset timesteps.",
+              "figure_id": "table-A.3-24",
+              "figure_number": "A.3",
+              "height": 140,
+              "image_path": "figures/2611.24940/table-017.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 782
+            },
+            {
+              "caption": "Table B.2. Effect of temporal smoothing (σs = 0 → 2) on human action chunks. Token counts are means per chunk. Values marked ≈ are EgoVerse quantiles averaged across its three subsets.",
+              "figure_id": "table-B.2-17",
+              "figure_number": "B.2",
+              "height": 275,
+              "image_path": "figures/2611.24940/table-018.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 672
+            },
+            {
+              "caption": "Table 4. Future-prediction designs. Success rates (%) on SIMPLE Hard and RoboTwin 2.0. Z-sight consistently outperforms both implicit feature alignment and frozen external targets.",
+              "figure_id": "table-4-10",
+              "figure_number": "4",
+              "height": 149,
+              "image_path": "figures/2611.24940/table-019.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 564
+            },
+            {
+              "caption": "Table 7. Joint versus sequential denoising. Success rates (%) with shared weights and median chunk latency on one RTX 4090 (ms).",
+              "figure_id": "table-7-18",
+              "figure_number": "7",
+              "height": 114,
+              "image_path": "figures/2611.24940/table-020.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 436
+            },
+            {
+              "caption": "Table A.2. Training stages and gradient routing. F, A, and V denote FAST cross-entropy, action flow matching, and future-feature prediction, respectively. Future targets are always stop-gradient EMA features. During mid-training only F updates the VLM, whereas during post-training A updates the VLM while V remains insulated from it. Experts and modality projections are trainable whenever present.",
+              "figure_id": "table-A.2-1",
+              "figure_number": "A.2",
+              "height": 188,
+              "image_path": "figures/2611.24940/table-021.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 952
+            },
+            {
+              "caption": "Table C.2. Subgoal completion distributions on the Unitree G1. Entries give trial counts (out of 10) completing (0, 1, 2) subgoals for two-stage tasks and (0, 1, 2, 3, 4) subgoals for four-stage tasks.",
+              "figure_id": "table-C.2-9",
+              "figure_number": "C.2",
+              "height": 126,
+              "image_path": "figures/2611.24940/table-022.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 982
+            },
+            {
+              "caption": "Table C.1. Real-world Unitree G1 task specifications. Duration denotes mean demonstration length.",
+              "figure_id": "table-C.1-8",
+              "figure_number": "C.1",
+              "height": 100,
+              "image_path": "figures/2611.24940/table-023.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 982
+            },
+            {
+              "caption": "Table D.2. GR00T N1.7 trainable-backbone control on SIMPLE. Success rates (%) averaged over three evaluation passes.",
+              "figure_id": "table-D.2-15",
+              "figure_number": "D.2",
+              "height": 128,
+              "image_path": "figures/2611.24940/table-024.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 572
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.24940/hero.webp",
+          "novelty": 9,
+          "pdf_url": "https://arxiv.org/pdf/2611.24940",
+          "relevance": 10,
+          "selection_reason": "Unifies vision-language-action control with latent world modeling for robot foundation models.",
+          "summary_status": "generated",
+          "title": "$Z$-sight: Unifying Vision-Language-Action and Latent World Modeling",
+          "tldr": "Z-sight unifies vision-language-action control with latent future prediction by jointly generating visual tokens and actions without pixel reconstruction or external encoders.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-action",
+                "robot-learning-and-manipulation",
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Recent advances in world models are opening new possibilities for fine-grained embodied tasks, with hand-object interaction offering a particularly demanding setting. Modeling these interactions involves capturing how hand actions change objects and how the resulting states persist over time. Yet systematic evaluation tailored to these hand-centric capabilities remains underdeveloped. To address this gap, we introduce HandWorldBench, a unified benchmark that systematically evaluates hand-centric world models across human hands, simulated dexterous hands, and real dexterous hands along six dimensions: visual quality, hand fidelity, appearance consistency, instruction following, physical consistency, and temporal coherence. To construct the benchmark, we develop a data curation pipeline that extracts hand-object interaction clips and screens them for quality, yielding 20,500 high-quality egocentric clips from over 600 hours of footage. We then manually select 500 clips covering seven task families for evaluation. Benchmarking eleven models under a unified protocol reveals that stronger hand-pose control does not consistently translate into coherent object-state evolution and persistence or robust cross-embodiment performance, with several specialized hand-control models underperforming general-purpose text/image-to-video generators on dexterous-hand tasks.",
+          "arxiv_id": "2611.24731",
+          "arxiv_url": "https://arxiv.org/abs/2611.24731",
+          "authors": [
+            "Zhaolu Wang, Jiacheng Xu, Lihong Wang, Shuqing Wang, Jianjie Fang, Ziyou Wang, Xvyuan Liu, Rongze Tang, Yiding Ma, Xin Zhang, Jiawei Chen, Wei Wu, Chen Gao, Yong Li, Zhibo Chen"
+          ],
+          "bullets": [
+            "Evaluates human, simulated dexterous, and real dexterous hand models across six dimensions, including hand fidelity, instruction following, physical consistency, and temporal coherence.",
+            "Builds a curated corpus of 20,500 high-quality egocentric hand-object interaction clips from over 600 hours of footage.",
+            "Uses 500 manually selected clips spanning seven task families under a unified evaluation protocol.",
+            "Benchmarking 11 models finds that stronger hand-pose control does not reliably produce coherent object-state evolution or persistence.",
+            "Specialized hand-control models can underperform general-purpose text/image-to-video generators on dexterous-hand tasks."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Data construction and annotation pipeline. (a) Filtering and validation yield 20,500 high-quality clips from over 600 hours of footage; manual selection produces 500 evaluation clips. (b) Multiple hand-control representations support different model interfaces. (c) VLM-assisted annotation provides interaction descriptions and task labels. (d) Human verification refines descriptions, object states, and evaluation questions. Right: representative manipulation scenarios.",
+              "figure_id": "figure-2-4",
+              "figure_number": "2",
+              "height": 508,
+              "image_path": "figures/2611.24731/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1024
+            },
+            {
+              "caption": "Figure 3. Overall ranking and cross-embodiment profiles. Left: visual quality (VQ), hand fidelity (HF), appearance consistency (AC), instruction following (IF), physical consistency (PC), and temporal coherence (TC). Radar colors and markers identify models. For each category, the four radars share the maximum over eleven models and four evaluation sets as their outer radius. Right: raw HWBSCORE, colored by rank.",
+              "figure_id": "figure-3-1",
+              "figure_number": "3",
+              "height": 317,
+              "image_path": "figures/2611.24731/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1010
+            },
+            {
+              "caption": "Figure 6. Qualitative comparison of hand-centric interactions. (a) Soleplate wiping. (b) Ball placement. (c) Carton lifting. Frames progress chronologically from left to right; red boxes highlight local details, embodiment changes, and background distortions.",
+              "figure_id": "figure-6-3",
+              "figure_number": "6",
+              "height": 318,
+              "image_path": "figures/2611.24731/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 5. Alignment with human judgments. Each point represents one model on matched human-evaluation tasks (75 tasks for the overall panel). Human win rates and automatic scores are displayed on a 0–100 scale. Each panel reports Spearman's ρ across eleven models; dashed lines indicate linear trends.",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 242,
+              "image_path": "figures/2611.24731/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1020
+            },
+            {
+              "caption": "Table 2. Overall results across all 17 metrics on common valid cases per metric and protocol. Higher is better. Metrics are reported on a 0–1 scale and HWBScore on a 0–100 scale. Bold and underlined values denote the best and second-best results, determined before rounding. Both panels use the same model order, sorted by HWBScore. Cases reports reference-defined applicability (JEPA: collection size).",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 752,
+              "image_path": "figures/2611.24731/table-005.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1036
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.24731/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.24731",
+          "relevance": 8,
+          "selection_reason": "Benchmark for hand-centric world models covering hand-object interaction; directly relevant to world models and embodied manipulation/learning from human video.",
+          "summary_status": "generated",
+          "title": "HandWorldBench: A Unified Benchmark for Hand-Centric World Models",
+          "tldr": "HandWorldBench is a unified benchmark showing that hand-centric world models still struggle to maintain physically and temporally coherent object interactions across embodiments.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation",
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "video-world-models",
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Questions about long egocentric video often depend on one brief moment, such as the second a hand puts an object down. A vision-language model (VLM) that sees a few evenly spaced frames usually misses it. Training-free methods rank frames with a separate image-text model or ask the VLM to write a time. In a controlled test, the VLM itself locates the moment better when it chooses among labeled frames, and we read this choice from its output distribution. With the same candidates, this choice lands on the evidence more often than image-text scores or a written time span, and it compares all candidates in one decision. Based on this finding, we propose EgoJev, a training-free frame selector for wearable assistants. EgoJev reads where the evidence is from labeled thumbnails and looks again at the windows it points to. It places its few answer frames at the quantiles of the resulting distribution. One frozen VLM selects, answers and returns the evidence time, with no second model. A wearable device can encode its coarse thumbnails while it records. With Qwen3.5-4B and 8 answer frames, EgoJev raises QAEgo4D accuracy from 51.2% with uniform sampling to 62.0%, and it outperforms recent training-free frame selectors on QAEgo4D and MyEgo. A single-level version runs on a Mac and an iPhone.",
+          "arxiv_id": "2611.24616",
+          "arxiv_url": "https://arxiv.org/abs/2611.24616",
+          "authors": [
+            "Chunggi Lee, Hanspeter Pfister"
+          ],
+          "bullets": [
+            "Uniformly sampled frames often miss the short moments needed to answer egocentric-video questions.",
+            "The method reads the VLM’s output distribution when it chooses among labeled candidate frames, rather than asking for a written timestamp.",
+            "EgoJev revisits the selected temporal windows and places a small number of answer frames at distribution quantiles.",
+            "With Qwen3.5-4B and 8 answer frames, accuracy on QAEgo4D improves from 51.2% with uniform sampling to 62.0%.",
+            "The approach is training-free, runs with one frozen VLM, and has a single-level version for Mac and iPhone deployment."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4. Examples (Qwen3.5-4B, QAEgo4D). (a) Four methods choose 8 answer frames (triangles) for one question. Only EgoJev answers correctly, and 5 of its 8 frames lie inside the evidence window (red band; underlined frames). Its coarse readout P c over 32 segments (bars, square-root scale) peaks at this window. (b) For two questions about the same video, the readout (Q1 in blue, Q2 in dark blue) peaks at each question’s evidence.",
+              "figure_id": "figure-4-12",
+              "figure_number": "4",
+              "height": 441,
+              "image_path": "figures/2611.24616/figure-001.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1029
+            },
+            {
+              "caption": "Figure 2. Overview of EgoJev on one video (Qwen3.5-4B, QAEgo4D). (1) The VLM sees 32 labeled thumbnails with the question and options. (2) EgoJev reads the probability of each label (bars on a square-root scale, largest 0.85, red band: annotated evidence). (3) The VLM reads 32 denser thumbnails in each of the 3 windows with the most probability. (4) The two readouts give P ⋆, and the 8 answer frames are its quantiles (triangles). (5) The same VLM answers from these frames (p: probability of the chosen answer) and reads which frame shows the evidence (bars under the frames), which gives t∗. No step generates text.",
+              "figure_id": "figure-2-14",
+              "figure_number": "2",
+              "height": 284,
+              "image_path": "figures/2611.24616/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1029
+            },
+            {
+              "caption": "Figure 3. Accuracy vs. time per question (QAEgo4D, Qwen3.54B, 8 answer frames, one A100 MIG slice). Baselines at the settings of Tab. 1, and A.I.R. also at 1/8 fps (59.4% in 33.5 s). The EgoJev line refines k = 0 to 4 windows. Time: mean end-to-end time over 50 questions.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 234,
+              "image_path": "figures/2611.24616/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 328
+            },
+            {
+              "caption": "Table 1. Accuracy and time (Qwen3.5-4B, 8 answer frames). Avg.: mean of the three datasets. # frames: frames the selector reads per question, with T the video length in seconds. Time: seconds per question on QAEgo4D. On EgoSchema EgoJev uses the label check (Sec. 4.1). In all tables, best is bold and second best is underlined.",
+              "figure_id": "table-1-18",
+              "figure_number": "1",
+              "height": 252,
+              "image_path": "figures/2611.24616/table-004.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 882
+            },
+            {
+              "caption": "Table 3. Other VLMs (8 answer frames, same settings as Tab. 1). QA: QAEgo4D, My: MyEgo, ES: EgoSchema, Avg.: mean of the three.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 284,
+              "image_path": "figures/2611.24616/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Table 7. Evidence time. Share of questions whose single predicted time is within 8 s of the evidence or inside it (QAEgo4D), and within 8 s / 30 s of the answer moment (MyEgo). Localization only: the time with the most probability in P ⋆.",
+              "figure_id": "table-7-5",
+              "figure_number": "7",
+              "height": 283,
+              "image_path": "figures/2611.24616/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 5. Coarse-to-fine depth k (Qwen3.5-4B, number of refined windows out of 4, 8 answer frames, without the label check). Time: end-to-end per question, as in Tab. 1. +32 at quantiles: a second readout over 32 thumbnails placed at the quantiles of P c instead of in windows.",
+              "figure_id": "table-5-6",
+              "figure_number": "5",
+              "height": 213,
+              "image_path": "figures/2611.24616/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 494
+            },
+            {
+              "caption": "Table 8. On device (Mac, 4-bit weights, 6 GB memory cap, medians over 20 questions). EgoJev-S: single level. Rec.: compute while 8 minutes are recorded. Ans.: from question to answer. QA: QAEgo4D accuracy from GPU runs with the same frames. ‡iPhone 15 Pro, answer frames capped at 192 tokens, 10 questions.",
+              "figure_id": "table-8-13",
+              "figure_number": "8",
+              "height": 165,
+              "image_path": "figures/2611.24616/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 2. Same candidates, and EgoJev without options (Qwen3.5-4B, 8 answer frames). AKS, BOLT and Write IDs choose from the 32 thumbnails that EgoJev reads first. The last two rows read all 128 thumbnails. EgoJev without options is read without the label check.",
+              "figure_id": "table-2-19",
+              "figure_number": "2",
+              "height": 161,
+              "image_path": "figures/2611.24616/table-009.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 496
+            },
+            {
+              "caption": "Table 4. How to ask. Segment hit rate with the same 16 candidate frames (one per segment). The first three rows use the same VLM (Qwen3.5-4B). Time: localization seconds per question on QAEgo4D.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 152,
+              "image_path": "figures/2611.24616/table-010.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 496
+            },
+            {
+              "caption": "Table 12. Evidence coverage (Qwen3.5-4B, 8 answer frames). Near: share of questions with an answer frame within 8 s of the evidence (QAEgo4D) or of the answer moment (MyEgo). Right: QAEgo4D accuracy by the length of the evidence window, annotated in whole seconds, with the number of questions.",
+              "figure_id": "table-12-17",
+              "figure_number": "12",
+              "height": 253,
+              "image_path": "figures/2611.24616/table-011.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 602
+            },
+            {
+              "caption": "Table 10. Options in the query (Qwen3.5-4B, 8 answer frames).",
+              "figure_id": "table-10-16",
+              "figure_number": "10",
+              "height": 173,
+              "image_path": "figures/2611.24616/table-012.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 498
+            },
+            {
+              "caption": "Table 13. Long recordings (Qwen3.5-4B, 8 answer frames, 100 QAEgo4D questions). Each video is joined with five other test videos. Near: share of questions with an answer frame within 8 s of the evidence.",
+              "figure_id": "table-13-9",
+              "figure_number": "13",
+              "height": 150,
+              "image_path": "figures/2611.24616/table-013.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 456
+            },
+            {
+              "caption": "Table 6. Frame layout from the single-level readout (Qwen3.54B, 8 answer frames). Focus: 6 frames in the top segment and 2 uniform. Spread: the relevance and coverage rule of AKS on P c. Strata: one frame per eighth of the video, placed by a second readout within that eighth.",
+              "figure_id": "table-6-7",
+              "figure_number": "6",
+              "height": 134,
+              "image_path": "figures/2611.24616/table-014.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 9. 4 frames vs. 8 frames (QAEgo4D, Qwen3.5-4B, EgoJev single level). Cap: visual tokens per answer image.",
+              "figure_id": "table-9-4",
+              "figure_number": "9",
+              "height": 117,
+              "image_path": "figures/2611.24616/table-015.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 577
+            },
+            {
+              "caption": "Table 14. MyEgo by time since the answer moment (Qwen3.5-4B, 8 answer frames, quartiles over 996 questions). Near: share of questions with an answer frame within 8 s of the moment.",
+              "figure_id": "table-14-11",
+              "figure_number": "14",
+              "height": 173,
+              "image_path": "figures/2611.24616/table-016.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 677
+            },
+            {
+              "caption": "Table 16. Time per question on the device (s, median, single level). Rest: question prefill on the cache, localization readout and evidence readout. Each row is a median, so the total can differ slightly from Tab. 8.",
+              "figure_id": "table-16-8",
+              "figure_number": "16",
+              "height": 173,
+              "image_path": "figures/2611.24616/table-017.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 632
+            },
+            {
+              "caption": "Table 15. Localization input (QAEgo4D, Qwen3.5-4B, single level, 32 segments, 8 answer frames).",
+              "figure_id": "table-15-10",
+              "figure_number": "15",
+              "height": 117,
+              "image_path": "figures/2611.24616/table-018.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 326
+            },
+            {
+              "caption": "Table 11. Temperature τ (Qwen3.5-4B, single level, 8 answer frames).",
+              "figure_id": "table-11-15",
+              "figure_number": "11",
+              "height": 93,
+              "image_path": "figures/2611.24616/table-019.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 372
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.24616/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.24616",
+          "relevance": 8,
+          "selection_reason": "Addresses egocentric video understanding by reading VLM decisions, directly relevant to embodied AI and learning from human/egocentric video.",
+          "summary_status": "generated",
+          "title": "EgoJev: Finding Evidence in Egocentric Video by Reading VLM Decisions",
+          "tldr": "EgoJev uses a frozen VLM’s labeled-frame choices to locate brief evidence in long egocentric videos, improving question-answering accuracy without training or a second model.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "multimodal-large-language-models"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Games are a rich testbed for visual agents, demanding perception, long-horizon planning, and precise control. However, collecting human gameplay is costly, and learning from gameplay videos requires inferring missing actions. Existing datasets also cover a limited range of games, often without explicit tasks or verifiable outcomes. To address these gaps, we introduce Game2Player, a framework that co-develops game environments and players to collect diverse and verifiable gameplay experience at scale. In the Game2Player loop, a Builder agent adapts existing web games, exposes their internal state, and defines tasks with state-based progress measures and success checks. A Coding Player and a VLM Player then attempt the tasks and report problems to the Builder for repair, so that play serves as both environment validation and training data collection. With Game2Player, we build 568 verified web games with 3,436 tasks, collect 15.7K trajectories (307 hours of gameplay), and hold out 50 games as the benchmark PlayerBench. To evaluate the collected experience as training data, we train VLM agents with progress-weighted SFT, assigning greater weight to steps that advance task progress. Game2Player-9B improves progress from 14.3% to 31.2% on PlayerBench and from 30.0% to 53.1% on the external GameWorld benchmark. More broadly, our work suggests a path for visual agents to scale their gameplay experience by building, verifying, and learning from existing game worlds.",
+          "arxiv_id": "2611.24154",
+          "arxiv_url": "https://arxiv.org/abs/2611.24154",
+          "authors": [
+            "Xirui Jiang, Yuxi Chen, Rui Yang, Feng Luo, Pengcheng Wang, Bingxuan Li, Zihao Zhao, Yushan Li, Han Wang, Manling Li, Yang Zhang, Shiyu Chang, Tong Zhang, Huan Zhang"
+          ],
+          "bullets": [
+            "Addresses costly human-data collection, missing action labels in videos, and limited, unverifiable game datasets.",
+            "A Builder agent adapts web games, exposes state, and defines tasks with progress measures and success checks.",
+            "Coding and VLM Players execute tasks, identify issues, and help repair environments while generating training trajectories.",
+            "Produces 568 verified games, 3,436 tasks, 15.7K trajectories, and the 50-game PlayerBench benchmark.",
+            "Progress-weighted supervised fine-tuning improves progress on PlayerBench and the external GameWorld benchmark."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2 Overview of Game2Player. The Scout selects games from web portals (top). In the co-development loop (middle), the Builder turns each game into an environment with state-verified tasks, the VLM Player and the Coding Player play every task and report faults of the game, and the Builder checks each report against the recording before repairing it. Both players then record gameplay in the accepted environments to train Game2Player with progress-weighted SFT (bottom).",
+              "figure_id": "figure-2-32",
+              "figure_number": "2",
+              "height": 814,
+              "image_path": "figures/2611.24154/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 914
+            },
+            {
+              "caption": "Figure 8 Base and Game2Player models with thinking on and off. Progress (top) and success (bottom) in % of each Qwen3.5 base model (light) and its Game2Player counterpart (dark) on both benchmarks.",
+              "figure_id": "figure-8-2",
+              "figure_number": "8",
+              "height": 441,
+              "image_path": "figures/2611.24154/figure-002.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 920
+            },
+            {
+              "caption": "Figure 10 Training data and training steps. Progress and success on PlayerBench and GameWorld with 0, 100K, 400K, 800K and all 1.56M training examples (left) and after 0, 3K, 6K and all 9.2K training steps (right). Hollow points at zero denote the untrained Qwen3.5 base models.",
+              "figure_id": "figure-10-24",
+              "figure_number": "10",
+              "height": 447,
+              "image_path": "figures/2611.24154/figure-003.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 910
+            },
+            {
+              "caption": "Figure 3 Two players on the same task and one training format. The code policy reads the player observation ψ and sends keys at every frame without calling a model (top). The VLM Player sees only the screenshot and pauses the game to choose each action (bottom). The code policy’s keys are cut into steps in the VLM Player’s format, so both players yield the same kind of training example (middle).",
+              "figure_id": "figure-3-1",
+              "figure_number": "3",
+              "height": 856,
+              "image_path": "figures/2611.24154/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 918
+            },
+            {
+              "caption": "Figure 5 Progress-weighted sampling. Actions receive weights from progress and repetition during play (1), followed by terminal outcomes (2). Paired bars compare the action budgets before and after game balancing (3), in units of the median game size M . Stochastic rounding converts the weights into integer numbers of context–target pairs (x, y) (4). Solid cards are guaranteed copies, and dashed cards are drawn with the displayed probabilities. The examples are schematic and use the factors in Tab. 11.",
+              "figure_id": "figure-5-19",
+              "figure_number": "5",
+              "height": 402,
+              "image_path": "figures/2611.24154/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 918
+            },
+            {
+              "caption": "Figure 4 The Game2Player collection and its training data. The 568 games cover diverse genres, of which the ten most common are shown (left). Share of each player in the training data, and the best progress of its training trajectories (right). Fig. 19 compares all genres and engines with PlayerBench.",
+              "figure_id": "figure-4-10",
+              "figure_number": "4",
+              "height": 280,
+              "image_path": "figures/2611.24154/figure-006.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 921
+            },
+            {
+              "caption": "Figure 20 Cost and wall-clock time of recording gameplay for one game, by model, at the rates of Tab. 18. The horizontal axis counts the time that passes in the game, and wall-clock time is the real time that recording takes, including the pauses while a VLM Player decides. Both axes are logarithmic.",
+              "figure_id": "figure-20-16",
+              "figure_number": "20",
+              "height": 347,
+              "image_path": "figures/2611.24154/figure-007.webp",
+              "kind": "figure",
+              "page": 33,
+              "width": 910
+            },
+            {
+              "caption": "Figure 6 Task outcomes of co-development on 20 games and 145 frozen tasks, with a GPT-6.1 Terra Builder and GPT-6.1 Sol players.",
+              "figure_id": "figure-6-29",
+              "figure_number": "6",
+              "height": 203,
+              "image_path": "figures/2611.24154/figure-008.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 450
+            },
+            {
+              "caption": "Figure 7 Recording gameplay with GPT-6.1 Sol. The cost of recording gameplay for one game (left) and the harness steps recorded per hour of wall-clock time (right), by the VLM Player and by the code policy.",
+              "figure_id": "figure-7-30",
+              "figure_number": "7",
+              "height": 202,
+              "image_path": "figures/2611.24154/figure-009.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 451
+            },
+            {
+              "caption": "Figure 9 Human play by difficulty tier on PlayerBench. Left: progress and success in %, averaged over the tasks of each tier, with the number of tasks under each tier. Right: median length of all attempts in seconds.",
+              "figure_id": "figure-9-3",
+              "figure_number": "9",
+              "height": 237,
+              "image_path": "figures/2611.24154/figure-010.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 921
+            },
+            {
+              "caption": "Figure 12 An engine skill. The Builder receives this skill once it has identified a Godot game. The linked workflow and tools are part of the skill.",
+              "figure_id": "figure-12-8",
+              "figure_number": "12",
+              "height": 454,
+              "image_path": "figures/2611.24154/figure-011.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 922
+            },
+            {
+              "caption": "Figure 11 Qwen3.5-4B and Game2Player-4B on four held-out PlayerBench tasks, with thinking on and at most 100 steps. Each panel shows the final frame of each model with its final progress, and the best progress reached after each step.",
+              "figure_id": "figure-11-18",
+              "figure_number": "11",
+              "height": 166,
+              "image_path": "figures/2611.24154/figure-012.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 917
+            },
+            {
+              "caption": "Figure 18 Prompt of a VLM Player at one step, with thinking on. Grey text in angle brackets stands for the game rules, controls and task instruction written by the Builder and for the content of earlier steps. The user message holds up to 50 previous steps for open-weight models and all previous steps for API models, the last six with their screenshots, and the current screenshot.",
+              "figure_id": "figure-18-11",
+              "figure_number": "18",
+              "height": 1115,
+              "image_path": "figures/2611.24154/figure-013.webp",
+              "kind": "figure",
+              "page": 29,
+              "width": 922
+            },
+            {
+              "caption": "Figure 16 Key presses of repeated code policy runs. Top, the key presses in the first ten seconds of the ten runs of the same code policy on each of six tasks drawn at random from the tasks whose runs press different keys, one lane per run and one colour per key, with the key distance Dkey of each task. Bottom, the density of Dkey over tasks for the code policies and for repeated runs of MiniMax-M3.1-Flash.",
+              "figure_id": "figure-16-7",
+              "figure_number": "16",
+              "height": 702,
+              "image_path": "figures/2611.24154/figure-014.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 919
+            },
+            {
+              "caption": "Figure 19 The collection and the held-out split in full. Every genre and engine of the 568 games and the difficulty tiers of their 3,436 tasks, as shares of the whole collection (light) and of PlayerBench (dark). The single-game genres are dress-up, interactive fiction, narrative, party, puzzle horror, runner, tower defense, typing and visual novel, and unclassified games fit none of the listed genres.",
+              "figure_id": "figure-19-9",
+              "figure_number": "19",
+              "height": 559,
+              "image_path": "figures/2611.24154/figure-015.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 920
+            },
+            {
+              "caption": "Figure 13 Rules quoted from the agent prompts. The Scout selects games, the Builder freezes the tasks, measures progress toward the objective, plays from the player’s view and checks player reports against recordings, and the Coding Player reads only its probe and asks only for observable state. Grey brackets mark omitted text.",
+              "figure_id": "figure-13-12",
+              "figure_number": "13",
+              "height": 1160,
+              "image_path": "figures/2611.24154/figure-016.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 922
+            },
+            {
+              "caption": "Figure 22 A VLM Player and a code policy on the same task. In each game, the upper row shows four steps of an episode of Claude Haiku 5.5 with the screenshot it saw, its action and its note, and the lower row four moments of a code policy episode that completes the task, each at a key press or click, with the frame, the keys held and fields of the policy’s observation. Pointers mark clicks. The bar and p give the progress the VLM Player reaches.",
+              "figure_id": "figure-22-21",
+              "figure_number": "22",
+              "height": 371,
+              "image_path": "figures/2611.24154/figure-017.webp",
+              "kind": "figure",
+              "page": 36,
+              "width": 922
+            },
+            {
+              "caption": "Figure 17 Characteristics of the training data. (a) Cumulative fraction of trajectories by the number of eligible steps after segmentation and filtering, before resampling. The VLM Player has a 100-step budget. (b) Action composition of the final training examples. Individual keyboard actions, key sequences, mouse actions and waits are counted separately. (c) Distribution of samples per game before and after resampling. Each point counts the games in a sample-count interval, with neighboring interval counts connected by lines. Intervals use a logarithmic scale.",
+              "figure_id": "figure-17-26",
+              "figure_number": "17",
+              "height": 318,
+              "image_path": "figures/2611.24154/figure-018.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 911
+            },
+            {
+              "caption": "Figure 24 Participants of the human study. (a) Age group and gender. (b) Attempts of each participant, split into successful and unsuccessful ones.",
+              "figure_id": "figure-24-6",
+              "figure_number": "24",
+              "height": 269,
+              "image_path": "figures/2611.24154/figure-019.webp",
+              "kind": "figure",
+              "page": 38,
+              "width": 921
+            },
+            {
+              "caption": "Figure 15 Progress of repeated code policy runs. Top, progress of the ten runs of the same code policy on each of twelve tasks drawn at random from the tasks with ten runs, with the progress distance Dprog of each task. Bottom, the density of Dprog over tasks for the code policies and for repeated runs of MiniMax-M3.1-Flash.",
+              "figure_id": "figure-15-4",
+              "figure_number": "15",
+              "height": 230,
+              "image_path": "figures/2611.24154/figure-020.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 919
+            },
+            {
+              "caption": "Figure 21 Task outcomes of all three settings in both experiments. A task is solved when its environment is correct and the final code policy completes it.",
+              "figure_id": "figure-21-17",
+              "figure_number": "21",
+              "height": 225,
+              "image_path": "figures/2611.24154/figure-021.webp",
+              "kind": "figure",
+              "page": 35,
+              "width": 920
+            },
+            {
+              "caption": "Figure 23 Base and trained models on held-out PlayerBench tasks, with thinking on and at most 100 steps. Each row shows the task, the initial frame and the final frames of Qwen3.5-4B and Game2Player-4B. The curves show the best progress reached after each step.",
+              "figure_id": "figure-23-31",
+              "figure_number": "23",
+              "height": 203,
+              "image_path": "figures/2611.24154/figure-022.webp",
+              "kind": "figure",
+              "page": 37,
+              "width": 921
+            },
+            {
+              "caption": "Table 3 Benchmark results on PlayerBench and GameWorld. Progress and success in %. Bold marks the best of each group, and our models are shaded. All models play with thinking on, and API models at low reasoning effort unless marked as medium; Fig. 8 compares thinking on and off. Averages in the text use the low-effort rows of the models evaluated on both benchmarks. Unless marked, entries use our harness with 100 steps and one run per task, and game-specific models their own harnesses adapted to our games. †Expert player reported by GameWorld [30]. ‡Published results with the GameWorld harness [17, 30]; CU denotes its computer-use mode, the others its generalist mode. §Published results under the PLAYER-1 protocol with 400 steps and three trials per task [31].",
+              "figure_id": "table-3-13",
+              "figure_number": "3",
+              "height": 732,
+              "image_path": "figures/2611.24154/table-023.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 556
+            },
+            {
+              "caption": "Table 7 Per-game PlayerBench results of the Coding Player and the best of four VLM Players. Progress and success in %. For each game, the VLM column uses the model with the highest mean progress among Qwen3.8-Flash, DeepSeek-V4.1-Flash, GLM-5.3-Flash and Gemini-3.8-Flash.",
+              "figure_id": "table-7-27",
+              "figure_number": "7",
+              "height": 559,
+              "image_path": "figures/2611.24154/table-024.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 936
+            },
+            {
+              "caption": "Table 4 Data-source and sampling ablations. Progress and success in %. Uniform sampling draws as many examples without weighting or balancing.",
+              "figure_id": "table-4-23",
+              "figure_number": "4",
+              "height": 375,
+              "image_path": "figures/2611.24154/table-025.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 940
+            },
+            {
+              "caption": "Table 18 Rates of recording gameplay. Prices are list prices in dollars per million input, cached input and output tokens, and each browser runs on two vCPUs at $0.045 per vCPU-hour. Wall-clock time is the real time that recording takes, including the pauses while a VLM Player decides. Reruns of a code policy call no model and cost $0.13 and 1.4 wall-clock hours per hour of gameplay.",
+              "figure_id": "table-18-14",
+              "figure_number": "18",
+              "height": 283,
+              "image_path": "figures/2611.24154/table-026.webp",
+              "kind": "table",
+              "page": 33,
+              "width": 940
+            },
+            {
+              "caption": "Table 1 Comparison with game resources. Goal: demonstrations carry task instructions. State: scoring reads internal game state. Prog.: intermediate progress is scored. Autom.: environments or evaluators are built automatically.✓ yes, ◦ partial, ✗ no, – not applicable.",
+              "figure_id": "table-1-20",
+              "figure_number": "1",
+              "height": 221,
+              "image_path": "figures/2611.24154/table-027.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 940
+            },
+            {
+              "caption": "Table 15 Per-game results of the co-development study. Tasks with a correct environment and solved tasks in both experiments, for the generic agent (Gen), the no-reports setting (NoR) and the full loop (Full).",
+              "figure_id": "table-15-22",
+              "figure_number": "15",
+              "height": 500,
+              "image_path": "figures/2611.24154/table-028.webp",
+              "kind": "table",
+              "page": 32,
+              "width": 940
+            },
+            {
+              "caption": "Table 17 Model cost of the co-development study, in dollars per game. The generic agent has no VLM Player.",
+              "figure_id": "table-17-15",
+              "figure_number": "17",
+              "height": 210,
+              "image_path": "figures/2611.24154/table-029.webp",
+              "kind": "table",
+              "page": 33,
+              "width": 556
+            },
+            {
+              "caption": "Table 8 Recorded gameplay and training examples by source. Percentages are shares of the full corpus. The four VLM sources appear below their subtotal. Gameplay hours exclude inference pauses, and training examples include resampled copies. The last three columns partition the training examples by the note and thinking at the target step.",
+              "figure_id": "table-8-28",
+              "figure_number": "8",
+              "height": 240,
+              "image_path": "figures/2611.24154/table-030.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 940
+            },
+            {
+              "caption": "Table 10 How preprocessing changes the sample count. Actions and waits are counted separately. Negative rows subtract steps, and the positive row adds repeated uses. Waits with positive weights below one may be omitted during sampling, in addition to waits assigned zero weight.",
+              "figure_id": "table-10-25",
+              "figure_number": "10",
+              "height": 162,
+              "image_path": "figures/2611.24154/table-031.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 498
+            },
+            {
+              "caption": "Table 9 Outcomes of retained training trajectories. Mean final progress and task success in %, averaged over recordings. Code policy recordings come from tasks completed by a policy during collection.",
+              "figure_id": "table-9-5",
+              "figure_number": "9",
+              "height": 81,
+              "image_path": "figures/2611.24154/table-032.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 322
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.24154/hero.webp",
+          "novelty": 9,
+          "pdf_url": "https://arxiv.org/pdf/2611.24154",
+          "relevance": 9,
+          "selection_reason": "Introduces a co-development framework for generating gameplay data to train visual agents, scaling experience for embodied AI and VLMs.",
+          "summary_status": "generated",
+          "title": "Game2Player: Scaling Gameplay Experience for Visual Agents through Environment-Player Co-Development",
+          "tldr": "Game2Player scales visual-agent training by jointly building, verifying, and learning from diverse game environments and gameplay tasks.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "multimodal-large-language-models"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Embodied models depend on real interaction data, yet collecting it on physical robots is slow and labor-intensive. Recent ego-to-robot pipelines retarget first-person view human videos to robot data via transferring hand and arm motion. They judge fidelity mainly by visual appearance. However, trajectories often fail in terms of physics: fingers hover beside objects, and grippers close on empty space. We argue that how the object moves and the contacts that drive the motion count. Thus, we present Ego2X, an object-centric framework that converts monocular egocentric video into physically executable robot data across dexterous hands and parallel grippers. Ego2X centers on CORE (Contact-centric Object-interaction REpresentation), which records each contact on the object by its surface anchor, as well as relative force, grasp mode, and interaction state. Throughout the pipeline, CORE corrects hand-object drift via object-relative constraints, steers inverse kinematics toward contacts the robot must realize, and preserves held objects during arm erasure and robot compositing. On HOT3D, contact-driven correction reduces in-contact hand depth error by 33.7%, while on EgoDex, contact-driven retargeting realizes 62.9% of annotated contacts, surpassing the official HuRo pipeline (27.9%). In RoboTwin 2.0, post-training X-VLA on Ego2X episodes alone, without simulator demonstrations, raises task success rate from 40.5% zero-shot to 67.0% across 200 paired scenes. We will publicly release our conversion pipeline and CORE-annotated dataset for dexterous hands and parallel grippers.",
+          "arxiv_id": "2611.24138",
+          "arxiv_url": "https://arxiv.org/abs/2611.24138",
+          "authors": [
+            "Xinke Lyu, Bowen Yang, Zhicheng Wang"
+          ],
+          "bullets": [
+            "Addresses failures in prior ego-to-robot transfer, where visually plausible motions often miss objects or make empty grasps.",
+            "Introduces CORE, representing object-surface contact anchors, relative forces, grasp modes, and interaction states.",
+            "Uses object-relative constraints, contact-guided inverse kinematics, and object preservation during robot-data compositing.",
+            "Reduces in-contact hand depth error by 33.7% on HOT3D and realizes 62.9% of annotated contacts on EgoDex.",
+            "Training X-VLA only on Ego2X episodes improves RoboTwin 2.0 success from 40.5% to 67.0% across 200 paired scenes."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Ego2X pipeline and CORE overview. From monocular video {It}, Ego2X reconstructs metric hands and signed object surfaces ϕo (Sec. 3.1) to extract object-frame CORE records ct,k = (pt,k, ft,k,mt,k, st,k) (Sec. 3.2), driving decoupled depth correction, cross-morphology retargeting, de-skinned compositing, and closed-loop simulation verification (Secs. 3.3 to 3.4).",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 502,
+              "image_path": "figures/2611.24138/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1022
+            },
+            {
+              "caption": "Figure 4. Decoupled 1-DoF Cauchy ray correction on HOT3D. (a) Hand MPJPE, ray, and surface error. (b) Object translation (B_RAY_FUSE; CONF8/CONFIRM11: Conf/Held). (c) Coupled (FUSE) and higher-DoF fits diverge; decoupled OW+M1lin stays stable.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 437,
+              "image_path": "figures/2611.24138/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 496
+            },
+            {
+              "caption": "Figure 5. Contact-driven IK (CARD, full Eq. (5)) vs. wrist following (wf) and HuRo. (a) Target-contact realization across 79 EgoDex takes. (b) Pad-to-anchor distance on 31 HOT3D clips.",
+              "figure_id": "figure-5-4",
+              "figure_number": "5",
+              "height": 370,
+              "image_path": "figures/2611.24138/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Figure 3. Multi-cue CORE recovery under occlusion. (a) Objectframe anchors and grasp states during an occluded hold. (b,c) Cue ablation ladder on 31 HOT3D confirmation clips. (7.65 → 3.84mm held-out), 0.408 mode F1, and 0.841 state accuracy. EgoTac loads reach 0.900 median Spearman correlation with ground-truth parts (92.2% within friction cones). Second, under estimated FoundationPose poses (19 clips), object depth fusion (Sec. 3.3.1) doubles frame F1 (0.191 to 0.386) and raises tIoU (0.255 to 0.571); the 52.28mm camera-frame offset reflects upstream 6-DoF pose error, and tier filtering restricts downstream optimization to CERTIFIED and TRUSTED anchors.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 221,
+              "image_path": "figures/2611.24138/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 324
+            },
+            {
+              "caption": "Figure 6. Contact-aware erasure and Lab de-skinning. (a,c) De-skinning across 14 unseen EgoDex takes. (b) Held-object pixel retention with CORE interval protection.",
+              "figure_id": "figure-6-7",
+              "figure_number": "6",
+              "height": 436,
+              "image_path": "figures/2611.24138/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 323
+            },
+            {
+              "caption": "Figure 7. Closed-loop verification and X-VLA policy learning. (a) Place bread in basket over 200 paired scenes (P70: 70 verified; 55 lw: 55 layout-weighted). (b) Place bell on scale ablations. (c) Matched demonstration yield. (d) Co-training with simulator demos. free grasps from 48/53 to 8/53 (p = 2.0× 10−11). VLA post-training. Post-training X-VLA [49] on verified Ego2X episodes alone raises Place bread in basket success rate over 200 paired scenes from 40.5% zero-shot to 67.0% (55 layout-weighted episodes, 55 lw, Holm p = 5.0 × 10−7; Fig. 1c) and 63.5% (70 episodes, P70, p = 7.4× 10−6; vs. 72.0% for 20 simulator demos, Fig. 7a), whereas unfiltered pools (41.0%, 44.5%) stay near zeroshot. On the initial 50 scenes (44.0% zero-shot), 52-episode unfiltered training reaches 60.0% vs. 0.0% (HuRo) and 2.0% (Ego2Robot, p = 3.7 × 10−9), and verified Ego2X reaches 70.0% vs. 2.0% and 4.0%. In 3-seed co-training (20 simulator + 24 unfiltered episodes; Fig. 7d), HuRo lowers simulator-only success rate by −7.5 pp, whereas Ego2X beats HuRo by +5.5 pp ([+0.7,+10.3]) on all seeds. On Place bell on scale (200 scenes, 17.0% zeroshot; Fig. 7b), 40 zero-retry episodes reach 55.0% with taskaligned prompts (p = 2.7× 10−14) and 48.0% with a fixed placeholder prompt (p = 5.6× 10−13 on 195 scenes; 47.0% at 20 episodes), vs. 27.0% unfiltered (p = 8.7× 10−6).",
+              "figure_id": "figure-7-8",
+              "figure_number": "7",
+              "height": 425,
+              "image_path": "figures/2611.24138/figure-006.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 327
+            },
+            {
+              "caption": "Table 2. CORE contact recovery on HOT3D. Top: cue ablation and field-selective readout under dataset object poses (0.408 Mode F1; 7.65→3.84mm on 8 held-out clips). Bottom: estimated object poses (†camera-frame distance and velocity state).",
+              "figure_id": "table-2-2",
+              "figure_number": "2",
+              "height": 373,
+              "image_path": "figures/2611.24138/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 496
+            },
+            {
+              "caption": "Table 5. Parallel-gripper grasp synthesis and cross-embodiment compilation. Top: true-mesh jaw fit (Band A: [−4.5,+5.5]mm of ϕo), far-pad clearance, and coverage on 28 EgoDex sides (1,272 frames) and HOT3D. Bottom: five grippers compiled from shared CORE records (14 eps) and rate-retimed ALLEX (81 eps).",
+              "figure_id": "table-5-5",
+              "figure_number": "5",
+              "height": 211,
+              "image_path": "figures/2611.24138/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.24138/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.24138",
+          "relevance": 9,
+          "selection_reason": "Converts egocentric human videos into executable robot data with contact-aware retargeting; directly fits learning robot skills from human/egocentric video.",
+          "summary_status": "generated",
+          "title": "Ego2X: Contact-aware Transfer from Egocentric Human Data to Any Robot",
+          "tldr": "Ego2X converts egocentric human videos into contact-aware, physically executable robot data by explicitly modeling object contacts and interactions.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation",
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Forecasting future hand movements from egocentric videos plays an important role in understanding human intentions and hand-object interactions. However, different manipulation intentions can lead to substantially different hand trajectories even when interacting with the same object. Existing methods have not sufficiently explored the intrinsic relationships between articulated hand movements and object semantics to capture such operation-dependent motion patterns. Therefore, we propose TOMAS, a topology-aware operation modeling and adaptive staging framework for egocentric hand forecasting. Specifically, we develop a topology-aware hand-object reasoning mechanism that associates hand skeletal structures and articulation dynamics with object semantics and spatial relationships to jointly infer potential interaction targets and latent manipulation operations. The resulting object-operation representations provide interaction conditions for future hand trajectory prediction, with supervision adapted to the annotations available in each dataset. Furthermore, we introduce an adaptive staging mechanism that organizes future hand movements into ordered latent stages with learnable temporal boundaries. Stage-specific geometric subgoals are then incorporated to guide trajectory refinement according to the underlying manipulation patterns. Experimental results on multiple publicly available benchmarks demonstrate that TOMAS achieves state-of-the-art performance in multi-dimensional and multi-target hand motion forecasting.",
+          "arxiv_id": "2611.23970",
+          "arxiv_url": "https://arxiv.org/abs/2611.23970",
+          "authors": [
+            "Guanzhong Sun, Junyi Ma, Yuxuan Wu, Erhang Zhang, Chenyang Xu, Yanzi Miao, Hesheng Wang"
+          ],
+          "bullets": [
+            "Addresses varied hand trajectories caused by different manipulation intentions with the same object.",
+            "Models hand skeletal structure, articulation dynamics, object semantics, and spatial relationships jointly.",
+            "Infers potential interaction targets and latent operations to condition future trajectory prediction.",
+            "Uses learnable temporal stages and geometric subgoals to refine manipulation-dependent trajectories.",
+            "Achieves state-of-the-art performance on multiple public benchmarks for multi-dimensional and multi-target forecasting."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 2. System overview of TOMAS. Given observed egocentric video and historical hand trajectories, TOMAS employs topology-aware hand–object reasoning to jointly model candidate-object semantics and latent operation representations. The resulting interaction-aware representations guide ordered latent motion stages and stage-wise geometric subgoals for future hand trajectory forecasting.",
+              "figure_id": "figure-2-10",
+              "figure_number": "2",
+              "height": 308,
+              "image_path": "figures/2611.23970/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 860
+            },
+            {
+              "caption": "Fig. 7. Qualitative comparison of 3D hand-center forecasting on EgoPAT3D-DT and H2O-PT. Green, blue, and red denote observed trajectories, future ground truth, and predicted trajectories, respectively. Coordinates are measured in meters.",
+              "figure_id": "figure-7-5",
+              "figure_number": "7",
+              "height": 585,
+              "image_path": "figures/2611.23970/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 981
+            },
+            {
+              "caption": "Fig. 6. Qualitative comparison of 2D hand-center forecasting on EgoPAT3D-DT and H2O-PT. Green, blue, and red denote observed trajectories, future ground truth, and predicted trajectories, respectively.",
+              "figure_id": "figure-6-4",
+              "figure_number": "6",
+              "height": 526,
+              "image_path": "figures/2611.23970/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 981
+            },
+            {
+              "caption": "Fig. 5. Interaction-conditioned adaptive staging and geometry-guided trajectory generation. Interaction-conditioned motion features determine ordered stage allocations and stage-level operation mixtures. The resulting candidate-relative geometric subgoals guide continuous trajectory decoding and refinement.",
+              "figure_id": "figure-5-17",
+              "figure_number": "5",
+              "height": 421,
+              "image_path": "figures/2611.23970/figure-004.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 808
+            },
+            {
+              "caption": "Fig. 4. Topology-aware object–operation joint reasoning. Observed object candidates and articulated hand configurations are encoded as candidate-specific interaction representations. Cross-modal memory retrieval supports joint object–operation scoring and the formation of interaction-conditioning tokens.",
+              "figure_id": "figure-4-16",
+              "figure_number": "4",
+              "height": 373,
+              "image_path": "figures/2611.23970/figure-005.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 808
+            },
+            {
+              "caption": "Fig. 9. Candidate-conditioned historical evidence retrieval. The heat maps show final-layer, head-averaged attention from valid candidate queries and null to hand-center, hand-topology, egomotion, and RGB memory. Bars report native object-selection probabilities. Candidate names are inferred from CLIP.",
+              "figure_id": "figure-9-14",
+              "figure_number": "9",
+              "height": 402,
+              "image_path": "figures/2611.23970/figure-006.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 8. Visualization of learned operation and candidate-interaction representations. PCA projects high-dimensional features into two dimensions. Candidate names are inferred from CLIP, and colors indicate dominant operation components in the learned representation.",
+              "figure_id": "figure-8-12",
+              "figure_number": "8",
+              "height": 866,
+              "image_path": "figures/2611.23970/figure-007.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 396
+            },
+            {
+              "caption": "Fig. 11. Local effect of subgoal-guided refinement. The full prediction is shown in red, and the prediction without final-pass relative-subgoal-coordinate input is gray and dashed. Green indicates the last observed hand position.",
+              "figure_id": "figure-11-13",
+              "figure_number": "11",
+              "height": 304,
+              "image_path": "figures/2611.23970/figure-008.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 10. Learned ordered motion stages. Stage weights vary over normalized future time, while dashed vertical lines indicate predicted transition positions.",
+              "figure_id": "figure-10-15",
+              "figure_number": "10",
+              "height": 294,
+              "image_path": "figures/2611.23970/figure-009.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 1. Operation-dependent hand forecasting. The same object can support different operations with distinct future hand trajectories.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 237,
+              "image_path": "figures/2611.23970/figure-010.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 3. Visualization of articulated hand motion and skeletal topology.",
+              "figure_id": "figure-3-11",
+              "figure_number": "3",
+              "height": 151,
+              "image_path": "figures/2611.23970/figure-011.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 529
+            },
+            {
+              "caption": "TABLE IV ABLATION RESULTS FOR 3D HAND TRAJECTORY FORECASTING ON EGOPAT3D-DT AND H2O-PT. FULL REPORTS THE THREE-SEED AVERAGE, WHILE A1–A9 REPORT SINGLE-SEED RESULTS.",
+              "figure_id": "table-IV-7",
+              "figure_number": "IV",
+              "height": 284,
+              "image_path": "figures/2611.23970/table-012.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE V ABLATION RESULTS FOR 2D HAND TRAJECTORY FORECASTING ON EGOPAT3D-DT AND H2O-PT. FULL REPORTS THE THREE-SEED AVERAGE, WHILE A1–A9 REPORT SINGLE-SEED RESULTS.",
+              "figure_id": "table-V-9",
+              "figure_number": "V",
+              "height": 283,
+              "image_path": "figures/2611.23970/table-013.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE II 2D HAND TRAJECTORY FORECASTING ON EGOPAT3D-DT AND H2O-PT. BEST AND SECOND-BEST SCORES ARE IN BOLD AND GREEN, RESPECTIVELY.",
+              "figure_id": "table-II-3",
+              "figure_number": "II",
+              "height": 281,
+              "image_path": "figures/2611.23970/table-014.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE I 3D HAND TRAJECTORY FORECASTING ON EGOPAT3D-DT AND H2O-PT. BEST AND SECOND-BEST SCORES ARE IN BOLD AND GREEN, RESPECTIVELY.",
+              "figure_id": "table-I-18",
+              "figure_number": "I",
+              "height": 280,
+              "image_path": "figures/2611.23970/table-015.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE VI ABLATION RESULTS FOR SHORT-HORIZON HAND TRAJECTORY FORECASTING ON EGTEA GAZE+. FULL REPORTS THE THREE-SEED AVERAGE, WHILE A1–A9 REPORT SINGLE-SEED RESULTS.",
+              "figure_id": "table-VI-8",
+              "figure_number": "VI",
+              "height": 265,
+              "image_path": "figures/2611.23970/table-016.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 406
+            },
+            {
+              "caption": "TABLE VII NATIVE H2O-PT TARGET RANKING. EACH MODEL HAS 1,735 WINDOWS; 1,608 HAVE DERIVED INTERACTION TARGETS. COVERAGE IS 100% UNDER THE CANDIDATE ASSOCIATION RULE.",
+              "figure_id": "table-VII-6",
+              "figure_number": "VII",
+              "height": 125,
+              "image_path": "figures/2611.23970/table-017.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 268
+            },
+            {
+              "caption": "TABLE III SHORT-HORIZON COMPARISON ON EGTEA GAZE+.",
+              "figure_id": "table-III-2",
+              "figure_number": "III",
+              "height": 131,
+              "image_path": "figures/2611.23970/table-018.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 290
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.23970/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.23970",
+          "relevance": 7,
+          "selection_reason": "Egocentric hand forecasting with topology-aware hand-object reasoning, fitting learning from human video for embodied knowledge.",
+          "summary_status": "generated",
+          "title": "TOMAS: Topology-Aware Operation Modeling and Adaptive Staging for Egocentric Hand Forecasting",
+          "tldr": "TOMAS forecasts egocentric hand movements by reasoning about hand–object topology and decomposing manipulation into adaptive motion stages.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-17",
       "paper_count": 5,
       "papers": [
@@ -46884,5 +48210,5 @@
   "schema_version": 1,
   "subtopic_id": "learning-from-human-video",
   "topic_id": "embodied-ai",
-  "total_paper_count": 243
+  "total_paper_count": 249
 }

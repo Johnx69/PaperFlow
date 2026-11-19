@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Latent Action Models
 
-**121 papers total**
+**123 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-18 | [Latent Action Policies from Suboptimal Data](https://arxiv.org/abs/2611.24482) | Embodied AI: Robot Learning and Manipulation; World Models: Latent Action Models | LAPIS improves goal-conditioned policies learned from action-free video by making offline RL reliable in latent action spaces. | 8 | 7 |
+| 2026-11-18 | [WAM-Policy: World Action Models with On-Policy Distillation for Quadrupedal Loco-Manipulation](https://arxiv.org/abs/2611.24011) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation; World Models: Latent Action Models | WAM-Policy adapts language-conditioned arm-manipulation models to quadrupedal loco-manipulation, achieving 85.0% on simulated tasks while reducing inference cost through on-policy distillation. | 9 | 7 |
 | 2026-11-17 | [WoRD: Diffusion-Based Posterior Inference for Online Goal Recognition](https://arxiv.org/abs/2611.23192) | Embodied AI: Robot Navigation; World Models: Latent Action Models; Video Generation and Understanding: Video Understanding | WoRD uses diffusion-based trajectory inference to maintain calibrated, multimodal beliefs about an agent’s goal from partial motion observations. | 8 | 8 |
 | 2026-11-17 | [Manufacturing Differential Sparsity: Planner-Hardware Co-Design for Efficient World Model Planning](https://arxiv.org/abs/2611.22483) | World Models: Latent Action Models; Efficient AI: Token Pruning and Eviction | A planner–hardware co-design accelerates JEPA-style world-model MPC by deliberately creating differential bit-level sparsity among candidate action sequences. | 9 | 8 |
 | 2026-11-17 | [ReLAP: Latent Action Pretraining through Recurrent Video Prediction in JEPA Space](https://arxiv.org/abs/2611.22077) | Embodied AI: Robot Learning and Manipulation; World Models: Latent Action Models, Video World Models | ReLAP learns temporally coherent latent actions from unlabeled videos via recurrent JEPA-space prediction, enabling efficient vision-language robot control. | 9 | 9 |

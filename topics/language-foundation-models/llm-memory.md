@@ -6,10 +6,15 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # LLM Memory
 
-**667 papers total**
+**672 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-18 | [KnowledgeClaw: Towards Agentic Knowledge Engineering via Omnimodal Hypergraphs](https://arxiv.org/abs/2611.24294) | Language Foundation Models: LLM Memory | KnowledgeClaw introduces an agentic framework and benchmark for building, updating, and querying live knowledge bases across multiple modalities and granularities. | 6 | 6 |
+| 2026-11-18 | [Kernel Ridge Attention: Nonlinear Memory with Selective Forgetting](https://arxiv.org/abs/2611.23896) | Language Foundation Models: LLM Memory | KRA is a recurrent sequence mixer that provides nonlinear, context-length-independent memory with content-dependent forgetting and parallelizable training. | 7 | 8 |
+| 2026-11-18 | [Toaster: Nonlinear Memory from Cascaded Linear Memories and Target Propagation](https://arxiv.org/abs/2611.23648) | Language Foundation Models: LLM Memory | Toaster creates a fast nonlinear recurrent memory by cascading two linear memories with target propagation, achieving stronger language-modeling and long-context results than comparable linear and deep-memory baselines. | 9 | 8 |
+| 2026-11-18 | [FutureBench: A Renewable Framework for Evaluating Knowledge-Context Conflict in LLMs](https://arxiv.org/abs/2611.23601) | Language Foundation Models: LLM Memory, Long-Context Models | FutureBench evaluates how prompts and retrieved passages make LLMs resolve conflicts between context and their own knowledge over time. | 8 | 7 |
+| 2026-11-18 | [ARISE: Practical Self-Evolving Memory for Accurate and Cost-Efficient Enterprise Agents](https://arxiv.org/abs/2611.23588) | Language Foundation Models: LLM Memory | ARISE improves enterprise-agent accuracy and efficiency by turning failures into validated, retrievable memory and rules without changing model weights, tools, or workflows. | 7 | 7 |
 | 2026-11-17 | [Do LLM Agents Still Need to Be Told How to Self-Improve?](https://arxiv.org/abs/2611.23219) | Adaptation and Memory: Test-Time Learning, Continual and Online Learning; Language Foundation Models: LLM Memory | Sufficiently capable LLM agents can autonomously devise self-improvement strategies and transfer what they learn across diverse gameplay tasks. | 7 | 8 |
 | 2026-11-17 | [Natural Language Programming: Rethinking Language, Memory, and Cognition in the Era of Generative AI](https://arxiv.org/abs/2611.23106) | Language Foundation Models: LLM Memory | The paper frames prompting as a form of natural-language programming in which language serves as an executable cognitive medium, reasoning scaffold, and distributed memory for human–AI collaboration. | 5 | 6 |
 | 2026-11-17 | [Stopping Is Not the Limit: Understanding and Eliciting Agent Capability in Long-Horizon Vulnerability Exploitation](https://arxiv.org/abs/2611.22888) | Adaptation and Memory: Test-Time Learning; Language Foundation Models: LLM Memory | Agents can often discover additional verified vulnerability exploits after they first stop, and SCoRe’s context management helps sustain this progress during long-horizon execution. | 8 | 8 |

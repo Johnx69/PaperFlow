@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Autoregressive Video Models
 
-**62 papers total**
+**63 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-18 | [Autoregressive View Model](https://arxiv.org/abs/2611.23417) | Video Generation and Understanding: Video Diffusion, Autoregressive Video Models | AVM generates camera-controlled scene videos directly from images or videos, without building an explicit 3D representation. | 8 | 8 |
 | 2026-11-17 | [FastFrames: Video Generation at Interactive Latency](https://arxiv.org/abs/2611.23226) | Video Generation and Understanding: Video Diffusion, Autoregressive Video Models; Efficient AI: KV Cache and Memory Efficiency | FastFrames accelerates autoregressive video diffusion to interactive latency by redesigning costly inference components while preserving or improving visual quality. | 9 | 8 |
 | 2026-11-16 | [Reference Forcing: Long Video Generation with Region-Guided Drift Correction](https://arxiv.org/abs/2611.21559) | Video Generation and Understanding: Autoregressive Video Models | Reference Forcing reduces long-video subject and background drift by using initial frames as stable appearance references during generation. | 8 | 8 |
 | 2026-11-16 | [ScoutCache: Efficient Few-Step Autoregressive Video Diffusion via Conditional Readout and Selective Caching](https://arxiv.org/abs/2611.21038) | Video Generation and Understanding: Video Diffusion, Autoregressive Video Models; Efficient AI: KV Cache and Memory Efficiency | ScoutCache is a training-free framework that accelerates few-step autoregressive video diffusion by reducing denoising, historical KV reading, and cache construction costs while improving generation quality. | 7 | 6 |

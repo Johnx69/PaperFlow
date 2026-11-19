@@ -1,6 +1,1462 @@
 {
   "days": [
     {
+      "date": "2026-11-18",
+      "paper_count": 8,
+      "papers": [
+        {
+          "abstract": "Self-attention over long token sequences dominates the inference cost of video diffusion transformers. Clustering-based sparse attention clusters both queries and keys and lets all queries in a cluster share one selection of key clusters. We show that this sharing limits accuracy: with key clusters and density fixed, attention grows more accurate as the query clusters are refined, and is most accurate when each query selects on its own, which needs no query clustering at all. We therefore propose Per-Query Routed Sparse Attention (PQRS), a training-free method that clusters only keys, lets each query select its own key clusters, and compensates for the unselected ones with their centroids. Per-query selections leave no query tile with a shared key list, so PQRS traverses key clusters instead of queries, buckets queries with identical selections into dense tasks, and merges their partial results in one pass under a fixed softmax offset carried from the previous denoising step. On four text-to-video and image-to-video models from the Wan and HunyuanVideo families, PQRS is the fastest of all the sparse attention methods we evaluate and the closest to the dense output, reaching $28.9$ dB PSNR on Wan2.1-T2V and $35.4$ dB on HunyuanVideo at $1.66$--$2.10\\times$ end-to-end speedup.",
+          "arxiv_id": "2611.24479",
+          "arxiv_url": "https://arxiv.org/abs/2611.24479",
+          "authors": [
+            "Zhen Huang, Shuwei Li, Ruizhe Yao, Xinrui Chen, Danyi Liu, Haoyuan Liang, Zhiyu Ye, Qiuyan Sun, Bingwei Chen, Yiyuan Li, Xu Zhou, Haohuan Fu"
+          ],
+          "bullets": [
+            "Clustering queries and keys together limits sparse-attention accuracy because queries in a cluster share key selections.",
+            "PQRS clusters only keys, performs per-query key-cluster selection, and approximates unselected keys with cluster centroids.",
+            "It efficiently executes per-query routing by grouping queries with identical selections and merging results with a carried softmax offset.",
+            "Evaluated on four Wan and HunyuanVideo text-to-video and image-to-video models, it achieves 1.66–2.10× end-to-end speedup.",
+            "It reports 28.9 dB PSNR on Wan2.1-T2V and 35.4 dB on HunyuanVideo, while remaining closest to dense attention among evaluated sparse methods."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4. Execution pipeline of PQRS for one attention head. (a) Key clusters with similar centroids are grouped and stored contiguously. (b) Each query records its selection in each group as a 4-bit code and initializes its accumulators with the compensation. (c) The queries are bucketed by (group, code). (d) Each bucket runs as dense tasks that atomically add their partial results under a fixed offset mi. (e) The rows are normalized, and rare rows outside the safe range are recomputed. Bottom: each row’s LSE is its offset at the next step.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 461,
+              "image_path": "figures/2611.24479/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 7. Fidelity versus budget on Wan2.1-T2V-14B. Each method runs at three settings, and circles mark the settings of Table 1. (a) PSNR versus density. (b) PSNR versus end-to-end latency.",
+              "figure_id": "figure-7-4",
+              "figure_number": "7",
+              "height": 360,
+              "image_path": "figures/2611.24479/figure-002.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 1017
+            },
+            {
+              "caption": "Figure 3. Accuracy versus query granularity. All configurations share the key clusters (Ck = 592) and the target density (ρ = 0.22) and differ only in the number of query clusters Cq , where Cq = N is per-query routing. (a) Mean recall under centroid and Oracle scoring. (b) Mean relative error of the compensated output. (c) Recall percentiles over the queries of a head under centroid scoring, averaged over heads.",
+              "figure_id": "figure-3-12",
+              "figure_number": "3",
+              "height": 312,
+              "image_path": "figures/2611.24479/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1018
+            },
+            {
+              "caption": "Figure 8. Wan2.1-T2V-14B. Dense attention (top) and PQRS (bottom) with the same prompt and seed.",
+              "figure_id": "figure-8-17",
+              "figure_number": "8",
+              "height": 424,
+              "image_path": "figures/2611.24479/figure-004.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 9. Wan2.1-I2V-14B. Dense attention (top) and PQRS (bottom) with the same input image, prompt and seed.",
+              "figure_id": "figure-9-18",
+              "figure_number": "9",
+              "height": 380,
+              "image_path": "figures/2611.24479/figure-005.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 10. Wan2.2-T2V-A14B. Dense attention (top) and PQRS (bottom) with the same prompt and seed.",
+              "figure_id": "figure-10-14",
+              "figure_number": "10",
+              "height": 439,
+              "image_path": "figures/2611.24479/figure-006.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 11. HunyuanVideo-T2V-13B. Dense attention (top) and PQRS (bottom) with the same prompt and seed.",
+              "figure_id": "figure-11-13",
+              "figure_number": "11",
+              "height": 425,
+              "image_path": "figures/2611.24479/figure-007.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 6. Latency versus group width G. Each bar is one sparse attention call over all 40 heads of Wan2.1-T2V-14B, averaged over 3 prompts, 3 denoising steps and 39 layers. Other stages covers cluster, route, build and finalize.",
+              "figure_id": "figure-6-5",
+              "figure_number": "6",
+              "height": 318,
+              "image_path": "figures/2611.24479/figure-008.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 487
+            },
+            {
+              "caption": "Figure 5. The LSE changes little between consecutive steps. Percentiles of |δi| over the sparse rows at each denoising step on Wan2.1-T2V-14B at 720p, pooled over two prompts. Rows above the dashed repair threshold, li = 10±30, are recomputed.",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 262,
+              "image_path": "figures/2611.24479/figure-009.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 487
+            },
+            {
+              "caption": "Figure 2. Shared selection versus per-query routing. Darker cells carry more attention mass, outlined cells are selected, and bars show the recall ri. (a) A shared selection fits some queries in a cluster poorly. (b) Per-query routing keeps a similar recall for every query with one fewer selected pair.",
+              "figure_id": "figure-2-9",
+              "figure_number": "2",
+              "height": 202,
+              "image_path": "figures/2611.24479/figure-010.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 492
+            },
+            {
+              "caption": "Table 1. Quality and efficiency on four models. Among sparse methods, the best result is in bold and the second best is underlined.",
+              "figure_id": "table-1-11",
+              "figure_number": "1",
+              "height": 721,
+              "image_path": "figures/2611.24479/table-011.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 983
+            },
+            {
+              "caption": "Table 7. Results of Figure 7. The setting is p for PQRS and top-p for the baselines, and the middle row of each method is its setting in Table 1. Speedups are over dense attention (1682 s).",
+              "figure_id": "table-7-6",
+              "figure_number": "7",
+              "height": 244,
+              "image_path": "figures/2611.24479/table-012.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 487
+            },
+            {
+              "caption": "Table 6. Baseline hyperparameters. Each baseline uses the same density hyperparameter on all four models, except where noted, and its official values for all other hyperparameters.",
+              "figure_id": "table-6-8",
+              "figure_number": "6",
+              "height": 275,
+              "image_path": "figures/2611.24479/table-013.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 1036
+            },
+            {
+              "caption": "Table 8. Latency of one sparse attention call on Wan2.1-T2V-14B. Times are in milliseconds per call over all 40 heads, averaged over 351 calls. Speedups are means of per-call ratios with bootstrap 95% intervals. Outside attend is the wall time minus the attend kernel, with its share of the wall time in parentheses. The reclustering row times an SVOO call that recomputes its clusters, and the amortized row spreads one such call over 40 calls.",
+              "figure_id": "table-8-3",
+              "figure_number": "8",
+              "height": 323,
+              "image_path": "figures/2611.24479/table-014.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 1026
+            },
+            {
+              "caption": "Table 5. Sampling configurations. Dense steps and dense blocks use dense attention for every method. N counts video tokens. Euler denotes the flow-matching Euler sampler.",
+              "figure_id": "table-5-7",
+              "figure_number": "5",
+              "height": 140,
+              "image_path": "figures/2611.24479/table-015.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 1026
+            },
+            {
+              "caption": "Table 2. Selection granularity × centroid compensation. Results on Wan2.1-T2V-14B, where shared selection uses Cq = 592 query clusters and the last row is PQRS.",
+              "figure_id": "table-2-16",
+              "figure_number": "2",
+              "height": 140,
+              "image_path": "figures/2611.24479/table-016.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 458
+            },
+            {
+              "caption": "Table 3. Row repair on the 50 evaluation videos. Rows is the fraction of (head, row) pairs in sparse calls that are repaired, and Calls is the fraction of sparse calls with at least one repaired row.",
+              "figure_id": "table-3-15",
+              "figure_number": "3",
+              "height": 140,
+              "image_path": "figures/2611.24479/table-017.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 477
+            },
+            {
+              "caption": "Table 4. VBench scores per dimension (%). Subj., Back., Motion, Aesth. and Imag. are subject consistency, background consistency, motion smoothness, aesthetic quality and imaging quality, and Avg. is their mean as reported in Table 1.",
+              "figure_id": "table-4-10",
+              "figure_number": "4",
+              "height": 707,
+              "image_path": "figures/2611.24479/table-018.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 479
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.24479/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.24479",
+          "relevance": 9,
+          "selection_reason": "Directly addresses efficiency in video diffusion transformers via a novel sparse attention mechanism (PQRS). Highly relevant to video generation and efficient AI.",
+          "summary_status": "generated",
+          "title": "Every Query Routes Itself: Accelerating Video Diffusion Transformers with Per-Query Routed Sparse Attention",
+          "tldr": "PQRS accelerates long-sequence video diffusion attention by routing each query to its own key clusters while preserving output fidelity.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Vision-language models (VLMs) can answer questions about long interleaved inputs, such as documents of many pages and collections of hundreds of images, but they are slow to start: on inputs of about 100K tokens, the prefill takes most of the wait for the first output token. A common approach prunes the input by scoring its tokens with the target model itself or with a small model of the same family that first writes an answer. However, this scoring takes much of the time that pruning saves. We find that the evidence for a question lies in a few whole units (images or paragraphs), and that a small hybrid model finds them with one attention head of an early layer, even at half image resolution. Based on these findings, we propose SkimPrefill, which lets the small hybrid model read the whole input first, up to that early layer, with images at half resolution. Most layers of the small hybrid model (Qwen3.5-0.8B) run in linear time, so this pass is short. SkimPrefill then ranks every unit with that head and gives the target the top units as an ordinary shorter prompt. One untrained selector serves targets of different model families. Extensive experiments on MMLongBench at 128K tokens, with 19 datasets of five task types, show the effectiveness of SkimPrefill. With 10% of the input tokens kept, SkimPrefill speeds up the prefill of Qwen3.5-9B, Gemma-4-12B and Qwen3-VL-32B by 3.7 times, 11.6 time and 8.2 times while maintaining their average accuracy.",
+          "arxiv_id": "2611.24431",
+          "arxiv_url": "https://arxiv.org/abs/2611.24431",
+          "authors": [
+            "Xiaolin Lin, Kai-Chiang Wu, Bing Li, Grace Li Zhang"
+          ],
+          "bullets": [
+            "Targets the high first-token latency caused by prefill on roughly 100K-token interleaved image-text inputs.",
+            "Uses an early attention head in a small hybrid model, with images at half resolution, to rank whole input units.",
+            "Keeps the top 10% of tokens/units and feeds them to the target VLM as a shorter ordinary prompt.",
+            "A single untrained selector transfers across different target model families.",
+            "On MMLongBench at 128K tokens, it maintains average accuracy while reporting 3.7×, 11.6×, and 8.2× prefill speedups for three target models."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. A needle-in-a-haystack question from MMLongBench, with seven of its 1,197 images and paragraphs in input order; the evidence is three sentences. (a) FlexSelect and SGP keep 10% of the tokens (dropped patches darkened, dropped words faded; their Qwen3.5-9B masks); both drop “yellow” and “blue” from the evidence. (b) SkimPrefill: Qwen3.5-0.8B reads the whole input, one head of layer 7 scores each image and paragraph, and every target reads the same kept units (green dashed frames), which hold as many tokens as FlexSelect and SGP keep. (c) Whether each target answers the question based on the kept tokens, the full input or the kept units, respectively.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 379,
+              "image_path": "figures/2611.24431/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1027
+            },
+            {
+              "caption": "Figure 1. How well and how fast a model finds the evidence, on 196 MM-NIAH questions outside the test set. One head of one layer scores the images of a question. Needle in top 10%: at a budget of about 10% of the images, how often the images ranked highest by the head include a needle, which is an image holding the answer. We show the best head of the best layer. Time: running the model up to that layer, preprocessing included. Full and half: image resolution; L7: layer 7.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 200,
+              "image_path": "figures/2611.24431/figure-002.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 476
+            },
+            {
+              "caption": "Figure 6. Accuracy against prefill speedup at budgets of 5, 10 and 15% (labels), with the selector at half (ours) or full resolution.",
+              "figure_id": "figure-6-7",
+              "figure_number": "6",
+              "height": 318,
+              "image_path": "figures/2611.24431/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 483
+            },
+            {
+              "caption": "Figure 4. Annotated evidence tokens kept at a 10% budget (questions in parentheses).",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 250,
+              "image_path": "figures/2611.24431/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 487
+            },
+            {
+              "caption": "Figure 5. Time to first token on Qwen3-VL-32B, split into preprocessing, selection and the target’s prefill; 190 questions of about 105K input tokens (SGLang, batch size 1).",
+              "figure_id": "figure-5-6",
+              "figure_number": "5",
+              "height": 192,
+              "image_path": "figures/2611.24431/figure-005.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 481
+            },
+            {
+              "caption": "Figure 9. How the 1,750 outputs of Gemma-4-12B end with 10% of the input tokens kept; a broken output opens the reasoning tag again or ends without an answer.",
+              "figure_id": "figure-9-16",
+              "figure_number": "9",
+              "height": 174,
+              "image_path": "figures/2611.24431/figure-006.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 476
+            },
+            {
+              "caption": "Figure 8. Average accuracy against prefill speedup when a retriever replaces the head (Qwen3.5-9B, 10% kept); for SigLIP 2 and ColEmbed V2 8B, BM25 [33] ranks the paragraphs.",
+              "figure_id": "figure-8-14",
+              "figure_number": "8",
+              "height": 161,
+              "image_path": "figures/2611.24431/figure-007.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 479
+            },
+            {
+              "caption": "Figure 7. Accuracy at three input lengths with 10% of the input tokens kept; above the bars of SkimPrefill: its prefill speedup.",
+              "figure_id": "figure-7-9",
+              "figure_number": "7",
+              "height": 144,
+              "image_path": "figures/2611.24431/figure-008.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 476
+            },
+            {
+              "caption": "Figure 10. Attention of Gemma-4-12B’s last prompt token to the useful many-shot ICL examples, those whose label is the answer, at each global layer, averaged over the heads and relative to an even spread of the attention over all examples (1: chance); full input, 50 questions.",
+              "figure_id": "figure-10-12",
+              "figure_number": "10",
+              "height": 191,
+              "image_path": "figures/2611.24431/figure-009.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 466
+            },
+            {
+              "caption": "Figure 3. Accuracy and generated tokens per answer on Qwen3VL-32B with 10% of the input tokens kept. FastV, FlexSelect and SGP select at the token level, SpecPrefill at the block level (32 consecutive tokens) and SkimPrefill at the unit level (images and paragraphs); dashed: the full input.",
+              "figure_id": "figure-3-17",
+              "figure_number": "3",
+              "height": 133,
+              "image_path": "figures/2611.24431/figure-010.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 483
+            },
+            {
+              "caption": "Table 7. Accuracy on each of the 19 datasets of MMLongBench [46] at 128K input tokens, with 10% of the input tokens kept; 100 test inputs per dataset, 50 for the three MM-NIAH image tasks. Each dataset uses MMLongBench’s metric (summarization: ROUGE-L F1); the average is that of Tab. 2. NIAH: MM-NIAH; Flex.: FlexSelect; Spec.: SpecPrefill. Bold: best of the pruning methods for each target.",
+              "figure_id": "table-7-3",
+              "figure_number": "7",
+              "height": 577,
+              "image_path": "figures/2611.24431/table-011.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 1036
+            },
+            {
+              "caption": "Table 8. Average accuracy without and with reasoning, 10% of the input tokens kept. Off : the target answers without reasoning, under the generation settings of MMLongBench (greedy, at most 128 new tokens, 384 for summarization); for Qwen3-VL-32B, this column uses Qwen3-VL-32B-Instruct. On: the averages of Tab. 2. Bold: best pruning method.",
+              "figure_id": "table-8-4",
+              "figure_number": "8",
+              "height": 204,
+              "image_path": "figures/2611.24431/table-012.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 483
+            },
+            {
+              "caption": "Table 9. Time to answer on the 190 timing questions, in seconds, first request per input. Before: steps before the target; Prefill: request to first token; Decode: first to last token; Tokens: mean generated tokens; Speedup: full input’s Total over the method’s.",
+              "figure_id": "table-9-23",
+              "figure_number": "9",
+              "height": 512,
+              "image_path": "figures/2611.24431/table-013.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 489
+            },
+            {
+              "caption": "Table 1. Methods that shorten a long input before or inside the target. Other families: the kept input can go to a target of another family.",
+              "figure_id": "table-1-11",
+              "figure_number": "1",
+              "height": 223,
+              "image_path": "figures/2611.24431/table-014.webp",
+              "kind": "table",
+              "page": 3,
+              "width": 868
+            },
+            {
+              "caption": "Table 4. Ablations at 128K tokens, 10% kept (speedup as in Tab. 2; –: not measured); SkimPrefill keeps whole units at consecutive positions, and the last three rows rank all units in one list.",
+              "figure_id": "table-4-13",
+              "figure_number": "4",
+              "height": 348,
+              "image_path": "figures/2611.24431/table-015.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 492
+            },
+            {
+              "caption": "Table 5. SkimPrefill on the 100 LongDocURL questions, whose documents at 128K tokens have 57 pages on average. Pages: pages kept; Missed: questions with no answer page kept.",
+              "figure_id": "table-5-15",
+              "figure_number": "5",
+              "height": 183,
+              "image_path": "figures/2611.24431/table-016.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 483
+            },
+            {
+              "caption": "Table 3. Generation length at 10% of the input tokens (1,750 questions). Tokens: mean generated tokens, reasoning and answer; 32K: answers that reach the 32K reasoning limit.",
+              "figure_id": "table-3-8",
+              "figure_number": "3",
+              "height": 194,
+              "image_path": "figures/2611.24431/table-017.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 442
+            },
+            {
+              "caption": "Table 6. Heads of the selector on the calibration questions: for each full-attention layer, the head whose three highest-scoring units hold a needle for the most questions. Image, Text: how many of the 50 image and the 50 text questions they are; Layers run: layers the selector runs when it stops after this one.",
+              "figure_id": "table-6-10",
+              "figure_number": "6",
+              "height": 165,
+              "image_path": "figures/2611.24431/table-018.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 346
+            },
+            {
+              "caption": "Table 10. The selector on its own H100 (Separate) or on the target’s GPUs (Shared), 190 timing questions. Times in seconds; Before and Prefill as in Tab. 9, Total: time to first token (Before plus Prefill), Speedup: as in Tab. 2. The Separate rows take Before and Prefill from Tab. 9; the Shared rows add the change measured with the selector and the target on the same GPUs in an earlier run on the same questions.",
+              "figure_id": "table-10-24",
+              "figure_number": "10",
+              "height": 172,
+              "image_path": "figures/2611.24431/table-019.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 408
+            },
+            {
+              "caption": "Table 15. Accuracy per category with the full input and with SkimPrefill at budgets of 5, 10 and 15% (rows 5–15%; selector at half resolution), on the 1,750 test questions. Tokens: mean generated tokens in many-shot ICL; 32K: many-shot ICL answers, of 400, that reach the 32K reasoning limit.",
+              "figure_id": "table-15-20",
+              "figure_number": "15",
+              "height": 282,
+              "image_path": "figures/2611.24431/table-020.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 492
+            },
+            {
+              "caption": "Table 12. Larger selectors, 10% of the input tokens kept. Avg. and Speedup as in Tab. 2; Select: the selector’s time per question on Qwen3.5-9B, in seconds, preprocessing excluded.",
+              "figure_id": "table-12-22",
+              "figure_number": "12",
+              "height": 154,
+              "image_path": "figures/2611.24431/table-021.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 496
+            },
+            {
+              "caption": "Table 13. Whole units ranked by each scorer (paragraphs by BM25 [33] on the question text, except for GME-2B and SkimPrefill), Qwen3.5-9B, 10% kept; bold: best.",
+              "figure_id": "table-13-19",
+              "figure_number": "13",
+              "height": 154,
+              "image_path": "figures/2611.24431/table-022.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 494
+            },
+            {
+              "caption": "Table 14. Annotated evidence tokens kept at a 10% budget (%), on the questions of Fig. 4 (VH: Visual Haystacks); BM25 ranks the paragraphs for all scorers but GME-2B and SkimPrefill. Bold: best per column.",
+              "figure_id": "table-14-21",
+              "figure_number": "14",
+              "height": 124,
+              "image_path": "figures/2611.24431/table-023.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 416
+            },
+            {
+              "caption": "Table 11. Selector images at full or half resolution, 10% of the input tokens kept; the target reads the kept images at full resolution.",
+              "figure_id": "table-11-18",
+              "figure_number": "11",
+              "height": 133,
+              "image_path": "figures/2611.24431/table-024.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 494
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.24431/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.24431",
+          "relevance": 8,
+          "selection_reason": "Prunes input units to accelerate VLM prefill, directly matching token pruning and multimodal LLM efficiency.",
+          "summary_status": "generated",
+          "title": "Let a Small Model Read First: Faster Prefill for Long Interleaved Image-Text Inputs",
+          "tldr": "SkimPrefill accelerates long-context VLMs by using a small model to identify relevant images and paragraphs before the target model processes a shortened prompt.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "multimodal-large-language-models"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "LLM-based agents accumulate extensive interaction histories when solving complex, long-horizon tasks, making efficient memory management critical to their performance and scalability. While existing memory management methods primarily focus on what to retain or retrieve, they often overlook how much perceptual detail should be allocated to individual past interactions. We posit that effective agent memory depends not only on the information preserved, but also on the granularity at which each past interaction is perceived. Motivated by this insight, we propose Resolution as Attention (RAA), a memory perception mechanism that uses visual resolution as a means of attention allocation across interaction histories. RAA renders past interactions as images and dynamically adjusts their resolution at every step according to their relevance to the agent's upcoming decision, preserving fine-grained information for critical interactions while reducing visual-token consumption for less relevant ones. To adaptively determine the perceptual fidelity of each interaction, we train a lightweight relevance estimator with teacher-model guidance and further optimize it to preserve the agent's decision consistency at a reduced visual-token cost. Experiments across multiple tasks and backbones show that RAA reduces token consumption by over 50% without compromising task performance. Moreover, RAA can be integrated as a plug-in perception layer with existing memory management methods, yielding further token savings and revealing adaptive perception as a complementary dimension of agent memory.",
+          "arxiv_id": "2611.24422",
+          "arxiv_url": "https://arxiv.org/abs/2611.24422",
+          "authors": [
+            "Siqi Xiang, Zhipeng Xu, Shengrui Liu, Zulong Chen, Chunyan Miao, Shijian Lu"
+          ],
+          "bullets": [
+            "Targets inefficient perception of long interaction histories in LLM-based agents.",
+            "Renders past interactions as images and allocates resolution according to relevance to the next decision.",
+            "Uses a lightweight, teacher-guided relevance estimator optimized to preserve decision consistency.",
+            "Works across multiple tasks and backbones and can complement existing memory management methods.",
+            "Scope: focuses on adaptive perceptual granularity rather than deciding what memories to retain or retrieve."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of Resolution as Attention. Relevance estimation scores each past interaction against the task and the latest interaction, and resolution-controlled rendering maps these scores to the scales at which the interactions are perceived by the agent.",
+              "figure_id": "figure-2-13",
+              "figure_number": "2",
+              "height": 543,
+              "image_path": "figures/2611.24422/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1014
+            },
+            {
+              "caption": "Figure 12. Prompt for rendered memory perception. It is appended to the system prompt when the memory is perceived from rendered images.",
+              "figure_id": "figure-12-16",
+              "figure_number": "12",
+              "height": 498,
+              "image_path": "figures/2611.24422/figure-002.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 5. Trade-off between performance and token cost on AppWorld using Qwen-3.8-27B. Each method varies its perception parameter, namely the font size f for RAA, the window size k for FIFO, the retention rate r for LongLLMLingua, and the number n of full-resolution recent rounds for OCR-Memory. AgentOCR (48.81% TGC at 117.5K tokens) is omitted since it lies outside the plotted range and is dominated by all other methods.",
+              "figure_id": "figure-5-8",
+              "figure_number": "5",
+              "height": 299,
+              "image_path": "figures/2611.24422/figure-003.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 488
+            },
+            {
+              "caption": "Figure 1. Comparison of existing memory management approaches and Resolution as Attention. (a) Retrieval is bounded by retrieval quality. (b) Textual compression permanently discards fine-grained details, while optical compression applies the same compression rate regardless of relevance. (c) RAA perceives each interaction at a resolution scaled by its relevance to the upcoming decision.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 501,
+              "image_path": "figures/2611.24422/figure-004.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 986
+            },
+            {
+              "caption": "Figure 8. Case study of Resolution as Attention on ClawGym-Bench Task 42 using Qwen-3.8-27B. Each row shows the resolution scales assigned to past interactions at each step, where Hi denotes the i-th interaction. As OpenClaw allows multiple tool calls at each step, a single step may produce multiple interactions, each corresponding to a tool call and its observation. T marks interactions from the latest round, which are kept as text. The rendered observations are shown, and are enlarged for visualization.",
+              "figure_id": "figure-8-15",
+              "figure_number": "8",
+              "height": 772,
+              "image_path": "figures/2611.24422/figure-005.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 1006
+            },
+            {
+              "caption": "Figure 9. Case study of Resolution as Attention on ClawGym-Bench Task 150 using Qwen-3.8-27B. Each row shows the resolution scales assigned to past interactions at each step, where Hi denotes the i-th interaction. As OpenClaw allows multiple tool calls at each step, a single step may produce multiple interactions, each corresponding to a tool call and its observation. T marks interactions from the latest round, which are kept as text. The rendered observations are shown, and are enlarged for visualization.",
+              "figure_id": "figure-9-7",
+              "figure_number": "9",
+              "height": 823,
+              "image_path": "figures/2611.24422/figure-006.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 1009
+            },
+            {
+              "caption": "Figure 10. Prompt for the teacher model in relevance annotation.",
+              "figure_id": "figure-10-14",
+              "figure_number": "10",
+              "height": 1190,
+              "image_path": "figures/2611.24422/figure-007.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 3. Ablation on two-stage training with Qwen-3.8-27B. Untrained uses the pretrained reranker and the initial mapping, Stage I and Stage II apply relevance supervision and resolution reinforcement, respectively, and Stage I + II applies both.",
+              "figure_id": "figure-3-12",
+              "figure_number": "3",
+              "height": 297,
+              "image_path": "figures/2611.24422/figure-008.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 475
+            },
+            {
+              "caption": "Figure 4. Analysis of the cost weight λ with Qwen-3.8-27B. A larger λ reduces the peak tokens at the cost of a lower average score and more steps.",
+              "figure_id": "figure-4-10",
+              "figure_number": "4",
+              "height": 282,
+              "image_path": "figures/2611.24422/figure-009.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 458
+            },
+            {
+              "caption": "Figure 6. Latency analysis on ClawGym-Bench using Qwen-3.827B. All times are averaged over 200 tasks. (a) End-to-end latency breakdown with prefix caching disabled. (b) Breakdown of prefill and decode times with prefix caching enabled, together with the peak KV cache occupied by the history, measured by replaying the trajectories of (a).",
+              "figure_id": "figure-6-6",
+              "figure_number": "6",
+              "height": 311,
+              "image_path": "figures/2611.24422/figure-010.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 488
+            },
+            {
+              "caption": "Figure 7. Comparison with budget-matched text perception on ClawGym-Bench using Qwen-3.8-27B. Budget-Matched Text keeps the relevance estimator and resolution mapping of RAA, but replaces visual rendering with LongLLMLingua pruning. Each interaction retains the fraction of tokens determined by RAA.",
+              "figure_id": "figure-7-1",
+              "figure_number": "7",
+              "height": 282,
+              "image_path": "figures/2611.24422/figure-011.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 458
+            },
+            {
+              "caption": "Figure 11. Prompt for the relevance estimator. The query contains the task description and all tool calls of the latest round. Each document contains a single past interaction with the reasoning content of its round.",
+              "figure_id": "figure-11-17",
+              "figure_number": "11",
+              "height": 238,
+              "image_path": "figures/2611.24422/figure-012.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 1036
+            },
+            {
+              "caption": "Table 6. Comparison of RAA with existing memory management methods. Frequency specifies how often the memory is processed. Granularity refers to the unit at which it is processed. Strategy indicates how the processing is performed. Adaptive Fidelity denotes whether the perceptual fidelity of individual retained units can be independently adjusted at each step according to their relevance to the upcoming decision. Information Preserved indicates whether the original information remains available for subsequent access. No Agent Training means that the method requires no additional training of the agent.",
+              "figure_id": "table-6-18",
+              "figure_number": "6",
+              "height": 451,
+              "image_path": "figures/2611.24422/table-013.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 986
+            },
+            {
+              "caption": "Table 1. Results on ClawGym-Bench. Higher scores and lower token costs are better. Bold and underlined values indicate the best and second-best results excluding Vanilla within each backbone, respectively. Percentages indicate reductions relative to Vanilla.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 542,
+              "image_path": "figures/2611.24422/table-014.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1042
+            },
+            {
+              "caption": "Table 3. Integrating Resolution as Attention with existing memory management methods on ClawGym-Bench using Qwen-3.827B. Score gains and token reductions are measured relative to each method without Resolution as Attention.",
+              "figure_id": "table-3-11",
+              "figure_number": "3",
+              "height": 286,
+              "image_path": "figures/2611.24422/table-015.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 5. Results on AppWorld. Scores report task goal completion (TGC) by difficulty. Higher scores and lower token costs are better. Bold and underlined values indicate the best and second-best results excluding Vanilla within each backbone, respectively. Percentages indicate changes relative to Vanilla.",
+              "figure_id": "table-5-5",
+              "figure_number": "5",
+              "height": 562,
+              "image_path": "figures/2611.24422/table-016.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 898
+            },
+            {
+              "caption": "Table 2. Ablation of relevance estimation and resolutioncontrolled rendering on ClawGym-Bench using Qwen-3.8-27B.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 300,
+              "image_path": "figures/2611.24422/table-017.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 508
+            },
+            {
+              "caption": "Table 4. Statistics of the training data.",
+              "figure_id": "table-4-9",
+              "figure_number": "4",
+              "height": 127,
+              "image_path": "figures/2611.24422/table-018.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 394
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.24422/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.24422",
+          "relevance": 9,
+          "selection_reason": "Introduces a memory perception mechanism that dynamically adjusts the resolution of past interactions to reduce token consumption, directly addressing token efficiency and agent memory.",
+          "summary_status": "generated",
+          "title": "Resolution as Attention for Efficient Agent Memory Perception",
+          "tldr": "Resolution as Attention dynamically adjusts the visual detail of past interactions, cutting memory token use by over 50% while maintaining task performance.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "embodied-memory"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "AI agents read their whole history at every step. People do not work like that: we keep what the moment needs and hold the rest as a rough note we can recall. MoE-Context applies this to language models. The context is split into blocks. Before each step a fast yes or no pass decides which blocks the step needs; the rest stay as one-line notes that can be brought back, and nothing is deleted. In the version we build, one model makes this decision and then answers, over a single key-value cache where hidden blocks are masked rather than removed. On a laptop with Qwen3-1.7B and a synthetic lookup task, showing only the needed block raises accuracy from 93 to 119 of 120, and a masked block is as hidden as a deleted one. The model's own picking is the weak part. A supervised linear probe written into spare output rows lifts its accuracy from 80 to 110 of 120, but simple keyword search picks perfectly on this task, and the probe does not transfer to a second task. We report these results openly, along with two cheap usage patterns that block switching enables: undoing a failed attempt and running subagents without a new context.",
+          "arxiv_id": "2611.24379",
+          "arxiv_url": "https://arxiv.org/abs/2611.24379",
+          "authors": [
+            "Vedant Navale"
+          ],
+          "bullets": [
+            "Splits history into blocks and uses a fast yes/no selector to reveal relevant blocks while masking others in one key-value cache.",
+            "On a synthetic lookup task with Qwen3-1.7B, selective context improved accuracy from 93/120 to 119/120; masking was comparable to deletion.",
+            "Context selection is the main weakness: a supervised linear probe reached 110/120, while keyword search achieved perfect task performance.",
+            "The probe did not transfer to a second task, limiting evidence for general-purpose selection.",
+            "Block switching also supports undoing failed attempts and running subagents without creating a new context."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.CL",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 10: Future work: blocks as a graph. Routing starts at the current step, spreads along links, and stops at a budget.",
+              "figure_id": "figure-10-8",
+              "figure_number": "10",
+              "height": 301,
+              "image_path": "figures/2611.24379/figure-001.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 924
+            },
+            {
+              "caption": "Figure 1: Left: today the model reads everything at every step. Right: MoE-Context shows only the blocks this step needs; the rest stay as one-line notes.",
+              "figure_id": "figure-1-3",
+              "figure_number": "1",
+              "height": 255,
+              "image_path": "figures/2611.24379/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 947
+            },
+            {
+              "caption": "Figure 2: Mixture of Experts picks experts for each input. MoE-Context picks context blocks for each step.",
+              "figure_id": "figure-2-4",
+              "figure_number": "2",
+              "height": 265,
+              "image_path": "figures/2611.24379/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 861
+            },
+            {
+              "caption": "Figure 4: One model, one cache. Each step only switches which blocks attention can see.",
+              "figure_id": "figure-4-9",
+              "figure_number": "4",
+              "height": 249,
+              "image_path": "figures/2611.24379/figure-004.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 911
+            },
+            {
+              "caption": "Figure 9: Left: hiding a failed attempt mostly stops the model from repeating it. Right: subagents that each see one block beat one call that sees everything. 30 questions each.",
+              "figure_id": "figure-9-6",
+              "figure_number": "9",
+              "height": 165,
+              "image_path": "figures/2611.24379/figure-005.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 872
+            },
+            {
+              "caption": "Figure 3: The loop. The decide pass writes no text; it scores each block.",
+              "figure_id": "figure-3-10",
+              "figure_number": "3",
+              "height": 222,
+              "image_path": "figures/2611.24379/figure-006.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 900
+            },
+            {
+              "caption": "Figure 7: Reviewer checks. Left: block picked correctly when questions name the service but not the file. Right: the probe on a task it was not fitted on.",
+              "figure_id": "figure-7-2",
+              "figure_number": "7",
+              "height": 216,
+              "image_path": "figures/2611.24379/figure-007.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 920
+            },
+            {
+              "caption": "Figure 6: The probe, out of 120 questions.",
+              "figure_id": "figure-6-1",
+              "figure_number": "6",
+              "height": 189,
+              "image_path": "figures/2611.24379/figure-008.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 850
+            },
+            {
+              "caption": "Figure 5: Correct answers out of 120. Token counts are what the answer step sees.",
+              "figure_id": "figure-5-11",
+              "figure_number": "5",
+              "height": 201,
+              "image_path": "figures/2611.24379/figure-009.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 797
+            },
+            {
+              "caption": "Figure 8: Averaged over 120 questions. A masked block is as hidden as a deleted one.",
+              "figure_id": "figure-8-5",
+              "figure_number": "8",
+              "height": 172,
+              "image_path": "figures/2611.24379/figure-010.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 819
+            },
+            {
+              "caption": "Table 1: What each approach does (✓ yes, ◦ partly).",
+              "figure_id": "table-1-7",
+              "figure_number": "1",
+              "height": 277,
+              "image_path": "figures/2611.24379/table-011.webp",
+              "kind": "table",
+              "page": 3,
+              "width": 922
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.24379/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.24379",
+          "relevance": 9,
+          "selection_reason": "Proposes a method for efficient context handling in LLMs by selectively showing relevant blocks and masking irrelevant ones, directly contributing to token pruning and eviction strategies.",
+          "summary_status": "generated",
+          "title": "MoE-Context: Show the Model Only What It Needs",
+          "tldr": "MoE-Context lets language models selectively expose only the context blocks needed for each step while preserving the rest as recoverable notes.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Unmanned Aerial Vehicles (UAVs) are expected to achieve semantic reasoning, intelligent decision-making, and long-horizon navigation under strict onboard constraints. While recent foundation-model-driven approaches have shown promising progress toward this goal, existing methods remain limited by challenges in 3D data availability, trajectory feasibility, long-horizon reasoning, and computational efficiency in complex environments. To bridge these gaps, we propose VLN-AR, a hierarchical vision-language-navigation (VLN) framework for aerial robots. VLN-AR decouples multimodal reasoning and low-level control, enabling structured prediction of 3D pose commands and navigation intentions that are translated into dynamically feasible actions. To mitigate data scarcity and domain gaps, we introduce a fully automated 3D Gaussian Splatting (3DGS)-based pipeline to generate scalable photorealistic UAV navigation data. A progressive three-stage training strategy further enhances grounding, scene reasoning, and complex navigation. In addition, a lightweight cognitive agent improves long-horizon reasoning via memory-aware task decomposition. Finally, we design onboard optimization techniques, including token sparsification and model lightweighting, achieving 7.1x-9.4x speedup while maintaining high navigation performance on resource-limited UAV platforms. Experiments show great improvements over existing methods in both simulation and real-world UAV navigation. Project website: https://wyz000.github.io/VLN-AR/",
+          "arxiv_id": "2611.23930",
+          "arxiv_url": "https://arxiv.org/abs/2611.23930",
+          "authors": [
+            "Yuze Wu, Mo Zhu, Xingxing Li, Yuheng Du, Zhaoqi Wang, Yuxin Fan, Wenjun Li, Kenghou Hoi, Zhichao Han, Xin Zhou, Fei Gao"
+          ],
+          "bullets": [
+            "Separates multimodal reasoning from low-level control by predicting 3D poses and navigation intentions that are converted into dynamically feasible actions.",
+            "Uses an automated 3D Gaussian Splatting pipeline to generate scalable, photorealistic UAV navigation data and address data scarcity and domain gaps.",
+            "Employs progressive three-stage training for improved grounding, scene reasoning, and complex navigation.",
+            "Adds a memory-aware cognitive agent for long-horizon task decomposition and onboard optimizations such as token sparsification and model lightweighting.",
+            "Reports 7.1×–9.4× speedups while maintaining high navigation performance, with improvements demonstrated in simulation and real-world UAV experiments."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 3: The model architecture of the proposed VLN-AR model.",
+              "figure_id": "figure-3-12",
+              "figure_number": "3",
+              "height": 368,
+              "image_path": "figures/2611.23930/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 922
+            },
+            {
+              "caption": "Fig. 4: The improved ViT architecture and token sparsification.",
+              "figure_id": "figure-4-17",
+              "figure_number": "4",
+              "height": 336,
+              "image_path": "figures/2611.23930/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 852
+            },
+            {
+              "caption": "Fig. 6: Cognitive-driven UAV navigation agent pipeline for VLN-AR.",
+              "figure_id": "figure-6-16",
+              "figure_number": "6",
+              "height": 481,
+              "image_path": "figures/2611.23930/figure-003.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 852
+            },
+            {
+              "caption": "Fig. 9: Hardware and software architectures of two different experimental drones.",
+              "figure_id": "figure-9-11",
+              "figure_number": "9",
+              "height": 421,
+              "image_path": "figures/2611.23930/figure-004.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 429
+            },
+            {
+              "caption": "Fig. 5: Automated UAV navigation data generation and collection process.",
+              "figure_id": "figure-5-1",
+              "figure_number": "5",
+              "height": 467,
+              "image_path": "figures/2611.23930/figure-005.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 864
+            },
+            {
+              "caption": "Fig. 11: Robustness tests on 3D floating scenes, large height variations, dim lighting, dynamic disturbance, and zero-shot deployment.",
+              "figure_id": "figure-11-18",
+              "figure_number": "11",
+              "height": 686,
+              "image_path": "figures/2611.23930/figure-006.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 844
+            },
+            {
+              "caption": "Fig. 8: Simulation tests of VLN-AR across different navigation datasets using both visual and language inputs.",
+              "figure_id": "figure-8-15",
+              "figure_number": "8",
+              "height": 833,
+              "image_path": "figures/2611.23930/figure-007.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 854
+            },
+            {
+              "caption": "Fig. 10: Real-world experiments for navigation scenarios utilizing both visual and language inputs.",
+              "figure_id": "figure-10-7",
+              "figure_number": "10",
+              "height": 1034,
+              "image_path": "figures/2611.23930/figure-008.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 900
+            },
+            {
+              "caption": "Fig. 2: Different UAV navigation foundation models.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 445,
+              "image_path": "figures/2611.23930/figure-009.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 417
+            },
+            {
+              "caption": "Fig. 7: Task distribution of test data.",
+              "figure_id": "figure-7-6",
+              "figure_number": "7",
+              "height": 302,
+              "image_path": "figures/2611.23930/figure-010.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 462
+            },
+            {
+              "caption": "Fig. 12: Ablation study of different training navigation datasets.",
+              "figure_id": "figure-12-13",
+              "figure_number": "12",
+              "height": 267,
+              "image_path": "figures/2611.23930/figure-011.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 449
+            },
+            {
+              "caption": "Fig. 13: Impact of different token retention ratios for ViT.",
+              "figure_id": "figure-13-14",
+              "figure_number": "13",
+              "height": 258,
+              "image_path": "figures/2611.23930/figure-012.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 421
+            },
+            {
+              "caption": "Fig. 14: Ablation study of the inference optimization and the few-shot transfer.",
+              "figure_id": "figure-14-10",
+              "figure_number": "14",
+              "height": 223,
+              "image_path": "figures/2611.23930/figure-013.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 422
+            },
+            {
+              "caption": "TABLE II: Benchmark comparison of different methods on UAV navigation datasets",
+              "figure_id": "table-II-2",
+              "figure_number": "II",
+              "height": 540,
+              "image_path": "figures/2611.23930/table-014.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 1039
+            },
+            {
+              "caption": "TABLE III: Onboard inference performance on different models",
+              "figure_id": "table-III-3",
+              "figure_number": "III",
+              "height": 148,
+              "image_path": "figures/2611.23930/table-015.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 510
+            },
+            {
+              "caption": "TABLE I: Hyperparameters for Multi-stage Training.",
+              "figure_id": "table-I-5",
+              "figure_number": "I",
+              "height": 590,
+              "image_path": "figures/2611.23930/table-016.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 454
+            },
+            {
+              "caption": "TABLE IV: Robustness test of different navigation scenes",
+              "figure_id": "table-IV-4",
+              "figure_number": "IV",
+              "height": 861,
+              "image_path": "figures/2611.23930/table-017.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 504
+            },
+            {
+              "caption": "TABLE V: Ablation study of the multi-stage training strategy (Success rates %)",
+              "figure_id": "table-V-19",
+              "figure_number": "V",
+              "height": 261,
+              "image_path": "figures/2611.23930/table-018.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE VI: Ablation study of the aerial navigation agent",
+              "figure_id": "table-VI-9",
+              "figure_number": "VI",
+              "height": 463,
+              "image_path": "figures/2611.23930/table-019.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 462
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.23930/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.23930",
+          "relevance": 9,
+          "selection_reason": "Hierarchical vision-language-navigation framework for aerial robots with onboard token sparsification and lightweighting.",
+          "summary_status": "generated",
+          "title": "A Hierarchical Onboard Vision-Language-Navigation Framework for Aerial Robots in Complex Environments",
+          "tldr": "VLN-AR is a hierarchical onboard vision-language-navigation framework that enables UAVs to perform efficient, long-horizon navigation in complex environments under limited computational resources.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Long video understanding remains a daunting challenge for existing multimodal large language models (MLLMs), mainly due to the large number of visual tokens accumulated in long videos. Currently, frame selection and token selection are two main paradigms for addressing this issue, both aiming to select relevant visual information to form a compact input for MLLMs. A natural approach combines these two paradigms by selecting frames before pruning tokens, but noisy frame-level relevance estimates can cause irreversible evidence loss. In this paper, we study this problem from the perspective of assessing the spatiotemporal distribution of query-specific evidence and propose a novel and training-free approach termed NULLTOK. For every patch across all frames, we construct an empirical-null distribution from 64 group-matched irrelevant control queries, capturing the scores expected in the absence of target-specific evidence. Target affinities are calibrated against these same-position references into right-tail Monte Carlo p-values, which are discrete super-uniform under a conditional exchangeability assumption. Calibrated screening and a high-recall semantic guard produce candidate tokens for deterministic visual deduplication and joint spatiotemporal budget allocation. To validate NullTok, we apply it to two representative MLLMs and conduct extensive experiments on a set of video benchmarks. The experimental results demonstrate its effectiveness under a bounded visual token budget. For example, it achieves 65.81% and 68.85% on Video-MME using frozen LLaVA-Video-7B and Qwen3-VL-8B backbones, respectively, at a cap of 64 full-frame equivalents (FFE), without subtitles or audio. These results outperform all evaluated baselines on Video-MME under the same budget for both backbones. Code is available at https://github.com/potato-kitty/NullTok.",
+          "arxiv_id": "2611.23881",
+          "arxiv_url": "https://arxiv.org/abs/2611.23881",
+          "authors": [
+            "Zhang Ziyue, Juwei Jian, Baiyang Song, Yunshan Zhong, Jun Peng, Yiyi Zhou, Rongrong Ji"
+          ],
+          "bullets": [
+            "Addresses evidence loss caused by selecting frames before pruning tokens in long videos.",
+            "Builds position-matched empirical-null distributions from irrelevant control queries and converts affinities into Monte Carlo p-values.",
+            "Combines calibrated screening with a high-recall semantic guard, deduplication, and joint spatiotemporal budget allocation.",
+            "Evaluated with frozen LLaVA-Video-7B and Qwen3-VL-8B on video benchmarks without subtitles or audio.",
+            "On Video-MME at 64 full-frame equivalents, achieves 65.81% and 68.85%, outperforming evaluated baselines for the respective backbones."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1. Method schematic of NULLTOK. Target and control queries are evaluated on identical video coordinates. Calibration precedes deterministic redundancy reduction and joint spatiotemporal selection.",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 310,
+              "image_path": "figures/2611.23881/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 894
+            },
+            {
+              "caption": "Figure 2. Query-dependent allocation for three questions from one preregistered long video (rows 2289–2291). (a) Deduplicated candidatetoken counts per sampled frame. (b) Four fixed snapshots and their deduplicated candidate masks before final allocation; hatched tokens indicate persistent semantic protection. (c) Final selected-token counts per sampled frame. Each question retains exactly 12,544 tokens, spanning 617, 712, and 686 nonempty frames for Q1, Q2, and Q3, respectively. The token budget is equivalent to 64 full 14× 14 token grids, 64× 196 = 12,544.",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 506,
+              "image_path": "figures/2611.23881/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 892
+            },
+            {
+              "caption": "Figure 3. Video-MME accuracy with LLaVA-Video-7B at 64 FFE. NULLTOK exceeds the combination of QCA and MMTok by 0.74%. The vertical axis starts at 60%.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 191,
+              "image_path": "figures/2611.23881/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 468
+            },
+            {
+              "caption": "Figure 5. Ablation results on the full LongVideoBench set, using Qwen3-VL-8B at 64 FFE. Replacing calibrated evidence with normalized semantic scores reduces accuracy by 3.37 % points, demonstrating the effectiveness of our empirical-null token selection appraoch. The vertical axis starts at 50%.",
+              "figure_id": "figure-5-6",
+              "figure_number": "5",
+              "height": 191,
+              "image_path": "figures/2611.23881/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 468
+            },
+            {
+              "caption": "Figure 4. MLVU accuracy on Qwen3-VL-8B at a cap of 16 Full Frame Equivalents (FFE). NULLTOK exceeds both OTPrune and ReDiPrune by 1.38%. The vertical axis starts at 60%.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 189,
+              "image_path": "figures/2611.23881/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 467
+            },
+            {
+              "caption": "Table 1. Accuracy (%) at a cap of 64 Full Frame Equivalents (FFE). Bold and underlined numbers mark the best and second best scores within each backbone and benchmark.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 448,
+              "image_path": "figures/2611.23881/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.23881/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.23881",
+          "relevance": 8,
+          "selection_reason": "Training-free token selection for long-video MLLMs; directly fits video understanding and token pruning efficiency.",
+          "summary_status": "generated",
+          "title": "NullTok: empirical-null token selection for training-free long video understanding",
+          "tldr": "NullTok is a training-free method that selects query-relevant video tokens using empirical-null calibration, enabling long-video understanding within a fixed visual-token budget.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Reasoning vision-language models (VLMs) think for thousands of tokens before they answer, and retention policies keep the KV cache affordable by pruning it as the reasoning grows. We find that this pruning sacrifices the image in multi-turn conversations: the image and the reasoning share one budget, so the growing reasoning crowds the visual entries out. A chart question that loses 8 points to the full cache when asked first loses 24 points when asked after a round of reasoning. Protecting a small visual reserve from eviction recovers most of this loss, while adding the same slots to the shared budget recovers considerably less. The image therefore lacks protection, not capacity. Based on this finding, we propose ShelfKV, a training-free method that works on top of existing retention policies. It keeps every visual entry in CPU memory and, at each decoding step, swaps the visual entries that the current query scores highest into the attention slots of the text entries it scores lowest. The image is never evicted, yet it occupies attention slots only while it is read. We evaluate ShelfKV on four benchmarks, three of them conversational, with two retention policies and two reasoning VLMs. In conversations, it improves the strongest existing policy, DBTrimKV, by up to 20.3 points at matched GPU memory, and still leads by 8.7 points when DBTrimKV uses twice the memory. It also consistently outperforms a fixed visual reserve of matched GPU memory in these settings, without hurting accuracy on standalone questions. These results show that the image should be protected from the reasoning but read only on demand.",
+          "arxiv_id": "2611.23769",
+          "arxiv_url": "https://arxiv.org/abs/2611.23769",
+          "authors": [
+            "Ziyi Wang, Xiyue Zhang, Bing Hu, Guangmin Song, Chenyi Zhang, Li Wang"
+          ],
+          "bullets": [
+            "Problem: KV-cache pruning lets growing reasoning tokens evict image tokens, causing larger accuracy losses in later conversational turns.",
+            "Method: Keep all visual entries in CPU memory and dynamically swap query-relevant visual entries into slots occupied by low-scoring text entries.",
+            "Training-free and compatible with existing retention policies, including DBTrimKV.",
+            "Across four benchmarks, two retention policies, and two reasoning VLMs, ShelfKV improves DBTrimKV by up to 20.3 points at matched GPU memory and 8.7 points when DBTrimKV has twice the memory.",
+            "It outperforms a fixed visual reserve in conversational settings without reducing standalone-question accuracy."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. ShelfKV: keep the image, read it on demand. Every visual entry stays on the shelf in CPU memory. A sketch proposes candidates, and the current query swaps those that outscore text entries onto the desk on the GPU. Displaced text entries are parked, not deleted, so the desk keeps the host’s entry count.",
+              "figure_id": "figure-3-8",
+              "figure_number": "3",
+              "height": 307,
+              "image_path": "figures/2611.23769/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 2. Reasoning crowds out visual KV; protection beats extra shared capacity. (a) Cache composition during the first-turn output under DBTrimKV (B = 256). (b) Follow-up accuracy gains (percentage points) over the same host (61.3%); the dashed line marks the unconstrained full-cache gain.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 235,
+              "image_path": "figures/2611.23769/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 482
+            },
+            {
+              "caption": "Figure 5. On-demand reading versus fixed allocation at matched GPU cache budgets. CharXiv follow-ups with DBTrimKV. Best fixed split: the best text/visual allocation we ran that fits within each budget. 16-bit keys: full-precision GPU candidate keys; prev. query: CPU candidates scored with the previous query.",
+              "figure_id": "figure-5-3",
+              "figure_number": "5",
+              "height": 213,
+              "image_path": "figures/2611.23769/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 420
+            },
+            {
+              "caption": "Figure 4. A follow-up that needs a region the reasoning never used. The first turn asks about the top panel, and the follow-up asks for the x-axis ticks of the bottom panel (blue box). The crops show the visual entries that DBTrimKV still keeps when the follow-up begins and those that ShelfKV reads while answering, at the same GPU memory. Quotes are excerpts from the model outputs.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 123,
+              "image_path": "figures/2611.23769/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 1. Main results. Rows above the 4B block use Qwen3-VL-8B-Thinking; bold marks the best compressed 8B result. GPU cache: KV entries per head, including auxiliary data. CharXiv conversations score turns 2–4; MMDU reports the judge score (1–10). ‡CharXiv values; 320/383 on MMMU-Pro and 296/383 on MMDU.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 684,
+              "image_path": "figures/2611.23769/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 964
+            },
+            {
+              "caption": "Table 4. Decoding memory and latency on an 80 GB A100. Qwen3-VL-8B-Thinking; ShelfKV uses B = 338 on both benchmarks. Decoding peak memory includes model weights; batch sizes are shown in the header. CX/MM: CharXiv/MMMU-Pro. CPU at step start: sketch scoring without background overlap.",
+              "figure_id": "table-4-6",
+              "figure_number": "4",
+              "height": 183,
+              "image_path": "figures/2611.23769/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 471
+            },
+            {
+              "caption": "Table 2. A small host-selected reserve suffices. Accuracy (%) with DBTrimKV at B = 256, except for the shared-budget control. GPU counts equivalent KV entries per head; Nv is the visual token count. Random selection on CharXiv is averaged over three draws.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 284,
+              "image_path": "figures/2611.23769/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 446
+            },
+            {
+              "caption": "Table 3. Ablations. Accuracy (%) on the CharXiv follow-ups and MMMU-Pro. (a) Variants of ShelfKV with 16-bit candidate keys on DBTrimKV at B = 256. (b) Rows in each column use matched GPU memory.",
+              "figure_id": "table-3-7",
+              "figure_number": "3",
+              "height": 284,
+              "image_path": "figures/2611.23769/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 404
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.23769/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.23769",
+          "relevance": 8,
+          "selection_reason": "Protects visual KV from eviction, directly relevant to KV cache efficiency and token eviction.",
+          "summary_status": "generated",
+          "title": "Keep the Reasoning, Read the Image: On-Demand Visual KV for Multi-Turn Reasoning VLMs",
+          "tldr": "ShelfKV preserves visual information during long multi-turn VLM reasoning by swapping relevant image tokens into attention slots on demand, substantially improving accuracy without extra GPU memory.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction",
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Spiking Neural Networks (SNNs) promise event-driven and energy-efficient vision, yet existing spiking vision transformers (S-ViTs) largely confine spiking tokens to fixed and uniform firing schemes along the temporal, spatial and channel dimensions, whereas suppressing the computational redundancy thus incurred calls for adaptive firing mechanisms that operate jointly across all three axes at test time. To this end, we propose the Adaptive Efficient Integrate-and-Fire (AdaE-IF) model, which consults the attention score of each spiking token and routes salient regions to fine-grained firing patterns while assigning energy-frugal coarse patterns to the remaining regions. Building on AdaE-IF, we further introduce Spiking Gated Self-Attention (S-GSA) and Spiking Local-Gated Unit (S-LGU), which enforce selective spike emission at token and channel granularity. We integrate the aforementioned mechanisms and modules into AdaS-ViT, a test-time adaptive-routing architecture trained with a progressive spatio-temporal curriculum that stabilizes the co-adaptation of firing precision and routing masks. Extensive experiments across benchmarks spanning diverse data scales and modalities demonstrate that AdaS-ViT consistently achieves highly competitive performance. Notably, on ImageNet-1k it consumes only 1.02 to 2.45 millijoules per image and attains an accuracy-per-energy ratio of 32$\\times$ to 72$\\times$, operating in an economical inference regime and thereby pushing the energy-efficiency boundary further.",
+          "arxiv_id": "2611.23728",
+          "arxiv_url": "https://arxiv.org/abs/2611.23728",
+          "authors": [
+            "Zecheng Hao, Zihan Huang, Shenghao Xie, Jiyuan Zhang, Zhaofei Yu, Tiejun Huang"
+          ],
+          "bullets": [
+            "Addresses redundant computation from fixed, uniform firing patterns in spiking vision transformers.",
+            "Uses attention-guided AdaE-IF routing to assign fine-grained firing to salient regions and coarse firing elsewhere.",
+            "Adds S-GSA and S-LGU for selective spike emission at token and channel granularity.",
+            "Trains routing and firing precision with a progressive spatio-temporal curriculum.",
+            "On ImageNet-1k, reports 1.02–2.45 mJ per image and a 32×–72× accuracy-per-energy ratio."
+          ],
+          "categories": [
+            "cs.NE",
+            "cs.AI",
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. Architecture of AdaS-ViT. Top: the macro pipeline stacks dual-mode AdaS-Blocks (S-GSA followed by S-LGU or S-FFN) over progressively downsampled token maps. Bottom: data flow of S-GSA, S-LGU and the parameterized S-FFN variants (I)(II) with convolution kernel size k and expansion ratio r.",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 629,
+              "image_path": "figures/2611.23728/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1016
+            },
+            {
+              "caption": "Figure 4. Fine-grained energy breakdown of AdaS-ViT Large on ImageNet-1k. Module-level (a)–(c) and Operator-level (d)–(f) statistics of SOPs and average spike firing rates. For each block, Bar hues identify the module family, the total height of a bar denotes the theoretical SOPs Upper-bound while its dark lower segment denotes the actually incurred SOPs, the curve on the right axis reports the average firing rate.",
+              "figure_id": "figure-4-4",
+              "figure_number": "4",
+              "height": 614,
+              "image_path": "figures/2611.23728/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1027
+            },
+            {
+              "caption": "Figure 1. AdaS-ViT establishes a compelling accuracy-energy frontier for spiking vision transformers. (a) Qualitative comparison of training paradigms over six axes covering training cost and inference behavior: prior paradigms trade these objectives against one another, whereas our test-time adaptive routing maintains a uniformly strong profile across all of them. (b) Quantitative comparison with prior SNN-based works on ImageNet-1k. The horizontal axis denotes top-1 accuracy and the vertical axis reports Ratio AE, i.e., the accuracy delivered per millijoule of inference energy. AdaS-ViT occupies the top-right region alone with the smallest bubble area, indicating markedly higher energy efficiency at a fraction of the parameters of prior art.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 394,
+              "image_path": "figures/2611.23728/figure-003.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 489
+            },
+            {
+              "caption": "Figure 2. AdaE-IF: from uniform to adaptive and efficient spike firing. Top-left: the firing-rate curve of a vanilla IF/LIF neuron is ideally a uniform staircase, yet diverse input current patterns {Ilt} yield divergent firing rates F̃l 1:T for identical average input current Ĩl1:T , which accumulate across layers into conversion error and spatio-temporal gradient inconsistency. Bottom: AdaE-IF maps each spike firing pattern to its bit-granular equivalent, aligning training gradients and enabling precise regulation of Synaptic Operations (SOPs); guided by the attention score of the spiking feature map (Middle), it routes each token to a coarse-grained pattern that preserves energy efficiency, or a fine-grained pattern that enhances representation at only marginal extra cost; jointly scheduled under an ultra-low energy budget (Top-right), the two modes realize test-time adaptive firing precision.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 277,
+              "image_path": "figures/2611.23728/figure-004.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 485
+            },
+            {
+              "caption": "Table 1. Comparison of representative SNN approaches across learning paradigms and network architectures on ImageNet-1k. Here T denotes the inference time-steps, Energy is the estimated inference energy per image, computed following the convention of [54]. Ratio AE quantifies the accuracy delivered per unit of energy cost, where a higher value indicates better energy efficiency.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 657,
+              "image_path": "figures/2611.23728/table-005.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1026
+            },
+            {
+              "caption": "Table 2. Generalization across data scales and modalities: comparison with prior SNN learning methods on static (CIFAR-10, CIFAR100) and neuromorphic (CIFAR10-DVS) benchmarks.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 311,
+              "image_path": "figures/2611.23728/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 975
+            }
+          ],
+          "first_seen_at": "2026-11-18T21:00:00-05:00",
+          "hero_figure": "figures/2611.23728/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.23728",
+          "relevance": 7,
+          "selection_reason": "Test-time adaptive token routing in spiking vision transformers to suppress computational redundancy, fitting efficient AI and test-time adaptation.",
+          "summary_status": "generated",
+          "title": "AdaS-ViT: Test-Time Adaptive Routing for Spiking Vision Transformers with Ultra-High Energy Efficiency",
+          "tldr": "AdaS-ViT adaptively routes spiking tokens across temporal, spatial, and channel dimensions to maintain competitive vision performance with very low inference energy.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-17",
       "paper_count": 9,
       "papers": [
@@ -72859,5 +74315,5 @@
   "schema_version": 1,
   "subtopic_id": "token-pruning-and-eviction",
   "topic_id": "efficient-ai",
-  "total_paper_count": 370
+  "total_paper_count": 378
 }
