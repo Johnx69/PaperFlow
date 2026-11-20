@@ -1,6 +1,385 @@
 {
   "days": [
     {
+      "date": "2026-11-19",
+      "paper_count": 2,
+      "papers": [
+        {
+          "abstract": "In our experiments on long-horizon customer-behavior forecasting, a longer observation window outweighed the observed effects of more data, more capacity and newer architectures. The window is the weeks of history a model sees before the week it forecasts from. Going from an 8- to a 16-week window adds a raw +0.070 to 0.107 log-space $R^2$ in every family at 1M. Matched test cohorts, which score the same customer-weeks at every window, show this raw comparison understates the gain in every family they cover. The direction holds on five public datasets, four spanning over a year (ridge and our transformer on all five). On our internal data, longer windows admit up to 10% more and colder training customers, which matching does not fix. Our design does not separate window length from calendar coverage, because every test anchor (the week a forecast is made from) falls in one eight-week band. On training-period anchors, the weekly ridge probe's gain persists outside the holiday season, keeping about 72% of it. We therefore report a robust positive association with longer windows and do not identify the magnitude of a calendar-independent history effect. Of four internally registered predictions, the only fully blind one failed. An activity-mixture model predicted +0.014 from 24 to 32 weeks; the weekly-aggregate probe returned -0.0004. For the sequence families, the other three levers are about an order of magnitude smaller, bounded and unresolved. Their observed effects are at most 0.006 between the nominal 1M and 10M tiers and 0.0052 among five sequence families at 16 weeks with clocks as built, both single-seed on the full test split, and 0.006 for capacity on three-seed means. These are observed intervals, not equivalence bounds. Our claim is the order-of-magnitude contrast between the window and those bounds. A team building on this class of data should start by lengthening the window.",
+          "arxiv_id": "2611.26521",
+          "arxiv_url": "https://arxiv.org/abs/2611.26521",
+          "authors": [
+            "Tara Sowrirajan, Yanqiao Wang"
+          ],
+          "bullets": [
+            "Doubling the observation window from 8 to 16 weeks added 0.070–0.107 raw log-space R² at the 1M tier across model families.",
+            "The positive association with longer windows held across five public datasets and persisted outside the holiday season, retaining about 72% of the weekly ridge gain.",
+            "Longer windows also admitted up to 10% more and colder training customers on internal data, an effect not removed by cohort matching.",
+            "Observed effects of data, architecture, and capacity were much smaller—at most 0.006, 0.0052, and 0.006 respectively—but these are not equivalence bounds.",
+            "The study’s blind prediction largely failed, and the design cannot separate history length from calendar coverage."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.IR"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: The input window is the lever, across families. Every family scored on the matched cohort climbs +0.086 to +0.104 in log-space R2 from M8 to M16, the plotted GRU and LSTM included at +0.088. At any fixed window, the spread across the plotted sequence architectures under a matched aggregate loss is an order of magnitude smaller than that climb. Among the plotted families trained with squared error, only ridge is meaningfully below the others. Scores use the matched cohort at the 1M tier, the customer-weeks present in each of the M8, M12 and M16 test sets (n=407,338). The three windows share these customer-weeks, so the R2 denominator stays constant. Open markers again flag weaker evidence. Here they extend the transformer curves to M24 on the four-window matched cohort (M8∩M12∩M16∩M24, n=372,778). The cohort changes at that step, so the dotted connectors to M24 do not trace a within-cohort trajectory. GRU and LSTM (dashed) are the recurrent families, retrained under the MSE transformer’s objective and scored on the same matched cohort. At M8/M12/M16 their 3-seed means are GRU 0.5039/0.5580/0.5921 and LSTM 0.5025/0.5565/0.5906, at the fixed training exposure of §4.4. Their full-test-split curves are the conservative counterpart (cf. Figure 4). Transformer matched points are seed-42 evaluations, so they sit slightly off the 3-seed matched means printed in Table 2. At M8–M16, the matched level of each of the 3 seeds lies within 0.0025 of the plotted value on the MSE curve and within 0.0111 on the Huber ladder, whose seed spread is widest at M12 (§2.3). GBM seed SD is ≤ 1.4×10−4. Curves differ in training objective, so level orderings across families are meaningful only among curves that share an objective. GBM optimizes squared error, and its lead over the Huber and pinball transformer curves reflects the objective rather than the model family. The MSE transformer shares that objective and exceeds GBM by +0.008 at M16, a residual family margin (§2.11, Table 11).",
+              "figure_id": "figure-2-10",
+              "figure_number": "2",
+              "height": 506,
+              "image_path": "figures/2611.26521/figure-001.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 821
+            },
+            {
+              "caption": "Figure 1: The observation window outweighs the observed effects of population scale and model capacity, our counterparts of the data and parameter axes swept by a compute-calibration scaling study that does not vary the window in training [Brüel Gabrielsson, 2026]. Extending the input window M8→M24 moves R2 by +0.111 (left). On our counterparts of those axes, it moves by 0.0025 across training-population tiers 1M→10M at fixed window M16 (center) and by 0.006 across width and depth at fixed window M16 and fixed data (right), both as 3-seed means. Both are observed intervals rather than resolved equivalence bounds. The scale interval sits within seed dispersion. The capacity interval does not, but it is unresolved against its own 0.016 equivalence margin (§6). The raw M24 endpoint carries the composition caveat of Table 2; the matched-cohort window climb is larger still (+0.131, 3-seed, §2.3), so the raw delta is the conservative estimate. Every ladder shares one setup (Huber objective, log-space R2, full test split). Apart from the factor each ladder varies, the only differences are a 100→500-step warmup at d512 with 8 layers (§2.1) and, on the tier ladder, the realized learning-rate schedule (§6). Window length also shifts calendar coverage (§6) and training eligibility (§4.1). Filled markers: 3-seed means ± population SD; open markers: weaker evidence, here single-seed (seed-42) runs; dashed lines: levels of the shared base configurations. The inset redraws the two M16 ladders on a y span about nine times tighter, column-aligned to the main axis. The M8 capacity replicate sits at its own level and stays on the main axis.",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 496,
+              "image_path": "figures/2611.26521/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 739
+            },
+            {
+              "caption": "Figure 3: The saturating law’s 24-week prediction hits, and the activity-mixture model’s 32-week prediction misses. Both were registered internally. (a) At k=24 the observed 0.4296 lies 0.005 below the saturating prediction and 0.066 below the log-linear one, so both internally registered levels sit above the outcome. The two forms were fit on the three-window matched ladder before any 24-week evaluation and are scored across a cohort shift (both scorings in §4.5). The curve plots the log-space R2 of the weekly-aggregate ridge probe (closed-form, no training seed) against history length k=1..24 weeks. Every point is scored on the single four-window matched cohort (n=372,778) and comes from the M24 extract alone, so no training-extract mismatch enters the curve. On the test calendar it flattens (+0.00009/week at k=22→24), but a single exponential underfits it, with fit RMSE 0.0103 and an asymptote of 0.423, below the observed 0.4296. A mixture of per-decile saturation rates predicts this underfit inside the window, and panel (b) rejects the mixture’s extrapolation past k=24. Inset: the more active the customers, the sooner the curve bends. The top three deciles, 10, 9 and 8, reach the half-saturation point k1/2 of their saturating fits (circles) at 3.9, 5.2 and 10.0 weeks. In the fits, deciles 6–7 bend beyond the window (k1/2 of 27.1 and 24.7 weeks), and the bottom five are still climbing at the window’s edge. This is a claim about curve shape, not level, and it rests on the fitted parameters in §2.6. Curves show per-decile refit R2(k), k=1..16, from the M16 extract on the same matched cohort, shaded by prior-activity decile. Each (decile, k) pair has one ridge fit, evaluated on that decile’s test rows. All ten deciles are fitted, but only deciles 1, 5, 8, 9 and 10 are drawn, because the lower eight lie within 0.051 of one another at k=16 and their strokes would overlap. (b) The 32-week miss, drawn against the falsification region of the internally registered extension. This panel uses a separate M32 extract, scored on the matched-cohort rows that also fall in the M32 test split (94.2% coverage, n=351,174). Its level differs from panel (a) by −0.033, an offset between extracts in which the M32 training data and the scored rows change together. The internally registered quantity is therefore the gain within this extract, ∆(24→32), anchored at the observed k=24 point. The activity-mixture model predicted ∆=+0.0142 [0.0126, 0.0231], the internally registered band and the only interval that panel (b) draws. Its lower endpoint is the calibrated and its upper endpoint the raw 90% bootstrap bound, so it is not a single 90% interval. The flat-tail null is ≤ +0.001. The observed gain is ∆=−0.0004, with 95% CI [−0.0014,+0.0004] from the paired customer-clustered bootstrap on the same extract and rows. This observed interval reflects row-sampling uncertainty at the three test anchors, not variation across calendar anchors (§2.3). The curve enters the flat-tail null, and the observed interval excludes the entire internally registered range (discriminating threshold 0.007). The mechanism check fails in the same direction. The three lowest deciles show a mean within-decile gain of 0.018, against a predicted 0.045–0.059.",
+              "figure_id": "figure-3-17",
+              "figure_number": "3",
+              "height": 575,
+              "image_path": "figures/2611.26521/figure-003.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 551
+            },
+            {
+              "caption": "Figure 4: Through 16 weeks, cohort composition makes raw deltas understate the window effect. Full-test-split vs. matched-cohort window deltas in log-space R2 (transformer, Huber, seed 42) at 1M and 10M. At both scales the matched delta exceeds the full-set delta for every window contrast (e.g. ∆(M16−M8) +0.094 matched vs. +0.075 full at 10M). The gap arises because longer windows admit colder, less active customers, which changes both the error and the target variance in R2. Here the net effect is that raw deltas between these windows understate the window gain measured on a fixed population. The matched delta scores both windows on that fixed population, so it is unaffected by shifts in test composition. Bars are point estimates. Within seed 42, customer-clustered paired bootstrap intervals on the matched 10M deltas are tight.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 378,
+              "image_path": "figures/2611.26521/figure-004.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 591
+            },
+            {
+              "caption": "Figure 5: In log space, structured physical-time positional encoding beats RoPE as implemented and stacks almost additively with the MSE objective. M16-1M configurations, log-space R2 on the full test split (not the matched cohort of Table 2); bars are 3-seed means and dots are individual seeds {42, 123, 456}, including the stacked configuration (0.6060±0.0006). Under the Huber objective, MS-RoPE’s semantic frequency bands beat RoPE (+0.021) and sit above the unconstrained learnable control (§2.10) on means (+0.009, inside the control’s seed-to-seed variation). Stacked on the MSE objective, the two gains are nearly orthogonal (0.6060 observed vs. 0.6083 fully-additive, 96% of the additive gain, 3-seed), giving the best log-space M16 result on the primary dataset. The same stack at M24 reaches 0.6419±0.0024 (3-seed). The y-axis starts at 0.50 (break marked); bar labels carry the values.",
+              "figure_id": "figure-5-8",
+              "figure_number": "5",
+              "height": 413,
+              "image_path": "figures/2611.26521/figure-005.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 591
+            },
+            {
+              "caption": "Table 3: Observed change in log-space R2 per lever, one factor at a time: point contrasts at the recipes tested, not equivalence bounds (transformer rows: rotary encoding as implemented, §E.3). Window rows also move calendar coverage (§6) and training eligibility (§4.1). Population-tier rows compare customer-disjoint tiers, so they bound cohort and size together, not size alone. The ≈54× capacity contrast’s sign does not reproduce in a corrected re-run on a different build (+0.0004, three seeds per model; §2.1), so its sign is unresolved. The four baseline families of the three-seed architecture row did not share a peak learning rate (§6). The time-representation row and both architecture rows are scored on the full test split.",
+              "figure_id": "table-3-14",
+              "figure_number": "3",
+              "height": 245,
+              "image_path": "figures/2611.26521/table-006.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 794
+            },
+            {
+              "caption": "Table 7: Architecture is second-order at matched objective: loss- and budget-equalized retraining at 1M, MSE objective, log-space R2 on the full test split (3-seed means; columns are M8/M12/M16). Own budget is each recurrent family’s original training budget (batch 128, single process, 10 epochs, fixed cached draw); transformer budget is the transformer’s (8,192-effective batch, 20 epochs, nearfull stream). Seed SDs are ≤0.0011 (transformer; recurrent, own budget) and ≤0.0002 (recurrent, transformer budget).",
+              "figure_id": "table-7-7",
+              "figure_number": "7",
+              "height": 434,
+              "image_path": "figures/2611.26521/table-007.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 832
+            },
+            {
+              "caption": "Table 1: Of the four internally registered commitments, only the fully blind one, the mixture tail (iii), missed. The other three are hits under the qualifications in the notes below. Each prediction and its falsifier were committed before the deciding evaluation ran. The last column states what was already known at commit time, since the commitments are not equally blind. Two of the predictions, (ii) and (iv), are mechanical curve fits to already-measured points with no free parameter choices. Of the other two, (i) is a threshold and (iii) is a per-decile extrapolation with a calibration window pinned in advance. What each registration adds is the discriminating criterion, fixed in advance (§4.5). †Commitment (ii) is a hit on levels, scored across a cohort shift. Scored on the gain instead, the observation sits between the two predictions, nearer the saturating one; we report both scorings (observed gain +0.015 vs. saturating −0.008 / log-linear +0.053; each predicted gain is that form’s R2(24) less the fit cohort’s k=16 level, 0.4426, so the negative saturating value is the fit sitting below that point, not a predicted decline; §4.5). The two forms were also nearly tied on the data they were fit to, and the losing one was already strained by the curvature within the fit range, so this row tests whether the better in-sample form extrapolates rather than adjudicating two live hypotheses (§4.5). ‡Commitment (iv) is scored as committed; the deciding measurement is single-seed and carries a training-extract confound: an unmeasured transformer-side offset like the −0.033 observed on the ridge sub-ladder would put the observation near the log-linear prediction (§2.5). §The observed intervals in this table are row-sampling uncertainty at the three test anchors, not intervals over calendar anchors: the anchors sit in one eight-week band with almost entirely coinciding forward label windows, so the calendar direction carries close to a single effective draw and the bootstrap does not resample it. Measured anchor by anchor on the Huber objective, the same eight-week extension is large at the earliest anchor and worth approximately nothing at the latest. That spread is wider than this row’s interval, which does not cover it. Those per-anchor figures come from a control that is void under its own criterion and are reported only as diagnostics (§1).",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 503,
+              "image_path": "figures/2611.26521/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 819
+            },
+            {
+              "caption": "Table 11: The transformer beats both of our tabular baselines at matched objective, and adding MS-RoPE widens its lead. M16, 1M, matched cohort (n=407,338), log-space R2. Every row’s aggregate loss is squared error on the log target (transformer rows add the auxiliary per-event term). Sequence models see raw event streams; GBM and ridge see six aggregate features. GBM (3-seed SD ≤1.4×10−4) is fit and scored by separate code that reproduces the full-split ridge results of Table 4 to within ∼10−5. ‡matched-cohort value scored from the per-row predictions, 3-seed mean ± population SD (full-test-split 0.6060±0.0006, 3-seed); the Transformer (MSE) row is likewise 3-seed; the GBM row is seed 42 (its 3-seed mean matches at display precision); the ridge row is deterministic. The stacked configuration is the only transformer configuration whose matched R2 sits marginally below its full-split value at every seed, so the full-split value is not a conservative proxy for it, and we score it on the matched cohort directly.",
+              "figure_id": "table-11-2",
+              "figure_number": "11",
+              "height": 718,
+              "image_path": "figures/2611.26521/table-009.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 835
+            },
+            {
+              "caption": "Table 5: The window lever in every baseline family: ∆(M16−M8) log-space R2 at 1M, full test split unless marked matched. Transformer deltas are in Table 2 (+0.0701–+0.0800, 3-seed, by objective). Seeds and objectives as flagged in the text: recurrent and continuous-time rows are seed-42 runs under the Huber recipe; GBM is a 3-seed fit; the linear rows are deterministic. The two continuous-time rows (ContiFormer, then Neural Hawkes) are simplified stand-ins rather than the published models, and ran with an inter-event interval of identically zero (§E.5).",
+              "figure_id": "table-5-12",
+              "figure_number": "5",
+              "height": 234,
+              "image_path": "figures/2611.26521/table-010.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 786
+            },
+            {
+              "caption": "Table 12: Taobao window results on the end-anchored extracts: matched cohort (n=6,985 users in all three extracts’ test splits), log-space R2 on the log(1+y) target. Every window predicts the same two-day target, a purchase count that is 69% zero, so absolute levels sit near zero (a negative value is below the cohort-mean predictor) and only the direction across windows is interpreted. Ridge is one deterministic fit per window; each transformer entry is one training seed. ∆(D7−D3) is paired by user, with 95% intervals from a user-level paired bootstrap (B=1000) with the fitted models held fixed. †Training collapsed to the constant-zero predictor from the first epoch: not a level, and left out of the D5 mean, which is over two seeds. ‡Including replacement seeds for the collapsed runs: 5 of 13 with replacements; 4 of the first nine, as in the text. The MSE rows are the nine internally registered runs. The Huber results are used only through their contrasts: the paired one uses seed 456, the only seed whose D3 and D7 runs both trained without collapse; the unpaired one compares means over non-collapsed seeds (three seeds at D7, two at D3). Huber levels are not compared with MSE levels, and no level here is compared with the primary dataset.",
+              "figure_id": "table-12-16",
+              "figure_number": "12",
+              "height": 280,
+              "image_path": "figures/2611.26521/table-011.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 806
+            },
+            {
+              "caption": "Table 2: From M8 to M16, the transformer’s log-space R2 climbs under all three training objectives. The climb is larger on the matched cohort than on the full split. Input-window sweep at the 1M tier, scored on the full test split (raw rows) and on the matched cohort (fixed population; §2.3). Transformer full rows are 3-seed mean ± population SD. The MSE and Huber matched M8–M16 cells are 3-seed mean ± population SD; the pinball matched row, the matched M24 entries (fourwindow cohort), and the matched ∆(M16−M8) column are the seed-42 paired evaluations († on the MSE and Huber rows; clustered CIs in §2.3); the matched ∆ column is that seed-42 pairing and need not equal the difference of the printed 3-seed cells, while the full-row ∆ values are 3-seed paired means. Raw M24 cells are denominator-inflated by cohort composition and are not comparable to the M16 column (see text); the matched rows are the like-for-like comparison. Their M8–M16 cells sit on the three-window cohort (n=407,338 customer-weeks), not the four-window cohort the matched M24 entries use (n=372,778): no ∆ in this table crosses that cohort change, and re-scoring the seed-42 M8–M16 models on the four-window cohort moves those levels by ≤0.0004 and ∆(M16−M8) by ≤0.0002. Train-side eligibility. The longer-window models also train on a modestly larger and colder eligible population (up to 10% more customers, §4.1). Matching fixes test composition but not this, so every window contrast here is “window as extracted” (§6).",
+              "figure_id": "table-2-15",
+              "figure_number": "2",
+              "height": 185,
+              "image_path": "figures/2611.26521/table-012.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 814
+            },
+            {
+              "caption": "Table 4: Matched-cohort evaluation of the linear model (6-feature ridge, 1M): full-test-set vs. matched R2 with the constant-denominator MSE column (log-target space). The matched climb exceeds the raw climb.",
+              "figure_id": "table-4-6",
+              "figure_number": "4",
+              "height": 111,
+              "image_path": "figures/2611.26521/table-013.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 486
+            },
+            {
+              "caption": "Table 15: The paper’s transformer on three public datasets. On each dataset, read on its own, the transformer gains from 16 weeks of history over 8 too. Gain = out-of-fold R2 with a 16-week history minus with an 8-week one, in log space, over all rows, each scored by the model whose test fold holds it; the mean over 5 seeds. Seed interval: t on the 5 per-seed gains (4 df). Scoring interval: a customer bootstrap with the models held fixed, 999 draws, the same draws for both windows and every seed. The intervals cover seed noise and the noise of scoring these rows, not the choice of folds. Datasets: Online Retail II, a UK online gift retailer with many wholesale buyers, 2009 to 2011; The Complete Journey, a grocer’s 2,500-household panel over about two years, with no calendar dates; CDNOW, one quarter’s new customers of an online music store, with every purchase they made over 18 months. Rows are the ridge probes’: one per customer and anchor with at least one purchase in the 56 days before the anchor, cross-fit by customer over the ridge probes’ five folds. Earlier anchors’ targets overlap later anchors’ inputs in calendar time, so this is not out-of-time validation. Target: spend over the 364 days from the anchor, as log(1 + max(0, ·)). Model: the paper’s d128, 2-layer transformer and loss, with batch and warmup scaled to these sizes and the learning rate left at 5×10−4, untuned (it was set at a batch of 8,192). It sees each line’s quantity, price and spend and its place in the sequence, oldest first, with no date and no item or category; the paper’s recipe reads no calendar or timing feature on the main data either. So the longer window adds older lines, in order, without their dates. On Online Retail II, cancellations enter as lines with negative quantity. On CDNOW every customer joined in the first quarter of 1997, and for 31% of rows the 16-week history reaches back to the first purchase, which to a model with no dates looks like a shorter sequence, as a light buyer’s does. On 3 of the 15 folds the learning-rate schedule was sized for 0.7% to 5.6% more steps per epoch than ran, so it ends at about 1.0% to 1.75% of its peak rather than at 1%, and one fold’s warmup is 76 steps, not 72. Each dataset is used under its own terms (CC BY 4.0 for Online Retail II; The Complete Journey and CDNOW used as released, with no modification or redistribution), and only aggregate results are reported.",
+              "figure_id": "table-15-20",
+              "figure_number": "15",
+              "height": 224,
+              "image_path": "figures/2611.26521/table-014.webp",
+              "kind": "table",
+              "page": 63,
+              "width": 752
+            },
+            {
+              "caption": "Table 14: Per-family parameter counts, read from the trained checkpoints (M16-1M runs) as sums over state-dict entries. A module shared across layers, such as the rotary encoding, contributes once for the model and once per layer that references it. The MS-RoPE row’s +36 is therefore 3 × 12 state-dict entries that hold only 8 added trainable parameters (§E.3). Tabular models are listed by their fitted degrees of freedom.",
+              "figure_id": "table-14-18",
+              "figure_number": "14",
+              "height": 256,
+              "image_path": "figures/2611.26521/table-015.webp",
+              "kind": "table",
+              "page": 37,
+              "width": 468
+            },
+            {
+              "caption": "Table 8: The closure ladder: linear corrections close under a third of the objective gap, and a validation-fit monotone map closes most of it. Same test rows for every model (all models are M161M, n=480,673), seed 42, log-space R2. Best offset is the additive constant c=mean(y)−mean(ŷ); best affine is the maximum over all aŷ+b, which in closed form is Pearson r2(ŷ, y); isotonic is the validation-fit monotone map. The two linear corrections are fit on test, so they are flattered and give an upper bound on what a linear map can gain for each model. The isotonic correction is fit on validation.",
+              "figure_id": "table-8-19",
+              "figure_number": "8",
+              "height": 131,
+              "image_path": "figures/2611.26521/table-016.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 706
+            },
+            {
+              "caption": "Table 9: Each objective puts its point prediction at a different place on the scale. The columns compare raw test predictions with the target’s own mean and median in log(1+y) space, nine models printed as seed 42/123/456. The ordering is strict MSE < Huber < pinball on both columns for 9 of 9 models, and the three per-objective ranges do not overlap on either column. Mean-bias ranges are MSE [0.0894, 0.1185], Huber [0.2692, 0.2880] and pinball [0.3184, 0.3648]. Median-bias ranges are MSE [−0.2081,−0.1782], Huber [−0.0795,−0.0646] and pinball [−0.0181,+0.0026]. This table locates each model on the scale; it does not measure how well the model orders customers.",
+              "figure_id": "table-9-3",
+              "figure_number": "9",
+              "height": 110,
+              "image_path": "figures/2611.26521/table-017.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 772
+            },
+            {
+              "caption": "Table 13: The fixed training recipe. One recipe serves every transformer run except the recipe-transfer runs (§E.1), the 1,500-event-cap pair (§6), the runs on the corrected-schedule build (§2.1), the corrected-input runs (§4.4), and the public-dataset runs, whose changes are stated with them (§B).",
+              "figure_id": "table-13-11",
+              "figure_number": "13",
+              "height": 1234,
+              "image_path": "figures/2611.26521/table-018.webp",
+              "kind": "table",
+              "page": 36,
+              "width": 806
+            },
+            {
+              "caption": "Table 6: Each 10M-tier transformer entry sits within 0.006 of its 1M counterpart, while the ridge level dips below its 1M counterpart at every window. Ridge is the exception among the two families in this table, which are also the two whose training set grows with the tier (see text). Window ladders, log-space R2 on the full test split (seed 42). The ridge M16-10M and M24-10M values were recomputed separately (footnote in text).",
+              "figure_id": "table-6-13",
+              "figure_number": "6",
+              "height": 89,
+              "image_path": "figures/2611.26521/table-019.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 498
+            },
+            {
+              "caption": "Table 10: Structured physical-time bands beat the integer-position baseline as implemented and sit above the unconstrained learnable control on 3-seed means. The margin over the control sits within the control’s own seed spread, so that ordering is not seed-resolvable. Time-representation sweep at M16, 1M, Huber objective, log-space R2 on the full test split, with 3 seeds per variant on the same code build. Positional encoding is the only factor varied. All ± are population SD, and the ∆ column is the mean of paired per-seed deltas ± population SD.",
+              "figure_id": "table-10-9",
+              "figure_number": "10",
+              "height": 112,
+              "image_path": "figures/2611.26521/table-020.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 656
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.26521/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.26521",
+          "relevance": 7,
+          "selection_reason": "Empirically demonstrates that longer observation windows significantly outperform increases in data, capacity, and architecture in customer behavior forecasting, highlighting the importance of long-context modeling.",
+          "summary_status": "generated",
+          "title": "The Window Lever: Longer Observation Windows Outweigh the Observed Effects of Data, Capacity, and Architecture in Customer Behavior Forecasting",
+          "tldr": "For long-horizon customer-behavior forecasting, extending the history window appears far more influential than adding data, model capacity, or newer architectures, though calendar coverage prevents isolating the window’s causal effect.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Large language models (LLMs) increasingly need to process long documents and codebases, making long-context attention a major prefill bottleneck. Block sparse attention reduces computation by skipping unimportant blocks of the attention matrix, but scoring blocks accurately can itself be expensive. We propose Delta-Based Tile Scoring (DTS), a training-free, content-adaptive tile scoring method for sparse block attention. DTS selects query and key anchors according to local vector changes, using fewer representatives in redundant regions while retaining more detail in heterogeneous regions. To accelerate anchor selection, parallel delta packing partitions the query and key sequences into tile-aligned chunks and performs bounded local scans over these chunks concurrently. The selected tiles are then computed using the original query, key, and value vectors. On LLaMA-3.1-8B-Instruct, DTS keeps average RULER and LongBench scores within 0.10 percentage points of full attention, with RULER evaluated up to 128K tokens. At 128K tokens, DTS reduces measured scoring-pipeline latency by 38% compared with XAttention. On four NVIDIA H100 GPUs, it achieves a 3.3$\\times$ prefill speedup over a PyTorch full-attention baseline using FlashAttention-2 at 512K tokens.",
+          "arxiv_id": "2611.25938",
+          "arxiv_url": "https://arxiv.org/abs/2611.25938",
+          "authors": [
+            "Emre U\\u{g}ur, Jiawen Qi, Qinyu Chen"
+          ],
+          "bullets": [
+            "Addresses the prefill bottleneck of long-context attention, where accurately scoring skippable blocks can be costly.",
+            "Uses training-free, content-adaptive delta scoring with fewer anchors in redundant regions and more in heterogeneous ones.",
+            "Accelerates scoring through parallel, tile-aligned local scans, then computes selected tiles with the original vectors.",
+            "Maintains average RULER and LongBench scores within 0.10 percentage points of full attention, including RULER up to 128K tokens.",
+            "Reports 38% lower scoring-pipeline latency than XAttention at 128K tokens and 3.3× prefill speedup over a FlashAttention-2 PyTorch baseline at 512K tokens on four H100 GPUs."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 2: Mean cosine similarity of neighboring query (Q) and key (K) vectors in natural and shuffled order across context lengths. Results average all layers and heads over 50 PG-19 books and 50 WikiText-103 windows per model.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 300,
+              "image_path": "figures/2611.25938/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 500
+            },
+            {
+              "caption": "Fig. 4: Prefill efficiency and accuracy. (a)–(b) Prefill speedup relative to full attention across context lengths, measured using WikiText-103. (c)–(d) RULER accuracy versus prefill latency at 128K, measured on RULER, for LLaMA and Qwen, 100% corresponds to 17.33 s and 13.82 s, respectively.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 275,
+              "image_path": "figures/2611.25938/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1044
+            },
+            {
+              "caption": "Fig. 3: DTS workflow. Parallel delta packing selects query and key anchors. Their causal scores are summed by original tile indices to guide tile selection. Sparse attention uses the original Q,K, V .",
+              "figure_id": "figure-3-7",
+              "figure_number": "3",
+              "height": 293,
+              "image_path": "figures/2611.25938/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 513
+            },
+            {
+              "caption": "Fig. 1: Comparison of XAttention [8] and DTS. (a) XAttention samples strided antidiagonals at a fixed density. (b) DTS selects query and key anchors based on local vector changes, reducing redundant scoring in similar regions.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 44,
+              "image_path": "figures/2611.25938/figure-004.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 464
+            },
+            {
+              "caption": "TABLE III: Scoring-pipeline cost comparison between XAttention (s = 16) and DTS (τ = 0.72) on LLaMA-3.18B-Instruct. The scoring pipeline includes all stages required to construct the sparse tile mask and excludes block-sparse attention. Times are summed over all 32 layers.",
+              "figure_id": "table-III-8",
+              "figure_number": "III",
+              "height": 196,
+              "image_path": "figures/2611.25938/table-005.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 529
+            },
+            {
+              "caption": "TABLE I: RULER accuracy (%) comparing delta-based tile scoring against baseline and block-sparse methods on LLaMA-3.1 8B Instruct and Qwen2.5-7B-Instruct-1M. Best and second-best scores are shown in bold and underlined.",
+              "figure_id": "table-I-6",
+              "figure_number": "I",
+              "height": 347,
+              "image_path": "figures/2611.25938/table-006.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 529
+            },
+            {
+              "caption": "TABLE II: LongBench scores on LLaMA-3.1 8B Instruct and Qwen2.5-7B-Instruct-1M. NQA = NarrativeQA, Qas = Qasper, MFQ = MultifieldQA-en, HotP = HotpotQA, 2Wiki = 2WikiMultiHopQA, Mus = MuSiQue, GovR = GovReport, QMS = QMSum, MNews = MultiNews, TREC = TREC, TQA = TriviaQA, SAM = SAMSum, PCnt = PassageCount, PassR = PassageRetrieval-en, LCC = LCC, and RepoB = RepoBench-P. Best and second-best scores are shown in bold and underlined.",
+              "figure_id": "table-II-9",
+              "figure_number": "II",
+              "height": 324,
+              "image_path": "figures/2611.25938/table-007.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE V: Effect of parallel delta packing on LLaMA-3.18B-Instruct at τ = 0.72. Packing only measures delta packing, whereas the DTS attention pipeline includes delta packing, tile scoring, tile selection, and block-sparse attention. The sequential and parallel implementations differ only in the chunk-scan schedule. All times cover the 32 attention layers. Timings are profiled independently of Table IV.",
+              "figure_id": "table-V-4",
+              "figure_number": "V",
+              "height": 137,
+              "image_path": "figures/2611.25938/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 492
+            },
+            {
+              "caption": "TABLE IV: Cosine-threshold sweep on LLaMA-3.1-8BInstruct. Latency results are measured at 128K.",
+              "figure_id": "table-IV-3",
+              "figure_number": "IV",
+              "height": 173,
+              "image_path": "figures/2611.25938/table-009.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 529
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.25938/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.25938",
+          "relevance": 8,
+          "selection_reason": "Training-free sparse block attention scoring for long-context LLMs; directly targets efficient attention and long-context processing.",
+          "summary_status": "generated",
+          "title": "DTS: Delta-Based Tile Scoring for Efficient Long-Context Sparse Attention",
+          "tldr": "DTS enables efficient long-context sparse attention by scoring tiles from local vector changes while preserving near-full-attention quality.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-18",
       "paper_count": 2,
       "papers": [
@@ -34357,5 +34736,5 @@
   "schema_version": 1,
   "subtopic_id": "long-context-models",
   "topic_id": "language-foundation-models",
-  "total_paper_count": 154
+  "total_paper_count": 156
 }

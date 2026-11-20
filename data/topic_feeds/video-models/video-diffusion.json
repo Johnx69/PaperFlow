@@ -1,6 +1,2252 @@
 {
   "days": [
     {
+      "date": "2026-11-19",
+      "paper_count": 15,
+      "papers": [
+        {
+          "abstract": "Diffusion distillation accelerates image and video generation by compressing a pretrained teacher's iterative sampling process into a few network evaluations. Distribution-based methods achieve this by matching the student's output distribution to the teacher's. This matching is often driven by reverse-KL objectives, whose mode-seeking bias favors dominant teacher modes at the expense of diversity across samples. We introduce Posterior Matching Distillation (PMD), a new member of the distribution-based distillation family that combines mode-covering posterior sampling with any-step generation. At zero population loss, PMD recovers the teacher's full posterior of clean images at each trained noise level. Its stochastic student supports any-step sampling budgets within the trained timestep grid without further training. To learn these posteriors, PMD matches exponentially reweighted averages of student samples conditioned on a fixed noisy state to corresponding teacher posterior means. Under Gaussian corruption, exponentially tilted posterior mean is a single teacher evaluation at a shifted input. We prove that, matching tilted means over an open neighborhood uniquely identifies the full posterior. PMD thus supervises the entire conditional distribution through a family of mean constraints, without any auxiliary student-score network. Experiments on SDXL and FLUX.2 [klein] 4B demonstrate that PMD achieves the best FID among 4-step methods on both models, while maintaining competitive or leading performance across prompt-alignment and perceptual-quality metrics.",
+          "arxiv_id": "2611.26629",
+          "arxiv_url": "https://arxiv.org/abs/2611.26629",
+          "authors": [
+            "Hidir Yesiltepe, Julius Berner, Arash Vahdat, Pinar Yanardag"
+          ],
+          "bullets": [
+            "Addresses reverse-KL distillation’s mode-seeking bias and resulting loss of sample diversity.",
+            "Uses exponentially reweighted student samples to match teacher posterior means at shifted noisy inputs.",
+            "Under Gaussian corruption, matching these means over an open neighborhood uniquely identifies the full posterior.",
+            "The stochastic student supports any-step sampling budgets within the trained timestep grid without retraining.",
+            "On SDXL and FLUX.2 4B, PMD achieves the best FID among 4-step methods while remaining competitive on alignment and perceptual-quality metrics."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4. PMD Training Framework. A noisy state zt is obtained through the student’s on-policy sampling process. The frozen teacher is evaluated at the shifted input zt + ρtλ, yielding the tilted posterior mean Tλ = Dt(zt + ρtλ, t). Conditioned on the same zt, the stochastic student generates multiple clean-image predictions using independent random inputs. These predictions are combined into an exponentially weighted mean, which is compared with the teacher target Tλ. PMD minimizes the resulting posterior-matching discrepancy through the loss LPMD, encouraging the student to recover the teacher’s conditional posterior distribution.",
+              "figure_id": "figure-4-24",
+              "figure_number": "4",
+              "height": 476,
+              "image_path": "figures/2611.26629/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1034
+            },
+            {
+              "caption": "Figure 5. Qualitative Comparison and Any-Step Generation. PMD demonstrates greater conditional diversity than RTDMD [22] on FLUX.2 [klein] 4B (cat) and DMD2 [61] on SDXL (woman). The bottom row shows diverse PMD samples generated with both four and two sampling steps using the same model, without retraining.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 563,
+              "image_path": "figures/2611.26629/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1034
+            },
+            {
+              "caption": "Figure 6. Ablation on the Number of Student Draws. Diversity scores during four-step PMD distillation of FLUX.2 [klein] 4B, using 4, 8, or 16 independent student draws per noisy input. We evaluate sample diversity using DINOv2, DreamSim, Vendi, and LPIPS.",
+              "figure_id": "figure-6-14",
+              "figure_number": "6",
+              "height": 310,
+              "image_path": "figures/2611.26629/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1024
+            },
+            {
+              "caption": "Figure 7. User Study for FLUX.2 [klein] 4B four-step models.",
+              "figure_id": "figure-7-15",
+              "figure_number": "7",
+              "height": 241,
+              "image_path": "figures/2611.26629/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Figure 9. Tilt selection ablation. Comparison of isotropic and coarse spatially correlated tilt directions in SDXL latent space. Four independent tilts are applied to the same noisy latent, each producing a separate teacher target.",
+              "figure_id": "figure-9-4",
+              "figure_number": "9",
+              "height": 512,
+              "image_path": "figures/2611.26629/figure-005.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 10. User Study Form.",
+              "figure_id": "figure-10-10",
+              "figure_number": "10",
+              "height": 658,
+              "image_path": "figures/2611.26629/figure-006.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 3. Exponential Tilting of the Teacher Posterior. Starting from the original teacher posterior q(x | zt), exponential reweighting by exp(λ⊤x) changes the relative prominence of its modes. Under Gaussian corruption, each tilted posterior is equivalent to the posterior at a shifted noisy state, qλ(x | zt) = q(x | zt + ρtλ). Varying λ over an open neighborhood Br emphasizes different modes, producing a family of tilted means that uniquely characterizes the original posterior.",
+              "figure_id": "figure-3-17",
+              "figure_number": "3",
+              "height": 251,
+              "image_path": "figures/2611.26629/figure-007.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1008
+            },
+            {
+              "caption": "Figure 2. Tilt=Shift Identity. (Left) Estimating a tilted posterior mean requires multiple stochastic reverse-diffusion trajectories from the same noisy state, followed by exponential reweighting of the resulting clean samples. (Right) Under Gaussian corruption, the same mean is obtained with a single frozen-teacher evaluation at a shifted noisy input.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 247,
+              "image_path": "figures/2611.26629/figure-008.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 478
+            },
+            {
+              "caption": "Figure 8. Ablation on Tilt Selection.",
+              "figure_id": "figure-8-13",
+              "figure_number": "8",
+              "height": 190,
+              "image_path": "figures/2611.26629/figure-009.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 476
+            },
+            {
+              "caption": "Figure 11. User Study for FLUX.2 [klein] 4B four-step models.",
+              "figure_id": "figure-11-11",
+              "figure_number": "11",
+              "height": 253,
+              "image_path": "figures/2611.26629/figure-010.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 1006
+            },
+            {
+              "caption": "Figure 12. Diversity and visual quality comparison on Wan 2.1 1.3B. Four-step generation results for the prompt “A woman in a street” across three noise seeds. DMD2 and AnyFlow produce visually similar facial structures and appearances across different seeds, indicating limited generative diversity, while rCM exhibits substantial degradation in visual quality. In contrast, our Posterior Matching Distillation (PMD) generates diverse facial identities, poses, clothing, and street backgrounds while maintaining high visual fidelity and prompt alignment. These results highlight PMD’s ability to preserve sample diversity and generation quality under the same four-step sampling budget.",
+              "figure_id": "figure-12-22",
+              "figure_number": "12",
+              "height": 422,
+              "image_path": "figures/2611.26629/figure-011.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 1020
+            },
+            {
+              "caption": "Figure 13. FLUX.2 [klein] 4B 4-step generation results for the prompt \"A cat in the house\" with seeds 50-65.",
+              "figure_id": "figure-13-1",
+              "figure_number": "13",
+              "height": 1035,
+              "image_path": "figures/2611.26629/figure-012.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 18. FLUX.2 [klein] 4B 4-step generation results for the prompt \"Surreal POV selfie shot from a cute baby cat with a parachute during a skydiving adventure. The breathtaking aerial perspective shows a alpine landscape. The cute baby cat fur ripples chaotically in the extreme wind, and its wide-open mouth reveals an expression of both exhilaration and absurdity. its lips and cheeks flutter wildly as the intense winds distort its face in humorous, exaggerated ways.\" with seeds 50-74.",
+              "figure_id": "figure-18-5",
+              "figure_number": "18",
+              "height": 1036,
+              "image_path": "figures/2611.26629/figure-013.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 14. FLUX.2 [klein] 4B 4-step generation results for the prompt \"A dog in the park\" with seeds 50-65.",
+              "figure_id": "figure-14-2",
+              "figure_number": "14",
+              "height": 1035,
+              "image_path": "figures/2611.26629/figure-014.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 15. FLUX.2 [klein] 4B 4-step generation results for the prompt \"Scary chaotic scribbles of a nightmarish drawing of Mike Wazowski, done by a 3 year old on white construction paper\" with seeds 50-74.",
+              "figure_id": "figure-15-20",
+              "figure_number": "15",
+              "height": 1035,
+              "image_path": "figures/2611.26629/figure-015.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 16. FLUX.2 [klein] 4B 4-step generation results for the prompt \"A pretty girl in Tokyo, 80’s\" with seeds 50-65.",
+              "figure_id": "figure-16-12",
+              "figure_number": "16",
+              "height": 1035,
+              "image_path": "figures/2611.26629/figure-016.webp",
+              "kind": "figure",
+              "page": 28,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 17. FLUX.2 [klein] 4B 4-step generation results for the prompt \"Ring camera footage of a food delivery driver\" with seeds 50-65.",
+              "figure_id": "figure-17-9",
+              "figure_number": "17",
+              "height": 1035,
+              "image_path": "figures/2611.26629/figure-017.webp",
+              "kind": "figure",
+              "page": 29,
+              "width": 1036
+            },
+            {
+              "caption": "Table 1. Quantitative Comparison of Image Generation Methods. Performance comparison on SDXL and FLUX.2 [klein] 4B at 1024 × 1024 resolution. HPSv3, PickScore, CLIP-S, and FID are evaluated using 10K prompts from MS-COCO 2014 [29]. Best and second-best results among four-step methods are highlighted in bold and underlined, respectively.",
+              "figure_id": "table-1-8",
+              "figure_number": "1",
+              "height": 551,
+              "image_path": "figures/2611.26629/table-018.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1036
+            },
+            {
+              "caption": "Table 6. Ablation of PMD components. All variants share the same stochastic student architecture. PMD only removes the GAN loss, while GAN only removes the PMD loss. Dark orange indicates the best result and light orange the second-best result for each metric.",
+              "figure_id": "table-6-3",
+              "figure_number": "6",
+              "height": 129,
+              "image_path": "figures/2611.26629/table-019.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 802
+            },
+            {
+              "caption": "Table 2. Diversity comparison on PartiPrompts. Results are averaged over 1,632 prompts with 8 seeds per prompt using 4- steps. Higher values indicate greater diversity across all metrics.",
+              "figure_id": "table-2-16",
+              "figure_number": "2",
+              "height": 367,
+              "image_path": "figures/2611.26629/table-020.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 3. SDXL training hyperparameters. Step Schedule uses the native discrete VP noise labels. Training draws are separate from the eight full generations per prompt used for diversity evaluation.",
+              "figure_id": "table-3-19",
+              "figure_number": "3",
+              "height": 469,
+              "image_path": "figures/2611.26629/table-021.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 1018
+            },
+            {
+              "caption": "Table 4. FLUX.2 [klein] 4B training hyperparameters. The native 1024× 1024 step schedule is reported as 1000t. Training draws are separate from the eight full generations per prompt used for diversity evaluation.",
+              "figure_id": "table-4-18",
+              "figure_number": "4",
+              "height": 468,
+              "image_path": "figures/2611.26629/table-022.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 1018
+            },
+            {
+              "caption": "Table 7. Wan 2.1 1.3B text-to-video generation results. Performance and diversity on VBench using the MovieGenVideoBench prompt set. Diversity is measured using pairwise V-JEPA 2 and VideoMAE V2 feature distances across five generated videos per prompt. Externally reported results are marked with †. Dark orange indicates the best result and light orange the second-best result among four-step methods.",
+              "figure_id": "table-7-21",
+              "figure_number": "7",
+              "height": 243,
+              "image_path": "figures/2611.26629/table-023.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 1048
+            },
+            {
+              "caption": "Table 5. Ablation study on the tilt radius. Tilt radii are uniformly sampled from the specified intervals. Higher Vendi, DreamSim, DINOv2, and LPIPS scores indicate greater sample diversity, while lower FID indicates better generation quality. Darker and lighter orange indicate the best and second-best results, respectively.",
+              "figure_id": "table-5-23",
+              "figure_number": "5",
+              "height": 150,
+              "image_path": "figures/2611.26629/table-024.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 1048
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.26629/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.26629",
+          "relevance": 7,
+          "selection_reason": "Diffusion distillation method supporting any-step generation, relevant to efficient image and video diffusion.",
+          "summary_status": "generated",
+          "title": "Posterior Matching Distillation",
+          "tldr": "Posterior Matching Distillation (PMD) distills diffusion models by matching full teacher posteriors rather than favoring dominant modes, enabling diverse any-step generation in few evaluations.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Reinforcement learning (RL) post-training substantially improves the visual quality, text rendering, and compositional accuracy of diffusion transformers. Because capabilities such as rendering requested text or composing multiple objects are inherently prompt-dependent, a natural hypothesis is that improving them requires learning complex, input-dependent transformations. To isolate how much of these gains an input-independent shift explains, we probe each RL-tuned model with a deliberately simple parameterization: a fixed set of steering vectors added to the block outputs of the frozen base model. On SD3.5-M, these vectors hold 65x fewer parameters than the RL-tuned LoRA (0.29M against 18.8M). We fit them to match the velocity predictions of public RL-tuned checkpoints, with no reward in the objective. Although the vectors are identical for every prompt, token, and sampling seed, they recover 90.0-96.3% of the reward gains of six RL-tuned image models, and 89.8% and 111.9% on two RL-tuned video models. Initialized at zero and trained with online RL, the vectors alone exceed the reward gains of weight-based RL on text rendering (OCR) and human preference (PickScore) on SD3.5-M. A constant shift thus suffices for most of the gain of policy-gradient RL post-training: without new input-dependent transformations, it steers the pretrained generator toward what it can already compute.",
+          "arxiv_id": "2611.26627",
+          "arxiv_url": "https://arxiv.org/abs/2611.26627",
+          "authors": [
+            "Tuna Han Salih Meral, Kaan Oktay, Alec Helbling, Atakan Kara, Duen Horng Chau, Pinar Yanardag"
+          ],
+          "bullets": [
+            "RL improves visual quality, text rendering, and compositional accuracy in diffusion transformers.",
+            "The study adds fixed steering vectors to frozen model block outputs, independent of prompts, tokens, and sampling seeds.",
+            "These vectors use 65× fewer parameters than an RL-tuned LoRA on SD3.5-M.",
+            "They recover 90.0–96.3% of reward gains across six image models and 89.8% and 111.9% across two video models.",
+            "Online RL with only steering vectors surpasses weight-based RL on OCR and PickScore for SD3.5-M."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 5 Steering vectors recover most of the gain of each RL-tuned imagemodel. Each prompt’s images share one starting noise.",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 506,
+              "image_path": "figures/2611.26627/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1015
+            },
+            {
+              "caption": "Figure 2 The steering vectors add the same vector to every token of every prompt. Block ℓ on two text-rendering prompts, with a linear layer W, token inputs zi and zj , and block outputs hi and hj . Base + s adds the same s (black) to every token of both prompts; s changes only with the block, guidance pass, step bin and stream. In the RL-tuned model, the weight change gives each input its own shift, ∆Wzi ̸= ∆Wzj (gray). In block ℓ, s is one vector and ∆W a matrix: on SD3.5-M, all 188 vectors together hold 0.29M parameters, 65× fewer than the RL-tuned LoRA’s 18.8M.",
+              "figure_id": "figure-2-4",
+              "figure_number": "2",
+              "height": 307,
+              "image_path": "figures/2611.26627/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 1 A constant shift of a frozen base model recovers 90.0% to 96.3% of the RL reward gain on six image models. Base + s adds the same steering vectors, sOCR or sPickScore, to the frozen Base SD3.5-M for every prompt, token and seed. Each set (0.29M parameters, against 18.8M in the rank-32 LoRA) is fitted to its RL-tuned model with no reward in the objective. Each triplet shares one prompt and starting noise.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 1052,
+              "image_path": "figures/2611.26627/figure-003.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 1102
+            },
+            {
+              "caption": "Figure 9 Steering vectors and RL reach the image through what image tokens read from text. Share of the gain kept when one route reads the base model’s keys and values, with 95% intervals. Image reads image carries the image stream’s own changes and what image tokens read from text in earlier blocks.",
+              "figure_id": "figure-9-5",
+              "figure_number": "9",
+              "height": 252,
+              "image_path": "figures/2611.26627/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 492
+            },
+            {
+              "caption": "Figure 4 Fitting matches the RL-tuned model’s velocity. The RL-tuned model’s final latent x0 is re-noised to xt, and the loss L trains only s (dashed arrow), with no reward.",
+              "figure_id": "figure-4-6",
+              "figure_number": "4",
+              "height": 132,
+              "image_path": "figures/2611.26627/figure-005.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 442
+            },
+            {
+              "caption": "Figure 3 One steering vector shifts every token of a block output. The drawing shows one stream. The guidance pass p and step bin k select the outlined vector, which is added to every token h.",
+              "figure_id": "figure-3-7",
+              "figure_number": "3",
+              "height": 173,
+              "image_path": "figures/2611.26627/figure-006.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 487
+            },
+            {
+              "caption": "Table 1 Steering vectors recover most of each RL-tuned model’s reward gain. Gains are raw reward points over the base model. Shares are of the RL-tuned model’s gain, with the 95% interval of the sfit share in brackets.",
+              "figure_id": "table-1-8",
+              "figure_number": "1",
+              "height": 296,
+              "image_path": "figures/2611.26627/table-007.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 975
+            },
+            {
+              "caption": "Table 3 RL on the steering vectors alone exceeds the gain of both RL-tuned models. Flow-GRPO trains only the steering vectors sRL of the frozen SD3.5-M, from zero. Shares are of the RL-tuned model’s test-set gain, with 95% intervals, and the sfit rows repeat Tab. 1. Preferred: the steered image’s win rate in pairwise comparisons (wins plus half the ties) over 50 test prompts and 25 raters (Sec. G). All win rates against the base model differ from 50% (p < 0.05, sign test); none against the RL-tuned models do.",
+              "figure_id": "table-3-3",
+              "figure_number": "3",
+              "height": 38,
+              "image_path": "figures/2611.26627/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 487
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.26627/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.26627",
+          "relevance": 6,
+          "selection_reason": "Shows RL post-training in diffusion transformers can be captured by fixed steering vectors, relevant to efficient video diffusion adaptation.",
+          "summary_status": "generated",
+          "title": "RL Post-Training in Diffusion Transformers Is Activation Steering",
+          "tldr": "Fixed activation-steering vectors recover most of diffusion-transformer RL post-training gains, suggesting RL mainly shifts existing capabilities rather than learning complex prompt-dependent transformations.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Current audio-driven video diffusion models can synthesize realistic talking-head videos but generally require dozens of diffusion denoising steps over multi-second video chunks, making them unsuitable for streaming applications such as voice assistants and virtual avatars, where low-latency and online causal generation are required properties. AURA generates video chunk by chunk with a rolling KV cache, requiring only the audio of the current chunk to start generating, rather than a multi-second audio look-ahead like bidirectional models. It comes in two sizes: AURA 1.3B streams 576p video in real time on a single GPU (20.7 fps for a 16 Hz playback rate), making it suited to interactive avatar applications, and AURA 5B streams 720p video at 9.7 fps. Our two-stage distillation pipeline first aligns the causal student with the teacher, by training it to match the teacher's trajectories with fewer diffusion steps and a chunk-wise sliding window causal attention mask, then applies Distribution Matching Distillation (DMD) with backward simulation to close the remaining quality gap. On standard talking-head benchmarks, AURA 1.3B runs 23x faster than its own bidirectional teacher and reaches a quality comparable to TalkVerse at a lower resolution, and AURA 5B matches its TalkVerse teacher at 720p while running 17x faster. To support reproducibility and further research on streaming avatar generation, we release the weights of both models along with a dataset of 30K synthetic videos and their precomputed teacher trajectories.",
+          "arxiv_id": "2611.26540",
+          "arxiv_url": "https://arxiv.org/abs/2611.26540",
+          "authors": [
+            "Nathaniel Cohen, Nicolas Dufour, Am\\'elie Royer, Alasdair Newson, Patrick P\\'erez"
+          ],
+          "bullets": [
+            "Addresses the latency and multi-second audio look-ahead requirements of existing audio-driven video diffusion models.",
+            "Generates video chunk by chunk using only the current audio chunk and a rolling KV cache.",
+            "Uses two-stage distillation: causal teacher-trajectory matching followed by Distribution Matching Distillation with backward simulation.",
+            "AURA 1.3B streams 576p video in real time at 20.7 fps on one GPU; AURA 5B streams 720p at 9.7 fps.",
+            "Released resources include both model weights, 30K synthetic videos, and precomputed teacher trajectories."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 9: Qualitative comparison on the Hallo3 test set. Despite stronger FID/FVD scores (Table 1), Hallo3 generations exhibit recurrent hand artifacts (bottom) that distribution-based metrics fail to penalize. AURA (top) produces cleaner outputs at a fraction of the generation time.",
+              "figure_id": "figure-9-3",
+              "figure_number": "9",
+              "height": 628,
+              "image_path": "figures/2611.26540/figure-001.webp",
+              "kind": "figure",
+              "page": 31,
+              "width": 570
+            },
+            {
+              "caption": "Table 10: Long-form evaluation. AURA 5B and AURA 1.3B (4 steps, fixed KV cache) on the 100 HALLO3 TEST references driven by 60 s of speech; metrics per 10 s segment (FVD: mean of three windows per segment). Warping error in 10−3.",
+              "figure_id": "table-10-2",
+              "figure_number": "10",
+              "height": 310,
+              "image_path": "figures/2611.26540/table-002.webp",
+              "kind": "table",
+              "page": 29,
+              "width": 608
+            },
+            {
+              "caption": "Table 11: Rolling cache window size. Effect of the number n of retained past chunks on quality and speed, on HALLO3 TEST (10 s clips). Enlarging the window from n = 1 to n = 2 slightly improves FVD but degrades JEDi, CSIM, Sync-C and WE, while increasing cache size and reducing throughput. FVD and JEDi are averaged over the three temporal offsets (@0, @101, @109). Best per column in bold.",
+              "figure_id": "table-11-1",
+              "figure_number": "11",
+              "height": 93,
+              "image_path": "figures/2611.26540/table-003.webp",
+              "kind": "table",
+              "page": 29,
+              "width": 662
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.26540/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.26540",
+          "relevance": 8,
+          "selection_reason": "Streaming audio-driven talking-head video generation using diffusion with rolling KV cache; directly fits video diffusion.",
+          "summary_status": "generated",
+          "title": "AURA: AUdio-dRiven streaming Avatar",
+          "tldr": "AURA enables low-latency, causal streaming avatar video generation by distilling diffusion models into chunk-wise generators with rolling KV caches.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Low-dose and thin-slice computed tomography (CT) images suffer from elevated noise that obscures anatomical detail, while clean references for supervised denoising are often unavailable. Although Noise2Noise permits self-supervised training from noisy pairs, direct regression tends to oversmooth fine structure. Averaging multiple independently generated samples mitigates this blur, though repeating multi-step diffusion sampling is costly. We introduce Noise2Noise with Improved Mean Flow (N2N-iMF) to accelerate this process via few-step sampling. N2N-iMF learns to generate one noisy image conditioned on its paired counterpart; at inference, independent outputs are sampled and averaged to suppress noise. We evaluated image quality and sampling efficiency on simulated thin-slice brain and low-dose abdominal CT across four sampling methods and averaging counts from 1 to 20, and validated the approach on real-world photon-counting CT (PCCT) brain scans. With ten samples per conditioning input and three network evaluations per sample, N2N-iMF achieved a mean absolute error of 2.60 HU on brain CT and 14.02 HU on abdominal CT, outperforming 50-evaluation denoising diffusion implicit model (DDIM) sampling (2.91 and 14.53 HU). On the same GPU, per-output generation time dropped from 7.29 to 0.43 s. Across eight PCCT cases, N2N-iMF reached a mean gray-white matter contrast-to-noise ratio of 1.341, versus 0.916 for Noise2Noise and 1.176 for DDIM. N2N-iMF accelerates self-supervised generative CT denoising without distillation while keeping the number of averaged outputs adjustable at inference.",
+          "arxiv_id": "2611.26370",
+          "arxiv_url": "https://arxiv.org/abs/2611.26370",
+          "authors": [
+            "Xingyi Yao, Zhengtao Ma, Zhennong Chen"
+          ],
+          "bullets": [
+            "Addresses noisy low-dose and thin-slice CT when clean reference images are unavailable.",
+            "Trains on paired noisy images and uses Improved Mean Flow to generate denoised candidates with only a few network evaluations.",
+            "Averages independently sampled outputs to suppress noise and preserve fine anatomical structure.",
+            "Using 10 samples and 3 evaluations per sample, it improved MAE over 50-evaluation DDIM and reduced generation time from 7.29 to 0.43 seconds per output.",
+            "On eight real PCCT brain cases, it achieved higher gray-white matter contrast-to-noise ratio than Noise2Noise and DDIM."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Conditional generative denoising framework and sampling comparison at K = 10. Shading marks the few-step regime (NFE ≤ 5).",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 452,
+              "image_path": "figures/2611.26370/figure-001.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 806
+            },
+            {
+              "caption": "Figure 1: Denoising results on simulated abdominal CT (top) and brain CT (bottom). N2N-iMF preserves small vessels in the magnified abdominal region as well as the brain structures indicated by yellow arrows.",
+              "figure_id": "figure-1-6",
+              "figure_number": "1",
+              "height": 298,
+              "image_path": "figures/2611.26370/figure-002.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 810
+            },
+            {
+              "caption": "Figure 4: Denoising results on real-world thin-slice brain PCCT. Yellow arrows highlight cortical sulci, and the bar chart summarizes mean gray–white matter CNR (± SD) across the eight test cases.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 672,
+              "image_path": "figures/2611.26370/figure-003.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 810
+            },
+            {
+              "caption": "Figure 3: Effect of K at NFE = 3 on abdominal CT (n = 3). Points denote means across the three test cases, and dashed lines indicate fitted curves. Representative slices compare FBP, K = 1, 2, 4, 10, and ground truth (GT), with yellow boxes marking the magnified regions.",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 482,
+              "image_path": "figures/2611.26370/figure-004.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 806
+            },
+            {
+              "caption": "Table 1: Main results on brain CT (n = 16) and abdominal CT (n = 3). N2N-iMF uses NFE = 3 and K = 10. Values are mean ± SD; bold indicates the best mean in each dataset.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 476,
+              "image_path": "figures/2611.26370/table-005.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 686
+            },
+            {
+              "caption": "Table 2: Sampling comparison at NFE = 3 and K = 10 on brain CT (n = 16) and abdominal CT (n = 3). Values are mean ± SD; bold indicates the best mean in each dataset.",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 339,
+              "image_path": "figures/2611.26370/table-006.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 664
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.26370/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.26370",
+          "relevance": 8,
+          "selection_reason": "Introduces N2N-iMF, a method to accelerate self-supervised generative CT denoising via few-step sampling. This technique for improving diffusion model efficiency is directly transferable to video generation and world model research.",
+          "summary_status": "generated",
+          "title": "Fast Self-Supervised Generative CT Denoising via Few-Step Sampling",
+          "tldr": "N2N-iMF enables fast self-supervised generative CT denoising by averaging independently generated outputs from few-step sampling, improving image quality while greatly reducing inference time.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Video diffusion transformers reuse key--value (KV) caches across denoising steps, which quickly becomes a bottleneck for long video generation. We find that quantizing temporally distant cache vectors leads to a large range and high quantization error, but that nearby video tokens in the KV-cache share a persistent pattern per channel. These patterns also vary across videos, motivating rotations that are adapted to each video's unique cache. We propose Temporal Rotation Quantization (TRQ), a method that rotates frames in the cache that are adjacent in time before quantization. For each block of temporally adjacent cache vectors, TRQ fits an orthogonal transform that maps the block's per-channel means to a vector that is close to a constant across channels. To keep the quantization format lightweight, we parameterize this rotation as a tree of $2 \\times 2$ planar rotations, each stored with only two bits, followed by a fixed Hadamard transform shared across all blocks. The rotations are fit without gradients or changes to model weights, and we prove that a simple greedy fit is globally optimal for our 'mean-flattening' objective. The transforms are fit online for each new video, and we release fused Triton kernels to make this process efficient at inference. At 2-bit precision and matched compression, TRQ improves VBench subject consistency over the state-of-the-art method QVG from 90.38 to 92.02 on LongCat-Video-13B and from 86.33 to 87.61 on HY-WorldPlay-8B, as well as improving other metrics.",
+          "arxiv_id": "2611.26334",
+          "arxiv_url": "https://arxiv.org/abs/2611.26334",
+          "authors": [
+            "Ryan Lucas, Petros Prastakos, Rahul Mazumder"
+          ],
+          "bullets": [
+            "Temporal KV-cache reuse creates memory bottlenecks, while distant-token quantization suffers from large ranges and errors.",
+            "TRQ rotates temporally adjacent cache vectors to flatten per-channel means before quantization.",
+            "It uses gradient-free, online-fitted trees of 2-bit planar rotations followed by a shared Hadamard transform.",
+            "A greedy fitting procedure is proven globally optimal for the mean-flattening objective, with efficient fused Triton inference kernels.",
+            "At matched compression, TRQ improves VBench subject consistency over QVG on LongCat-Video-13B and HY-WorldPlay-8B, while also improving other metrics."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. Tree of planar rotations for the four-channel mean µB = (5,−4, 4, 5) of Sec. 4.2.",
+              "figure_id": "figure-3-1",
+              "figure_number": "3",
+              "height": 272,
+              "image_path": "figures/2611.26334/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 483
+            },
+            {
+              "caption": "Figure 2. Block-wise temporal rotations. At each image patch, the cached keys and values are divided into temporal blocks of nB consecutive latent frames. Each block receives its own key rotation RK B and value rotation RV B , applied to every frame in the block.",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 197,
+              "image_path": "figures/2611.26334/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 409
+            },
+            {
+              "caption": "Figure 4. Figure 1 shown for an additional 10 channels. There exist differences across channels, but within a channel adjacent frames tend to have similar values.",
+              "figure_id": "figure-4-9",
+              "figure_number": "4",
+              "height": 1028,
+              "image_path": "figures/2611.26334/figure-003.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 473
+            },
+            {
+              "caption": "Figure 5. Variance across channels versus within a channel over time.",
+              "figure_id": "figure-5-5",
+              "figure_number": "5",
+              "height": 250,
+              "image_path": "figures/2611.26334/figure-004.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 518
+            },
+            {
+              "caption": "Figure 1. Structure of video-diffusion KV cache. Each panel overlays key and value magnitudes (|K| and |V |) on the corresponding video frame. We observe that (i) Within a video, nearby frames share persistent spatial patterns and (ii) the final two panels show that these patterns differ across videos, even at the same frame index and channel. Together, these observations motivate fitting rotations online to each video’s cache and sharing them within local temporal blocks. For other channels, see Section 7 of the appendix.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 205,
+              "image_path": "figures/2611.26334/figure-005.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 945
+            },
+            {
+              "caption": "Table 1. Generated-video quality and encoded cache compression on 100 matched videos per method at 480p and 25 matched videos per method at 720p. The model rows give BF16 VBench scores. Bold values indicate the best quantized results within each model and resolution at the reported precision, including ties. Uncertainties denote sample standard errors across videos.",
+              "figure_id": "table-1-8",
+              "figure_number": "1",
+              "height": 515,
+              "image_path": "figures/2611.26334/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 986
+            },
+            {
+              "caption": "Table 2. Ablation results on 20 matched videos per configuration at 480p. VBench scores are percentages. Bold indicates the best result within each model.",
+              "figure_id": "table-2-7",
+              "figure_number": "2",
+              "height": 242,
+              "image_path": "figures/2611.26334/table-007.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 590
+            },
+            {
+              "caption": "Table 3. Mean and residual squared norm in LongCat KV caches, averaged over 10 videos across all 32 heads and 48 layers. This indicates the percentage of total cache mass within contiguous temporal blocks.",
+              "figure_id": "table-3-6",
+              "figure_number": "3",
+              "height": 192,
+              "image_path": "figures/2611.26334/table-008.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 618
+            },
+            {
+              "caption": "Table 4. Complete timings for the online rotations on an NVIDIA H100 80GB. The custom Triton kernel substantially reduces the time required for multiplying and decoding the rotations.",
+              "figure_id": "table-4-4",
+              "figure_number": "4",
+              "height": 140,
+              "image_path": "figures/2611.26334/table-009.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 448
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.26334/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.26334",
+          "relevance": 9,
+          "selection_reason": "Proposes Temporal Rotation Quantization (TRQ) to improve KV-cache efficiency in Video Diffusion Transformers, directly addressing a bottleneck in long video generation and improving subject consistency.",
+          "summary_status": "generated",
+          "title": "Online Temporal Rotations for 2 Bit KV-Cache Quantization in Video Diffusion Transformers",
+          "tldr": "TRQ enables accurate 2-bit KV-cache quantization for long video diffusion by learning lightweight, video-specific temporal rotations online.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            },
+            {
+              "subtopic_ids": [
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Real-time streaming video generation has gained rapid momentum in live content creation and interactive media. Deploying such systems in practice requires flexible scaling factors to accommodate diverse source resolutions, target displays, and computational budgets. However, extending fixed-scale generative video super-resolution (VSR) to varying target scales poses two challenges: downsampling from a larger fixed scale incurs redundant cost, while re-optimizing the diffusion transformer (DiT) is costly and alters the shared generative prior. To address both, we propose FlexVSR, a decoupled framework for continuous-scale streaming generative VSR with supervision at only a few scales. Our key insight is that naively resampling fixed-scale latents onto a new target grid induces scale-dependent input mismatch, which can be effectively addressed through parameter-efficient, scale-aware adaptation of the latent interface without updating the DiT. To this end, FlexVSR introduces ReLSA (Refined Latent Scale Adaptation), a lightweight latent adapter that constructs and refines target-grid latents before they enter the DiT, enabling a shared frozen VSR prior to generalize across continuous scales with only 0.274M trainable parameters and an adaptation cost of 7.3 H100 GPU-hours, while introducing no additional temporal dependencies and preserving the native causal streaming protocol. Extensive experiments demonstrate competitive or superior reconstruction and temporal quality, lower latency than most native-scale streaming baselines and offline methods, and effective generalization to unseen continuous scales, filling the continuous-scale gap in real-time streaming generative VSR.",
+          "arxiv_id": "2611.26178",
+          "arxiv_url": "https://arxiv.org/abs/2611.26178",
+          "authors": [
+            "Ji Wang, Haonan An, Jiasheng Zhang, Renlong Chen"
+          ],
+          "bullets": [
+            "Addresses the cost and inefficiency of extending fixed-scale streaming VSR to diverse target resolutions.",
+            "Introduces ReLSA, a lightweight scale-aware latent adapter that refines target-grid latents before the diffusion transformer.",
+            "Uses supervision at only a few scales while generalizing to unseen continuous scales.",
+            "Preserves causal streaming and adds no temporal dependencies, with 0.274M trainable parameters and 7.3 H100 GPU-hours of adaptation.",
+            "Reports competitive or better reconstruction and temporal quality with lower latency than most compared streaming and offline methods."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of FlexVSR. Left: Stage 1 prepares a 2× streaming SR prior via latent velocity regression (dashed arrow before Dω denotes inference-only decoding). Stage 2 freezes the restorer and feature extractor Fφ, replacing the 2× head with ReLSA to adapt latents across scales under discrete 1.5×/2× supervision (latent warm-up followed by end-to-end latent+RGB training). Right: Architecture of the target-grid Residual Refiner (Rθ), zero-initialized at the output so ∆z(s) = 0 initially.",
+              "figure_id": "figure-2-7",
+              "figure_number": "2",
+              "height": 460,
+              "image_path": "figures/2611.26178/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1022
+            },
+            {
+              "caption": "Figure 3. Residual-strength intervention on YouHQ40 (40 videos) with fixed FlexVSR weights, varying z (s) α = z (s) base + α∆z(s). At unseen 1.8×, pre-SR latent RMSE bottoms out at α = 0.75 (a) whereas post-SR PSNR peaks at α = 1 (b), confirming that ∆z(s) calibrates inputs for frozen-DiT compatibility beyond mere latent proximity.",
+              "figure_id": "figure-3-5",
+              "figure_number": "3",
+              "height": 229,
+              "image_path": "figures/2611.26178/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 482
+            },
+            {
+              "caption": "Table 1. Quantitative comparison with generative VSR systems. Best and second-best scores are bold and underlined.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 684,
+              "image_path": "figures/2611.26178/table-003.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Table 3. Cross-scale comparison on YouHQ40 (supervised at 1.5×/2×, matching Table 1; Actual (H/W ) lists ratios for the 37 landscape clips). Best/second-best scores are bold/underlined.",
+              "figure_id": "table-3-4",
+              "figure_number": "3",
+              "height": 508,
+              "image_path": "figures/2611.26178/table-004.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1036
+            },
+            {
+              "caption": "Table 5. Ablation studies on YouHQ40 sharing the frozen Stage-1 Wan SR prior. Best and second-best scores are bold and underlined.",
+              "figure_id": "table-5-6",
+              "figure_number": "5",
+              "height": 445,
+              "image_path": "figures/2611.26178/table-005.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 1036
+            },
+            {
+              "caption": "Table 2. Streaming SR efficiency from LR latents (w/ required decoding/resizing). Latency (in s) uses t16 = (T77 − T13)/4.",
+              "figure_id": "table-2-2",
+              "figure_number": "2",
+              "height": 258,
+              "image_path": "figures/2611.26178/table-006.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 496
+            },
+            {
+              "caption": "Table 4. Above-range extrapolation (2.1×–2.2×) on YouHQ40 without retraining (conventions follow Table 3).",
+              "figure_id": "table-4-3",
+              "figure_number": "4",
+              "height": 228,
+              "image_path": "figures/2611.26178/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.26178/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.26178",
+          "relevance": 7,
+          "selection_reason": "Continuous-scale streaming generative video super-resolution with a frozen diffusion transformer, fitting video diffusion.",
+          "summary_status": "generated",
+          "title": "FlexVSR: Continuous-Scale Super-Resolution for Streaming Video Generation",
+          "tldr": "FlexVSR enables real-time video super-resolution at continuously varying scales by adapting latent inputs while keeping the generative VSR model frozen.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Exocentric-to-egocentric (Exo2Ego) video generation transforms third-person recordings into first-person viewpoints, unlocking immersive AR/VR experiences and scalable demonstration synthesis for embodied robotics. Extending it to a streaming setting is expected to further enable live applications. However, existing methods suffer from degraded manipulation regions, overfitting and confinement to fixed-length clips with prohibitive latency. To address these limitations, we present StreamEgo, a real-time framework for unbounded, generalizable Exo2Ego video generation. To resolve intricate manipulation dynamics while supporting the streaming pipeline, a streaming dual-branch prior provides pixel-aligned guidance for translating appearance and skeletal kinematics. We also introduce a region-aware loss curriculum to improve generalization and stabilize multi-objective diffusion training. Furthermore, we distill the model into a chunk-wise autoregressive model, augmented with a region-aware corruption mechanism and a first-chunk curriculum, enabling high-quality, generalizable real-time streaming Exo2Ego generation at 24.3 FPS on a single H100 GPU.",
+          "arxiv_id": "2611.26165",
+          "arxiv_url": "https://arxiv.org/abs/2611.26165",
+          "authors": [
+            "Tianyi Xu, Boyang Lyu, Yunkai Tang, Kairan Ding, Jiahang Li, Weiyu Guo, Yandong Guo, Shuchen Weng, Boxin Shi"
+          ],
+          "bullets": [
+            "Targets live AR/VR and embodied-robotics applications by converting third-person video into first-person views.",
+            "Uses a streaming dual-branch prior to provide pixel-aligned appearance and skeletal-kinematic guidance.",
+            "Introduces a region-aware loss curriculum to stabilize diffusion training and improve generalization.",
+            "Distills the system into a chunk-wise autoregressive model with region-aware corruption and first-chunk training.",
+            "Generates streaming video at 24.3 FPS on a single H100 GPU."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of the bidirectional teacher. (a) Causal construction of the streaming dual-branch priors, comprising the dynamic ego prior and human pose prior. (b) Conditioning assembly and fine-tuning of the base Wan model (Team Wan et al., 2025) under our region-aware curriculum.",
+              "figure_id": "figure-2-11",
+              "figure_number": "2",
+              "height": 318,
+              "image_path": "figures/2611.26165/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 976
+            },
+            {
+              "caption": "Figure 3: Training pipeline for the streaming student model. The k-th egocentric chunk is denoised by the Wan DiT (Team Wan et al., 2025) conditioned on its dual-branch priors and the memory buffer. We apply the proposed region-aware corruption and first-chunk curriculum during training.",
+              "figure_id": "figure-3-21",
+              "figure_number": "3",
+              "height": 462,
+              "image_path": "figures/2611.26165/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 977
+            },
+            {
+              "caption": "Figure 1: Streaming exocentric-to-egocentric (Exo2Ego) video generation. Left: Tri-regional decomposition of the task of Exo2Ego. Right: Comparison of our method with state-of-the-art Exo2Ego method EgoX (Kang et al., 2026) on Ego-Exo4D dataset (Grauman et al., 2024).",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 454,
+              "image_path": "figures/2611.26165/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 976
+            },
+            {
+              "caption": "Figure 4: Visual comparison from Grauman et al. (2024) (UNSEEN), Kwon et al. (2021), and Sener et al. (2022) on synchronized key frames.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 616,
+              "image_path": "figures/2611.26165/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 972
+            },
+            {
+              "caption": "Figure 5: Streaming long-video generation with the autoregressive student on Grauman et al. (2024) (UNSEEN) and Kwon et al. (2021).",
+              "figure_id": "figure-5-17",
+              "figure_number": "5",
+              "height": 504,
+              "image_path": "figures/2611.26165/figure-005.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 972
+            },
+            {
+              "caption": "Figure 6: Ablation comparison on Grauman et al. (2024). Left: exocentric input and its egocentric ground truth. Middle: ablations results for the streaming dual-branch prior. Right: ablation results and training log for the regionaware curriculum. Red circles and arrows mark failure regions.",
+              "figure_id": "figure-6-18",
+              "figure_number": "6",
+              "height": 296,
+              "image_path": "figures/2611.26165/figure-006.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 974
+            },
+            {
+              "caption": "Figure 8: Additional qualitative comparison on synchronized key frames from Ego-Exo4D (UNSEEN) (Grauman et al., 2024), H2O (Kwon et al., 2021), and Assembly101 (Sener et al., 2022).",
+              "figure_id": "figure-8-14",
+              "figure_number": "8",
+              "height": 614,
+              "image_path": "figures/2611.26165/figure-007.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 972
+            },
+            {
+              "caption": "Figure 9: Four additional examples of the teacher ablations in Fig. 6 on Grauman et al. (2024) UNSEEN, covering the streaming dual-branch prior and region-aware loss weight scheduling (w/o HSU). Each row shows one example. Gt accounts for egocentric ground truth.",
+              "figure_id": "figure-9-8",
+              "figure_number": "9",
+              "height": 418,
+              "image_path": "figures/2611.26165/figure-008.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 968
+            },
+            {
+              "caption": "Figure 7: Ablation comparisons for region-aware corruption and first-chunk curriculum.",
+              "figure_id": "figure-7-6",
+              "figure_number": "7",
+              "height": 187,
+              "image_path": "figures/2611.26165/figure-009.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 487
+            },
+            {
+              "caption": "Figure 10: Results for user study questions (1)-(4).",
+              "figure_id": "figure-10-9",
+              "figure_number": "10",
+              "height": 208,
+              "image_path": "figures/2611.26165/figure-010.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 489
+            },
+            {
+              "caption": "Table 1: Comparison on the NEW ACTION and UNSEEN from Ego-Exo4D (Grauman et al., 2024) and H2O (Kwon et al., 2021). Bold: the best. Underline: second best. Ours (est.) runs Ours (long) with ego trajectories estimated from the exocentric video (Sec. 4.4).",
+              "figure_id": "table-1-10",
+              "figure_number": "1",
+              "height": 481,
+              "image_path": "figures/2611.26165/table-011.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 980
+            },
+            {
+              "caption": "Table 2: Ablation study on Ego-Exo4D (Grauman et al., 2024) UNSEEN. Rows marked † evaluate region-aware loss weight scheduling on NEW ACTION. Teacher variants isolate conditioning and loss scheduling; student variants isolate autoregressive training strategies. Bold: The best.",
+              "figure_id": "table-2-7",
+              "figure_number": "2",
+              "height": 284,
+              "image_path": "figures/2611.26165/table-012.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 980
+            },
+            {
+              "caption": "Table 3: Mean± std of our models over five additional random seeds on Ego-Exo4D (Grauman et al., 2024) and H2O (Kwon et al., 2021).",
+              "figure_id": "table-3-13",
+              "figure_number": "3",
+              "height": 206,
+              "image_path": "figures/2611.26165/table-013.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 979
+            },
+            {
+              "caption": "Table 9: Configuration of the causal adaptation (Stage 1) and of the pyramid token compression (Stage 2). Each subphase re-initializes the optimizer. †The Stage-1 sub-phases share a single LoRA configuration.",
+              "figure_id": "table-9-15",
+              "figure_number": "9",
+              "height": 419,
+              "image_path": "figures/2611.26165/table-014.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 980
+            },
+            {
+              "caption": "Table 10: Configuration of the few-step distillation (Stage 3).",
+              "figure_id": "table-10-16",
+              "figure_number": "10",
+              "height": 442,
+              "image_path": "figures/2611.26165/table-015.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 818
+            },
+            {
+              "caption": "Table 7: EgoX (Kang et al., 2026) on its original backbone and on ours, evaluated on Ego-Exo4D (Grauman et al., 2024) and H2O (Kwon et al., 2021).",
+              "figure_id": "table-7-2",
+              "figure_number": "7",
+              "height": 227,
+              "image_path": "figures/2611.26165/table-016.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 980
+            },
+            {
+              "caption": "Table 4: Mean± std of the ablations of Table 2 (UNSEEN) over five additional random seeds.",
+              "figure_id": "table-4-12",
+              "figure_number": "4",
+              "height": 188,
+              "image_path": "figures/2611.26165/table-017.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 976
+            },
+            {
+              "caption": "Table 5: Drifting Score (Yuan et al., 2026) of the 30-second rollouts on UNSEEN (integer ratings from 1 to 10, higher means less drift).",
+              "figure_id": "table-5-19",
+              "figure_number": "5",
+              "height": 152,
+              "image_path": "figures/2611.26165/table-018.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 690
+            },
+            {
+              "caption": "Table 6: Student on UNSEEN with captions of different levels of detail at inference.",
+              "figure_id": "table-6-20",
+              "figure_number": "6",
+              "height": 98,
+              "image_path": "figures/2611.26165/table-019.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 980
+            },
+            {
+              "caption": "Table 8: Per-chunk stage costs of the streaming student (33 frames, 1,375ms of video). Stages in the same parallel group are independent and can be executed concurrently; the dependency column states what each stage must wait for.",
+              "figure_id": "table-8-3",
+              "figure_number": "8",
+              "height": 171,
+              "image_path": "figures/2611.26165/table-020.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 660
+            },
+            {
+              "caption": "Table 11: Per-chunk latency of the causal head tracker (33 frames, 1.375 s of video).",
+              "figure_id": "table-11-1",
+              "figure_number": "11",
+              "height": 174,
+              "image_path": "figures/2611.26165/table-021.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 694
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.26165/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.26165",
+          "relevance": 7,
+          "selection_reason": "Streaming exocentric-to-egocentric video generation with diffusion training and autoregressive distillation, directly fitting video generation topics.",
+          "summary_status": "generated",
+          "title": "StreamEgo: Streaming Exocentric-to-Egocentric Video Generation",
+          "tldr": "StreamEgo enables real-time, unbounded exocentric-to-egocentric video generation with improved manipulation fidelity and generalization.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion",
+                "autoregressive-video-models"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Personalized video generation faces a significant scalability challenge: as the number of custom subjects increases, existing methods suffer from severe identity leakage and semantic entanglement, resulting in videos with blended attributes and incoherent narratives. We identify that this stems from a lack of explicit binding between textual entity phrases and their corresponding visual patterns prior to fusion in diffusion models. To address this, we propose MultiBinder, a novel framework built on a ``bind-then-narrate'' paradigm. Our approach introduces a two-stage conditioning process before video diffusion. First, Cross-modal Entity Binding devises an entity-aware Q-Former to extract identity-centric features from each subject's reference image and tightly align them with its unique entity phrase, yielding disentangled ``identity tokens.'' Second, a Multimodal Large Language Model (MLLM) acts as a ``narrative director'' in the Narrative-Aware Subject Arrangement stage, capturing the action of each subject from the text prompt and synthesizes contextualized subject features that encapsulate ``who is doing what'' and preserve role-specific distinctions. These features are then injected into a video diffusion model via dedicated conditioning pathways, ensuring precise attribute allocation. Extensive experiments on both general and newly curated multi-subject benchmarks show that MultiBinder significantly outperforms existing methods in multi-subject identity fidelity.",
+          "arxiv_id": "2611.26164",
+          "arxiv_url": "https://arxiv.org/abs/2611.26164",
+          "authors": [
+            "Wei Li, Yiheng Zhang, Zhaofan Qiu, Ting Yao, Xiaoyan Sun, Tao Mei"
+          ],
+          "bullets": [
+            "Addresses identity leakage, blended attributes, and incoherent narratives as the number of custom subjects grows.",
+            "Uses an entity-aware Q-Former to align each reference image with its corresponding entity phrase, producing disentangled identity tokens.",
+            "Employs an MLLM to determine each subject’s role and action, creating context-aware features that preserve subject distinctions.",
+            "Injects these features through dedicated conditioning pathways into a video diffusion model.",
+            "Experiments on general and newly curated multi-subject benchmarks report significantly better identity fidelity than existing methods."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of the MultiBinder framework. The Cross-modal Entity Binding module utilizes an Entity-aware Q-Former and EntityRefinement Attention to link visual attributes with entity phrases. Subsequently, the MLLM performs Narrative-Aware Subject Arrangement, interpreting the text prompt to contextualize identity tokens for the final Diffusion Transformer.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 310,
+              "image_path": "figures/2611.26164/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1052
+            },
+            {
+              "caption": "Figure 4: Examples of videos generated by different approaches on scenarios with an increased number of subjects.",
+              "figure_id": "figure-4-6",
+              "figure_number": "4",
+              "height": 448,
+              "image_path": "figures/2611.26164/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 517
+            },
+            {
+              "caption": "Figure 5: User study between MultiBinder and other two stateof-the-art models across three dimensions. MultiBinder exhibits competent performance in subject consistency and text alignment.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 310,
+              "image_path": "figures/2611.26164/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 448
+            },
+            {
+              "caption": "Figure 3: Examples of videos generated by different approaches with multi-subject reference images.",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 894,
+              "image_path": "figures/2611.26164/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1005
+            },
+            {
+              "caption": "Figure 1: Given a text prompt and four subjects, conventional approaches (top) suffer from ambiguous cross-modal alignment, leading to identity entanglement where visual attributes blend incoherently across subjects (e.g., the “elderly man” incorrectly inherits the face of ID1). MultiBinder (bottom) establishes unambiguous entity bindings, ensuring strict identity preservation.",
+              "figure_id": "figure-1-3",
+              "figure_number": "1",
+              "height": 264,
+              "image_path": "figures/2611.26164/figure-005.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1034
+            },
+            {
+              "caption": "Table 2: Performance comparisons with state-of-the-art approaches including open-source baselines with varying parameter scales and the commercial system Kling-1.6 on MultiBind-Bench. Results are reported in terms of Identity Purity Score (𝑆IPS) andVisual Reasoning Score (𝑆VRS). The best-performing result is highlighted in bold, and the second-best is underlined.",
+              "figure_id": "table-2-2",
+              "figure_number": "2",
+              "height": 210,
+              "image_path": "figures/2611.26164/table-006.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 282
+            },
+            {
+              "caption": "Table 3: Ablation studies on the impact of each design in MultiBinder. Training in this table uses 50% data.",
+              "figure_id": "table-3-8",
+              "figure_number": "3",
+              "height": 219,
+              "image_path": "figures/2611.26164/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 429
+            },
+            {
+              "caption": "Table 1: Performance comparisons with state-of-the-art approaches on the OpenS2V-Eval open domain in terms of Aesthetics, Motion Smoothness, Motion Amplitude, Face Similarity, GmeScore, NexusScore, and NaturalScore. The best-performing result is highlighted in bold, and the second-best is underlined.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 129,
+              "image_path": "figures/2611.26164/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 748
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.26164/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.26164",
+          "relevance": 7,
+          "selection_reason": "Directly addresses multi-subject personalized video generation with diffusion models and MLLM-based conditioning, fitting video diffusion.",
+          "summary_status": "generated",
+          "title": "MultiBinder: Preventing Multi-Subject Identity Leakage in Personalized Video Generation",
+          "tldr": "MultiBinder improves personalized multi-subject video generation by binding each text entity to its visual identity before modeling the scene narrative.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Text-to-video generation has made remarkable progress with diffusion models and transformer-based video architectures, yet generating coherent long videos from evolving textual descriptions remains challenging. Training long-video models from scratch requires substantial computation and large-scale multi-event data, while training-free multi-prompt generation must activate new prompt semantics without breaking temporal continuity. We identify a frequency-agnostic boundary coupling problem in existing transition strategies: weak coupling causes abrupt changes, flicker, and background jumps, whereas overly strong or coarse coupling may over-preserve source semantics and produce ghosting or duplicated subjects around prompt boundaries. To address this problem, we propose FreqSync, a training-free framework that formulates prompt transitions as frequency-selective boundary coupling. FreqSync combines Frequency-Synchronized Source-Conditioned Attention (FS-SCA) with Residual-Clipped Spectral Stitching (RCSS), enabling adjacent segments to share stable low- and mid-frequency structure and motion cues while keeping high-frequency prompt-specific details target-dominant under explicit residual constraints. Extensive experiments show that FreqSync achieves state-of-the-art transition smoothness and prompt alignment while maintaining strong perceptual video quality, demonstrating its effectiveness for coherent multi-prompt long video generation.",
+          "arxiv_id": "2611.26098",
+          "arxiv_url": "https://arxiv.org/abs/2611.26098",
+          "authors": [
+            "Yipan Xu, Shuyong Gao, Jiyuan Fu, Keliang Yin, Jiayu Chen, Qianyu Guo, Yang Liu, Wenqiang Zhang"
+          ],
+          "bullets": [
+            "Addresses abrupt transitions, flicker, background jumps, ghosting, and duplicated subjects in multi-prompt long-video generation.",
+            "Combines Frequency-Synchronized Source-Conditioned Attention with Residual-Clipped Spectral Stitching.",
+            "Shares low- and mid-frequency structure and motion across adjacent segments while preserving target-prompt high-frequency details.",
+            "Experiments report state-of-the-art transition smoothness and prompt alignment with strong perceptual video quality.",
+            "Scope: training-free generation; effectiveness depends on frequency-selective boundary coupling and explicit residual constraints."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3: Overview of FREQSYNC. Given a prompt sequence, FREQSYNC first encodes frozen text conditions and initializes overlapped latent segments with noise reuse. During iterative denoising, FS-SCA performs frequency-synchronized source-conditioned attention inside selected attention layers, while RCSS applies residual-clipped spectral stitching to denoised overlap predictions before the sampler update. After denoising, overlapped regions are removed and the clean latent segments are concatenated for VAE decoding, producing the final long video.",
+              "figure_id": "figure-3-15",
+              "figure_number": "3",
+              "height": 473,
+              "image_path": "figures/2611.26098/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 814
+            },
+            {
+              "caption": "Figure 4: Qualitative comparison. On a three-prompt driving sequence, baselines suffer from viewpoint drift, weak prompt transition, ghosting, or duplicated traces. FREQSYNC preserves vehicle identity and motion while producing smoother semantic transitions.",
+              "figure_id": "figure-4-13",
+              "figure_number": "4",
+              "height": 452,
+              "image_path": "figures/2611.26098/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 806
+            },
+            {
+              "caption": "Figure 6: Visual ablation of FREQSYNC. Isolated generation produces a hard cut. RCSS alone smooths the overlap region but lacks attention-level semantic handover. FS-SCA alone preserves the global layout but changes the chapel structure. Full FREQSYNC combines both modules for smooth transitions and stable identity.",
+              "figure_id": "figure-6-21",
+              "figure_number": "6",
+              "height": 433,
+              "image_path": "figures/2611.26098/figure-003.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 770
+            },
+            {
+              "caption": "Figure 2: Diagnostic observation. Strong frequency-agnostic coupling may over-preserve sourceside evidence and cause duplicated subjects. FREQSYNC transfers mainly low- and mid-frequency continuity cues while keeping target details controlled.",
+              "figure_id": "figure-2-10",
+              "figure_number": "2",
+              "height": 427,
+              "image_path": "figures/2611.26098/figure-004.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 779
+            },
+            {
+              "caption": "Figure 1: Teaser of FREQSYNC. Given a prompt sequence, FREQSYNC generates coherent long videos with smooth transitions, stable motion, and prompt-specific details.",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 314,
+              "image_path": "figures/2611.26098/figure-005.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 810
+            },
+            {
+              "caption": "Figure 9: Additional three-prompt generated examples. We show three representative three-prompt sequences, where each example spans two rows to cover a longer temporal range and two consecutive prompt boundaries. FREQSYNC maintains coherent temporal evolution across multiple semantic changes, such as scene, illumination, and action transitions. The results suggest that the proposed boundary coupling is not limited to a single transition, but can also support longer prompt sequences with successive target-prompt activations.",
+              "figure_id": "figure-9-20",
+              "figure_number": "9",
+              "height": 593,
+              "image_path": "figures/2611.26098/figure-006.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 775
+            },
+            {
+              "caption": "Figure 11: Additional qualitative comparison on a skateboarder sequence. The base prompt describes a young skateboarder gliding forward through an open public square, while the segment prompts transition from an empty dawn plaza to a festival plaza and then to a rain-washed night plaza. Kling2.6 [1] produces visually stable frames but shows limited scene progression. MEVG [33] and VideoInfinity [42] suffer from identity, viewpoint, or motion inconsistency. DiTCtrl [7] improves crosssegment continuity but introduces ghosting and blurred boundary artifacts. In contrast, FREQSYNC preserves the skateboarder’s motion trajectory while progressively changing the plaza environment and illumination.",
+              "figure_id": "figure-11-19",
+              "figure_number": "11",
+              "height": 452,
+              "image_path": "figures/2611.26098/figure-007.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 806
+            },
+            {
+              "caption": "Figure 12: Additional qualitative comparison on a hot-air-balloon sequence. The base prompt describes a hot air balloon, and the segment prompts change the lighting condition from early sunrise glow to bright daylight and then to violet dusk light. Kling-2.6 [1] preserves the balloon appearance but shows limited temporal and illumination transition. MEVG [33] and Video-Infinity [42] produce noticeable subject or scene inconsistencies, including multiple balloons, unstable scale, or abrupt viewpoint changes. DiTCtrl [7] maintains partial continuity but shows over-preserved source-side evidence and boundary-local artifacts. FREQSYNC better preserves the balloon identity and desert layout while producing a smoother lighting transition across the prompt sequence.",
+              "figure_id": "figure-12-12",
+              "figure_number": "12",
+              "height": 452,
+              "image_path": "figures/2611.26098/figure-008.webp",
+              "kind": "figure",
+              "page": 28,
+              "width": 806
+            },
+            {
+              "caption": "Figure 5: Temporal self-similarity around prompt boundaries. FREQSYNC preserves local diagonal continuity while reducing excessive cross-boundary similarity, supporting frequency-selective boundary coupling.",
+              "figure_id": "figure-5-14",
+              "figure_number": "5",
+              "height": 360,
+              "image_path": "figures/2611.26098/figure-009.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 331
+            },
+            {
+              "caption": "Figure 8: Additional two-prompt generated examples. We show eight representative two-prompt sequences. Each row corresponds to one generated video and visualizes key frames across a single prompt boundary. Across diverse transition types, FREQSYNC preserves the main subject, scene layout, and motion trajectory while allowing the target-prompt condition to emerge progressively. These examples further illustrate that the frequency-synchronized boundary coupling used by FS-SCA and RCSS can reduce abrupt visual changes without suppressing prompt-specific details.",
+              "figure_id": "figure-8-11",
+              "figure_number": "8",
+              "height": 1133,
+              "image_path": "figures/2611.26098/figure-010.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 781
+            },
+            {
+              "caption": "Figure 10: Single-prompt long-video generation with FREQSYNC. We apply FREQSYNC to singleprompt long-video generation by assigning the same prompt to all segments. The four examples show a sunlit courtyard fountain, warm paper lanterns, a drifting maple leaf, and a Mars rover driving across a red crater plain. Even without semantic prompt changes, long-video generation still requires stable cross-segment continuation. FREQSYNC produces smooth motion and coherent visual content over extended durations, suggesting that its boundary-coupling mechanism can also benefit single-prompt video extension.",
+              "figure_id": "figure-10-2",
+              "figure_number": "10",
+              "height": 729,
+              "image_path": "figures/2611.26098/figure-011.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 710
+            },
+            {
+              "caption": "Figure 7: Boundary temporal-frequency analysis. FREQSYNC shows stronger low-frequency continuation and lower high-frequency variation around prompt boundaries. This supports our frequencysynchronized boundary coupling design, where low-frequency components preserve structural continuity and high-frequency instability is suppressed near transitions.",
+              "figure_id": "figure-7-8",
+              "figure_number": "7",
+              "height": 187,
+              "image_path": "figures/2611.26098/figure-012.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 718
+            },
+            {
+              "caption": "Table 5: Per-seed quantitative results of all compared methods. We report the results of MEVG [33], Video-Infinity [42], DiTCtrl [7], and FREQSYNC under three random seeds: 42, 123, and 999. The shaded average rows correspond to the results reported in the main paper. CSCV and Motion Smoothness are reported as percentages.",
+              "figure_id": "table-5-16",
+              "figure_number": "5",
+              "height": 530,
+              "image_path": "figures/2611.26098/table-013.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 825
+            },
+            {
+              "caption": "Table 4: Main hyperparameters in the supplementary configuration file. The table lists the core parameters included in config.yaml. FS-SCA controls frequency-selective attention-level source conditioning, while RCSS controls residual-constrained prediction-level boundary stitching.",
+              "figure_id": "table-4-18",
+              "figure_number": "4",
+              "height": 329,
+              "image_path": "figures/2611.26098/table-014.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 827
+            },
+            {
+              "caption": "Table 9: Paired OFAT sensitivity analysis. Absolute scores are shown for each configuration; the default is the reference. “DC+k” is the logged temporal-frequency-bin partition. No tested alternative dominates the default across all metrics.",
+              "figure_id": "table-9-3",
+              "figure_number": "9",
+              "height": 254,
+              "image_path": "figures/2611.26098/table-015.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 826
+            },
+            {
+              "caption": "Table 1: Quantitative comparison. Results are averaged over three seeds on the 130-case multi-prompt benchmark. FREQSYNC delivers the strongest overall performance, achieving the best scores on CSCV, Text-Image Similarity, T2V Alignment, and Physical Consistency, while remaining highly competitive on Motion Smoothness and Visual Quality with only marginal gaps to the best results. Best scores are in bold; second-best scores are underlined.",
+              "figure_id": "table-1-6",
+              "figure_number": "1",
+              "height": 200,
+              "image_path": "figures/2611.26098/table-016.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 822
+            },
+            {
+              "caption": "Table 3: Blind human evaluation on 40 anonymized cases with 30 participants. Mean five-point scores are reported, where higher is better in every column. For source leakage and artifacts, higher scores mean fewer artifacts. Best scores are in bold.",
+              "figure_id": "table-3-9",
+              "figure_number": "3",
+              "height": 187,
+              "image_path": "figures/2611.26098/table-017.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 830
+            },
+            {
+              "caption": "Table 2: Ablation study on a 40-case subset. Ablations are conducted on a representative 40-case subset covering all transition modes under a single random seed. CSCV is the primary boundarytransition metric. Segment-level Text-Image Similarity is reported as a prompt-fidelity reference and is not boundary-aware. Best results are in bold and second-best results are underlined.",
+              "figure_id": "table-2-22",
+              "figure_number": "2",
+              "height": 131,
+              "image_path": "figures/2611.26098/table-018.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 640
+            },
+            {
+              "caption": "Table 6: Paired 100-case analysis against DiTCtrl. Differences are FreqSync minus DiTCtrl; CSCV differences are in percentage points (pp). All listed confidence intervals exclude zero. Minor differences from subtracting displayed scores arise from rounding.",
+              "figure_id": "table-6-17",
+              "figure_number": "6",
+              "height": 201,
+              "image_path": "figures/2611.26098/table-019.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 830
+            },
+            {
+              "caption": "Table 8: Controlled 40-case frequency-routing ablations. Mean ± standard deviation; all scores are higher-is-better. The routing tuple gives source weights (L,M,H).",
+              "figure_id": "table-8-24",
+              "figure_number": "8",
+              "height": 181,
+              "image_path": "figures/2611.26098/table-020.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 830
+            },
+            {
+              "caption": "Table 7: Cross-backbone evaluation. All metrics are higher-is-better; CSCV and Motion Smoothness are percentages. Best results are bold within each backbone.",
+              "figure_id": "table-7-23",
+              "figure_number": "7",
+              "height": 163,
+              "image_path": "figures/2611.26098/table-021.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 830
+            },
+            {
+              "caption": "Table 10: Cutoff–layer interaction sweep. Every cell lists CSCV (%)/T2V Alignment. These interaction results come from a separate paired study and should not be combined numerically with the OFAT table.",
+              "figure_id": "table-10-4",
+              "figure_number": "10",
+              "height": 119,
+              "image_path": "figures/2611.26098/table-022.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 568
+            },
+            {
+              "caption": "Table 11: Inference cost as prompt count increases. Runtime is mean ± standard deviation over three timed runs (seconds); memory is peak allocated GiB. Counted FLOPs are in TFLOPs per sequence. Percentage increases are relative to DiTCtrl.",
+              "figure_id": "table-11-7",
+              "figure_number": "11",
+              "height": 149,
+              "image_path": "figures/2611.26098/table-023.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 829
+            },
+            {
+              "caption": "Table 12: Existing assets used in this work. We cite the original sources in the main paper and follow their corresponding licenses or usage terms.",
+              "figure_id": "table-12-1",
+              "figure_number": "12",
+              "height": 152,
+              "image_path": "figures/2611.26098/table-024.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 827
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.26098/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.26098",
+          "relevance": 7,
+          "selection_reason": "Training-free multi-prompt long video generation via frequency-selective coupling; fits video diffusion.",
+          "summary_status": "generated",
+          "title": "Frequency-Synchronized Boundary Coupling for Training-Free Multi-Prompt Long Video Generation",
+          "tldr": "FreqSync is a training-free framework for generating coherent long videos from multiple evolving prompts by selectively coupling segment boundaries across spatial frequencies.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Controllable streaming video generation offers a promising route toward interactive game simulation, yet existing methods remain far from practical gameplay. They often fail to jointly achieve high visual fidelity, high frame rates, and low interaction latency, resulting in poor responsiveness and degraded user experience. We present Streaming-AAA, a new paradigm for controllable infinite generation of AAA-quality game videos. Our system generates 1080p gameplay videos at 43 FPS with 198 ms end-to-end latency interaction on merely NVIDIA A800 GPUs, while supporting long-horizon play without severe temporal degradation or collapse. Streaming-AAA is built upon three key designs. First, we redesign the VAE architecture for efficient high-resolution decoding, enabling real-time synthesis at 1080p. Second, we pretrain the diffusion model using diffusion forcing and significantly extend the temporal training horizon, allowing the model to capture long-term dependencies and maintain persistent memory. Third, we perform post-training distillation and memory compression to improve inference efficiency while retaining visual quality and temporal consistency. Experiments show that Streaming-AAA substantially improves visual fidelity, frame rate, latency, and long-term stability over prior controllable video generation approaches, enabling a significantly more playable experience for interactive AAA game video generation.",
+          "arxiv_id": "2611.26040",
+          "arxiv_url": "https://arxiv.org/abs/2611.26040",
+          "authors": [
+            "Zhihao Hu, Jianqi Ma, Jun Zhang, Jiayang Bai, Haifeng Shi, Yanxiang Zhuang, Zhongqian Sun, Weidong Zhang, Wei Yang"
+          ],
+          "bullets": [
+            "Targets the challenge of jointly achieving high visual fidelity, frame rate, responsiveness, and long-term stability in interactive game video generation.",
+            "Redesigns the VAE for efficient 1080p decoding and real-time synthesis.",
+            "Uses diffusion forcing with an extended temporal training horizon to capture long-term dependencies and persistent memory.",
+            "Applies post-training distillation and memory compression to improve inference efficiency while preserving visual and temporal quality.",
+            "Experiments report improved fidelity, frame rate, latency, and long-term stability over prior controllable video generation methods."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3: Overview of the inference pipeline. During inference, the 3D UNet-based Diffusion Model takes noise as input, injects control signals via cross-attention, and propagates historical frame information through temporal attention. After multiple denoising steps, the reconstructed latents are decoded by the VAE decoder to produce the generated video frames.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 343,
+              "image_path": "figures/2611.26040/figure-001.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 826
+            },
+            {
+              "caption": "Figure 2: Overview of the ADCS. Designed to capture rich features of AAA games—including diverse landscapes, dynamic interactions (e.g., climbing, swimming), and photorealistic lighting—the system achieves a daily throughput of >10M frames and densely covers KM2s of virtual terrain within several days.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 347,
+              "image_path": "figures/2611.26040/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 822
+            },
+            {
+              "caption": "Figure 6: Qualitative results of our method on Genshin Impact. The top eleven rows show rollouts from in-domain frames, while the bottom two rows show rollouts from out-of-domain frames.",
+              "figure_id": "figure-6-9",
+              "figure_number": "6",
+              "height": 1060,
+              "image_path": "figures/2611.26040/figure-003.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 826
+            },
+            {
+              "caption": "Figure 7: Qualitative comparison with state-of-the-art approaches on Genshin Impact. We show our method and the competing approaches on four different cases over a one-minute rollout; rows are methods and columns are timestamps.",
+              "figure_id": "figure-7-7",
+              "figure_number": "7",
+              "height": 1235,
+              "image_path": "figures/2611.26040/figure-004.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 808
+            },
+            {
+              "caption": "Figure 4: Overview of the Hybrid KV-Cache Memory. First row shows the Vanilla KV-cache array, second row shows the proposed Hybrid KV-Cache array.",
+              "figure_id": "figure-4-4",
+              "figure_number": "4",
+              "height": 201,
+              "image_path": "figures/2611.26040/figure-005.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 826
+            },
+            {
+              "caption": "Figure 5: Parallelized Teacher-Forcing Inference. We merge the first denoise step and kv cache writing process to accelerate the overall inference procedure.",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 259,
+              "image_path": "figures/2611.26040/figure-006.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 746
+            },
+            {
+              "caption": "Figure 8: The results of playing continuously for one hour using our model.",
+              "figure_id": "figure-8-5",
+              "figure_number": "8",
+              "height": 169,
+              "image_path": "figures/2611.26040/figure-007.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 826
+            },
+            {
+              "caption": "Table 1: Statistics of the Collected AAA Game Dataset. Our dataset provides high-resolution video paired with rich metadata.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 276,
+              "image_path": "figures/2611.26040/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 414
+            },
+            {
+              "caption": "Table 2: Quantitative and efficiency comparison with state-of-the-art methods. We compare our method against existing state-of-the-art approaches on several VBench metrics, together with output resolution, frame rate, and action-to-pixel latency. Best result per column is in bold.",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 121,
+              "image_path": "figures/2611.26040/table-009.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 822
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.26040/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.26040",
+          "relevance": 8,
+          "selection_reason": "Controllable diffusion-based game video generation with low latency; fits video diffusion and interactive world models.",
+          "summary_status": "generated",
+          "title": "Streaming-AAA: Streaming AAA Game Video Generation at High Resolution, High Frame Rate, and Low Latency",
+          "tldr": "Streaming-AAA enables controllable, long-horizon AAA game video generation at 1080p and 43 FPS with 198 ms interaction latency.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Few-step diffusion models are widely deployed for their efficiency. However, reinforcing them with black-box rewards, as is routine for multi-step models, faces two structural challenges. First, a few-step generator is a sampler rather than a score model, so its velocity is not the forward velocity of the generated distribution. Second, it must be anchored to the undistilled teacher, which shares no transitions with it. Existing few-step RL methods handle the latter with a marginal KL to the teacher, but each pays for the former in its reward credit. We propose Shadow Posterior Matching (SPM), which renoises generated samples into shadow inputs and obtains the credit from their shadow posterior. From the KL-regularized reward objective, we derive a regression loss that turns reward values into a reward direction while anchoring the generator's outputs to the teacher and aligning the shadow inputs with the deployed inputs. Applied to 4-step generators, SPM achieves higher rewards with less reward hacking than prior few-step RL methods.",
+          "arxiv_id": "2611.25998",
+          "arxiv_url": "https://arxiv.org/abs/2611.25998",
+          "authors": [
+            "Jingqiao Xiu, Yicong Li"
+          ],
+          "bullets": [
+            "Few-step diffusion generators are samplers, making standard reward-credit assignment unsuitable because their velocity differs from the generated distribution’s forward velocity.",
+            "They also require anchoring to an undistilled teacher despite sharing no transitions with it.",
+            "SPM renoises generated samples into shadow inputs and uses their shadow posterior to obtain reward credit.",
+            "A regression loss derived from a KL-regularized reward objective converts reward values into a reward direction while aligning deployed and shadow inputs and anchoring outputs to the teacher.",
+            "On 4-step generators, SPM achieves higher rewards with less reward hacking than prior few-step reinforcement-learning methods."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of Shadow Posterior Matching. (a) The deployed few-step sampler generates final samples without gradients, and their black-box rewards yield group-relative advantages. (b) Renoising with fresh noise pairs each shadow input ys with a posterior sample x and the velocity u. (c) Colored arrows show three velocity differences: u − F (ys, s) for shadow credit, and vT − F̂s and F − F̂s at (ŷ, τ) for teacher anchor and endpoint matching. A regression loss pulls the generator’s velocity vθ(ys, s) along their weighted sum Gs.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 508,
+              "image_path": "figures/2611.25998/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1023
+            },
+            {
+              "caption": "Figure 3. Qualitative comparison. Samples are generated from GenEval (left), OCR (center), and PickScore (right) test prompts.",
+              "figure_id": "figure-3-5",
+              "figure_number": "3",
+              "height": 432,
+              "image_path": "figures/2611.25998/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 1. Reward curves with a single black-box reward. The reward is GenEval (top) or OCR (bottom). Left: training reward on test prompts. Right: ImageReward on DrawBench prompts. SPM achieves higher task rewards with better image quality.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 515,
+              "image_path": "figures/2611.25998/figure-003.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 491
+            },
+            {
+              "caption": "Figure 4. Ablation results on visual text rendering. Left: OCR reward on test prompts. Right: ImageReward on DrawBench prompts. EM and AW denote endpoint matching and adaptive weighting, respectively. α is the tilting temperature, with a default value of 0.1.",
+              "figure_id": "figure-4-4",
+              "figure_number": "4",
+              "height": 222,
+              "image_path": "figures/2611.25998/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 964
+            },
+            {
+              "caption": "Table 2. Quantitative results. We report training rewards on test prompts, and image-quality metrics and preference scores on DrawBench prompts. Higher is better for all metrics. The best 4-NFE results within each task are shown in bold and second-best results are underlined.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 779,
+              "image_path": "figures/2611.25998/table-005.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 979
+            },
+            {
+              "caption": "Table 1. Few-step RL paradigms, distinguished by their reward credit. Reward value: the credit is computed from measured reward values, without the reward’s gradient or a learned proxy. Final call: the deterministic final call receives credit from a black-box reward (◦ means only through a learned proxy, and – means not applicable, since the paradigm needs the reward’s gradient). Sharp sample: no reference in the update is built from the generator’s own velocity, so the samples receive no shift toward the posterior mean and stay sharp. Reward direction: the reward provides an update direction independent of the anchor’s force instead of only reweighting the anchor. Teacher KL: the generator is anchored to the teacher by a KL between their marginal distributions.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 246,
+              "image_path": "figures/2611.25998/table-006.webp",
+              "kind": "table",
+              "page": 2,
+              "width": 906
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.25998/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.25998",
+          "relevance": 6,
+          "selection_reason": "Reward fine-tuning method for few-step diffusion generators; technically transferable to video diffusion models.",
+          "summary_status": "generated",
+          "title": "Reinforcing Few-Step Diffusion Models via Shadow Posterior Matching",
+          "tldr": "Shadow Posterior Matching enables more effective and less reward-hacking reinforcement of few-step diffusion generators by deriving reward guidance from renoised shadow samples.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Flow matching enables high-quality image and video generation, but its iterative sampling process requires repeated evaluations of large neural networks. Existing few-step methods can distort the output and reduce its agreement with a many-step reference. We propose TrajCal, a training-free calibration framework for few-step sampling. Based on scatter search, a well-established metaheuristic for difficult optimization problems, TrajCal starts with diverse seed schedules, deforms and combines these candidates, and selects one fixed schedule by final output fidelity for reuse on new inputs. For both image and video generation, TrajCal achieves higher reference fidelity than all compared baselines at low evaluation budgets while maintaining competitive visual quality. The search is effective even with randomly generated seeds, while trajectory-based seeds further improve fidelity. For cross-style generalization, photography-calibrated schedules also improve fidelity on unseen image styles.",
+          "arxiv_id": "2611.25847",
+          "arxiv_url": "https://arxiv.org/abs/2611.25847",
+          "authors": [
+            "Junchi Zhang, Zihan Gu, Jiangcan Jia, Lulu Zhao, Wenbo Su, Hua Zhang"
+          ],
+          "bullets": [
+            "Addresses quality degradation and reference mismatch caused by few-step flow sampling.",
+            "Uses scatter search to generate, deform, combine, and select candidate time schedules based on final-output fidelity.",
+            "Calibrated schedules can be reused across new inputs without retraining.",
+            "Improves reference fidelity for image and video generation at low evaluation budgets while retaining competitive visual quality.",
+            "Schedules transfer across styles, and trajectory-based seeds improve fidelity beyond random seeds."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. Visual comparison at 12 and 16 evaluations. Each row uses the same prompt and base noise across methods, with the FLUX-50 reference in the first column. The upper two rows use 12 evaluations and the lower two use 16. The examples compare scene layout, subject pose, object arrangement, and appearance; TrajCal-Correction more closely preserves these features of the reference outputs.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 641,
+              "image_path": "figures/2611.25847/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 829
+            },
+            {
+              "caption": "Figure 2. Schedule calibration and reuse in TrajCal. (a) Three seed schedules provide distinct time allocations. Mixing and deformation expand the candidate pool, followed by preliminary RMSE screening. The retained candidates are evaluated against paired many-step references, and a normalized combination of RMSE, LPIPS, and SSIM losses selects one schedule for each update rule and budget. (b) The selected schedule and update rule are reused on new inputs with B velocity evaluations. For image sampling, the displacement correction uses consecutive velocity predictions without additional model evaluations.",
+              "figure_id": "figure-2-18",
+              "figure_number": "2",
+              "height": 474,
+              "image_path": "figures/2611.25847/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 4. Seed schedules and schedules selected by TrajCal. Each row shows the B model evaluation times and the final endpoint, where no evaluation is made. Left: the three FLUX seeds and the schedules selected for TrajCal-Euler and TrajCal-Correction at B = 12. Right: native UniPC and the schedules selected for TrajCal-Euler, TrajCal-Correction, and TrajCal-UniPC on Wan at B = 10. Orange marks the first three query times shared by TrajCal-Euler and TrajCal-Correction; TrajCal-UniPC is calibrated separately. The horizontal axis uses a square-root scale to make early times easier to see; tick labels give the actual sampling time t. The FLUX seeds are shown before prefix alignment.",
+              "figure_id": "figure-4-12",
+              "figure_number": "4",
+              "height": 260,
+              "image_path": "figures/2611.25847/figure-003.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 820
+            },
+            {
+              "caption": "Figure 6. Video generation at 10 guided evaluations. The two examples use the prompts “a coconut tree by the house” and “road on mountain ridge.” Each example shows frames 1, 41, and 81 of an 81-frame video at 24 fps. The same frames are shown for every method. The top row is the UniPC-50 reference; all other rows use 10 guided evaluations with the same prompt and base noise. TrajCal-UniPC more closely preserves the reference scene layout and appearance, including the pool and house in (a) and the road markings and rock face in (b).",
+              "figure_id": "figure-6-21",
+              "figure_number": "6",
+              "height": 754,
+              "image_path": "figures/2611.25847/figure-004.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 5. Random schedules and the three selected seeds. Each column shows four schedules sampled from one ρ range at B = 12. Top: interval lengths hj as percentages of the full sampling interval. Bottom: hj+1/hj , the ratio of the next interval length to the current one; the dashed line at one marks equal lengths. Intervals grow throughout in the first two columns, but their growth ratios increase on the left and decrease in the middle. In the right column, interval lengths peak near the end and then decrease. Colors mark the selected seeds S1–S3; the remaining schedules are gray. The schedules are shown before mixing, deformation, and prefix alignment. Table 8 gives all twelve parameter pairs.",
+              "figure_id": "figure-5-13",
+              "figure_number": "5",
+              "height": 382,
+              "image_path": "figures/2611.25847/figure-005.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 810
+            },
+            {
+              "caption": "Figure 7. Image generation with EasyCache and TrajCal-Correction. Each row uses one prompt–noise pair. From left to right: the FLUX-50 reference, EasyCache with 13 full model evaluations, and TrajCal-Correction with 12. EasyCache preserves the overall reference composition but leaves visible noise, particularly in the cake background and laptop screen; TrajCal-Correction produces cleaner outputs.",
+              "figure_id": "figure-7-3",
+              "figure_number": "7",
+              "height": 849,
+              "image_path": "figures/2611.25847/figure-006.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 826
+            },
+            {
+              "caption": "Table 4. Search settings. Counts are for one model at one evaluation budget. TrajCal-UniPC also includes the native UniPC schedule.",
+              "figure_id": "table-4-16",
+              "figure_number": "4",
+              "height": 427,
+              "image_path": "figures/2611.25847/table-007.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 496
+            },
+            {
+              "caption": "Table 9. Random and trajectory-based seeds at 12 evaluations. All methods use the same 200 image inputs and paired FLUX50 references. Both seed constructions use the same candidate expansion and selection procedure. CAT-OV uses an adaptive number of evaluations. Bold and underlined values mark the best and second-best results, excluding the reference. Blue rows show TrajCalCorrection. HPSv3 and CLIP measure human preference and prompt alignment, respectively.",
+              "figure_id": "table-9-19",
+              "figure_number": "9",
+              "height": 288,
+              "image_path": "figures/2611.25847/table-008.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 832
+            },
+            {
+              "caption": "Table 2. Video generation at 10 and 20 evaluations. Results on 100 Wan2.2-TI2V-5B inputs, using paired UniPC-50 references and B guided velocity evaluations. PSNR uses all 81 frames per video; LPIPS and SSIM use 16 uniformly sampled frames. The VBench dimensions are overall consistency (OC), subject consistency (SC), background consistency (BC), motion smoothness (MS), imaging quality (IQ), and dynamic degree (DD). Bold and underlined values mark the best and second-best few-step results within each budget; shading highlights TrajCal-UniPC.",
+              "figure_id": "table-2-8",
+              "figure_number": "2",
+              "height": 417,
+              "image_path": "figures/2611.25847/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 829
+            },
+            {
+              "caption": "Table 16. Combined results for the three unseen styles. Schedules calibrated on photography are applied unchanged to watercolor, anime, and flat-vector art. Each budget uses 30 scenes in three styles, giving 90 images per method. RMSE, LPIPS, and SSIM are averaged over these images; FID is computed jointly from all 90 outputs and their paired FLUX-50 references. Bold and underlined values mark the best and second-best results at each budget.",
+              "figure_id": "table-16-9",
+              "figure_number": "16",
+              "height": 411,
+              "image_path": "figures/2611.25847/table-010.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 504
+            },
+            {
+              "caption": "Table 7. Baseline settings and reference choice. The OptimalSteps and SharpEuler comparisons change only the named setting and use FLUX-50 as the reference. In the last block, we keep the generated outputs fixed and change the reference to iPNDM-60.",
+              "figure_id": "table-7-20",
+              "figure_number": "7",
+              "height": 358,
+              "image_path": "figures/2611.25847/table-011.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 832
+            },
+            {
+              "caption": "Table 3. Cross-style generalization. Schedules calibrated on photography are reused unchanged on 30 scenes in four styles: photography, watercolor, anime, and flat-vector art. FID is computed from all 120 generated images and their references; the other three metrics are averaged over these outputs. Bold, underlining, and shading follow Table 1.",
+              "figure_id": "table-3-17",
+              "figure_number": "3",
+              "height": 390,
+              "image_path": "figures/2611.25847/table-012.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 10. Selection objective, correction strength, and shared prefix. We report mean scores on the same 100 image inputs at 12 evaluations. The objective comparison uses the same retained candidates. We select a schedule separately for each η and repeat screening and selection when prefix alignment is removed.",
+              "figure_id": "table-10-23",
+              "figure_number": "10",
+              "height": 304,
+              "image_path": "figures/2611.25847/table-013.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 832
+            },
+            {
+              "caption": "Table 6. Image and video generation settings. All runs use a batch size of one.",
+              "figure_id": "table-6-25",
+              "figure_number": "6",
+              "height": 279,
+              "image_path": "figures/2611.25847/table-014.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 496
+            },
+            {
+              "caption": "Table 5. Number of calibration and evaluation inputs. We use Dc to construct seeds and screen candidates, and Ds to select the final schedules. “Shared” counts inputs included in both calibration sets. Evaluation inputs are separate from both sets.",
+              "figure_id": "table-5-24",
+              "figure_number": "5",
+              "height": 170,
+              "image_path": "figures/2611.25847/table-015.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 496
+            },
+            {
+              "caption": "Table 1. Image generation at 12 and 16 evaluations. Results on 500 FLUX.1-dev inputs, with reference fidelity measured against FLUX50 outputs from the same prompts and base noise. RMSE, LPIPS, and SSIM are averaged over paired outputs; FID compares the two 500-image sets. HPSv3 and CLIP assess human preference and prompt alignment. B denotes the evaluation budget; CAT-OV averages 11.57 and 15.504 evaluations. Bold and underlined values mark the best and second-best results; shading highlights TrajCal-Correction.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 227,
+              "image_path": "figures/2611.25847/table-016.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 829
+            },
+            {
+              "caption": "Table 8. Parameters of the twelve random schedules. The two indices in each name identify the ρ range and a subinterval. The last column gives the ratio of the last interval length to the first, ea = h11/h0. Values are rounded for display.",
+              "figure_id": "table-8-14",
+              "figure_number": "8",
+              "height": 379,
+              "image_path": "figures/2611.25847/table-017.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 496
+            },
+            {
+              "caption": "Table 19. Model calls with and without prefix reuse. Counts are per update rule for image calibration. Screening uses 42 candidates and eight inputs; final selection uses 18 candidates and 128 inputs (64 at budget 20). Each stage starts with an empty cache. Counts exclude reference and anchor generation, decoding, and metric computation.",
+              "figure_id": "table-19-5",
+              "figure_number": "19",
+              "height": 169,
+              "image_path": "figures/2611.25847/table-018.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 496
+            },
+            {
+              "caption": "Table 13. Results for watercolor. Schedules calibrated on photography are used unchanged. Each budget uses the same 30 scenes and paired FLUX-50 references. Bold and underlined values mark the best and second-best results, excluding the reference.",
+              "figure_id": "table-13-6",
+              "figure_number": "13",
+              "height": 463,
+              "image_path": "figures/2611.25847/table-019.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 500
+            },
+            {
+              "caption": "Table 12. Results for photography. Calibration uses photography. Each budget uses the same 30 scenes and paired FLUX-50 references. Bold and underlined values mark the best and secondbest results, excluding the reference.",
+              "figure_id": "table-12-7",
+              "figure_number": "12",
+              "height": 462,
+              "image_path": "figures/2611.25847/table-020.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 500
+            },
+            {
+              "caption": "Table 15. Results for flat-vector art. Schedules calibrated on photography are used unchanged. Each budget uses the same 30 scenes and paired FLUX-50 references. Bold and underlined values mark the best and second-best results, excluding the reference.",
+              "figure_id": "table-15-10",
+              "figure_number": "15",
+              "height": 463,
+              "image_path": "figures/2611.25847/table-021.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 500
+            },
+            {
+              "caption": "Table 14. Results for anime. Schedules calibrated on photography are used unchanged. Each budget uses the same 30 scenes and paired FLUX-50 references. Bold and underlined values mark the best and second-best results, excluding the reference.",
+              "figure_id": "table-14-11",
+              "figure_number": "14",
+              "height": 462,
+              "image_path": "figures/2611.25847/table-022.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 500
+            },
+            {
+              "caption": "Table 11. Euler and correction on fixed schedules. We apply both updates to each selected schedule at 12 and 16 evaluations, using the same 100 image inputs. Time nodes are fixed within each comparison; correction uses η = 0.5. Bold and underlined values mark the best and second-best results at each budget.",
+              "figure_id": "table-11-22",
+              "figure_number": "11",
+              "height": 150,
+              "image_path": "figures/2611.25847/table-023.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 832
+            },
+            {
+              "caption": "Table 17. Image generation at 8 and 20 evaluations. Both budgets use the same 200 image inputs and paired FLUX-50 references. CAT-OV averages 7.58 and 19.41 evaluations, respectively. Bold and underlined values mark the best and second-best results at each budget.",
+              "figure_id": "table-17-15",
+              "figure_number": "17",
+              "height": 213,
+              "image_path": "figures/2611.25847/table-024.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 832
+            },
+            {
+              "caption": "Table 18. Image and video generation time. Mean ± sample standard deviation of recorded denoising time in seconds, on the same 500 image inputs or 100 video inputs used in the main comparisons. Budgets count velocity evaluations, with guidance included for video. CAT-OV uses 11.57 and 15.50 evaluations on average at the two image budgets. Decoding is excluded.",
+              "figure_id": "table-18-4",
+              "figure_number": "18",
+              "height": 213,
+              "image_path": "figures/2611.25847/table-025.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 832
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.25847/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.25847",
+          "relevance": 7,
+          "selection_reason": "Improves few-step sampling in flow matching for video generation, enhancing efficiency and fidelity without sacrificing quality.",
+          "summary_status": "generated",
+          "title": "TrajCal: Trajectory-Calibrated Time Schedules for Few-Step Flow Sampling",
+          "tldr": "TrajCal is a training-free method that searches for fixed few-step sampling schedules that better match many-step flow-generation outputs.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Interactive game world models separate executable world evolution from visual generation, using video models to render engine-provided scene representations into detailed observations. During sustained gameplay, however, existing generative renderers struggle to follow changing conditions while preserving visual continuity across diverse proxies and target styles. We therefore introduce ContextRenderer, an autoregressive video diffusion framework designed for both dynamic conditioning and cross-proxy generalization. It couples Dynamic-Context Learning (DCL) for chunk-level interaction supervision with Recurrent History Compression (RHC) to follow condition updates while preserving visual continuity within a bounded token budget. Across proxy representations, Cross-Representation Flow Alignment (CRFA) connects proxy reconstruction with appearance and interaction variation through a shared high-fidelity reconstruction. WorldPrism, our interaction-centric dataset constructed from agent-built worlds, AAA gameplay, and open-source videos, supplies the corresponding renderings and chunk-level annotations for these learning tasks. Experiments on GWM-Bench and Solar-Bench show improved reconstruction and visual quality, while qualitative results demonstrate minute-long interactive rendering under changing prompts and subject references. Project page: https://rainzor.github.io/contextrenderer/",
+          "arxiv_id": "2611.25838",
+          "arxiv_url": "https://arxiv.org/abs/2611.25838",
+          "authors": [
+            "Runze Wang, Fei Zha, Bing He, Ke Xu, Zhongyuan Wu, Yuxuan Xie, Wenzheng Wu, Zhongyuan Liu, Youcheng Cai, Ligang Liu"
+          ],
+          "bullets": [
+            "Targets generative renderers that lose continuity and fail to follow evolving gameplay conditions.",
+            "Uses Dynamic-Context Learning for chunk-level interaction supervision and Recurrent History Compression to maintain continuity within a bounded token budget.",
+            "Introduces Cross-Representation Flow Alignment to support generalization across diverse scene proxies and target appearances.",
+            "Provides WorldPrism, a dataset of agent-built worlds, AAA gameplay, and open-source videos with renderings and chunk-level annotations.",
+            "Improves reconstruction and visual quality on GWM-Bench and Solar-Bench; qualitative results show sustained interactive rendering under changing prompts and references."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.GR"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. ContextRenderer overview. (a) Refreshed text, subject references, and proxy chunks condition next-chunk generation alongside visual history. Recurrent History Compression keeps an anchor and multiscale rolling history; generated latents update future steps. (b) Proxy and target tokens share spatiotemporal RoPE coordinates at a fixed local temporal start after history; dashed text takes prefix RoPE slots (MiniMax-H3) or RoPE-free cross-attention (Wan). (c) Cross-Representation Flow Alignment jointly trains direct rendering, shared reconstruction, and reconstruction-to-target variation; inference uses the direct path. Scene images and token counts are schematic.",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 466,
+              "image_path": "figures/2611.25838/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1011
+            },
+            {
+              "caption": "Figure 4. Overview of the WorldPrism data engine. (a) Structural and event signals are extracted from source trajectories. (b) Conditional synthesis and VLM filtering produce corresponding proxies and target variants. (c) Each trajectory’s m proxies and n target variants form m×n training pairs with synchronized chunks, interaction prompts, and subject references.",
+              "figure_id": "figure-4-7",
+              "figure_number": "4",
+              "height": 416,
+              "image_path": "figures/2611.25838/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 484
+            },
+            {
+              "caption": "Figure 6. Any interaction, any proxy, any look. Each row pairs one interaction with a different proxy representation, a subject reference, and a look prompt. Highlighted frames mark key events: a new subject reference (+B, +car) entering the world context, or a prompted effect (lightning).",
+              "figure_id": "figure-6-2",
+              "figure_number": "6",
+              "height": 527,
+              "image_path": "figures/2611.25838/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 5. A minute-long interactive rendering session. Prompts and subject references are updated as gameplay unfolds, with later views revisiting the opponent and vehicle. Symbols indicate references introduced (+), removed (−), or reintroduced (⟲); insets show the semantic proxy.",
+              "figure_id": "figure-5-1",
+              "figure_number": "5",
+              "height": 420,
+              "image_path": "figures/2611.25838/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 7. Visual comparison across model scales. Vehicle exit from a voxel proxy and an ukiyo-e first frame, comparing ContextRenderer with EdenLive (5B/14B) and SolarRenderer-AR (33B).",
+              "figure_id": "figure-7-5",
+              "figure_number": "7",
+              "height": 393,
+              "image_path": "figures/2611.25838/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 491
+            },
+            {
+              "caption": "Figure 2. Interactive game world model. Engine states provide current world conditions; the renderer combines them with visual history to generate the next observation. Outputs inform player actions and extend history. Images are illustrative.",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 329,
+              "image_path": "figures/2611.25838/figure-006.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 484
+            },
+            {
+              "caption": "Table 3. Ablations on the dynamic-update hard subset of GWMBench-Variation (n = 63). Sequences include mid-clip character arrivals. On the same 33B model, w/o DCL freezes prompts and references and w/o RHC keeps only the first frame at inference; w/o CRFA uses direct proxy-to-target training. Metrics: DOVER [33], DISTS [7], Edge F1 [9], Flicker [9], and Adj. Sim. [9, 26].",
+              "figure_id": "table-3-4",
+              "figure_number": "3",
+              "height": 145,
+              "image_path": "figures/2611.25838/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.25838/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.25838",
+          "relevance": 8,
+          "selection_reason": "Introduces ContextRenderer for dynamic-context video generation in interactive game worlds, bridging video generation with interactive environment simulation.",
+          "summary_status": "generated",
+          "title": "ContextRenderer: Dynamic-Context Video Generation for Interactive Game Worlds",
+          "tldr": "ContextRenderer enables visually consistent, minute-long video rendering for interactive game worlds despite changing conditions, proxies, and styles.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "When a storm can head north or south, a forecast down the middle may score better under squared error than either plausible path. The same paradox appears when video generators are tested as world models: fewer denoising steps can raise physics scores even as videos blur or stop moving early. Why? Physics-IQ compares each generated video with one recording, although a scene can have multiple valid futures. An exact decomposition shows its scores can reward reduced variation among generated futures, even when their distribution becomes less accurate. We introduce Kernel Physics-IQ to remove this incentive in expectation, needing only two independent samples per condition. Two-step sampling lowers Kernel Physics-IQ in all five image-to-video models. For CogVideoX, the official score rises by 0.055 while ours falls by 0.131. Changing the sampling schedule reveals further differences official scores miss. In controlled physical systems with known outcome probabilities, our metric favors the true distribution over collapsed predictions. In short, a world model should be judged not only by how closely one video matches what happened, but by how faithfully its predictions represent what could have happened.",
+          "arxiv_id": "2611.25632",
+          "arxiv_url": "https://arxiv.org/abs/2611.25632",
+          "authors": [
+            "Yutao Li, Chen Wang"
+          ],
+          "bullets": [
+            "Single-reference squared-error evaluation may favor blurred or prematurely stopped videos that reduce prediction variance.",
+            "The authors formally decompose this bias and show that Physics-IQ can improve as generated futures collapse, even when their distribution worsens.",
+            "Kernel Physics-IQ removes the incentive in expectation using two independent samples per condition.",
+            "Across five image-to-video models, two-step sampling lowered Kernel Physics-IQ; for CogVideoX, the official score rose by 0.055 while the proposed score fell by 0.131.",
+            "Controlled physical-system tests show the new metric prefers the true outcome distribution over collapsed predictions."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 6. Tied official scores hide different futures. (a) Predictors in a pendulum world that swings left or right with equal probability: each card shows what the predictor draws (line weight: probability; dashed: never drawn), and the pixel mean blends both swings into one video (diamond: mean position). (b) Exact scores, averaged with a ball dropped onto a peg: the raw official composite ties the first four, whereas Kernel Physics-IQ ranks the true distribution first, as it does among all 34 predictors. (c) Mask distance: staying still wins below the thresholds of Prop. 2.",
+              "figure_id": "figure-6-3",
+              "figure_number": "6",
+              "height": 284,
+              "image_path": "figures/2611.25632/figure-001.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 489
+            },
+            {
+              "caption": "Figure 3. What one sample cannot see. A sample is scored by its distance to the recording (blue), which on average is the kernel score plus half the self-dispersion (green). Two-step samples disperse less: the dispersion premium they collect (dashed) outweighs their kernel loss, so single-sample scoring prefers them. A second sample measures the self-dispersion, which Kernel Physics-IQ subtracts. Frames: paper-smoke 2 s after the switch frame (Wan2.2, two seeds). Brackets (root-mean-square) and bars: Wan2.2 ST IoU distances on whole clips, mean over 66 scenes.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 231,
+              "image_path": "figures/2611.25632/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 458
+            },
+            {
+              "caption": "Figure 4. Fewer steps align seeds far more than they match truth. (a) Recording (x̄) vs. seed overlap (ȳ) with Eq. (6) contours and the 0.695 no-overlap line. (b) Dispersion-premium and kernelpart bars behind net diamonds for the official split. (c) Spatial masks behind x and y: Wan2.2 seeds 43 and 44 on rolling-reflection (Fig. 2b) against take 1 (teal). (d) ST IoU splits by scene motion.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 114,
+              "image_path": "figures/2611.25632/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 485
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.25632/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.25632",
+          "relevance": 8,
+          "selection_reason": "Analyzes evaluation of video generators as world models and denoising-step effects; relevant to world models and video diffusion.",
+          "summary_status": "generated",
+          "title": "What One Sample Cannot See: Why Fewer Denoising Steps Can Score Higher on Physics Benchmarks",
+          "tldr": "Physics-IQ can reward video world models for producing less varied, less realistic futures; Kernel Physics-IQ corrects this using two independent samples per condition.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Human-object motion synthesis requires coordinated human participation as objects move toward specified goals. However, reaching object targets does not ensure that contact is established and maintained, while adjustments that improve contact may interfere with task completion. We introduce CoRelate, a diffusion framework that coordinates full-body human-object motion through explicit interaction relations and task feedback for rigid and articulated objects. We represent intended participation through hand-part relations that specify the participating hand, its part-relative reference position, and participation interval. These relations serve both as generation conditions and as references for measuring interaction realization. At each denoising step, a temporal refiner trained jointly with the generator combines relation deviations, task residuals, and motion features from the current prediction to jointly update human and object motion across the sequence. After generation, temporal motion correction addresses remaining contact failures by optimizing local motion segments while preserving object trajectories and protected human motion. Experiments demonstrate improved object-goal satisfaction, contact F1, and complete interaction success over the evaluated baselines. Ablation studies support the benefits of relation conditioning and the complementary roles of task and relation feedback.",
+          "arxiv_id": "2611.25166",
+          "arxiv_url": "https://arxiv.org/abs/2611.25166",
+          "authors": [
+            "Zhiwen Qiu, Daisy Lin, Diyu Zhou, Jialin Wu, Rosita Ji, Saleh Kalantari"
+          ],
+          "bullets": [
+            "Targets the challenge of achieving both object-goal completion and sustained human–object contact.",
+            "Conditions generation on participating hand, part-relative reference position, and interaction interval.",
+            "Uses a temporal refiner to jointly update human and object motion from relation deviations, task residuals, and current motion features.",
+            "Applies local temporal correction after generation to fix contact failures while preserving object trajectories and protected human motion.",
+            "Experiments report improved object-goal satisfaction, contact F1, and complete interaction success; ablations support relation conditioning and combined feedback."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of CoRelate. (A) From the task conditions and a task-only proposal X, we construct relations R: a hand, a wrist reference xrel in the part frame that moves with the part, and establish, hold, and release phases. (B) R conditions the generator Dθ and is the reference for relation feedback z (blue paths). At each denoising step, Fψ combines z, task residuals etask, and features f to update human and object motion, with R and goals g fixed. (C) Temporal correction then edits local hand motion with the object trajectory fixed followed by finger refinement.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 404,
+              "image_path": "figures/2611.25166/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 4. Qualitative ablation visualization. We progressively add task and relation feedback to the no-feedback baseline and highlight incorrect interactions.",
+              "figure_id": "figure-4-3",
+              "figure_number": "4",
+              "height": 481,
+              "image_path": "figures/2611.25166/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 1. Comparison on FullBodyManipulation dataset. CoRelate achieves lower object-target errors and higher contact F1 and complete interaction success than the evaluated baselines. † denotes task-adapted methods.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 171,
+              "image_path": "figures/2611.25166/table-003.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Table 3. Ablation study. Each design choice contributes and task and relation feedback show complementary gains when combined.",
+              "figure_id": "table-3-4",
+              "figure_number": "3",
+              "height": 151,
+              "image_path": "figures/2611.25166/table-004.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 1036
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.25166/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.25166",
+          "relevance": 7,
+          "selection_reason": "Diffusion-based human-object motion synthesis, relevant to video generation.",
+          "summary_status": "generated",
+          "title": "CoRelate: Coordinated Human-Object Motion Synthesis through Interaction Relations",
+          "tldr": "CoRelate synthesizes coordinated human–object motions by combining explicit hand–object interaction relations with task-aware diffusion refinement and post-generation contact correction.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-18",
       "paper_count": 8,
       "papers": [
@@ -67633,5 +69879,5 @@
   "schema_version": 1,
   "subtopic_id": "video-diffusion",
   "topic_id": "video-models",
-  "total_paper_count": 333
+  "total_paper_count": 348
 }

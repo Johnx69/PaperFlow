@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Long-Context Models
 
-**154 papers total**
+**156 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-19 | [The Window Lever: Longer Observation Windows Outweigh the Observed Effects of Data, Capacity, and Architecture in Customer Behavior Forecasting](https://arxiv.org/abs/2611.26521) | Language Foundation Models: Long-Context Models | For long-horizon customer-behavior forecasting, extending the history window appears far more influential than adding data, model capacity, or newer architectures, though calendar coverage prevents isolating the window’s causal effect. | 7 | 7 |
+| 2026-11-19 | [DTS: Delta-Based Tile Scoring for Efficient Long-Context Sparse Attention](https://arxiv.org/abs/2611.25938) | Efficient AI: Efficient Attention; Language Foundation Models: Long-Context Models | DTS enables efficient long-context sparse attention by scoring tiles from local vector changes while preserving near-full-attention quality. | 8 | 7 |
 | 2026-11-18 | [Measuring and Charging for Retained Context in Long-Context LLM Services](https://arxiv.org/abs/2611.24071) | Efficient AI: KV Cache and Memory Efficiency; Language Foundation Models: Long-Context Models | A framework for pricing retained long-context LLM context finds that relevance matters more than position, while cache-aware billing can reduce peak session charges but may raise median costs. | 5 | 6 |
 | 2026-11-18 | [FutureBench: A Renewable Framework for Evaluating Knowledge-Context Conflict in LLMs](https://arxiv.org/abs/2611.23601) | Language Foundation Models: LLM Memory, Long-Context Models | FutureBench evaluates how prompts and retrieved passages make LLMs resolve conflicts between context and their own knowledge over time. | 8 | 7 |
 | 2026-11-17 | [LMLineage: Content Lineage and Context Governance for LLM Agents](https://arxiv.org/abs/2611.22511) | Language Foundation Models: LLM Memory, Long-Context Models | LMLineage traces each agent output sentence to supporting context without model internals or extra inference, then safely compacts context that has drifted out of use. | 7 | 7 |

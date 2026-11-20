@@ -6,10 +6,14 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Latent Action Models
 
-**123 papers total**
+**127 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-19 | [One Prior, Two Dynamics: Repurposing Video Diffusion Transformers for Self-Supervised Latent Action Learning](https://arxiv.org/abs/2611.26617) | Embodied AI: Robot Learning and Manipulation; World Models: Latent Action Models, Video World Models | O²LaF repurposes pretrained video models to jointly learn transferable latent actions and their visual consequences from unlabeled videos. | 9 | 8 |
+| 2026-11-19 | [Neural Conditional Gaussian Model: Efficient Data Assimilation with Sequential Uncertainty Quantification for Nonlinear Dynamics](https://arxiv.org/abs/2611.26463) | World Models: Latent Action Models | Neural CGM enables efficient nonlinear data assimilation by combining learned encoder-decoder dynamics with closed-form latent-space uncertainty updates. | 7 | 8 |
+| 2026-11-19 | [FFGaussType: Feed-Forward Conversion of Glyph and SVG Geometry into Compact Gaussian Assets](https://arxiv.org/abs/2611.26431) | World Models: Latent Action Models; 3D Vision: 3D Foundation Models | FFGaussType converts glyph and SVG geometry into compact, renderable Gaussian assets in one fast forward pass instead of per-asset optimization. | 9 | 9 |
+| 2026-11-19 | [Fast-JEPA: Advancing the Success-Latency Frontier for Latent World Models](https://arxiv.org/abs/2611.25927) | World Models: Latent Action Models | Fast-JEPA makes latent-world-model planning faster by replacing costly recursive rollouts with direct evaluation of complete candidate action sequences. | 9 | 8 |
 | 2026-11-18 | [Latent Action Policies from Suboptimal Data](https://arxiv.org/abs/2611.24482) | Embodied AI: Robot Learning and Manipulation; World Models: Latent Action Models | LAPIS improves goal-conditioned policies learned from action-free video by making offline RL reliable in latent action spaces. | 8 | 7 |
 | 2026-11-18 | [WAM-Policy: World Action Models with On-Policy Distillation for Quadrupedal Loco-Manipulation](https://arxiv.org/abs/2611.24011) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation; World Models: Latent Action Models | WAM-Policy adapts language-conditioned arm-manipulation models to quadrupedal loco-manipulation, achieving 85.0% on simulated tasks while reducing inference cost through on-policy distillation. | 9 | 7 |
 | 2026-11-17 | [WoRD: Diffusion-Based Posterior Inference for Online Goal Recognition](https://arxiv.org/abs/2611.23192) | Embodied AI: Robot Navigation; World Models: Latent Action Models; Video Generation and Understanding: Video Understanding | WoRD uses diffusion-based trajectory inference to maintain calibrated, multimodal beliefs about an agent’s goal from partial motion observations. | 8 | 8 |

@@ -6,10 +6,14 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Vision-Language Navigation
 
-**164 papers total**
+**168 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-19 | [ZeroVLN: Learning to Navigate without Supervised Fine-Tuning of the VLM Brain](https://arxiv.org/abs/2611.26414) | Embodied AI: Vision-Language Navigation | ZeroVLN enables effective continuous-environment navigation without navigation-domain supervised fine-tuning of the VLM, preserving its general visual capabilities. | 9 | 8 |
+| 2026-11-19 | [Goal-Guided Reinforcement Learning via Fine-Tuning Vision-Language Models](https://arxiv.org/abs/2611.25742) | Embodied AI: Vision-Language Navigation; Multimodal Foundation Models: Multimodal Large Language Models | Fine-tuning a vision-language model on environment-specific goal preferences improves exploration and achievement in sparse-reward Craftax-Classic RL. | 9 | 8 |
+| 2026-11-19 | [Cognitive-Horizon Action Chunking: Memory-Guided Adaptive Reasoning for Embodied Navigation](https://arxiv.org/abs/2611.25587) | Embodied AI: Vision-Language Navigation; Efficient AI; Adaptation and Memory: Embodied Memory | CHAC reduces costly vision-language model calls in embodied navigation by adaptively executing cached waypoints while largely preserving navigation success. | 8 | 7 |
+| 2026-11-19 | [Have You Seen It Clearly? Uncertainty-Guided Belief Refinement for Zero-Shot Object Navigation](https://arxiv.org/abs/2610.15375) | Embodied AI: Vision-Language Navigation | RefBeliefNav improves zero-shot object navigation by refining uncertain target beliefs and balancing exploration with revisitation. | 9 | 8 |
 | 2026-11-18 | [NereidVLA: Learning to Understand and Navigate the Underwater World](https://arxiv.org/abs/2611.24864) | Embodied AI: Vision-Language Navigation, Robot Navigation, Vision-Language-Action | NereidVLA transfers marine spatial knowledge to language-guided 3D underwater navigation, achieving strong simulated and real-robot performance without real-environment fine-tuning. | 9 | 8 |
 | 2026-11-18 | [Allocentric Memory, Egocentric Acting: A Dual-Frame VLA for Urban Aerial Navigation](https://arxiv.org/abs/2611.24247) | Embodied AI: Vision-Language Navigation, Vision-Language-Action; Adaptation and Memory: Embodied Memory | CityNav-VLA combines egocentric perception with persistent allocentric map memory to improve language-guided urban UAV navigation. | 9 | 8 |
 | 2026-11-18 | [AeroRSI: Recursive Self-Improvement for Aerial Vision-Language Navigation](https://arxiv.org/abs/2611.24077) | Embodied AI: Vision-Language Navigation, Vision-Language-Action | AeroRSI improves aerial vision-language navigation by having UAV policies iteratively discover, verify, and learn from repairs to their own flight failures. | 9 | 8 |

@@ -1,6 +1,620 @@
 {
   "days": [
     {
+      "date": "2026-11-19",
+      "paper_count": 4,
+      "papers": [
+        {
+          "abstract": "Feed-forward models have been very successful in 3D reconstruction with ad hoc attention designs that relate all view patches densely. However, the cost of this dense global attention grows quadratically with the number of views, preventing the model from applying to larger-scale reconstruction settings. In this paper, we argue that most dense attention computations are unnecessary from a classical structure-from-motion perspective: 3D structures stem from geometrically matching regions in 2D. We bring this principle to learning-based feed-forward reconstruction with our Sparse Geometric Attention Reconstruction (SGAR) method. In SGAR, each patch token attends to only a small set of patch tokens from other views, chosen by a lightweight learned key selection module trained to predict cross-view 3D proximity of tokens. Thus, dense global attention is replaced by much more efficient geometric-similarity-guided sparse attention. SGAR is a general method that can be applied to different feed-forward models by fine-tuning. In our experiments, we show that SGAR is the fastest among both state-of-the-art dense and sparse methods and the most accurate sparse one. It runs up to 12-times faster than dense attention at 1,000 views with stable pose accuracy where existing sparse methods fail, and shows the best performance in reconstructing more complete geometries on the same time budget.",
+          "arxiv_id": "2611.26493",
+          "arxiv_url": "https://arxiv.org/abs/2611.26493",
+          "authors": [
+            "Aoxiang Fan, Maria Pilligua, Corentin Dumery, Oliver Heinimann, Pascal Fua"
+          ],
+          "bullets": [
+            "Dense global attention scales quadratically with the number of views, limiting large-scale reconstruction.",
+            "A lightweight key-selection module predicts cross-view 3D proximity and selects only relevant patch tokens.",
+            "The approach can be integrated into different feed-forward reconstruction models through fine-tuning.",
+            "Experiments report the fastest runtime among compared dense and sparse methods, with the strongest accuracy among sparse methods.",
+            "At 1,000 views, SGAR runs up to 12× faster than dense attention while maintaining stable pose accuracy and producing more complete geometry under equal time budgets."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4. Qualitative comparison. Point clouds predicted by FastVGGT, ZipMap and SGAR (DejaView), with the ground truth, on one scene of each of 7-Scenes (chess/seq-03), ETH3D (courtyard, laser scan), LaMAR (HGE) and Mip-NeRF 360 (bonsai, SfM points). Left: four of the input views. Below each reconstruction: the AUC@30 of its cameras. SGAR (DejaView) keeps the structure of the scene where the other efficient models fragment it, most visibly on the long LaMAR trajectory.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 715,
+              "image_path": "figures/2611.26493/figure-001.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1031
+            },
+            {
+              "caption": "Figure 3. Overview of SGAR. We replace the global dense attention of DejaView [8] with our sparse geometric attention as an example. The images are encoded by DINOv2 and augmented with camera and register tokens. A single shared block, unrolled over its L steps, runs frame attention, key selection and sparse attention. In sparse attention, each patch attends to the special tokens of all views, the patches of the reference view, a summary of each cluster, and all the patches of the nearest clusters, so that its cost grows near-linearly with the number of views. Key Selection projects the patch tokens by Wadj into a geometric embedding and clusters the embeddings by spherical k-means into √ N clusters, re-clustered at every step. Each cluster probes its m = 4 nearest clusters, itself first. With the patches sorted by cluster, the selected keys form a block-sparse mask over tiles of 128 tokens. A contrastive loss pulls together the embeddings of patches that observe the same surface in the ground-truth geometry and pushes the others apart.",
+              "figure_id": "figure-3-8",
+              "figure_number": "3",
+              "height": 271,
+              "image_path": "figures/2611.26493/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 5. Scaling with the number of views. Time per scene (a, log scale) and AUC@30 (b) on the ScanNet test capture scene0770 00, with 100 to 1,000 views evenly spaced over its 3,383 frames, so that more views sample the same trajectory more densely. A line ends where the model runs out of memory on the A100 80 GB or fails; the cross marks its last size.",
+              "figure_id": "figure-5-6",
+              "figure_number": "5",
+              "height": 335,
+              "image_path": "figures/2611.26493/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1015
+            },
+            {
+              "caption": "Figure 2. Dense attention is redundant. By selecting oracle topk keys based on ground-truth geometry, most of the pose accuracy can be retained even when 99% of attention weights are zeroed out. Evaluating DejaView [8] on an NRGBD [3] scene.",
+              "figure_id": "figure-2-4",
+              "figure_number": "2",
+              "height": 201,
+              "image_path": "figures/2611.26493/figure-004.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 489
+            },
+            {
+              "caption": "Table 1. Camera pose estimation. SGAR (VGGT-Ω) and SGAR (DejaView) are the fastest models at every sequence length and the most accurate efficient ones, close to their dense counterparts. AUC in %, time in s per scene, Params in millions, Mem in peak GiB on Mip-NeRF 360; OOM: out of memory; FAIL: kernel compile error; –: not available. Green, yellow-green, yellow: first, second, third; ties share a place.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 401,
+              "image_path": "figures/2611.26493/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 906
+            },
+            {
+              "caption": "Table 4. Ablations. An ablation study on the SGAR (DejaView) model. AUC@30 (%) and time (s per scene). K = 100: mean over the four short datasets; ScanNet: 1,000 views.",
+              "figure_id": "table-4-7",
+              "figure_number": "4",
+              "height": 244,
+              "image_path": "figures/2611.26493/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 448
+            },
+            {
+              "caption": "Table 2. Reconstruction at a fixed time budget. Coverage @5 cm (%): share of the ground-truth surface of ScanNet scene0770 00 within 5 cm of a predicted point after ICP alignment, with each model given as many views as fit in the budget. Of each column, over all models, green marks the best value, yellowgreen the second and yellow the third. Our model can recover the most complete geometries at all time budgets.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 376,
+              "image_path": "figures/2611.26493/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 412
+            },
+            {
+              "caption": "Table 3. Depth estimation. Depth on the short benchmark (K = 100 views per scene) for the three datasets with groundtruth depth. The predicted depth is aligned to the ground truth with one median scale per sequence, so it must be consistent across views. δ1.25: share of pixels with δ<1.25, in per cent (higher is better). Mean is over the three datasets, each weighted equally. Of each column, over all models, green marks the best value, yellowgreen the second and yellow the third; tied values share a place.",
+              "figure_id": "table-3-1",
+              "figure_number": "3",
+              "height": 374,
+              "image_path": "figures/2611.26493/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 387
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.26493/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.26493",
+          "relevance": 7,
+          "selection_reason": "Efficient 3D reconstruction via sparse geometry-guided attention.",
+          "summary_status": "generated",
+          "title": "SGAR: Feed-Forward 3D Reconstruction via Sparse Geometry-Guided Attention",
+          "tldr": "SGAR accelerates feed-forward 3D reconstruction by replacing costly dense cross-view attention with learned, geometry-guided sparse attention.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [],
+              "topic_id": "3d-vision"
+            },
+            {
+              "subtopic_ids": [
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Attention in large language models (LLMs) scores every query against every key with a full dot product. We investigate whether this dot product must be computed completely for attention to be effective. We propose Hidden Sparse Attention (HiSA), which keeps the query and key projections intact but only computes a partial dot product, following a static, parameter-free rule set by the token positions: attention becomes sparse in the hidden (feature) dimension, an axis much less explored than token sparsity, rather than over tokens as in almost all sparse attention methods. Based on the structure of rotary position embeddings (RoPE), we decompose keys and queries into parts which can be omitted when computing attention. By training LLMs from scratch with HiSA, we find that this partial dot product does not hurt but improves performance compared with the complete product while computing only about a third of the query-key products. During inference HiSA improves decoding speed and shrinks memory footprint. We also extend HiSA to FlashAttention-3 kernels for training and inference. Finally, we motivate our approach by showing that dense attention learns to suppress the attention score parts that HiSA drops. Code is available at https://github.com/ambroise-b/hisa.",
+          "arxiv_id": "2611.26363",
+          "arxiv_url": "https://arxiv.org/abs/2611.26363",
+          "authors": [
+            "Ambroise Borbely, Mathieu Salzmann, Olivier Verscheure"
+          ],
+          "bullets": [
+            "Targets the full query-key dot product in LLM attention rather than sparsifying across tokens.",
+            "Uses a static, parameter-free rule based on token positions and RoPE structure to omit selected query/key components.",
+            "Preserves full query and key projections while computing only a partial attention score.",
+            "Training from scratch shows no performance loss and reported improvements over complete dot products.",
+            "Extends to FlashAttention-3 and reduces decoding time and memory usage; dense attention also learns to suppress the omitted components."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.CL"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1. Dense attention computes every part (left); token-sparse attention drops whole keys (centre). HiSA keeps a part only while its rotation induced by RoPE is below an angle budget Φ: nearby keys are compared on all pairs, farther keys only on the slow ones, so attention becomes sparse in the hidden dimension rather than over tokens (right).",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 291,
+              "image_path": "figures/2611.26363/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 979
+            },
+            {
+              "caption": "Figure 4. Ereal/Enull in three layers of the dense 135M model at initialisation, after 1B tokens and at the end of training (2.7B tokens), and of the pretrained SmolLM-135M. In each panel, rows are frequency pairs (fast at the bottom) and columns distance bands (1 to 2048 tokens, log scale). Red: the true score part moves the head output more than one computed with an unrelated key; blue: less. Black line: ∆θl = 90◦ (right of it, HiSA drops the score part). All layers in Appendix E.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 447,
+              "image_path": "figures/2611.26363/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 454
+            },
+            {
+              "caption": "Figure 5. Share of the (layer, distance band) cells of the fast pairs (l = 0, . . . , 7) below the uninformative reference (Ereal < Enull), by rotation angle, at initialisation, after 1B tokens and at the end of training of the dense 135M model, and for the pretrained SmolLM135M (all 30 layers).",
+              "figure_id": "figure-5-6",
+              "figure_number": "5",
+              "height": 374,
+              "image_path": "figures/2611.26363/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 458
+            },
+            {
+              "caption": "Figure 6. The FlashAttention implementation of HiSA (block rule, S = 128, Φ = 90◦, b = 104). (a) Number of 16-feature chunks computed for each 128× 128 tile of the causal score matrix (2K context): near the diagonal all four, far from it only the slowest chunk. (b) One tile of the training kernel: the matrix multiply runs only over the kept chunks, and the dropped pairs of the boundary chunk are zeroed in the query tile. (c) The decoding cache at 4K context: each key chunk has its own ring buffer, as long as the window of its slowest pair; the values are kept within the reach.",
+              "figure_id": "figure-6-8",
+              "figure_number": "6",
+              "height": 335,
+              "image_path": "figures/2611.26363/figure-004.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 985
+            },
+            {
+              "caption": "Figure 8. Ereal/Enull per layer, pair and distance band, dense 135M model (4K, b = 104) at initialisation. Black line: ∆θl = 90◦.",
+              "figure_id": "figure-8-26",
+              "figure_number": "8",
+              "height": 567,
+              "image_path": "figures/2611.26363/figure-005.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 588
+            },
+            {
+              "caption": "Figure 7. Relative influence Il,B of each pair (rows of a panel) at each distance band (columns) in three layers of the dense 135M model during training and of SmolLM-135M, each pair divided by its maximum over the distance bands. Black line: ∆θl = 90◦.",
+              "figure_id": "figure-7-27",
+              "figure_number": "7",
+              "height": 463,
+              "image_path": "figures/2611.26363/figure-006.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 466
+            },
+            {
+              "caption": "Figure 9. Ereal/Enull per layer, pair and distance band, dense 135M model (4K, b = 104) at step 2000. Black line: ∆θl = 90◦.",
+              "figure_id": "figure-9-17",
+              "figure_number": "9",
+              "height": 568,
+              "image_path": "figures/2611.26363/figure-007.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 588
+            },
+            {
+              "caption": "Figure 10. Ereal/Enull per layer, pair and distance band, dense 135M model (4K, b = 104) at step 4000. Black line: ∆θl = 90◦.",
+              "figure_id": "figure-10-18",
+              "figure_number": "10",
+              "height": 567,
+              "image_path": "figures/2611.26363/figure-008.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 588
+            },
+            {
+              "caption": "Figure 11. Ereal/Enull per layer, pair and distance band, dense 135M model (4K, b = 104) at the end of training (step 5149). Black line: ∆θl = 90◦.",
+              "figure_id": "figure-11-12",
+              "figure_number": "11",
+              "height": 568,
+              "image_path": "figures/2611.26363/figure-009.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 585
+            },
+            {
+              "caption": "Figure 2. Which score parts HiSA keeps (Φ = 90◦, d = 64). Pair l contributes only while its RoPE rotation ∆θl is below the angle budget, i.e. up to the distance ∆max,l = Φ/θl (shaded for b = 104). Fast pairs see a few tokens, slow pairs thousands; raising the RoPE base b stretches every window.",
+              "figure_id": "figure-2-10",
+              "figure_number": "2",
+              "height": 340,
+              "image_path": "figures/2611.26363/figure-010.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 458
+            },
+            {
+              "caption": "Figure 3. Exact rule and block rule, for one query (block). Rows: keys, nearest first; columns: RoPE pairs, fast to slow. The exact rule (left) drops pairs key by key. The block rule (right) groups keys into blocks (128 tokens) and pairs into chunks (8 pairs, 16 features); each block keeps the pairs of its nearest key, so a (block, chunk) tile of K is either skipped or multiplied, with the dropped pairs of the boundary chunk zeroed in Q.",
+              "figure_id": "figure-3-25",
+              "figure_number": "3",
+              "height": 308,
+              "image_path": "figures/2611.26363/figure-011.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 454
+            },
+            {
+              "caption": "Figure 13. Relative influence Il,B (Equation (20)) per layer, pair and distance band, dense 135M model (4K, b = 104) at initialisation; each pair divided by its maximum over the distance bands. Black line: ∆θl = 90◦.",
+              "figure_id": "figure-13-16",
+              "figure_number": "13",
+              "height": 514,
+              "image_path": "figures/2611.26363/figure-012.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 588
+            },
+            {
+              "caption": "Figure 15. Relative influence Il,B (Equation (20)) per layer, pair and distance band, dense 135M model (4K, b = 104) at step 4000; each pair divided by its maximum over the distance bands. Black line: ∆θl = 90◦.",
+              "figure_id": "figure-15-21",
+              "figure_number": "15",
+              "height": 514,
+              "image_path": "figures/2611.26363/figure-013.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 588
+            },
+            {
+              "caption": "Figure 12. Ereal/Enull per layer, pair and distance band, pretrained SmolLM-135M. Black line: ∆θl = 90◦.",
+              "figure_id": "figure-12-11",
+              "figure_number": "12",
+              "height": 567,
+              "image_path": "figures/2611.26363/figure-014.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 588
+            },
+            {
+              "caption": "Table 9. Model architectures and training budgets (about 20 tokens per parameter).",
+              "figure_id": "table-9-20",
+              "figure_number": "9",
+              "height": 88,
+              "image_path": "figures/2611.26363/table-015.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 625
+            },
+            {
+              "caption": "Table 1. Dense attention vs. HiSA (Φ = 90◦) at 4K context: validation loss, loss by position, and percentage ρ of the dot product computed. 135M: 2.7B tokens; 360M: 7.24B tokens. Best in bold.",
+              "figure_id": "table-1-15",
+              "figure_number": "1",
+              "height": 179,
+              "image_path": "figures/2611.26363/table-016.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 487
+            },
+            {
+              "caption": "Table 5. Decoding with FlashAttention-3 at full context: throughput (tokens/s, one H200) and KV-cache memory, for batch sizes 32 and 128. 4K: b = 104; 16K: b = 2 · 104, after the extension. Best in bold.",
+              "figure_id": "table-5-1",
+              "figure_number": "5",
+              "height": 161,
+              "image_path": "figures/2611.26363/table-017.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 487
+            },
+            {
+              "caption": "Table 6. Converting the dense 135M model (b = 104, 4K context) to HiSA: validation loss before and after continued training, and percentage ρ of the dot product computed. Best in bold.",
+              "figure_id": "table-6-2",
+              "figure_number": "6",
+              "height": 122,
+              "image_path": "figures/2611.26363/table-018.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 487
+            },
+            {
+              "caption": "Table 11. Learning-rate selection on the dense model: validation loss after the given number of tokens, with the same number of warmup steps as the full run. For the 16K extension, the mean of the PG19 and OpenWebText validation losses.",
+              "figure_id": "table-11-13",
+              "figure_number": "11",
+              "height": 129,
+              "image_path": "figures/2611.26363/table-019.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 848
+            },
+            {
+              "caption": "Table 12. Angle budget Φ at 2K context (b = 104, 135M): validation loss, percentage ρ of the dot product computed, and reach. Best in bold.",
+              "figure_id": "table-12-9",
+              "figure_number": "12",
+              "height": 150,
+              "image_path": "figures/2611.26363/table-020.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 335
+            },
+            {
+              "caption": "Table 13. RoPE base b (Φ = 90◦, 135M): validation loss of dense attention and HiSA at the same base, and reach. †Rotation base 5 · 105, HiSA windows computed with base 104. Best in bold.",
+              "figure_id": "table-13-7",
+              "figure_number": "13",
+              "height": 136,
+              "image_path": "figures/2611.26363/table-021.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 341
+            },
+            {
+              "caption": "Table 2. Implementations at 4K context (b = 104, Φ = 90◦, S = 128, 135M parameters): validation loss, training throughput on one H200, and percentage ρ of the dot product computed. Best in bold.",
+              "figure_id": "table-2-24",
+              "figure_number": "2",
+              "height": 130,
+              "image_path": "figures/2611.26363/table-022.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 487
+            },
+            {
+              "caption": "Table 4. After the 16K extension with FlashAttention-3 (b = 2 · 104): validation loss, percentage ρ of the dot product computed, and training throughput on one H200. Best in bold.",
+              "figure_id": "table-4-22",
+              "figure_number": "4",
+              "height": 108,
+              "image_path": "figures/2611.26363/table-023.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 487
+            },
+            {
+              "caption": "Table 3. After the 16K extension (b = 2 · 104), exact rule: validation loss on PG19 (overall and by position) and OpenWebText, and percentage ρ of the dot product computed. Best in bold.",
+              "figure_id": "table-3-23",
+              "figure_number": "3",
+              "height": 119,
+              "image_path": "figures/2611.26363/table-024.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 429
+            },
+            {
+              "caption": "Table 7. Percentage of the dense query–key dot product computed by HiSA, ρ(T ) (Equation (5)), for angle budgets Φ, RoPE bases b and context lengths T (d = 64, causal attention), and the reach R at 90◦ (Equation (4)).",
+              "figure_id": "table-7-3",
+              "figure_number": "7",
+              "height": 167,
+              "image_path": "figures/2611.26363/table-025.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 875
+            },
+            {
+              "caption": "Table 8. Percentage of the dense query–key product computed in a full causal pass, ρ(T ), and in one decoding step at context T , ρdec(T ), and KV-cache size relative to a dense cache, κ(T ) (per pair), at Φ = 90◦ (d = 64).",
+              "figure_id": "table-8-19",
+              "figure_number": "8",
+              "height": 167,
+              "image_path": "figures/2611.26363/table-026.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 589
+            },
+            {
+              "caption": "Table 10. Training hyperparameters.",
+              "figure_id": "table-10-14",
+              "figure_number": "10",
+              "height": 162,
+              "image_path": "figures/2611.26363/table-027.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 913
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.26363/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.26363",
+          "relevance": 9,
+          "selection_reason": "Introduces hidden-dimension sparse attention for RoPE-based LLMs, reducing attention computation and improving inference speed and memory footprint.",
+          "summary_status": "generated",
+          "title": "HiSA: Sparsifying the Hidden Dimension of RoPE Attention in LLMs",
+          "tldr": "HiSA sparsifies RoPE attention across the hidden feature dimension, reducing query-key computations to about one third while improving performance and inference efficiency.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "large-language-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Large language models (LLMs) increasingly need to process long documents and codebases, making long-context attention a major prefill bottleneck. Block sparse attention reduces computation by skipping unimportant blocks of the attention matrix, but scoring blocks accurately can itself be expensive. We propose Delta-Based Tile Scoring (DTS), a training-free, content-adaptive tile scoring method for sparse block attention. DTS selects query and key anchors according to local vector changes, using fewer representatives in redundant regions while retaining more detail in heterogeneous regions. To accelerate anchor selection, parallel delta packing partitions the query and key sequences into tile-aligned chunks and performs bounded local scans over these chunks concurrently. The selected tiles are then computed using the original query, key, and value vectors. On LLaMA-3.1-8B-Instruct, DTS keeps average RULER and LongBench scores within 0.10 percentage points of full attention, with RULER evaluated up to 128K tokens. At 128K tokens, DTS reduces measured scoring-pipeline latency by 38% compared with XAttention. On four NVIDIA H100 GPUs, it achieves a 3.3$\\times$ prefill speedup over a PyTorch full-attention baseline using FlashAttention-2 at 512K tokens.",
+          "arxiv_id": "2611.25938",
+          "arxiv_url": "https://arxiv.org/abs/2611.25938",
+          "authors": [
+            "Emre U\\u{g}ur, Jiawen Qi, Qinyu Chen"
+          ],
+          "bullets": [
+            "Addresses the prefill bottleneck of long-context attention, where accurately scoring skippable blocks can be costly.",
+            "Uses training-free, content-adaptive delta scoring with fewer anchors in redundant regions and more in heterogeneous ones.",
+            "Accelerates scoring through parallel, tile-aligned local scans, then computes selected tiles with the original vectors.",
+            "Maintains average RULER and LongBench scores within 0.10 percentage points of full attention, including RULER up to 128K tokens.",
+            "Reports 38% lower scoring-pipeline latency than XAttention at 128K tokens and 3.3× prefill speedup over a FlashAttention-2 PyTorch baseline at 512K tokens on four H100 GPUs."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 2: Mean cosine similarity of neighboring query (Q) and key (K) vectors in natural and shuffled order across context lengths. Results average all layers and heads over 50 PG-19 books and 50 WikiText-103 windows per model.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 300,
+              "image_path": "figures/2611.25938/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 500
+            },
+            {
+              "caption": "Fig. 4: Prefill efficiency and accuracy. (a)–(b) Prefill speedup relative to full attention across context lengths, measured using WikiText-103. (c)–(d) RULER accuracy versus prefill latency at 128K, measured on RULER, for LLaMA and Qwen, 100% corresponds to 17.33 s and 13.82 s, respectively.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 275,
+              "image_path": "figures/2611.25938/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1044
+            },
+            {
+              "caption": "Fig. 3: DTS workflow. Parallel delta packing selects query and key anchors. Their causal scores are summed by original tile indices to guide tile selection. Sparse attention uses the original Q,K, V .",
+              "figure_id": "figure-3-7",
+              "figure_number": "3",
+              "height": 293,
+              "image_path": "figures/2611.25938/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 513
+            },
+            {
+              "caption": "Fig. 1: Comparison of XAttention [8] and DTS. (a) XAttention samples strided antidiagonals at a fixed density. (b) DTS selects query and key anchors based on local vector changes, reducing redundant scoring in similar regions.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 44,
+              "image_path": "figures/2611.25938/figure-004.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 464
+            },
+            {
+              "caption": "TABLE III: Scoring-pipeline cost comparison between XAttention (s = 16) and DTS (τ = 0.72) on LLaMA-3.18B-Instruct. The scoring pipeline includes all stages required to construct the sparse tile mask and excludes block-sparse attention. Times are summed over all 32 layers.",
+              "figure_id": "table-III-8",
+              "figure_number": "III",
+              "height": 196,
+              "image_path": "figures/2611.25938/table-005.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 529
+            },
+            {
+              "caption": "TABLE I: RULER accuracy (%) comparing delta-based tile scoring against baseline and block-sparse methods on LLaMA-3.1 8B Instruct and Qwen2.5-7B-Instruct-1M. Best and second-best scores are shown in bold and underlined.",
+              "figure_id": "table-I-6",
+              "figure_number": "I",
+              "height": 347,
+              "image_path": "figures/2611.25938/table-006.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 529
+            },
+            {
+              "caption": "TABLE II: LongBench scores on LLaMA-3.1 8B Instruct and Qwen2.5-7B-Instruct-1M. NQA = NarrativeQA, Qas = Qasper, MFQ = MultifieldQA-en, HotP = HotpotQA, 2Wiki = 2WikiMultiHopQA, Mus = MuSiQue, GovR = GovReport, QMS = QMSum, MNews = MultiNews, TREC = TREC, TQA = TriviaQA, SAM = SAMSum, PCnt = PassageCount, PassR = PassageRetrieval-en, LCC = LCC, and RepoB = RepoBench-P. Best and second-best scores are shown in bold and underlined.",
+              "figure_id": "table-II-9",
+              "figure_number": "II",
+              "height": 324,
+              "image_path": "figures/2611.25938/table-007.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE V: Effect of parallel delta packing on LLaMA-3.18B-Instruct at τ = 0.72. Packing only measures delta packing, whereas the DTS attention pipeline includes delta packing, tile scoring, tile selection, and block-sparse attention. The sequential and parallel implementations differ only in the chunk-scan schedule. All times cover the 32 attention layers. Timings are profiled independently of Table IV.",
+              "figure_id": "table-V-4",
+              "figure_number": "V",
+              "height": 137,
+              "image_path": "figures/2611.25938/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 492
+            },
+            {
+              "caption": "TABLE IV: Cosine-threshold sweep on LLaMA-3.1-8BInstruct. Latency results are measured at 128K.",
+              "figure_id": "table-IV-3",
+              "figure_number": "IV",
+              "height": 173,
+              "image_path": "figures/2611.25938/table-009.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 529
+            }
+          ],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": "figures/2611.25938/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.25938",
+          "relevance": 8,
+          "selection_reason": "Training-free sparse block attention scoring for long-context LLMs; directly targets efficient attention and long-context processing.",
+          "summary_status": "generated",
+          "title": "DTS: Delta-Based Tile Scoring for Efficient Long-Context Sparse Attention",
+          "tldr": "DTS enables efficient long-context sparse attention by scoring tiles from local vector changes while preserving near-full-attention quality.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "We study the problem of computational efficiency for linear bandits in high-dimensional settings with a finite arm set. In linear bandits, the increase in the dimension $d$ of the feature vectors leads to growing computational costs of $O(d^2)$ at each round of update. Traditional low-rank approximation methods such as SOFUL reduce computation via fixed-size matrix sketching, yet run the risk of incurring vacuous linear regret when the spectral tail of the data is heavy and the approximation rank is inadequately selected. To guarantee regret convergence and effectively reduce computational costs, we introduce a clustering mechanism and propose the Coordinate Basis Linear Bandit (CBL) algorithm. Our method preserves the full covariance information in each cluster by maintaining an exact orthonormal basis of the cluster's column space together with a low-dimensional coordinate representation, which guarantees robust sublinear regret without spectral-tail vulnerabilities. It performs cluster switching by assigning a sentinel for each cluster, and reduces per-round update computation to $O(\\bar r^2)$ in the cluster's effective dimension $\\bar r=\\min(r,l)$, where $r$ is the intrinsic rank of the data and $l<d$ is a tunable rank bound.",
+          "arxiv_id": "2611.25424",
+          "arxiv_url": "https://arxiv.org/abs/2611.25424",
+          "authors": [
+            "Hantao Yang, Hong Xie, Defu Lian"
+          ],
+          "bullets": [
+            "Targets the $O(d^2)$ per-round update cost of high-dimensional linear bandits.",
+            "Avoids the vacuous linear regret risk of fixed-rank sketching under heavy spectral tails.",
+            "Maintains an exact orthonormal basis and low-dimensional coordinates for each cluster.",
+            "Uses cluster sentinels for switching and reduces updates to $O(\\bar r^2)$, where $\\bar r=\\min(r,l)$.",
+            "The abstract states sublinear regret and computational savings, but gives no numerical experimental results."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "failed",
+          "figures": [],
+          "first_seen_at": "2026-11-19T21:00:00-05:00",
+          "hero_figure": null,
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.25424",
+          "relevance": 7,
+          "selection_reason": "Proposes a clustering mechanism (Coordinate Basis Linear Bandit) to reduce computational costs in high-dimensional linear bandits, improving efficiency.",
+          "summary_status": "generated",
+          "title": "Coordinate Basis Linear Bandits with Sublinear Regret over Low-Rank Clusters",
+          "tldr": "CBL accelerates finite-arm linear bandits by clustering arms and preserving exact low-dimensional covariance structure, achieving robust sublinear regret without spectral-tail failures.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-18",
       "paper_count": 5,
       "papers": [
@@ -55007,5 +55621,5 @@
   "schema_version": 1,
   "subtopic_id": "efficient-attention",
   "topic_id": "efficient-ai",
-  "total_paper_count": 272
+  "total_paper_count": 276
 }

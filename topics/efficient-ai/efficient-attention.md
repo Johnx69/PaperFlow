@@ -6,10 +6,14 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Efficient Attention
 
-**272 papers total**
+**276 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-19 | [SGAR: Feed-Forward 3D Reconstruction via Sparse Geometry-Guided Attention](https://arxiv.org/abs/2611.26493) | 3D Vision; Efficient AI: Efficient Attention | SGAR accelerates feed-forward 3D reconstruction by replacing costly dense cross-view attention with learned, geometry-guided sparse attention. | 7 | 8 |
+| 2026-11-19 | [HiSA: Sparsifying the Hidden Dimension of RoPE Attention in LLMs](https://arxiv.org/abs/2611.26363) | Efficient AI: Efficient Attention; Language Foundation Models: Large Language Models | HiSA sparsifies RoPE attention across the hidden feature dimension, reducing query-key computations to about one third while improving performance and inference efficiency. | 9 | 8 |
+| 2026-11-19 | [DTS: Delta-Based Tile Scoring for Efficient Long-Context Sparse Attention](https://arxiv.org/abs/2611.25938) | Efficient AI: Efficient Attention; Language Foundation Models: Long-Context Models | DTS enables efficient long-context sparse attention by scoring tiles from local vector changes while preserving near-full-attention quality. | 8 | 7 |
+| 2026-11-19 | [Coordinate Basis Linear Bandits with Sublinear Regret over Low-Rank Clusters](https://arxiv.org/abs/2611.25424) | Efficient AI: Efficient Attention | CBL accelerates finite-arm linear bandits by clustering arms and preserving exact low-dimensional covariance structure, achieving robust sublinear regret without spectral-tail failures. | 7 | 7 |
 | 2026-11-18 | [On-Policy Morphing into Hybrid Attention Models](https://arxiv.org/abs/2611.24809) | Efficient AI: Efficient Attention | FlashMorph2 selects full-attention layers on-policy and jointly adapts weights, improving hybrid Transformer quality efficiently across model scales. | 7 | 7 |
 | 2026-11-18 | [Spark-H3: Adaptive Block Sparse Attention for Video Diffusion Models](https://arxiv.org/abs/2611.24256) | Video Generation and Understanding: Video Diffusion; Efficient AI: Efficient Attention | Spark-H3 accelerates video diffusion attention by adaptively grouping and reweighting compressed blocks, achieving strong fidelity with substantially lower computation. | 8 | 8 |
 | 2026-11-18 | [Layer-Matched Sparse Attention for Low-Redundancy 3D Reconstruction](https://arxiv.org/abs/2611.23554) | Efficient AI: Efficient Attention | LMSA uses layer-specific sparse attention to preserve low-redundancy cross-view information while accelerating 3D reconstruction. | 7 | 7 |
