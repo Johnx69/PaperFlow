@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Video Generation and Understanding
 
-**1092 papers total**
+**1094 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-20 | [Revisiting Natural Language Prompts from Large Language Models for Open-Vocabulary Video Recognition](https://arxiv.org/abs/2610.16666) | Video Generation and Understanding: Video Understanding | P2CLIP improves open-vocabulary video recognition by using LLM-generated, category-discriminative prompts and knowledge-guided video/frame temporal aggregation to strengthen vision–text alignment. | 7 | 6 |
+| 2026-11-20 | [MiMaAlign: Hierarchical Micro-Macro Alignment for Physically Plausible Video Generation](https://arxiv.org/abs/2610.16482) | Video Generation and Understanding: Video Diffusion | MiMaAlign improves the physical plausibility of text-to-video generation by aligning micro-level continuous motion and macro-level event semantics with different depths of a pretrained diffusion model. | 7 | 7 |
 | 2026-11-19 | [Posterior Matching Distillation](https://arxiv.org/abs/2611.26629) | Video Generation and Understanding: Video Diffusion | Posterior Matching Distillation (PMD) distills diffusion models by matching full teacher posteriors rather than favoring dominant modes, enabling diverse any-step generation in few evaluations. | 7 | 8 |
 | 2026-11-19 | [RL Post-Training in Diffusion Transformers Is Activation Steering](https://arxiv.org/abs/2611.26627) | Video Generation and Understanding: Video Diffusion | Fixed activation-steering vectors recover most of diffusion-transformer RL post-training gains, suggesting RL mainly shifts existing capabilities rather than learning complex prompt-dependent transformations. | 6 | 8 |
 | 2026-11-19 | [Coda-DaVinci: Reimagining Video Generation with Code2Video](https://arxiv.org/abs/2611.26595) | Video Generation and Understanding | Coda-DaVinci improves Code2Video generation by adaptively choosing proxy guidance, modeling granularity, simulation, and prompting, while exposing remaining issues in transitions and scene adherence. | 7 | 7 |

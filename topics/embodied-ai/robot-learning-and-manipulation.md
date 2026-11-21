@@ -6,10 +6,15 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Robot Learning and Manipulation
 
-**2497 papers total**
+**2502 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-20 | [Agentic Scaling of Embodied Tasks in Simulation for Synthetic Data Collection and Policy Evaluation](https://arxiv.org/abs/2611.26046) | Embodied AI: Robot Learning and Manipulation | AgenticTask automatically expands embodied simulation task collections and validates their executability, enabling scalable synthetic-data generation and policy evaluation. | 8 | 7 |
+| 2026-11-20 | [ECHO: In-Context Behavior foundation model for Humanoid Whole-Body Control](https://arxiv.org/abs/2611.25778) | Embodied AI: Robot Learning and Manipulation | ECHO adapts a humanoid behavior foundation model to specific physical dynamics through interaction context, enabling precise whole-body control without updating model parameters at deployment. | 9 | 8 |
+| 2026-11-20 | [{\\phi}TD: Distributional Reinforcement Learning using Characteristic Functions](https://arxiv.org/abs/2611.25208) | Embodied AI: Robot Learning and Manipulation | φTD uses characteristic functions and frequency-domain losses to learn a broader range of return distributions in distributional reinforcement learning. | 4 | 5 |
+| 2026-11-20 | [Bayesian $\\kappa$-Explorer for Minimax Model Estimation in MDPs](https://arxiv.org/abs/2611.25160) | Embodied AI: Robot Learning and Manipulation | Bayesian κ-Explorer simplifies minimax transition estimation in unknown MDPs using Dirichlet posteriors and posterior-mean planning while retaining the established convergence rate under stated assumptions. | 3 | 3 |
+| 2026-11-20 | [DR-APO: Decoupled-Representation Advantage-Guided Policy Optimization from Continuous Control to Embodied Navigation](https://arxiv.org/abs/2610.16618) | Embodied AI: Robot Navigation, Robot Learning and Manipulation | DR-APO unifies reinforcement-learning policy optimization across Gaussian, diffusion, and flow-matching policies by separating policy improvement from representation-specific generation. | 8 | 7 |
 | 2026-11-19 | [One Prior, Two Dynamics: Repurposing Video Diffusion Transformers for Self-Supervised Latent Action Learning](https://arxiv.org/abs/2611.26617) | Embodied AI: Robot Learning and Manipulation; World Models: Latent Action Models, Video World Models | O²LaF repurposes pretrained video models to jointly learn transferable latent actions and their visual consequences from unlabeled videos. | 9 | 8 |
 | 2026-11-19 | [AgentRoboCritic: Understanding the Capability of Frontier Agents on Direct Robot Control](https://arxiv.org/abs/2611.26613) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation | AgentRoboCritic provides intent-grounded, action-level analysis of frontier agents controlling robots, revealing both strong recovery and grounding abilities and persistent physical-execution failures. | 8 | 7 |
 | 2026-11-19 | [PGX: Physically Grounded Execution for Long-Horizon Humanoid Loco-Manipulation](https://arxiv.org/abs/2611.26596) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation | PGX combines predicate-based task sequencing, VLA skill execution, and world-coordinate locking to improve long-horizon humanoid loco-manipulation. | 8 | 7 |

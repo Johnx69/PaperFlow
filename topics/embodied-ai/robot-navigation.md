@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Robot Navigation
 
-**799 papers total**
+**800 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-20 | [DR-APO: Decoupled-Representation Advantage-Guided Policy Optimization from Continuous Control to Embodied Navigation](https://arxiv.org/abs/2610.16618) | Embodied AI: Robot Navigation, Robot Learning and Manipulation | DR-APO unifies reinforcement-learning policy optimization across Gaussian, diffusion, and flow-matching policies by separating policy improvement from representation-specific generation. | 8 | 7 |
 | 2026-11-19 | [Exposure-Aware Informative Path Planning Using Deep Reinforcement Learning](https://arxiv.org/abs/2611.26302) | Embodied AI: Robot Navigation | A deep-reinforcement-learning planner enables mobile sensing fleets to map unknown fields while balancing information gain against exposure to hazardous intensities. | 7 | 6 |
 | 2026-11-19 | [BADAS-3.0: Real-Time Driving Perception and Planning from One Camera](https://arxiv.org/abs/2611.26294) | Embodied AI: Robot Navigation | BADAS-3.0 shows that a single forward camera can support fast driving perception, trajectory prediction, and safety-oriented planning. | 7 | 7 |
 | 2026-11-19 | [FastRoverVLA: Fast Vision-Language-Action Execution for Off-Road Autonomous Driving](https://arxiv.org/abs/2611.26242) | Embodied AI: Robot Navigation, Vision-Language-Action | FastRoverVLA makes off-road VLA driving more efficient and motion-aware by reusing and correcting plans between costly visual updates. | 9 | 7 |

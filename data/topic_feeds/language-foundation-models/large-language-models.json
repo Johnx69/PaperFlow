@@ -1,6 +1,171 @@
 {
   "days": [
     {
+      "date": "2026-11-20",
+      "paper_count": 1,
+      "papers": [
+        {
+          "abstract": "Supervised fine-tuning (SFT) paired with Reinforcement Learning with Verifiable Rewards (RLVR) has become the dominant recipe for post-training LLMs on complex reasoning tasks, but has been shown to collapse the policy into a low-diversity mode. Repeated LLM outputs are nearly identical, and pass@k accuracy converges or degrades as a result. We propose ROAM-GRPO (Routed Off-mode Approach Mining for GRPO), an augmentation to the GRPO algorithm which incentivizes exploration of distinct reasoning strategies and aims to increase output creativity during evaluation. ROAM-GRPO detects well-solved problems during training and transfers them to an \"off-mode\" track. The model is prompted to produce distinct solution strategies to such problems, which are verified for logical validity and distinctness by an LLM judge and subsequently self-distilled into the policy. Training Qwen3.5-2b on a 1,000-problem subset of the MATH lvl5 dataset, ROAM-GRPO implementation increases peak pass@16 by 4.7% and correct embedding cosine distance by approximately 1.5-2x on a difficult evaluation set.",
+          "arxiv_id": "2611.25926",
+          "arxiv_url": "https://arxiv.org/abs/2611.25926",
+          "authors": [
+            "Jeff Duan",
+            "Matt Thomson"
+          ],
+          "bullets": [
+            "Addresses low-diversity reasoning and declining or saturated pass@k performance after SFT and RLVR.",
+            "Routes well-solved training problems into an off-mode track for generating distinct solution approaches.",
+            "Uses an LLM judge to verify logical validity and strategy distinctness before self-distillation.",
+            "On Qwen3.5-2b trained with 1,000 MATH level-5 problems, it raises peak pass@16 by 4.7% and roughly doubles correct embedding cosine distance.",
+            "The reported evaluation focuses on a difficult evaluation set and this training configuration."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: ROAM-GRPO training pipeline. Well-solved prompts (≥ k of G completions correct) are routed off the GRPO objective onto an off-mode track that self-distills valid, distinct alternative solutions measured by τ, ϕ (abstract functions, instantiated as an LLM judge here in practice).",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 275,
+              "image_path": "figures/2611.25926/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 748
+            },
+            {
+              "caption": "Figure 4: Method-level diversity at step 7000 using an LLM judge (Claude Opus 5.5). Top: average number of distinct solution methods per problem, among correct completions only (a) and all completions (b). Bottom: fraction of pairs (within the same method bin) judged to be meaningful variants rather than surface level rewrites, among correct completions (c) and all completions (d). Error bars show 95% bootstrap confidence intervals over problems, and ∆ shows ROAM − GRPO difference along with the 95% CI. All judged problems require that both arms produce at least one correct completion.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 518,
+              "image_path": "figures/2611.25926/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 664
+            },
+            {
+              "caption": "Figure 8: 2-D MDS embeddings of attempted solutions on Omni-MATH Eval Problem HMMT_2/246, 16 each across GRPO (step 5000, green) and delayed ROAM-GRPO (step 6000, orange), taken at their highest pass@16 checkpoint. All GRPO completions share a common approach (reframing as a combinatorial problem using the stars-and-bars method): 12/16 are correct. Delayed ROAM also mostly employs the common approach, but also adopts an alternative approach (using the hockey-stick identity) twice (succeeds once, fails once). On one occasion it attempts to solve by recursive summation.",
+              "figure_id": "figure-8-3",
+              "figure_number": "8",
+              "height": 441,
+              "image_path": "figures/2611.25926/figure-003.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 790
+            },
+            {
+              "caption": "Figure 2: pass@1, pass@16, and solution dispersion over training (MATH-L5, left; Omni-MATH L5/6, right). GRPO, ROAM-GRPO, and delayed ROAM-GRPO (activated at step 5000, dotted). Error bars on pass@1, pass@16 display 95% percentile bootstrap confidence intervals. ROAM trades pass@1 for approximately equal pass@16 (and higher dispersion). Delayed ROAM reaches the highest peak pass@16 on Omni-MATH. pass@4, pass@8 included in App. B.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 533,
+              "image_path": "figures/2611.25926/figure-004.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 748
+            },
+            {
+              "caption": "Figure 3: 2-D MDS embeddings of attempted solutions on Omni-MATH Eval Problem HMMT_2/99, 16 each across GRPO (step 5000, green) and delayed ROAM-GRPO (step 6000, orange), taken at their highest pass@16 checkpoint. GRPO’s samples form a cluster and are all incorrect: roughly half attempt a group theoretic approach but wrongfully conclude answer n = 5, while most remaining completions handwave an incorrect answer. Delayed ROAM correctly executes the group theoretic approach twice while also frequently sampling distinct approaches (residue constructions, a whole-set argument). Correct completion abridged for readability; full completions accessible in App. A.",
+              "figure_id": "figure-3-12",
+              "figure_number": "3",
+              "height": 410,
+              "image_path": "figures/2611.25926/figure-005.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 748
+            },
+            {
+              "caption": "Figure 5: pass@4 and pass@8 over training (MATH-L5, left; Omni-MATH L5/6, right). GRPO, ROAM-GRPO, and delayed ROAM-GRPO (activated at step 5000, dotted). pass@4 and pass@8 approximately interpolate pass@1 and pass@16: ROAM-GRPO nears or overtakes GRPO in pass@k as k increases.",
+              "figure_id": "figure-5-9",
+              "figure_number": "5",
+              "height": 389,
+              "image_path": "figures/2611.25926/figure-006.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 748
+            },
+            {
+              "caption": "Figure 7: Examples of off-mode solutions from ROAM routing during training. Example 1 occurs during ROAM-GRPO training and Example 2 during delayed ROAM-GRPO. Solutions are lightly abridged.",
+              "figure_id": "figure-7-7",
+              "figure_number": "7",
+              "height": 510,
+              "image_path": "figures/2611.25926/figure-007.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 829
+            },
+            {
+              "caption": "Figure 9: 2-D MDS embeddings of attempted solutions on MATH Eval Problem 386, 16 each across GRPO (step 5000, green) and ROAM-GRPO (step 4500, red), taken at their highest pass@16 checkpoint. All GRPO completions are correct and use the same approach (direct differentiation of the function). 14/16 ROAM-GRPO completions are correct. Most employ the common differentiation approach, but one uses the logarithm trick to simplify differentiation, while another uses u-substitution. Both incorrect completions are caused by calculation errors when attempting the common solution. On one occasion, GRPO verifies using the logarithm trick after deriving with the common solution.",
+              "figure_id": "figure-9-4",
+              "figure_number": "9",
+              "height": 421,
+              "image_path": "figures/2611.25926/figure-008.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 748
+            },
+            {
+              "caption": "Figure 10: 2-D MDS embeddings of attempted solutions on MATH Eval Problem 35, 16 each across GRPO (step 5000, green) and ROAM-GRPO (step 4500, red), taken at their highest pass@16 checkpoint. All GRPO completions are correct and use the same approach (viewing geometrically as the function of a circle). 14/16 ROAM-GRPO completions are correct. Most employ the common geometric approach, but one solves the problem purely algebraically through the function discriminant. Both incorrect completions are caused by calculation errors when attempting the common solution.",
+              "figure_id": "figure-10-2",
+              "figure_number": "10",
+              "height": 341,
+              "image_path": "figures/2611.25926/figure-009.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 748
+            },
+            {
+              "caption": "Figure 6: Routing rate of ROAM-GRPO and Delayed ROAM over training, taken over a 100-step rolling mean. A prompt group is routed when all G = 8 group completions are correct. Routing slightly increases in frequency across training.",
+              "figure_id": "figure-6-6",
+              "figure_number": "6",
+              "height": 304,
+              "image_path": "figures/2611.25926/figure-010.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 622
+            },
+            {
+              "caption": "Table 1: Sampling and judge hyperparameters. All other hyperparameters are reported in Section 4.",
+              "figure_id": "table-1-11",
+              "figure_number": "1",
+              "height": 208,
+              "image_path": "figures/2611.25926/table-011.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 486
+            },
+            {
+              "caption": "Table 2: Per-problem pass@16 percentage accuracy overlap between GRPO and ROAM at their peak checkpoints. GRPO ∩ ROAM denotes problems solved by both checkpoints, GRPO ∪ ROAM denotes problems solved by either. MATH-L5 compares GRPO (step 5000) vs. ROAM-GRPO (step 4500), Omni-MATH compares GRPO (step 5000) vs. delayed ROAM-GRPO (step 6000).",
+              "figure_id": "table-2-10",
+              "figure_number": "2",
+              "height": 94,
+              "image_path": "figures/2611.25926/table-012.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 708
+            }
+          ],
+          "first_seen_at": "2026-11-20T21:00:00-05:00",
+          "hero_figure": "figures/2611.25926/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.25926",
+          "relevance": 7,
+          "selection_reason": "Augments GRPO post-training to enforce reasoning diversity in LLMs, directly relevant to LLM training methods.",
+          "summary_status": "generated",
+          "title": "ROAM-GRPO: Enforcing Reasoning Diversity in GRPO via Routed Off-mode Approach Mining",
+          "tldr": "ROAM-GRPO augments GRPO with verified, self-distilled alternative reasoning strategies to reduce policy collapse and improve reasoning diversity.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "large-language-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-19",
       "paper_count": 31,
       "papers": [
@@ -424520,5 +424685,5 @@
   "schema_version": 1,
   "subtopic_id": "large-language-models",
   "topic_id": "language-foundation-models",
-  "total_paper_count": 1975
+  "total_paper_count": 1976
 }

@@ -1,6 +1,512 @@
 {
   "days": [
     {
+      "date": "2026-11-20",
+      "paper_count": 2,
+      "papers": [
+        {
+          "abstract": "Diffusion language models typically use a fixed denoising schedule across workloads. We show that the cheapest schedule that preserves quality depends on the task, model, and sampler. We propose Task-Calibrated Denoising Allocation (TCDA), a deployment rule with an explicit error guarantee. Given candidate samplers, paired calibration data, a utility tolerance, and guardrails against degeneration, TCDA uses simultaneous one-sided bootstrap bounds to certify which candidates meet both the utility and guardrail criteria. It deploys the cheapest certified candidate or falls back to the full schedule. The probability of deploying an infeasible schedule is asymptotically at most alpha. Candidates include early prefix decoding, state-reusing continuation, reduced time grids, and confidence-threshold decoding. Across seven datasets and two model families, TCDA certifies reductions in denoiser evaluations by factors of 3.4 on XSum and 2.0 on WMT14 for ELF-B; 8.0 on WMT14 and 4.1 on GSM8K for LLaDA-8B; and 1.33 on OpenWebText for both ELF-M and ELF-L. A validation protocol fixed before generation confirmed every selection on fresh seeds. Across 500 calibration splits, false certification remained below 2% in every setting at a nominal level of 5%. Certified schedules vary across tasks and model scales. Trajectory measurements suggest that when decoded tokens commit is more informative for schedule selection than the remaining latent discretization error. We also find that the ELF reference sampler draws its time grid at random, so reproducible schedule comparisons for unconditional generation require fixing the grid.",
+          "arxiv_id": "2611.25895",
+          "arxiv_url": "https://arxiv.org/abs/2611.25895",
+          "authors": [
+            "Rabimba Karanjai, Linsey Pang, Hemanth Hegadehalli Madhavarao, Richard Williamson, Uma Kona, Prakhar Mehrotra"
+          ],
+          "bullets": [
+            "The best quality-preserving schedule depends on the task, model, and sampler rather than being universally fixed.",
+            "TCDA uses paired calibration data and simultaneous one-sided bootstrap bounds to certify utility and degeneration guardrails.",
+            "It chooses among options such as prefix decoding, state reuse, reduced time grids, and confidence-threshold decoding, with fallback to the full schedule.",
+            "Across seven datasets and two model families, certified schedules reduced denoiser evaluations by reported factors ranging from 1.33× to 8.0×.",
+            "Fresh-seed validation confirmed selections; false certification stayed below 2% across calibration splits at a nominal 5% level."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.CL",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2 ELF-B quality vs. cost under deterministic grids (full pools). Stars: schedules deployed by TCDA at ε = 1 (core and dense library). Off scale: WMT prefix decoding (−27 to −49 chrF), uniform grids at 8 NFE, and WMT adaptive exit (arrows; −5.7 to −45.6). Not shown: Heun on the logit-normal grid (XSum −6 to −9; WMT −10 to −19).",
+              "figure_id": "figure-2-7",
+              "figure_number": "2",
+              "height": 421,
+              "image_path": "figures/2611.25895/figure-001.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 948
+            },
+            {
+              "caption": "Figure 3 ELF-B trajectories (first 200 examples per task, canonical deterministic schedule). (a) Fraction of output positions whose intermediate decode differs from the final output. (b) Relative latent residual. Dotted: step 19.",
+              "figure_id": "figure-3-17",
+              "figure_number": "3",
+              "height": 380,
+              "image_path": "figures/2611.25895/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 956
+            },
+            {
+              "caption": "Figure 1 ELF schedule topologies on the deterministic 64-step grid. Ticks mark denoiser evaluations and ⋆ the decode point. prefix19 decodes the predicted clean latent after 19 steps (grey: skipped steps); H32 reuses the first 19 steps and continues on 13 coarser steps.",
+              "figure_id": "figure-1-12",
+              "figure_number": "1",
+              "height": 310,
+              "image_path": "figures/2611.25895/figure-003.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 970
+            },
+            {
+              "caption": "Figure 4 Spread of policy effects across eight random time grids, in units of the within-run standard error (log scale). Values above 1 mean that the grid draw matters more than sampling noise.",
+              "figure_id": "figure-4-19",
+              "figure_number": "4",
+              "height": 445,
+              "image_path": "figures/2611.25895/figure-004.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 970
+            },
+            {
+              "caption": "Figure 5 Endpoint dependence at matched budget (ELF-B, deterministic grids, full pools).",
+              "figure_id": "figure-5-13",
+              "figure_number": "5",
+              "height": 356,
+              "image_path": "figures/2611.25895/figure-005.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 968
+            },
+            {
+              "caption": "Table 2 Reliability at n = 128 over 500 calibration splits (ELF-B, deterministic grids, core library). Deployed: modal schedule and its count; false: splits whose deployed schedule is infeasible on the full pool. The submitted rule certifies utility only; on OWT it deploys a looping schedule in every split.",
+              "figure_id": "table-2-24",
+              "figure_number": "2",
+              "height": 422,
+              "image_path": "figures/2611.25895/table-006.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 939
+            },
+            {
+              "caption": "Table 7 ELF-B, deterministic grids, dense library (127 candidates for XSum and WMT, 54 for OWT): complete reliability grid.",
+              "figure_id": "table-7-3",
+              "figure_number": "7",
+              "height": 765,
+              "image_path": "figures/2611.25895/table-007.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 976
+            },
+            {
+              "caption": "Table 6 ELF-B, deterministic grids, core library: complete reliability grid (500 splits, B = 2,000). Rule U is the submitted selector (studentized, utility only); Rule F is TCDA. Counts out of 500.",
+              "figure_id": "table-6-11",
+              "figure_number": "6",
+              "height": 857,
+              "image_path": "figures/2611.25895/table-008.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 984
+            },
+            {
+              "caption": "Table 11 LLaDA-8B-Instruct: complete reliability grid (500 splits, B = 2,000). Rule P certifies utility only and checks guardrails at their point estimates; Rule F is TCDA.",
+              "figure_id": "table-11-4",
+              "figure_number": "11",
+              "height": 350,
+              "image_path": "figures/2611.25895/table-009.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 814
+            },
+            {
+              "caption": "Table 13 Prospective OWT, stage 1 (deterministic grids, seed 500, B = 10,000): selections by rule. F: TCDA (primary); P: utility-only with point guardrails (secondary); U: utility only (comparison); T: the studentized joint rule of our first prospective run (comparison), whose critical values (77–306 for ELF-B and ELF-L, vs. 2.6 for F) force fallback.",
+              "figure_id": "table-13-5",
+              "figure_number": "13",
+              "height": 442,
+              "image_path": "figures/2611.25895/table-010.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 644
+            },
+            {
+              "caption": "Table 16 Grid-realization study (noise seed 124 fixed, 256 examples, 8 random grids and the deterministic grid). ∆: mean paired difference to the full schedule on the same grid; SD: across the 8 random grids; SE: mean within-run standard error. For full schedules the SD/SE column refers to the mean utility.",
+              "figure_id": "table-16-8",
+              "figure_number": "16",
+              "height": 424,
+              "image_path": "figures/2611.25895/table-011.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 732
+            },
+            {
+              "caption": "Table 10 LLaDA-8B-Instruct full-pool frontier (1,000 examples per task). fdτ : Fast-dLLM threshold; ebγ: EB-Sampler; commitK: unmask all after K steps; unik, front/back: uniform, front- and back-loaded step allocations; prophet: our re-implementation (table 9). Wall-clock: median of 7 interleaved repetitions on 200 examples.",
+              "figure_id": "table-10-22",
+              "figure_number": "10",
+              "height": 1160,
+              "image_path": "figures/2611.25895/table-012.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 776
+            },
+            {
+              "caption": "Table 20 Recalibration on shifted data with TCDA (core library, 500 splits).",
+              "figure_id": "table-20-21",
+              "figure_number": "20",
+              "height": 507,
+              "image_path": "figures/2611.25895/table-013.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 736
+            },
+            {
+              "caption": "Table 1 ELF-B, deterministic grids, n = 128, 500 splits. ∆: full-pool mean difference to the full schedule. Selected: splits deploying the modal schedule. False cert.: deployed schedule infeasible on the full pool. Wall-clock on 1,000 examples, RTX PRO 6000; †B200, measured for the submission.",
+              "figure_id": "table-1-23",
+              "figure_number": "1",
+              "height": 141,
+              "image_path": "figures/2611.25895/table-014.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 946
+            },
+            {
+              "caption": "Table 3 LLaDA-8B-Instruct, 21 candidates per task, 500 splits. π∗: cheapest feasible schedule on the full pool. Fast-dLLM’s default (τ = 0.9) is in Appendix F.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 116,
+              "image_path": "figures/2611.25895/table-015.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 904
+            },
+            {
+              "caption": "Table 4 Prospective OWT confirmation (deterministic grids; tolerance 5% relative PPL, ε = 0.049 nats). ∆ in nats of −NLL (GPT-2 Large) per confirmation seed; hierarchical one-sided 95% lower bound; ELF Gen. PPL and unigram entropy pooled over 3,000 samples.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 94,
+              "image_path": "figures/2611.25895/table-016.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 858
+            },
+            {
+              "caption": "Table 5 Guardrails. Length contrasts are relative to the full schedule’s calibration mean; other contrasts are absolute differences of means.",
+              "figure_id": "table-5-16",
+              "figure_number": "5",
+              "height": 186,
+              "image_path": "figures/2611.25895/table-017.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 922
+            },
+            {
+              "caption": "Table 12 First prospective OWT run (random time grids, seeds 300/301 for calibration, 400–402 for confirmation): every non-fallback selection and its outcome. T: studentized joint rule (primary); P: point guardrails (secondary).",
+              "figure_id": "table-12-6",
+              "figure_number": "12",
+              "height": 175,
+              "image_path": "figures/2611.25895/table-018.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 544
+            },
+            {
+              "caption": "Table 17 Matched-cost comparison on ELF-B (deterministic grids, full pools). sharpK: error-optimized grid; heunK_unif / heunK: Heun on the uniform / logit-normal grid; stabs: exit after s unchanged decodes; margq: exit when the 10th-percentile decoder margin exceeds the q-th percentile of its value at mid-trajectory on profiling data.",
+              "figure_id": "table-17-15",
+              "figure_number": "17",
+              "height": 849,
+              "image_path": "figures/2611.25895/table-019.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 522
+            },
+            {
+              "caption": "Table 18 Wall-clock on 1,000 XSum examples (ELF-B, RTX PRO 6000, bf16; median and IQR of 7 interleaved repetitions).",
+              "figure_id": "table-18-14",
+              "figure_number": "18",
+              "height": 277,
+              "image_path": "figures/2611.25895/table-020.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 598
+            },
+            {
+              "caption": "Table 9 Prophet fidelity on GSM8K test questions 0–199 (LLaDA-8B-Instruct, 256 steps). prophet_official_unconstrained: official code, README settings; prophet_official_constrained: official evaluation script, which clamps answer positions to “The answer is”.",
+              "figure_id": "table-9-18",
+              "figure_number": "9",
+              "height": 187,
+              "image_path": "figures/2611.25895/table-021.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 690
+            },
+            {
+              "caption": "Table 15 Full-schedule OWT quality, deterministic grid vs. 8 random grids (256 samples, noise seed 124). ELF-B random grid 1001 is degenerate.",
+              "figure_id": "table-15-9",
+              "figure_number": "15",
+              "height": 116,
+              "image_path": "figures/2611.25895/table-022.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 882
+            },
+            {
+              "caption": "Table 14 Prospective OWT, stage 2: every distinct selection, seeds 600–602 (3× 1,000 samples). ∆ in nats of −NLL; hierarchical one-sided 95% bound; ANOVA p for equal mean ∆ across seeds; Gen. PPL of policy / full schedule. ELF-B rows are relative to a degraded deterministic full schedule (Appendix H) and are not speed claims.",
+              "figure_id": "table-14-10",
+              "figure_number": "14",
+              "height": 111,
+              "image_path": "figures/2611.25895/table-023.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 876
+            },
+            {
+              "caption": "Table 19 Certified ELF-B schedules applied unchanged to shifted data (1,000 examples each).",
+              "figure_id": "table-19-20",
+              "figure_number": "19",
+              "height": 162,
+              "image_path": "figures/2611.25895/table-024.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 714
+            }
+          ],
+          "first_seen_at": "2026-11-20T21:00:00-05:00",
+          "hero_figure": "figures/2611.25895/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.25895",
+          "relevance": 6,
+          "selection_reason": "Certified adaptive inference schedules reduce denoiser evaluations in diffusion language models, directly fitting Efficient AI's computation-reduction scope.",
+          "summary_status": "generated",
+          "title": "One Schedule Does Not Fit All: Adaptive Inference Schedules for Diffusion Language Models",
+          "tldr": "TCDA adaptively selects the cheapest diffusion-language-model inference schedule that meets task-specific quality and safety guarantees, reducing denoiser evaluations while controlling false certification.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Video large language models (Video LLMs) encode each frame into hundreds of visual tokens, making video inference expensive. Existing methods reduce this cost through similarity-based merging or attention-based selection but face two challenges: Hierarchy-blind Pruning, which overlooks regional compressibility and can discard critical evidence, and Attention Drift, where positional effects and attention sinks shift text-to-vision attention away from task relevance. We propose FoveaTree, a two-stage, training-free visual-token pruning framework. First, Merge-Gain Density Estimation measures the feature distortion caused by regional merging and constructs a quadtree-derived density map to guide token dropping, merging, and retention. Second, Attention Tree Pruning uses the surviving units and inherited tree topology to refine text-to-vision attention in intermediate LLM layers, preserving relevant regional evidence while removing low-relevance content. We evaluate FoveaTree on InternVL3.5-8B and Qwen3-VL-8B across five video question-answering benchmarks and one captioning benchmark at 50%, 30%, and 10% visual-token retention. FoveaTree consistently achieves overall state-of-the-art performance across the evaluated settings, offering a strong accuracy-efficiency trade-off.",
+          "arxiv_id": "2610.16744",
+          "arxiv_url": "https://arxiv.org/abs/2610.16744",
+          "authors": [
+            "Zihan Meng",
+            "Weidong Chen",
+            "Dexiang Hong",
+            "Xinyan Liu",
+            "Zhendong Mao"
+          ],
+          "bullets": [
+            "Targets hierarchy-blind pruning and attention drift in Video LLMs.",
+            "Estimates regional merge distortion to build a quadtree-based density map for token dropping, merging, and retention.",
+            "Refines intermediate-layer text-to-vision attention using surviving tokens and inherited tree structure.",
+            "Evaluated on InternVL3.5-8B and Qwen3-VL-8B across five video QA and one captioning benchmark at 50%, 30%, and 10% retention.",
+            "Reports consistent overall state-of-the-art performance across evaluated settings, with a strong accuracy-efficiency trade-off."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4: FoveaTree overview. MGDE builds a regional hierarchy and compresses visual tokens before decoder prefill; ATP then uses text-to-vision attention to prune the surviving hierarchy.",
+              "figure_id": "figure-4-11",
+              "figure_number": "4",
+              "height": 261,
+              "image_path": "figures/2610.16744/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 826
+            },
+            {
+              "caption": "Figure 8: Fine-grained performance and retained-token visualizations. FoveaTree achieves the strongest results across the shown token-retention ratios, while the right panel illustrates that it preserves relevant regions more completely than the compared methods under matched budgets.",
+              "figure_id": "figure-8-10",
+              "figure_number": "8",
+              "height": 294,
+              "image_path": "figures/2610.16744/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 826
+            },
+            {
+              "caption": "Figure 1: Illustration of Hierarchy-blind Pruning on fine-grained domains from VideoMME (Fu et al., 2025a) and VDC (Chai et al., 2025). Avg. Perf. summarizes performance retention on the complete evaluation set and is projected onto each domain’s full-model score, whereas the method curves report the measured domain-level performance. The gray regions show the resulting gap on OCR, counting, object recognition, and detailed captioning across pruning ratios.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 167,
+              "image_path": "figures/2610.16744/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 826
+            },
+            {
+              "caption": "Figure 9: Qualitative comparison of LearnPruner and FoveaTree with video frames. The examples illustrate that FoveaTree preserves key objects and their surrounding regions more completely.",
+              "figure_id": "figure-9-17",
+              "figure_number": "9",
+              "height": 366,
+              "image_path": "figures/2610.16744/figure-004.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 829
+            },
+            {
+              "caption": "Figure 3: Visualization of our tree-based attention pruning and the conventional attention-based topk pruning used by LearnPruner (Takezoe et al., 2026) at 50% and 30% visual-token retention for two input frames. The comparison illustrates Attention Drift around peripheral and task-irrelevant regions (red boxes), while the tree structure improves robustness to this bias at both budgets.",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 304,
+              "image_path": "figures/2610.16744/figure-005.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 829
+            },
+            {
+              "caption": "Figure 10: Cross-backbone comparison. Top: average relative performance versus the visual-token retention ratio on InternVL3.5-8B, Qwen3-VL-8B, Qwen2.5-VL-7B, and LLaVA-OneVision-7B for FoveaTree, FlashVID, FrameFusion, and ToMe; the dashed line marks the unpruned reference. Bottom: total Video-MME runtime under the efficiency protocol of the main paper for FoveaTree, FlashVID, STTM, and ToMe; the dashed line marks the runtime of the unpruned model.",
+              "figure_id": "figure-10-14",
+              "figure_number": "10",
+              "height": 371,
+              "image_path": "figures/2610.16744/figure-006.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 818
+            },
+            {
+              "caption": "Figure 5: MGDE density maps from three vision encoders. Layer-0 features preserve texture and boundary cues, yielding regional hierarchies, whereas deeper features obscure spatial details.",
+              "figure_id": "figure-5-12",
+              "figure_number": "5",
+              "height": 335,
+              "image_path": "figures/2610.16744/figure-007.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 427
+            },
+            {
+              "caption": "Figure 2: Architectural comparison of FrameFusion and MGDE. FrameFusion merges corresponding tokens across adjacent frames; MGDE instead constructs an explicit multiscale regional hierarchy.",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 277,
+              "image_path": "figures/2610.16744/figure-008.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 429
+            },
+            {
+              "caption": "Figure 6: Visualization of ATP on one pruned video frame after MGDE. MGDE provides the surviving visual units and their inherited quadtree. ATP assigns text-to-vision attention scores to these units, propagates them to ancestor nodes, and performs top-down tree cutting and merging.",
+              "figure_id": "figure-6-18",
+              "figure_number": "6",
+              "height": 213,
+              "image_path": "figures/2610.16744/figure-009.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 826
+            },
+            {
+              "caption": "Table 1: InternVL3.5-8B results at 10%, 30%, and 50% visual-token retention. Bold and underlined values mark the best and second-best compressed results; the gray line provides the baseline result.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 566,
+              "image_path": "figures/2610.16744/table-010.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 830
+            },
+            {
+              "caption": "Table 2: Qwen3-VL-8B results at 10%, 30%, and 50% visual-token retention. Bold and underlined values mark the best and second-best compressed results; the gray line provides the baseline result.",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 566,
+              "image_path": "figures/2610.16744/table-011.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 830
+            },
+            {
+              "caption": "Table 8: Qwen2.5-VL-7B results at 10%, 30%, and 50% visual-token retention. Bold and underlined values mark the best and second-best compressed results; Full provides the unpruned reference.",
+              "figure_id": "table-8-16",
+              "figure_number": "8",
+              "height": 566,
+              "image_path": "figures/2610.16744/table-012.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 830
+            },
+            {
+              "caption": "Table 9: LLaVA-OV-7B results at 10%, 30%, and 50% visual-token retention. Bold and underlined values mark the best and second-best compressed results; Full provides the unpruned reference.",
+              "figure_id": "table-9-6",
+              "figure_number": "9",
+              "height": 566,
+              "image_path": "figures/2610.16744/table-013.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 830
+            },
+            {
+              "caption": "Table 10: Efficiency analysis at 30% and 10% visual-token retention on the additional backbones on Video-MME.",
+              "figure_id": "table-10-7",
+              "figure_number": "10",
+              "height": 390,
+              "image_path": "figures/2610.16744/table-014.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 830
+            },
+            {
+              "caption": "Table 14: Token-budget audit over all 2,700 Video-MME question-video inputs for each backbone. Actual is the mean final visual-token count per input; Range is its minimum and maximum. Unfilled and Max unfilled are the mean and maximum of each input’s own budget minus its final token count. Util. is total retained tokens divided by total budget. Units counts native temporal units across all inputs; Over-budget counts units exceeding their own budgets. Budgets are computed separately for each input, including dynamic-resolution inputs.",
+              "figure_id": "table-14-8",
+              "figure_number": "14",
+              "height": 291,
+              "image_path": "figures/2610.16744/table-015.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 830
+            },
+            {
+              "caption": "Table 3: Efficiency analysis at 30% and 10% visual-token retention on InternVL3.5 on Video-MME.",
+              "figure_id": "table-3-9",
+              "figure_number": "3",
+              "height": 210,
+              "image_path": "figures/2610.16744/table-016.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 830
+            },
+            {
+              "caption": "Table 12: Ablation on the ATP split-score composition at 30% retention.",
+              "figure_id": "table-12-15",
+              "figure_number": "12",
+              "height": 225,
+              "image_path": "figures/2610.16744/table-017.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 407
+            },
+            {
+              "caption": "Table 11: Ablation on the maximum quadtree depth D at 30% retention. Latency follows the efficiency protocol of the main paper.",
+              "figure_id": "table-11-13",
+              "figure_number": "11",
+              "height": 101,
+              "image_path": "figures/2610.16744/table-018.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 827
+            }
+          ],
+          "first_seen_at": "2026-11-20T21:00:00-05:00",
+          "hero_figure": "figures/2610.16744/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2610.16744",
+          "relevance": 8,
+          "selection_reason": "Query-guided visual token pruning for Video LLMs, directly fits token pruning and eviction.",
+          "summary_status": "generated",
+          "title": "FoveaTree: Information-Density Trees for Query-Guided Visual Token Pruning in Video Large Language Models",
+          "tldr": "FoveaTree is a training-free, two-stage method that prunes video visual tokens using regional information density and topology-aware attention to reduce inference cost while preserving task-relevant evidence.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-19",
       "paper_count": 52,
       "papers": [
@@ -452400,5 +452906,5 @@
   "schema_version": 1,
   "subtopic_id": null,
   "topic_id": "efficient-ai",
-  "total_paper_count": 2277
+  "total_paper_count": 2279
 }

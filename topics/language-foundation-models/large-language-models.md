@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Large Language Models
 
-**1975 papers total**
+**1976 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-20 | [ROAM-GRPO: Enforcing Reasoning Diversity in GRPO via Routed Off-mode Approach Mining](https://arxiv.org/abs/2611.25926) | Language Foundation Models: Large Language Models | ROAM-GRPO augments GRPO with verified, self-distilled alternative reasoning strategies to reduce policy collapse and improve reasoning diversity. | 7 | 7 |
 | 2026-11-19 | [Represented but misread: Post-training changes how language models read out what they represent](https://arxiv.org/abs/2611.26584) | Language Foundation Models: Large Language Models | Post-training can change how language models read out existing representations, sometimes degrading judgments and sometimes repairing them, with small training signals influencing the direction. | 5 | 6 |
 | 2026-11-19 | [AutoMaster: Autonomous Post-Training by Making the Same Model a Better Teacher](https://arxiv.org/abs/2611.26510) | Language Foundation Models: Large Language Models | AutoMaster autonomously improves post-training by using skill-guided teacher rollouts to suppress unproductive behaviors and elicit more effective ones. | 6 | 6 |
 | 2026-11-19 | [GLiDE: A Fast, Calibrated Decision Model Distilled from Reasoning Teachers](https://arxiv.org/abs/2611.26509) | Efficient AI; Language Foundation Models: Large Language Models | GLiDE distills reasoning-teacher capabilities into fast, calibrated, single-pass decision models without generating intermediate text. | 7 | 7 |

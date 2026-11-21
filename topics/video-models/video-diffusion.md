@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Video Diffusion
 
-**348 papers total**
+**349 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-20 | [MiMaAlign: Hierarchical Micro-Macro Alignment for Physically Plausible Video Generation](https://arxiv.org/abs/2610.16482) | Video Generation and Understanding: Video Diffusion | MiMaAlign improves the physical plausibility of text-to-video generation by aligning micro-level continuous motion and macro-level event semantics with different depths of a pretrained diffusion model. | 7 | 7 |
 | 2026-11-19 | [Posterior Matching Distillation](https://arxiv.org/abs/2611.26629) | Video Generation and Understanding: Video Diffusion | Posterior Matching Distillation (PMD) distills diffusion models by matching full teacher posteriors rather than favoring dominant modes, enabling diverse any-step generation in few evaluations. | 7 | 8 |
 | 2026-11-19 | [RL Post-Training in Diffusion Transformers Is Activation Steering](https://arxiv.org/abs/2611.26627) | Video Generation and Understanding: Video Diffusion | Fixed activation-steering vectors recover most of diffusion-transformer RL post-training gains, suggesting RL mainly shifts existing capabilities rather than learning complex prompt-dependent transformations. | 6 | 8 |
 | 2026-11-19 | [AURA: AUdio-dRiven streaming Avatar](https://arxiv.org/abs/2611.26540) | Video Generation and Understanding: Video Diffusion | AURA enables low-latency, causal streaming avatar video generation by distilling diffusion models into chunk-wise generators with rolling KV caches. | 8 | 7 |

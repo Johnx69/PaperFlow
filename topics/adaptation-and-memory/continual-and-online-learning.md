@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Continual and Online Learning
 
-**653 papers total**
+**655 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-20 | [EvoSpatial: Experience-Driven Skill and Tool Evolution for Spatial Reasoning Agents](https://arxiv.org/abs/2610.16679) | Adaptation and Memory: Continual and Online Learning | EvoSpatial helps spatial reasoning agents accumulate and reuse verified procedures and tools across tasks, improving performance and transfer without ground-truth supervision. | 6 | 7 |
+| 2026-11-20 | [Making LoRA Identifiable: Orthogonal Alignment for Continual Learning](https://arxiv.org/abs/2610.16664) | Adaptation and Memory: Continual and Online Learning | SOAR enables scalable continual LoRA learning by aligning task representations without storing separate adapters for each task. | 7 | 6 |
 | 2026-11-19 | [The Stability Gap in Continual Reinforcement Learning](https://arxiv.org/abs/2611.26252) | Adaptation and Memory: Continual and Online Learning | A simple benchmark reveals that continual RL agents can temporarily lose substantial prior-task performance when learning new tasks, even with access to those past tasks. | 8 | 6 |
 | 2026-11-19 | [Approximate Adjoint Models for Memory and Compute-Efficient Online Learning of Hybrid Models](https://arxiv.org/abs/2611.26095) | Efficient AI; Adaptation and Memory: Continual and Online Learning | Approximate adjoint methods reduce the memory and runtime costs of online learning for hybrid models while preserving training accuracy. | 7 | 7 |
 | 2026-11-19 | [Policy Improvement-Guided Replay for Continual Reinforcement Learning](https://arxiv.org/abs/2611.25989) | Adaptation and Memory: Continual and Online Learning | CoLiR uses policy-improvement signals to select and replay historical prompts, helping vision-language models retain prior capabilities during continual reinforcement learning. | 8 | 7 |

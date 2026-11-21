@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Video Understanding
 
-**603 papers total**
+**604 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-20 | [Revisiting Natural Language Prompts from Large Language Models for Open-Vocabulary Video Recognition](https://arxiv.org/abs/2610.16666) | Video Generation and Understanding: Video Understanding | P2CLIP improves open-vocabulary video recognition by using LLM-generated, category-discriminative prompts and knowledge-guided video/frame temporal aggregation to strengthen vision–text alignment. | 7 | 6 |
 | 2026-11-19 | [WeMM-Video: Pushing the Frontiers of Open-Source Omni-Modal Video Understanding](https://arxiv.org/abs/2611.26409) | Multimodal Foundation Models: Multimodal Large Language Models; Video Generation and Understanding: Video Understanding | WeMM-Video is a bilingual open-source family of omni-modal models designed for joint audio-visual video understanding and reasoning, with strong performance across more than 120 benchmarks. | 8 | 7 |
 | 2026-11-19 | [Tracking Objects Through Assembly and Decomposition](https://arxiv.org/abs/2611.26269) | Video Generation and Understanding: Video Understanding | Atlas tracks all objects and detects both assembly and decomposition events from video without an initial prompt by treating assembly as reverse decomposition. | 6 | 7 |
 | 2026-11-19 | [Better Retrieval, Not Better Binding: Pretraining Exposure in Egocentric Video Retrieval](https://arxiv.org/abs/2611.26120) | Video Generation and Understanding: Video Understanding | Ego-ExBind shows that improved egocentric video retrieval can come from greater pretraining exposure rather than stronger verb–noun compositional understanding. | 6 | 7 |

@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # LLM Memory
 
-**686 papers total**
+**687 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-20 | [Learning to Read Events for Exact State Tracking with Frozen Language Models](https://arxiv.org/abs/2611.25211) | Language Foundation Models: LLM Memory | A trained selector plus an external register enables frozen language models to track exact state changes across very long event streams more reliably and efficiently than reasoning alone. | 4 | 4 |
 | 2026-11-19 | [MemFolder: Structure-Guided Memory Folding for Efficient Agent Memory Management](https://arxiv.org/abs/2611.26427) | Efficient AI; Language Foundation Models: LLM Memory | MemFolder efficiently compresses agent memories by structurally grouping, consolidating, and shortening records while preserving most of their useful information. | 7 | 7 |
 | 2026-11-19 | [Sequential Anytime Valid Tests for Efficient Inference-Time Alignment](https://arxiv.org/abs/2611.26413) | Language Foundation Models: LLM Memory | e-RWSC enables statistically valid, adaptive inference-time alignment by stopping once a reward-weighted answer is certified as dominant, reducing token cost while improving accuracy. | 9 | 8 |
 | 2026-11-19 | [How Much Should an Agent Remember? Deployment Lessons from Self-Distilled Memory for LLM Agents](https://arxiv.org/abs/2611.26361) | Language Foundation Models: LLM Memory | Self-distilled memory improves long-horizon LLM agents, but the optimal number of stored guidelines depends on the model’s strength and requires careful deployment practices. | 8 | 7 |

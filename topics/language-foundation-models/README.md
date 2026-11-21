@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Language Foundation Models
 
-**2956 papers total**
+**2958 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-20 | [ROAM-GRPO: Enforcing Reasoning Diversity in GRPO via Routed Off-mode Approach Mining](https://arxiv.org/abs/2611.25926) | Language Foundation Models: Large Language Models | ROAM-GRPO augments GRPO with verified, self-distilled alternative reasoning strategies to reduce policy collapse and improve reasoning diversity. | 7 | 7 |
+| 2026-11-20 | [Learning to Read Events for Exact State Tracking with Frozen Language Models](https://arxiv.org/abs/2611.25211) | Language Foundation Models: LLM Memory | A trained selector plus an external register enables frozen language models to track exact state changes across very long event streams more reliably and efficiently than reasoning alone. | 4 | 4 |
 | 2026-11-19 | [Represented but misread: Post-training changes how language models read out what they represent](https://arxiv.org/abs/2611.26584) | Language Foundation Models: Large Language Models | Post-training can change how language models read out existing representations, sometimes degrading judgments and sometimes repairing them, with small training signals influencing the direction. | 5 | 6 |
 | 2026-11-19 | [The Window Lever: Longer Observation Windows Outweigh the Observed Effects of Data, Capacity, and Architecture in Customer Behavior Forecasting](https://arxiv.org/abs/2611.26521) | Language Foundation Models: Long-Context Models | For long-horizon customer-behavior forecasting, extending the history window appears far more influential than adding data, model capacity, or newer architectures, though calendar coverage prevents isolating the window’s causal effect. | 7 | 7 |
 | 2026-11-19 | [AutoMaster: Autonomous Post-Training by Making the Same Model a Better Teacher](https://arxiv.org/abs/2611.26510) | Language Foundation Models: Large Language Models | AutoMaster autonomously improves post-training by using skill-guided teacher rollouts to suppress unproductive behaviors and elicit more effective ones. | 6 | 6 |

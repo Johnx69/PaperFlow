@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Efficient AI
 
-**2277 papers total**
+**2279 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-20 | [One Schedule Does Not Fit All: Adaptive Inference Schedules for Diffusion Language Models](https://arxiv.org/abs/2611.25895) | Efficient AI | TCDA adaptively selects the cheapest diffusion-language-model inference schedule that meets task-specific quality and safety guarantees, reducing denoiser evaluations while controlling false certification. | 6 | 6 |
+| 2026-11-20 | [FoveaTree: Information-Density Trees for Query-Guided Visual Token Pruning in Video Large Language Models](https://arxiv.org/abs/2610.16744) | Efficient AI: Token Pruning and Eviction | FoveaTree is a training-free, two-stage method that prunes video visual tokens using regional information density and topology-aware attention to reduce inference cost while preserving task-relevant evidence. | 8 | 7 |
 | 2026-11-19 | [TideCache: Efficient Hybrid LLM Serving with Transparent Cache Management and Layer-Wise Streaming](https://arxiv.org/abs/2611.26619) | Efficient AI: KV Cache and Memory Efficiency | TideCache improves hybrid LLM serving by dynamically sharing and streaming cache memory between GPU and host memory, increasing throughput and reducing latency. | 8 | 7 |
 | 2026-11-19 | [GLiDE: A Fast, Calibrated Decision Model Distilled from Reasoning Teachers](https://arxiv.org/abs/2611.26509) | Efficient AI; Language Foundation Models: Large Language Models | GLiDE distills reasoning-teacher capabilities into fast, calibrated, single-pass decision models without generating intermediate text. | 7 | 7 |
 | 2026-11-19 | [SGAR: Feed-Forward 3D Reconstruction via Sparse Geometry-Guided Attention](https://arxiv.org/abs/2611.26493) | 3D Vision; Efficient AI: Efficient Attention | SGAR accelerates feed-forward 3D reconstruction by replacing costly dense cross-view attention with learned, geometry-guided sparse attention. | 7 | 8 |

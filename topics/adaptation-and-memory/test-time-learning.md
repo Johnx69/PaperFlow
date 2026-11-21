@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Test-Time Learning
 
-**652 papers total**
+**653 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-20 | [FedRAPP: Federated Test-Time Prompt Tuning for Vision-Language Models with Reliability-Aware Prompt Personalization](https://arxiv.org/abs/2610.23705) | Adaptation and Memory: Test-Time Learning | FedRAPP enables robust source-free federated test-time adaptation of CLIP prompts by selectively aggregating reliable, compatible client updates under heterogeneous distribution shifts. | 7 | 7 |
 | 2026-11-19 | [Learning to Defer under Expert Drift](https://arxiv.org/abs/2611.26440) | Adaptation and Memory: Test-Time Learning | EDA-L2D improves learning-to-defer by adapting machine–expert decisions to changing expert reliability over time. | 8 | 9 |
 | 2026-11-19 | [Risk-Controlled Test-Time Adaptation for Vision-Language-Action Models](https://arxiv.org/abs/2611.26438) | Embodied AI: Vision-Language-Action; Adaptation and Memory: Test-Time Learning | R2-VLA enables safer test-time adaptation for vision-language-action models by deciding when to act autonomously or request expert help under a user-specified task-failure risk. | 9 | 8 |
 | 2026-11-19 | [Sample-efficient end-to-end Optical Music Recognition through Active Learning](https://arxiv.org/abs/2611.25975) | Efficient AI; Adaptation and Memory: Test-Time Learning | Active learning can make end-to-end Optical Music Recognition adaptation more annotation-efficient by selecting the most informative samples to label. | 5 | 6 |

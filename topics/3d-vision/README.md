@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # 3D Vision
 
-**924 papers total**
+**925 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-20 | [The Midas Touch for Metric Depth: Interpretable Metricization for Generalizable Depth Perception](https://arxiv.org/abs/2610.16749) | 3D Vision | MTDv2 combines interpretable geometric metricization with learnable refinement to recover robust metric depth from relative depth and sparse observations across diverse settings. | 7 | 6 |
 | 2026-11-19 | [Depth Pro 2: Sharp and Temporally Consistent Metric Monocular Depth](https://arxiv.org/abs/2611.26603) | 3D Vision | Depth Pro 2 is a scalable native-resolution model that jointly delivers sharp, metrically accurate, and temporally consistent monocular depth for images and video. | 8 | 7 |
 | 2026-11-19 | [Direct3D-V3: Latent-Free Diffusion Transformers in the Native Voxel Domain](https://arxiv.org/abs/2611.26511) | 3D Vision | Direct3D-V3 generates 3D shapes directly as native SDF voxel grids, avoiding latent representations to improve geometric detail and enable view-aligned reconstruction. | 7 | 8 |
 | 2026-11-19 | [SGAR: Feed-Forward 3D Reconstruction via Sparse Geometry-Guided Attention](https://arxiv.org/abs/2611.26493) | 3D Vision; Efficient AI: Efficient Attention | SGAR accelerates feed-forward 3D reconstruction by replacing costly dense cross-view attention with learned, geometry-guided sparse attention. | 7 | 8 |

@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # World Models
 
-**1198 papers total**
+**1199 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-20 | [Learning Graded Sparse Mechanisms: A Representation Theorem and Certified Generalization](https://arxiv.org/abs/2610.16537) | World Models | Axiomatic graded sparsity yields an exact transport-metric representation and data-dependent generalization certificates that avoid dependence on system size. | 4 | 7 |
 | 2026-11-19 | [One Prior, Two Dynamics: Repurposing Video Diffusion Transformers for Self-Supervised Latent Action Learning](https://arxiv.org/abs/2611.26617) | Embodied AI: Robot Learning and Manipulation; World Models: Latent Action Models, Video World Models | O²LaF repurposes pretrained video models to jointly learn transferable latent actions and their visual consequences from unlabeled videos. | 9 | 8 |
 | 2026-11-19 | [ScaleWorld: High-Resolution World Generation through Shared Prediction and Refinement](https://arxiv.org/abs/2611.26615) | World Models: Video World Models | ScaleWorld efficiently generates high-resolution video worlds by combining low-resolution prediction and high-resolution refinement in one causal model. | 8 | 7 |
 | 2026-11-19 | [Plan4D: Generative Plannable 4D Worlds](https://arxiv.org/abs/2611.26516) | World Models: Interactive World Models | Plan4D generates text-directed future videos together with temporally consistent 4D geometry, enabling physically grounded planning in dynamic scenes. | 9 | 8 |
