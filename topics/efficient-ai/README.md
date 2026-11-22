@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Efficient AI
 
-**2279 papers total**
+**2281 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-21 | [Revisiting Error Feedback for Model Quantization](https://arxiv.org/abs/2610.18139) | Efficient AI | Revisiting error-feedback design as an optimization problem shows how to minimize downstream quantization error, while highlighting that trace-optimal designs may not yield better finite-level accuracy. | 6 | 6 |
+| 2026-11-21 | [DVTR-KD: Distilling Vision-Language Models via Intermediate Visual Token Reconstruction](https://arxiv.org/abs/2610.17853) | Multimodal Foundation Models: Multimodal Large Language Models; Efficient AI: Token Pruning and Eviction | DVTR-KD distills vision-language models by reconstructing dense teacher visual tokens from compressed student tokens, improving compressed-student performance while preserving token-efficiency benefits. | 7 | 6 |
 | 2026-11-20 | [One Schedule Does Not Fit All: Adaptive Inference Schedules for Diffusion Language Models](https://arxiv.org/abs/2611.25895) | Efficient AI | TCDA adaptively selects the cheapest diffusion-language-model inference schedule that meets task-specific quality and safety guarantees, reducing denoiser evaluations while controlling false certification. | 6 | 6 |
 | 2026-11-20 | [FoveaTree: Information-Density Trees for Query-Guided Visual Token Pruning in Video Large Language Models](https://arxiv.org/abs/2610.16744) | Efficient AI: Token Pruning and Eviction | FoveaTree is a training-free, two-stage method that prunes video visual tokens using regional information density and topology-aware attention to reduce inference cost while preserving task-relevant evidence. | 8 | 7 |
 | 2026-11-19 | [TideCache: Efficient Hybrid LLM Serving with Transparent Cache Management and Layer-Wise Streaming](https://arxiv.org/abs/2611.26619) | Efficient AI: KV Cache and Memory Efficiency | TideCache improves hybrid LLM serving by dynamically sharing and streaming cache memory between GPU and host memory, increasing throughput and reducing latency. | 8 | 7 |

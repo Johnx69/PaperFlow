@@ -1,6 +1,113 @@
 {
   "days": [
     {
+      "date": "2026-11-21",
+      "paper_count": 1,
+      "papers": [
+        {
+          "abstract": "Active geo-localization (AGL) asks an agent to navigate a small aerial search grid and reach a target specified by an aerial image, a ground-level photograph, or text. Existing methods align the goal modalities well, but they keep the navigation state inside a large sequential Transformer and train with a dense distance reward that uses the hidden goal location. This paper proposes EAGLE, an Explicit spatial-belief Agent for Geo-Localization and Exploration. Offline training jointly optimizes a teacher-conditioned Swin branch and a context-free Swin student from the same randomly masked partial mosaics. The teacher branch attends to frozen full-scene context extracted by Qwen2.5-VL-7B, both branches receive masked-cell aerial-feature reconstruction and uncertainty supervision, while the student additionally distills stop-gradient feature predictions from the teacher. After distillation, Qwen, its cached context, and the teacher-attention branch are discarded. The retained student predicts cell-level aerial-feature embeddings and predictive uncertainty from partial observations alone. These predictions are combined with the modality-aligned goal embedding and a trajectory-derived visitation mask to construct the spatial belief tensor. The student is then frozen while a compact CNN actor-critic is optimized with PPO. EAGLE achieves state-of-the-art average success rates of 78.1%, 76.4%, and 76.8% on MASA, xBD zero-shot transfer, and the MM-GAG zero-shot aerial-goal split, respectively, without using a VLM or cached visual tokens at inference. Code will be made publicly available.",
+          "arxiv_id": "2611.25866",
+          "arxiv_url": "https://arxiv.org/abs/2611.25866",
+          "authors": [
+            "Ziyang Xu",
+            "Peng Han",
+            "Hai Zhou"
+          ],
+          "bullets": [
+            "Addresses AGL state representation by replacing implicit sequential Transformer memory with explicit cell-level spatial beliefs.",
+            "Trains a Swin teacher–student system on masked aerial mosaics using reconstruction, uncertainty supervision, and feature distillation from frozen Qwen2.5-VL context.",
+            "Combines student predictions, the aligned goal embedding, and visitation history into a spatial belief tensor.",
+            "Freezes the student and trains a compact CNN actor–critic with PPO for navigation.",
+            "Reports average success rates of 78.1% on MASA, 76.4% on xBD zero-shot transfer, and 76.8% on the MM-GAG zero-shot aerial-goal split; inference uses no VLM or cached visual tokens."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of EAGLE. Offline VLM supervision trains a context-free tracker from partial observations. At deployment, predicted grid features and variance are combined with the aligned goal representation and trajectory-derived visitation map to form Bt = [Ht, Ut, Vt]. The PPO actor-critic uses this state without Qwen or full-scene context.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 580,
+              "image_path": "figures/2611.25866/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1046
+            },
+            {
+              "caption": "Figure 3: Two-stage training. Stage 1 jointly optimizes a Qwen-conditioned teacher and a context-free student from identical random-walk partial mosaics. Both branches receive masked-cell aerial-feature reconstruction and branch-specific heteroscedastic supervision. The student also matches detached teacher features. Stage 2 removes the teacher path and trains the CNN policy with a frozen student tracker.",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 590,
+              "image_path": "figures/2611.25866/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1050
+            },
+            {
+              "caption": "Figure 4: Distance-wise success ratios on MASA, xBD, and the MM-GAG aerial-goal split. Numeric labels mark EAGLE. Table 1 reports exact values and the additional MM-GAG goal modalities. EAGLE attains the highest average on each dataset, with its largest margins over GeoExplorer at C ≥ 6.",
+              "figure_id": "figure-4-3",
+              "figure_number": "4",
+              "height": 300,
+              "image_path": "figures/2611.25866/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1024
+            },
+            {
+              "caption": "Figure 1: Multi-modal active geo-localization. An aerial image, ground photograph, or text query identifies the same hidden target. The agent observes one local aerial patch at a time and uses four-neighbor moves to reach the target within a fixed budget.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 331,
+              "image_path": "figures/2611.25866/figure-004.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 500
+            },
+            {
+              "caption": "Table 1: Main results. Success ratio (%) by Manhattan start-goal distance and dataset. For MM-GAG, the aerial-goal block includes the full aerial-goal comparison after omitting Random. The ground-image and text blocks compare EAGLE with GOMAA-Geo and GeoExplorer.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 583,
+              "image_path": "figures/2611.25866/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1044
+            },
+            {
+              "caption": "Table 2: Ablation summary (average success ratio, %). MMGAG averages all three goal modalities. The w/o distillation variant uses student-only Stage 1. The other variants remove Ut and its coverage bonus or remove Vt during PPO and evaluation.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 129,
+              "image_path": "figures/2611.25866/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 394
+            }
+          ],
+          "first_seen_at": "2026-11-21T21:00:00-05:00",
+          "hero_figure": "figures/2611.25866/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.25866",
+          "relevance": 8,
+          "selection_reason": "Active geo-localization agent navigating to multimodal-specified goals with explicit spatial belief; fits goal-conditioned and vision-language navigation.",
+          "summary_status": "generated",
+          "title": "From Sequence to Space: Explicit Spatial Belief with Vision-Language Distillation for Active Geo-Localization",
+          "tldr": "EAGLE enables active geo-localization with an explicit spatial belief map distilled from a vision-language teacher, achieving strong zero-shot performance without VLM use at inference.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-navigation",
+                "robot-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-19",
       "paper_count": 4,
       "papers": [
@@ -27178,5 +27285,5 @@
   "schema_version": 1,
   "subtopic_id": "vision-language-navigation",
   "topic_id": "embodied-ai",
-  "total_paper_count": 168
+  "total_paper_count": 169
 }

@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Vision-Language Navigation
 
-**168 papers total**
+**169 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-21 | [From Sequence to Space: Explicit Spatial Belief with Vision-Language Distillation for Active Geo-Localization](https://arxiv.org/abs/2611.25866) | Embodied AI: Vision-Language Navigation, Robot Navigation | EAGLE enables active geo-localization with an explicit spatial belief map distilled from a vision-language teacher, achieving strong zero-shot performance without VLM use at inference. | 8 | 7 |
 | 2026-11-19 | [ZeroVLN: Learning to Navigate without Supervised Fine-Tuning of the VLM Brain](https://arxiv.org/abs/2611.26414) | Embodied AI: Vision-Language Navigation | ZeroVLN enables effective continuous-environment navigation without navigation-domain supervised fine-tuning of the VLM, preserving its general visual capabilities. | 9 | 8 |
 | 2026-11-19 | [Goal-Guided Reinforcement Learning via Fine-Tuning Vision-Language Models](https://arxiv.org/abs/2611.25742) | Embodied AI: Vision-Language Navigation; Multimodal Foundation Models: Multimodal Large Language Models | Fine-tuning a vision-language model on environment-specific goal preferences improves exploration and achievement in sparse-reward Craftax-Classic RL. | 9 | 8 |
 | 2026-11-19 | [Cognitive-Horizon Action Chunking: Memory-Guided Adaptive Reasoning for Embodied Navigation](https://arxiv.org/abs/2611.25587) | Embodied AI: Vision-Language Navigation; Efficient AI; Adaptation and Memory: Embodied Memory | CHAC reduces costly vision-language model calls in embodied navigation by adaptively executing cached waypoints while largely preserving navigation success. | 8 | 7 |

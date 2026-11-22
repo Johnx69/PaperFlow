@@ -6,10 +6,13 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Embodied AI
 
-**3934 papers total**
+**3937 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-21 | [From Sequence to Space: Explicit Spatial Belief with Vision-Language Distillation for Active Geo-Localization](https://arxiv.org/abs/2611.25866) | Embodied AI: Vision-Language Navigation, Robot Navigation | EAGLE enables active geo-localization with an explicit spatial belief map distilled from a vision-language teacher, achieving strong zero-shot performance without VLM use at inference. | 8 | 7 |
+| 2026-11-21 | [Hindsight Self-Distillation: Teaching Robots to Act from the Present](https://arxiv.org/abs/2611.25777) | Embodied AI: Robot Learning and Manipulation | Hindsight Self-Distillation trains robots to act from current images by using future observations as privileged guidance during training. | 8 | 7 |
+| 2026-11-21 | [Reinforcement Learning for Large-Scale Lifelong Multi-Agent Path Finding with Shared Spatial Fields](https://arxiv.org/abs/2610.18186) | Embodied AI: Robot Navigation | A shared spatial-field reinforcement-learning policy enables fast, planner-free lifelong multi-agent navigation that generalizes to larger maps and agent populations. | 8 | 7 |
 | 2026-11-20 | [Agentic Scaling of Embodied Tasks in Simulation for Synthetic Data Collection and Policy Evaluation](https://arxiv.org/abs/2611.26046) | Embodied AI: Robot Learning and Manipulation | AgenticTask automatically expands embodied simulation task collections and validates their executability, enabling scalable synthetic-data generation and policy evaluation. | 8 | 7 |
 | 2026-11-20 | [ECHO: In-Context Behavior foundation model for Humanoid Whole-Body Control](https://arxiv.org/abs/2611.25778) | Embodied AI: Robot Learning and Manipulation | ECHO adapts a humanoid behavior foundation model to specific physical dynamics through interaction context, enabling precise whole-body control without updating model parameters at deployment. | 9 | 8 |
 | 2026-11-20 | [{\\phi}TD: Distributional Reinforcement Learning using Characteristic Functions](https://arxiv.org/abs/2611.25208) | Embodied AI: Robot Learning and Manipulation | φTD uses characteristic functions and frequency-domain losses to learn a broader range of return distributions in distributional reinforcement learning. | 4 | 5 |

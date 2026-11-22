@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Token Pruning and Eviction
 
-**386 papers total**
+**387 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-21 | [DVTR-KD: Distilling Vision-Language Models via Intermediate Visual Token Reconstruction](https://arxiv.org/abs/2610.17853) | Multimodal Foundation Models: Multimodal Large Language Models; Efficient AI: Token Pruning and Eviction | DVTR-KD distills vision-language models by reconstructing dense teacher visual tokens from compressed student tokens, improving compressed-student performance while preserving token-efficiency benefits. | 7 | 6 |
 | 2026-11-20 | [FoveaTree: Information-Density Trees for Query-Guided Visual Token Pruning in Video Large Language Models](https://arxiv.org/abs/2610.16744) | Efficient AI: Token Pruning and Eviction | FoveaTree is a training-free, two-stage method that prunes video visual tokens using regional information density and topology-aware attention to reduce inference cost while preserving task-relevant evidence. | 8 | 7 |
 | 2026-11-19 | [What Does Anti-Hallucination Training Buy? Saying Less, Cheap Pruning, and the Rest](https://arxiv.org/abs/2611.25814) | Multimodal Foundation Models: Multimodal Large Language Models; Efficient AI: Token Pruning and Eviction | Much of anti-hallucination training’s apparent benefit comes from shorter captions and can be replicated by a cheap post-hoc probe, though some methods and backbones retain gains beyond brevity. | 8 | 7 |
 | 2026-11-19 | [VidToC: Rethinking Video Token Compression for Multimodal Large Language Models](https://arxiv.org/abs/2611.25574) | Multimodal Foundation Models: Multimodal Large Language Models; Efficient AI: Token Pruning and Eviction | VidToC systematically evaluates video-token compression choices across tasks, training settings, temporal encodings, and MLLM backbones. | 8 | 6 |

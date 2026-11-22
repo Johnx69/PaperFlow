@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Robot Navigation
 
-**800 papers total**
+**802 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-21 | [From Sequence to Space: Explicit Spatial Belief with Vision-Language Distillation for Active Geo-Localization](https://arxiv.org/abs/2611.25866) | Embodied AI: Vision-Language Navigation, Robot Navigation | EAGLE enables active geo-localization with an explicit spatial belief map distilled from a vision-language teacher, achieving strong zero-shot performance without VLM use at inference. | 8 | 7 |
+| 2026-11-21 | [Reinforcement Learning for Large-Scale Lifelong Multi-Agent Path Finding with Shared Spatial Fields](https://arxiv.org/abs/2610.18186) | Embodied AI: Robot Navigation | A shared spatial-field reinforcement-learning policy enables fast, planner-free lifelong multi-agent navigation that generalizes to larger maps and agent populations. | 8 | 7 |
 | 2026-11-20 | [DR-APO: Decoupled-Representation Advantage-Guided Policy Optimization from Continuous Control to Embodied Navigation](https://arxiv.org/abs/2610.16618) | Embodied AI: Robot Navigation, Robot Learning and Manipulation | DR-APO unifies reinforcement-learning policy optimization across Gaussian, diffusion, and flow-matching policies by separating policy improvement from representation-specific generation. | 8 | 7 |
 | 2026-11-19 | [Exposure-Aware Informative Path Planning Using Deep Reinforcement Learning](https://arxiv.org/abs/2611.26302) | Embodied AI: Robot Navigation | A deep-reinforcement-learning planner enables mobile sensing fleets to map unknown fields while balancing information gain against exposure to hazardous intensities. | 7 | 6 |
 | 2026-11-19 | [BADAS-3.0: Real-Time Driving Perception and Planning from One Camera](https://arxiv.org/abs/2611.26294) | Embodied AI: Robot Navigation | BADAS-3.0 shows that a single forward camera can support fast driving perception, trajectory prediction, and safety-oriented planning. | 7 | 7 |

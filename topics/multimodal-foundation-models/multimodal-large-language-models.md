@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Multimodal Large Language Models
 
-**1227 papers total**
+**1228 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-21 | [DVTR-KD: Distilling Vision-Language Models via Intermediate Visual Token Reconstruction](https://arxiv.org/abs/2610.17853) | Multimodal Foundation Models: Multimodal Large Language Models; Efficient AI: Token Pruning and Eviction | DVTR-KD distills vision-language models by reconstructing dense teacher visual tokens from compressed student tokens, improving compressed-student performance while preserving token-efficiency benefits. | 7 | 6 |
 | 2026-11-20 | [Keep the Image in Mind: A Visual Board for Multimodal Agents](https://arxiv.org/abs/2611.23872) | Multimodal Foundation Models: Multimodal Large Language Models, Spatial Intelligence | A structured, revisable Visual Board helps multimodal agents prevent early visual mistakes from contaminating multi-step reasoning, improving accuracy while reducing token use. | 7 | 7 |
 | 2026-11-19 | [Probing the "Conscious" Mind: Selective Access and Global Workspace in Vision-Language Models](https://arxiv.org/abs/2611.26590) | Multimodal Foundation Models: Multimodal Large Language Models | MC-Lens probes VLMs through a shared semantic space, finding that concepts are accessible, selectively retrieved by task demands, and causally involved in downstream reasoning. | 6 | 7 |
 | 2026-11-19 | [ACE-Brain-0.7: Learning Execution-Grounded Reasoning for Embodied Agents](https://arxiv.org/abs/2611.26519) | Embodied AI: Learning from Human Videos; Multimodal Foundation Models: Multimodal Large Language Models, Spatial Intelligence | ACE-Brain-0.7 is a 9B vision–language model trained on execution-supervised data to improve spatially and temporally grounded reasoning for long-horizon embodied tasks. | 8 | 7 |

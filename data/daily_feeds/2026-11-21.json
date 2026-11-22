@@ -1,0 +1,1134 @@
+{
+  "date": "2026-11-21",
+  "paper_count": 6,
+  "papers": [
+    {
+      "abstract": "Active geo-localization (AGL) asks an agent to navigate a small aerial search grid and reach a target specified by an aerial image, a ground-level photograph, or text. Existing methods align the goal modalities well, but they keep the navigation state inside a large sequential Transformer and train with a dense distance reward that uses the hidden goal location. This paper proposes EAGLE, an Explicit spatial-belief Agent for Geo-Localization and Exploration. Offline training jointly optimizes a teacher-conditioned Swin branch and a context-free Swin student from the same randomly masked partial mosaics. The teacher branch attends to frozen full-scene context extracted by Qwen2.5-VL-7B, both branches receive masked-cell aerial-feature reconstruction and uncertainty supervision, while the student additionally distills stop-gradient feature predictions from the teacher. After distillation, Qwen, its cached context, and the teacher-attention branch are discarded. The retained student predicts cell-level aerial-feature embeddings and predictive uncertainty from partial observations alone. These predictions are combined with the modality-aligned goal embedding and a trajectory-derived visitation mask to construct the spatial belief tensor. The student is then frozen while a compact CNN actor-critic is optimized with PPO. EAGLE achieves state-of-the-art average success rates of 78.1%, 76.4%, and 76.8% on MASA, xBD zero-shot transfer, and the MM-GAG zero-shot aerial-goal split, respectively, without using a VLM or cached visual tokens at inference. Code will be made publicly available.",
+      "arxiv_id": "2611.25866",
+      "arxiv_url": "https://arxiv.org/abs/2611.25866",
+      "authors": [
+        "Ziyang Xu",
+        "Peng Han",
+        "Hai Zhou"
+      ],
+      "bullets": [
+        "Addresses AGL state representation by replacing implicit sequential Transformer memory with explicit cell-level spatial beliefs.",
+        "Trains a Swin teacher–student system on masked aerial mosaics using reconstruction, uncertainty supervision, and feature distillation from frozen Qwen2.5-VL context.",
+        "Combines student predictions, the aligned goal embedding, and visitation history into a spatial belief tensor.",
+        "Freezes the student and trains a compact CNN actor–critic with PPO for navigation.",
+        "Reports average success rates of 78.1% on MASA, 76.4% on xBD zero-shot transfer, and 76.8% on the MM-GAG zero-shot aerial-goal split; inference uses no VLM or cached visual tokens."
+      ],
+      "categories": [
+        "cs.RO"
+      ],
+      "figure_status": "ready",
+      "figures": [
+        {
+          "caption": "Figure 2: Overview of EAGLE. Offline VLM supervision trains a context-free tracker from partial observations. At deployment, predicted grid features and variance are combined with the aligned goal representation and trajectory-derived visitation map to form Bt = [Ht, Ut, Vt]. The PPO actor-critic uses this state without Qwen or full-scene context.",
+          "figure_id": "figure-2-5",
+          "figure_number": "2",
+          "height": 580,
+          "image_path": "figures/2611.25866/figure-001.webp",
+          "kind": "figure",
+          "page": 3,
+          "width": 1046
+        },
+        {
+          "caption": "Figure 3: Two-stage training. Stage 1 jointly optimizes a Qwen-conditioned teacher and a context-free student from identical random-walk partial mosaics. Both branches receive masked-cell aerial-feature reconstruction and branch-specific heteroscedastic supervision. The student also matches detached teacher features. Stage 2 removes the teacher path and trains the CNN policy with a frozen student tracker.",
+          "figure_id": "figure-3-6",
+          "figure_number": "3",
+          "height": 590,
+          "image_path": "figures/2611.25866/figure-002.webp",
+          "kind": "figure",
+          "page": 4,
+          "width": 1050
+        },
+        {
+          "caption": "Figure 4: Distance-wise success ratios on MASA, xBD, and the MM-GAG aerial-goal split. Numeric labels mark EAGLE. Table 1 reports exact values and the additional MM-GAG goal modalities. EAGLE attains the highest average on each dataset, with its largest margins over GeoExplorer at C ≥ 6.",
+          "figure_id": "figure-4-3",
+          "figure_number": "4",
+          "height": 300,
+          "image_path": "figures/2611.25866/figure-003.webp",
+          "kind": "figure",
+          "page": 7,
+          "width": 1024
+        },
+        {
+          "caption": "Figure 1: Multi-modal active geo-localization. An aerial image, ground photograph, or text query identifies the same hidden target. The agent observes one local aerial patch at a time and uses four-neighbor moves to reach the target within a fixed budget.",
+          "figure_id": "figure-1-1",
+          "figure_number": "1",
+          "height": 331,
+          "image_path": "figures/2611.25866/figure-004.webp",
+          "kind": "figure",
+          "page": 1,
+          "width": 500
+        },
+        {
+          "caption": "Table 1: Main results. Success ratio (%) by Manhattan start-goal distance and dataset. For MM-GAG, the aerial-goal block includes the full aerial-goal comparison after omitting Random. The ground-image and text blocks compare EAGLE with GOMAA-Geo and GeoExplorer.",
+          "figure_id": "table-1-2",
+          "figure_number": "1",
+          "height": 583,
+          "image_path": "figures/2611.25866/table-005.webp",
+          "kind": "table",
+          "page": 6,
+          "width": 1044
+        },
+        {
+          "caption": "Table 2: Ablation summary (average success ratio, %). MMGAG averages all three goal modalities. The w/o distillation variant uses student-only Stage 1. The other variants remove Ut and its coverage bonus or remove Vt during PPO and evaluation.",
+          "figure_id": "table-2-4",
+          "figure_number": "2",
+          "height": 129,
+          "image_path": "figures/2611.25866/table-006.webp",
+          "kind": "table",
+          "page": 7,
+          "width": 394
+        }
+      ],
+      "first_seen_at": "2026-11-21T21:00:00-05:00",
+      "hero_figure": "figures/2611.25866/hero.webp",
+      "novelty": 7,
+      "pdf_url": "https://arxiv.org/pdf/2611.25866",
+      "relevance": 8,
+      "selection_reason": "Active geo-localization agent navigating to multimodal-specified goals with explicit spatial belief; fits goal-conditioned and vision-language navigation.",
+      "summary_status": "generated",
+      "title": "From Sequence to Space: Explicit Spatial Belief with Vision-Language Distillation for Active Geo-Localization",
+      "tldr": "EAGLE enables active geo-localization with an explicit spatial belief map distilled from a vision-language teacher, achieving strong zero-shot performance without VLM use at inference.",
+      "topic_assignments": [
+        {
+          "subtopic_ids": [
+            "vision-language-navigation",
+            "robot-navigation"
+          ],
+          "topic_id": "embodied-ai"
+        }
+      ]
+    },
+    {
+      "abstract": "A robot must choose an action before it can see the outcome. In a recorded demonstration, later camera frames show what happened after the robot moved. Hindsight Self-Distillation (HSD) uses these later frames to teach a policy what to extract from current images. During training, a teacher sees both the current and later frames, while a student sees the current frames. They share a visual encoder and an action predictor. Each branch summarizes its images with a small set of feature vectors. These visual summaries supply all visual input to the action predictor. The teacher learns from demonstrated actions. For each noisy action sequence, the student learns from either the demonstration or the teacher's denoising prediction. It also learns to match the teacher's visual summaries. We analyze which aspects of the teacher's predictions the student can recover from its inputs. At deployment, the student encodes the current images once and reuses its summaries at every denoising step. HSD achieves average success rates of 98.50\\% on LIBERO and 92.31\\% on RoboTwin 2.0.",
+      "arxiv_id": "2611.25777",
+      "arxiv_url": "https://arxiv.org/abs/2611.25777",
+      "authors": [
+        "Haisen He",
+        "Yechi Liu",
+        "Tianle Shi",
+        "Haoyun Liu",
+        "Chuanzhang Meng",
+        "Tiancai Jiao",
+        "Yifan Bai",
+        "Xinyuan Chang",
+        "SongLin Dong",
+        "Zhiheng Ma"
+      ],
+      "bullets": [
+        "Addresses the challenge of choosing actions before their outcomes are visible.",
+        "A teacher sees current and later frames, while a student sees only current frames; both share visual and action components.",
+        "The student learns from demonstrated actions or the teacher’s denoising predictions and matches the teacher’s visual summaries.",
+        "At deployment, the student computes current-image features once and reuses them throughout denoising.",
+        "Reports average success rates of 98.50% on LIBERO and 92.31% on RoboTwin 2.0."
+      ],
+      "categories": [
+        "cs.RO"
+      ],
+      "figure_status": "ready",
+      "figures": [
+        {
+          "caption": "Figure 2. Hindsight Self-Distillation. Gray and blue backgrounds denote the training-only teacher and deployable student, which share the Video DiT and Action DiT weights. Teacher queries (orange) summarize current and future observations; student queries (purple) summarize the current observation. Branch-specific summary keys and values provide the sole visual input to each action stream. Both streams receive Aτ at the same flow time τ . LT uses ground-truth flow; LS selects ground-truth flow or a detached teacher prediction per chunk. Lsum aligns normalized terminal summaries. Encoders, nonvisual conditions, and auxiliary video co-training are omitted. Deployment retains only the student.",
+          "figure_id": "figure-2-7",
+          "figure_number": "2",
+          "height": 591,
+          "image_path": "figures/2611.25777/figure-001.webp",
+          "kind": "figure",
+          "page": 3,
+          "width": 1036
+        },
+        {
+          "caption": "Figure 1. Learn with hindsight, act from the present. The demonstration records the scene before and after the robot moves (left). During training, the teacher uses the current and later frames to guide what the student extracts from the current images (center). At deployment, the student chooses its actions from the current images, robot state, and instruction (right). Circles and arrows illustrate the interaction.",
+          "figure_id": "figure-1-4",
+          "figure_number": "1",
+          "height": 329,
+          "image_path": "figures/2611.25777/figure-002.webp",
+          "kind": "figure",
+          "page": 2,
+          "width": 944
+        },
+        {
+          "caption": "Figure 4. Six manipulation tasks on the YAM robot. Demonstration frames show tube insertion, slipper placement, color sorting, pen placement, water pouring, and plug insertion.",
+          "figure_id": "figure-4-1",
+          "figure_number": "4",
+          "height": 454,
+          "image_path": "figures/2611.25777/figure-003.webp",
+          "kind": "figure",
+          "page": 6,
+          "width": 501
+        },
+        {
+          "caption": "Figure 5. Real-world success rates. Each policy is evaluated in 20 trials per task. Mean success across the six tasks is 24.17% for Fast-WAM and 37.50% for HSD.",
+          "figure_id": "figure-5-2",
+          "figure_number": "5",
+          "height": 396,
+          "image_path": "figures/2611.25777/figure-004.webp",
+          "kind": "figure",
+          "page": 6,
+          "width": 466
+        },
+        {
+          "caption": "Figure 3. Attention within and across branches. Rows are queries and columns are keys and values. Shaded cells allow attention. Of the two summary groups, only the teacher queries QT read the later visual tokens zf . Each action stream Ab reads its own summaries and action tokens.",
+          "figure_id": "figure-3-10",
+          "figure_number": "3",
+          "height": 358,
+          "image_path": "figures/2611.25777/figure-005.webp",
+          "kind": "figure",
+          "page": 4,
+          "width": 375
+        },
+        {
+          "caption": "Table 2. RoboTwin 2.0 success rates (%) after joint training on clean and randomized scenes. PT marks additional embodied pretraining. Motus and LingBot-VA scores follow their CVPR and RSS versions, respectively. Avg. is the mean of the two displayed conditions. Bold marks column maxima.",
+          "figure_id": "table-2-6",
+          "figure_number": "2",
+          "height": 310,
+          "image_path": "figures/2611.25777/table-006.webp",
+          "kind": "table",
+          "page": 7,
+          "width": 412
+        },
+        {
+          "caption": "Table 3. Fast-WAM and HSD ablations on LIBERO-Plus. Entries are success rates (%) over one trial per variant. Overall pools all 10,030 variants. Bold marks the highest score in each column.",
+          "figure_id": "table-3-5",
+          "figure_number": "3",
+          "height": 196,
+          "image_path": "figures/2611.25777/table-007.webp",
+          "kind": "table",
+          "page": 7,
+          "width": 454
+        },
+        {
+          "caption": "Table 4. LIBERO success rates (%) for ablations of the teacher branch, action-level transfer, and summary-level transfer.",
+          "figure_id": "table-4-8",
+          "figure_number": "4",
+          "height": 163,
+          "image_path": "figures/2611.25777/table-008.webp",
+          "kind": "table",
+          "page": 8,
+          "width": 421
+        },
+        {
+          "caption": "Table 1. LIBERO success rates (%). PT marks additional embodied pretraining. DP, MDT, and π0 scores follow Kim et al. [14]; MDT uses 2% language annotations. π0.5 scores follow Kim et al. [16]. Published averages retain source rounding. The lower block reports our experiments. Bold marks the highest displayed scores, including ties.",
+          "figure_id": "table-1-3",
+          "figure_number": "1",
+          "height": 425,
+          "image_path": "figures/2611.25777/table-009.webp",
+          "kind": "table",
+          "page": 6,
+          "width": 462
+        },
+        {
+          "caption": "Table 5. Summary-token count on LIBERO. Both branches use K tokens. Entries are success rates (%); bold marks the highest score in each column.",
+          "figure_id": "table-5-9",
+          "figure_number": "5",
+          "height": 116,
+          "image_path": "figures/2611.25777/table-010.webp",
+          "kind": "table",
+          "page": 8,
+          "width": 314
+        }
+      ],
+      "first_seen_at": "2026-11-21T21:00:00-05:00",
+      "hero_figure": "figures/2611.25777/hero.webp",
+      "novelty": 7,
+      "pdf_url": "https://arxiv.org/pdf/2611.25777",
+      "relevance": 8,
+      "selection_reason": "Robot policy learning from demonstrations via hindsight self-distillation; fits imitation learning and visuomotor control.",
+      "summary_status": "generated",
+      "title": "Hindsight Self-Distillation: Teaching Robots to Act from the Present",
+      "tldr": "Hindsight Self-Distillation trains robots to act from current images by using future observations as privileged guidance during training.",
+      "topic_assignments": [
+        {
+          "subtopic_ids": [
+            "robot-learning-and-manipulation"
+          ],
+          "topic_id": "embodied-ai"
+        }
+      ]
+    },
+    {
+      "abstract": "Large-scale applications of lifelong multi-agent path finding (LMAPF) call for computationally inexpensive movement decisions under changing traffic conditions and across varied layouts. We propose a navigation policy in which a convolutional network computes a shared spatial field over the map once per timestep and a compact goal-conditioned operator derives agents' movement preferences. The complete policy is trained end-to-end using average-reward reinforcement learning with throughput as the reward, without planner demonstrations or a separate online path planner. For structured and unstructured layouts, we train one policy per class on pools of small maps and deploy each without retraining on larger, unseen layouts and agent populations. Across six layouts with 10,000 agents, our policies achieve throughput comparable to or higher than the strongest evaluated baselines. The proposed method has an average execution time below 10 ms per step, more than an order of magnitude faster than several established planners.",
+      "arxiv_id": "2610.18186",
+      "arxiv_url": "https://arxiv.org/abs/2610.18186",
+      "authors": [
+        "Jean Seong Bjorn Choe"
+      ],
+      "bullets": [
+        "Targets scalable movement decisions under changing traffic and varied map layouts.",
+        "Computes one shared convolutional spatial field per timestep, then derives compact goal-conditioned movement preferences for each agent.",
+        "Trains end-to-end with average-reward reinforcement learning using throughput, without planner demonstrations or a separate online planner.",
+        "Policies trained on small-map pools transfer to larger unseen layouts and populations; across six layouts with 10,000 agents, throughput is comparable to or better than evaluated baselines.",
+        "Runs in under 10 ms per step on average, though policies are trained separately for structured and unstructured layout classes."
+      ],
+      "categories": [
+        "cs.LG"
+      ],
+      "figure_status": "ready",
+      "figures": [
+        {
+          "caption": "Figure 2: Policy. A CNN computes a shared spatial field; route reweighting and Sinkhorn allocation produce next-move probabilities. Example. Changing B’s goal between (a) and (b) reverses A’s preferred route, with A’s reference fixed. Route widths give edge-traversal probabilities at each departure under P 0 and Q; the middle column gives their difference, and labels give first-action probabilities. The allocation panel compares q and π, redistributing A’s and C’s demand for the gold cell in (a).",
+          "figure_id": "figure-2-12",
+          "figure_number": "2",
+          "height": 385,
+          "image_path": "figures/2610.18186/figure-001.webp",
+          "kind": "figure",
+          "page": 3,
+          "width": 813
+        },
+        {
+          "caption": "Figure 3: Population transfer with accelerated (solid) and plain (light dotted) Sinkhorn. Both use 288 iterations per pass, except accelerated at 20k agents in (c), which uses 4,608. Ours averages three training seeds and eight cases per seed, with 1,000 steps in (a,b) and 2,500 in (c). Upper axes give agent counts; vertical guides mark training populations (maxima where varied).",
+          "figure_id": "figure-3-20",
+          "figure_number": "3",
+          "height": 363,
+          "image_path": "figures/2610.18186/figure-002.webp",
+          "kind": "figure",
+          "page": 8,
+          "width": 813
+        },
+        {
+          "caption": "Figure 1: Throughput and execution cost across random-map scales. Our unstructured policy, trained on small tiles, is reused without retraining at all three scales. Panel (a) averages 128 connected random maps with 17–21 cells per dimension (Appendix C). WPPL uses 500 LNS iterations in (a) and 40,000 in (b,c). Labels give ms per step; cost axes are logarithmic. Throughput axes differ; (b) omits 1.5–5.5 goals/step and compresses the lower segment.",
+          "figure_id": "figure-1-8",
+          "figure_number": "1",
+          "height": 316,
+          "image_path": "figures/2610.18186/figure-003.webp",
+          "kind": "figure",
+          "page": 2,
+          "width": 817
+        },
+        {
+          "caption": "Figure 4: Continuation and destination allocation. (a) Validation throughput with current weights; annotations report terminal averaged-policy throughput on the 10,000-agent warehouse. Both show three-run means and standard deviations. The deployment annotations average eight warehouse instances per run. (b) Actual agent trajectories through one passage; colours indicate entry side and diamonds mark goal completions. Thick dark lines mark turn-backs, agents that leave the passage by the side they entered (12.3% of exits with H = 1 and 7.1% with H = 4). The percentages aggregate all passages, eight instances and three training runs at 400 agents. (c) Throughput with and without allocation on 10% and 20% obstacle-density random maps, averaged over three training runs and eight instances per run.",
+          "figure_id": "figure-4-28",
+          "figure_number": "4",
+          "height": 253,
+          "image_path": "figures/2610.18186/figure-004.webp",
+          "kind": "figure",
+          "page": 9,
+          "width": 816
+        },
+        {
+          "caption": "Figure 8: Continuation throughput on six layouts. All methods use 10,000 agents over 10,000 steps. Curves show 1000-step window means over eight cases; our curves additionally average three training seeds, with shading indicating ±1 sample standard deviation across seed means. Panels (c)–(f) also show policies retrained with a decayed learning rate, evaluated with their final weights and iterative selection. Values below panels are whole-run means, with the largest in bold. Vertical scales vary by panel.",
+          "figure_id": "figure-8-7",
+          "figure_number": "8",
+          "height": 603,
+          "image_path": "figures/2610.18186/figure-005.webp",
+          "kind": "figure",
+          "page": 30,
+          "width": 808
+        },
+        {
+          "caption": "Figure 5: Examples from the fixed training pools. Gray cells are obstacles; the dumbbell layout connects two regions through a narrow passage. In (i), blue and orange mark workstations and storage endpoints. Dimensions are in cells.",
+          "figure_id": "figure-5-30",
+          "figure_number": "5",
+          "height": 441,
+          "image_path": "figures/2610.18186/figure-006.webp",
+          "kind": "figure",
+          "page": 20,
+          "width": 827
+        },
+        {
+          "caption": "Figure 6: The six deployment layouts evaluated with 10,000 agents. Gray cells are obstacles; dimensions are in cells.",
+          "figure_id": "figure-6-6",
+          "figure_number": "6",
+          "height": 345,
+          "image_path": "figures/2610.18186/figure-007.webp",
+          "kind": "figure",
+          "page": 21,
+          "width": 768
+        },
+        {
+          "caption": "Figure 7: Population transfer with accelerated Sinkhorn, with and without iterative action selection. Iteration counts use the offline probability-accuracy calibration described in the text, with fixed baseline counts at lower populations. Table 14 also reports lower-cost operating points. Ours averages three training seeds and eight cases per seed, with 1,000 steps in (a,b,d) and 2,500 in (c). Upper axes give agent counts.",
+          "figure_id": "figure-7-10",
+          "figure_number": "7",
+          "height": 690,
+          "image_path": "figures/2610.18186/figure-008.webp",
+          "kind": "figure",
+          "page": 29,
+          "width": 815
+        },
+        {
+          "caption": "Figure 10: Current-parameter validation throughput during training for the structured (left) and unstructured (right) actor families. Lines show three-seed means and shaded bands one standard deviation. Insets show the first 2,000 updates; gaps indicate incomplete seed coverage.",
+          "figure_id": "figure-10-11",
+          "figure_number": "10",
+          "height": 371,
+          "image_path": "figures/2610.18186/figure-009.webp",
+          "kind": "figure",
+          "page": 34,
+          "width": 812
+        },
+        {
+          "caption": "Table 2: Throughput and execution cost at 10,000 agents. Each cell gives throughput (goals/step) above step time (ms). Random percentages denote obstacle density. WPPL uses 40,000 LNS iterations. Ours reuses one policy per class without retraining; throughput averages three training seeds and eight cases. Ours runs 144 plain allocation iterations on the structured and random layouts and 288 on the city layouts. Timing protocols: Appendix D.",
+          "figure_id": "table-2-9",
+          "figure_number": "2",
+          "height": 503,
+          "image_path": "figures/2610.18186/table-010.webp",
+          "kind": "table",
+          "page": 7,
+          "width": 844
+        },
+        {
+          "caption": "Table 8: Peak host memory and live GPU allocation (GiB) during preparation and execution. Peaks need not coincide; dashes denote CPU-only methods.",
+          "figure_id": "table-8-26",
+          "figure_number": "8",
+          "height": 398,
+          "image_path": "figures/2610.18186/table-011.webp",
+          "kind": "table",
+          "page": 24,
+          "width": 828
+        },
+        {
+          "caption": "Table 1: Training and reuse of the learned policies compared in Table 2. RL, IL and ES denote reinforcement learning, imitation learning and evolution strategies. m denotes map-specific training; SILLM also uses separate policies for each guidance variant. The SILLM comparison uses IL checkpoints; its authors report that IL outperforms their MAPPO (Yu et al., 2022) implementation (Jiang et al., 2025). Planner involvement excludes geometric preprocessing.",
+          "figure_id": "table-1-1",
+          "figure_number": "1",
+          "height": 239,
+          "image_path": "figures/2610.18186/table-012.webp",
+          "kind": "table",
+          "page": 6,
+          "width": 840
+        },
+        {
+          "caption": "Table 3: Shared training settings for the two selected policies.",
+          "figure_id": "table-3-22",
+          "figure_number": "3",
+          "height": 308,
+          "image_path": "figures/2610.18186/table-013.webp",
+          "kind": "table",
+          "page": 19,
+          "width": 814
+        },
+        {
+          "caption": "Table 14: Action selection at selected Sinkhorn budgets. Our two action-selection variants use matched checkpoints, cases and allocation updates; throughput averages three training seeds and eight cases per seed. All costs use single-instance measurements (Appendix D). Dashes denote unavailable measurements.",
+          "figure_id": "table-14-19",
+          "figure_number": "14",
+          "height": 641,
+          "image_path": "figures/2610.18186/table-014.webp",
+          "kind": "table",
+          "page": 28,
+          "width": 826
+        },
+        {
+          "caption": "Table 5: Timed intervals for the six 10,000-agent layouts in Table 2. All intervals include simulator execution.",
+          "figure_id": "table-5-16",
+          "figure_number": "5",
+          "height": 273,
+          "image_path": "figures/2610.18186/table-015.webp",
+          "kind": "table",
+          "page": 23,
+          "width": 827
+        },
+        {
+          "caption": "Table 10: Per-agent task completion and waiting at 10,000 agents, pooled over three training seeds and eight cases. SD is the standard deviation and IQR the interquartile range; No task is the share of agents that complete no task within the evaluation horizon. The lower part compares the completed tasks with their upper bound, the number of tasks that an agent would complete on shortest paths with no other agent on the map. CV is the coefficient of variation, and Completed / upper bound is the mean ± SD over agents of the ratio of the two.",
+          "figure_id": "table-10-3",
+          "figure_number": "10",
+          "height": 460,
+          "image_path": "figures/2610.18186/table-016.webp",
+          "kind": "table",
+          "page": 25,
+          "width": 827
+        },
+        {
+          "caption": "Table 12: Reproduced dense 642/600-agent comparison, eight cases and 256 steps. Ours uses plain allocation and averages three training seeds.",
+          "figure_id": "table-12-4",
+          "figure_number": "12",
+          "height": 293,
+          "image_path": "figures/2610.18186/table-017.webp",
+          "kind": "table",
+          "page": 26,
+          "width": 827
+        },
+        {
+          "caption": "Table 4: Deployment maps at 10,000 agents, with eight released cases (0–7) per layout. Size is height × width; occupancy is agents per free cell.",
+          "figure_id": "table-4-5",
+          "figure_number": "4",
+          "height": 171,
+          "image_path": "figures/2610.18186/table-018.webp",
+          "kind": "table",
+          "page": 21,
+          "width": 560
+        },
+        {
+          "caption": "Table 21: Full and allocation-removed policies on sparse and dense random layouts. Throughput averages eight cases per training seed, over all 2500 steps.",
+          "figure_id": "table-21-21",
+          "figure_number": "21",
+          "height": 841,
+          "image_path": "figures/2610.18186/table-019.webp",
+          "kind": "table",
+          "page": 36,
+          "width": 827
+        },
+        {
+          "caption": "Table 7: Reference-table construction times and sizes on RTX 5090. Times cover the host construction call; compilation and asynchronous completion are included in warm-up.",
+          "figure_id": "table-7-15",
+          "figure_number": "7",
+          "height": 161,
+          "image_path": "figures/2610.18186/table-020.webp",
+          "kind": "table",
+          "page": 23,
+          "width": 456
+        },
+        {
+          "caption": "Table 9: Terminal-checkpoint throughput by training seed; each entry averages eight cases.",
+          "figure_id": "table-9-27",
+          "figure_number": "9",
+          "height": 171,
+          "image_path": "figures/2610.18186/table-021.webp",
+          "kind": "table",
+          "page": 24,
+          "width": 360
+        },
+        {
+          "caption": "Table 11: Throughput on 128 small random maps at every tested population. Policy columns distinguish training seeds; each covers the same benchmark cases as RHCR.",
+          "figure_id": "table-11-2",
+          "figure_number": "11",
+          "height": 160,
+          "image_path": "figures/2610.18186/table-022.webp",
+          "kind": "table",
+          "page": 25,
+          "width": 384
+        },
+        {
+          "caption": "Table 20: Throughput by continuation depth and training seed. Each entry averages the same eight cases for its layout and population.",
+          "figure_id": "table-20-14",
+          "figure_number": "20",
+          "height": 242,
+          "image_path": "figures/2610.18186/table-023.webp",
+          "kind": "table",
+          "page": 35,
+          "width": 627
+        },
+        {
+          "caption": "Table 15: Connected competition in historical training and evaluation states. Group sizes and graph diameters are means over sampled states, using an 18,432-iteration allocation reference. K⋆ is the smallest eligible count selected by the empirical allocation-error criterion; training rows report no evaluation count. Diameter is estimated by two successive breadth-first searches.",
+          "figure_id": "table-15-18",
+          "figure_number": "15",
+          "height": 305,
+          "image_path": "figures/2610.18186/table-024.webp",
+          "kind": "table",
+          "page": 28,
+          "width": 460
+        },
+        {
+          "caption": "Table 13: Evaluation-time allocation at 10,000 agents. Throughput is in tasks per step and execution time in ms per step. Plain values are those of Table 2; accelerated values use 144 iterations on every layout.",
+          "figure_id": "table-13-25",
+          "figure_number": "13",
+          "height": 193,
+          "image_path": "figures/2610.18186/table-025.webp",
+          "kind": "table",
+          "page": 27,
+          "width": 648
+        },
+        {
+          "caption": "Table 6: WPPL refinement-budget comparison. Throughput is mean± standard deviation over eight 2500-step cases. Costs use case 0 over all timesteps on the dedicated hardware above.",
+          "figure_id": "table-6-17",
+          "figure_number": "6",
+          "height": 100,
+          "image_path": "figures/2610.18186/table-026.webp",
+          "kind": "table",
+          "page": 23,
+          "width": 552
+        },
+        {
+          "caption": "Table 18: Actor-structure ablations at 10,000 agents. Entries are throughput in tasks per step, reported as mean ± sample standard deviation over three training seeds; each seed averages eight cases.",
+          "figure_id": "table-18-23",
+          "figure_number": "18",
+          "height": 212,
+          "image_path": "figures/2610.18186/table-027.webp",
+          "kind": "table",
+          "page": 32,
+          "width": 816
+        },
+        {
+          "caption": "Table 19: Controls for the learned field at 10,000 agents, under the protocol of Table 2. Entries are throughput in tasks per step, mean ± sample standard deviation over three training seeds; each seed averages eight cases. The full row is that of Table 2, with 144 allocation iterations on the random layouts where Table 18 uses 288.",
+          "figure_id": "table-19-13",
+          "figure_number": "19",
+          "height": 151,
+          "image_path": "figures/2610.18186/table-028.webp",
+          "kind": "table",
+          "page": 33,
+          "width": 798
+        },
+        {
+          "caption": "Table 17: Throughput at 10,000 agents by training pool, in tasks per step. The structured and unstructured rows average three training seeds with eight cases each; the policy trained on both pools has one training seed. Entries for a pool’s own class are repeated evaluations and agree with Table 2 within 0.2 tasks per step.",
+          "figure_id": "table-17-24",
+          "figure_number": "17",
+          "height": 100,
+          "image_path": "figures/2610.18186/table-029.webp",
+          "kind": "table",
+          "page": 32,
+          "width": 698
+        },
+        {
+          "caption": "Table 16: Throughput on additional large layouts, in tasks per step. Our entries show mean± sample standard deviation across three training seeds; each seed and each baseline average eight matching cases.",
+          "figure_id": "table-16-29",
+          "figure_number": "16",
+          "height": 83,
+          "image_path": "figures/2610.18186/table-030.webp",
+          "kind": "table",
+          "page": 31,
+          "width": 736
+        }
+      ],
+      "first_seen_at": "2026-11-21T21:00:00-05:00",
+      "hero_figure": "figures/2610.18186/hero.webp",
+      "novelty": 7,
+      "pdf_url": "https://arxiv.org/pdf/2610.18186",
+      "relevance": 8,
+      "selection_reason": "Learned goal-conditioned navigation policy for large-scale multi-agent path finding fits robot navigation.",
+      "summary_status": "generated",
+      "title": "Reinforcement Learning for Large-Scale Lifelong Multi-Agent Path Finding with Shared Spatial Fields",
+      "tldr": "A shared spatial-field reinforcement-learning policy enables fast, planner-free lifelong multi-agent navigation that generalizes to larger maps and agent populations.",
+      "topic_assignments": [
+        {
+          "subtopic_ids": [
+            "robot-navigation"
+          ],
+          "topic_id": "embodied-ai"
+        }
+      ]
+    },
+    {
+      "abstract": "We study causal error-feedback coefficients as design variables for model quantization. Modeling instantaneous quantization errors as independent, zero-mean variables with a common fixed variance, we formulated a metric-dependent trace problem for designing feedback coefficients. The formulation resembles fixed-order GPTQ/LDLQ feedback and supports Jacobian-aware designs that account for downstream error propagation. For a positive-definite metric $\\boldsymbol{H}$, we prove that the joint rotation-feedback trace minimum is $n\\det(\\boldsymbol{H})^{1/n}$ and present an attaining pair using the geometric mean decomposition. Experiments on synthetic networks, trained MLPs, and language models show benefits from downstream-sensitive feedback, but also reveal that trace optimality need not improve finite-level performance. Small QAT experiments further illustrate direct loss-driven feedback tuning with fixed or trainable network weights.",
+      "arxiv_id": "2610.18139",
+      "arxiv_url": "https://arxiv.org/abs/2610.18139",
+      "authors": [
+        "Wai-Yiu Keung",
+        "Chi Cui",
+        "Wing-Kin Ma",
+        "Jesús Cid-Sueiro",
+        "Hei Victor Cheng"
+      ],
+      "bullets": [
+        "Models quantization errors as independent, zero-mean variables with fixed variance and optimizes metric-dependent feedback coefficients.",
+        "Develops Jacobian-aware designs that account for how errors propagate through downstream layers.",
+        "Proves that the joint rotation-feedback trace minimum for positive-definite H is n det(H)^(1/n), with an attaining construction via geometric mean decomposition.",
+        "Experiments across synthetic networks, MLPs, and language models find benefits from downstream-sensitive feedback, but trace optimality does not consistently improve finite-level performance.",
+        "Small QAT studies demonstrate direct loss-driven feedback tuning with fixed or trainable weights."
+      ],
+      "categories": [
+        "cs.LG",
+        "eess.SP"
+      ],
+      "figure_status": "ready",
+      "figures": [
+        {
+          "caption": "Table 3: Post-training quantization on five language models. Each entry reports PPL / nexttoken accuracy (%) / final-logit MSE. Lower PPL and MSE and higher accuracy are better. Boldface marks the best of the six methods for each model and bit width. “Local” and “objective-aware” specify the design metric; EFQ, RHT+EFQ, and joint R,G specify the construction.",
+          "figure_id": "table-3-18",
+          "figure_number": "3",
+          "height": 236,
+          "image_path": "figures/2610.18139/table-001.webp",
+          "kind": "table",
+          "page": 9,
+          "width": 925
+        },
+        {
+          "caption": "Table 4: Mean test MSE over 100 paired synthetic regression trials; lower is better. Feedbackonly tuning holds the network fixed and starts from covariance-designed feedback. Both displayed QAT arms start from G = I. Boldface marks the lowest mean among the quantized methods shown.",
+          "figure_id": "table-4-10",
+          "figure_number": "4",
+          "height": 183,
+          "image_path": "figures/2610.18139/table-002.webp",
+          "kind": "table",
+          "page": 10,
+          "width": 446
+        },
+        {
+          "caption": "Table 5: Held-out next-character perplexity on the Shakespeare character dataset, averaged over ten paired seeds. Perplexity is computed for each seed before averaging; lower is better. Evaluation uses the held-out second half of the validation file. Boldface marks the lowest mean among quantized methods.",
+          "figure_id": "table-5-11",
+          "figure_number": "5",
+          "height": 192,
+          "image_path": "figures/2610.18139/table-003.webp",
+          "kind": "table",
+          "page": 10,
+          "width": 398
+        },
+        {
+          "caption": "Table 6: Related compensation criteria viewed through f(Gℓ; Θℓ).",
+          "figure_id": "table-6-12",
+          "figure_number": "6",
+          "height": 764,
+          "image_path": "figures/2610.18139/table-004.webp",
+          "kind": "table",
+          "page": 14,
+          "width": 929
+        },
+        {
+          "caption": "Table 2: Post-training quantization of MNIST- and CIFAR-10-trained MLPs. Each entry reports test logit MSE / accuracy drop in percentage points, averaged over 100 trained checkpoints. Mean full-precision accuracy is 97.0539% on MNIST and 47.5550% on CIFAR-10. Lower is better for both metrics. Boldface marks the lowest unrounded mean within each dataset and M .",
+          "figure_id": "table-2-15",
+          "figure_number": "2",
+          "height": 311,
+          "image_path": "figures/2610.18139/table-005.webp",
+          "kind": "table",
+          "page": 8,
+          "width": 896
+        },
+        {
+          "caption": "Table 1: Test-set output distortion over 100 independently generated networks. The fixed-α columns report mean distortion when the same α is used for every network; α = 0 is the GPTQ-style baseline. In the final three columns, α is selected separately for each network using calibration data only. Reduction is relative to α = 0, and Win/Tie/Loss counts networks on which the selected method has lower, equal, or higher test distortion than that baseline. Boldface in the fixed-α columns marks the lowest mean in each row.",
+          "figure_id": "table-1-1",
+          "figure_number": "1",
+          "height": 131,
+          "image_path": "figures/2610.18139/table-006.webp",
+          "kind": "table",
+          "page": 6,
+          "width": 850
+        },
+        {
+          "caption": "Table 9: Mean test MSE over 100 paired synthetic regression trials without a feedback-training regularizer. Lower is better. Boldface indicates the lowest mean among quantized methods in each column. Feedback-only tuning starts from covariance feedback; the identity-initialized QAT arms start from G = I.",
+          "figure_id": "table-9-4",
+          "figure_number": "9",
+          "height": 252,
+          "image_path": "figures/2610.18139/table-007.webp",
+          "kind": "table",
+          "page": 21,
+          "width": 681
+        },
+        {
+          "caption": "Table 16: Llama-2-13B quantization results on WikiText-2 and C4. WikiText-2 values are mean ± sample standard deviation over calibration seeds {7, 8, 42}; C4 values are from the complete seed-7 cohort. Accuracy is reported in percent. Lower PPL and logit MSE are better; higher accuracy is better. Boldface marks the best quantized result at each bit width within each dataset. The BF16 references are 6.3937 PPL / 58.819% accuracy on WikiText-2 and 7.2441 PPL / 56.444% accuracy on C4.",
+          "figure_id": "table-16-16",
+          "figure_number": "16",
+          "height": 621,
+          "image_path": "figures/2610.18139/table-008.webp",
+          "kind": "table",
+          "page": 27,
+          "width": 938
+        },
+        {
+          "caption": "Table 13: Qwen3-8B sequential-replay diagnostic on WikiText-2 with length-2048 sequences. MSE statistics summarize direct projection-output error across 252 projections, not final-logit error. “Wins” counts the projections with the lowest MSE at each bit width. Bold marks the best quantized value in each column at that bit width.",
+          "figure_id": "table-13-17",
+          "figure_number": "13",
+          "height": 458,
+          "image_path": "figures/2610.18139/table-009.webp",
+          "kind": "table",
+          "page": 24,
+          "width": 769
+        },
+        {
+          "caption": "Table 8: Trace optimality versus realized finite-level error on CIFAR-10 at α = 0, averaged over 100 paired seeds. Quantities and aggregation follow Table 7. Lower is better.",
+          "figure_id": "table-8-20",
+          "figure_number": "8",
+          "height": 169,
+          "image_path": "figures/2610.18139/table-010.webp",
+          "kind": "table",
+          "page": 16,
+          "width": 467
+        },
+        {
+          "caption": "Table 7: Trace optimality versus realized finite-level error on MNIST at α = 0, averaged over 100 paired seeds. The trace ratio is computed for each seed from row-weighted block traces and determinant bounds, then averaged over seeds. Realized metric error is the aggregate blockwise quadratic error; test logit MSE is measured for the fully quantized network. Lower is better.",
+          "figure_id": "table-7-19",
+          "figure_number": "7",
+          "height": 168,
+          "image_path": "figures/2610.18139/table-011.webp",
+          "kind": "table",
+          "page": 16,
+          "width": 465
+        },
+        {
+          "caption": "Table 14: Additional Qwen3-8B comparisons on WikiText-2. Each cell reports PPL / nexttoken accuracy (%); lower PPL and higher accuracy are better. Bold marks the best quantized value for each metric and bit width. Logit-diag is the objective-aware metric used in the maintext LLM comparison.",
+          "figure_id": "table-14-2",
+          "figure_number": "14",
+          "height": 539,
+          "image_path": "figures/2610.18139/table-012.webp",
+          "kind": "table",
+          "page": 25,
+          "width": 746
+        },
+        {
+          "caption": "Table 15: Additional Llama-2-7B comparisons on WikiText-2. Accuracy is in percent, and MSE is final-logit MSE relative to BF16. Bold marks the best quantized value for each metric and bit width.",
+          "figure_id": "table-15-3",
+          "figure_number": "15",
+          "height": 505,
+          "image_path": "figures/2610.18139/table-013.webp",
+          "kind": "table",
+          "page": 26,
+          "width": 944
+        },
+        {
+          "caption": "Table 17: Additional Qwen3-14B comparisons on WikiText-2. Accuracy is in percent, and MSE is final-logit MSE relative to BF16. Bold marks the best quantized value for each metric and bit width.",
+          "figure_id": "table-17-14",
+          "figure_number": "17",
+          "height": 494,
+          "image_path": "figures/2610.18139/table-014.webp",
+          "kind": "table",
+          "page": 28,
+          "width": 943
+        },
+        {
+          "caption": "Table 20: C4 results for Qwen3-14B (calibration seed 7). The BF16 reference has PPL 15.4016, accuracy 44.9696%, and zero logit MSE. Bold marks the best quantized value for each metric and bit width.",
+          "figure_id": "table-20-8",
+          "figure_number": "20",
+          "height": 269,
+          "image_path": "figures/2610.18139/table-015.webp",
+          "kind": "table",
+          "page": 29,
+          "width": 850
+        },
+        {
+          "caption": "Table 18: C4 results for Llama-2-7B (calibration seed 7). The BF16 reference has PPL 8.2949, accuracy 53.960%, and zero logit MSE. Bold marks the best quantized value for each metric and bit width.",
+          "figure_id": "table-18-6",
+          "figure_number": "18",
+          "height": 269,
+          "image_path": "figures/2610.18139/table-016.webp",
+          "kind": "table",
+          "page": 29,
+          "width": 837
+        },
+        {
+          "caption": "Table 19: C4 results for Llama-2-13B (calibration seed 7). The BF16 reference has PPL 7.7063, accuracy 55.092%, and zero logit MSE. Bold marks the best quantized value for each metric and bit width.",
+          "figure_id": "table-19-7",
+          "figure_number": "19",
+          "height": 271,
+          "image_path": "figures/2610.18139/table-017.webp",
+          "kind": "table",
+          "page": 29,
+          "width": 827
+        },
+        {
+          "caption": "Table 10: MNIST test accuracy (%, mean ± sample standard deviation over three pretrained seeds). Bold marks the higher mean at each bit width. The two procedures differ in quantization grid and bias treatment.",
+          "figure_id": "table-10-5",
+          "figure_number": "10",
+          "height": 104,
+          "image_path": "figures/2610.18139/table-018.webp",
+          "kind": "table",
+          "page": 21,
+          "width": 944
+        },
+        {
+          "caption": "Table 11: Layerwise PTQ on CIFAR-10. Test accuracy (%) and logit MSE are reported as mean ± sample standard deviation over seeds {42, 33, 8}. All fused weights and biases are quantized. Bold marks the highest mean accuracy at each bit width; the FP32 reference attains 89.77± 0.14%.",
+          "figure_id": "table-11-9",
+          "figure_number": "11",
+          "height": 60,
+          "image_path": "figures/2610.18139/table-019.webp",
+          "kind": "table",
+          "page": 22,
+          "width": 944
+        },
+        {
+          "caption": "Table 12: MODNet test MSE (mean ± sample standard deviation over three seeds; lower is better). Bold marks the lower mean among the two quantized procedures at each value of M .",
+          "figure_id": "table-12-13",
+          "figure_number": "12",
+          "height": 38,
+          "image_path": "figures/2610.18139/table-020.webp",
+          "kind": "table",
+          "page": 23,
+          "width": 944
+        }
+      ],
+      "first_seen_at": "2026-11-21T21:00:00-05:00",
+      "hero_figure": "figures/2610.18139/hero.webp",
+      "novelty": 6,
+      "pdf_url": "https://arxiv.org/pdf/2610.18139",
+      "relevance": 6,
+      "selection_reason": "Model quantization with error-feedback design directly targets efficient inference and memory reduction.",
+      "summary_status": "generated",
+      "title": "Revisiting Error Feedback for Model Quantization",
+      "tldr": "Revisiting error-feedback design as an optimization problem shows how to minimize downstream quantization error, while highlighting that trace-optimal designs may not yield better finite-level accuracy.",
+      "topic_assignments": [
+        {
+          "subtopic_ids": [],
+          "topic_id": "efficient-ai"
+        }
+      ]
+    },
+    {
+      "abstract": "Multimodal large language models (MLLMs) have achieved strong performance on diverse vision-language tasks, but their computational demands limit deployment under constrained budgets, particularly on edge devices. Many works focus on Knowledge Distillation (KD) and try to transfer knowledge from powerful teacher models to students. In addition to reducing model size, visual token compression provides a complementary route to efficiency, but introduces mismatched visual token counts that complicate direct token-wise knowledge transfer. To mitigate this, we propose DVTR-KD, a knowledge distillation framework based on \\textbf{D}ense \\textbf{V}isual \\textbf{T}oken \\textbf{R}econstruction, which reconstructs the teacher's dense visual tokens from the student's compressed tokens. We reconstruct visual states after the final LLM layer and at the input to an intermediate layer identified as important for visual-information readout. At the intermediate layer, reconstruction is supervised through the teacher's response predictions rather than by direct token-wise KL or MSE matching. An auxiliary attention-readout loss complements this response-level supervision by aligning how the student and the original teacher integrate contextual information when predicting responses. Evaluations on diverse benchmarks demonstrate that DVTR-KD improves the performance of token-compressed students while retaining the inference efficiency afforded by visual token compression.",
+      "arxiv_id": "2610.17853",
+      "arxiv_url": "https://arxiv.org/abs/2610.17853",
+      "authors": [
+        "Haolan Wei",
+        "Jiahui Wang",
+        "Junli Zha",
+        "Xinkai Lu",
+        "Yunxiao Zou",
+        "Chao Zhou",
+        "Xiang Song"
+      ],
+      "bullets": [
+        "Addresses the challenge of knowledge transfer when visual token compression creates mismatched teacher and student token counts.",
+        "Reconstructs teacher visual states after the final LLM layer and before an important intermediate layer.",
+        "Uses response-level supervision at the intermediate layer instead of direct token-wise KL or MSE matching.",
+        "Adds an attention-readout loss to align contextual information integration during response prediction.",
+        "Evaluations across diverse benchmarks show improved performance for token-compressed students while retaining inference efficiency."
+      ],
+      "categories": [
+        "cs.CV"
+      ],
+      "figure_status": "ready",
+      "figures": [
+        {
+          "caption": "Figure 2. Overview of DVTR-KD. (a) The intermediate reconstructor Rmid reconstructs student visual states in the teacher’s dense layout at PVRL, substituting teacher’s visual states; this reconstruction is supervised through response predictions produced by the teacher from the PVRL onward. Native response distillation and an independent final-layer reconstructor Rlast provide additional supervision. (b) Readout alignment uses attention outputs from the original teacher and the student. (c) An illustration to the reconstructor.",
+          "figure_id": "figure-2-8",
+          "figure_number": "2",
+          "height": 479,
+          "image_path": "figures/2610.17853/figure-001.webp",
+          "kind": "figure",
+          "page": 4,
+          "width": 1020
+        },
+        {
+          "caption": "Figure 1. Layer-wise sensitivity to visual-value ablation after SFT and before distillation. We zero the value vectors of all visual tokens in one transformer layer at a time and report the change in response NLL (∆NLL), averaged over the same diagnostic subset. In the legends, 1× denotes uncompressed models, while 4× and 16× denote models with nominal fourfold and sixteenfold reductions in visual-token count. The sample counts are summed over all training datasets before distillation.",
+          "figure_id": "figure-1-1",
+          "figure_number": "1",
+          "height": 451,
+          "image_path": "figures/2610.17853/figure-002.webp",
+          "kind": "figure",
+          "page": 2,
+          "width": 474
+        },
+        {
+          "caption": "Figure 3. Layer-wise sensitivity to visual-value ablation after distillation. We compare DVTR-KD students with the data-rich teacher and the corresponding SFT students.",
+          "figure_id": "figure-3-4",
+          "figure_number": "3",
+          "height": 460,
+          "image_path": "figures/2610.17853/figure-003.webp",
+          "kind": "figure",
+          "page": 13,
+          "width": 471
+        },
+        {
+          "caption": "Table 2. Distillation results across visual-token compression ratios, teacher data regimes and teacher scales. All methods are reimplemented for fair comparison and start from the corresponding SFT model. ρ2 denotes the nominal visual-token compression factor. LLaVA-KD∗ means we use our reconstruction method to align different visual-token counts after last block. MME scores are divided by 28 when calculating the average scores. Avg11 is the mean over all 11 benchmarks.",
+          "figure_id": "table-2-3",
+          "figure_number": "2",
+          "height": 744,
+          "image_path": "figures/2610.17853/table-004.webp",
+          "kind": "table",
+          "page": 7,
+          "width": 882
+        },
+        {
+          "caption": "Table 3. Ablation study on contributions from key components in our method.",
+          "figure_id": "table-3-7",
+          "figure_number": "3",
+          "height": 179,
+          "image_path": "figures/2610.17853/table-005.webp",
+          "kind": "table",
+          "page": 8,
+          "width": 416
+        },
+        {
+          "caption": "Table 6. Training hyperparameters across different stages.",
+          "figure_id": "table-6-11",
+          "figure_number": "6",
+          "height": 419,
+          "image_path": "figures/2610.17853/table-006.webp",
+          "kind": "table",
+          "page": 12,
+          "width": 483
+        },
+        {
+          "caption": "Table 1. Training data for model preparation and knowledge distillation. “–” indicates a skipped stage; “Frozen” indicates that the teacher is used without parameter updates during KD.",
+          "figure_id": "table-1-2",
+          "figure_number": "1",
+          "height": 135,
+          "image_path": "figures/2610.17853/table-007.webp",
+          "kind": "table",
+          "page": 7,
+          "width": 940
+        },
+        {
+          "caption": "Table 5. Reconstruction at different layers. AvgG, AvgK , and AvgO denote the mean scores on the General, Knowledge, and OCR benchmarks, respectively.",
+          "figure_id": "table-5-6",
+          "figure_number": "5",
+          "height": 179,
+          "image_path": "figures/2610.17853/table-008.webp",
+          "kind": "table",
+          "page": 8,
+          "width": 412
+        },
+        {
+          "caption": "Table 4. Ablation study on supervision type for reconstruction at PVRL.",
+          "figure_id": "table-4-5",
+          "figure_number": "4",
+          "height": 179,
+          "image_path": "figures/2610.17853/table-009.webp",
+          "kind": "table",
+          "page": 8,
+          "width": 237
+        },
+        {
+          "caption": "Table 7. Evaluation splits and metrics. Counts denote evaluated questions.",
+          "figure_id": "table-7-9",
+          "figure_number": "7",
+          "height": 301,
+          "image_path": "figures/2610.17853/table-010.webp",
+          "kind": "table",
+          "page": 12,
+          "width": 454
+        },
+        {
+          "caption": "Table 8. Effect of relation distillation in our adapted LLaVA-KD baseline under ρ2 = 16.",
+          "figure_id": "table-8-10",
+          "figure_number": "8",
+          "height": 140,
+          "image_path": "figures/2610.17853/table-011.webp",
+          "kind": "table",
+          "page": 12,
+          "width": 283
+        }
+      ],
+      "first_seen_at": "2026-11-21T21:00:00-05:00",
+      "hero_figure": "figures/2610.17853/hero.webp",
+      "novelty": 6,
+      "pdf_url": "https://arxiv.org/pdf/2610.17853",
+      "relevance": 7,
+      "selection_reason": "Knowledge distillation with visual token compression for MLLMs; addresses efficiency and multimodal model improvement.",
+      "summary_status": "generated",
+      "title": "DVTR-KD: Distilling Vision-Language Models via Intermediate Visual Token Reconstruction",
+      "tldr": "DVTR-KD distills vision-language models by reconstructing dense teacher visual tokens from compressed student tokens, improving compressed-student performance while preserving token-efficiency benefits.",
+      "topic_assignments": [
+        {
+          "subtopic_ids": [
+            "multimodal-large-language-models"
+          ],
+          "topic_id": "multimodal-foundation-models"
+        },
+        {
+          "subtopic_ids": [
+            "token-pruning-and-eviction"
+          ],
+          "topic_id": "efficient-ai"
+        }
+      ]
+    },
+    {
+      "abstract": "GUI grounding enables web agents to translate natural-language instructions into actionable interface locations. However, dense layouts and small, visually similar controls can lead models toward plausible but incorrect elements, while refinement around a single prediction may leave alternative targets unexplored. We propose the Multi-Hypothesis Verification Framework (MHVF) for training-free GUI grounding. It combines multi-hypothesis exploration with local visual verification using a single pretrained vision-language model. To explore alternative targets, MHVF constructs spatial hypotheses from multiple full-screen predictions and examines the corresponding regions through zoomed re-localization. To resolve ambiguity among the resulting candidates, it verifies their agreement with the instruction in marked local views. Verification scores then guide a second round of local search and rank candidates retained from both search levels for final selection. Experiments with five general-purpose and GUI-specific models across eight benchmark settings demonstrate improvements in grounding accuracy in most settings. MHVF improves UI-Venus-Ground-7B by 4.3 and 2.1 percentage points on Mind2Web and VisualWebBench, respectively, and raises Qwen2.5-VL-7B's accuracy on ScreenSpot-Pro from 23.6% to 53.6%.",
+      "arxiv_id": "2610.17792",
+      "arxiv_url": "https://arxiv.org/abs/2610.17792",
+      "authors": [
+        "Minghua Chen",
+        "Xingming Liao",
+        "Weiqiang Zhong",
+        "Zhuowei Wang"
+      ],
+      "bullets": [
+        "Addresses errors from dense layouts and visually similar controls, where single-prediction refinement can miss the correct target.",
+        "Uses one pretrained vision-language model to generate full-screen hypotheses, zoom into candidate regions, and verify instruction–region agreement.",
+        "Verification scores guide a second local-search round and rank candidates from both search stages.",
+        "Across five models and eight benchmark settings, MHVF improves accuracy in most settings; examples include +4.3 and +2.1 points for UI-Venus-Ground-7B and 23.6% to 53.6% for Qwen2.5-VL-7B on ScreenSpot-Pro."
+      ],
+      "categories": [
+        "cs.CV"
+      ],
+      "figure_status": "ready",
+      "figures": [
+        {
+          "caption": "Figure 2: Overview of MHVF. The blue boundary encloses the inference procedure, which reuses a shared frozen VLM for hypothesis generation (P), zoomed re-localization (Z), and candidate verification (V). Reopening (R) refines the best-scoring region, and candidates from both levels remain eligible for final selection. The lower panels illustrate verification and local refinement for “add new tab,” where H4 is reopened and H4.1 yields the final click.",
+          "figure_id": "figure-2-6",
+          "figure_number": "2",
+          "height": 539,
+          "image_path": "figures/2610.17792/figure-001.webp",
+          "kind": "figure",
+          "page": 3,
+          "width": 1046
+        },
+        {
+          "caption": "Figure 8: Additional cases with Qwen2.5-VL-7B and UI-Venus-Ground-7B: (a) localization among similar options, (b) retention of a level-1 candidate, (c) small-control localization, (d) recovery through reopening, (e) selection failure, and (f) missing candidate coverage. Markers show logged predictions from both levels; dashed boxes mark targets. Screenshots are cropped for display.",
+          "figure_id": "figure-8-2",
+          "figure_number": "8",
+          "height": 857,
+          "image_path": "figures/2610.17792/figure-002.webp",
+          "kind": "figure",
+          "page": 11,
+          "width": 1042
+        },
+        {
+          "caption": "Figure 4: Accuracy by target size; labels show gains in percentage points. Results pool 39,445 sample–model pairs across three benchmarks and five backbones.",
+          "figure_id": "figure-4-3",
+          "figure_number": "4",
+          "height": 316,
+          "image_path": "figures/2610.17792/figure-003.webp",
+          "kind": "figure",
+          "page": 7,
+          "width": 490
+        },
+        {
+          "caption": "Figure 7: Web grounding cases with UI-Venus-Ground-7B on Mind2Web (a, c) and VisualWebBench (b, d): successful localization, recovery through reopening, selection failure, and missing candidate coverage. Markers show logged predictions from both levels; dashed boxes mark targets. Screenshots are cropped for display.",
+          "figure_id": "figure-7-8",
+          "figure_number": "7",
+          "height": 1013,
+          "image_path": "figures/2610.17792/figure-004.webp",
+          "kind": "figure",
+          "page": 8,
+          "width": 494
+        },
+        {
+          "caption": "Figure 5: Accuracy versus visual input cost with UI-VenusGround-7B. Cost is the mean cumulative visual token estimate per sample, counting each input request once. The grid control and MHVF use comparable mean visual input on ScreenSpot-Pro.",
+          "figure_id": "figure-5-4",
+          "figure_number": "5",
+          "height": 530,
+          "image_path": "figures/2610.17792/figure-005.webp",
+          "kind": "figure",
+          "page": 7,
+          "width": 490
+        },
+        {
+          "caption": "Figure 3: Candidate coverage and final accuracy. Bars show the fraction of samples with a correct candidate at each stage; diamonds mark final accuracy and segments show the remaining selection gap.",
+          "figure_id": "figure-3-5",
+          "figure_number": "3",
+          "height": 436,
+          "image_path": "figures/2610.17792/figure-006.webp",
+          "kind": "figure",
+          "page": 7,
+          "width": 483
+        },
+        {
+          "caption": "Figure 6: Parameter sensitivity on ScreenSpot-Pro: (a) magnification 𝜅 and (b) the maximum number of first-level hypotheses 𝑘 . Vertical dashed lines mark the adopted settings, 𝜅 = 3 and 𝑘 = 4.",
+          "figure_id": "figure-6-7",
+          "figure_number": "6",
+          "height": 225,
+          "image_path": "figures/2610.17792/figure-007.webp",
+          "kind": "figure",
+          "page": 8,
+          "width": 479
+        },
+        {
+          "caption": "Table 1: Grounding accuracy (%) across eight benchmark settings. Rows with + MHVF apply our method to the model above. Bold marks the better result within each pair; superscripts show changes in percentage points. Mind2Web uses element-only instructions.",
+          "figure_id": "table-1-9",
+          "figure_number": "1",
+          "height": 404,
+          "image_path": "figures/2610.17792/table-008.webp",
+          "kind": "table",
+          "page": 5,
+          "width": 1056
+        },
+        {
+          "caption": "Table 4: Component ablations (grounding accuracy, %). The full method is rerun for these comparisons.",
+          "figure_id": "table-4-1",
+          "figure_number": "4",
+          "height": 237,
+          "image_path": "figures/2610.17792/table-009.webp",
+          "kind": "table",
+          "page": 6,
+          "width": 506
+        },
+        {
+          "caption": "Table 2: Mind2Web grounding accuracy (%) by test split. (a) Element descriptions only; (b) task instructions plus element descriptions. Bold marks the better result within each model pair. Overall aggregates all instances.",
+          "figure_id": "table-2-10",
+          "figure_number": "2",
+          "height": 302,
+          "image_path": "figures/2610.17792/table-010.webp",
+          "kind": "table",
+          "page": 5,
+          "width": 506
+        }
+      ],
+      "first_seen_at": "2026-11-21T21:00:00-05:00",
+      "hero_figure": "figures/2610.17792/hero.webp",
+      "novelty": 7,
+      "pdf_url": "https://arxiv.org/pdf/2610.17792",
+      "relevance": 7,
+      "selection_reason": "GUI grounding via multi-hypothesis search and verification; directly involves spatial understanding in vision-language models.",
+      "summary_status": "generated",
+      "title": "MHVF: Training-Free GUI Grounding via Verification-Guided Multi-Hypothesis Search",
+      "tldr": "MHVF improves training-free GUI grounding by exploring multiple target hypotheses and verifying them locally before final selection.",
+      "topic_assignments": [
+        {
+          "subtopic_ids": [
+            "spatial-intelligence"
+          ],
+          "topic_id": "multimodal-foundation-models"
+        }
+      ]
+    }
+  ],
+  "schema_version": 1
+}

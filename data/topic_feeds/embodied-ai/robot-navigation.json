@@ -1,6 +1,451 @@
 {
   "days": [
     {
+      "date": "2026-11-21",
+      "paper_count": 2,
+      "papers": [
+        {
+          "abstract": "Active geo-localization (AGL) asks an agent to navigate a small aerial search grid and reach a target specified by an aerial image, a ground-level photograph, or text. Existing methods align the goal modalities well, but they keep the navigation state inside a large sequential Transformer and train with a dense distance reward that uses the hidden goal location. This paper proposes EAGLE, an Explicit spatial-belief Agent for Geo-Localization and Exploration. Offline training jointly optimizes a teacher-conditioned Swin branch and a context-free Swin student from the same randomly masked partial mosaics. The teacher branch attends to frozen full-scene context extracted by Qwen2.5-VL-7B, both branches receive masked-cell aerial-feature reconstruction and uncertainty supervision, while the student additionally distills stop-gradient feature predictions from the teacher. After distillation, Qwen, its cached context, and the teacher-attention branch are discarded. The retained student predicts cell-level aerial-feature embeddings and predictive uncertainty from partial observations alone. These predictions are combined with the modality-aligned goal embedding and a trajectory-derived visitation mask to construct the spatial belief tensor. The student is then frozen while a compact CNN actor-critic is optimized with PPO. EAGLE achieves state-of-the-art average success rates of 78.1%, 76.4%, and 76.8% on MASA, xBD zero-shot transfer, and the MM-GAG zero-shot aerial-goal split, respectively, without using a VLM or cached visual tokens at inference. Code will be made publicly available.",
+          "arxiv_id": "2611.25866",
+          "arxiv_url": "https://arxiv.org/abs/2611.25866",
+          "authors": [
+            "Ziyang Xu",
+            "Peng Han",
+            "Hai Zhou"
+          ],
+          "bullets": [
+            "Addresses AGL state representation by replacing implicit sequential Transformer memory with explicit cell-level spatial beliefs.",
+            "Trains a Swin teacher–student system on masked aerial mosaics using reconstruction, uncertainty supervision, and feature distillation from frozen Qwen2.5-VL context.",
+            "Combines student predictions, the aligned goal embedding, and visitation history into a spatial belief tensor.",
+            "Freezes the student and trains a compact CNN actor–critic with PPO for navigation.",
+            "Reports average success rates of 78.1% on MASA, 76.4% on xBD zero-shot transfer, and 76.8% on the MM-GAG zero-shot aerial-goal split; inference uses no VLM or cached visual tokens."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of EAGLE. Offline VLM supervision trains a context-free tracker from partial observations. At deployment, predicted grid features and variance are combined with the aligned goal representation and trajectory-derived visitation map to form Bt = [Ht, Ut, Vt]. The PPO actor-critic uses this state without Qwen or full-scene context.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 580,
+              "image_path": "figures/2611.25866/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1046
+            },
+            {
+              "caption": "Figure 3: Two-stage training. Stage 1 jointly optimizes a Qwen-conditioned teacher and a context-free student from identical random-walk partial mosaics. Both branches receive masked-cell aerial-feature reconstruction and branch-specific heteroscedastic supervision. The student also matches detached teacher features. Stage 2 removes the teacher path and trains the CNN policy with a frozen student tracker.",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 590,
+              "image_path": "figures/2611.25866/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1050
+            },
+            {
+              "caption": "Figure 4: Distance-wise success ratios on MASA, xBD, and the MM-GAG aerial-goal split. Numeric labels mark EAGLE. Table 1 reports exact values and the additional MM-GAG goal modalities. EAGLE attains the highest average on each dataset, with its largest margins over GeoExplorer at C ≥ 6.",
+              "figure_id": "figure-4-3",
+              "figure_number": "4",
+              "height": 300,
+              "image_path": "figures/2611.25866/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1024
+            },
+            {
+              "caption": "Figure 1: Multi-modal active geo-localization. An aerial image, ground photograph, or text query identifies the same hidden target. The agent observes one local aerial patch at a time and uses four-neighbor moves to reach the target within a fixed budget.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 331,
+              "image_path": "figures/2611.25866/figure-004.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 500
+            },
+            {
+              "caption": "Table 1: Main results. Success ratio (%) by Manhattan start-goal distance and dataset. For MM-GAG, the aerial-goal block includes the full aerial-goal comparison after omitting Random. The ground-image and text blocks compare EAGLE with GOMAA-Geo and GeoExplorer.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 583,
+              "image_path": "figures/2611.25866/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1044
+            },
+            {
+              "caption": "Table 2: Ablation summary (average success ratio, %). MMGAG averages all three goal modalities. The w/o distillation variant uses student-only Stage 1. The other variants remove Ut and its coverage bonus or remove Vt during PPO and evaluation.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 129,
+              "image_path": "figures/2611.25866/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 394
+            }
+          ],
+          "first_seen_at": "2026-11-21T21:00:00-05:00",
+          "hero_figure": "figures/2611.25866/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.25866",
+          "relevance": 8,
+          "selection_reason": "Active geo-localization agent navigating to multimodal-specified goals with explicit spatial belief; fits goal-conditioned and vision-language navigation.",
+          "summary_status": "generated",
+          "title": "From Sequence to Space: Explicit Spatial Belief with Vision-Language Distillation for Active Geo-Localization",
+          "tldr": "EAGLE enables active geo-localization with an explicit spatial belief map distilled from a vision-language teacher, achieving strong zero-shot performance without VLM use at inference.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-navigation",
+                "robot-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Large-scale applications of lifelong multi-agent path finding (LMAPF) call for computationally inexpensive movement decisions under changing traffic conditions and across varied layouts. We propose a navigation policy in which a convolutional network computes a shared spatial field over the map once per timestep and a compact goal-conditioned operator derives agents' movement preferences. The complete policy is trained end-to-end using average-reward reinforcement learning with throughput as the reward, without planner demonstrations or a separate online path planner. For structured and unstructured layouts, we train one policy per class on pools of small maps and deploy each without retraining on larger, unseen layouts and agent populations. Across six layouts with 10,000 agents, our policies achieve throughput comparable to or higher than the strongest evaluated baselines. The proposed method has an average execution time below 10 ms per step, more than an order of magnitude faster than several established planners.",
+          "arxiv_id": "2610.18186",
+          "arxiv_url": "https://arxiv.org/abs/2610.18186",
+          "authors": [
+            "Jean Seong Bjorn Choe"
+          ],
+          "bullets": [
+            "Targets scalable movement decisions under changing traffic and varied map layouts.",
+            "Computes one shared convolutional spatial field per timestep, then derives compact goal-conditioned movement preferences for each agent.",
+            "Trains end-to-end with average-reward reinforcement learning using throughput, without planner demonstrations or a separate online planner.",
+            "Policies trained on small-map pools transfer to larger unseen layouts and populations; across six layouts with 10,000 agents, throughput is comparable to or better than evaluated baselines.",
+            "Runs in under 10 ms per step on average, though policies are trained separately for structured and unstructured layout classes."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Policy. A CNN computes a shared spatial field; route reweighting and Sinkhorn allocation produce next-move probabilities. Example. Changing B’s goal between (a) and (b) reverses A’s preferred route, with A’s reference fixed. Route widths give edge-traversal probabilities at each departure under P 0 and Q; the middle column gives their difference, and labels give first-action probabilities. The allocation panel compares q and π, redistributing A’s and C’s demand for the gold cell in (a).",
+              "figure_id": "figure-2-12",
+              "figure_number": "2",
+              "height": 385,
+              "image_path": "figures/2610.18186/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 813
+            },
+            {
+              "caption": "Figure 3: Population transfer with accelerated (solid) and plain (light dotted) Sinkhorn. Both use 288 iterations per pass, except accelerated at 20k agents in (c), which uses 4,608. Ours averages three training seeds and eight cases per seed, with 1,000 steps in (a,b) and 2,500 in (c). Upper axes give agent counts; vertical guides mark training populations (maxima where varied).",
+              "figure_id": "figure-3-20",
+              "figure_number": "3",
+              "height": 363,
+              "image_path": "figures/2610.18186/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 813
+            },
+            {
+              "caption": "Figure 1: Throughput and execution cost across random-map scales. Our unstructured policy, trained on small tiles, is reused without retraining at all three scales. Panel (a) averages 128 connected random maps with 17–21 cells per dimension (Appendix C). WPPL uses 500 LNS iterations in (a) and 40,000 in (b,c). Labels give ms per step; cost axes are logarithmic. Throughput axes differ; (b) omits 1.5–5.5 goals/step and compresses the lower segment.",
+              "figure_id": "figure-1-8",
+              "figure_number": "1",
+              "height": 316,
+              "image_path": "figures/2610.18186/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 817
+            },
+            {
+              "caption": "Figure 4: Continuation and destination allocation. (a) Validation throughput with current weights; annotations report terminal averaged-policy throughput on the 10,000-agent warehouse. Both show three-run means and standard deviations. The deployment annotations average eight warehouse instances per run. (b) Actual agent trajectories through one passage; colours indicate entry side and diamonds mark goal completions. Thick dark lines mark turn-backs, agents that leave the passage by the side they entered (12.3% of exits with H = 1 and 7.1% with H = 4). The percentages aggregate all passages, eight instances and three training runs at 400 agents. (c) Throughput with and without allocation on 10% and 20% obstacle-density random maps, averaged over three training runs and eight instances per run.",
+              "figure_id": "figure-4-28",
+              "figure_number": "4",
+              "height": 253,
+              "image_path": "figures/2610.18186/figure-004.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 816
+            },
+            {
+              "caption": "Figure 8: Continuation throughput on six layouts. All methods use 10,000 agents over 10,000 steps. Curves show 1000-step window means over eight cases; our curves additionally average three training seeds, with shading indicating ±1 sample standard deviation across seed means. Panels (c)–(f) also show policies retrained with a decayed learning rate, evaluated with their final weights and iterative selection. Values below panels are whole-run means, with the largest in bold. Vertical scales vary by panel.",
+              "figure_id": "figure-8-7",
+              "figure_number": "8",
+              "height": 603,
+              "image_path": "figures/2610.18186/figure-005.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 808
+            },
+            {
+              "caption": "Figure 5: Examples from the fixed training pools. Gray cells are obstacles; the dumbbell layout connects two regions through a narrow passage. In (i), blue and orange mark workstations and storage endpoints. Dimensions are in cells.",
+              "figure_id": "figure-5-30",
+              "figure_number": "5",
+              "height": 441,
+              "image_path": "figures/2610.18186/figure-006.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 827
+            },
+            {
+              "caption": "Figure 6: The six deployment layouts evaluated with 10,000 agents. Gray cells are obstacles; dimensions are in cells.",
+              "figure_id": "figure-6-6",
+              "figure_number": "6",
+              "height": 345,
+              "image_path": "figures/2610.18186/figure-007.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 768
+            },
+            {
+              "caption": "Figure 7: Population transfer with accelerated Sinkhorn, with and without iterative action selection. Iteration counts use the offline probability-accuracy calibration described in the text, with fixed baseline counts at lower populations. Table 14 also reports lower-cost operating points. Ours averages three training seeds and eight cases per seed, with 1,000 steps in (a,b,d) and 2,500 in (c). Upper axes give agent counts.",
+              "figure_id": "figure-7-10",
+              "figure_number": "7",
+              "height": 690,
+              "image_path": "figures/2610.18186/figure-008.webp",
+              "kind": "figure",
+              "page": 29,
+              "width": 815
+            },
+            {
+              "caption": "Figure 10: Current-parameter validation throughput during training for the structured (left) and unstructured (right) actor families. Lines show three-seed means and shaded bands one standard deviation. Insets show the first 2,000 updates; gaps indicate incomplete seed coverage.",
+              "figure_id": "figure-10-11",
+              "figure_number": "10",
+              "height": 371,
+              "image_path": "figures/2610.18186/figure-009.webp",
+              "kind": "figure",
+              "page": 34,
+              "width": 812
+            },
+            {
+              "caption": "Table 2: Throughput and execution cost at 10,000 agents. Each cell gives throughput (goals/step) above step time (ms). Random percentages denote obstacle density. WPPL uses 40,000 LNS iterations. Ours reuses one policy per class without retraining; throughput averages three training seeds and eight cases. Ours runs 144 plain allocation iterations on the structured and random layouts and 288 on the city layouts. Timing protocols: Appendix D.",
+              "figure_id": "table-2-9",
+              "figure_number": "2",
+              "height": 503,
+              "image_path": "figures/2610.18186/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 844
+            },
+            {
+              "caption": "Table 8: Peak host memory and live GPU allocation (GiB) during preparation and execution. Peaks need not coincide; dashes denote CPU-only methods.",
+              "figure_id": "table-8-26",
+              "figure_number": "8",
+              "height": 398,
+              "image_path": "figures/2610.18186/table-011.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 828
+            },
+            {
+              "caption": "Table 1: Training and reuse of the learned policies compared in Table 2. RL, IL and ES denote reinforcement learning, imitation learning and evolution strategies. m denotes map-specific training; SILLM also uses separate policies for each guidance variant. The SILLM comparison uses IL checkpoints; its authors report that IL outperforms their MAPPO (Yu et al., 2022) implementation (Jiang et al., 2025). Planner involvement excludes geometric preprocessing.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 239,
+              "image_path": "figures/2610.18186/table-012.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 840
+            },
+            {
+              "caption": "Table 3: Shared training settings for the two selected policies.",
+              "figure_id": "table-3-22",
+              "figure_number": "3",
+              "height": 308,
+              "image_path": "figures/2610.18186/table-013.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 814
+            },
+            {
+              "caption": "Table 14: Action selection at selected Sinkhorn budgets. Our two action-selection variants use matched checkpoints, cases and allocation updates; throughput averages three training seeds and eight cases per seed. All costs use single-instance measurements (Appendix D). Dashes denote unavailable measurements.",
+              "figure_id": "table-14-19",
+              "figure_number": "14",
+              "height": 641,
+              "image_path": "figures/2610.18186/table-014.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 826
+            },
+            {
+              "caption": "Table 5: Timed intervals for the six 10,000-agent layouts in Table 2. All intervals include simulator execution.",
+              "figure_id": "table-5-16",
+              "figure_number": "5",
+              "height": 273,
+              "image_path": "figures/2610.18186/table-015.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 827
+            },
+            {
+              "caption": "Table 10: Per-agent task completion and waiting at 10,000 agents, pooled over three training seeds and eight cases. SD is the standard deviation and IQR the interquartile range; No task is the share of agents that complete no task within the evaluation horizon. The lower part compares the completed tasks with their upper bound, the number of tasks that an agent would complete on shortest paths with no other agent on the map. CV is the coefficient of variation, and Completed / upper bound is the mean ± SD over agents of the ratio of the two.",
+              "figure_id": "table-10-3",
+              "figure_number": "10",
+              "height": 460,
+              "image_path": "figures/2610.18186/table-016.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 827
+            },
+            {
+              "caption": "Table 12: Reproduced dense 642/600-agent comparison, eight cases and 256 steps. Ours uses plain allocation and averages three training seeds.",
+              "figure_id": "table-12-4",
+              "figure_number": "12",
+              "height": 293,
+              "image_path": "figures/2610.18186/table-017.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 827
+            },
+            {
+              "caption": "Table 4: Deployment maps at 10,000 agents, with eight released cases (0–7) per layout. Size is height × width; occupancy is agents per free cell.",
+              "figure_id": "table-4-5",
+              "figure_number": "4",
+              "height": 171,
+              "image_path": "figures/2610.18186/table-018.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 560
+            },
+            {
+              "caption": "Table 21: Full and allocation-removed policies on sparse and dense random layouts. Throughput averages eight cases per training seed, over all 2500 steps.",
+              "figure_id": "table-21-21",
+              "figure_number": "21",
+              "height": 841,
+              "image_path": "figures/2610.18186/table-019.webp",
+              "kind": "table",
+              "page": 36,
+              "width": 827
+            },
+            {
+              "caption": "Table 7: Reference-table construction times and sizes on RTX 5090. Times cover the host construction call; compilation and asynchronous completion are included in warm-up.",
+              "figure_id": "table-7-15",
+              "figure_number": "7",
+              "height": 161,
+              "image_path": "figures/2610.18186/table-020.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 456
+            },
+            {
+              "caption": "Table 9: Terminal-checkpoint throughput by training seed; each entry averages eight cases.",
+              "figure_id": "table-9-27",
+              "figure_number": "9",
+              "height": 171,
+              "image_path": "figures/2610.18186/table-021.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 360
+            },
+            {
+              "caption": "Table 11: Throughput on 128 small random maps at every tested population. Policy columns distinguish training seeds; each covers the same benchmark cases as RHCR.",
+              "figure_id": "table-11-2",
+              "figure_number": "11",
+              "height": 160,
+              "image_path": "figures/2610.18186/table-022.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 384
+            },
+            {
+              "caption": "Table 20: Throughput by continuation depth and training seed. Each entry averages the same eight cases for its layout and population.",
+              "figure_id": "table-20-14",
+              "figure_number": "20",
+              "height": 242,
+              "image_path": "figures/2610.18186/table-023.webp",
+              "kind": "table",
+              "page": 35,
+              "width": 627
+            },
+            {
+              "caption": "Table 15: Connected competition in historical training and evaluation states. Group sizes and graph diameters are means over sampled states, using an 18,432-iteration allocation reference. K⋆ is the smallest eligible count selected by the empirical allocation-error criterion; training rows report no evaluation count. Diameter is estimated by two successive breadth-first searches.",
+              "figure_id": "table-15-18",
+              "figure_number": "15",
+              "height": 305,
+              "image_path": "figures/2610.18186/table-024.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 460
+            },
+            {
+              "caption": "Table 13: Evaluation-time allocation at 10,000 agents. Throughput is in tasks per step and execution time in ms per step. Plain values are those of Table 2; accelerated values use 144 iterations on every layout.",
+              "figure_id": "table-13-25",
+              "figure_number": "13",
+              "height": 193,
+              "image_path": "figures/2610.18186/table-025.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 648
+            },
+            {
+              "caption": "Table 6: WPPL refinement-budget comparison. Throughput is mean± standard deviation over eight 2500-step cases. Costs use case 0 over all timesteps on the dedicated hardware above.",
+              "figure_id": "table-6-17",
+              "figure_number": "6",
+              "height": 100,
+              "image_path": "figures/2610.18186/table-026.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 552
+            },
+            {
+              "caption": "Table 18: Actor-structure ablations at 10,000 agents. Entries are throughput in tasks per step, reported as mean ± sample standard deviation over three training seeds; each seed averages eight cases.",
+              "figure_id": "table-18-23",
+              "figure_number": "18",
+              "height": 212,
+              "image_path": "figures/2610.18186/table-027.webp",
+              "kind": "table",
+              "page": 32,
+              "width": 816
+            },
+            {
+              "caption": "Table 19: Controls for the learned field at 10,000 agents, under the protocol of Table 2. Entries are throughput in tasks per step, mean ± sample standard deviation over three training seeds; each seed averages eight cases. The full row is that of Table 2, with 144 allocation iterations on the random layouts where Table 18 uses 288.",
+              "figure_id": "table-19-13",
+              "figure_number": "19",
+              "height": 151,
+              "image_path": "figures/2610.18186/table-028.webp",
+              "kind": "table",
+              "page": 33,
+              "width": 798
+            },
+            {
+              "caption": "Table 17: Throughput at 10,000 agents by training pool, in tasks per step. The structured and unstructured rows average three training seeds with eight cases each; the policy trained on both pools has one training seed. Entries for a pool’s own class are repeated evaluations and agree with Table 2 within 0.2 tasks per step.",
+              "figure_id": "table-17-24",
+              "figure_number": "17",
+              "height": 100,
+              "image_path": "figures/2610.18186/table-029.webp",
+              "kind": "table",
+              "page": 32,
+              "width": 698
+            },
+            {
+              "caption": "Table 16: Throughput on additional large layouts, in tasks per step. Our entries show mean± sample standard deviation across three training seeds; each seed and each baseline average eight matching cases.",
+              "figure_id": "table-16-29",
+              "figure_number": "16",
+              "height": 83,
+              "image_path": "figures/2610.18186/table-030.webp",
+              "kind": "table",
+              "page": 31,
+              "width": 736
+            }
+          ],
+          "first_seen_at": "2026-11-21T21:00:00-05:00",
+          "hero_figure": "figures/2610.18186/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2610.18186",
+          "relevance": 8,
+          "selection_reason": "Learned goal-conditioned navigation policy for large-scale multi-agent path finding fits robot navigation.",
+          "summary_status": "generated",
+          "title": "Reinforcement Learning for Large-Scale Lifelong Multi-Agent Path Finding with Shared Spatial Fields",
+          "tldr": "A shared spatial-field reinforcement-learning policy enables fast, planner-free lifelong multi-agent navigation that generalizes to larger maps and agent populations.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-20",
       "paper_count": 1,
       "papers": [
@@ -129409,5 +129854,5 @@
   "schema_version": 1,
   "subtopic_id": "robot-navigation",
   "topic_id": "embodied-ai",
-  "total_paper_count": 800
+  "total_paper_count": 802
 }
