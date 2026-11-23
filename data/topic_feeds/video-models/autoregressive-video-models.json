@@ -1,6 +1,161 @@
 {
   "days": [
     {
+      "date": "2026-11-22",
+      "paper_count": 1,
+      "papers": [
+        {
+          "abstract": "Few-step autoregressive video diffusion enables real-time streaming generation, with each generated chunk serving as historical context for subsequent generation. To avoid the memory explosion of backpropagation through time, previous self-rollout methods typically truncate cross-chunk gradients or detach historical latents. As a result, earlier denoising computations receive no downstream feedback through the generated history on how to synthesize frames that facilitate subsequent generation, leading to visual drift and structural collapse as rollouts extend. To address this limitation, we propose Hindsight Forcing, which allows historical chunks to learn directly from future outcomes by decoupling forward generation from backward credit assignment via a latent straight-through bridge. In the forward pass, each chunk completes a full multi-step rollout to update the KV cache. In the backward pass, the bridge routes gradients from future losses back to a single selected denoising step per historical chunk, training both the context writer and historical denoiser on shared parameters without retaining the full trajectory graph. Remarkably, Hindsight Forcing requires no additional model parameters, architecture modifications, or separate trajectory replay. Extensive experiments on VBench demonstrate that Hindsight Forcing outperforms existing baselines in overall visual quality and dynamic motion, while ablation studies validate the benefit of supervising historical denoising. Code is available at https://github.com/haonanAN309/Hindsight-Forcing.",
+          "arxiv_id": "2611.27074",
+          "arxiv_url": "https://arxiv.org/abs/2611.27074",
+          "authors": [
+            "Haonan An, Yihang Tao, Yu Guo, Renlong Chen, Jiasheng Zhang, Yuguang Fang"
+          ],
+          "bullets": [
+            "Addresses visual drift and structural collapse caused by detached or truncated gradients across generated video chunks.",
+            "Uses a latent straight-through bridge to separate full forward rollout from efficient backward credit assignment.",
+            "Routes future gradients to one selected denoising step in each historical chunk, jointly training context writing and historical denoising.",
+            "Requires no extra parameters, architectural changes, or separate trajectory replay.",
+            "Experiments on VBench report better overall visual quality and dynamic motion than existing baselines; ablations support historical-denoising supervision."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1. Overview of Hindsight Forcing. (a,b) In the illustrated training pipelines, downstream gradients stop at the historical KV cache or latent inputs, respectively. (c) Hindsight Forcing extends downstream supervision to both history encoding and generation. Right: The latent straight-through bridge preserves the full rollout output while routing gradients to a selected denoising step, without retaining the full trajectory graph. Teacher and critic models are omitted for brevity.",
+              "figure_id": "figure-1-7",
+              "figure_number": "1",
+              "height": 349,
+              "image_path": "figures/2611.27074/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 3. Cross-chunk gradient propagation under Writer-only and Hindsight Forcing (HF) with gradient RMS measured on committed K/V (a, b) and selected clean estimates (c, d). Rows represent loss chunks, while columns represent source chunks receiving gradients. Colors indicate gradient magnitude on logarithmic scales, with different units for committed K/V (×10−8) and selected clean estimates (×10−6). Compared with Writer-only, Hindsight Forcing enables stronger and broader cross-chunk gradient propagation.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 301,
+              "image_path": "figures/2611.27074/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1034
+            },
+            {
+              "caption": "Figure 2. Qualitative comparison with existing methods. Frames sampled at 0.5, 2.5, and 4.5 seconds illustrate differences in motion plausibility, appearance consistency, and structural coherence. Additional short and long videos are provided in the supplementary material.",
+              "figure_id": "figure-2-10",
+              "figure_number": "2",
+              "height": 62,
+              "image_path": "figures/2611.27074/figure-003.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1027
+            },
+            {
+              "caption": "Figure 4. Peak training memory versus sequence length. We measure per-GPU peak allocated memory under matched training settings with 4, 7, and 10 chunks. Causal Forcing and Full rollout + detach exhibit nearly identical memory usage across all tested sequence lengths, as do Writer-only and Hindsight Forcing.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 334,
+              "image_path": "figures/2611.27074/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 434
+            },
+            {
+              "caption": "Table 1. Comparison of training-time history construction and cross-chunk credit assignment.",
+              "figure_id": "table-1-4",
+              "figure_number": "1",
+              "height": 344,
+              "image_path": "figures/2611.27074/table-005.webp",
+              "kind": "table",
+              "page": 3,
+              "width": 1012
+            },
+            {
+              "caption": "Table 5. Inference-time long-horizon extrapolation configurations used for one-minute generation (80 chunks, 240 latent frames). Budget denotes the active cache window in latent frames (including the current 3-latent-frame chunk).",
+              "figure_id": "table-5-9",
+              "figure_number": "5",
+              "height": 1100,
+              "image_path": "figures/2611.27074/table-006.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 1028
+            },
+            {
+              "caption": "Table 2. Quantitative comparison on VBench [8] and efficiency. We evaluate overall performance and specific visual dimensions, and report additional student parameters, peak training memory, and inference time. All VBench scores are scaled by 100. For evaluation scores, bold and underline indicate the best and second-best results, respectively.",
+              "figure_id": "table-2-1",
+              "figure_number": "2",
+              "height": 256,
+              "image_path": "figures/2611.27074/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Table 4. Effect of the history gradient scale α. All variants use EMA checkpoints after 150 generator updates and the same evaluation settings. Scores are scaled by 100. Bold and underline indicate the best and second-best results, respectively.",
+              "figure_id": "table-4-6",
+              "figure_number": "4",
+              "height": 165,
+              "image_path": "figures/2611.27074/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 458
+            },
+            {
+              "caption": "Table 8. Summary of notation used in the main paper.",
+              "figure_id": "table-8-8",
+              "figure_number": "8",
+              "height": 1033,
+              "image_path": "figures/2611.27074/table-009.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 926
+            },
+            {
+              "caption": "Table 3. Component ablation of Hindsight Forcing to examine the contribution of each design choice. Starting from Causal Forcing, we progressively introduce full-rollout history, differentiable context writing, and the latent straight-through bridge. Scores are scaled by 100. Bold and underline indicate the best and second-best results, respectively. The gradient columns indicate feedback from future chunks.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 182,
+              "image_path": "figures/2611.27074/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1036
+            },
+            {
+              "caption": "Table 7. Matched training profiling on NVIDIA H100 80 GB GPUs (7 chunks, global batch size 64). Wall-clock times cover full student and critic updates with CPU FP32 EMA enabled.",
+              "figure_id": "table-7-11",
+              "figure_number": "7",
+              "height": 150,
+              "image_path": "figures/2611.27074/table-011.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 694
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27074/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.27074",
+          "relevance": 8,
+          "selection_reason": "Autoregressive video diffusion training method; fits video diffusion and autoregressive video generation.",
+          "summary_status": "generated",
+          "title": "Hindsight Forcing: Learning Better History from the Future in Autoregressive Video Diffusion",
+          "tldr": "Hindsight Forcing improves long-horizon autoregressive video diffusion by sending future-loss feedback to historical denoising steps without the memory cost of full backpropagation through time.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-diffusion",
+                "autoregressive-video-models"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-19",
       "paper_count": 1,
       "papers": [
@@ -13585,5 +13740,5 @@
   "schema_version": 1,
   "subtopic_id": "autoregressive-video-models",
   "topic_id": "video-models",
-  "total_paper_count": 64
+  "total_paper_count": 65
 }

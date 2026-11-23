@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Autoregressive Video Models
 
-**64 papers total**
+**65 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-22 | [Hindsight Forcing: Learning Better History from the Future in Autoregressive Video Diffusion](https://arxiv.org/abs/2611.27074) | Video Generation and Understanding: Video Diffusion, Autoregressive Video Models | Hindsight Forcing improves long-horizon autoregressive video diffusion by sending future-loss feedback to historical denoising steps without the memory cost of full backpropagation through time. | 8 | 8 |
 | 2026-11-19 | [StreamEgo: Streaming Exocentric-to-Egocentric Video Generation](https://arxiv.org/abs/2611.26165) | Video Generation and Understanding: Video Diffusion, Autoregressive Video Models | StreamEgo enables real-time, unbounded exocentric-to-egocentric video generation with improved manipulation fidelity and generalization. | 7 | 7 |
 | 2026-11-18 | [Autoregressive View Model](https://arxiv.org/abs/2611.23417) | Video Generation and Understanding: Video Diffusion, Autoregressive Video Models | AVM generates camera-controlled scene videos directly from images or videos, without building an explicit 3D representation. | 8 | 8 |
 | 2026-11-17 | [FastFrames: Video Generation at Interactive Latency](https://arxiv.org/abs/2611.23226) | Video Generation and Understanding: Video Diffusion, Autoregressive Video Models; Efficient AI: KV Cache and Memory Efficiency | FastFrames accelerates autoregressive video diffusion to interactive latency by redesigning costly inference components while preserving or improving visual quality. | 9 | 8 |

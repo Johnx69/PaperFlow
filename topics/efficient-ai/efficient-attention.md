@@ -6,10 +6,15 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Efficient Attention
 
-**276 papers total**
+**281 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-22 | [Topology Hub Optimal Transport: Eliminating Long Context Dilution at Flash Speed](https://arxiv.org/abs/2611.27951) | Efficient AI: Efficient Attention; Language Foundation Models: Long-Context Models | THOT uses sparse capacity-gated hub optimal transport and optimized kernels to preserve relevant facts in extremely long contexts while reducing attention overhead. | 9 | 8 |
+| 2026-11-22 | [Anchors That Move Without Collapsing: Exclusive-Region Anchor Routing for Vision Transformers](https://arxiv.org/abs/2611.27855) | Efficient AI: Efficient Attention | Exclusive region assignment prevents anchor collapse in vision transformers, while focus-based placement can improve performance on cluttered scenes but is not universally beneficial. | 7 | 7 |
+| 2026-11-22 | [LongCat Recall Sparse Attention: Co-Designing Key Organization and Retrieval for Long-Context Inference](https://arxiv.org/abs/2611.27233) | Efficient AI: Efficient Attention; Language Foundation Models: Long-Context Models | LRSA makes long-context sparse attention substantially faster by co-designing an incrementally maintained, paged retrieval index with efficient GPU execution. | 9 | 8 |
+| 2026-11-22 | [Recurrent Amplification and Exact Nonexpansiveness Criteria for Query-Driven Erasure](https://arxiv.org/abs/2611.27109) | Efficient AI: Efficient Attention | QED can cause recurrent amplification despite contractive individual steps, while rank-one erasure admits an exact fast test for one-step nonexpansiveness. | 5 | 6 |
+| 2026-11-22 | [SDG: State-Dependent Gating at Chunk Boundaries for Linear Attention](https://arxiv.org/abs/2611.26637) | Efficient AI: Efficient Attention; Language Foundation Models: Large Language Models, Long-Context Models | State-Dependent Gating improves chunkwise linear attention by using memory changes to control element-wise forgetting without sacrificing parallel computation within chunks. | 9 | 8 |
 | 2026-11-19 | [SGAR: Feed-Forward 3D Reconstruction via Sparse Geometry-Guided Attention](https://arxiv.org/abs/2611.26493) | 3D Vision; Efficient AI: Efficient Attention | SGAR accelerates feed-forward 3D reconstruction by replacing costly dense cross-view attention with learned, geometry-guided sparse attention. | 7 | 8 |
 | 2026-11-19 | [HiSA: Sparsifying the Hidden Dimension of RoPE Attention in LLMs](https://arxiv.org/abs/2611.26363) | Efficient AI: Efficient Attention; Language Foundation Models: Large Language Models | HiSA sparsifies RoPE attention across the hidden feature dimension, reducing query-key computations to about one third while improving performance and inference efficiency. | 9 | 8 |
 | 2026-11-19 | [DTS: Delta-Based Tile Scoring for Efficient Long-Context Sparse Attention](https://arxiv.org/abs/2611.25938) | Efficient AI: Efficient Attention; Language Foundation Models: Long-Context Models | DTS enables efficient long-context sparse attention by scoring tiles from local vector changes while preserving near-full-attention quality. | 8 | 7 |

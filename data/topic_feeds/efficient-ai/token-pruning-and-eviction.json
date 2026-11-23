@@ -1,6 +1,2069 @@
 {
   "days": [
     {
+      "date": "2026-11-22",
+      "paper_count": 8,
+      "papers": [
+        {
+          "abstract": "Machine learning has largely kept separate the choice of architecture and the process of training. A classic Transformer, for instance, trains a fixed set of attention and MLP sublayers at every layer, in the same order, and optimizes the weights within. This uniformity is a convention rather than a principled design choice, and it is likely suboptimal: the best architecture for a given task may be smaller, more efficient, and far from uniform. We believe that, ideally, training itself should shape the model's topology. To this end, we introduce Model Carving, which learns both a Transformer's weights and its architecture in a single run. By applying learnable, scalar gates to each sublayer, we allow the training loss to remove the model's own components during training -- freeing a smaller heterogeneous network inside. We evaluate Model Carving by pre-training standard Transformers from 140M to 2.7B parameters and looped Transformers from 140M to 1.3B. At equal training compute, carved models reach a lower validation loss than dense models trained with up to 1.7 times more compute. Furthermore, carved models also outperform size-matched models produced by pruning or distillation, suggesting that the best way to obtain small models for edge devices is to carve them during training, not to compress a large one afterwards. This advantage both grows with scale and carries over to downstream tasks such as few-shot evaluation and generation. Because the removed sublayers no longer run, carved models also cost up to 34% fewer FLOPs per token and decode up to 1.6 times faster without cost in quality. Our results show that architecture, like weights, should be learned and not fixed in advance, and that inside every large transformer is a smaller, faster, stronger one waiting to be carved out.",
+          "arxiv_id": "2611.27962",
+          "arxiv_url": "https://arxiv.org/abs/2611.27962",
+          "authors": [
+            "Kaden Zheng, Pratyusha Sharma"
+          ],
+          "bullets": [
+            "Fixed, uniform Transformer architectures may be inefficient for individual tasks.",
+            "Learnable scalar gates remove attention or MLP sublayers during training, creating a heterogeneous subnetwork in one run.",
+            "Evaluated on standard and looped Transformers ranging from 140M to 2.7B parameters.",
+            "Carved models achieve lower validation loss at equal compute and outperform size-matched pruning or distillation models.",
+            "Removing sublayers reduces inference cost by up to 34% fewer FLOPs per token and up to 1.6× faster decoding, with quality preserved."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 6: On symbolic tasks, Model Carving learns a minimal architecture for each task, down to an attention-only Transformer! Each row is the carved looped Transformer of one task, unrolled into its four loops. The colored sublayers are ones Model Carving kept and gray ones are removed. We label this number as kept, as well as the exact match accuracy. We show all the seeds in Table 19.",
+              "figure_id": "figure-6-24",
+              "figure_number": "6",
+              "height": 163,
+              "image_path": "figures/2611.27962/figure-001.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 698
+            },
+            {
+              "caption": "Figure 1: Model Carving trains the weights and the topology of a Transformer in one run. (Left) Training starts from an overparameterized Transformer: every sublayer writes through a gate (dot), and learned connections (arcs) join each pair of layers. A looped Transformer repeats the stack for R loops, with its own gates in each loop. (Middle) During training, a gate falls when its sublayer’s contribution to the loss (green) is below its pressure (orange), and a gate at zero closes its sublayer. (Right) The trainer removes the closed sublayers from the computation graph, and the freed FLOPs buy more training tokens, resulting in a smaller Transformer with a heterogeneous set of layers.",
+              "figure_id": "figure-1-8",
+              "figure_number": "1",
+              "height": 510,
+              "image_path": "figures/2611.27962/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 949
+            },
+            {
+              "caption": "Figure 3: At matched inference cost, carved models outperform public models trained at similar scales. CORE-22 against inference FLOPs per byte (a, c) and training FLOPs (b, d) for looped (a, b) and standard (c, d) Transformers. We label explicitly released models with over 1T training tokens in (b, d). We rescore every released model with our own evaluation where weights are public (Section 3). We list the released models in Appendix E.",
+              "figure_id": "figure-3-7",
+              "figure_number": "3",
+              "height": 539,
+              "image_path": "figures/2611.27962/figure-003.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 772
+            },
+            {
+              "caption": "Figure 2: Model Carving produces models with lower loss than standard models when compared both at isoFLOP and isoToken. Validation bpb of the 1.3B looped family and 2.7B standard family against training FLOPs (a, b) and training tokens (c, d). Panels (c, d) end where the full-depth run starts its cooldown. The title signifies the parameter number of the model Model Carving started from. The number at the end of each line is the model’s inference GFLOPs per token.",
+              "figure_id": "figure-2-28",
+              "figure_number": "2",
+              "height": 289,
+              "image_path": "figures/2611.27962/figure-004.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 971
+            },
+            {
+              "caption": "Figure 4: Carved models have lower loss, cost fewer inference FLOPs, and decode faster. Validation bpb against whole-model inference FLOPs per token for (a) looped and (b) standard Transformers. (c) Validation bpb against measured decode tokens per second, each model at its largest batch. We decode on one H100 GPU at a 4,096-token context, with one compiled call per decode step. Each arrow shows the carved/full-depth throughput ratio (all contexts and batches in Appendix F).",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 374,
+              "image_path": "figures/2611.27962/figure-005.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 964
+            },
+            {
+              "caption": "Figure 5: Model Carving’s advantage grows with scale. The carved compute-optimal loss is below the full-depth compute-optimal loss, and the gap grows with compute. Validation bpb post-cooldown for each training budget, from 1.2 × 1019 (light green) to 1.2 × 1020 FLOPs (dark purple), against parameters (final size for carved models), for looped (a-c) and standard (d-f) Transformers. Panels (a, d) show full-depth and (b, e) carved models. We use quadratic fits in log parameters at each budget, and use diamonds to show their minima. (c, f) The minima against training FLOPs.",
+              "figure_id": "figure-5-23",
+              "figure_number": "5",
+              "height": 295,
+              "image_path": "figures/2611.27962/figure-006.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 964
+            },
+            {
+              "caption": "Figure 7: Carving learns diverse topologies. (a, b) The sublayers that the carved standard 2.7B and looped 1.3B models keep (attention, MLP) and remove, by layer and, for the looped model, by loop. (c, d) Their learned connection weights. Each row is a layer that reads, and each column an earlier output that it can read from.",
+              "figure_id": "figure-7-15",
+              "figure_number": "7",
+              "height": 443,
+              "image_path": "figures/2611.27962/figure-007.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 867
+            },
+            {
+              "caption": "Figure 9: How the pressure follows the learning curve in Model Carving. Rows: standard (top) and looped (bottom) Transformers, and color representing model size. (a, e) Paired readings of the rate of learning against training tokens, and each run’s own fit at the end of training. (b, f) The exponent over training with the gray band indicating the published exponent values. (c, g) The gate pressure set by the forecasted rate of learning at the end of the run, v(T ) (Equation (5)). The pressure continues until the cooldown freeze at 80% of training. (d, h) The share of the final removals made by each training fraction.",
+              "figure_id": "figure-9-14",
+              "figure_number": "9",
+              "height": 673,
+              "image_path": "figures/2611.27962/figure-008.webp",
+              "kind": "figure",
+              "page": 28,
+              "width": 964
+            },
+            {
+              "caption": "Figure 10: The pressure on each sublayer, and the margin for removal. (a, d) The factors of the pressure for the largest model of each family, namely the end rate v(T ), the tokens to come ρ, the compute share ϕ of an MLP sublayer, and its pressure π. (b, e) The margin over training, from means over the last 1,000 updates. (c, f) For each size, the margin of each removed sublayer just before its removal (gray) and the median margin of each kept sublayer over 60 to 80% of training (blue), and the bars being the medians.",
+              "figure_id": "figure-10-5",
+              "figure_number": "10",
+              "height": 627,
+              "image_path": "figures/2611.27962/figure-009.webp",
+              "kind": "figure",
+              "page": 29,
+              "width": 964
+            },
+            {
+              "caption": "Figure 11: The learned topology of all nine carved models. Blue: kept sublayer; gray: removed. The horizontal axis is relative depth within a loop, so models of different depth align. A standard model is one row, and a looped model is four rows with its loops 1 to 4 from top to bottom.",
+              "figure_id": "figure-11-4",
+              "figure_number": "11",
+              "height": 485,
+              "image_path": "figures/2611.27962/figure-010.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 964
+            },
+            {
+              "caption": "Figure 14: How robust Model Carving is under weight quantization. Full-depth bpb minus carved bpb at the same weight precision, for (a) looped and (b) standard Transformers, with 95% intervals over runs of 64 validation sequences. We trained originally in 16 bits.",
+              "figure_id": "figure-14-22",
+              "figure_number": "14",
+              "height": 289,
+              "image_path": "figures/2611.27962/figure-011.webp",
+              "kind": "figure",
+              "page": 32,
+              "width": 964
+            },
+            {
+              "caption": "Figure 15: Cooldown and weight averaging helps the carved model less than non-carved models (140m) (a) Validation loss decrease from a linear decay of the learning rate to zero (100 updates) at updates 3,960, 4,680 and 5,400, and the final cooldowns. (b) Loss decrease by averaging weights at the peak learning rate. From each of the checkpoint updates above, we train for 200 more updates at the peak rate and average 20 copies, each 10 updates apart. The ratio above each pair is the carved value divided by full-depth value.",
+              "figure_id": "figure-15-9",
+              "figure_number": "15",
+              "height": 289,
+              "image_path": "figures/2611.27962/figure-012.webp",
+              "kind": "figure",
+              "page": 33,
+              "width": 964
+            },
+            {
+              "caption": "Figure 12: Learned connection weights of the standard carved models. Reading layer goes down, source layer goes across (0: the embedding), and both on relative depth. Purple: the layer input moves toward that source; orange: away from it. The looped models also read the outputs of the previous loop, which we did not draw.",
+              "figure_id": "figure-12-32",
+              "figure_number": "12",
+              "height": 277,
+              "image_path": "figures/2611.27962/figure-013.webp",
+              "kind": "figure",
+              "page": 31,
+              "width": 964
+            },
+            {
+              "caption": "Figure 8: Gates falling and rising behavior, and a gate at zero stays at zero. (a) For every gate of the nine carved runs, its lowest reading before the cooldown freeze against its highest later reading. Crosses: the removed sublayers whose gates reach zero and do not return. (b) The gates that fell below a tenth of their peak, by run.",
+              "figure_id": "figure-8-26",
+              "figure_number": "8",
+              "height": 369,
+              "image_path": "figures/2611.27962/figure-014.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 958
+            },
+            {
+              "caption": "Table 3: After instruction tuning, the carved models keep their chat leads under both recipes. Full-depth and carved models after one epoch of tuning. CORE-22 on the 13 stable tasks (centered points) and chat pass@k (fraction of problems) on GSM8K, TriviaQA and SQuAD, at equal samples (16 each) and within a nearly equal inference allowance (carved models draw samples to match the inference cost of the full-depth model’s 16).",
+              "figure_id": "table-3-3",
+              "figure_number": "3",
+              "height": 688,
+              "image_path": "figures/2611.27962/table-015.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 944
+            },
+            {
+              "caption": "Table 1: Model Carving outperforms standard models in loss and downstream evaluations with up to 34% fewer FLOPs per token. Each row compares the full-depth model, a shallower-depth model, the carved model, and a student distilled from the full-depth model into the shallower-depth shape (Section 4.3). Sublayers per token counts the attention and MLP sublayers a token passes through. All train on the same data and optimizer. The change row compares the carved model with the full-depth model, namely the ratios for parameters, sublayers, tokens and FLOPs, differences for bpb, and CORE-22. k measures the compute multiplier, defined as training compute at which full-depth training reaches the carved loss (see Section 3). Finally, Table 14 gives the compute-optimal multiplier k∗.",
+              "figure_id": "table-1-16",
+              "figure_number": "1",
+              "height": 929,
+              "image_path": "figures/2611.27962/table-016.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 936
+            },
+            {
+              "caption": "Table 16: Tuned models: carved minus full-depth with paired 95% intervals, on CORE-22 over the 13 stable tasks (centered points) and on chat pass@k (fraction of problems) at equal samples (16 each) and within the nearly equal inference allowance (16 full-depth samples against 24, 22 or 20 carved).",
+              "figure_id": "table-16-29",
+              "figure_number": "16",
+              "height": 532,
+              "image_path": "figures/2611.27962/table-017.webp",
+              "kind": "table",
+              "page": 37,
+              "width": 842
+            },
+            {
+              "caption": "Table 6: Carved models run up to 23% fewer inference FLOPs than DenseFormer-style models. We compare the full-depth model, the DenseFormer-style model from Section 5.1, and the carved model. Carved models achieve matched or better performance with fewer inference FLOPs.",
+              "figure_id": "table-6-21",
+              "figure_number": "6",
+              "height": 359,
+              "image_path": "figures/2611.27962/table-018.webp",
+              "kind": "table",
+              "page": 32,
+              "width": 636
+            },
+            {
+              "caption": "Table 10: Decoding throughput of the carved model relative to the full-depth model on one H100, by context and batch. Equal batch: the ratio at batch 1 and at the largest batch both models ran (in parentheses), per-step timing. Largest tested batch: each model’s largest tested batch before OOM with one compiled call per step and with one compiled loop over the 256 steps.",
+              "figure_id": "table-10-13",
+              "figure_number": "10",
+              "height": 261,
+              "image_path": "figures/2611.27962/table-019.webp",
+              "kind": "table",
+              "page": 35,
+              "width": 808
+            },
+            {
+              "caption": "Table 2: At equal inference FLOPs, the carved 2.7B model solves more problems on all five generative tasks. Fraction of problems solved by at least one of k samples (pass@k) at temperature 0.7, for the standard 2.7B full-depth model versus standard 2.7B carved model. The full-depth model draws 16 samples per problem, whereas the carved model draws 16 (equal samples) or 24, which cost about the same inference FLOPs as the full-depth model’s 16 because each carved token costs 0.66 times as much.",
+              "figure_id": "table-2-27",
+              "figure_number": "2",
+              "height": 173,
+              "image_path": "figures/2611.27962/table-020.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 772
+            },
+            {
+              "caption": "Table 9: CORE-22, training compute, and inference cost of the models in Figure 3. “proxy” marks an estimate that assumes a 2,048-token context. Inference cost is whole-model FLOPs per byte at the average generation context.",
+              "figure_id": "table-9-6",
+              "figure_number": "9",
+              "height": 980,
+              "image_path": "figures/2611.27962/table-021.webp",
+              "kind": "table",
+              "page": 34,
+              "width": 848
+            },
+            {
+              "caption": "Table 14: Compute-optimal size and loss at each budget of Figure 5 from the fitted curves.",
+              "figure_id": "table-14-19",
+              "figure_number": "14",
+              "height": 283,
+              "image_path": "figures/2611.27962/table-022.webp",
+              "kind": "table",
+              "page": 36,
+              "width": 783
+            },
+            {
+              "caption": "Table 11: Key–value cache per token. A looped model stores one cache for each loop of each layer.",
+              "figure_id": "table-11-12",
+              "figure_number": "11",
+              "height": 234,
+              "image_path": "figures/2611.27962/table-023.webp",
+              "kind": "table",
+              "page": 35,
+              "width": 710
+            },
+            {
+              "caption": "Table 8: Pass@k (temperature 0.7) of the looped pairs within the full-depth model’s inference allowance as a fraction of problems, with paired 95% intervals over problems.",
+              "figure_id": "table-8-11",
+              "figure_number": "8",
+              "height": 205,
+              "image_path": "figures/2611.27962/table-024.webp",
+              "kind": "table",
+              "page": 33,
+              "width": 968
+            },
+            {
+              "caption": "Table 13: Students distilled from the full-depth model of the same size into the shallower-depth shape, against the carved model. Validation bits per byte and CORE-22 of both, and the CORE-22 difference, student minus carved, with its paired 95% interval over items (2,000 replicates). One training run per model.",
+              "figure_id": "table-13-17",
+              "figure_number": "13",
+              "height": 193,
+              "image_path": "figures/2611.27962/table-025.webp",
+              "kind": "table",
+              "page": 36,
+              "width": 866
+            },
+            {
+              "caption": "Table 18: Gain of the final cooldown, in bpb.",
+              "figure_id": "table-18-30",
+              "figure_number": "18",
+              "height": 214,
+              "image_path": "figures/2611.27962/table-026.webp",
+              "kind": "table",
+              "page": 37,
+              "width": 658
+            },
+            {
+              "caption": "Table 5: Starting gate value at 140M. Removed: sublayer applications removed by the end of training, of 32 in the standard model and 128 in the looped model. FLOPs per token: the carved model’s inference FLOPs as a fraction of the full-depth model’s. Lead: the carved model’s lead in bpb over the full-depth model.",
+              "figure_id": "table-5-25",
+              "figure_number": "5",
+              "height": 154,
+              "image_path": "figures/2611.27962/table-027.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 908
+            },
+            {
+              "caption": "Table 12: Pruning the full-depth 1.3B standard Transformer and retraining it, versus the carved model.",
+              "figure_id": "table-12-20",
+              "figure_number": "12",
+              "height": 144,
+              "image_path": "figures/2611.27962/table-028.webp",
+              "kind": "table",
+              "page": 36,
+              "width": 902
+            },
+            {
+              "caption": "Table 7: CORE-22 and stable-13 differences with paired 95% intervals over items (2,000 replicates).",
+              "figure_id": "table-7-10",
+              "figure_number": "7",
+              "height": 233,
+              "image_path": "figures/2611.27962/table-029.webp",
+              "kind": "table",
+              "page": 33,
+              "width": 540
+            },
+            {
+              "caption": "Table 17: Forgetting: the rise of each model’s loss on the pretraining validation window after tuning in bpb, and the difference, carved minus full-depth (negative: the carved model forgets less).",
+              "figure_id": "table-17-31",
+              "figure_number": "17",
+              "height": 164,
+              "image_path": "figures/2611.27962/table-030.webp",
+              "kind": "table",
+              "page": 37,
+              "width": 690
+            },
+            {
+              "caption": "Table 15: Second carved seeds. Lead: full-depth minus carved validation bpb at equal training compute, with a 95% block-bootstrap interval over runs of 64 validation sequences, for seed 0 and seed 1. Our count is of closed gates at each completed run’s end.",
+              "figure_id": "table-15-18",
+              "figure_number": "15",
+              "height": 186,
+              "image_path": "figures/2611.27962/table-031.webp",
+              "kind": "table",
+              "page": 36,
+              "width": 948
+            },
+            {
+              "caption": "Table 19: Synthetic tasks. The sublayers each carved run keeps, and its exact match accuracy on the held-out test split.",
+              "figure_id": "table-19-2",
+              "figure_number": "19",
+              "height": 64,
+              "image_path": "figures/2611.27962/table-032.webp",
+              "kind": "table",
+              "page": 38,
+              "width": 776
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27962/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.27962",
+          "relevance": 9,
+          "selection_reason": "Proposes 'Model Carving', a method to learn both weights and architecture (topology) during training by removing sublayers. This directly addresses efficiency (FLOPs, speed) and architecture optimization, fitting the 'Token Pruning and Eviction' subtopic.",
+          "summary_status": "generated",
+          "title": "Model Carving: Training Transformers That Optimize Their Own Topology",
+          "tldr": "Model Carving jointly learns Transformer weights and topology, producing smaller, faster models that can outperform dense and post-hoc compressed alternatives.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Fine-grained recognition benefits from high resolution, but not every image region needs it. We study a foveated Vision Transformer (FoVT) that uses last-block class attention from a 224-pixel glance to select regions for refinement. Fine patches from the 448-pixel image replace the selected coarse cells, and the same backbone classifies the mixed-resolution input. We evaluate FoVT on five benchmarks with two seeds and 26 configurations per dataset. Attention beats random selection on all five benchmarks, by up to 2.45 percentage points overall and 4.18 points on the smallest objects. At equal transformer cost, Holm-corrected tests detect no FoVT deficit relative to a port of the official CF-ViT, but no dataset shows a corrected FoVT advantage in both seeds. FoVT requires no feature reuse, distillation loss, or selection schedule. Reusing coarse features shows no significant benefit and costs 1 to 3 points when the reuse module is trained at the head learning rate. Skipping refinement for the most confident 19 to 24 percent of images leaves accuracy unchanged to two decimal places. At the transformer cost of uniform 336-pixel inference, gated FoVT improves accuracy on four benchmarks, with the largest gains on NABirds and FGVC-Aircraft and no significant gain on Stanford Dogs. Foveation primarily saves computation: relative to a uniform 448-pixel model trained with the same auxiliary glance loss, ungated FoVT uses 44 percent fewer transformer operations, with no significant accuracy difference on four benchmarks and a 0.53-point deficit on FGVC-Aircraft. Wall-clock savings are smaller than the reduction in transformer operations.",
+          "arxiv_id": "2611.27788",
+          "arxiv_url": "https://arxiv.org/abs/2611.27788",
+          "authors": [
+            "Boris Kriuk, Mohamed Sobhy"
+          ],
+          "bullets": [
+            "A 224-pixel glance uses last-block class attention to select regions for 448-pixel refinement within the same backbone.",
+            "Attention-based selection consistently beats random selection, by up to 2.45 percentage points overall and 4.18 points for the smallest objects.",
+            "At equal transformer cost, FoVT shows no corrected accuracy deficit versus ported CF-ViT, but also no consistent corrected advantage.",
+            "Gating refinement for the most confident 19–24% of images preserves accuracy; at uniform 336-pixel cost, gated FoVT improves four of five benchmarks.",
+            "Ungated FoVT reduces transformer operations by 44% versus uniform 448-pixel inference, but wall-clock savings are smaller and FGVC-Aircraft shows a 0.53-point deficit."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 1. FoVT: glance, look, zoom, re-classify. Stage 1 downsamples the 448×448 input to a 224×224 glance and runs the shared ViT-S/14 backbone to obtain glance logits ℓg and the last-block class-token attention a, a parameter-free saliency map. Stage 2 re-embeds the top-K cells from the full-resolution image as 4K fine tokens (orange), which replace the corresponding coarse input embeddings. The same backbone processes the mixed sequence ZK and produces ℓf . Selection indices are detached. At inference, K fixes the per-image cost, and an optional confidence gate returns ℓg and skips Stage 2 for confidently classified images.",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 423,
+              "image_path": "figures/2611.27788/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1070
+            },
+            {
+              "caption": "Fig. 2. Accuracy–compute operating points (mean of two seeds). Blue: one FoVT checkpoint evaluated at several budgets; K = 256 is plotted at 31.61 GMACs because its glance pass can be skipped. Green squares: the same checkpoint at K = 64 with a confidence gate at the costs of K = 32 and of uniform 336 (14.92 and 15.45 GMACs; the two markers nearly coincide at this scale). Orange: separately trained uniform models. Purple: uniform 448 trained with the glance loss. Red crosses: the official CF-ViT port. Gating dominates lowering K on every dataset. Vertical ranges differ across panels.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 266,
+              "image_path": "figures/2611.27788/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1064
+            },
+            {
+              "caption": "Fig. 3. Uniform-resolution scaling relative to each dataset’s 224-px model (mean of two seeds). Stars: gated FoVT at the 336-px cost; the NABirds and Aircraft stars (+3.20 and +3.18) are offset horizontally for legibility. On NABirds and Aircraft, accuracy keeps rising up to 448 px and gated FoVT lies above the entire uniform curve. On Dogs, most of the uniform gain is already reached at 336 px, and gated FoVT adds little to it.",
+              "figure_id": "figure-3-13",
+              "figure_number": "3",
+              "height": 296,
+              "image_path": "figures/2611.27788/figure-003.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 524
+            },
+            {
+              "caption": "Fig. 4. When does looking closer pay off? Equal-cost gain of gated FoVT over uniform 336 (with 95% intervals) against (a) the resolution headroom beyond 336 px and (b) the gain of attention over random selection. Both orderings largely match the ordering of the gains (Spearman ρ ≈ 0.87 and ρ = 0.9); the main mismatch is that both rank Dogs above Cars. CUB and NABirds have the same headroom (0.66) and are offset horizontally in (a) for legibility. With five datasets these correlations are descriptive.",
+              "figure_id": "figure-4-12",
+              "figure_number": "4",
+              "height": 238,
+              "image_path": "figures/2611.27788/figure-004.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 512
+            },
+            {
+              "caption": "Fig. 5. Unedited selection grids at K = 64: NABirds (left) and Aircraft (right). Yellow outlines mark the cells FoVT refines; cyan outlines mark annotated object boxes in the displayed crop. Predicted and ground-truth labels are shown as recorded, including errors. Sec. V-B gives quantitative hit and coverage rates.",
+              "figure_id": "figure-5-3",
+              "figure_number": "5",
+              "height": 278,
+              "image_path": "figures/2611.27788/figure-005.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE III TOP-1 ACCURACY (%, MEAN ± STD OVER TWO SEEDS). COSTS ARE TRANSFORMER GMACS (SEC. III-E). GATED ROWS APPLY A RANK CONFIDENCE GATE TO THE K = 64 CHECKPOINT; AT BOTH BUDGETS THEIR MEAN ACCURACY AGREES WITH FULL REFINEMENT TO TWO DECIMALS. THIS DOES NOT ASSERT IDENTICAL PREDICTIONS OR IDENTICAL PER-SEED DISPERSION. ∗THE TRAINING-MATCHED MODEL IS FOVT TRAINED AT K = 256; SELECTION IS VACUOUS, SO ITS GLANCE PASS SERVES ONLY AS TRAINING SUPERVISION AND CAN BE SKIPPED AT INFERENCE.",
+              "figure_id": "table-III-1",
+              "figure_number": "III",
+              "height": 340,
+              "image_path": "figures/2611.27788/table-006.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1042
+            },
+            {
+              "caption": "TABLE VI FROM A REUSE-BASED COARSE-TO-FINE VARIANT TO FOVT, ONE DESIGN CHOICE AT A TIME (ALL 17.68 GMACS, EVERY IMAGE REFINED). TOP: ACCURACY (%, TWO SEEDS UNLESS MARKED). BOTTOM: PAIRED DIFFERENCES BETWEEN CONSECUTIVE ROWS OR AS INDICATED. VARIANT (0) TRAINS ITS REUSE MODULE AT THE HEAD LEARNING RATE; BB. LR: REUSE MODULE TRAINED AT THE BACKBONE LEARNING RATE. THE PORT OF THE OFFICIAL CF-VIT IS LISTED FOR REFERENCE. ‡SINGLE SEED (SEED 0); INTERVALS BOOTSTRAP OVER TEST IMAGES ONLY. BOLD: INTERVAL EXCLUDES ZERO.",
+              "figure_id": "table-VI-11",
+              "figure_number": "VI",
+              "height": 343,
+              "image_path": "figures/2611.27788/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 1070
+            },
+            {
+              "caption": "TABLE I HEADLINE EXACT MCNEMAR AUDIT, CONDITIONAL ON EACH FITTED RUN. ENTRIES SEPARATED BY A SLASH ARE SEEDS 0/1. WINS/LOSSES COUNT IMAGES CORRECT ONLY FOR A/ONLY FOR B. HOLM CORRECTION USES ALL ORIGINAL COMPARISONS IN EACH DATASET–SEED FAMILY; THE OFFICIAL-PORT FAMILY INSTEAD SPANS FIVE DATASETS SEPARATELY FOR EACH SEED AND WAS DEFINED DURING REVISION. COMPLETE FAMILY MEMBERSHIP AND FULL-PRECISION VALUES ACCOMPANY THE ANALYSIS CSV.",
+              "figure_id": "table-I-14",
+              "figure_number": "I",
+              "height": 458,
+              "image_path": "figures/2611.27788/table-008.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 698
+            },
+            {
+              "caption": "TABLE V FOVT ABLATIONS AS PAIRED DIFFERENCES FOVT − VARIANT (POINTS; POSITIVE MEANS THE FOVT CHOICE IS BETTER). “TRAINED” VARIANTS ARE SEPARATE MODELS; “SWAP” VARIANTS CHANGE ONLY THE SELECTOR OF THE TRAINED FOVT CHECKPOINT AT INFERENCE. ALL ROWS COST 17.68 GMACS, SO THESE ARE STRICTLY COMPUTE-MATCHED COMPARISONS. BOLD: 95% INTERVAL EXCLUDES ZERO.",
+              "figure_id": "table-V-6",
+              "figure_number": "V",
+              "height": 282,
+              "image_path": "figures/2611.27788/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1052
+            },
+            {
+              "caption": "TABLE IV PAIRED DIFFERENCES (POINTS, MEAN OVER SEEDS) WITH MARGINAL 95% BOOTSTRAP INTERVALS OVER TEST IMAGES, CONDITIONAL ON THE EVALUATED RUNS. BOLD: THE UNADJUSTED INTERVAL EXCLUDES ZERO, NOT A HOLM-CORRECTED DISCOVERY. Un: UNIFORM n-PX MODEL; U448+g : UNIFORM 448 TRAINED WITH THE GLANCE LOSS (TRAINING-MATCHED); FOVT: THE K = 64 CHECKPOINT. GMACS ARE GIVEN AS FIRST VS. SECOND MODEL. THE FIRST ROW USES THE GATED MODEL AT EXACTLY THE 336-PX COST; ITS MEAN ACCURACY AGREES WITH FULL REFINEMENT TO TWO DECIMALS; PREDICTION IDENTITY IS NOT INFERRED FROM THIS AGREEMENT. CF-VIT IS THE PORT OF THE OFFICIAL CODE; THE GATE CHANGES NO CF-VIT PREDICTION AT THIS BUDGET, AND THE RECOMPUTED GATED AND FULL-REFINEMENT PAIRED ROWS AGREE AT THE DISPLAYED PRECISION. THE LAST ROW IS THE DEPLOYABLE SETTING: MODELS TRAINED ON 90% OF THE TRAINING DATA, WITH THE GATE THRESHOLD CALIBRATED ON THE HELD-OUT 10% (REALIZED COST 15.35–15.87 GMACS).",
+              "figure_id": "table-IV-2",
+              "figure_number": "IV",
+              "height": 222,
+              "image_path": "figures/2611.27788/table-010.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1070
+            },
+            {
+              "caption": "TABLE VII CALIBRATING THE GATE FOR A TARGET REFINED FRACTION OF 81% (15.45 GMACS). THRESHOLDS FROM TRAINING IMAGES OVERSHOOT, BECAUSE FINE-TUNED MODELS ARE MORE CONFIDENT ON THEIR TRAINING DATA (MEAN GLANCE CONFIDENCE, TRAIN VS. TEST). THRESHOLDS FROM A HELD-OUT 10% SPLIT APPROACH THE TARGET.",
+              "figure_id": "table-VII-9",
+              "figure_number": "VII",
+              "height": 158,
+              "image_path": "figures/2611.27788/table-011.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 425
+            },
+            {
+              "caption": "TABLE X SEPARATE SINGLE-SEED COMPARISON SUITE (ACCURACY % / TRANSFORMER GMACS). THIS SUITE USES ITS OWN SPLITS (AIRCRAFT TRAINS ON THE 3,334-IMAGE train SPLIT ONLY AND SELECTS CHECKPOINTS ON VALIDATION), SO ITS NUMBERS ARE NOT COMPARABLE TO TABLES III–VIII. TOME USES THE 392-PX CUB AND 448-PX AIRCRAFT/FOOD CHECKPOINTS WITH r = 24 AND r = 64. MSVIT COSTS AVERAGE ACTIVE TOKENS AND EXCLUDE PADDING.",
+              "figure_id": "table-X-7",
+              "figure_number": "X",
+              "height": 195,
+              "image_path": "figures/2611.27788/table-012.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 464
+            },
+            {
+              "caption": "TABLE IX EXPLORATORY VALIDATION CHOICE. HEADROOM IS VALIDATION UNIFORM 448 MINUS UNIFORM 336. TEST DIFFERENCES COMPARE FULL-REFINEMENT FOVT WITH UNIFORM 336. CORRECT MEANS SELECTING THE OBSERVED HIGHER ACCURACY, NOT AN ESTABLISHED POPULATION-LEVEL SUPERIORITY. REGRET IS THE OBSERVED ACCURACY LOSS RELATIVE TO THE BETTER OF THESE TWO CHOICES.",
+              "figure_id": "table-IX-8",
+              "figure_number": "IX",
+              "height": 210,
+              "image_path": "figures/2611.27788/table-013.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 412
+            },
+            {
+              "caption": "TABLE VIII BUDGET TRANSFER (%, MEAN OF TWO SEEDS). UPPER BLOCK: ONE K = 64 CHECKPOINT AT SEVERAL INFERENCE BUDGETS; K = 256 CAN BE SERVED AT 31.61 GMACS. LOWER BLOCK: SEPARATE CHECKPOINTS TRAINED AT THE EVALUATED BUDGET, WITH PAIRED DIFFERENCES TO THE SINGLE CHECKPOINT AT THE SAME K SHOWN IN PARENTHESES WHERE SIGNIFICANT. BOLD: BEST BUDGET PER DATASET FOR THE SINGLE CHECKPOINT.",
+              "figure_id": "table-VIII-10",
+              "figure_number": "VIII",
+              "height": 206,
+              "image_path": "figures/2611.27788/table-014.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 386
+            },
+            {
+              "caption": "TABLE II EVALUATION RECORDS FOR THE OFFICIAL-PORT COMPARISON. ORIGINAL FOVT MEANS ARE THE LOGGED MAIN-TABLE VALUES; PAIRED FOVT AND CF-VIT MEANS ARE COMPUTED FROM THE ALIGNED PREDICTIONS USED FOR THEIR CONTRAST. DOGS USES ITS ORIGINAL SAVED OFFICIAL-SPLIT EVALUATION.",
+              "figure_id": "table-II-15",
+              "figure_number": "II",
+              "height": 126,
+              "image_path": "figures/2611.27788/table-015.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 366
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27788/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.27788",
+          "relevance": 6,
+          "selection_reason": "Foveated ViT selects and refines only informative image regions, a token-level efficiency method relevant to adaptive computation.",
+          "summary_status": "generated",
+          "title": "When Does Looking Closer Pay Off? Simple Foveated ViTs for Fine-Grained Recognition",
+          "tldr": "A simple attention-guided foveated ViT can improve fine-grained recognition efficiency by refining only selected image regions, though accuracy gains are inconsistent.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Latent world models plan by rolling out hundreds of candidate action sequences through a transformer predictor, so a single decision can take tens of seconds. Existing accelerations prune spatial tokens as in vision-language models, yet a sampling-based planner uses predicted costs only to rank candidates, so a rollout can be compressed freely as long as the ranking survives. We propose SOAR, a training-free method that adapts rollout compression to each planning decision. At every decision, SOAR probes a few candidates under several token budgets and keeps the smallest budget that preserves their ranking, so it compresses as far as the current decision allows, without task labels. A closed-loop study of more than 80,000 episodes fixes the rest of the rollout: the first step, which alone reads a real observation, stays exact, and the context frame is cached rather than recomputed. On seven navigation and manipulation tasks with frozen checkpoints, SOAR matches dense-level planning success at 2.3x speedup and retains 98% at 2.5x. Our code is available at https://github.com/starrywiki/SOAR.",
+          "arxiv_id": "2611.27639",
+          "arxiv_url": "https://arxiv.org/abs/2611.27639",
+          "authors": [
+            "Anqi Li, Kai Liu, Linghe Kong, Yulun Zhang"
+          ],
+          "bullets": [
+            "Targets the high cost of rolling out hundreds of candidate action sequences for each decision.",
+            "Probes a few candidates at multiple token budgets and selects the smallest budget that maintains their ranking.",
+            "Requires no training or task labels; the first observation-processing step remains exact and context frames are cached.",
+            "Across seven navigation and manipulation tasks, matches dense planning success at 2.3× speedup and retains 98% at 2.5×.",
+            "Evaluated in a closed-loop study spanning more than 80,000 episodes with frozen checkpoints."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4. Overview of SOAR. (a) Once per decision, SOAR rolls out M=16 candidates of the first CEM population under three nested token budgets and selects the smallest budget b⋆ whose Spearman correlation with the full budget reaches τ ; the probe values are schematic. (b) Every candidate rollout computes the first step in full, reads the context frame from a key–value cache instead of recomputing it, and computes the newest frame of later steps at b⋆ positions.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 370,
+              "image_path": "figures/2611.27639/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 3. Where a planning rollout is redundant. (a) Success relative to dense versus speedup for the four pruning axes of Tab. 2. (b) Success relative to dense on Push-T and MetaWorld Reach when halving the spatial positions or dropping the context frame.",
+              "figure_id": "figure-3-7",
+              "figure_number": "3",
+              "height": 280,
+              "image_path": "figures/2611.27639/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 496
+            },
+            {
+              "caption": "Figure 2. Computation in a planning rollout. Step 0 reads the encoded observation. Every later step recomputes a two-frame window, but only the newest frame’s output is kept; the context frame is recomputed solely to provide keys and values, and its output is discarded. Numbers mark the pruning axes of Sec. 4.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 224,
+              "image_path": "figures/2611.27639/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 496
+            },
+            {
+              "caption": "Table 2. Pruning along four axes. Speedup and success relative to dense: seven-task average, Push-T and MW-R.",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 388,
+              "image_path": "figures/2611.27639/table-004.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 489
+            },
+            {
+              "caption": "Table 1. Spatial token selection at a 50% budget. Seven-task average success relative to dense, difference in points, and speedup, with the original checkpoints and CEM budget.",
+              "figure_id": "table-1-4",
+              "figure_number": "1",
+              "height": 298,
+              "image_path": "figures/2611.27639/table-005.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 475
+            },
+            {
+              "caption": "Table 3. Speed–quality comparison. Success relative to dense and planning speedup on paired batches.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 446,
+              "image_path": "figures/2611.27639/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 442
+            },
+            {
+              "caption": "Table 4. SOAR versus fixed budgets. Successes out of 96 episodes per task, except 32 on RoboCasa; average success in percent and speedup over dense. SOAR matches the 192-position budget on average at a higher speedup while avoiding its losses on Push-T and Wall.",
+              "figure_id": "table-4-3",
+              "figure_number": "4",
+              "height": 196,
+              "image_path": "figures/2611.27639/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 886
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27639/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.27639",
+          "relevance": 8,
+          "selection_reason": "Latent world model planning acceleration via rollout compression; fits world models and token-level efficiency.",
+          "summary_status": "generated",
+          "title": "SOAR: Training-Free Rank-Consistent Rollout Compression for Latent World Model Planning",
+          "tldr": "SOAR accelerates latent-world-model planning by adaptively compressing rollouts while preserving candidate-action rankings.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Visually rich documents (VRDs) convey knowledge through textual, visual, and layout information that text-centric Retrieval-Augmented Generation (Text-RAG) struggles to fully exploit. Recent Vision-RAG approaches enable retrieval and generation directly from document images, retaining this multimodal information. However, earlier Vision-RAG methods commonly adopt coarse retrieval representations and full-page visual contexts, which can obscure local evidence and introduce substantial redundancy and computational overhead. To address these challenges, we propose MV-VisRAG, a region-level Vision-RAG framework that uses semantically complete regions for both document representation and visual augmentation. Specifically, MV-VisRAG first constructs these regions through a ContentAdaptive Regionalization module. It then encodes them into local region vectors and a page-level global vector using a VLM-based retriever trained through multimodal reconstruction pretraining and retrieval fine-tuning. With this compact multi-vector representation, MV-VisRAG performs late-interaction retrieval and estimates region contributions from the resulting matching scores. These contributions guide the selection of relevant regions, which are then rearranged into a compact visual context for generation. Experiments across five benchmarks demonstrate retrieval and generation gains over corresponding baselines, while region-level augmentation substantially reduces visual tokens and computational cost. Our code will be made publicly available at https://github.com/xandery-geek/MV-VisRAG.",
+          "arxiv_id": "2611.27542",
+          "arxiv_url": "https://arxiv.org/abs/2611.27542",
+          "authors": [
+            "Xu Yuan, Liangbo Ning, Yujuan Ding, Qing Li, Wenqi Fan"
+          ],
+          "bullets": [
+            "Targets the loss of local multimodal evidence and high overhead in text-centric and earlier Vision-RAG systems.",
+            "Builds semantically complete regions with Content-Adaptive Regionalization.",
+            "Represents each page with local region vectors plus a global vector, trained using multimodal reconstruction pretraining and retrieval fine-tuning.",
+            "Uses late-interaction matching to estimate region relevance, then rearranges selected regions into a compact visual context.",
+            "Across five benchmarks, it improves retrieval and generation over corresponding baselines while reducing visual tokens and computation."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of our MV-VisRAG. Left: MV-VisRAG performs multi-vector retrieval to identify document images related to the query. Right: MV-VisRAG leverages selected critical regions to generate the answer.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 290,
+              "image_path": "figures/2611.27542/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 943
+            },
+            {
+              "caption": "Figure 1: Comparison of different RAG paradigms on VRDs. (a) Text-RAG relies on parsed text for both retrieval and generation, often introducing noise and neglecting visual and layout information. (b) Page-level Vision-RAG operates directly on full-page document images but suffers from coarse-grained retrieval representations and visual augmentation. (c) Region-level Vision-RAG (Ours) uses semantically complete regions for multi-vector retrieval and selects high-contribution regions to form a compact visual context for generation.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 477,
+              "image_path": "figures/2611.27542/figure-002.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 941
+            },
+            {
+              "caption": "Figure 4: The proposed pretraining tasks that learn [EOI] and [EOS] embeddings via text and image reconstruction.",
+              "figure_id": "figure-4-24",
+              "figure_number": "4",
+              "height": 356,
+              "image_path": "figures/2611.27542/figure-003.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 883
+            },
+            {
+              "caption": "Figure 5: Qualitative cases. The heatmap over the document shows the contributions of the corresponding regions.",
+              "figure_id": "figure-5-12",
+              "figure_number": "5",
+              "height": 283,
+              "image_path": "figures/2611.27542/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 898
+            },
+            {
+              "caption": "Figure 8: Different layout rearrangement strategies.",
+              "figure_id": "figure-8-25",
+              "figure_number": "8",
+              "height": 374,
+              "image_path": "figures/2611.27542/figure-005.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 943
+            },
+            {
+              "caption": "Figure 10: Robustness to region-boundary perturbations and the effect of crop expansion on InfoVQA. (a) Retrieval and generation scores under increasing boundary perturbations. (b) ANLS (lines, left axis) and average visual token counts (bars, right axis) with crop expansion before Compact Layout. PL denotes Preserved Layout using the original CAR regions.",
+              "figure_id": "figure-10-9",
+              "figure_number": "10",
+              "height": 333,
+              "image_path": "figures/2611.27542/figure-006.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 935
+            },
+            {
+              "caption": "Figure 3: Process of Content-Adaptive Regionalization.",
+              "figure_id": "figure-3-15",
+              "figure_number": "3",
+              "height": 381,
+              "image_path": "figures/2611.27542/figure-007.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 454
+            },
+            {
+              "caption": "Figure 7: Performance with varying document lengths.",
+              "figure_id": "figure-7-14",
+              "figure_number": "7",
+              "height": 220,
+              "image_path": "figures/2611.27542/figure-008.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 445
+            },
+            {
+              "caption": "Figure 6: Ablation study on region selection strategies.",
+              "figure_id": "figure-6-13",
+              "figure_number": "6",
+              "height": 194,
+              "image_path": "figures/2611.27542/figure-009.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 438
+            },
+            {
+              "caption": "Figure 1: Strength cases. Left: For long documents, MV-VisRAG preserves sufficient information with a few region-level vectors while reducing visual context from irrelevant content. Right: Compact document layout significantly reduces visual context from blank areas.",
+              "figure_id": "figure-1-7",
+              "figure_number": "1",
+              "height": 477,
+              "image_path": "figures/2611.27542/figure-010.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 941
+            },
+            {
+              "caption": "Figure 14: Generation failure cases. Left: The generator cannot gather sufficient information across regions because region-level augmentation misses part of the context. Right: The generator fails to locate the query entity or answer due to poor image quality.",
+              "figure_id": "figure-14-11",
+              "figure_number": "14",
+              "height": 477,
+              "image_path": "figures/2611.27542/figure-011.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 944
+            },
+            {
+              "caption": "Figure 4: Generation failure cases. Left: The generator cannot gather sufficient information across regions because region-level augmentation misses part of the context. Right: The generator fails to locate the query entity or answer due to poor image quality.",
+              "figure_id": "figure-4-10",
+              "figure_number": "4",
+              "height": 356,
+              "image_path": "figures/2611.27542/figure-012.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 883
+            },
+            {
+              "caption": "Figure 9: Sensitivity to CAR hyperparameters on InfoVQA. Curves show changes in score points relative to the default configuration, which achieves 79.36 nDCG@5 and 69.34 ANLS. Vertical dashed lines and bold ticks indicate the default parameter values.",
+              "figure_id": "figure-9-22",
+              "figure_number": "9",
+              "height": 384,
+              "image_path": "figures/2611.27542/figure-013.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 447
+            },
+            {
+              "caption": "Table 6: Model checkpoints and licenses on Hugging Face.",
+              "figure_id": "table-6-26",
+              "figure_number": "6",
+              "height": 356,
+              "image_path": "figures/2611.27542/table-014.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 891
+            },
+            {
+              "caption": "Table 1: Comparison with textual and single-vector visual retrievers using nDCG@5 (↑) and Recall@5 (↑).",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 369,
+              "image_path": "figures/2611.27542/table-015.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 941
+            },
+            {
+              "caption": "Table 2: Comparison with efficient multi-vector retrievers in nDCG@5 (↑) and representation size (↓), measured as average embedding number × dimension. Here, ColQwen is reported as a full-size reference model. Bold marks the best result among efficient multi-vector approaches, each using Qwen2.5-VL-3B as the backbone.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 193,
+              "image_path": "figures/2611.27542/table-016.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 941
+            },
+            {
+              "caption": "Table 5: Ablation study on key components of the Phi3V-based variant. “CAR” means Content-Adaptive Regionalization; disabling CAR replaces it with a fixed 3× 3 grid partition. “TR” and “IR” denote the text and image reconstruction tasks.",
+              "figure_id": "table-5-5",
+              "figure_number": "5",
+              "height": 159,
+              "image_path": "figures/2611.27542/table-017.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 452
+            },
+            {
+              "caption": "Table 8: Hyperparameters used in our approach.",
+              "figure_id": "table-8-21",
+              "figure_number": "8",
+              "height": 594,
+              "image_path": "figures/2611.27542/table-018.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 451
+            },
+            {
+              "caption": "Table 3: Retrieval-augmented generation performance in ANLS and F1. Bold indicates the best within each group.",
+              "figure_id": "table-3-6",
+              "figure_number": "3",
+              "height": 193,
+              "image_path": "figures/2611.27542/table-019.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 941
+            },
+            {
+              "caption": "Table 4: Visual token counts produced by Qwen2.5-VL under different vision augmentation strategies.",
+              "figure_id": "table-4-4",
+              "figure_number": "4",
+              "height": 125,
+              "image_path": "figures/2611.27542/table-020.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 451
+            },
+            {
+              "caption": "Table 12: Generation ANLS on DocVQA and DUDE by question subset. Table + numeric denotes table-related queries with numeric answers, and Other denotes the remaining queries. Region-level uses Compact Layout. ∆ is Region-level minus Page-level.",
+              "figure_id": "table-12-19",
+              "figure_number": "12",
+              "height": 165,
+              "image_path": "figures/2611.27542/table-021.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 450
+            },
+            {
+              "caption": "Table 11: Retrieval-augmented generation with different region rearrangement strategies. MV-VisRAG and Qwen2.5-VL-3B are used as retriever and answer generator, respectively.",
+              "figure_id": "table-11-16",
+              "figure_number": "11",
+              "height": 154,
+              "image_path": "figures/2611.27542/table-022.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 451
+            },
+            {
+              "caption": "Table 7: Evaluation dataset statistics.",
+              "figure_id": "table-7-20",
+              "figure_number": "7",
+              "height": 147,
+              "image_path": "figures/2611.27542/table-023.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 941
+            },
+            {
+              "caption": "Table 9: Evaluation on ViDoRe V2. We report nDCG@5 and R@5. The best results are highlighted in bold.",
+              "figure_id": "table-9-17",
+              "figure_number": "9",
+              "height": 197,
+              "image_path": "figures/2611.27542/table-024.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 941
+            },
+            {
+              "caption": "Table 10: Retrieval performance of MV-VisRAG using representations at different levels. The results are reported in nDCG@5 and Recall@5.",
+              "figure_id": "table-10-18",
+              "figure_number": "10",
+              "height": 135,
+              "image_path": "figures/2611.27542/table-025.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 939
+            },
+            {
+              "caption": "Table 13: Offline processing time (ms/page) and estimated FP32 embedding storage (KiB/page). Encoding includes post-hoc pooling for ColQwen-Pooling and pruning/merging for PRUNE-THEN-MERGE.",
+              "figure_id": "table-13-23",
+              "figure_number": "13",
+              "height": 193,
+              "image_path": "figures/2611.27542/table-026.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 941
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27542/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.27542",
+          "relevance": 6,
+          "selection_reason": "Region-level Vision-RAG with compact multi-vector retrieval; relevant to multimodal LLMs and visual token efficiency.",
+          "summary_status": "generated",
+          "title": "When Visually Rich Documents Meet Multi-Vector Retrieval for Region-level Retrieval-Augmented Generation",
+          "tldr": "MV-VisRAG improves Vision-RAG by retrieving and assembling only the most relevant document regions instead of using redundant full-page visual contexts.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "multimodal-large-language-models"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Understanding how spiking neural networks (SNNs) efficiently process data streams is key to (i) studying how biological brains conserve energy for lifelong predictions and (ii) enabling efficient continuous AI inference. In this work, we propose a theory on how an SNN incrementally tracks its corresponding firing-rate network, a continuous-valued neural network (ANN). We prove that the output of a discrete SNN continuously tracks the instantaneous ANN output implicitly determined by the SNN input. Based on this principle, we develop LIF-Stream, a conversion framework for efficient SNN inference over unbounded data streams. It enables the converted SNN to reuse its prior activation state and compute only the activation updates between frames, thereby reducing the average number of time steps needed per frame. Specifically, LIF-Stream controls the SNN to continuously track the reference ANN output, which gives a high-accuracy prediction for every frame. Evaluation on three large-scale streaming inference benchmarks with distinct modalities shows that LIF-Stream achieves the best efficiency-accuracy trade-off compared to high-accuracy SNN techniques.",
+          "arxiv_id": "2611.27322",
+          "arxiv_url": "https://arxiv.org/abs/2611.27322",
+          "authors": [
+            "Hyunseok Oh, Youngki Lee"
+          ],
+          "bullets": [
+            "The work addresses energy-efficient, lifelong prediction over continuous data streams.",
+            "It proves that a discrete SNN can continuously track the instantaneous output of its corresponding firing-rate ANN.",
+            "LIF-Stream converts ANNs into SNNs that reuse prior activation states and compute only frame-to-frame updates.",
+            "The method reduces the average number of time steps per frame while maintaining high-accuracy predictions.",
+            "Across three large-scale streaming benchmarks and distinct modalities, it achieves the best reported efficiency–accuracy trade-off among high-accuracy SNN methods."
+          ],
+          "categories": [
+            "cs.NE",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Conceptual overview and empirical trajectory analysis of LIF-Stream. (Left) Conceptual diagram of our LIF-Stream framework for streaming SNN inference. (Right) Empirical validation on MOT17 video sequences (Milan et al., 2016) evaluated as a streaming pedestrian detection task. LIF-Stream efficiently tracks the continuous ANN output by updating only inter-frame delta, whereas standard reset-based IF and LIF-SNNs suffer from re-convergence latency overhead for every frame.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 325,
+              "image_path": "figures/2611.27322/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 829
+            },
+            {
+              "caption": "Figure 3: Efficiency via inter-frame redundancy (post-hoc analysis; Table 1 uses a fixed number of ticks).",
+              "figure_id": "figure-3-5",
+              "figure_number": "3",
+              "height": 202,
+              "image_path": "figures/2611.27322/figure-002.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 399
+            },
+            {
+              "caption": "Figure 4: Finer temporal resolution benefits ours (post-hoc analysis).",
+              "figure_id": "figure-4-3",
+              "figure_number": "4",
+              "height": 202,
+              "image_path": "figures/2611.27322/figure-003.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 399
+            },
+            {
+              "caption": "Figure 7: Stream encoders (τ = 8). (a,b) The decoded input x̃ of one coordinate on a staircase of six frames with T = 8 ticks each (grey lines mark frame boundaries). (c) Input readout error |x− x̃| at the last tick of each frame against the tick budget, on a correlated random stream; values are clipped at 10−6. (d) AP50 of the converted detector streaming one Argoverse-HD sequence (901 frames) against the tick budget; the dotted line is the dense ANN.",
+              "figure_id": "figure-7-2",
+              "figure_number": "7",
+              "height": 561,
+              "image_path": "figures/2611.27322/figure-004.webp",
+              "kind": "figure",
+              "page": 33,
+              "width": 829
+            },
+            {
+              "caption": "Figure 5: SNNs on egocentric driving perception. Figure 6: Prior IF-conversions fail to stream.",
+              "figure_id": "figure-5-4",
+              "figure_number": "5",
+              "height": 212,
+              "image_path": "figures/2611.27322/figure-005.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 822
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27322/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.27322",
+          "relevance": 7,
+          "selection_reason": "Proposes a framework for efficient SNN inference by reusing activation states and reducing time steps, contributing to computational efficiency in AI systems.",
+          "summary_status": "generated",
+          "title": "Spiking Neural Networks Incrementally Track Firing-Rate Networks",
+          "tldr": "LIF-Stream lets spiking neural networks continuously track ANN outputs while reusing activation states, enabling efficient high-accuracy inference on unbounded data streams.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "State-of-the-art multimodal sentiment analysis (MSA) models rely on large pretrained encoders, yet typically process every modality to its full depth, regardless of its computational cost or predictive contribution. This raises a fundamental question: how should limited computation be allocated across modalities to preserve predictive performance? We reveal a substantial mismatch between the computational cost of modality encoders and the predictive benefit of processing them more deeply, suggesting that different modalities require different encoding depths. However, enabling heterogeneous depths introduces a key challenge: representations extracted at different depths must still be effectively fused. To address this, we propose $\\textbf{DepthMSA}$, a budget-aware framework that supports flexible modality depths within a single MSA model. Specifically, we introduce combinatorial anytime training, which supervises the fusion head across all cross-modal depth combinations using a single full-depth encoder pass. At inference, a training-free, cost-aware allocator selects the configuration with the lowest validation-calibrated error under a sample-specific FLOPs budget. On CMU-MOSEI, DepthMSA maintains accuracy within one percentage point of the full-depth model while reducing measured FLOPs by 45\\%, or by 82\\% with a separately trained skip-enabled variant. When a CLIP visual encoder dominates computation, the allocation shifts toward reducing visual depth, achieving 56\\% fewer FLOPs at unchanged accuracy. Compared with ADMN, an adaptive layer-allocation method that trains a controller for each budget, the skip-enabled variant reaches its accuracy with 3.2$\\times$ fewer FLOPs and lower latency, without any per-budget training. Our project is available at https://pwang322.github.io/DepthMSA/.",
+          "arxiv_id": "2611.27198",
+          "arxiv_url": "https://arxiv.org/abs/2611.27198",
+          "authors": [
+            "Pan Wang, Jie Peng, Zhimin Li, Jingxian Chen, Hui Ji, Huanrui Yang, Pengfei Zhou, Tianlong Chen, Jingtong Hu"
+          ],
+          "bullets": [
+            "Addresses the mismatch between modality encoder cost and the predictive value of deeper processing.",
+            "Uses combinatorial anytime training to supervise fusion across all cross-modal depth combinations in one full-depth pass.",
+            "A training-free, validation-calibrated allocator selects the lowest-error depth configuration within each sample’s FLOPs budget.",
+            "On CMU-MOSEI, it stays within one percentage point of full-depth accuracy while reducing measured FLOPs by 45%, or 82% with skip-enabled training.",
+            "When vision dominates computation, it reduces visual depth for 56% fewer FLOPs at unchanged accuracy; scope is demonstrated on CMU-MOSEI."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of DepthMSA. (a) Each modality encoder provides J = 4 shared-weight exits and an optional skip level. (b) Combinatorial anytime training supervises all cross-modal depth configurations using a single full-depth encoder pass. (c) Validationtime calibration estimates the prediction error of each configuration and constructs a utility table. (d) For each test sample, the allocator computes configuration costs, selects the lowest-error feasible configuration, and executes the corresponding encoder depths.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 308,
+              "image_path": "figures/2611.27198/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1025
+            },
+            {
+              "caption": "Figure 3. Accuracy–efficiency trade-offs on three MSA datasets. Each DepthMSA or DepthMSA-skip curve is obtained from one trained model evaluated at multiple budgets, whereas ADMN uses a controller for each budget. The skip-enabled model extends the feasible operating range to lower measured FLOPs. Lines connect operating points. Mean over three seeds.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 224,
+              "image_path": "figures/2611.27198/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 812
+            },
+            {
+              "caption": "Figure 4. Compute–utility landscape. Each curve truncates one modality through exits 3, 2, and 1 while keeping the others at full depth. The horizontal axis shows encoder GFLOPs saved; the vertical axis shows the change in validation MAE relative to full depth (symmetric log scale). Larger savings with smaller error changes indicate greater depth redundancy. The modality offering this trade-off changes from audio with pre-extracted visual features to vision with CLIP. Mean over three seeds.",
+              "figure_id": "figure-4-3",
+              "figure_number": "4",
+              "height": 227,
+              "image_path": "figures/2611.27198/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 806
+            },
+            {
+              "caption": "Table 1. Main results on CMU-MOSI and CMU-MOSEI. DepthMSA retains competitive accuracy at lower measured FLOPs; skipping enables lower-cost operating points. One DepthMSA and one DepthMSA-skip model each serve all budgets. ADMN uses the same backbone with a budget-specific controller. Bold: lowest GFLOPs and latency at each budget. Mean over three seeds.",
+              "figure_id": "table-1-7",
+              "figure_number": "1",
+              "height": 330,
+              "image_path": "figures/2611.27198/table-004.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1036
+            },
+            {
+              "caption": "Table 5. Different encoder combinations (text / audio / visual). For each combination, one DepthMSA model is evaluated at full depth (ρ = 1.0) and at the budget ρ ∈ {0.8, 0.6, 0.4, 0.25} with the highest Acc-2 (shaded). Parentheses: change in measured GFLOPs relative to full depth. Mean over three seeds.",
+              "figure_id": "table-5-5",
+              "figure_number": "5",
+              "height": 98,
+              "image_path": "figures/2611.27198/table-005.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 1036
+            },
+            {
+              "caption": "Table 4. Results with a CLIP visual encoder. CLIP ViT-B/16 processes eight raw frames and accounts for 74% and 68% of encoder FLOPs on CMU-MOSI and CMU-MOSEI, respectively. The same depth-only model serves all budgets within each dataset. ∆ is the change in measured end-to-end GFLOPs relative to the corresponding full-depth configuration. Mean over three seeds.",
+              "figure_id": "table-4-4",
+              "figure_number": "4",
+              "height": 59,
+              "image_path": "figures/2611.27198/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 1036
+            },
+            {
+              "caption": "Table 2. Main results on CH-SIMS. DepthMSA achieves a lower mean MAE than the dense model at a moderate budget, and comparable MAE to ADMN with lower measured latency. Mean over three seeds. FLOPs, latency and bold as in Tab. 1.",
+              "figure_id": "table-2-1",
+              "figure_number": "2",
+              "height": 51,
+              "image_path": "figures/2611.27198/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27198/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.27198",
+          "relevance": 9,
+          "selection_reason": "Proposes DepthMSA, a budget-aware framework for multimodal sentiment analysis that allocates different encoding depths to different modalities to reduce FLOPs while maintaining accuracy. This is a direct technical contribution to efficient resource allocation in multimodal models.",
+          "summary_status": "generated",
+          "title": "DepthMSA: Combinatorial Training and Budget-Aware Depth Allocation for Multimodal Sentiment Analysis",
+          "tldr": "DepthMSA adaptively allocates encoder depth across modalities to substantially reduce MSA computation while preserving sentiment accuracy.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Vision-language models (VLMs) represent each image with hundreds of visual tokens, which can make inference costly even when a prompt depends on only part of the image. Dynamic Token Merging (DTM), introduced in MrT5 for byte-level text encoders, learns which tokens to remove: a lightweight delete gate scores contextualized hidden states, acts as a differentiable attention bias during training, and physically removes tokens at inference. We argue that DTM is a general token deletion framework rather than a byte-level technique, and extend it to the vision modality and to decoder-only models. Applying DTM to T5Gemma 2 and Gemma 3 yields V-MrT5Gemma2, which deletes visual tokens inside a bidirectional multimodal encoder, and V-MrGemma3, which compacts the prompt and its key-value caches during decoder-only prefill. Across ten benchmarks, DTM's advantage over attention-based and random deletion grows with the deletion rate and is largest on document, chart, and scene-text reading. At 80% visual token deletion (approximately 60% fewer FLOPs), DTM raises accuracy over FastV from 51.8 to 63.0 on ChartQA and from 63.3 to 67.8 on TextVQA with V-MrT5Gemma2, as well as from 62.2 to 68.8 and from 71.2 to 75.1 with V-MrGemma3, retaining 90-96% of unpruned performance on both tasks with significant efficiency gains. These results support DTM as a general framework for efficient transformers.",
+          "arxiv_id": "2611.27064",
+          "arxiv_url": "https://arxiv.org/abs/2611.27064",
+          "authors": [
+            "Chris Gu, Marco Andono Sie, Nathan Zhou, Christopher Potts, Julie Kallini"
+          ],
+          "bullets": [
+            "VLMs often process hundreds of visual tokens, creating unnecessary inference cost when only part of an image matters.",
+            "DTM uses a lightweight delete gate to score contextualized tokens, trains deletion differentiably, and physically removes tokens during inference.",
+            "The framework is extended to bidirectional multimodal encoders and decoder-only models, producing V-MrT5Gemma2 and V-MrGemma3.",
+            "With 80% visual-token deletion—about 60% fewer FLOPs—DTM outperforms FastV on ChartQA and TextVQA while retaining 90–96% of unpruned performance.",
+            "Benefits increase at higher deletion rates and are strongest for document, chart, and scene-text reading tasks."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Dynamic Token Merging (DTM) in encoder–decoder and decoder-only VLMs. (a) V-MrT5Gemma2 deletes selected visual tokens before encoder layer k, retaining all text tokens. The shortened encoder output feeds the decoder’s merged self- and cross-attention. (b) V-MrGemma3’s prefill uses bidirectional attention within images and causal attention for text, caching the full prompt before the gate and the compacted prompt after it; decoding reuses these caches and appends generated K/V without further deletion. Both diagrams show hard deletion at inference. The gate and deletion rule are the same in both architectures; only where the gate takes effect differs.",
+              "figure_id": "figure-1-12",
+              "figure_number": "1",
+              "height": 310,
+              "image_path": "figures/2611.27064/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 798
+            },
+            {
+              "caption": "Figure 2: One 60%-trained T5Gemma 2 1B–1B checkpoint (V-MrT5Gemma2) across inference budgets, deletion after layer 5. Each curve holds one task- and method-specific checkpoint fixed and evaluates it at deletion rates from 10% to 90%; the training rate, 60%, is highlighted. DTM’s advantage widens as the inference budget tightens beyond the training target.",
+              "figure_id": "figure-2-28",
+              "figure_number": "2",
+              "height": 296,
+              "image_path": "figures/2611.27064/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 829
+            },
+            {
+              "caption": "Figure 6: T5Gemma 2 and Gemma 3 language-backbone architectures. Visual tokens enter after SigLIP encoding, pooling, and image projection. (a) T5Gemma 2 uses a bidirectional encoder and a decoder with merged self- and cross-attention. Each decoder block projects the final normalized encoder states H into its own keys and values. (b) Gemma 3 uses a decoder-only backbone. Here Le and Ld denote encoder and decoder depths: both are 26 for T5Gemma 2 1B–1B and 18 for 270M–270M; Gemma 3 4B has L = 34 decoder blocks.",
+              "figure_id": "figure-6-33",
+              "figure_number": "6",
+              "height": 521,
+              "image_path": "figures/2611.27064/figure-003.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 664
+            },
+            {
+              "caption": "Figure 7: Matched-rate evaluation on T5Gemma 2 1B–1B (V-MrT5Gemma2), deletion after layer 5. Each point uses a model trained and evaluated at the deletion rate δ on the horizontal axis. DTM leads on all ten benchmarks at 60% and 80% deletion; at 20–40%, the methods are close.",
+              "figure_id": "figure-7-9",
+              "figure_number": "7",
+              "height": 313,
+              "image_path": "figures/2611.27064/figure-004.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 829
+            },
+            {
+              "caption": "Figure 8: Matched-rate evaluation on Gemma 3 4B (V-MrGemma3), deletion after five decoder layers during prompt prefill. Each point uses a model trained and evaluated at the deletion rate δ on the horizontal axis. DTM leads on nine benchmarks at 80% and six at 60%; at 20–40%, the methods are close.",
+              "figure_id": "figure-8-8",
+              "figure_number": "8",
+              "height": 313,
+              "image_path": "figures/2611.27064/figure-005.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 829
+            },
+            {
+              "caption": "Figure 4: Spatial evidence retention at matched 80% visual token deletion after layer 5. Bars show the mean percentage of evidence patches retained on the same eligible questions for each model–dataset pair; dashed lines mark the expected retention of random deletion. T5 1B, T5 270M, and G3 4B denote T5Gemma 2 1B–1B, T5Gemma 2 270M–270M, and Gemma 3 4B. DTM retains the most evidence in 22 of 24 comparisons.",
+              "figure_id": "figure-4-41",
+              "figure_number": "4",
+              "height": 261,
+              "image_path": "figures/2611.27064/figure-006.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 826
+            },
+            {
+              "caption": "Figure 3: One 60%-trained Gemma 3 4B checkpoint (V-MrGemma3) decoder-only across inference budgets, deletion after five decoder layers during prefill. Each curve holds one checkpoint fixed across deletion rates from 10% to 90%, with 60% highlighted. V-MrGemma3 shows the same widening advantage at 80–90% deletion.",
+              "figure_id": "figure-3-29",
+              "figure_number": "3",
+              "height": 294,
+              "image_path": "figures/2611.27064/figure-007.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 829
+            },
+            {
+              "caption": "Figure 5: Soft and hard visual token deletion in DTM. Vision and text tokens, denoted as svi and sti , are processed normally from layers 1 through k − 1. The hidden states before layer k are entered into the deletion gate, producing a score for each token. During hard deletion, hidden states with gate scores less than τ are pruned; the gate scores are applied as biases to only the remaining pre-softmax attention scores. Soft deletion adds gate scores to key columns; hard deletion removes sv1 and sv3 and retains the text tokens.",
+              "figure_id": "figure-5-20",
+              "figure_number": "5",
+              "height": 513,
+              "image_path": "figures/2611.27064/figure-008.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 829
+            },
+            {
+              "caption": "Figure 22: Deletion-depth sensitivity across budgets for Gemma 3 4B on DocVQA. Panels show individual methods; line colors indicate matched deletion rates (20%, 40%, 60%, 80%); shading marks L5. The attention-based selectors improve with later deletion on this backbone, while DTM stays nearly constant and is highest at 40–80%.",
+              "figure_id": "figure-22-18",
+              "figure_number": "22",
+              "height": 468,
+              "image_path": "figures/2611.27064/figure-009.webp",
+              "kind": "figure",
+              "page": 34,
+              "width": 756
+            },
+            {
+              "caption": "Figure 23: Deletion-depth sensitivity across budgets for T5Gemma 2 270M–270M on DocVQA. Panels show individual methods; line colors indicate matched deletion rates (20%, 40%, 60%, 80%); shading marks L5. The smallest backbone benefits most from later deletion, especially at 80%.",
+              "figure_id": "figure-23-19",
+              "figure_number": "23",
+              "height": 468,
+              "image_path": "figures/2611.27064/figure-010.webp",
+              "kind": "figure",
+              "page": 34,
+              "width": 756
+            },
+            {
+              "caption": "Figure 21: Deletion-depth sensitivity across budgets for T5Gemma 2 1B–1B on DocVQA. Panels show individual methods; line colors indicate matched training and evaluation deletion rates (20%, 40%, 60%, 80%). The horizontal axis gives the number of layers before deletion; shading marks L5. DTM is nearly flat across depth, whereas FastV and φ-R peak at L5 and fall at L6 at every rate.",
+              "figure_id": "figure-21-23",
+              "figure_number": "21",
+              "height": 467,
+              "image_path": "figures/2611.27064/figure-011.webp",
+              "kind": "figure",
+              "page": 33,
+              "width": 756
+            },
+            {
+              "caption": "Figure 16: Checkpoint reuse across deletion budgets at L5. Rows specify training targets; grouped columns specify inference deletion. Gray diagonal cells show matched scores, with the strongest method in bold and underlined. Off-diagonal cells show St(e) − Se(e); negative values favor training at the evaluation rate. All cells average the same ten benchmarks equally. Red shading deepens with the size of the penalty. A 60%-trained DTM checkpoint used at 80% costs at most 0.6 points on average, and on Gemma 3 even a 20%-trained DTM checkpoint loses less at 80% than any baseline.",
+              "figure_id": "figure-16-15",
+              "figure_number": "16",
+              "height": 508,
+              "image_path": "figures/2611.27064/figure-012.webp",
+              "kind": "figure",
+              "page": 29,
+              "width": 612
+            },
+            {
+              "caption": "Figure 9: Matched-rate evaluation on T5Gemma 2 270M–270M, deletion after layer 5. Each point uses a model trained and evaluated at the deletion rate δ on the horizontal axis. The advantage emerges at higher deletion rates on the smallest backbone: DTM leads on 1, 3, 7, and 8 benchmarks at 20%, 40%, 60%, and 80%.",
+              "figure_id": "figure-9-17",
+              "figure_number": "9",
+              "height": 313,
+              "image_path": "figures/2611.27064/figure-013.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 829
+            },
+            {
+              "caption": "Figure 27: Randomly sampled ChartQA questions at matched 80% deletion on T5Gemma 2 1B–1B (1 of 2). Each row shows the input with its question and gold answer, then the 52 of 256 visual tokens kept by each method in full contrast (outlined), with deleted patches washed out. Below each panel: the prediction and its relaxed-accuracy score. Blue: DTM; gold: FastV; magenta: φ-R; green: Random. DTM concentrates its budget on labels, tick values, and bar ends.",
+              "figure_id": "figure-27-5",
+              "figure_number": "27",
+              "height": 1167,
+              "image_path": "figures/2611.27064/figure-014.webp",
+              "kind": "figure",
+              "page": 38,
+              "width": 786
+            },
+            {
+              "caption": "Figure 29: Randomly sampled TextVQA questions at matched 80% deletion on T5Gemma 2 1B–1B (1 of 2). Each row shows the input with its question and gold answer, then the 52 of 256 visual tokens kept by each method in full contrast (outlined), with deleted patches washed out; below each panel, the prediction (long answers truncated) and its VQA-accuracy score. Blue: DTM; gold: FastV; magenta: φ-R; green: Random. All three informed selectors keep much of the scene text; they differ in which words remain.",
+              "figure_id": "figure-29-30",
+              "figure_number": "29",
+              "height": 1167,
+              "image_path": "figures/2611.27064/figure-015.webp",
+              "kind": "figure",
+              "page": 40,
+              "width": 786
+            },
+            {
+              "caption": "Figure 26 shows one way the attention-based selectors spend budget that DTM does not. On Gemma 3, FastV and φ-R keep the four corner patches of the image at median rates of 0.50 and 0.42, above the uniform rate of 0.20 on nine of ten benchmarks, whereas DTM keeps them at 0.02–0.12 on every model and benchmark. The two attention-based selectors also agree with each other far more than either agrees with DTM (median Cohen’s κ of 0.59, against 0.29 and 0.30), while DTM’s keep-sets agree across the three separately trained backbones (median κ 0.63, against 0.34 for FastV and 0.29 for φ-R). Gates trained on different models thus converge on similar selections.",
+              "figure_id": "figure-26-32",
+              "figure_number": "26",
+              "height": 598,
+              "image_path": "figures/2611.27064/figure-016.webp",
+              "kind": "figure",
+              "page": 36,
+              "width": 714
+            },
+            {
+              "caption": "Figure 20: Sensitivity to deletion depth on DocVQA. Models are separately trained and evaluated at 40% (dotted) or 80% (solid) deletion with the gate after each layer. The horizontal axis gives the number of layers before deletion; shading marks L5, the setting used in our main experiments. On T5Gemma 2 1B–1B, the attention-based selectors drop when they read the first global-attention layer (L6), whereas DTM does not.",
+              "figure_id": "figure-20-36",
+              "figure_number": "20",
+              "height": 275,
+              "image_path": "figures/2611.27064/figure-017.webp",
+              "kind": "figure",
+              "page": 32,
+              "width": 746
+            },
+            {
+              "caption": "Table 2: Matched-rate evaluation at 40% and 80% visual token deletion for T5Gemma 2 (1B– 1B) and Gemma 3 (4B), deletion after layer 5. Each score comes from a model trained and evaluated at the given deletion rate δ; Base is the unpruned model fine-tuned in the same way. Bold marks the best method per column within each model; each task uses its own metric (Section 5). The gray row gives the percentage of language-model FLOPs saved, which is the same for every method. Figures 2 and 3 include 60%, and Figures 7–9 (appendix) show 20–80%. DTM’s lead grows with the deletion rate on both architectures and is largest on DocVQA, ChartQA, and TextVQA.",
+              "figure_id": "table-2-13",
+              "figure_number": "2",
+              "height": 296,
+              "image_path": "figures/2611.27064/table-018.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 830
+            },
+            {
+              "caption": "Figure 10: Fixed checkpoints on T5Gemma 2 1B–1B trained at 20% (a) and 40% (b) deletion. Each curve evaluates one checkpoint at deletion rates from 10% to 90%; the training rate is highlighted. Blue diamonds: DTM; gold triangles: FastV; magenta crosses: φ-R; green circles: Random; dotted line: unpruned Base, fine-tuned the same way. Trained at 40%, DTM leads on nine benchmarks at 80% inference deletion; checkpoints trained at only 20% transfer less well, and DTM leads on half.",
+              "figure_id": "figure-10-26",
+              "figure_number": "10",
+              "height": 648,
+              "image_path": "figures/2611.27064/figure-019.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 829
+            },
+            {
+              "caption": "Figure 11: Fixed checkpoints on T5Gemma 2 1B–1B trained at 60% (a) and 80% (b) deletion. Each curve evaluates one checkpoint at deletion rates from 10% to 90%; the training rate is highlighted. Blue diamonds: DTM; gold triangles: FastV; magenta crosses: φ-R; green circles: Random; dotted line: unpruned Base, fine-tuned the same way. Trained at 60% or 80%, DTM leads on all ten benchmarks at 80% and 90% inference deletion.",
+              "figure_id": "figure-11-40",
+              "figure_number": "11",
+              "height": 648,
+              "image_path": "figures/2611.27064/figure-020.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 829
+            },
+            {
+              "caption": "Figure 12: Fixed checkpoints on Gemma 3 4B trained at 20% (a) and 40% (b) deletion, deletion during prefill. Each curve evaluates one checkpoint at deletion rates from 10% to 90%; the training rate is highlighted. Blue diamonds: DTM; gold triangles: FastV; magenta crosses: φ-R; green circles: Random; dotted line: unpruned Base, fine-tuned the same way. Even DTM checkpoints trained at 20% or 40% lead on all ten benchmarks at 80% and 90% inference deletion.",
+              "figure_id": "figure-12-3",
+              "figure_number": "12",
+              "height": 648,
+              "image_path": "figures/2611.27064/figure-021.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 829
+            },
+            {
+              "caption": "Figure 13: Fixed checkpoints on Gemma 3 4B trained at 60% (a) and 80% (b) deletion, deletion during prefill. Each curve evaluates one checkpoint at deletion rates from 10% to 90%; the training rate is highlighted. Blue diamonds: DTM; gold triangles: FastV; magenta crosses: φ-R; green circles: Random; dotted line: unpruned Base, fine-tuned the same way. Trained at 60%, DTM leads on all ten benchmarks at 80% and 90% inference deletion; trained at 80%, on nine.",
+              "figure_id": "figure-13-6",
+              "figure_number": "13",
+              "height": 648,
+              "image_path": "figures/2611.27064/figure-022.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 829
+            },
+            {
+              "caption": "Figure 14: Fixed checkpoints on T5Gemma 2 270M–270M trained at 20% (a) and 40% (b) deletion. Each curve evaluates one checkpoint at deletion rates from 10% to 90%; the training rate is highlighted. Blue diamonds: DTM; gold triangles: FastV; magenta crosses: φ-R; green circles: Random; dotted line: unpruned Base, fine-tuned the same way. The smallest backbone transfers less well from low training targets: DTM leads on five or six benchmarks at 80% and 90% inference deletion.",
+              "figure_id": "figure-14-38",
+              "figure_number": "14",
+              "height": 648,
+              "image_path": "figures/2611.27064/figure-023.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 829
+            },
+            {
+              "caption": "Figure 15: Fixed checkpoints on T5Gemma 2 270M–270M trained at 60% (a) and 80% (b) deletion. Each curve evaluates one checkpoint at deletion rates from 10% to 90%; the training rate is highlighted. Blue diamonds: DTM; gold triangles: FastV; magenta crosses: φ-R; green circles: Random; dotted line: unpruned Base, fine-tuned the same way. Trained at 60%, DTM leads on all ten benchmarks at 80% inference deletion (eight at 90%); trained at 80%, on eight and six.",
+              "figure_id": "figure-15-27",
+              "figure_number": "15",
+              "height": 648,
+              "image_path": "figures/2611.27064/figure-024.webp",
+              "kind": "figure",
+              "page": 28,
+              "width": 829
+            },
+            {
+              "caption": "Figure 19: Query aggregation for FastV and φ-R on T5Gemma 2 270M–270M, matched deletion after layer 5. Variants and line styles as in Figure 17. On the smallest backbone, text queries help φ-R on DocVQA and TextVQA but not FastV; neither reaches DTM at 60–80% deletion on these tasks.",
+              "figure_id": "figure-19-43",
+              "figure_number": "19",
+              "height": 506,
+              "image_path": "figures/2611.27064/figure-025.webp",
+              "kind": "figure",
+              "page": 31,
+              "width": 659
+            },
+            {
+              "caption": "Figure 18: Query aggregation for FastV and φ-R on Gemma 3 4B, matched deletion after five decoder layers during prefill. Variants and line styles as in Figure 17. FastV again prefers all-query scoring (35 of 36 settings against text last), whereas φ-R gains from text queries on DocVQA and InfoVQA at 80%.",
+              "figure_id": "figure-18-10",
+              "figure_number": "18",
+              "height": 505,
+              "image_path": "figures/2611.27064/figure-026.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 659
+            },
+            {
+              "caption": "Figure 17: Query aggregation for FastV and φ-R on T5Gemma 2 1B–1B, matched deletion after layer 5. Each selector ranks visual tokens by attention averaged over all valid queries (all mean, used in the main results), over text queries only (text mean), or from the final text query (text last); each variant is separately fine-tuned. Dashed: DTM; dotted: unpruned Base. Allquery scoring is the strongest FastV variant almost everywhere, by up to 17 points on DocVQA.",
+              "figure_id": "figure-17-11",
+              "figure_number": "17",
+              "height": 506,
+              "image_path": "figures/2611.27064/figure-027.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 654
+            },
+            {
+              "caption": "Figure 16 separates the loss associated with a tighter budget from the additional cost of checkpoint reuse. For DTM, moving from matched 60% to matched 80% deletion lowers the mean score by 3.3, 3.5, and 3.6 points for T5Gemma 2 1B–1B, Gemma 3 4B, and T5Gemma 2 270M–270M, respectively. Reusing the 60%-trained checkpoint at 80% incurs only a further 0.6, 0.2, and 0.2 points. Matched training is not uniformly best: at 60% inference deletion, Gemma 3’s 40%-trained DTM checkpoints average 0.7 points above their 60%-trained counterparts. These means summarize heterogeneous task metrics and are descriptive comparisons of the selected checkpoints.",
+              "figure_id": "figure-16-14",
+              "figure_number": "16",
+              "height": 508,
+              "image_path": "figures/2611.27064/figure-028.webp",
+              "kind": "figure",
+              "page": 29,
+              "width": 612
+            },
+            {
+              "caption": "Figure 28: Randomly sampled ChartQA questions at matched 80% deletion on T5Gemma 2 1B–1B (2 of 2). Presented as in Figure 27: kept tokens in full contrast, predictions and relaxedaccuracy scores below each panel; blue DTM, gold FastV, magenta φ-R, green Random.",
+              "figure_id": "figure-28-16",
+              "figure_number": "28",
+              "height": 1081,
+              "image_path": "figures/2611.27064/figure-029.webp",
+              "kind": "figure",
+              "page": 39,
+              "width": 829
+            },
+            {
+              "caption": "Figure 30: Randomly sampled TextVQA questions at matched 80% deletion on T5Gemma 2 1B–1B (2 of 2). Presented as in Figure 29; blue DTM, gold FastV, magenta φ-R, green Random.",
+              "figure_id": "figure-30-37",
+              "figure_number": "30",
+              "height": 1081,
+              "image_path": "figures/2611.27064/figure-030.webp",
+              "kind": "figure",
+              "page": 41,
+              "width": 829
+            },
+            {
+              "caption": "Table 10: Normalized area over inference deletion rates 10–90%. All checkpoints are trained at 60% deletion and evaluated at nine deletion rates; the area is the trapezoidal integral divided by the 0.8-wide interval, so values remain on each task’s 0–100 metric scale. The final row weights tasks equally. Bold marks the strongest method within each model. DTM has the highest area on 10 of 10 T5Gemma 2 1B–1B benchmarks, 9 of 10 Gemma 3 4B benchmarks and 8 of 10 T5Gemma 2 270M–270M benchmarks, and the highest equal-weight mean on all three backbones.",
+              "figure_id": "table-10-25",
+              "figure_number": "10",
+              "height": 356,
+              "image_path": "figures/2611.27064/table-031.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 830
+            },
+            {
+              "caption": "Table 1: Three instances of the DTM framework. All share the delete gate, soft-to-hard deletion, and controlled deletion objective (Section 3.2). MrT5 (Kallini et al., 2025) uses PI control with full fine-tuning; our instances use PID control with LoRA. Only the tokens eligible for deletion and where the shortened sequence takes effect differ across instances.",
+              "figure_id": "table-1-31",
+              "figure_number": "1",
+              "height": 109,
+              "image_path": "figures/2611.27064/table-032.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 826
+            },
+            {
+              "caption": "Table 8: Evaluation populations and training steps (T5Gemma 2 1B–1B). Every method and deletion rate is evaluated on the same examples. VQAv2 and GQA use fixed, uniformly random subsets of their validation splits (25,600 of 214,354 and 12,800 of 132,062 questions); every other benchmark uses its full split. POPE evaluates the VQAv2-trained checkpoints. Budgets differ across tasks, so we compare methods within each task rather than at equal training compute. The last column gives the source of the evidence regions in Figures 4 and 24, which are computed on the evaluated examples that have at least one evidence region (“With evidence”); OCR-word regions are the words that spell a gold answer.",
+              "figure_id": "table-8-44",
+              "figure_number": "8",
+              "height": 242,
+              "image_path": "figures/2611.27064/table-033.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 830
+            },
+            {
+              "caption": "Table 4: PI versus PID deletion-rate control on T5Gemma 2 1B–1B at all four training targets. Each DTM arm is retrained with the derivative term disabled (kd = 0), changing nothing else (L5, c = −22, τ = −7). Scores are best in-training validation scores at the trained deletion rate; tracking error |et| and overshoot above the target are in percentage points of training-time deletion. The derivative term tightens tracking at every target (lower mean |et| in 19 of 20 pairs, one tie) but improves accuracy only at the 80% target, where PID wins on all five tasks by 0.81 points on average.",
+              "figure_id": "table-4-46",
+              "figure_number": "4",
+              "height": 662,
+              "image_path": "figures/2611.27064/table-034.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 802
+            },
+            {
+              "caption": "Table 13: What each method keeps on ChartQA and OCR-text benchmarks at matched 80% deletion. Recall is the percentage of patches in each category that a method keeps; uniform selection keeps 20.3%. ChartQA categories come from the dataset’s element annotations (text labels include titles, axis, and legend text; bar and line marks are plotted elements). “Blank” is the share of the kept budget spent on blank patches, which make up 47% of ChartQA patches. OCR text covers every word detected in the image. On charts, DTM keeps more text labels and marks than both attentionbased selectors on every backbone; on documents, the attention-based selectors cover more text.",
+              "figure_id": "table-13-42",
+              "figure_number": "13",
+              "height": 267,
+              "image_path": "figures/2611.27064/table-035.webp",
+              "kind": "table",
+              "page": 37,
+              "width": 830
+            },
+            {
+              "caption": "Table 6: Natural thresholding versus a fixed per-example budget within the same checkpoint (T5Gemma 2 1B–1B, L5). Each row uses the main-experiment DTM checkpoint for that task and training target. Natural deletion removes every visual token with gj ≤ τ , so the per-example rate varies (mean and 5th–95th percentiles shown); forced deletion removes the same mean fraction from every example. The two passes’ FLOPs differ by at most 0.61%. Metrics follow the main results, except that RefCOCO+ uses mean IoU. Natural thresholding scores higher in 16 of 18 pairs, including all nine at the 60% target, by 0.29 points on average.",
+              "figure_id": "table-6-35",
+              "figure_number": "6",
+              "height": 419,
+              "image_path": "figures/2611.27064/table-036.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 714
+            },
+            {
+              "caption": "Table 12: Largest tested deletion rate retaining at least 90% of Base. All checkpoints are trained at 60% deletion and evaluated at 10–90% deletion in 10-point increments; Base is the separately fine-tuned unpruned model. None indicates that no tested rate meets this threshold. DTM reaches the largest budget (ties included) on 9 of 10, 9 of 10, 10 of 10 benchmarks for T5Gemma 2 1B–1B, Gemma 3 4B and T5Gemma 2 270M–270M, respectively, but no DTM checkpoint preserves 90% of Base on InfoVQA.",
+              "figure_id": "table-12-4",
+              "figure_number": "12",
+              "height": 323,
+              "image_path": "figures/2611.27064/table-037.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 830
+            },
+            {
+              "caption": "Table 7: Configurations of the three model backbones. T5Gemma 2 dimensions and head counts apply to both language stacks. Language parameter counts include the shared text embeddings once; totals additionally include the vision encoder and image projector. All three backbones receive the same 256 visual tokens per image, so a deletion rate removes the same number of visual tokens in each.",
+              "figure_id": "table-7-24",
+              "figure_number": "7",
+              "height": 317,
+              "image_path": "figures/2611.27064/table-038.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 552
+            },
+            {
+              "caption": "Table 9: Shared adaptation and gate recipe. Apart from batch size, every listed setting is identical across the three backbones and all plotted arms.",
+              "figure_id": "table-9-45",
+              "figure_number": "9",
+              "height": 398,
+              "image_path": "figures/2611.27064/table-039.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 822
+            },
+            {
+              "caption": "Table 3: Calibrated initial deletion rate versus the default constant gate intercept on T5Gemma 2 1B–1B. Step-0 deletion is the validation deletion rate measured before the first optimizer step; best scores are best in-training validation scores at the trained rate (L5, c = −22). The default intercept starts training at 84–99.6% deletion regardless of the target, whereas calibration starts within 1.5 points of the target in all 16 configurations. Calibration improves the best score by 0.45 and 0.75 points on average at 60% and 80% targets but has no consistent effect at 20% and 40% (−0.13 and −0.05).",
+              "figure_id": "table-3-7",
+              "figure_number": "3",
+              "height": 609,
+              "image_path": "figures/2611.27064/table-040.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 606
+            },
+            {
+              "caption": "Table 5: Attention-score regularization for the delete gate. The first column is the DTM score without regularization (best checkpoint), and the next two are changes relative to it. “Cap 20 without gate” is the cap’s effect on a fine-tuned model with no deletion. The soft−hard gap is the score difference between soft and hard deletion without regularization. Arms within a row share a training recipe. Neither defense improves accuracy on average, so we use neither.",
+              "figure_id": "table-5-34",
+              "figure_number": "5",
+              "height": 162,
+              "image_path": "figures/2611.27064/table-041.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 710
+            },
+            {
+              "caption": "Table 14: Per-dataset input and output lengths and FLOPs savings for T5Gemma 2 1B–1B at L5. FLOPs are calculated consistent with the description in Appendix G. Input text counts are unpadded, nonvisual encoder-input tokens, including prompt and special markers but excluding the generated answer. Output text counts include generated stop tokens and are pooled across the nine deletion rates. The additional selection FLOPs of DTM, FastV, and φ-R are negligible (Appendices G.4.2 and G.4.3). SD is the population standard deviation across evaluated examples. Each saving is computed from summed theoretical forward costs at the recorded input and generatedoutput lengths; the vision encoder and image projector are excluded. The final row weights tasks equally. Savings are nearly constant across benchmarks except RefCOCO+, whose longer prompts and outputs are never deleted.",
+              "figure_id": "table-14-22",
+              "figure_number": "14",
+              "height": 337,
+              "image_path": "figures/2611.27064/table-042.webp",
+              "kind": "table",
+              "page": 42,
+              "width": 826
+            },
+            {
+              "caption": "Table 15: Per-dataset input and output lengths and FLOPs savings for Gemma 3 4B at L5. FLOPs savings are presented in the same way as Table 14. Gemma 3 saves slightly more than T5Gemma 2 1B–1B at every deletion rate.",
+              "figure_id": "table-15-21",
+              "figure_number": "15",
+              "height": 337,
+              "image_path": "figures/2611.27064/table-043.webp",
+              "kind": "table",
+              "page": 42,
+              "width": 826
+            },
+            {
+              "caption": "Table 16: Per-dataset input and output lengths and FLOPs savings for T5Gemma 2 270M– 270M at L5. FLOPs savings are presented in the same way as Table 14. T5Gemma 2 270M–270M saves the least of the three backbones at every rate.",
+              "figure_id": "table-16-1",
+              "figure_number": "16",
+              "height": 336,
+              "image_path": "figures/2611.27064/table-044.webp",
+              "kind": "table",
+              "page": 43,
+              "width": 826
+            },
+            {
+              "caption": "Table 11: Mean normalized AUC over 10–90% inference deletion, by training target. Each mean weights the ten benchmarks equally on their 0–100 score scales. Bold marks the strongest training target for each method within each backbone. The final row counts tasks where the 60%- trained method exceeds all three other methods in AUC. DTM’s mean area peaks at 60% training on T5Gemma 2 1B–1B, 40% on Gemma 3 4B and 60% on T5Gemma 2 270M–270M, and DTM has the highest mean area at every training target on all three backbones.",
+              "figure_id": "table-11-39",
+              "figure_number": "11",
+              "height": 227,
+              "image_path": "figures/2611.27064/table-045.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 830
+            },
+            {
+              "caption": "Table 17: Per-layer FLOPs savings on DocVQA. Each row shows the FLOPs saved (%) when the gate follows the indicated layer, evaluated across visual deletion rates. FLOPs are calculated in the same way as Table 14.",
+              "figure_id": "table-17-2",
+              "figure_number": "17",
+              "height": 471,
+              "image_path": "figures/2611.27064/table-046.webp",
+              "kind": "table",
+              "page": 43,
+              "width": 540
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27064/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.27064",
+          "relevance": 9,
+          "selection_reason": "Dynamic token merging for vision-language models directly targets token-level efficiency.",
+          "summary_status": "generated",
+          "title": "Dynamic Token Merging for Efficient Vision-Language Models",
+          "tldr": "Dynamic Token Merging removes unimportant visual tokens in vision-language models, substantially reducing computation while preserving strong performance, especially for document and text-heavy image understanding.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Video large language models (LLMs) represent each video with thousands of visual tokens, and training-free accelerators that prune or merge these tokens lose accuracy on long videos. Analyzing frame similarity and the vision tokenizers of 16 open models, we trace this loss to a step before token selection. Under a token budget, the frames of a long video are sampled farther apart than the roughly 2 s over which frames remain similar. The two-frame 3D patches of models such as Qwen-VL then blend two unrelated scenes into each visual token, a double exposure that arises before any pruning or merging. Fixed-size tokenizers such as InternVL's avoid this blend but respond differently to the same reduction. We propose ESSENCE, a training-free method that tokenizes moments, segments within which frames remain similar, rather than frames. Before encoding, a closed-form rule uses the sampling interval and the tokenizer class to set the number of token grids and the dimension to reduce; visual tokens are then released from later LLM layers. Against five recent accelerators on Qwen3-VL, Qwen2.5-VL and InternVL3.5, ESSENCE achieves higher accuracy in 58 of 60 comparisons at matched mean time to first token (TTFT). With 80% of the tokens, it matches the average accuracy of the full Qwen models at $1.6\\times$ faster TTFT; on GLM-4.1V, it exceeds the full model by up to 3.4 points. Code is available at: https://github.com/zhkandsrz/ESSENCE.",
+          "arxiv_id": "2611.26933",
+          "arxiv_url": "https://arxiv.org/abs/2611.26933",
+          "authors": [
+            "Zirui Zhao, Kai Liu, Linghe Kong"
+          ],
+          "bullets": [
+            "Long-video token pruning and merging can lose accuracy because sparse frames may span unrelated scenes, causing 3D patch tokenizers to blend them before token selection.",
+            "The method analyzes frame similarity and tokenizer behavior across 16 open models to guide budget allocation.",
+            "A closed-form rule uses the sampling interval and tokenizer class to choose token grids and the reduction dimension before encoding.",
+            "Across five accelerators and three video LLMs, ESSENCE is more accurate in 58 of 60 matched-TTFT comparisons.",
+            "Using 80% of tokens, it matches full Qwen-model accuracy with 1.6× faster TTFT; on GLM-4.1V, it improves accuracy by up to 3.4 points."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4. Overview of ESSENCE. Each color denotes one moment. (1) Frames separated by less than τc belong to one moment. (2) A closed-form rule sets the number of token grids, each with at most B/k∗ tokens (dashed boxes: the same budget B). (3) Each grid is encoded without modifying the model: Qwen-VL resizes its input, and InternVL pools its encoder output on sparse videos. (4) Visual tokens are released from the LLM at layer ℓ∗.",
+              "figure_id": "figure-4-33",
+              "figure_number": "4",
+              "height": 427,
+              "image_path": "figures/2611.26933/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1007
+            },
+            {
+              "caption": "Figure 6. Average accuracy against TTFT speedup; numbers: ESSENCE budget (%). Downscaling: budget of ESSENCE-66 (56 on InternVL). Uniform frames: 16 (Qwen-VL) or 18 (InternVL) frames at native resolution. VTW: all tokens, released at the layer chosen by VTW. Thin lines: FastVID and FlashVID at retention .10, .15, default and .40.",
+              "figure_id": "figure-6-7",
+              "figure_number": "6",
+              "height": 393,
+              "image_path": "figures/2611.26933/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 918
+            },
+            {
+              "caption": "Figure 8. A selected example from Video-MME on Qwen3-VL, with frames 83 s apart. Pairing blends each fox scene with its neighboring frame, and the full model, downscaling and all five baselines answer incorrectly; ESSENCE-66 encodes one frame per grid and answers correctly.",
+              "figure_id": "figure-8-24",
+              "figure_number": "8",
+              "height": 148,
+              "image_path": "figures/2611.26933/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 415
+            },
+            {
+              "caption": "Figure 1. 32 frames are not 32 samples. (a) Eight consecutive frames and the token grids of a two-frame patch (pixel mean shown) on Qwen3-VL-8B: redundant on a short clip, blended on a long video, at about the same token cost. (b) Accuracy loss when the full model retains 16 or 8 of its 32 frames, on short clips (∆t ≤ 1 s) and long videos (∆t > 2 s), with the TTFT speedup; on Qwen-VL, fewer frames also means fewer grids. (c) TTFT before and inside the LLM, normalized per model (labels in ms; dashed: LLM start in the full model).",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 201,
+              "image_path": "figures/2611.26933/figure-004.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 966
+            },
+            {
+              "caption": "Figure 7. Source of the improvement at the 66% budget (56% on InternVL). (a) Accuracy by sampling interval; baselines: mean of five. (b) Sparse videos of VM and LVB: one- vs. two-frame grids by token count (100%: full model; 200%: every frame at full size). (c) Lead over downscaling on these videos on Qwen3-VL (95% CIs); the budget scales with T ; the full model is omitted at 256 frames (about 32k tokens).",
+              "figure_id": "figure-7-25",
+              "figure_number": "7",
+              "height": 193,
+              "image_path": "figures/2611.26933/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 813
+            },
+            {
+              "caption": "Figure 2. Frames are not moments. (a) Phase-correlation peak between two frames of the same video against their temporal gap (median over videos). In long videos it reaches the range of unrelated frames (gray) between 2 and 3 s. (b) Sampling interval of 32 uniform frames per benchmark (black: median; bar: quartiles; line: 5th–95th percentile) and the median number of moments (neff , Sec. 4.1).",
+              "figure_id": "figure-2-16",
+              "figure_number": "2",
+              "height": 259,
+              "image_path": "figures/2611.26933/figure-006.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 393
+            },
+            {
+              "caption": "Figure 3. Two classes of tokenizers. (a) The two temporal kernels of a 3D patch are nearly identical: 21 of the 1152 filters of Qwen3VL-8B from the checkpoint, with W∆ nearly flat on the same scale (over all filters, ηt = 0.035). The token grid encodes the sum of the frames. (b) A fixed-size tokenizer encodes each frame independently, but with a single learned position grid.",
+              "figure_id": "figure-3-27",
+              "figure_number": "3",
+              "height": 187,
+              "image_path": "figures/2611.26933/figure-007.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 468
+            },
+            {
+              "caption": "Figure 9. TTFT by stage relative to each full model (totals in ms).",
+              "figure_id": "figure-9-26",
+              "figure_number": "9",
+              "height": 110,
+              "image_path": "figures/2611.26933/figure-008.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 480
+            },
+            {
+              "caption": "Figure 5. Late layers rarely change the prediction. Fraction of first-token decisions that change when visual tokens are released from layer ℓ, on 192 unlabeled calibration questions; after 2L/3 it stays below 3%. Inset: layers past 0.6L; gray: flips from numerical noise alone (an equivalent attention kernel).",
+              "figure_id": "figure-5-34",
+              "figure_number": "5",
+              "height": 148,
+              "image_path": "figures/2611.26933/figure-009.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 279
+            },
+            {
+              "caption": "Table 2. Accuracy, TTFT and E2E latency under one timing protocol, from decoded frames to the first answer token and to 32 generated tokens, with speedups over the full model. ESSENCE-x: x% of the full model’s tokens. Best in bold, second underlined, excluding the full model. †Authors’ modified Transformers, 1.44× slower than the native stack (Appendix A.4). ‡Qwen-VL only (Appendix E.3).",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 440,
+              "image_path": "figures/2611.26933/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 918
+            },
+            {
+              "caption": "Table 1. Tokenizer classes from model checkpoints. 3D-patch: two frames per patch (u = 2), ηt ≪ 1, variable input size. Fixed-size: one frame per patch (u = 1), one input resolution. Grid: learned position grid (–: none). ∗Main; ◦extension (Sec. 5.6).",
+              "figure_id": "table-1-15",
+              "figure_number": "1",
+              "height": 213,
+              "image_path": "figures/2611.26933/table-011.webp",
+              "kind": "table",
+              "page": 3,
+              "width": 435
+            },
+            {
+              "caption": "Table 18. Q-Frame and LDDR on Qwen3-VL-8B and Qwen2.5-VL-7B. Accuracy (%), mean visual tokens per request, and speedups over the full model on the 192 timed requests. The ESSENCE rows are those of Tab. 2.",
+              "figure_id": "table-18-3",
+              "figure_number": "18",
+              "height": 394,
+              "image_path": "figures/2611.26933/table-012.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 760
+            },
+            {
+              "caption": "Table 7. ShortV on InternVL3.5-8B at three freeze ratios with the same layer ranking. Accuracy (%) and speedups over the full model. The 60% and ESSENCE-56 rows are those of Tab. 2.",
+              "figure_id": "table-7-13",
+              "figure_number": "7",
+              "height": 125,
+              "image_path": "figures/2611.26933/table-013.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 421
+            },
+            {
+              "caption": "Table 11. Static sparse videos and on-screen text on Qwen3-VL. Accuracy (%) of ESSENCE-66, uniform downscaling at the same budget and the full model, and the differences of ESSENCE in points.",
+              "figure_id": "table-11-35",
+              "figure_number": "11",
+              "height": 126,
+              "image_path": "figures/2611.26933/table-014.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 416
+            },
+            {
+              "caption": "Table 13. Pooling after the encoder against a smaller input on InternVL3.5. Correct answers of 1580, 2700, 3800 and 1337; Avg: mean accuracy (%); speedups over the full model. TC inputs are identical within a budget. ESSENCE-56 and -32 are the pooling rows.",
+              "figure_id": "table-13-31",
+              "figure_number": "13",
+              "height": 163,
+              "image_path": "figures/2611.26933/table-015.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 450
+            },
+            {
+              "caption": "Table 4. Gain of the rule over two alternatives at a similar token count and the smallest budget (42%, InternVL 32%). Pair/still: two/one frames per grid; sizes in pixels; 8 pairs and 10 frames drop frames, others downscale or pool. †: 17–32 pairs/stills at 1 < ∆t ≤ 2 s. ◦: TC, MV only; ⋄: VM, LVB only. ∗: p < 0.05.",
+              "figure_id": "table-4-21",
+              "figure_number": "4",
+              "height": 250,
+              "image_path": "figures/2611.26933/table-016.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 448
+            },
+            {
+              "caption": "Table 3. Accuracy gain of ESSENCE over each baseline at matched mean TTFT, in points. ∗: p < 0.05. †: ESSENCE is slower on this benchmark alone, by at most 10.6%.",
+              "figure_id": "table-3-23",
+              "figure_number": "3",
+              "height": 161,
+              "image_path": "figures/2611.26933/table-017.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 500
+            },
+            {
+              "caption": "Table 22. Hour-scale subsets: ESSENCE-66 (-56 on InternVL3.5) minus each method, in points. VM long: 30–60 min, 900 questions. LVB 3600: 15–60 min, 564 questions.",
+              "figure_id": "table-22-11",
+              "figure_number": "22",
+              "height": 192,
+              "image_path": "figures/2611.26933/table-018.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 396
+            },
+            {
+              "caption": "Table 9. Every frame of a sparse video encoded on its own at full size, at twice the tokens: accuracy change against the full model in points, with p in parentheses.",
+              "figure_id": "table-9-2",
+              "figure_number": "9",
+              "height": 98,
+              "image_path": "figures/2611.26933/table-019.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 492
+            },
+            {
+              "caption": "Table 8. Pair probes on the full model: accuracy change in points, with p in parentheses.",
+              "figure_id": "table-8-1",
+              "figure_number": "8",
+              "height": 108,
+              "image_path": "figures/2611.26933/table-020.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 429
+            },
+            {
+              "caption": "Table 12. Sensitivity of the rule: correct answers of ESSENCE in the main table, and the change from halving or doubling τc or from the smooth fixed-size rule. In parentheses: questions whose input changes.",
+              "figure_id": "table-12-32",
+              "figure_number": "12",
+              "height": 263,
+              "image_path": "figures/2611.26933/table-021.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 433
+            },
+            {
+              "caption": "Table 5. Ablation at 66% of the tokens (56% on InternVL). Accuracy over all 9417 questions and the 3425 sparse ones (per question, unlike Avg in Tab. 2). W/o allocation: uniform downscaling to the same budget. ∗: below ESSENCE, p < 0.05.",
+              "figure_id": "table-5-22",
+              "figure_number": "5",
+              "height": 136,
+              "image_path": "figures/2611.26933/table-022.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 492
+            },
+            {
+              "caption": "Table 16. Net correct answers of ESSENCE, at the budget in the second column, over each variant.",
+              "figure_id": "table-16-28",
+              "figure_number": "16",
+              "height": 313,
+              "image_path": "figures/2611.26933/table-023.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 421
+            },
+            {
+              "caption": "Table 15. Release on TempCompass caption generation (2004 captions of up to 256 tokens, greedy). Accuracy (%) of a text-only judge that answers the multiple-choice question of each caption from the caption alone, mean caption length in words, and the net answers and p of release.",
+              "figure_id": "table-15-29",
+              "figure_number": "15",
+              "height": 156,
+              "image_path": "figures/2611.26933/table-024.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 450
+            },
+            {
+              "caption": "Table 25. Release on the baselines on Qwen3-VL, in points. Top: the method with release minus the published method. Bottom: ESSENCE-66 minus the method with release.",
+              "figure_id": "table-25-20",
+              "figure_number": "25",
+              "height": 119,
+              "image_path": "figures/2611.26933/table-025.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 479
+            },
+            {
+              "caption": "Table 19. Accuracy against the full model by sampling interval, in points, at the 66% budget (56% on InternVL3.5).",
+              "figure_id": "table-19-4",
+              "figure_number": "19",
+              "height": 510,
+              "image_path": "figures/2611.26933/table-026.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 389
+            },
+            {
+              "caption": "Table 6. Code and settings of the baselines on each backbone. Authors’ code: the released implementation. Port: our implementation of the released code, or of the paper for ShortV. Indices of layers and blocks start at 0. Released code at commits FastVID a40a109, FlashVID 983cce6, iLLaVA f4d24f8 and EarlyTom 83d80e0.",
+              "figure_id": "table-6-14",
+              "figure_number": "6",
+              "height": 67,
+              "image_path": "figures/2611.26933/table-027.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 1033
+            },
+            {
+              "caption": "Table 23. Frame count on sparse videos on Qwen3-VL, in points, with p in parentheses. Ours: ESSENCE-66. Down.: uniform downscaling. Speed: mean time per question of the full model over that of ESSENCE-66.",
+              "figure_id": "table-23-8",
+              "figure_number": "23",
+              "height": 109,
+              "image_path": "figures/2611.26933/table-028.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 412
+            },
+            {
+              "caption": "Table 27. LLaVA-OneVision-7B: correct answers and mean seconds per question, with the speedup over the full model on all 5617 questions.",
+              "figure_id": "table-27-18",
+              "figure_number": "27",
+              "height": 136,
+              "image_path": "figures/2611.26933/table-029.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 481
+            },
+            {
+              "caption": "Table 26. GLM-4.1V-9B: correct answers and mean seconds per question, with the speedup over the full model on all 5617 questions.",
+              "figure_id": "table-26-19",
+              "figure_number": "26",
+              "height": 119,
+              "image_path": "figures/2611.26933/table-030.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 481
+            },
+            {
+              "caption": "Table 14. Flips of the 192 calibration questions at ℓ∗ with one-sided 95% Clopper–Pearson bounds over questions and over videos, flips of the control, the depth ℓ0 of the null-calibrated criterion, and the same criterion on full-vocabulary KL. Layers are indexed from 0.",
+              "figure_id": "table-14-17",
+              "figure_number": "14",
+              "height": 93,
+              "image_path": "figures/2611.26933/table-031.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 460
+            },
+            {
+              "caption": "Table 17. Gain of ESSENCE over each baseline in points, at the largest budget at least as fast on mean TTFT (Tab. 3). ∗: p < 0.05 with 100 000 draws. †: ESSENCE is slower than the baseline on this benchmark.",
+              "figure_id": "table-17-30",
+              "figure_number": "17",
+              "height": 378,
+              "image_path": "figures/2611.26933/table-032.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 377
+            },
+            {
+              "caption": "Table 24. Time to first token by stage, in ms, on the 192 timed requests (one round).",
+              "figure_id": "table-24-12",
+              "figure_number": "24",
+              "height": 285,
+              "image_path": "figures/2611.26933/table-033.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 308
+            },
+            {
+              "caption": "Table 21. Accuracy against the full model on the 3425 sparse questions, in points.",
+              "figure_id": "table-21-10",
+              "figure_number": "21",
+              "height": 64,
+              "image_path": "figures/2611.26933/table-034.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 448
+            },
+            {
+              "caption": "Table 20. ESSENCE-66 minus uniform downscaling within one benchmark, in answers, with p where the difference is not zero by construction.",
+              "figure_id": "table-20-9",
+              "figure_number": "20",
+              "height": 83,
+              "image_path": "figures/2611.26933/table-035.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 448
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.26933/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.26933",
+          "relevance": 9,
+          "selection_reason": "Introduces a training-free method to accelerate video LLMs by tokenizing 'moments' (segments of frame similarity) rather than individual frames, addressing tokenization inefficiencies.",
+          "summary_status": "generated",
+          "title": "Tokenize Moments, Not Frames: Tokenizer-Aware Budget Allocation for Training-Free Video LLM Acceleration",
+          "tldr": "ESSENCE accelerates video LLMs without training by allocating tokens to temporally coherent moments instead of uniformly sampled frames.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-21",
       "paper_count": 1,
       "papers": [
@@ -76024,5 +78087,5 @@
   "schema_version": 1,
   "subtopic_id": "token-pruning-and-eviction",
   "topic_id": "efficient-ai",
-  "total_paper_count": 387
+  "total_paper_count": 395
 }

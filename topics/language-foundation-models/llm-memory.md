@@ -6,10 +6,15 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # LLM Memory
 
-**687 papers total**
+**692 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-22 | [MemOnce: A Scalable Memory Architecture for Large Language Models](https://arxiv.org/abs/2611.27973) | Efficient AI: KV Cache and Memory Efficiency; Language Foundation Models: Large Language Models, LLM Memory, Long-Context Models | MemOnce enables LLMs to retain long-term, fine-grained memories with compact states, reducing memory and computation costs for long-context continual inference. | 9 | 8 |
+| 2026-11-22 | [RemoteEvolver: Expanding Earth Observation Capabilities through Agent Harness Evolution](https://arxiv.org/abs/2611.27110) | Language Foundation Models: LLM Memory | RemoteEvolver enables remote-sensing agents to continually improve by acquiring missing tools and reusing verified task experience through an editable external harness. | 5 | 7 |
+| 2026-11-22 | [Contexture: Runtime Context Eviction for High-Throughput Agent Serving](https://arxiv.org/abs/2611.26980) | Efficient AI: KV Cache and Memory Efficiency; Language Foundation Models: LLM Memory | Contexture improves high-throughput LLM-agent serving by evicting superseded conversation context at runtime while coordinating with shared KV-cache state. | 9 | 8 |
+| 2026-11-22 | [Tracking and Limiting Unsupported Claim Propagation in Multi-Agent LLM Systems: A Provenance-Aware Framework](https://arxiv.org/abs/2611.26957) | Language Foundation Models: LLM Memory | A provenance-aware framework tracks claim support and transmission history to limit unsupported claim changes in multi-agent LLM pipelines. | 6 | 6 |
+| 2026-11-22 | [Self-Evolving Beyond Human-Crafted Experience for EDA Scripting](https://arxiv.org/abs/2611.26912) | Adaptation and Memory: Continual and Online Learning; Language Foundation Models: LLM Memory | ZhuLong-SE improves EDA scripting by grounding an LLM agent in execution feedback and safely evolving reusable knowledge from past task traces. | 6 | 7 |
 | 2026-11-20 | [Learning to Read Events for Exact State Tracking with Frozen Language Models](https://arxiv.org/abs/2611.25211) | Language Foundation Models: LLM Memory | A trained selector plus an external register enables frozen language models to track exact state changes across very long event streams more reliably and efficiently than reasoning alone. | 4 | 4 |
 | 2026-11-19 | [MemFolder: Structure-Guided Memory Folding for Efficient Agent Memory Management](https://arxiv.org/abs/2611.26427) | Efficient AI; Language Foundation Models: LLM Memory | MemFolder efficiently compresses agent memories by structurally grouping, consolidating, and shortening records while preserving most of their useful information. | 7 | 7 |
 | 2026-11-19 | [Sequential Anytime Valid Tests for Efficient Inference-Time Alignment](https://arxiv.org/abs/2611.26413) | Language Foundation Models: LLM Memory | e-RWSC enables statistically valid, adaptive inference-time alignment by stopping once a reward-weighted answer is certified as dominant, reducing token cost while improving accuracy. | 9 | 8 |

@@ -6,10 +6,15 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Vision-Language Navigation
 
-**169 papers total**
+**174 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-22 | [NavRSI: Recursive Harness Self-Improvement for Vision-and-Language Navigation](https://arxiv.org/abs/2611.27499) | Embodied AI: Vision-Language Navigation | NavRSI recursively improves the interaction harness around frozen LLMs, enabling stronger vision-and-language navigation without training the navigator or adding tools. | 8 | 7 |
+| 2026-11-22 | [Beyond Future Views: Exploring Future-State World Models for Vision-Language Navigation](https://arxiv.org/abs/2611.27418) | Embodied AI: Vision-Language Navigation; World Models: Interactive World Models | FS-Nav models future navigation states as waypoints and route corridors—not just future views—to improve vision-language navigation in unseen environments. | 9 | 8 |
+| 2026-11-22 | [AceVLN: Asynchronous Cloud Edge Deployment of VLNs via Latent Scheduling and Compensation](https://arxiv.org/abs/2611.27255) | Embodied AI: Vision-Language Navigation | AceVLN is a training-free cloud–edge VLN framework that adaptively refreshes latent guidance and compensates for communication latency, improving navigation while reducing computation. | 8 | 7 |
+| 2026-11-22 | [NavTTT: Adaptive Parametric Memory via Hierarchical Test-Time Training for Vision-and-Language Navigation](https://arxiv.org/abs/2611.27219) | Embodied AI: Vision-Language Navigation; Adaptation and Memory: Test-Time Learning | NavTTT improves long-horizon vision-and-language navigation by selectively encoding useful observations into hierarchical, episode-specific parametric memory. | 10 | 9 |
+| 2026-11-22 | [Mem-X: A Memory-Dependent Cross-Episode Benchmark for Vision-and-Language Navigation](https://arxiv.org/abs/2611.27166) | Embodied AI: Vision-Language Navigation; Adaptation and Memory: Embodied Memory | Mem-X benchmarks whether vision-and-language navigation agents can use memories from prior episodes to navigate, localize, and reproduce historical routes. | 9 | 8 |
 | 2026-11-21 | [From Sequence to Space: Explicit Spatial Belief with Vision-Language Distillation for Active Geo-Localization](https://arxiv.org/abs/2611.25866) | Embodied AI: Vision-Language Navigation, Robot Navigation | EAGLE enables active geo-localization with an explicit spatial belief map distilled from a vision-language teacher, achieving strong zero-shot performance without VLM use at inference. | 8 | 7 |
 | 2026-11-19 | [ZeroVLN: Learning to Navigate without Supervised Fine-Tuning of the VLM Brain](https://arxiv.org/abs/2611.26414) | Embodied AI: Vision-Language Navigation | ZeroVLN enables effective continuous-environment navigation without navigation-domain supervised fine-tuning of the VLM, preserving its general visual capabilities. | 9 | 8 |
 | 2026-11-19 | [Goal-Guided Reinforcement Learning via Fine-Tuning Vision-Language Models](https://arxiv.org/abs/2611.25742) | Embodied AI: Vision-Language Navigation; Multimodal Foundation Models: Multimodal Large Language Models | Fine-tuning a vision-language model on environment-specific goal preferences improves exploration and achievement in sparse-reward Craftax-Classic RL. | 9 | 8 |

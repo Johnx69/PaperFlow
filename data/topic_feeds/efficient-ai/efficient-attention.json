@@ -1,6 +1,835 @@
 {
   "days": [
     {
+      "date": "2026-11-22",
+      "paper_count": 5,
+      "papers": [
+        {
+          "abstract": "Long-context models use sparse or structured attention to avoid quadratic cost, yet retrieving a small set of relevant facts embedded among hundreds of thousands of distractors degrades as normalization mass disperses with length. Hub-and-spoke optimal transport (OT) replaces the dense $L \\times L$ matrix with a linear-size graph over local windows and $K$ shared hubs balanced by Sinkhorn scaling. Building on block-wise tail refinement and fixed-support transport topology (arXiv:2605.08123, arXiv:2609.07954), we introduce Topology Hub Optimal Transport (THOT): (1) bounded-support capacity gating via simplex sparsemax ($O(L\\log L)$) or sorting-free token-local thresholded ReLU ($O(L)$), driving excess distractor mass to zero; (2) a three-sweep $1+2$ annealed row-closed Sinkhorn schedule that damps bipartite residuals; (3) an exact rank-$(D+2R+1)$ One-Reference-Tile adjoint in batched split-factor Triton kernels (BF16 Tensor Cores, FP32 potentials); and (4) a chunked exclusive-prefix causal variant with verified zero future leakage. On NVIDIA L4, sparsemax THOT trained at $L=128$ reaches 97.40% zero-shot recall of fixed bindings at $L=262{,}144$ under pure task loss ($\\alpha=0$) and 98.83% at $\\alpha=0.05$ (matched by $O(L)$ thresholded ReLU at $\\alpha=0.05$, vs. 80.60% at $\\alpha=0$), while softmax-gated hub OT drops to 3.52%. In bidirectional operator microbenchmarks, our kernel runs forward+VJP in 100.1 ms at $H=8, D=64, L=262\\mathrm{K}$ (2.2x faster with 4.0x smaller compiler temporaries than latent softmax) and 1.34 ms vs. 4.37 ms for cuDNN FlashAttention at $L=4{,}096$; multi-layer LM runs use the unfused path. Zero-shot WikiText-103 multi-needle retrieval hits 100.00% (128/128 queries at $L=65\\mathrm{K}$) vs. 0.78% for short-trained RoPE FlashAttention, and compact 4-layer WikiText-4K runs show modest causal and masked LM gains.",
+          "arxiv_id": "2611.27951",
+          "arxiv_url": "https://arxiv.org/abs/2611.27951",
+          "authors": [
+            "Dylan Forde"
+          ],
+          "bullets": [
+            "Addresses long-context retrieval degradation caused by attention normalization mass spreading across distractors.",
+            "Builds a linear-size local-window-plus-hub transport graph with sparsemax or thresholded-ReLU gating to eliminate excess distractor mass.",
+            "Adds annealed Sinkhorn updates, an exact low-rank adjoint, fused Triton kernels, and a causal chunked variant with zero future leakage.",
+            "At 262K tokens, sparsemax THOT achieves 97.40% or 98.83% fixed-binding recall depending on loss regularization, while softmax-gated hub OT reaches 3.52%.",
+            "Reports 100% multi-needle retrieval on 65K-token WikiText-103 queries and faster operator benchmarks than the compared baselines; broader multi-layer LM runs use an unfused path."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3: Strictly causal associative recall and compact WikiText-103 4K language modeling. (a) Under verified 0.0 future leakage (annealed gate warmup over steps 1–256), Causal THOT sustains 90.10% zero-shot recall at L = 262K (0.00% excess filler share), outperforming Causal Latent Softmax (81.77%) and Causal Hub OT (Softmax Gate) (32.81%). (b) On compact 4-layer Causal Next-Token LM (512 steps) and Deep 4-Layer MLM (640 steps) over WikiText-103 4K documents, THOT achieves the lowest held-out NLL, with modest margins (0.015–0.016 nats) over the strongest nearby structured baselines.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 398,
+              "image_path": "figures/2611.27951/figure-001.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 946
+            },
+            {
+              "caption": "Figure 1: Capacity dilution vs. THOT from L = 128 to L = 262,144. (a) On synthetic associative recall (R = 8 fixed bindings, trained at L = 128), softmax-gated Hub OT (Hub OT (Softmax Gate), dashed crimson) collapses from 98.31% to 3.52% at L = 262K as distractors absorb 93.4% of excess source capacity. Sparsemax gating with our 1+2 annealed row-closed schedule (THOT) holds 98.83% with light gate supervision (α = 0.05) and 97.40% under pure cross-entropy training (α = 0). (b) On zero-shot multi-needle retrieval embedded in WikiText-103 prose (pure cross-entropy, trained at L = 512), the short-trained RoPE FlashAttention baseline drops from 99.22% to 0.78% beyond its training window, while sparsemax THOT reaches 100.00% (128/128 queries, 0.0514 NLL) at L = 65,536.",
+              "figure_id": "figure-1-7",
+              "figure_number": "1",
+              "height": 389,
+              "image_path": "figures/2611.27951/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 927
+            },
+            {
+              "caption": "Figure 2: Bidirectional GPU operator latency and static XLA compiler temporary memory on NVIDIA L4. (a) At multi-head transformer geometry (H = 8, D = 64, L = 262,144), our batched split-factor BF16 Tensor-Core kernel completes forward+VJP in 100.1ms (1,132MiB static compiler temp), outperforming Unfused Hub OT by 4.8×, Latent Softmax by 2.2× (4.0× smaller compiler temporaries than Latent Softmax), and dense cuDNN FlashAttention by 92×. (b) On a bidirectional WikiText-4K layer geometry (B = 2, L = 4,096, H = 8, D = 32, r = 32), THOT (BF16 TC) runs forward+VJP 3.3× faster than cuDNN FlashAttention (1.34ms vs. 4.37ms).",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 341,
+              "image_path": "figures/2611.27951/figure-003.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 892
+            },
+            {
+              "caption": "Table 5: Bidirectional operator and WikiText-4K attention-layer microbenchmarks on NVIDIA L4 (median of 5 synchronized runs; attention operator only, excluding QKV projections and gating/sorting). Memory reports XLA static compiler temporary buffer estimates, not runtime peak VRAM.",
+              "figure_id": "table-5-4",
+              "figure_number": "5",
+              "height": 390,
+              "image_path": "figures/2611.27951/table-004.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 980
+            },
+            {
+              "caption": "Table 3: Zero-shot distractor extrapolation (L = 128→ 262K, R = 8 fixed bindings), key-group collisions (L = 8K), and capacity overload (L = 512) across 3 seeds (768 queries total per condition). Bounded-support gating eliminates softmax capacity collapse (3.52%), while row-closed THOT reaches 98.83% (α = 0.05) and 97.40% (α = 0) at L = 262,144.",
+              "figure_id": "table-3-1",
+              "figure_number": "3",
+              "height": 1054,
+              "image_path": "figures/2611.27951/table-005.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 984
+            },
+            {
+              "caption": "Table 9: Individual per-seed outcomes across primary benchmarks (seeds 1711 / 2917 / 4129 for 3-seed synthetic and causal recall; seeds 1711 / 2917 for 2-seed WikiText-103 evaluations).",
+              "figure_id": "table-9-3",
+              "figure_number": "9",
+              "height": 529,
+              "image_path": "figures/2611.27951/table-006.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 980
+            },
+            {
+              "caption": "Table 6: Strictly causal associative recall (L = 128→ 262K, 3 seeds, 768 queries; gate supervision α annealed 1.0→ 0.0 over steps 1–256) and preliminary causal WikiText-4K LM (4-layer D = 256, V = 2,048, 2 seeds ×512 steps). Every model verifies 0.0 future-token leakage; full-model step times reflect the unfused reference path.",
+              "figure_id": "table-6-5",
+              "figure_number": "6",
+              "height": 191,
+              "image_path": "figures/2611.27951/table-007.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 977
+            },
+            {
+              "caption": "Table 8: Key experimental configurations, optimizer schedules, and evaluation sample counts.",
+              "figure_id": "table-8-8",
+              "figure_number": "8",
+              "height": 963,
+              "image_path": "figures/2611.27951/table-008.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 982
+            },
+            {
+              "caption": "Table 7: Natural-language evaluation on WikiText-103 (2 seeds). Left: Zero-shot multi-needle prose retrieval (R = 8, α = 0, trained at L = 512; 256 queries at 512/8K, 128 queries at 64K). Right: Preliminary 4-layer D = 256 WikiText-4K MLM (256 held-out docs, 640 steps, Unigram NLL 6.4788, unfused step times).",
+              "figure_id": "table-7-9",
+              "figure_number": "7",
+              "height": 188,
+              "image_path": "figures/2611.27951/table-009.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 980
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27951/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.27951",
+          "relevance": 9,
+          "selection_reason": "Introduces hub optimal transport with sparse gating for long-context attention, directly targeting long-context models and efficient attention.",
+          "summary_status": "generated",
+          "title": "Topology Hub Optimal Transport: Eliminating Long Context Dilution at Flash Speed",
+          "tldr": "THOT uses sparse capacity-gated hub optimal transport and optimized kernels to preserve relevant facts in extremely long contexts while reducing attention overhead.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Anchor tokens let a vision transformer exchange global information through a few summaries, but nothing forces different anchors to summarise different things. On one shared backbone we show that a Perceiver-style pathway and an AnchorFormer pathway collapse to a single summary, the latter despite its mass normalisation (pooling-map similarity 0.99), while other soft pathways, including Representative Attention, stay partly redundant (0.59-0.79). These results concern the routing modules inside our block, not the full published models. An exclusive partition of the patch grid cannot collapse by construction, and matched component by component it is 2.4-3.6 points more accurate than Representative Attention on CIFAR-100. We then propose focus anchors, which place most anchors at the peaks of a learned importance map while all anchors keep one exclusive Voronoi partition. Focus anchors beat a fixed partition on a cluttered canvas (+1.5 points, 95% CI [0.5, 2.6]) but not on full-HD traffic-sign recognition. There, both variants match dense attention with local windows at about a fifth of its FLOPs, and the fixed partition also trains 1.5x faster per step than dense attention with FlashAttention, though both use more memory; a ViT on a downsampled input loses half its mean average precision. Hard exclusive assignment is the only region assignment we tested that is both stable and most accurate: softmax and Sinkhorn relaxations diverge, and Gumbel-softmax trains but is less accurate. We also report the limits: a ResNet-18 is more accurate on every task we trained it on in this from-scratch regime, and anchors train faster than FlashAttention only from about 1536x1536 pixels and never use less memory.",
+          "arxiv_id": "2611.27855",
+          "arxiv_url": "https://arxiv.org/abs/2611.27855",
+          "authors": [
+            "Aadi Gupta"
+          ],
+          "bullets": [
+            "Soft anchor-routing pathways can produce highly redundant summaries, whereas exclusive patch partitions prevent collapse by construction.",
+            "The proposed focus anchors concentrate anchors near learned importance peaks while preserving exclusive Voronoi regions.",
+            "On CIFAR-100, exclusive routing is 2.4–3.6 points more accurate than Representative Attention; focus anchors add 1.5 points on a cluttered canvas.",
+            "For full-HD traffic-sign recognition, both anchor variants match dense local-window attention at about one-fifth the FLOPs; fixed partitions train 1.5× faster per step.",
+            "Hard exclusive assignment was the most stable and accurate tested option, but anchors use more memory and do not outperform the trained ResNet-18 in this regime."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4: Test accuracy during training, mean over 3 seeds (band: min–max; omitted for ResNet-18, whose per-epoch test accuracy fluctuates strongly). Anchor models solid, baselines dashed or dotted.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 342,
+              "image_path": "figures/2611.27855/figure-001.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 950
+            },
+            {
+              "caption": "Figure 3: Final-block regions (colours) and anchor positions in each block (dots, darker = later) of focus-16 on four test canvases; the white box is the object.",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 248,
+              "image_path": "figures/2611.27855/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 976
+            },
+            {
+              "caption": "Figure 2: Collapse metrics per block (seed 42), trained (solid) and at initialisation (dashed), for the pathways of the original comparison. The perceiver and anchorformer pathways converge to the same summary; the fixed partition keeps zero map similarity and the highest spread.",
+              "figure_id": "figure-2-14",
+              "figure_number": "2",
+              "height": 200,
+              "image_path": "figures/2611.27855/figure-003.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 976
+            },
+            {
+              "caption": "Figure 1: One block. Patches communicate locally inside windows and globally only through their own anchor; the N ×N attention of a ViT is replaced by A×A attention among anchors.",
+              "figure_id": "figure-1-9",
+              "figure_number": "1",
+              "height": 83,
+              "image_path": "figures/2611.27855/figure-004.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 736
+            },
+            {
+              "caption": "Table 2: Cluttered CIFAR-10 and Tiny ImageNet canvas: test accuracy (%), mean ± std over 3 seeds. GFLOPs per image include attention. Bottom: paired gaps, mean [95% CI].",
+              "figure_id": "table-2-1",
+              "figure_number": "2",
+              "height": 472,
+              "image_path": "figures/2611.27855/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 836
+            },
+            {
+              "caption": "Table 3: High-resolution tasks, mean ± std over 3 seeds. Megapixel MNIST: test accuracy (%); focus anchors over seeds 43 and 44 (seed 42: Sec. 8). DFG: mAP with max-pooled heads on the official test split and on our validation split, which holds out blocks of consecutive frames; GFLOPs per DFG image.",
+              "figure_id": "table-3-11",
+              "figure_number": "3",
+              "height": 285,
+              "image_path": "figures/2611.27855/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 868
+            },
+            {
+              "caption": "Table 1: Anchor collapse on CIFAR-100 at 2242 (16 anchors, 10 epochs). Mean ± std over seeds 42/43/44; similarity and spread averaged over blocks and seeds. Bottom: the 3 × 3 depth-wise convolution bypass of Representative Attention removed from it, or added to the partition.",
+              "figure_id": "table-1-12",
+              "figure_number": "1",
+              "height": 286,
+              "image_path": "figures/2611.27855/table-007.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 732
+            },
+            {
+              "caption": "Table 5: Routing variants of focus-16 on Cluttered CIFAR-10, 10 epochs, gradient clipping 1.0 and 2-epoch warmup, seeds 42/43/44. Paired gaps against the reference, mean [95% CI].",
+              "figure_id": "table-5-13",
+              "figure_number": "5",
+              "height": 225,
+              "image_path": "figures/2611.27855/table-008.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 936
+            },
+            {
+              "caption": "Table 4: Training step at batch 8 in ms (peak training memory in GB), untrained models, one A100, bf16, measured alone. Dense ViT with the fused FlashAttention kernel or with plain attention.",
+              "figure_id": "table-4-10",
+              "figure_number": "4",
+              "height": 175,
+              "image_path": "figures/2611.27855/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 852
+            },
+            {
+              "caption": "Table 6: Training settings. All runs: AdamW, weight decay 0.05, cosine schedule, from scratch. “Clip”: gradient-norm clipping; “warmup”: linear, in epochs.",
+              "figure_id": "table-6-8",
+              "figure_number": "6",
+              "height": 270,
+              "image_path": "figures/2611.27855/table-010.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 1002
+            },
+            {
+              "caption": "Table 10: Cost at 2562 on one A100 (bf16, untrained, measured alone), training step at batch 128.",
+              "figure_id": "table-10-4",
+              "figure_number": "10",
+              "height": 201,
+              "image_path": "figures/2611.27855/table-011.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 644
+            },
+            {
+              "caption": "Table 8: focus-16 on Cluttered CIFAR-10, 10 epochs, clip and warmup, seed 42; one parameter changed at a time from β = 10, σs = 1.5 patches, σh = 0.35 (reference 53.68).",
+              "figure_id": "table-8-2",
+              "figure_number": "8",
+              "height": 200,
+              "image_path": "figures/2611.27855/table-012.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 394
+            },
+            {
+              "caption": "Table 7: Paired gaps focus − fixed on Cluttered CIFAR-10 at 10 epochs.",
+              "figure_id": "table-7-7",
+              "figure_number": "7",
+              "height": 99,
+              "image_path": "figures/2611.27855/table-013.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 632
+            },
+            {
+              "caption": "Table 9: DFG with average-pooled heads, seed 42, 20 epochs, test mAP (chance 3.1).",
+              "figure_id": "table-9-3",
+              "figure_number": "9",
+              "height": 77,
+              "image_path": "figures/2611.27855/table-014.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 810
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27855/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.27855",
+          "relevance": 7,
+          "selection_reason": "Anchor-based routing with exclusive region assignment reduces attention cost in vision transformers, an efficient-attention contribution.",
+          "summary_status": "generated",
+          "title": "Anchors That Move Without Collapsing: Exclusive-Region Anchor Routing for Vision Transformers",
+          "tldr": "Exclusive region assignment prevents anchor collapse in vision transformers, while focus-based placement can improve performance on cluttered scenes but is not universally beneficial.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Retrieval-based sparse attention, exemplified by DeepSeek Sparse Attention (DSA), reduces attention computation by selecting a small subset of key-value entries. However, selecting these entries can still require searching the entire visible history. For long sequences, retrieval becomes a major bottleneck, limiting the efficiency gains from sparse attention. To address this problem, we propose LongCat Recall Sparse Attention (LRSA), which combines fine-grained representatives with paged retrieval in an incrementally maintained index. LRSA partitions the sequence into time buckets that can be indexed independently as new keys arrive, without regrouping existing history. Within each bucket, it organizes indexing keys into capacity-balanced directional groups and packs a fixed number of complete groups into each page, retaining a separate center for every group. These centers provide fine-grained representatives for page selection, after which refinement scores members of the selected pages together with sink, sliding-window, and visible unindexed candidates to select the final Top-$K$ logical positions. To execute this retrieval process efficiently, we store members in reordered pages, fuse construction stages according to group size, and share storage for overlapping fixed candidates across queries during chunked prefill. These choices support regular member access while reducing kernel launches during construction and repeated candidate transfers. Moreover, we integrate LRSA into SGLang to maintain the index during inference, overlapping asynchronous index construction for new buckets with subsequent computation and reusing compatible bucket indices and member pages after a prefix match in the original key-value pool. With a 1024K-token context, LRSA accelerates key selection by 4.70$\\times$ over DSA and combined selection and attention by 35.60$\\times$ over full attention.",
+          "arxiv_id": "2611.27233",
+          "arxiv_url": "https://arxiv.org/abs/2611.27233",
+          "authors": [
+            "Hao Zhang, Bin Xiao, Kefeng Zhang"
+          ],
+          "bullets": [
+            "Problem: Sparse attention can reduce computation, but searching the entire visible history makes key retrieval a bottleneck for very long contexts.",
+            "Method: Partition history into independently indexed time buckets, organize keys into balanced directional groups, and use group centers for coarse page selection before refining candidates to select Top-K positions.",
+            "Implementation: Reordered pages, fused index-construction stages, shared fixed-candidate storage, and asynchronous index maintenance improve retrieval and inference efficiency.",
+            "Result: At 1024K-token context, LRSA accelerates key selection 4.70× over DSA and combined selection plus attention 35.60× over full attention.",
+            "Scope: The reported gains target long-context inference with incrementally arriving keys and prefix reuse."
+          ],
+          "categories": [
+            "cs.CL"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Overview of LRSA. (a) Each completed bucket is independently partitioned into capacity-balanced directional groups, which are packed into member pages. With the default capacities, the expanded page contains eight groups of eight keys, with one center per group. (b) Queries score group centers and select the Top-Kpage pages using the maximum group score within each page. Retrieved members are combined with sink, sliding-window, and visible unindexed candidates, deduplicated, and scored to select the final Top-K positions for attention. The position map supports deduplication and recovery of original logical positions. Reordered page and slot addresses are depicted as one-dimensional indices for simplicity.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 849,
+              "image_path": "figures/2611.27233/figure-001.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 1066
+            },
+            {
+              "caption": "Figure 5: Ablation of directional grouping using temporal grouping as the control. The left and right columns report all-position and historical AMR, respectively. Panels (a, b) compare the two methods at matched reference page budgets, with colors distinguishing the methods. Panels (c, d) show the trade-off between AMR and selection latency as the page budget varies; colors denote context lengths, and each point corresponds to one page-budget setting. In all panels, solid lines with circles indicate directional grouping, and dashed lines with squares indicate temporal grouping.",
+              "figure_id": "figure-5-8",
+              "figure_number": "5",
+              "height": 574,
+              "image_path": "figures/2611.27233/figure-002.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 944
+            },
+            {
+              "caption": "Figure 3: Efficiency of key selection and attention across context lengths. (a) Key-selection speedup of LRSA over DSA. (b) Speedups of DSA and LRSA over full attention; both sparse methods include key selection and attention computation. Labels above LRSA bars give its speedup over the reference in each panel. Dashed lines mark equal execution time (1×).",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 308,
+              "image_path": "figures/2611.27233/figure-003.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 923
+            },
+            {
+              "caption": "Figure 6: Overlap between index maintenance and model execution. Colors and marker shapes identify five bucket capacities. (a) Model-only execution window. (b) Isolated index-construction time. (c) Execution-time difference relative to the model-only baseline. In (c), dashed lines with open markers indicate serial maintenance, while solid lines with filled markers indicate overlap. All points show median measurements. The vertical axis is logarithmic in (a) and linear in (b, c).",
+              "figure_id": "figure-6-6",
+              "figure_number": "6",
+              "height": 307,
+              "image_path": "figures/2611.27233/figure-004.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 945
+            },
+            {
+              "caption": "Figure 4: Ablations of index organization across five context lengths. The top row reports all-position AMR and the bottom row historical AMR. Panels (a, d) vary bucket capacity, and panels (b, e) vary group capacity. In these panels, colors denote context lengths and vertical dashed lines mark the default capacities. Panels (c, f) compare the default with two variants: one mean center per page and mean aggregation of group scores. Each variant changes only the corresponding design choice. Page capacity and selection budgets are held fixed within each comparison. Points report mean AMR.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 569,
+              "image_path": "figures/2611.27233/figure-005.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 938
+            },
+            {
+              "caption": "Figure 2: Latency of recursive partitioning and fixed-candidate copying. (a) Partitioning latency for three fusion schedules as group size varies, with the total number of members per round held fixed. (b) Candidate-copying latency as chunk size varies, comparing per-query copies with a shared copy. Labels in (b) show the speedup from sharing. Panel (a) uses a logarithmic latency axis; panel (b) uses a linear axis starting at zero.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 302,
+              "image_path": "figures/2611.27233/figure-006.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 946
+            },
+            {
+              "caption": "Table 1: Performance of dense attention, DSA, and LRSA across ten downstream tasks. DSA and LRSA use the same final selection budget of 2048 tokens.",
+              "figure_id": "table-1-7",
+              "figure_number": "1",
+              "height": 317,
+              "image_path": "figures/2611.27233/table-007.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 556
+            },
+            {
+              "caption": "Table 2: End-to-end speedup of LRSA over DSA across context lengths and final selection budgets.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 196,
+              "image_path": "figures/2611.27233/table-008.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 359
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27233/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.27233",
+          "relevance": 9,
+          "selection_reason": "Introduces LongCat Recall Sparse Attention (LRSA) to improve retrieval efficiency for long-context LLM inference.",
+          "summary_status": "generated",
+          "title": "LongCat Recall Sparse Attention: Co-Designing Key Organization and Retrieval for Long-Context Inference",
+          "tldr": "LRSA makes long-context sparse attention substantially faster by co-designing an incrementally maintained, paged retrieval index with efficient GPU execution.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "The Query-derived Erase Direction (QED) augments a rank-one linear attention update with a key-orthogonal query component. Under scalar decay, this correction leaves the eigenvalues of each homogeneous state transition unchanged, while the propagation of an initial perturbation depends on the ordered product of these transitions. We construct a periodic token sequence with fixed key and query projections for which every one-step spectral radius is below one but the spectral radius of the period product exceeds one. The same construction yields a sufficient condition for mean-square growth under independent uniform token sampling. For rank-one erasure with channel-wise decay, we derive a necessary and sufficient spectral-norm test for one-step nonexpansiveness that can be evaluated in $O(d)$ time. The test agrees with direct singular value decomposition on all 1,800 operators evaluated. In a counterfactual replay of a selected head of Qwen3.5-0.8B-Base, the terminal gain on a 4,096-token repeated-text sequence increased from 0.99938 to 1.3977 with the feature and checkpoint gate trajectories held fixed.",
+          "arxiv_id": "2611.27109",
+          "arxiv_url": "https://arxiv.org/abs/2611.27109",
+          "authors": [
+            "Haozhe Wang"
+          ],
+          "bullets": [
+            "Shows a periodic sequence where every transition has spectral radius below one, yet the period product is expansive.",
+            "Extends the construction to sufficient conditions for mean-square growth under independent uniform token sampling.",
+            "Derives a necessary-and-sufficient spectral-norm criterion for channel-wise-decay rank-one erasure, computable in O(d) time.",
+            "The criterion matched direct SVD on all 1,800 tested operators.",
+            "In a Qwen3.5-0.8B-Base replay, terminal gain rose from 0.99938 to 1.3977 under repeated text with feature and gate trajectories fixed."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.NE"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. Counterfactual replay of homogeneous QED dynamics using pretrained features. (a) Terminal gains for three text types. (b) Prefix gains on repeated text. (c) Worst-case and random-direction gains. (d) Distribution of the forgetting deficit on repeated text. (e) Distribution of signed cosines between adjacent key-orthogonal query directions on repeated text.",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 567,
+              "image_path": "figures/2611.27109/figure-001.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 897
+            },
+            {
+              "caption": "Figure 2. Periodic spectral boundary and zero-target query risk for synthetic sequences. (a) Boundary defined by the spectral radius of the 32-step period product, with 32( ) 1P = . Line segments connect adjacent samples. (b) Risk trajectories under three arrangements of the key-orthogonal query directions. (c) Terminal risk at step 1,536 versus the coherent fraction. Panels (b) and (c) display the base-10 logarithm of the risk.",
+              "figure_id": "figure-2-2",
+              "figure_number": "2",
+              "height": 550,
+              "image_path": "figures/2611.27109/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 881
+            },
+            {
+              "caption": "Figure 1. Query-driven erasure and state propagation. (a) Gated decay, rank-one erasure, writing, and post-update readout. (b) Image of the unit circle under the one-step state transition. (c) Prefix gains for two periodic sequences with identical one-step spectral radii and spectral norms.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 500,
+              "image_path": "figures/2611.27109/figure-003.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 834
+            },
+            {
+              "caption": "Table 1. Terminal gain, forgetting deficit, and adjacent-query alignment for the selected head on 4,096-token sequences",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 185,
+              "image_path": "figures/2611.27109/table-004.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 938
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27109/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.27109",
+          "relevance": 5,
+          "selection_reason": "Theoretical analysis of rank-one linear attention dynamics, relevant to linear-attention efficiency research.",
+          "summary_status": "generated",
+          "title": "Recurrent Amplification and Exact Nonexpansiveness Criteria for Query-Driven Erasure",
+          "tldr": "QED can cause recurrent amplification despite contractive individual steps, while rank-one erasure admits an exact fast test for one-step nonexpansiveness.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Recent gated linear attention models use state-independent gates, computed from token representations without directly reading the recurrent memory. This design supports efficient chunkwise computation: sequences are divided into chunks of consecutive tokens, with parallel computation within each chunk. However, the same token representation produces the same gate, even when the layer stores different information. We introduce State-Dependent Gating (SDG), which computes element-wise gates from the change in memory over a chunk and applies them at the chunk boundary. This provides state feedback for forgetting while preserving parallel computation within each chunk. We develop fused kernels for Gated DeltaNet, Kimi Delta Attention, Gated DeltaNet-2, and Mamba-3. Our theoretical analysis quantifies the potential reconstruction benefits of state-dependent, element-wise gating under a signal--noise model. We also show that boundary decay is an element-wise ridge proximal step when the gate is held fixed. Empirical evaluation of 1.3B linear attention and hybrid models trained on 100B tokens shows improvements across language modeling, commonsense reasoning, synthetic and real-world retrieval, and long-context understanding. These results demonstrate that SDG is an effective approach to enhancing existing linear attention models.",
+          "arxiv_id": "2611.26637",
+          "arxiv_url": "https://arxiv.org/abs/2611.26637",
+          "authors": [
+            "Renjia Deng, Yuxi Liu, Yutong He, Xue Wang, Kun Yuan"
+          ],
+          "bullets": [
+            "Existing gated linear attention uses state-independent gates, which ignore the information currently stored in recurrent memory.",
+            "SDG computes element-wise gates from the memory change over each chunk and applies them at the chunk boundary.",
+            "The approach preserves parallel within-chunk computation and is implemented with fused kernels for several linear-attention architectures.",
+            "Theory connects SDG to improved signal reconstruction and interprets fixed-gate boundary decay as an element-wise ridge proximal step.",
+            "Experiments on 1.3B models trained on 100B tokens report improvements across language modeling, reasoning, retrieval, and long-context understanding."
+          ],
+          "categories": [
+            "stat.ML",
+            "cs.CL",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2 S-NIAH-3 accuracy, LAMBADA perplexity, mean six-task retrieval accuracy, and mean 21-task LongBench score on hybrid models. Open and filled marks denote baseline and +SDG.",
+              "figure_id": "figure-2-22",
+              "figure_number": "2",
+              "height": 601,
+              "image_path": "figures/2611.26637/figure-001.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 986
+            },
+            {
+              "caption": "Figure 3 Effects of one SDG boundary update, with 128 observations per model. (a) The heatmap shows mean KL divergence from skip to normal at each of the first 32 affected positions. (b) Colored points show sequence means of ∆NLL over positions 1–8, defined as normal minus skip. Black diamonds and bars show means and bootstrap intervals adjusted across four models for approximately 95% simultaneous coverage.",
+              "figure_id": "figure-3-7",
+              "figure_number": "3",
+              "height": 327,
+              "image_path": "figures/2611.26637/figure-002.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 943
+            },
+            {
+              "caption": "Figure 4 End-to-end efficiency on a single NVIDIA H200. Left and middle: hybrid-model TTFT and TPOT at batch size one. Right: recurrent-only training throughput, with 16,384 input tokens per optimizer step. FlashAttention uses full attention in both comparisons.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 351,
+              "image_path": "figures/2611.26637/figure-003.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 975
+            },
+            {
+              "caption": "Figure 1 State-Dependent Gating (SDG). The base layer processes a chunk of C tokens, taking the incoming state S+ [n] to the updated state S− [n+1] and producing outputs O[n]. SDG uses the difference between states to compute an element-wise gate and passes the new state S+ [n+1] to the next chunk.",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 393,
+              "image_path": "figures/2611.26637/figure-004.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 986
+            },
+            {
+              "caption": "Figure 6 Effects of one SDG boundary update under identical inputs. (a) Median relative state change. (b) KL divergence from skip to normal. (c) Top-1 agreement. (d) Sequence-level mean ∆NLL over positions 1–8. Black diamonds and bars denote means and four-model-adjusted bootstrap intervals.",
+              "figure_id": "figure-6-19",
+              "figure_number": "6",
+              "height": 354,
+              "image_path": "figures/2611.26637/figure-005.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 975
+            },
+            {
+              "caption": "Figure 7 Prediction loss after a single SDG boundary update relative to skipping that update. The left panel reports mean ∆NLL over the first eight affected positions with bootstrap intervals over sequences adjusted across four models for approximately 95% simultaneous coverage. The dotted line marks the reference tolerance ϵ = 0.01 nat per token. The right panel shows the empirical distribution of sequence-level mean changes. Positive values indicate increased loss.",
+              "figure_id": "figure-7-3",
+              "figure_number": "7",
+              "height": 377,
+              "image_path": "figures/2611.26637/figure-006.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 936
+            },
+            {
+              "caption": "Figure 5 Mean fractional reduction 1 − Λ across layers and heads on a shared logarithmic color scale. Mamba-3 statistics use the first 16 heads.",
+              "figure_id": "figure-5-10",
+              "figure_number": "5",
+              "height": 696,
+              "image_path": "figures/2611.26637/figure-007.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 865
+            },
+            {
+              "caption": "Figure 9 State changes at chunk boundaries. Left: relative Frobenius change per layer, averaged over heads and sequences, on a common scale. Right: sequence-level mean state change versus mean ∆NLL over the first eight affected positions.",
+              "figure_id": "figure-9-16",
+              "figure_number": "9",
+              "height": 444,
+              "image_path": "figures/2611.26637/figure-008.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 954
+            },
+            {
+              "caption": "Figure 8 Prediction changes following a single SDG boundary update relative to skipping it. The panels show mean ∆NLL, KL divergence from the skip distribution to the normal distribution, and the fraction of changed top-1 predictions. Shaded regions are pointwise 95% bootstrap intervals over sequences. Position zero is unaffected because its output precedes the update.",
+              "figure_id": "figure-8-2",
+              "figure_number": "8",
+              "height": 376,
+              "image_path": "figures/2611.26637/figure-009.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 954
+            },
+            {
+              "caption": "Table 7 Time to first token (TTFT, ms). Values are medians over five trials at batch size one. Base and +SDG denote the original and gated hybrid models, respectively. FlashAttn. is the full-attention reference. The - indicates OOM.",
+              "figure_id": "table-7-8",
+              "figure_number": "7",
+              "height": 310,
+              "image_path": "figures/2611.26637/table-010.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 986
+            },
+            {
+              "caption": "Table 8 Time per output token (TPOT, ms/token). Each trial averages 256 cached decoding steps. Entries are medians over three trials at batch size one. Model configurations follow Table 7.",
+              "figure_id": "table-8-9",
+              "figure_number": "8",
+              "height": 310,
+              "image_path": "figures/2611.26637/table-011.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 986
+            },
+            {
+              "caption": "Table 4 Ablations of SDG on GDN. NIAH@4K averages S-NIAH-2, S-NIAH-3, and MK-NIAH-1 at 4K. Bold marks the highest score in each metric.",
+              "figure_id": "table-4-20",
+              "figure_number": "4",
+              "height": 330,
+              "image_path": "figures/2611.26637/table-012.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 864
+            },
+            {
+              "caption": "Table 2 RULER retrieval accuracy (%) for recurrent models trained at 4K. Columns give input lengths. Bold marks the better result within each baseline–SDG pair.",
+              "figure_id": "table-2-12",
+              "figure_number": "2",
+              "height": 273,
+              "image_path": "figures/2611.26637/table-013.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 986
+            },
+            {
+              "caption": "Table 1 Language modeling and zero-shot accuracy. Avg. is the mean over the nine accuracy columns; accn denotes length-normalized accuracy. Bold marks the better result within each pair.",
+              "figure_id": "table-1-11",
+              "figure_number": "1",
+              "height": 265,
+              "image_path": "figures/2611.26637/table-014.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 986
+            },
+            {
+              "caption": "Table 9 End-to-end training throughput in thousands of input tokens/s (higher is better). Each column specifies sequence length × microbatch size and processes 16,384 input tokens per optimizer step. Parentheses give +SDG throughput as a percentage of its corresponding base model. These are the values used for the training curves in Figure 4, with KDA and Mamba-3 included for completeness.",
+              "figure_id": "table-9-13",
+              "figure_number": "9",
+              "height": 325,
+              "image_path": "figures/2611.26637/table-015.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 986
+            },
+            {
+              "caption": "Table 6 Non-embedding parameter counts for recurrent models, excluding the input embedding and language-model head. SDG is added without reducing the width of the corresponding base model.",
+              "figure_id": "table-6-15",
+              "figure_number": "6",
+              "height": 219,
+              "image_path": "figures/2611.26637/table-016.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 738
+            },
+            {
+              "caption": "Table 3 Real-world retrieval accuracy (%) for recurrent models. Avg. is the mean over the six tasks. SQD, TQA, and NQ denote SQuAD, TriviaQA, and Natural Questions. Best results within each model family are bold (ties included).",
+              "figure_id": "table-3-21",
+              "figure_number": "3",
+              "height": 43,
+              "image_path": "figures/2611.26637/table-017.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 986
+            },
+            {
+              "caption": "Table 5 Symbols used throughout the paper. Shapes are per head unless stated otherwise.",
+              "figure_id": "table-5-26",
+              "figure_number": "5",
+              "height": 783,
+              "image_path": "figures/2611.26637/table-018.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 868
+            },
+            {
+              "caption": "Table 12 RULER retrieval accuracy (%) for hybrid models.",
+              "figure_id": "table-12-25",
+              "figure_number": "12",
+              "height": 220,
+              "image_path": "figures/2611.26637/table-019.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 986
+            },
+            {
+              "caption": "Table 11 Language modeling and zero-shot reasoning for hybrid models. Metrics follow Table 1. Avg. is the mean over the nine accuracy columns.",
+              "figure_id": "table-11-23",
+              "figure_number": "11",
+              "height": 211,
+              "image_path": "figures/2611.26637/table-020.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 986
+            },
+            {
+              "caption": "Table 14 LongBench scores (%) for hybrid models. Columns give category means. Avg. is the unweighted mean over all 21 tasks. Higher is better.",
+              "figure_id": "table-14-4",
+              "figure_number": "14",
+              "height": 207,
+              "image_path": "figures/2611.26637/table-021.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 986
+            },
+            {
+              "caption": "Table 15 Median GDN operator latency (ms) on an RTX 5090. ∆t is the percentage change for Ω relative to ∆S. The upper block fixes LB = 16,384 tokens per batch, and the lower block uses B = 1.",
+              "figure_id": "table-15-6",
+              "figure_number": "15",
+              "height": 298,
+              "image_path": "figures/2611.26637/table-022.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 986
+            },
+            {
+              "caption": "Table 10 LongBench scores. Columns give category means. Avg. is the unweighted mean over all 21 tasks.",
+              "figure_id": "table-10-14",
+              "figure_number": "10",
+              "height": 240,
+              "image_path": "figures/2611.26637/table-023.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 986
+            },
+            {
+              "caption": "Table 13 Real-world retrieval accuracy (%) for hybrid models. Avg. is the mean over the six tasks.",
+              "figure_id": "table-13-24",
+              "figure_number": "13",
+              "height": 188,
+              "image_path": "figures/2611.26637/table-024.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 986
+            },
+            {
+              "caption": "Table 17 Prediction changes over the first eight affected positions. Loss and KL values are in nats. Confidence intervals are adjusted across four models.",
+              "figure_id": "table-17-17",
+              "figure_number": "17",
+              "height": 43,
+              "image_path": "figures/2611.26637/table-025.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 986
+            },
+            {
+              "caption": "Table 16 Measured gate statistics pooled across layers with equal weight per observed cell. All entries are percentages; threshold fractions use the archived FP32 comparisons.",
+              "figure_id": "table-16-18",
+              "figure_number": "16",
+              "height": 157,
+              "image_path": "figures/2611.26637/table-026.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 556
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.26637/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.26637",
+          "relevance": 9,
+          "selection_reason": "State-dependent gating improves linear attention efficiency and long-context modeling, directly relevant to efficient attention and LLM architectures.",
+          "summary_status": "generated",
+          "title": "SDG: State-Dependent Gating at Chunk Boundaries for Linear Attention",
+          "tldr": "State-Dependent Gating improves chunkwise linear attention by using memory changes to control element-wise forgetting without sacrificing parallel computation within chunks.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "large-language-models",
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-19",
       "paper_count": 4,
       "papers": [
@@ -55621,5 +56450,5 @@
   "schema_version": 1,
   "subtopic_id": "efficient-attention",
   "topic_id": "efficient-ai",
-  "total_paper_count": 276
+  "total_paper_count": 281
 }

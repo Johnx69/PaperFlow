@@ -1,6 +1,816 @@
 {
   "days": [
     {
+      "date": "2026-11-22",
+      "paper_count": 5,
+      "papers": [
+        {
+          "abstract": "Deploying large language models (LLMs) in long-horizon and continual interactions requires maintaining reusable memory states for future inference, posing challenges for existing architectures. Standard Transformers accumulate layer-wise, token-level KV caches, incurring linear GPU memory growth and quadratic computational complexity as the context expands. In contrast, linear-time architectures compress history into fixed-size states, but struggle to retain fine-grained details. We introduce MemOnce, a foundation architecture that learns scalable memory states for language models. MemOnce is based on two core designs: (a) Memory encoder-decoder: it caches only a small subset of final-layer hidden states as compact memory representations and dynamically decodes them back into KV caches for attention layers; (b) Memory sparse attention: for each continual input, MemOnce adaptively retrieves relevant memory representations, with the sparse indices computed only once across layers. Coupling these two designs enables efficient on-the-fly memory loading and KV cache decoding, drastically reducing the GPU memory footprint and achieving linear-time complexity. We conduct extensive experiments to show that MemOnce outperforms Transformers and other architectures across varying model sizes, context lengths, and training paradigms (pretraining and post-training adaptation). In particular, adapting Qwen3.5-4B with MemOnce reduces memory state cache by 1313$\\times$ and prefill latency by 6.9$\\times$ at 1M context, and improves throughput by 3.5$\\times$ and overall memory performance by +5.77%. Finally, MemOnce generalizes zero-shot to downstream representation tasks, achieving competitive results against specialized models.",
+          "arxiv_id": "2611.27973",
+          "arxiv_url": "https://arxiv.org/abs/2611.27973",
+          "authors": [
+            "Chang Nie, Chaoyou Fu, Songlin Liu, Yiqing Hu, Caifeng Shan"
+          ],
+          "bullets": [
+            "Addresses the linear GPU-memory growth and quadratic computation of Transformer KV caches, while preserving more detail than fixed-size state compression.",
+            "Uses a memory encoder-decoder to store selected final-layer hidden states and dynamically reconstruct attention KV caches.",
+            "Applies sparse attention that retrieves relevant memories once per input and shares the sparse indices across layers.",
+            "Reports substantial efficiency gains, including 1313× lower memory-state cache, 6.9× lower prefill latency, and 3.5× higher throughput at 1M context in one adaptation setting.",
+            "Generalizes zero-shot to downstream representation tasks with competitive performance against specialized models."
+          ],
+          "categories": [
+            "cs.CL"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2 Overview of theMemOnce architecture. (Left) The Hybrid Backbone stacks linear blocks with memory sparse attention across L stages. (Right) The Memory Encoder-Decoder caches a trailing subset (1/r) of final-layer states into a persistent memory bank, partitioned into a local short-term window and a sparse long-term pool. For each incoming input, relevant memory states are retrieved only once and dynamically decoded into KV caches for attention layers. This enables a constant active memory state for continual inference, alongside an Lr× cache compression across both depth and time dimensions.",
+              "figure_id": "figure-2-13",
+              "figure_number": "2",
+              "height": 567,
+              "image_path": "figures/2611.27973/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 671
+            },
+            {
+              "caption": "Figure 3 Training and scaling curves of MemOnce as a foundation architecture. (Left) Validation perplexity vs. training tokens under different compression ratios. Even at r = 8, MemOnce remains competitive with the Transformer and strong baselines. (Right) Validation perplexity vs. model scale (0.15B to 1.0B), where MemOnce delivers the best scaling performance.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 287,
+              "image_path": "figures/2611.27973/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 972
+            },
+            {
+              "caption": "Figure 1 Comparison between MemOnce and advanced architectures. (Left) Memory state cache vs. context length. MemOnce activates minimal memory states during continual inference, reducing the cache footprint by orders of magnitude compared to attention-based baselines. (Right) Overall performance vs. prefill latency and decoding throughput. Compared to existing native memory models, MemOnce significantly advances the Pareto frontier, marking the first native memory approach to surpass the full-context baseline. Performance is averaged across five memory benchmarks, while prefill time and throughput are measured at a 1M context length.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 1219,
+              "image_path": "figures/2611.27973/figure-003.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 1077
+            },
+            {
+              "caption": "Figure 4 Inference scalability across context lengths from 32K to 1M tokens.",
+              "figure_id": "figure-4-20",
+              "figure_number": "4",
+              "height": 293,
+              "image_path": "figures/2611.27973/figure-004.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 972
+            },
+            {
+              "caption": "Figure 5 Statistics ofMemOnce-1M. (a) Percentage of samples across historical dialogue rounds h ∈ [3, 464]. (b) Token sequence length distribution with a mean of 7, 099 tokens and a 90th percentile (p90) of 16, 426 tokens. (c) Proportion of the eight constituent data sources.",
+              "figure_id": "figure-5-14",
+              "figure_number": "5",
+              "height": 235,
+              "image_path": "figures/2611.27973/figure-005.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 986
+            },
+            {
+              "caption": "Table 2 Performance of foundation architectures on language modeling and zero-shot common-sense reasoning tasks. All models are pretrained from scratch on FineWeb-Edu under fair configurations. Wiki. and LMB. denote perplexity (↓) on WikiText-103 and LAMBADA, respectively. Best results are in bold, and second-best are underlined.",
+              "figure_id": "table-2-12",
+              "figure_number": "2",
+              "height": 348,
+              "image_path": "figures/2611.27973/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 964
+            },
+            {
+              "caption": "Figure 7 Attention dynamics duringmemorywriting and reading across full-attention layers. (a) MemoryWriting: Attention difference from trailing memory tokens to factual spans versus filler spans. Middle-to-deep layers selectively attend to salient facts over background noise. (b) Memory Reading: Attention distribution (%) from generated answer tokens across Question, Answer, remaining retrieved blocks (Other), and the short-term window (State prefix ). Attention to the answer-carrying block peaks at layers 20–24. Error bars and shading indicate ±1 standard deviation.",
+              "figure_id": "figure-7-16",
+              "figure_number": "7",
+              "height": 251,
+              "image_path": "figures/2611.27973/figure-007.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 774
+            },
+            {
+              "caption": "Table 6 Context reranking performance across agent memory systems on the LoCoMo benchmark. All methods use AllMiniLM-L6-v2 to retrieve 256 candidate segments and restrict the final generator context to Top-20. Best results within each system are in bold and second-best are underlined.",
+              "figure_id": "table-6-10",
+              "figure_number": "6",
+              "height": 225,
+              "image_path": "figures/2611.27973/table-008.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 682
+            },
+            {
+              "caption": "Table 3 Performance on five memory benchmarks across varying context lengths. MemOnce is the first native memory model to surpass the full-context baseline. Best results are in bold and second-best are underlined. † denotes re-trained models for fair comparison.",
+              "figure_id": "table-3-21",
+              "figure_number": "3",
+              "height": 302,
+              "image_path": "figures/2611.27973/table-009.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 876
+            },
+            {
+              "caption": "Table 15 Comprehensive pre-training comparison of architectural baselines andMemOnce. We report language modeling perplexity (↓) across five corpora and zero-shot accuracy (↑) across eight downstream benchmarks (Avg.).",
+              "figure_id": "table-15-4",
+              "figure_number": "15",
+              "height": 319,
+              "image_path": "figures/2611.27973/table-010.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 976
+            },
+            {
+              "caption": "Table 4 General reasoning performance under a 32Kmemory load across differentmemory paradigms. Best results are in bold and second-best are underlined. Subscripts indicate changes relative to the Qwen3.5-4B base model.",
+              "figure_id": "table-4-19",
+              "figure_number": "4",
+              "height": 173,
+              "image_path": "figures/2611.27973/table-011.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 682
+            },
+            {
+              "caption": "Table 1 Memory state cache and prefilling time complexities. L: layer depth, N : context length, D: hidden dimension, and C: an independent constant (C ≪ N).",
+              "figure_id": "table-1-6",
+              "figure_number": "1",
+              "height": 175,
+              "image_path": "figures/2611.27973/table-012.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 475
+            },
+            {
+              "caption": "Table 10 Query-time retrieval overhead of RAG-Rewrite, M+, andMemOnce at a 128K-token context. Latency is broken down by pipeline stage. Off-pool reads use SSD cold-read latency. M+ retrieves layer-wise inside the forward pass and has no separate encoding or reading stage.",
+              "figure_id": "table-10-11",
+              "figure_number": "10",
+              "height": 101,
+              "image_path": "figures/2611.27973/table-013.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 776
+            },
+            {
+              "caption": "Table 11 Pre-training scaling comparison from∼150M to∼1B parameters. We report validation perplexity (↓) and zero-shot accuracy (↑) across eight downstream benchmarks. MemOnce is evaluated under both the uncompressed configuration (r = 1) and the 8× compressed configuration (r = 8) across all scales. Best results within each scale are in bold and second-best are underlined.",
+              "figure_id": "table-11-17",
+              "figure_number": "11",
+              "height": 417,
+              "image_path": "figures/2611.27973/table-014.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 976
+            },
+            {
+              "caption": "Table 13 Memory capability evaluation on HotpotQA♣-1M. We report accuracy (%) with memory (WithMem.), without memory (NoMem.), and net memory gain (∆). Best results are in bold and second-best are underlined.",
+              "figure_id": "table-13-3",
+              "figure_number": "13",
+              "height": 383,
+              "image_path": "figures/2611.27973/table-015.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 741
+            },
+            {
+              "caption": "Table 14 Inference efficiency scaling from 32K to 1M tokens (4B scale). We report prefill time (s), estimated FLOPs (with effective hardware throughput in TFLOP/s), decoding throughput (tokens/s), active memory cache footprint, and offloaded SSD/CPU memory pool size. Single-GPU (80GB H100) out-of-memory (OOM) baselines are evaluated with multi-GPU.",
+              "figure_id": "table-14-5",
+              "figure_number": "14",
+              "height": 513,
+              "image_path": "figures/2611.27973/table-016.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 898
+            },
+            {
+              "caption": "Table 5 Retrieval performance across diverse long-context and conversational benchmarks. We report Recall@10 (R@10) and NDCG@10 (N@10). Best results within each metric block are in bold and second-best are underlined.",
+              "figure_id": "table-5-9",
+              "figure_number": "5",
+              "height": 150,
+              "image_path": "figures/2611.27973/table-017.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 972
+            },
+            {
+              "caption": "Table 7 Hyperparameters for pre-training and post-training.",
+              "figure_id": "table-7-22",
+              "figure_number": "7",
+              "height": 276,
+              "image_path": "figures/2611.27973/table-018.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 686
+            },
+            {
+              "caption": "Table 8 Ablation study on compression ratio r and long-term linear state persistence across eight downstream benchmarks. Best results are in bold and second-best are underlined.",
+              "figure_id": "table-8-7",
+              "figure_number": "8",
+              "height": 242,
+              "image_path": "figures/2611.27973/table-019.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 894
+            },
+            {
+              "caption": "Table 16 Comparison ofmemory state learning paradigms under Eq. (12).",
+              "figure_id": "table-16-15",
+              "figure_number": "16",
+              "height": 250,
+              "image_path": "figures/2611.27973/table-020.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 977
+            },
+            {
+              "caption": "Table 9 Ablation study on the retrieval budgetK across long-context memory benchmarks. Best results are in bold and second-best are underlined.",
+              "figure_id": "table-9-8",
+              "figure_number": "9",
+              "height": 132,
+              "image_path": "figures/2611.27973/table-021.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 826
+            },
+            {
+              "caption": "Table 12 Comparison with RAG on fivememory benchmarks. Best results are in bold and second-best are underlined.",
+              "figure_id": "table-12-18",
+              "figure_number": "12",
+              "height": 122,
+              "image_path": "figures/2611.27973/table-022.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 845
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27973/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.27973",
+          "relevance": 9,
+          "selection_reason": "Introduces scalable memory architecture for LLMs with KV-cache reduction and long-context efficiency.",
+          "summary_status": "generated",
+          "title": "MemOnce: A Scalable Memory Architecture for Large Language Models",
+          "tldr": "MemOnce enables LLMs to retain long-term, fine-grained memories with compact states, reducing memory and computation costs for long-context continual inference.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "large-language-models",
+                "llm-memory",
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "We are interested in developing a continually self-improving remote sensing agentic system. It should identify and address its capability gaps, retaining the resulting improvements to enhance performance on subsequent tasks. However, existing systems typically rely on fixed toolsets and confine their experience accumulation to re-orchestrating predefined capabilities, constraining both capability expansion and the transfer of improvements across tasks. As the infrastructure for agentic systems, the harness manages tools and workflow knowledge as editable, persistent resources outside the base model. These resources can therefore be updated and reused across tasks without additional post-training. Based on these observations, we propose RemoteEvolver, an external harness for remote sensing agents that drives tool and workflow evolution through execution feedback. With the base model parameters fixed, RemoteEvolver acquires missing specialized tools on demand and distills verified successful execution experience from individual tasks into agent skills that can be reused across tasks. The acquired tools and accumulated skills jointly support planning and execution on subsequent tasks. Experiments on Earth-Bench and OpenEarthAgent-Bench show that RemoteEvolver achieves average accuracy gains of 8.18 and 23.86 percentage points over its initial state when tools are fully available and partially missing. Under the same settings, it also outperforms the state-of-the-art methods by an average of 6.77 and 17.10 percentage points, respectively.",
+          "arxiv_id": "2611.27110",
+          "arxiv_url": "https://arxiv.org/abs/2611.27110",
+          "authors": [
+            "Shengxiang Xu, Liang Yao, Shuyi Chen, Yishu Wang, Shimin Di, Fan Liu, Bishun Yao, Hanghui Guo, Xinyu Liu, Chengye Liang, Yuyu Luo, Min-Ling Zhang"
+          ],
+          "bullets": [
+            "Addresses the limitations of fixed toolsets and task-specific experience accumulation in agentic remote sensing systems.",
+            "Uses execution feedback to evolve persistent tools and workflow knowledge while keeping the base model parameters fixed.",
+            "Acquires specialized tools on demand and distills successful executions into reusable agent skills.",
+            "Experiments on Earth-Bench and OpenEarthAgent-Bench report substantial accuracy gains from the initial system and improvements over existing methods.",
+            "Scope: improvements depend on the availability of execution feedback and the harness’s ability to acquire and verify tools and skills."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of RemoteEvolver. When encountering capability gaps during task solving, the tool evolution module autonomously searches, configures, and deploys missing external resources into the available toolset (Dynamic Toolset Expansion). Concurrently, the workflow evolution module distills verified successful execution workflows into reusable procedural skills (Skill Library Consolidation).",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 359,
+              "image_path": "figures/2611.27110/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 7. System efficiency and Pareto front analysis of remote sensing agents. The scatter plots compare the test accuracy against the token consumption (in thousands) during the testing phase.",
+              "figure_id": "figure-7-7",
+              "figure_number": "7",
+              "height": 201,
+              "image_path": "figures/2611.27110/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 492
+            },
+            {
+              "caption": "Figure 8. Examples of RemoteEvolver’s execution trajectories. (a) Without vs. with tool evolution for mapping lake boundary shrinkage. The agent autonomously acquires RemoteSAM to replace inadequate OpenCV threshold segmentation. (b) Without vs. with skill evolution for tracking building contour changes. The agent retrieves historical skills to align images before comparing masks.",
+              "figure_id": "figure-8-9",
+              "figure_number": "8",
+              "height": 458,
+              "image_path": "figures/2611.27110/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1034
+            },
+            {
+              "caption": "Figure 6. Example of a spatial measurement task and its associated distilled skill document.",
+              "figure_id": "figure-6-6",
+              "figure_number": "6",
+              "height": 424,
+              "image_path": "figures/2611.27110/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Figure 4. Generality across foundation models on Earth-Bench under missing tools. All runs use full RemoteEvolver with identical settings except for the base model.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 386,
+              "image_path": "figures/2611.27110/figure-005.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 494
+            },
+            {
+              "caption": "Figure 3. Evolution trends of RemoteEvolver with full evolution (Top) and tool evolution (Bottom) when tools are partially missing on Earth-Bench and OpenEarthAgent-Bench, respectively.",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 390,
+              "image_path": "figures/2611.27110/figure-006.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 492
+            },
+            {
+              "caption": "Figure 1. Motivation of RemoteEvolver. Top: Remote sensing agents encounter unbridgeable capability gaps when required specialized tools are missing from their predefined toolsets. Bottom: Comparison of existing remote sensing agent evolution paradigms.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 327,
+              "image_path": "figures/2611.27110/figure-007.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 494
+            },
+            {
+              "caption": "Figure 5. Tool statistics under the Tool-Missing setting. The final toolset composition is categorized into initial tools, successfully recovered tools, tools that remain missing, and newly acquired extra tools not present in the original full set.",
+              "figure_id": "figure-5-5",
+              "figure_number": "5",
+              "height": 195,
+              "image_path": "figures/2611.27110/figure-008.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 2. Ablation study of tool and skill evolution mechanisms under different tool conditions. Tool evolution is naturally disabled under the Tool-Available setting. ∆Acc denotes the accuracy gain over the initial system without any evolution.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 453,
+              "image_path": "figures/2611.27110/table-009.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 496
+            },
+            {
+              "caption": "Table 1. Comparison of task accuracy (%, ↑) on Earth-Bench [5] (EB) and OpenEarthAgent-Bench [19] (OEAB) under available and missing tools. * denotes the initial system before evolution. Best and second-best results are highlighted. Values in parentheses indicate the accuracy improvements achieved by evolution.",
+              "figure_id": "table-1-10",
+              "figure_number": "1",
+              "height": 245,
+              "image_path": "figures/2611.27110/table-010.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27110/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.27110",
+          "relevance": 5,
+          "selection_reason": "Agent harness with persistent tool and skill memory; fits LLM/agent memory.",
+          "summary_status": "generated",
+          "title": "RemoteEvolver: Expanding Earth Observation Capabilities through Agent Harness Evolution",
+          "tldr": "RemoteEvolver enables remote-sensing agents to continually improve by acquiring missing tools and reusing verified task experience through an editable external harness.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "LLM agents such as Hermes, OpenClaw, and Codex repeatedly resend growing execution histories, increasing shared GPU key-value (KV) cache demand in high-bandwidth memory (HBM). We show that shared KV capacity limits agent-serving throughput. Existing context-reduction methods lack global cache-state visibility, while runtime KV managers lack tool-execution information. Tracing tokens to their originating tool operations reveals that later operations supersede earlier outputs and associated turns, identifying 64% of recorded final-history tokens as removal candidates. We present Contexture, a harness- and model-agnostic architecture for runtime context eviction. Contexture separates the harness's full conversation history from the model's execution context, reducing subsequent requests' KV demand without modifying harness logic or model execution. It combines tool-execution information with global visibility into shared KV pressure and prefix residency: supersession identifies removal candidates, while runtime state determines when removal justifies sacrificing cached computation. This coordination reduces memory demand and decode KV traffic while limiting re-prefill interference with concurrent decoding, without additional model calls or training. Across two models, two harnesses, and two benchmarks, Contexture improves throughput under SLO by 20-73% over the best of no eviction, harness compaction, AgentDiet, and Continuum, and by 7-63% over observation masking in five of eight configurations, and reduces GPU energy per completed session by up to 11%. It also raises throughput under SLO by 23% over LMCache alone on H100. Live-agent experiments show a mean accuracy improvement of 1.4 percentage points over unloaded no eviction, with a worst-case loss of 3.7 points, while observation masking loses 3-28 points.",
+          "arxiv_id": "2611.26980",
+          "arxiv_url": "https://arxiv.org/abs/2611.26980",
+          "authors": [
+            "Colin Hong, Bryan Shan, Wei Siong Pang, Chengzhi Lu, Xu Guo, Nitin Shivaraman, Tao Luo, Esha Choukse, Kisson Lin, Dmitrii Ustiugov"
+          ],
+          "bullets": [
+            "Agent execution histories grow over time, driving shared GPU KV-cache demand and limiting throughput.",
+            "Tool-operation provenance identifies earlier outputs and turns superseded by later operations; 64% of final-history tokens are removal candidates.",
+            "Contexture separates the complete harness history from the model’s execution context and evicts context based on supersession, cache residency, and GPU pressure.",
+            "Across two models, harnesses, and benchmarks, it improves SLO-constrained throughput by 20–73% versus the strongest baseline and reduces GPU energy per session by up to 11%.",
+            "Live-agent accuracy improves by 1.4 percentage points on average versus unloaded no eviction, with a worst-case loss of 3.7 points."
+          ],
+          "categories": [
+            "cs.DC",
+            "cs.AI",
+            "cs.MA",
+            "cs.OS"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 8: Architecture of Contexture.",
+              "figure_id": "figure-8-12",
+              "figure_number": "8",
+              "height": 336,
+              "image_path": "figures/2611.26980/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 503
+            },
+            {
+              "caption": "Figure 10: Each policy’s p90 slowdown against throughput, on a log scale, with Qwen (top) and Qwen MoE (bottom) on each workload; the dashed line is the 10× SLO. Contexture sustains the highest throughput within the SLO on every workload, except three with Qwen MoE, where observation masking leads at the cost of dropping accuracy by 9–28 percentage points (§6.2.3).",
+              "figure_id": "figure-10-11",
+              "figure_number": "10",
+              "height": 287,
+              "image_path": "figures/2611.26980/figure-002.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 1040
+            },
+            {
+              "caption": "Figure 12: Each policy’s accuracy with Qwen and Qwen MoE on each workload. The baselines are served unloaded; Contexture’s bar is its mean over Low, Mid and High load and its whisker spans its lowest to its highest accuracy among the three loads. Contexture under load averages 1.4 percentage points above no eviction, with a worst-case loss of 3.7.",
+              "figure_id": "figure-12-9",
+              "figure_number": "12",
+              "height": 290,
+              "image_path": "figures/2611.26980/figure-003.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 499
+            },
+            {
+              "caption": "Figure 13: Ablation of Contexture with Qwen and Hermes on TB2.1. Panels (a), (b), and (c) show prefill per completed session, p90 time per output token (TPOT), and p90 TTFT at High load, pooled across three traces. Panel (d) shows p90 slowdown versus throughput, with the 10× SLO marked by a dashed line. Selection raises peak throughput, cold commits cut prefill and TTFT, and the pressure gate further increases peak throughput.",
+              "figure_id": "figure-13-4",
+              "figure_number": "13",
+              "height": 251,
+              "image_path": "figures/2611.26980/figure-004.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 501
+            },
+            {
+              "caption": "Figure 7: Decode throughput of Qwen on one H100 (a) around one request that removes 2K tokens from a 64K-token cached context, or nothing, with 32 sessions decoding, and (b) against the re-prefill rate. A small removal can cause a large re-prefill that stalls concurrent decoding.",
+              "figure_id": "figure-7-8",
+              "figure_number": "7",
+              "height": 249,
+              "image_path": "figures/2611.26980/figure-005.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 495
+            },
+            {
+              "caption": "Figure 11: GPU energy per completed session for each policy at Low, Mid, and High loads with Hermes on TB2.1. Numbers below Contexture’s points show its energy reduction relative to the lowest-energy baseline at each load.",
+              "figure_id": "figure-11-10",
+              "figure_number": "11",
+              "height": 225,
+              "image_path": "figures/2611.26980/figure-006.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 494
+            },
+            {
+              "caption": "Figure 9: Contexture’s marking and commit policy. (a) Later tool operations mark superseded outputs as removal candidates. (b)–(d) A later request, after rounds 1–3 pass the grace window. (b) A batch commits immediately when no cached tokens follow its earliest removal point. (c) Otherwise, it commits under pool pressure when the re-prefill cap is satisfied. (d) The commit reuses the prefix before the removal point and re-prefills the remaining suffix.",
+              "figure_id": "figure-9-13",
+              "figure_number": "9",
+              "height": 209,
+              "image_path": "figures/2611.26980/figure-007.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 499
+            },
+            {
+              "caption": "Figure 4: One hour of Hermes with compaction at 128K tokens, at an arrival rate of 1.6 sessions/min. The pool is often nearly full while no session reaches the threshold, and the only summary starts after the pressure subsides.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 201,
+              "image_path": "figures/2611.26980/figure-008.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 499
+            },
+            {
+              "caption": "Figure 6: Removal candidatesmarked by later tool operations: (a) their share of total final-history tokens, broken down by token type, and (b) their estimated share of the KV pool in one run of no eviction at its peak throughput. Candidates are most of the context and a large share of a full pool.",
+              "figure_id": "figure-6-7",
+              "figure_number": "6",
+              "height": 193,
+              "image_path": "figures/2611.26980/figure-009.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 500
+            },
+            {
+              "caption": "Figure 14: Contexture with one parameter varied at a time, compared with no eviction (dotted line; accuracy measured unloaded). (a) Task accuracy at High across grace windows. (b,c) Passing sessions per minute at High across pressure thresholds and re-prefill caps, respectively. Passing sessions per minute is calculated as throughput under SLOmultiplied by task accuracy. Gold markers indicate the default settings.",
+              "figure_id": "figure-14-3",
+              "figure_number": "14",
+              "height": 179,
+              "image_path": "figures/2611.26980/figure-010.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 499
+            },
+            {
+              "caption": "Figure 1: The agentic serving stack.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 177,
+              "image_path": "figures/2611.26980/figure-011.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 502
+            },
+            {
+              "caption": "Figure 3: P90 session slowdown versus throughput under increasing load for no eviction, compaction, AgentDiet, and Continuum. The dashed line marks the 10× slowdown SLO.",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 157,
+              "image_path": "figures/2611.26980/figure-012.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 499
+            },
+            {
+              "caption": "Figure 15: Throughput under SLO of no eviction and Contexture with Qwen MoE and Hermes on TB2.1 : (a) on an H100 and an H200; (b) on the H100 without and with LMCache offloading to a 100GB host tier. Contexture’s gain holds with a larger HBM and with offloading.",
+              "figure_id": "figure-15-1",
+              "figure_number": "15",
+              "height": 165,
+              "image_path": "figures/2611.26980/figure-013.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 500
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.26980/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.26980",
+          "relevance": 9,
+          "selection_reason": "A runtime context eviction framework for high-throughput LLM agent serving that uses tool-execution information to manage KV cache and improve memory efficiency.",
+          "summary_status": "generated",
+          "title": "Contexture: Runtime Context Eviction for High-Throughput Agent Serving",
+          "tldr": "Contexture improves high-throughput LLM-agent serving by evicting superseded conversation context at runtime while coordinating with shared KV-cache state.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "This research examines how unsupported claims change as they move through multi-agent pipelines. It also examines whether preserving provenance can reduce these changes. We test both homogeneous and heterogeneous pipelines. Homogeneous pipelines use the same model across agents, while heterogeneous pipelines use different models. We compare the baseline with a provenance-aware framework. The framework passes each claim with its support status, source, evidence and transmission history. No new evidence is introduced during transmission. We measure changes in claim meaning, unsupported detail accretion, semantic drift, and provenance preservation. These metrics show whether the framework limits unsupported changes as claims pass between agents.",
+          "arxiv_id": "2611.26957",
+          "arxiv_url": "https://arxiv.org/abs/2611.26957",
+          "authors": [
+            "Zijia Cao, Hanqing Dou"
+          ],
+          "bullets": [
+            "Studies how unsupported claims evolve as they pass between agents.",
+            "Compares homogeneous pipelines using one model with heterogeneous pipelines using different models.",
+            "Attaches each claim’s support status, source, evidence, and transmission history; no new evidence is added during transmission.",
+            "Evaluates meaning changes, unsupported detail accretion, semantic drift, and provenance preservation.",
+            "Tests whether provenance tracking reduces unsupported changes relative to a baseline."
+          ],
+          "categories": [
+            "cs.MA",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "TABLE V HETEROGENEOUS PROVENANCE-AWARE RESULTS BY PIPELINE STAGE",
+              "figure_id": "table-V-3",
+              "figure_number": "V",
+              "height": 204,
+              "image_path": "figures/2611.26957/table-001.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 412
+            },
+            {
+              "caption": "TABLE IV HOMOGENEOUS PROVENANCE-AWARE RESULTS BY PIPELINE STAGE",
+              "figure_id": "table-IV-1",
+              "figure_number": "IV",
+              "height": 188,
+              "image_path": "figures/2611.26957/table-002.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 400
+            },
+            {
+              "caption": "TABLE III HETEROGENEOUS BASELINE RESULTS BY PIPELINE STAGE",
+              "figure_id": "table-III-4",
+              "figure_number": "III",
+              "height": 186,
+              "image_path": "figures/2611.26957/table-003.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 358
+            },
+            {
+              "caption": "TABLE II HOMOGENEOUS BASELINE RESULTS BY PIPELINE STAGE",
+              "figure_id": "table-II-6",
+              "figure_number": "II",
+              "height": 171,
+              "image_path": "figures/2611.26957/table-004.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 346
+            },
+            {
+              "caption": "TABLE VI HOMOGENEOUS BASELINE AND PROVENANCE-AWARE COMPARISON AT STAGE FIVE",
+              "figure_id": "table-VI-2",
+              "figure_number": "VI",
+              "height": 229,
+              "image_path": "figures/2611.26957/table-005.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 529
+            },
+            {
+              "caption": "TABLE VII HETEROGENEOUS BASELINE AND PROVENANCE-AWARE COMPARISON AT STAGE FIVE",
+              "figure_id": "table-VII-7",
+              "figure_number": "VII",
+              "height": 229,
+              "image_path": "figures/2611.26957/table-006.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 529
+            },
+            {
+              "caption": "TABLE I FIVE-CLASS BIDIRECTIONAL NLI RELATION RULES",
+              "figure_id": "table-I-5",
+              "figure_number": "I",
+              "height": 152,
+              "image_path": "figures/2611.26957/table-007.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 1076
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.26957/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.26957",
+          "relevance": 6,
+          "selection_reason": "A provenance-aware framework for tracking and limiting unsupported claim propagation in multi-agent LLM systems, relevant to LLM memory and agent reasoning.",
+          "summary_status": "generated",
+          "title": "Tracking and Limiting Unsupported Claim Propagation in Multi-Agent LLM Systems: A Provenance-Aware Framework",
+          "tldr": "A provenance-aware framework tracks claim support and transmission history to limit unsupported claim changes in multi-agent LLM pipelines.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "The growing complexity of electronic systems demands efficient design flows, yet EDA scripting remains a bottleneck: proprietary APIs are sparsely documented, and errors often appear as silent failures or cryptic exceptions. Hand-crafted knowledge helps but is difficult to maintain as toolchains evolve. We present ZhuLong-SE (Self-Evolution), an execution-grounded LLM agent that learns reusable knowledge from prior task traces. Building on ZhuLong, it enhances the task-level harness with API retrieval, documentation responses, isolated sandbox execution, and static checking, then adds governed cross-task self-evolution. Beyond solving individual tasks, ZhuLong-SE distills past execution traces into a three-tier memory store governed by ground-truth anchoring, disconfirmation filtering, held-out rollback, and anti-leakage retrieval. On the 158-task EDA-Eval-PyAether benchmark, the full task-level harness, with self-evolution disabled, achieves 92.4% pass@1 and outperforms ZhuLong on all five tested LLM backbones. On a harder instance-disjoint test set, self-evolution from the bare configuration surpasses a human-crafted-experience baseline by 2.5 percentage points (80.0% vs. 77.5% pass@1).",
+          "arxiv_id": "2611.26912",
+          "arxiv_url": "https://arxiv.org/abs/2611.26912",
+          "authors": [
+            "Yang Liu, Shengbo Tong, Xiyuan Chen, Shiwei Hou, Sen Yuan, Hao Wang, Yanfeng Li, Hongwen Li, Yiming Zhu, Zhuolun He, Wenjian Yu"
+          ],
+          "bullets": [
+            "Addresses poorly documented proprietary APIs, silent failures, and hard-to-maintain hand-crafted scripting knowledge.",
+            "Enhances the ZhuLong harness with API retrieval, documentation responses, sandboxed execution, and static checking.",
+            "Stores distilled experience in a three-tier memory with ground-truth anchoring, disconfirmation filtering, rollback, and anti-leakage retrieval.",
+            "Achieves 92.4% pass@1 on the 158-task EDA-Eval-PyAether benchmark without self-evolution, outperforming ZhuLong across five LLM backbones.",
+            "On an instance-disjoint test set, self-evolution reaches 80.0% pass@1 versus 77.5% for human-crafted experience."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 1. Architecture of ZhuLong-SE, adapted from the ZhuLong execution framework [1]. Blue-highlighted blocks denote components added or enhanced in this work. Unhighlighted blocks show the shared execution workflow.",
+              "figure_id": "figure-1-7",
+              "figure_number": "1",
+              "height": 371,
+              "image_path": "figures/2611.26912/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1067
+            },
+            {
+              "caption": "Fig. 2. Residual failure types of ZhuLong-SE across five LLM backbones on the 158-task benchmark (111 failures aggregated).",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 256,
+              "image_path": "figures/2611.26912/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 512
+            },
+            {
+              "caption": "TABLE V READ-SIDE INJECTION ABLATION, FROZEN ROUND 2 KNOWLEDGE, VALIDATION (20 TASKS, 5 RUNS). EACH ROW VARIES ONE MECHANISM AWAY FROM THE FULL SYSTEM (BASELINE 88.0%±2.7).",
+              "figure_id": "table-V-3",
+              "figure_number": "V",
+              "height": 149,
+              "image_path": "figures/2611.26912/table-003.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 484
+            },
+            {
+              "caption": "TABLE I HARNESS-ONLY PASS@1 COMPARISON WITH ZHULONG ON ALIGNED BACKBONE VERSIONS (158 TASKS, ONE ZHULONG-SE RUN PER MODEL, NO SELF-EVOLUTION).",
+              "figure_id": "table-I-4",
+              "figure_number": "I",
+              "height": 152,
+              "image_path": "figures/2611.26912/table-004.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 492
+            },
+            {
+              "caption": "TABLE IV WRITE-SIDE GATE ABLATION ON THE FROZEN 24-TASK FAILURE TRACE POOL. “ON” AND “OFF” REPORT L1 ENTRY COUNTS.",
+              "figure_id": "table-IV-2",
+              "figure_number": "IV",
+              "height": 180,
+              "image_path": "figures/2611.26912/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 510
+            },
+            {
+              "caption": "TABLE III SELF-EVOLUTION ON THE CHALLENGE TEST SET (40 TASKS, 5 RUNS EACH, DEEPSEEK-V4-PRO-PREVIEW). “PATTERNS” IS THE L1 ENTRY COUNT, “SKILLS” ARE AUTO-DISTILLED. THE HELD-OUT GATE ACCEPTED ROUNDS 1 AND 2, AND REJECTED ROUND 3.",
+              "figure_id": "table-III-1",
+              "figure_number": "III",
+              "height": 161,
+              "image_path": "figures/2611.26912/table-006.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 492
+            },
+            {
+              "caption": "TABLE II PROGRESSIVE HARNESS ABLATION ON THE 158-TASK BENCHMARK (SINGLE RUN, DEEPSEEK-V4-PRO-PREVIEW).",
+              "figure_id": "table-II-6",
+              "figure_number": "II",
+              "height": 131,
+              "image_path": "figures/2611.26912/table-007.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 420
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.26912/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.26912",
+          "relevance": 6,
+          "selection_reason": "LLM agent with governed cross-task self-evolution and a persistent three-tier memory store distilled from execution traces.",
+          "summary_status": "generated",
+          "title": "Self-Evolving Beyond Human-Crafted Experience for EDA Scripting",
+          "tldr": "ZhuLong-SE improves EDA scripting by grounding an LLM agent in execution feedback and safely evolving reusable knowledge from past task traces.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            },
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-20",
       "paper_count": 1,
       "papers": [
@@ -136948,5 +137758,5 @@
   "schema_version": 1,
   "subtopic_id": "llm-memory",
   "topic_id": "language-foundation-models",
-  "total_paper_count": 687
+  "total_paper_count": 692
 }

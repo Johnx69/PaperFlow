@@ -6,10 +6,15 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Latent Action Models
 
-**127 papers total**
+**132 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-22 | [Efficient VLA Reinforcement Learning via Subchunk Rollouts in Latent World Models](https://arxiv.org/abs/2611.27645) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation; World Models: Latent Action Models, Interactive World Models | LS-MBPO efficiently improves pretrained VLAs by using subchunk rollouts in latent world models while reducing prediction errors and interface mismatch. | 9 | 8 |
+| 2026-11-22 | [EgoLAM: Learning Latent Actions from Hand and Head Motion](https://arxiv.org/abs/2611.27290) | Embodied AI: Robot Learning and Manipulation, Learning from Human Videos; World Models: Latent Action Models | EgoLAM learns manipulation-focused latent actions from egocentric hand and head motion, improving robot policy performance across three LIBERO suites. | 9 | 8 |
+| 2026-11-22 | [A Plan or an Adversarial Example? A Round-Trip Check for Latent World Models](https://arxiv.org/abs/2611.27124) | World Models: Latent Action Models, Interactive World Models | A lightweight round-trip check detects adversarial plans in latent world models and substantially improves planning reliability with minimal extra cost. | 9 | 8 |
+| 2026-11-22 | [Mind World Models: Joint Learning of Motor EEG Representations and Action-Conditioned World Dynamics](https://arxiv.org/abs/2611.27029) | Embodied AI: Learning from Human Videos; World Models: Latent Action Models, Video World Models | Mind World Models pretrains EEG motor representations by predicting future egocentric-video dynamics, improving motor decoding and enabling action-conditioned world-model adaptation. | 9 | 8 |
+| 2026-11-22 | [Skill-JEPA: Learning Planner-Aligned Action Spaces for World Models](https://arxiv.org/abs/2611.26825) | World Models: Latent Action Models | Skill-JEPA improves long-horizon world-model planning by learning planner-aligned latent skills instead of predicting raw actions. | 9 | 9 |
 | 2026-11-19 | [One Prior, Two Dynamics: Repurposing Video Diffusion Transformers for Self-Supervised Latent Action Learning](https://arxiv.org/abs/2611.26617) | Embodied AI: Robot Learning and Manipulation; World Models: Latent Action Models, Video World Models | O²LaF repurposes pretrained video models to jointly learn transferable latent actions and their visual consequences from unlabeled videos. | 9 | 8 |
 | 2026-11-19 | [Neural Conditional Gaussian Model: Efficient Data Assimilation with Sequential Uncertainty Quantification for Nonlinear Dynamics](https://arxiv.org/abs/2611.26463) | World Models: Latent Action Models | Neural CGM enables efficient nonlinear data assimilation by combining learned encoder-decoder dynamics with closed-form latent-space uncertainty updates. | 7 | 8 |
 | 2026-11-19 | [FFGaussType: Feed-Forward Conversion of Glyph and SVG Geometry into Compact Gaussian Assets](https://arxiv.org/abs/2611.26431) | World Models: Latent Action Models; 3D Vision: 3D Foundation Models | FFGaussType converts glyph and SVG geometry into compact, renderable Gaussian assets in one fast forward pass instead of per-asset optimization. | 9 | 9 |

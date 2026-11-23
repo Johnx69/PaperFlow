@@ -1,6 +1,2799 @@
 {
   "days": [
     {
+      "date": "2026-11-22",
+      "paper_count": 13,
+      "papers": [
+        {
+          "abstract": "Video corpus moment retrieval asks a system to find, in a large collection of untrimmed videos with subtitles, the video and the time interval that a natural-language query describes. We find that most top-ranked errors of a strong corpus-level scorer come from choosing the wrong video, not from imprecise boundaries, and that re-weighting the evidence the scorer already uses does not fix them. We present DiTraR, which addresses video selection from two complementary directions. A witness-interval scorer decomposes the query into probes and scores every candidate interval of every corpus video exactly; a multi-scorer energy ensemble averages the energies of independently trained scorers before one exhaustive search; and a transcript verifier, a frozen language model that reads the time-stamped dialogue of the highest-ranked videos, re-orders the moments without changing their boundaries. With all settings frozen on development data and a single evaluation, DiTraR reaches 24.36 and 13.55 R@1 at IoU 0.5 and 0.7 on the TVR validation split. The ensemble improves queries about visual content, the verifier improves queries about dialogue, and their gains largely add up.",
+          "arxiv_id": "2611.27931",
+          "arxiv_url": "https://arxiv.org/abs/2611.27931",
+          "authors": [
+            "Mohammad Alijanpour Shalmani, Alale Rezvani Boroujeni, Ali Amini"
+          ],
+          "bullets": [
+            "Most top-ranked errors arise from selecting the wrong video rather than inaccurate temporal boundaries.",
+            "A witness-interval scorer evaluates query probes against every candidate interval across the corpus.",
+            "A multi-scorer energy ensemble combines independently trained scorers before exhaustive search.",
+            "A frozen language-model transcript verifier re-ranks top moments using time-stamped dialogue without changing boundaries.",
+            "On TVR validation, DiTraR achieves 24.36 R@1 at IoU 0.5 and 13.55 R@1 at IoU 0.7; visual and dialogue-query gains are complementary."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.IR"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1. Overview of DiTraR. K independently trained witness-interval scorers, which differ in query decomposition or random seed, assign an energy to every lattice interval of every corpus video. One exact search over the averaged energy returns the 100 best moments. A frozen language model reads the time-stamped transcripts of the highest-ranked videos, and its confidence that the moment occurs in each video re-orders the moments without changing their boundaries.",
+              "figure_id": "figure-1-9",
+              "figure_number": "1",
+              "height": 394,
+              "image_path": "figures/2611.27931/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1006
+            },
+            {
+              "caption": "Figure 3. Gains by query type on validation (R@1 at IoU 0.5, change over the single scorer). The ensemble helps most on visual and mixed queries; the transcript verifier helps mainly on queries that refer to the dialogue.",
+              "figure_id": "figure-3-8",
+              "figure_number": "3",
+              "height": 274,
+              "image_path": "figures/2611.27931/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 441
+            },
+            {
+              "caption": "Figure 4. Where the remaining errors are (Dev-Test, R@1 at IoU 0.5). An oracle that picks the correct video whenever it is among the top-k videos of the single scorer, and keeps the scorer’s best moment in it, bounds what video selection alone can achieve. Horizontal lines: the single scorer, DiTraR, and an oracle localiser applied to the single scorer’s top video.",
+              "figure_id": "figure-4-10",
+              "figure_number": "4",
+              "height": 270,
+              "image_path": "figures/2611.27931/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 441
+            },
+            {
+              "caption": "Table 1. Comparison with the state of the art on the TVR validation split (10,895 queries, 2,179 videos). Candidates: where the videos in which moments are localised come from; HERO top-10 means that moments are ranked only inside the ten videos returned by HERO [21] (HERO∗: HERO re-trained by the authors). RN: ResNet, SF: SlowFast. Extra models: models beyond the retrieval network that are used at inference. “–”: not reported. †Reported by [13]; ‡reported by [29], whose IoU 0.7 values for these methods match the original papers. Our rows are single runs.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 403,
+              "image_path": "figures/2611.27931/table-004.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 936
+            },
+            {
+              "caption": "Table 6. R@1 by annotated query type on validation (IoU 0.5 / 0.7). The labels are never used by the model.",
+              "figure_id": "table-6-7",
+              "figure_number": "6",
+              "height": 143,
+              "image_path": "figures/2611.27931/table-005.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 398
+            },
+            {
+              "caption": "Table 3. Paired differences in R@1 (percentage points) with 95% video-cluster bootstrap intervals.",
+              "figure_id": "table-3-1",
+              "figure_number": "3",
+              "height": 273,
+              "image_path": "figures/2611.27931/table-006.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 450
+            },
+            {
+              "caption": "Table 4. Ensemble composition (R@1 at IoU 0.5). Alone: each member by itself. ∆: energy average of the listed members, as the change over member (i) alone. Selected intervals and IoU 0.7 values are given in the text.",
+              "figure_id": "table-4-4",
+              "figure_number": "4",
+              "height": 205,
+              "image_path": "figures/2611.27931/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 402
+            },
+            {
+              "caption": "Table 8. Training-free re-scoring with the scorer’s own features on Dev-Test. Each rule re-ranks a shared pool of candidates from the 100 best videos and was tuned on Dev-Tune with at most four configurations.",
+              "figure_id": "table-8-11",
+              "figure_number": "8",
+              "height": 195,
+              "image_path": "figures/2611.27931/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 408
+            },
+            {
+              "caption": "Table 5. Verifier weight λ on Dev-Tune, the only values tried. The selected value (bold) is used everywhere else.",
+              "figure_id": "table-5-6",
+              "figure_number": "5",
+              "height": 154,
+              "image_path": "figures/2611.27931/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 402
+            },
+            {
+              "caption": "Table 7. Design of the single scorer (R@1 at IoU 0.5 / 0.7). Each row is a separate training run; validation runs are trained on the full training split. Rows without the budget are trained without Eq. (5). Runs of one configuration differ by up to 0.4 points: the default scores 20.21 / 10.70 (Dev-Test) and 20.60 / 11.52 (validation) here, and 19.98 / 10.85 and 20.23 / 11.07 in the run used elsewhere.",
+              "figure_id": "table-7-5",
+              "figure_number": "7",
+              "height": 145,
+              "image_path": "figures/2611.27931/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 406
+            },
+            {
+              "caption": "Table 2. Contribution of each component. Recall at IoU 0.5 and 0.7, and VR@1, for every combination of the two components. The verifier only re-orders the returned moments, so it leaves R@100 unchanged; the ensemble changes which moments are returned. Best value per column in bold.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 184,
+              "image_path": "figures/2611.27931/table-011.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 814
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27931/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.27931",
+          "relevance": 7,
+          "selection_reason": "Video corpus moment retrieval with re-ranking; fits video-language understanding.",
+          "summary_status": "generated",
+          "title": "DiTraR: Diverse Scorers and Transcript-Guided Re-ranking for Video Corpus Moment Retrieval",
+          "tldr": "DiTraR improves video corpus moment retrieval by combining diverse scorers with transcript-guided re-ranking to better select the correct video.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Long-video understanding increasingly relies on agentic systems that actively acquire evidence rather than process fixed video representations. Their execution harnesses must coordinate language-level planning with video-level observation and evidence acquisition, yet are typically fixed across model stacks. We therefore introduce MoHA, a framework for model-conditioned harness adaptation that adapts a common initial execution harness to the specific planner and observer models it hosts. MoHA treats the harness itself as a model-conditioned optimization object: under the same task distribution and initialization, different planner-observer stacks can benefit from different executable harnesses. Starting from a common initial harness, MoHA analyzes failed calibration traces to diagnose model-harness mismatches and adapts both planner-side reasoning support, such as overview, memory, and verification, and observer-side capability assignments, including OCR and ASR specialists. After structural adaptation, MoHA separately calibrates observer execution configurations for the hosted model stack. Across three frozen planner stacks, MoHA improves Video-MME Full accuracy by 6.2-27.1 percentage points and Video-Holmes accuracy by 3.1-20.1 points over the fixed initial harness. Cross-model transfer further shows that the adapted harnesses generalize only partially to other models, highlighting the harness as a model-conditioned optimization layer for long-video understanding. Code is available at https://github.com/roverx12345/MoHA.",
+          "arxiv_id": "2611.27646",
+          "arxiv_url": "https://arxiv.org/abs/2611.27646",
+          "authors": [
+            "Jianghan Chao, Wenhui Tan, Hang Su, Qiuyu Tian, Tanxiao Li, Bingzi Zhang, Zequn Liu, Ruihua Song, Yingce Xia"
+          ],
+          "bullets": [
+            "Targets the mismatch between fixed execution harnesses and diverse planner–observer model stacks.",
+            "Diagnoses failed calibration traces to adapt planning support, memory, verification, and observer roles such as OCR and ASR.",
+            "Separately calibrates observer execution configurations after structural harness adaptation.",
+            "Improves Video-MME Full accuracy by 6.2–27.1 points and Video-Holmes accuracy by 3.1–20.1 points across three frozen planner stacks.",
+            "Cross-model transfer is only partial, indicating harnesses remain strongly model-conditioned."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of MoHA. Starting from a shared initial harness H0 = (S0, c0), MoHA collects calibration traces, diagnoses recurrent model–harness mismatches, and iteratively proposes and validates localized structural interventions. Planner-facing modules and observer capability assignments are adapted while c0 remains fixed, producing the final adapted structure S∗. MoHA then freezes S∗ and calibrates the observer execution configuration, yielding the final model-conditioned harness H∗(M) = (S∗, c∗). Loop denotes components adapted during structural adaptation; Final denotes post-structural execution calibration. Right: an example in which global overview and ASR expose previously missing evidence and correct the initial answer.",
+              "figure_id": "figure-2-15",
+              "figure_number": "2",
+              "height": 387,
+              "image_path": "figures/2611.27646/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 826
+            },
+            {
+              "caption": "Figure 1: Motivation for model-conditioned harness adaptation. (a) A fixed harness is shared across planner–observer stacks despite their different failure patterns; exposing all available capabilities does not necessarily resolve this mismatch. (b) Starting from the same lightweight harness, MoHA adapts planner-facing modules, observer assignments, and execution configurations to each hosted stack.",
+              "figure_id": "figure-1-7",
+              "figure_number": "1",
+              "height": 352,
+              "image_path": "figures/2611.27646/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 768
+            },
+            {
+              "caption": "Figure 3: Analysis of model-conditioned harness adaptation. (a) Failure profiles over unsuccessful calibration trajectories under the common initial harness H0. (b) Validation effects of tested interventions and final harness choices. Values are accuracy changes in percentage points; superscripts indicate promotion order and × denotes rejected candidates. Final rows report the selected FPS and input scale.",
+              "figure_id": "figure-3-23",
+              "figure_number": "3",
+              "height": 312,
+              "image_path": "figures/2611.27646/figure-003.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 825
+            },
+            {
+              "caption": "Table 1: Overall performance. Initial uses the common harness H0; Shared adapts one harness from evidence pooled across model stacks; MoHA adapts a separate harness for each hosted stack. Short, Medium, Long, Full, and Video-Holmes report accuracy (%). Frames/Q is the average number of sampled video frames consumed per question on Video-MME-v1. Bold indicates the best result within each planner block. The upper block reports direct-answer observer baselines.",
+              "figure_id": "table-1-4",
+              "figure_number": "1",
+              "height": 519,
+              "image_path": "figures/2611.27646/table-004.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 776
+            },
+            {
+              "caption": "Table 5: Executable components in the MoHA harness. Base operations remain available throughout adaptation, while optional planner modules and specialist assignments may be activated.",
+              "figure_id": "table-5-1",
+              "figure_number": "5",
+              "height": 399,
+              "image_path": "figures/2611.27646/table-005.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 830
+            },
+            {
+              "caption": "Table 6: Failure taxonomy used for calibration-trace diagnosis.",
+              "figure_id": "table-6-26",
+              "figure_number": "6",
+              "height": 316,
+              "image_path": "figures/2611.27646/table-006.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 814
+            },
+            {
+              "caption": "Table 2: Cross-model harness transfer on Video-MME-v1 Long. Rows denote the model used at evaluation time, while each H∗ · column denotes a harness adapted for the model indicated by its subscript and transferred without further adaptation. Diagonal entries therefore correspond to matched model–harness pairs, whereas off-diagonal entries measure cross-model transfer. Initial denotes the shared starting harness H0. Bold indicates the matched adapted harness in each row.",
+              "figure_id": "table-2-14",
+              "figure_number": "2",
+              "height": 149,
+              "image_path": "figures/2611.27646/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 804
+            },
+            {
+              "caption": "Table 3: Ablation of MoHA adaptation surfaces on Video-MME-v1 Long.",
+              "figure_id": "table-3-22",
+              "figure_number": "3",
+              "height": 221,
+              "image_path": "figures/2611.27646/table-008.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 352
+            },
+            {
+              "caption": "Table 22: Comparison with representative work that optimizes the execution system surrounding a frozen or hosted model.",
+              "figure_id": "table-22-20",
+              "figure_number": "22",
+              "height": 59,
+              "image_path": "figures/2611.27646/table-009.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 846
+            },
+            {
+              "caption": "Table 7: MoHA adaptation hyperparameters.",
+              "figure_id": "table-7-18",
+              "figure_number": "7",
+              "height": 295,
+              "image_path": "figures/2611.27646/table-010.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 422
+            },
+            {
+              "caption": "Table 23: Representative reported Video-MME v1 results. Values are taken from the corresponding papers and are provided as literature context rather than a controlled leaderboard.",
+              "figure_id": "table-23-19",
+              "figure_number": "23",
+              "height": 305,
+              "image_path": "figures/2611.27646/table-011.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 498
+            },
+            {
+              "caption": "Table 9: Adaptation-split sensitivity for Qwen3.5-9B.",
+              "figure_id": "table-9-17",
+              "figure_number": "9",
+              "height": 131,
+              "image_path": "figures/2611.27646/table-012.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 798
+            },
+            {
+              "caption": "Table 8: Controlled module comparison from a common Memory reference.",
+              "figure_id": "table-8-16",
+              "figure_number": "8",
+              "height": 88,
+              "image_path": "figures/2611.27646/table-013.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 568
+            },
+            {
+              "caption": "Table 10: Fixed-harness repeat evaluation on a 600-question Video-MME-v1 subset.",
+              "figure_id": "table-10-25",
+              "figure_number": "10",
+              "height": 108,
+              "image_path": "figures/2611.27646/table-014.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 472
+            },
+            {
+              "caption": "Table 12: Expected initial-harness accuracy after random replacement of unresolved outputs.",
+              "figure_id": "table-12-3",
+              "figure_number": "12",
+              "height": 108,
+              "image_path": "figures/2611.27646/table-015.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 518
+            },
+            {
+              "caption": "Table 13: 16-to-32-call continuation analysis on Video-MME-v1 Long.",
+              "figure_id": "table-13-2",
+              "figure_number": "13",
+              "height": 67,
+              "image_path": "figures/2611.27646/table-016.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 682
+            },
+            {
+              "caption": "Table 15: Logged adaptation episodes and execution calls. Main-call totals are recorded by an independent runtime counter rather than recomputed as the sum of planner and observer calls.",
+              "figure_id": "table-15-5",
+              "figure_number": "15",
+              "height": 172,
+              "image_path": "figures/2611.27646/table-017.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 720
+            },
+            {
+              "caption": "Table 14: Failure-category aggregation for unsuccessful calibration trajectories.",
+              "figure_id": "table-14-6",
+              "figure_number": "14",
+              "height": 108,
+              "image_path": "figures/2611.27646/table-018.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 732
+            },
+            {
+              "caption": "Table 4: Random-proposal controls on Qwen3.5-9B.",
+              "figure_id": "table-4-21",
+              "figure_number": "4",
+              "height": 161,
+              "image_path": "figures/2611.27646/table-019.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 221
+            },
+            {
+              "caption": "Table 17: Auxiliary diagnosis and specialist-probe usage during adaptation.",
+              "figure_id": "table-17-13",
+              "figure_number": "17",
+              "height": 108,
+              "image_path": "figures/2611.27646/table-020.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 794
+            },
+            {
+              "caption": "Table 18: Per-question deployment resources during benchmark evaluation.",
+              "figure_id": "table-18-9",
+              "figure_number": "18",
+              "height": 109,
+              "image_path": "figures/2611.27646/table-021.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 768
+            },
+            {
+              "caption": "Table 19: Direct-observer baseline protocol and results.",
+              "figure_id": "table-19-11",
+              "figure_number": "19",
+              "height": 88,
+              "image_path": "figures/2611.27646/table-022.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 710
+            },
+            {
+              "caption": "Table 16: Average main-execution resources per adaptation episode.",
+              "figure_id": "table-16-8",
+              "figure_number": "16",
+              "height": 109,
+              "image_path": "figures/2611.27646/table-023.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 540
+            },
+            {
+              "caption": "Table 20: Video-duration statistics for the two benchmarks.",
+              "figure_id": "table-20-12",
+              "figure_number": "20",
+              "height": 88,
+              "image_path": "figures/2611.27646/table-024.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 556
+            },
+            {
+              "caption": "Table 11: Unresolved initial-harness outputs after terminal-answer rescoring.",
+              "figure_id": "table-11-24",
+              "figure_number": "11",
+              "height": 88,
+              "image_path": "figures/2611.27646/table-025.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 418
+            },
+            {
+              "caption": "Table 21: Extended module-library run for Qwen3.5-9B.",
+              "figure_id": "table-21-10",
+              "figure_number": "21",
+              "height": 67,
+              "image_path": "figures/2611.27646/table-026.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 414
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27646/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.27646",
+          "relevance": 7,
+          "selection_reason": "Model-conditioned harness adaptation for long-video understanding agents, directly relevant to video understanding.",
+          "summary_status": "generated",
+          "title": "MoHA: Model-Conditioned Harness Adaptation for Long-Video Agents",
+          "tldr": "MoHA adapts long-video agent execution harnesses to the specific planner–observer models they host, substantially improving benchmark accuracy over a fixed harness.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Echocardiography assesses the structure and function of the heart. Cardiologists read each study across several standard views and report the findings visible in those views by cardiac structure. AI foundation models can learn to analyze these studies from clinical reports, reducing annotation burden and supporting clinical interpretation. However, existing models are trained by pairing each video with the full clinical report, including structures and findings its view does not show. This mismatch lets a model associate a finding with incidental or spurious signals rather than its visual evidence, which limits accuracy, anatomical grounding and clinical trust. Here we introduce EchoAlign, a vision-language foundation model developed on 2.87 million echocardiographic videos and images from 159 clinical centers. EchoAlign aligns each cardiac structure, video and study with its report text, and a visibility matrix restricts supervision to the views that actually depict each structure. We compare it with five public foundation models on 0.47 million test videos across ten unseen external datasets from more than 25 clinical centers. EchoAlign achieves the highest mean AUROC of 0.890 (95% CI, 0.881 to 0.897) for classification and the highest mean quadratic weighted kappa of 0.530 (95% CI, 0.511 to 0.544) for severity grading. Across 62 clinical findings, EchoAlign provides one model that detects findings, grades their severity, estimates measurements and segments cardiac structures.",
+          "arxiv_id": "2611.27517",
+          "arxiv_url": "https://arxiv.org/abs/2611.27517",
+          "authors": [
+            "Ahmed Aly, Darya Taratynova, Lotfi Abdelkrim Mecharbat, Roman A. Sandler, Joseph Z. Sokol, Joshua Penn, Klaus H. Maier-Hein, Numan Saeed, Mohammad Yaqub"
+          ],
+          "bullets": [
+            "Addresses the mismatch between full-study reports and view-specific visual evidence, which can cause spurious associations.",
+            "Trains on 2.87 million echocardiographic videos and images from 159 clinical centers.",
+            "Uses multilevel alignment of cardiac structures, videos and studies with report text, guided by a visibility matrix.",
+            "Achieves mean AUROC 0.890 for classification and mean quadratic weighted kappa 0.530 for severity grading across 10 unseen external datasets.",
+            "Supports detection, severity grading, measurement estimation and cardiac-structure segmentation across 62 clinical findings."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 1 EchoAlign data, tasks, architecture and classification performance. a, Pretraining data by cardiac structure, scanner vendor, view and center. Dot size shows how visible each structure is in that view; Extended Data Fig. 1 gives the full visibility matrix of 12 structures across 66 views. b, Evaluation tasks by anatomical group and source; each spoke is one finding, and its markers show the sources that evaluate it. Extended Data Fig. 2 defines the labels of each task. c, Architecture and the four contrastive losses of multilevel report alignment. d, AUROC of the linear probe of each of the six models on each of the 68 classification tasks, by evaluation source, on a logistic axis. Navy dots mark the best model on each task, and black bars mark each model’s mean.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 254,
+              "image_path": "figures/2611.27517/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 773
+            },
+            {
+              "caption": "Fig. 2 EchoAlign across cardiac structures, severity grades and segmentation. a, AUROC of the linear probe on each of the 68 classification tasks, by cardiac structure. b, Mean receiver operating characteristic curves of the linear probe and of scores computed from text prompts. Shading shows how much the curves vary between tasks: at each value of 1 − specificity, the middle 80% of tasks have a sensitivity inside the band. c, Scores computed from text prompts, by reported grade, on MIMIC-IV-Echo, with Spearman’s rank correlation [26] between score and grade. d, Expected grade by reported grade with QWK [27], and AUROC for moderate or greater and for severe valve regurgitation, in the private test set. e, Segmentation contours on CAMUS [28] images: expert (white, dashed) and EchoAlign (navy).",
+              "figure_id": "figure-2-2",
+              "figure_number": "2",
+              "height": 951,
+              "image_path": "figures/2611.27517/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 766
+            },
+            {
+              "caption": "Fig. 3 Text built from one report. The report of one training study and the texts built from it, with truncated text.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 228,
+              "image_path": "figures/2611.27517/figure-003.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 766
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27517/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.27517",
+          "relevance": 7,
+          "selection_reason": "Vision-language echocardiography foundation model with report alignment; relevant to multimodal and video understanding.",
+          "summary_status": "generated",
+          "title": "EchoAlign: Echocardiography foundation model with multilevel report alignment",
+          "tldr": "EchoAlign is an echocardiography vision-language foundation model that improves anatomically grounded analysis by aligning reports with the cardiac structures and views that actually show each finding.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "multimodal-large-language-models"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            },
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "We introduce Transformation Tracking and Understanding (TTU), extending video object tracking to environments where objects undergo physical assemblies and disassemblies. TTU requires continuously tracking objects through transformations, identifying new entities, maintaining a state graph of their relationships, and assigning semantic labels to transformations. While foundation models (e.g., SAM 2/3) maintain tracklets through appearance changes, they cannot update semantic identities as objects physically evolve. Prior work addresses only disassemblies, relying on expensive searches triggered only when tracking fails. We propose Tracking Instances via Proposals and Overlaps (TIPO), a training-free framework that continuously infers transformations via a generate-evaluate-judge pipeline. TIPO generates split and merge proposals from disjoint mask components, scores them against mask-decoder priors using inner and external overlap, and queries an MLLM on the top proposal for visual verification and semantic labeling. To benchmark TTU, we curate Video Instances, States, and Transformation Annotations (VISTA), a dataset including state graphs with 124 assembly and 132 disassembly events across 50 sequences and over 26,000 frames. TIPO achieves state-of-the-art tracking and state-graph accuracy on VISTA, while operating $6\\times$ to $15\\times$ faster than prior methods. Project page: https://davidegardenal.github.io/tipo-tracking",
+          "arxiv_id": "2611.27398",
+          "arxiv_url": "https://arxiv.org/abs/2611.27398",
+          "authors": [
+            "Davide Gardenal, Mingxuan Liu, Flavio Vella, Quentin Guimard, Elisa Ricci"
+          ],
+          "bullets": [
+            "Introduces TTU, which requires continuous tracking through object transformations and maintenance of semantic state graphs.",
+            "Proposes TIPO, a training-free generate–evaluate–judge framework for detecting and labeling split and merge events.",
+            "Uses mask components, overlap-based proposal scoring, and MLLM verification for transformation understanding.",
+            "Introduces VISTA, a benchmark with 50 sequences, 124 assembly events, 132 disassembly events, and over 26,000 frames.",
+            "Achieves state-of-the-art tracking and state-graph accuracy on VISTA and runs 6×–15× faster than prior methods."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of TIPO. At each frame It, the tracker provides the set of per-object masks. The pipeline operates in four stages (1–4): (1) extraction of the disjoint components and mask sampling, (2) generation of all possible assembly and disassembly states, (3) evaluation of the state proposals based on mask overlap metrics, (4) validation of the highest-scoring proposal by the MLLM Judge and semantic labeling. Lastly, the state graph and the tracker are updated with the validated state.",
+              "figure_id": "figure-2-17",
+              "figure_number": "2",
+              "height": 410,
+              "image_path": "figures/2611.27398/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1022
+            },
+            {
+              "caption": "Figure 9. Overview of the VISTA Annotation Tool. Our custom interface couples automated object tracking with expert human verification to construct high-fidelity state graphs. (Top) The landing page features an interactive video player, central tracker controls, and lateral panels for object and graph management. (1) Add Object: The annotator registers a new distinct entity ID in the system. (2) Segment and Track: By clicking on the object within the video frame, the annotator prompts the segmentation model to extract the spatial mask and initiates temporal tracking. (3) Log Transformation: At the exact frame of a physical state change, the expert opens a dialog box to explicitly link the pre- and post-transformation object tracks and assign a semantic action label (e.g., “Unscrew”). (4) Transformation Logged: The validated event is immediately committed to the state graph and displayed in the right-hand panel for continuous review.",
+              "figure_id": "figure-9-34",
+              "figure_number": "9",
+              "height": 1059,
+              "image_path": "figures/2611.27398/figure-002.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 1002
+            },
+            {
+              "caption": "Figure 3. Qualitative results on VISTA. Visualizing the TIPO pipeline on cascaded transformations. The state graphs map part-whole interactions and semantic actions, while the masks show robust spatial continuity across multi-step assembly and disassembly sequences.",
+              "figure_id": "figure-3-12",
+              "figure_number": "3",
+              "height": 511,
+              "image_path": "figures/2611.27398/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 16. Additional qualitative results of TIPO on the VISTA benchmark. We present two assembly sequences with their corresponding state-graph predictions. Five chronological video frames for each sequence are displayed above their respective state graph, illustrating how composite objects evolve over time. The top row details the multi-step construction of a drawer assembly from flat boards, while the bottom row shows a digital camera that receives its memory card and battery before being inserted into its pouch. These examples demonstrate the capability of the framework to model multi-step assemblies and part-whole interactions.",
+              "figure_id": "figure-16-22",
+              "figure_number": "16",
+              "height": 577,
+              "image_path": "figures/2611.27398/figure-004.webp",
+              "kind": "figure",
+              "page": 28,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 17. Failure cases of TIPO on the VISTA benchmark. We present two disassembly sequences from the Assembly101 [27] subset with their corresponding state-graph predictions. The top row shows the disassembly of a toy dump truck, while the bottom row features the complex disassembly of a toy garbage truck. Dashed red circles and boxes denote false negatives, i.e., objects and transformations present in the ground truth but undetected, such as the missed screws and wheels. A red action in a dashed red box denotes a false positive, i.e., a transformation incorrectly predicted by the pipeline, such as the hallucinated separation of the top cap.",
+              "figure_id": "figure-17-13",
+              "figure_number": "17",
+              "height": 629,
+              "image_path": "figures/2611.27398/figure-005.webp",
+              "kind": "figure",
+              "page": 29,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 5. MLLM Judge prompt for disassembly validation.",
+              "figure_id": "figure-5-24",
+              "figure_number": "5",
+              "height": 471,
+              "image_path": "figures/2611.27398/figure-006.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 4. MLLM Judge prompt for assembly validation.",
+              "figure_id": "figure-4-23",
+              "figure_number": "4",
+              "height": 469,
+              "image_path": "figures/2611.27398/figure-007.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 6. MLLM Labeler prompt for assembly events.",
+              "figure_id": "figure-6-15",
+              "figure_number": "6",
+              "height": 449,
+              "image_path": "figures/2611.27398/figure-008.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 7. MLLM Labeler prompt for disassembly events.",
+              "figure_id": "figure-7-16",
+              "figure_number": "7",
+              "height": 449,
+              "image_path": "figures/2611.27398/figure-009.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 13. MLLM Agent initial prompt (part 1 of 2).",
+              "figure_id": "figure-13-30",
+              "figure_number": "13",
+              "height": 729,
+              "image_path": "figures/2611.27398/figure-010.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 13. MLLM Agent initial prompt (part 2 of 2). Each episode then receives the video metadata and the provided masks at frame 0.",
+              "figure_id": "figure-13-3",
+              "figure_number": "13",
+              "height": 729,
+              "image_path": "figures/2611.27398/figure-011.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 8. State selection threshold of TIPO w/o Judge. (left) Transformation tracking quality TF1 on VISTA as a function of the state selection threshold τ for SAM 2.1 and SAM 3. (right) Frequency with which each threshold is selected across the 100 folds of a 10× 10-fold cross-validation, using a single threshold shared by both trackers. The selected value τ = 0.8 is highlighted.",
+              "figure_id": "figure-8-5",
+              "figure_number": "8",
+              "height": 248,
+              "image_path": "figures/2611.27398/figure-012.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 1028
+            },
+            {
+              "caption": "Figure 11. LLM evaluator prompt for assessing action description semantic accuracy (SA).",
+              "figure_id": "figure-11-18",
+              "figure_number": "11",
+              "height": 270,
+              "image_path": "figures/2611.27398/figure-013.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 10. LLM evaluator prompt for assessing object naming semantic accuracy (SO).",
+              "figure_id": "figure-10-19",
+              "figure_number": "10",
+              "height": 246,
+              "image_path": "figures/2611.27398/figure-014.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 12. State generation and evaluation runtime. Runtime per frame using SAM 3 (lines, left axis) for (left) disassembly state generation and evaluation for a single object fragmented into an increasing number of components, and (right) assembly state generation and evaluation for an increasing number of overlapping objects. Non-overlapping objects are pre-filtered and do not contribute. Bars (right axis) report the frequency of each case among all disassembly and assembly evaluations on VISTA.",
+              "figure_id": "figure-12-8",
+              "figure_number": "12",
+              "height": 256,
+              "image_path": "figures/2611.27398/figure-015.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 1010
+            },
+            {
+              "caption": "Figure 14. TubeletGraph failure mode with SAM 3. State graphs predicted by TubeletGraph with SAM 2.1 and SAM 3 as tracker on two sequences: (top) wii_remote_disassembly from VISTA, (bottom) 3161_peel_banana_1 from VOST-TAS. Dashed red circles and boxes denote missed objects and transformations. With SAM 3, the tracks are lost later in the video, invalidating TubeletGraph’s assumptions on proximity and on lost tracking. This directly translates to missed transformation detection.",
+              "figure_id": "figure-14-29",
+              "figure_number": "14",
+              "height": 1008,
+              "image_path": "figures/2611.27398/figure-016.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 15. Non-rigid transformation on VOST-TAS. TIPO detects the sauce squeezed onto the pasta as a new, highly deformable entity and integrates it into the state graph. Node colors match the predicted masks in the frames, and bold nodes denote the objects present at the end of the video. Dashed red boxes denote spurious transformations.",
+              "figure_id": "figure-15-21",
+              "figure_number": "15",
+              "height": 277,
+              "image_path": "figures/2611.27398/figure-017.webp",
+              "kind": "figure",
+              "page": 28,
+              "width": 1036
+            },
+            {
+              "caption": "Table 4. Disassembly-only comparison on VISTA. We evaluate the methods on the disassembly-only split of VISTA to match the capabilities of TubeletGraph. We report results using two different foundational trackers. Best results per tracker are in bold, and second-best are underlined.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 180,
+              "image_path": "figures/2611.27398/table-018.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 496
+            },
+            {
+              "caption": "Table 2. State-of-the-art comparison on VISTA. We evaluate pure tracking and state-graph generation using two different foundational trackers. Best results per tracker are in bold, and second-best are underlined.",
+              "figure_id": "table-2-2",
+              "figure_number": "2",
+              "height": 352,
+              "image_path": "figures/2611.27398/table-019.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Table 5. Validating the design of TIPO. Experiments are conducted on VISTA using SAM 3 as the tracker and Qwen 3.5 35B as the MLLM Judge. Minimal point sampling prevents spatial over-conditioning on local sub-parts, and external mask recall for both assembly (Ψ) and disassembly (Φ) state evaluation is essential to penalize incorrect grouping.",
+              "figure_id": "table-5-25",
+              "figure_number": "5",
+              "height": 203,
+              "image_path": "figures/2611.27398/table-020.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 6. Semantic graph labeling. Advanced reasoning models (e.g., GPT-5.4) are more precise at action naming (SA), but not at object naming (SO). Experiments are conducted on VISTA using SAM 3 as the tracker.",
+              "figure_id": "table-6-26",
+              "figure_number": "6",
+              "height": 134,
+              "image_path": "figures/2611.27398/table-021.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 11. Impact of Tracker Size. Experiments are conducted on VISTA using SAM 2.1 at different model sizes, with and without the MLLM Judge, using a single seed. Large is the default configuration used in all other experiments. Best results per MLLM Judge setting are in bold, and second-best are underlined.",
+              "figure_id": "table-11-31",
+              "figure_number": "11",
+              "height": 173,
+              "image_path": "figures/2611.27398/table-022.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 496
+            },
+            {
+              "caption": "Table 16. State-of-the-art comparison on VOST-TAS. We evaluate pure tracking and transformation recall using two foundational trackers. Best results per tracker are in bold, and second-best are underlined.",
+              "figure_id": "table-16-4",
+              "figure_number": "16",
+              "height": 352,
+              "image_path": "figures/2611.27398/table-023.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 1036
+            },
+            {
+              "caption": "Table 17. Fully open-weight pipeline on VISTA. TIPO uses Qwen 3.5 35B instead of GPT-5.4 as MLLM Labeler. Tracking (J , Jtr) and transformation tracking (TF1 ) do not depend on the labeler and are identical to Tab. 2. Values are reported as mean ± standard deviation across three seeds. Best results per tracker are in bold.",
+              "figure_id": "table-17-10",
+              "figure_number": "17",
+              "height": 169,
+              "image_path": "figures/2611.27398/table-024.webp",
+              "kind": "table",
+              "page": 30,
+              "width": 1036
+            },
+            {
+              "caption": "Table 18. Tracking-only comparison on VOST. We compare TIPO against state-of-the-art VOS models on the VOST [30] validation set. Only TIPO is able to detect both assembly and disassembly transformations, while TubeletGraph detects only disassemblies. Best results are in bold.",
+              "figure_id": "table-18-9",
+              "figure_number": "18",
+              "height": 331,
+              "image_path": "figures/2611.27398/table-025.webp",
+              "kind": "table",
+              "page": 30,
+              "width": 496
+            },
+            {
+              "caption": "Table 1. Comparison between VISTA and VOST-TAS datasets. VISTA adds complex assembly events, doubles the number of transformations, and includes longer video sequences.",
+              "figure_id": "table-1-11",
+              "figure_number": "1",
+              "height": 115,
+              "image_path": "figures/2611.27398/table-026.webp",
+              "kind": "table",
+              "page": 2,
+              "width": 496
+            },
+            {
+              "caption": "Table 10. MLLM Judge Ablations. Experiments are conducted on VISTA and averaged across three seeds. Qwen 3.5 35B is selected as the best all-around MLLM Judge considering stategraph transformation tracking accuracy and FPS. Best results per tracker are in bold, and second-best are underlined.",
+              "figure_id": "table-10-33",
+              "figure_number": "10",
+              "height": 231,
+              "image_path": "figures/2611.27398/table-027.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 496
+            },
+            {
+              "caption": "Table 9. Impact of State Selection Filtering. Experiments are conducted on the VISTA dataset without MLLM Judge averaged across three seeds. Increasing the State Selection Filtering threshold τ substantially improves state-graph transformation tracking accuracy. Values are reported as mean ± standard deviation.",
+              "figure_id": "table-9-32",
+              "figure_number": "9",
+              "height": 161,
+              "image_path": "figures/2611.27398/table-028.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 496
+            },
+            {
+              "caption": "Table 14. Last-frame object identity on VISTA. Predicted tracks and ground-truth objects are matched one-to-one on the last frame of each video with Hungarian matching on mask IoU if greater than θ. Precision (P ), recall (R) and F1 are micro-averaged over all objects. We report results using two different foundational trackers. Best results per tracker are in bold, and second-best are underlined.",
+              "figure_id": "table-14-14",
+              "figure_number": "14",
+              "height": 269,
+              "image_path": "figures/2611.27398/table-029.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 1036
+            },
+            {
+              "caption": "Table 15. Last-frame object identity on the disassembly sequences of VISTA. Predicted tracks and ground-truth objects are matched one-to-one on the last frame of each video with Hungarian matching on mask IoU if greater than θ. Precision (P ), recall (R) and F1 are micro-averaged over all objects. We report results using two different foundational trackers. Best results per tracker are in bold, and second-best are underlined.",
+              "figure_id": "table-15-20",
+              "figure_number": "15",
+              "height": 253,
+              "image_path": "figures/2611.27398/table-030.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 1036
+            },
+            {
+              "caption": "Table 7. Identity swaps on VISTA. Number of identity swaps between tracked objects.",
+              "figure_id": "table-7-27",
+              "figure_number": "7",
+              "height": 134,
+              "image_path": "figures/2611.27398/table-031.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 496
+            },
+            {
+              "caption": "Table 8. Human agreement of the LLM evaluator. Agreement between human judgments and LLM evaluator on the semantic similarity of object names and action descriptions. Values are mean ± standard deviation across subjects. Best result is in bold.",
+              "figure_id": "table-8-28",
+              "figure_number": "8",
+              "height": 84,
+              "image_path": "figures/2611.27398/table-032.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 496
+            },
+            {
+              "caption": "Table 12. TIPO variability on VISTA. We evaluate pure tracking and state-graph generation using three different seeds. Values are reported as mean ± standard deviation. Best results per tracker are in bold.",
+              "figure_id": "table-12-7",
+              "figure_number": "12",
+              "height": 172,
+              "image_path": "figures/2611.27398/table-033.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 1036
+            },
+            {
+              "caption": "Table 13. Robustness to tracker noise on VISTA. CLEAN denotes the standard setting, while NOISY denotes tracker output masks corrupted with random cutouts. All experiments use SAM 3 as the tracker, using a single seed. Best results per setting are in bold.",
+              "figure_id": "table-13-6",
+              "figure_number": "13",
+              "height": 134,
+              "image_path": "figures/2611.27398/table-034.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27398/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.27398",
+          "relevance": 6,
+          "selection_reason": "Tracks objects through physical transformations with state graphs and MLLM verification; fits temporal/action video understanding.",
+          "summary_status": "generated",
+          "title": "Taking Apart and Putting Together: Tracking Objects Through Physical Transformations",
+          "tldr": "TIPO enables video trackers to follow objects through physical assembly and disassembly while updating their identities, relationships, and transformation semantics.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Long-video question answering requires retrieving and integrating relevant evidence from videos spanning hours or even days. Recent agentic approaches organize video information into external memories and iteratively retrieve evidence to answer questions. However, effective retrieval and reasoning remain challenging, as agents must determine what information to search for, which memory sources to access, and how to connect evidence across distant temporal intervals. To address these challenges, we propose Video Memory Skill Agent (VMSA), a framework that jointly designs structured video memories and memory skills for long-video understanding. VMSA constructs three complementary memory components. Segment Caption Memory and Entity Event Memory serve as searchable evidence sources, while Entity-Aware Episode Memory provides broad yet detailed video context to guide evidence retrieval and reasoning. To further support effective memory utilization, VMSA induces memory skills from successful agent trajectories, incrementally refining or extending a compact skill library to guide iterative evidence retrieval, reasoning, and verification. Across seven long-video question-answering benchmarks, VMSA achieves the highest accuracy on all three week-long egocentric benchmarks, outperforming the strongest baseline by up to 9.4% on Ego-R1 Bench, and the best or competitive performance on four additional benchmarks. Ablation studies further demonstrate the contributions of all three memory components and memory skills, with memory skills also improving temporal evidence localization.",
+          "arxiv_id": "2611.27381",
+          "arxiv_url": "https://arxiv.org/abs/2611.27381",
+          "authors": [
+            "Changin Choi, Jungwon Park, Jungmin Ko, Jimyeong Kim, Wonjong Rhee"
+          ],
+          "bullets": [
+            "Targets the challenge of finding and connecting evidence across distant intervals in videos lasting hours or days.",
+            "Builds three memories: searchable segment captions, entity-event records, and entity-aware episode context.",
+            "Induces a compact library of memory skills from successful agent trajectories for iterative retrieval, reasoning, and verification.",
+            "Achieves the best results on three week-long egocentric benchmarks, with up to 9.4% improvement over the strongest baseline on Ego-R1 Bench.",
+            "Ablations show that all memory components and memory skills contribute, including better temporal evidence localization."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1. Overview of VMSA. (a) Structured video memory comprises three levels: segment captions preserving local details, entity events consolidating observations of continuing activities, and entity-aware episodes connecting related episodes across distant time points. (b) Memory skills are induced from successful source trajectories. Coverage assessment determines whether each procedure is already covered, requires skill refinement, or requires a new skill. The skill libraries are updated accordingly and periodically consolidated to reduce redundancy while preserving procedural knowledge. (c) At inference time, the video agent receives the target query, retrieved memory skills, and entity-aware episode memory as input context. The agent then gathers and verifies evidence through tool calls to generate its answer.",
+              "figure_id": "figure-1-6",
+              "figure_number": "1",
+              "height": 552,
+              "image_path": "figures/2611.27381/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 998
+            },
+            {
+              "caption": "Figure 3. Prompt used for Segment Inspection. The agent model supplies bounded temporal spans and answer-discriminative verification points. The inspection model reports directly observed evidence from the corresponding source-video frames.",
+              "figure_id": "figure-3-14",
+              "figure_number": "3",
+              "height": 390,
+              "image_path": "figures/2611.27381/figure-002.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 2. Prompt and tool interface used for agentic search over structured video memory. Placeholders are instantiated for each question. Retrieved memory skills, the segment layout, and Entity-Aware Episode Memory are inserted into the initial context.",
+              "figure_id": "figure-2-24",
+              "figure_number": "2",
+              "height": 823,
+              "image_path": "figures/2611.27381/figure-003.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 4. Memory-skill schema and representative example. Each memory skill specifies an activation condition, ordered evidenceseeking steps, an evidence-memory checklist, a reasoning template, a stopping rule, and common failure modes.",
+              "figure_id": "figure-4-21",
+              "figure_number": "4",
+              "height": 644,
+              "image_path": "figures/2611.27381/figure-004.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 5. Abridged prompts for memory-skill induction and library consolidation. Induction produces coverage assessments and complete revised or new skill records. Consolidation merges skills representing the same underlying procedure while preserving their reusable procedural knowledge.",
+              "figure_id": "figure-5-22",
+              "figure_number": "5",
+              "height": 350,
+              "image_path": "figures/2611.27381/figure-005.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 6. Qualitative example of skill-guided agentic search on LVBench. Retrieved memory skills guide Caption Search, Entity Event Search, and Segment Inspection to identify the escape vehicle and distinguish the spider’s active assistance from the ant’s presence aboard. Agent interactions and tool responses are summarized for clarity.",
+              "figure_id": "figure-6-3",
+              "figure_number": "6",
+              "height": 1204,
+              "image_path": "figures/2611.27381/figure-006.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 748
+            },
+            {
+              "caption": "Table 3. Comparison on Video-MME (L) [9], LongVideoBench (L) [56], LVBench [47], and HippoVlog [22]. We report accuracy (%) on multiple-choice questions. The best and second-best results are shown in bold and underlined, respectively.",
+              "figure_id": "table-3-9",
+              "figure_number": "3",
+              "height": 613,
+              "image_path": "figures/2611.27381/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1036
+            },
+            {
+              "caption": "Table 19. Category-wise accuracy (%) on EgoLifeQA and Ego-R1 Bench. We include baselines from Table 1 with category-wise results reported by WorldMM [59]. Ent., EvR., Hab., Rel., and Task denote EntityLog, EventRecall, HabitInsight, RelationMap, and TaskMaster, respectively. The best and second-best results are shown in bold and underlined, respectively.",
+              "figure_id": "table-19-12",
+              "figure_number": "19",
+              "height": 675,
+              "image_path": "figures/2611.27381/table-008.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 1036
+            },
+            {
+              "caption": "Table 1. Comparison on EgoLifeQA [58] and Ego-R1 Bench [43]. We report multiple-choice accuracy (%). Best and second-best results are shown in bold and underlined, respectively.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 559,
+              "image_path": "figures/2611.27381/table-009.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 496
+            },
+            {
+              "caption": "Table 5. Ablation of memory skills. We report average best-turn tIoG and tIoU, and answer accuracy (%). For ScaleLong and VideoOdyssey-V, memory skills are induced from Video-MME (L), LongVideoBench (L), LVBench, and HippoVlog.",
+              "figure_id": "table-5-8",
+              "figure_number": "5",
+              "height": 233,
+              "image_path": "figures/2611.27381/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 7. Mean and sample standard deviation of search turns per question under the default 10-turn budget.",
+              "figure_id": "table-7-18",
+              "figure_number": "7",
+              "height": 180,
+              "image_path": "figures/2611.27381/table-011.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 6. Comparison of skill induction strategies. We report skill library size, measured by the number of induced skills or experience entries, and answer accuracy (%) on LongVideoBench (L) and LVBench.",
+              "figure_id": "table-6-20",
+              "figure_number": "6",
+              "height": 163,
+              "image_path": "figures/2611.27381/table-012.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 8. Effect of agent models on answer accuracy (%). For the GPT-5 configuration on Video-MME (L), we use Qwen3.6-27B for Segment Inspection due to the high cost of using GPT-5.",
+              "figure_id": "table-8-19",
+              "figure_number": "8",
+              "height": 94,
+              "image_path": "figures/2611.27381/table-013.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 20. Category-wise accuracy (%) on the EgoMemReason benchmark [53]. The best and second-best results are shown in bold and underlined, respectively.",
+              "figure_id": "table-20-16",
+              "figure_number": "20",
+              "height": 597,
+              "image_path": "figures/2611.27381/table-014.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 959
+            },
+            {
+              "caption": "Table 9. Benchmark statistics for the datasets used in our experiments. We report unique source videos or participant streams, the number of questions, and the average duration of videos. For the week-long egocentric benchmarks, duration is the total recorded footage per participant stream across seven daily recordings.",
+              "figure_id": "table-9-13",
+              "figure_number": "9",
+              "height": 306,
+              "image_path": "figures/2611.27381/table-015.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 452
+            },
+            {
+              "caption": "Table 2. Comparison on the EgoMemReason benchmark [53]. We report multiple-choice accuracy (%). Best and second-best results are shown in bold and underlined, respectively.",
+              "figure_id": "table-2-2",
+              "figure_number": "2",
+              "height": 512,
+              "image_path": "figures/2611.27381/table-016.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 327
+            },
+            {
+              "caption": "Table 4. Ablation of memory components in VMSA on LongVideoBench (L), HippoVlog, and EgoLifeQA. Caption, Event, Episode refer to Segment Caption Memory, Entity Event Memory, and Entity-Aware Episode Memory, respectively.",
+              "figure_id": "table-4-7",
+              "figure_number": "4",
+              "height": 106,
+              "image_path": "figures/2611.27381/table-017.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 15. Effect of memory skills on answer accuracy (%) with the Qwen3.6-27B agent.",
+              "figure_id": "table-15-30",
+              "figure_number": "15",
+              "height": 121,
+              "image_path": "figures/2611.27381/table-018.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 375
+            },
+            {
+              "caption": "Table 17. Effect of the memory-skill induction model on HippoVlog, EgoLifeQA, and Ego-R1 Bench. We report multiplechoice accuracy (%) while holding the Qwen3.6-27B reasoning agent, structured memory, and inference setting fixed. VMSA achieves comparable performance with memory skills induced by Qwen3.6-27B on Ego-R1 Bench.",
+              "figure_id": "table-17-5",
+              "figure_number": "17",
+              "height": 95,
+              "image_path": "figures/2611.27381/table-019.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 496
+            },
+            {
+              "caption": "Table 18. Full agent-model scaling comparison with the same preconstructed video memory. We report accuracy (%) on four hour-scale long video and three week-long egocentric benchmarks. Best results are bold.",
+              "figure_id": "table-18-10",
+              "figure_number": "18",
+              "height": 109,
+              "image_path": "figures/2611.27381/table-020.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 1036
+            },
+            {
+              "caption": "Table 22. Task-level comparison on the visual-only VideoOdyssey-V benchmark. We report accuracy (%) for six Perception tasks, six Cognition tasks, Summarization, and Temporal Grounding. The VMSA result uses memory skills transferred from other source benchmarks.",
+              "figure_id": "table-22-17",
+              "figure_number": "22",
+              "height": 265,
+              "image_path": "figures/2611.27381/table-021.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 1036
+            },
+            {
+              "caption": "Table 25. Average online inference cost per question for the Qwen3.6-27B agent. Tool turns count interaction rounds; agent tokens count generated assistant tokens; memory tokens count the initial Entity-Aware Episode Memory, retrieved memory skills, and Caption Search and Entity Event Search observations; and visual frames count frames decoded for Segment Inspection. Across datasets, the agent averages from 2.07 to 4.59 tool turns per question and decodes at most 151.3 frames per question on average.",
+              "figure_id": "table-25-26",
+              "figure_number": "25",
+              "height": 271,
+              "image_path": "figures/2611.27381/table-022.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 492
+            },
+            {
+              "caption": "Table 24. Average input tokens, output tokens, and memoryconstruction latency in seconds per video at different segment granularities, excluding segment captioning.",
+              "figure_id": "table-24-27",
+              "figure_number": "24",
+              "height": 134,
+              "image_path": "figures/2611.27381/table-023.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 366
+            },
+            {
+              "caption": "Table 12. Association between temporal grounding and answer accuracy. For each trajectory, we use its best-turn tIoG and partition trajectories at 0.5. We report answer accuracy (%) for each group; ∆ denotes their difference.",
+              "figure_id": "table-12-23",
+              "figure_number": "12",
+              "height": 112,
+              "image_path": "figures/2611.27381/table-024.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 496
+            },
+            {
+              "caption": "Table 14. Effect of Entity-Aware Episodes in the initial context. G denotes the global video summary, and Episode denotes Entityaware Episode Memory. We report multiple-choice accuracy (%).",
+              "figure_id": "table-14-31",
+              "figure_number": "14",
+              "height": 113,
+              "image_path": "figures/2611.27381/table-025.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 496
+            },
+            {
+              "caption": "Table 16. Effect of segment duration on structured video memory. We vary the segment duration from 16 to 60 s and report accuracy (%) on LVBench and LongVideoBench (L). The 16 s setting achieves the best accuracy on both benchmarks; longer segments yield fewer but temporally coarser memory records.",
+              "figure_id": "table-16-4",
+              "figure_number": "16",
+              "height": 115,
+              "image_path": "figures/2611.27381/table-026.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 454
+            },
+            {
+              "caption": "Table 21. Comparison on ScaleLong at the clip, shot, event, and story levels. We report accuracy (%). The VMSA result uses memory skills transferred from other source benchmarks.",
+              "figure_id": "table-21-15",
+              "figure_number": "21",
+              "height": 182,
+              "image_path": "figures/2611.27381/table-027.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 776
+            },
+            {
+              "caption": "Table 26. Effect of the maximum search-turn budget on answer accuracy (%). The best results are shown in bold.",
+              "figure_id": "table-26-25",
+              "figure_number": "26",
+              "height": 123,
+              "image_path": "figures/2611.27381/table-028.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 496
+            },
+            {
+              "caption": "Table 10. Entity canonicalization statistics and model-based identity audit on ScaleLong and VideoOdyssey-V. Raw Entity counts segment-level entity profiles, whereas Canonical Entity counts the resulting merged entities. Over-merged and Under-merged report cases identified by Claude Sonnet 5.",
+              "figure_id": "table-10-32",
+              "figure_number": "10",
+              "height": 71,
+              "image_path": "figures/2611.27381/table-029.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 494
+            },
+            {
+              "caption": "Table 23. Effect of subtitle assistance. Adding subtitles improves VMSA by 5.7 and 2.5 points on Video-MME (L) and LVBench, respectively.",
+              "figure_id": "table-23-11",
+              "figure_number": "23",
+              "height": 92,
+              "image_path": "figures/2611.27381/table-030.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 308
+            },
+            {
+              "caption": "Table 13. Evidence credit (%) of structured-memory views over correct Video-MME (L) and HippoVlog trajectories, conditioned on each view providing records. A view receives credit when its records directly state an answer-discriminative fact or their temporal support overlaps segments examined by Segment Inspection. Views are credited independently.",
+              "figure_id": "table-13-29",
+              "figure_number": "13",
+              "height": 90,
+              "image_path": "figures/2611.27381/table-031.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 437
+            },
+            {
+              "caption": "Table 11. Catalog of the 15 memory skills transferred to the four conventional long-video benchmarks. Each entry summarizes the evidence-seeking procedure encoded by a skill.",
+              "figure_id": "table-11-28",
+              "figure_number": "11",
+              "height": 36,
+              "image_path": "figures/2611.27381/table-032.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27381/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.27381",
+          "relevance": 9,
+          "selection_reason": "The paper introduces a framework for long-video question answering that employs structured memory components and memory skills to facilitate temporal reasoning and evidence retrieval, directly targeting the challenges of long video understanding.",
+          "summary_status": "generated",
+          "title": "VMSA: Video Memory Skill Agent for Long Video Understanding",
+          "tldr": "VMSA improves long-video question answering by combining structured video memories with learned retrieval and reasoning skills.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "General-purpose point tracking requires large-scale training data with diverse dynamics, yet existing datasets struggle to combine rich dynamic content, accurate scene geometry, and sufficient scale. We introduce TrajRealm, the first public synthetic point-tracking dataset to reach the ten-million-frame scale, constructed from games and embodied simulations. TrajRealm uses the rich environments and motion systems of modern games to capture diverse targets, activities, and interactions across diverse worlds, while embodied simulations add robot manipulation and indoor navigation data. The dataset provides RGB observations, depth, camera parameters, and persistent 2D and 3D point trajectories. These annotations provide precise, geometrically consistent supervision across foreground objects and static environmental surfaces. We also build TrajRealm-Bench with eight subcategories under Interaction and Locomotion to evaluate tracking across diverse scenes. Benchmark evaluations reveal the strengths and limitations of existing trackers in handling complex motion and maintaining long-term point correspondences. Training on TrajRealm improves the performance of existing tracking methods on synthetic and real-world benchmarks.",
+          "arxiv_id": "2611.27136",
+          "arxiv_url": "https://arxiv.org/abs/2611.27136",
+          "authors": [
+            "Ni Yang, Weiguang Zhao, Jiafei Cao, Yankai Jiang, Haoyu Guo, Tao Yang, Chunhua Shen, Junting Dong"
+          ],
+          "bullets": [
+            "Combines game environments with embodied simulations to cover varied targets, interactions, robot manipulation, and indoor navigation.",
+            "Provides RGB, depth, camera parameters, and persistent 2D/3D point trajectories with geometrically consistent annotations.",
+            "Introduces TrajRealm-Bench, spanning eight Interaction and Locomotion categories for evaluating diverse tracking scenarios.",
+            "Benchmark results expose strengths and limitations of existing trackers, especially for complex motion and long-term correspondences.",
+            "Training on TrajRealm improves existing trackers on both synthetic and real-world benchmarks."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Data overview. Game capture and embodied re-rendering produce unified tracking data. The panels summarize data collection, annotations, scale, diversity, and visual and geometric quality.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 428,
+              "image_path": "figures/2611.27136/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1022
+            },
+            {
+              "caption": "Figure 3. Comparison with synthetic datasets. (a) RGB–depth pairs from PointOdyssey [9], Kubric [8], and SynthVerse [6] (top), and TrajRealm (bottom). RGB shows world-space foreground trajectories; depth shows camera-relative background points or trajectories. (b) Scene semantics and interactions in Syn4D [7] and TrajRealm. (c) Plant appearance and trajectories in SynthVerse and TrajRealm. Depth colors are normalized per example; white indicates unavailable depth.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 452,
+              "image_path": "figures/2611.27136/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1040
+            },
+            {
+              "caption": "Figure 1. Highlights of TrajRealm. TrajRealm covers complex motion, diverse targets and worlds, and multiple viewpoints, with point trajectories on foreground objects and environmental surfaces.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 952,
+              "image_path": "figures/2611.27136/figure-003.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 1084
+            },
+            {
+              "caption": "Figure 5. Performance across benchmark categories. (a) Without GT depth and camera pose; (b) with GT depth and camera pose.",
+              "figure_id": "figure-5-6",
+              "figure_number": "5",
+              "height": 206,
+              "image_path": "figures/2611.27136/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 956
+            },
+            {
+              "caption": "Figure 4. Within-game diversity. (a) Different activities within one game. (b) Diverse environments within another game.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 175,
+              "image_path": "figures/2611.27136/figure-005.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1040
+            },
+            {
+              "caption": "Table 6. Public real-world benchmark results. ∗: fine-tuned on TrajRealm. TrackEverything [25] uses 50 full-length minival videos per dataset. ∆: fine-tuned minus published baseline (pp). Light blue marks the higher score.",
+              "figure_id": "table-6-10",
+              "figure_number": "6",
+              "height": 454,
+              "image_path": "figures/2611.27136/table-006.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 1040
+            },
+            {
+              "caption": "Table 1. Point-tracking datasets and benchmarks. Ego./Allo.: egocentric/allocentric.",
+              "figure_id": "table-1-5",
+              "figure_number": "1",
+              "height": 354,
+              "image_path": "figures/2611.27136/table-007.webp",
+              "kind": "table",
+              "page": 3,
+              "width": 1040
+            },
+            {
+              "caption": "Table 2. Embodied data used in TrajRealm.",
+              "figure_id": "table-2-11",
+              "figure_number": "2",
+              "height": 347,
+              "image_path": "figures/2611.27136/table-008.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1040
+            },
+            {
+              "caption": "Table 4. TrajRealm-Bench results. ∗: fine-tuned; †: dense. GT groups include lifting and coordinate conversion; π3 [37]: estimated geometry. Track4World (‡) scores and averages exclude sequences with non-finite (NaN/Inf) predictions. Its successful/total sequence counts are Interaction—General 40/40, Hard 14/15, Embodied 14/15, Plant 15/15; Locomotion— General 29/30, Long-horizon 2/20, Transportation 14/30, Group 9/10.",
+              "figure_id": "table-4-7",
+              "figure_number": "4",
+              "height": 931,
+              "image_path": "figures/2611.27136/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 1040
+            },
+            {
+              "caption": "Table 5. Public synthetic benchmark results. ∗: fine-tuned on TrajRealm. ∆: fine-tuned minus published baseline (pp). Light blue marks the higher score.",
+              "figure_id": "table-5-9",
+              "figure_number": "5",
+              "height": 199,
+              "image_path": "figures/2611.27136/table-010.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 1040
+            },
+            {
+              "caption": "Table 3. TrajRealm-Bench statistics.",
+              "figure_id": "table-3-4",
+              "figure_number": "3",
+              "height": 185,
+              "image_path": "figures/2611.27136/table-011.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 514
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27136/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.27136",
+          "relevance": 5,
+          "selection_reason": "Large-scale point tracking dataset with diverse dynamics; fits video understanding.",
+          "summary_status": "generated",
+          "title": "TrajRealm: A Large-Scale Point Tracking Dataset with Diverse Dynamics",
+          "tldr": "TrajRealm is a ten-million-frame synthetic point-tracking dataset designed to improve tracking under diverse, complex, and long-term motion.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "LLM-generated descriptions enrich zero-shot skeleton-based action recognition but repeat cues shared by confusable actions. Their contextual semantics also lack explicit links to skeleton features. To address these challenges, we propose CRAFT, which couples Concept Refinement and Feature-grounded Tokens. Hard-negative-conditioned generation and contrastive scoring identify concepts that distinguish each action from its closest rivals. Unique-QDPP selects complementary descriptions within each semantic slot and prevents their reuse across slots. This bank supervises learnable concept tokens that read motion and context cues from each skeleton. On fixed NTU-60 and NTU-120 splits, CRAFT improves five baselines spanning four recognition paradigms. ZSL accuracy and GZSL harmonic mean increase on every baseline-split pair, by 5.4 and 5.9 percentage points on average. Random-split experiments extend these gains to three datasets, including PKU-MMD. Code will be released after acceptance.",
+          "arxiv_id": "2611.27135",
+          "arxiv_url": "https://arxiv.org/abs/2611.27135",
+          "authors": [
+            "Siyu Zhu, Feng Ding, Zixiao Jin, Kaizhi Li, Xin Dong, Haisheng Fu, Yuchen Zou, Guohe Zhang, Jie Liang"
+          ],
+          "bullets": [
+            "Targets redundant LLM-generated descriptions and weak links between semantics and skeleton motion.",
+            "Uses hard-negative-conditioned generation and contrastive scoring to find concepts that distinguish confusable actions.",
+            "Selects complementary descriptions with Unique-QDPP and assigns them to separate semantic slots.",
+            "Learns concept tokens that extract motion and contextual cues from skeletons.",
+            "Improves ZSL and GZSL performance across five baselines and multiple splits, with average gains of 5.4 and 5.9 percentage points on fixed NTU splits."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of CRAFT. Discriminative concept construction supplies slot-specific targets for skeleton prompt learning. These targets supervise concept tokens that read motion and context evidence from each input skeleton.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 492,
+              "image_path": "figures/2611.27135/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 877
+            },
+            {
+              "caption": "Figure 3. t-SNE visualization of action descriptions for the 60 unseen classes in the NTU-120 60/60 split. Colors denote the same classes across panels.",
+              "figure_id": "figure-3-7",
+              "figure_number": "3",
+              "height": 451,
+              "image_path": "figures/2611.27135/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 869
+            },
+            {
+              "caption": "Figure 4. Absolute integrated-gradient attribution for context and motion queries. Each model pair shares a maximum-normalized scale (blue: low; red: high).",
+              "figure_id": "figure-4-9",
+              "figure_number": "4",
+              "height": 747,
+              "image_path": "figures/2611.27135/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 499
+            },
+            {
+              "caption": "Figure 1. Mean fixed-split ZSL accuracy (%) per dataset. Arrows show absolute gains from adding CRAFT to each baseline.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 363,
+              "image_path": "figures/2611.27135/figure-004.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 379
+            },
+            {
+              "caption": "Table 1. Fixed-split ZSL top-1 accuracy (%) under cross-subject evaluation. Baseline-CRAFT pairs use SynSE’s Shift-GCN features [10]. Class splits follow [10], with challenging splits from [42]. In Tables 1-3, splits denote seen/unseen class counts, and parentheses show absolute accuracy gains over each host baseline. Red: best. Blue: second-best. - denotes unreported results. SkContext denotes SkeletonContext.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 515,
+              "image_path": "figures/2611.27135/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Table 3. Random-split ZSL accuracy and GZSL H (%) under cross-subject evaluation. Features come from ST-GCN [39]; class splits follow [5, 7, 15]. All results are averaged over the same three random class splits. TDSM GZSL baseline results are reproduced.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 285,
+              "image_path": "figures/2611.27135/table-006.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 496
+            },
+            {
+              "caption": "Table 4. Quantitative comparison of action descriptions. R@1/HNE: %. MRR: ×100. Red: best. Blue: second-best.",
+              "figure_id": "table-4-5",
+              "figure_number": "4",
+              "height": 186,
+              "image_path": "figures/2611.27135/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 2. Fixed-split GZSL results (%) under cross-subject evaluation. Baseline-CRAFT pairs use SynSE’s Shift-GCN features [10]. Class splits follow [3, 5, 14, 34]. S, U , and H denote seen accuracy, unseen accuracy, and their harmonic mean.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 85,
+              "image_path": "figures/2611.27135/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 496
+            },
+            {
+              "caption": "Table 5. Ablation study on PURLS (%). Ablated models are retrained. Parentheses show changes from PURLS+Ours in percentage points.",
+              "figure_id": "table-5-6",
+              "figure_number": "5",
+              "height": 50,
+              "image_path": "figures/2611.27135/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.27135/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.27135",
+          "relevance": 5,
+          "selection_reason": "Zero-shot skeleton action recognition with LLM concepts; fits action/video understanding.",
+          "summary_status": "generated",
+          "title": "Crafting the Difference, Grounding the Evidence: Discriminative Concept Learning for Zero-Shot Skeleton Action Recognition",
+          "tldr": "CRAFT improves zero-shot skeleton action recognition by generating discriminative action concepts and grounding them in skeleton features.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Many questions about videos ask for a number, such as how tall a person is, how far a cart travels, or how fast a ball leaves a ramp. We study this task, quantitative physical reasoning from video, where the inputs are a video, a question, and a prior of known facts such as object sizes, speeds, and distances from the camera to named objects. End-to-end video-language models lack an explicit metric scale and physical consistency, and their errors cannot be inspected. We present SceneRuler, which instead recovers a measurable physical scene and answers with that scene as evidence. Its central principle, Minimal Sufficient Reconstruction, builds, for each question, only the smallest scene that suffices to measure the asked quantity, and tests sufficiency on measurements rather than assuming it. The scene is written as a program whose structure a vision-language model writes and whose magnitudes are left to measurement. Physics-guided Fitting measures them through physical motion laws, so that gravity itself can anchor the metric scale, and marks every parameter, and the read-out of the asked quantity, as determined or undetermined. Each question receives a read-out and an answer. The read-out is the asked quantity evaluated on the scene, and it is empty when the scene does not fix that quantity. The answer is always given by a model that takes the scene as evidence. We evaluate on QuantiPhy and also apply the method to 27 in-the-wild videos that we collected, which have no ground-truth answers. On its validation split, the final answer reaches a mean relative accuracy of 0.709 against 0.624 for the strongest baseline, and the reconstruction determines the asked quantity on 47 of 158 questions, where the final answer reaches 0.781. Because every intermediate quantity is explicit, each answer can be traced to the objects, scale, and motion behind it.",
+          "arxiv_id": "2611.26994",
+          "arxiv_url": "https://arxiv.org/abs/2611.26994",
+          "authors": [
+            "Yumeng He, Gezheng Kang, Fanlian Zeng, Yin Yang, Chenfanfu Jiang"
+          ],
+          "bullets": [
+            "Targets questions requiring physical quantities such as height, distance, and speed from video plus known prior facts.",
+            "Uses Minimal Sufficient Reconstruction to build the smallest question-specific scene that can determine the requested measurement.",
+            "Represents scene structure as a program, estimates magnitudes with physics-guided fitting, and can use gravity to establish metric scale.",
+            "Marks parameters and outputs as determined or undetermined; answers are generated with the reconstructed scene as evidence.",
+            "On QuantiPhy validation, achieves 0.709 mean relative accuracy versus 0.624 for the strongest baseline; fully determined cases reach 0.781 on 47 of 158 questions."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 7. In-the-wild videos. Five questions on videos outside the benchmark. These videos have no ground truth, so the figure shows each method’s reconstruction and answer without ranking them. Each row has the question above the frames and the answers below them, on the frame on which PhysMind and Thinking with Spatial Code drew their reconstructions. Within a row every object keeps one colour in all columns, and the asked object is blue. The Ours column shows the fitted scene program with the asked body’s fitted path dashed, and the read-out with its 𝜎 (filled dot) or, where the scene leaves the quantity undetermined, the final answer (hollow dot). The PhysMind column shows its posed meshes and its answer, a filled triangle where it was measured on the meshes and a hollow triangle where its pipeline fell back to the model’s direct answer. The Thinking with Spatial Code column shows its 3D boxes and its answer. Appendix B.1 describes the videos.",
+              "figure_id": "figure-7-10",
+              "figure_number": "7",
+              "height": 205,
+              "image_path": "figures/2611.26994/figure-001.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 1060
+            },
+            {
+              "caption": "Fig. 6. Qualitative comparison. One question per category (rows), each on one frame that every column shows. The question stands above the frames and the answers below them, with the ground truth under the Input column. Each question also comes with its prior, which is not printed. Within a row every object keeps one colour in all columns, and the asked object is blue. The Ours column shows the fitted scene program rendered over the frame, each body with its fitted path dashed, and the read-out with its 𝜎 (filled dot) or, where the scene leaves the quantity undetermined, the final answer (hollow dot). The PhysMind column shows its posed meshes and its answer, a filled triangle where it was measured on the meshes. Where it produced no meshes, the frame is plain and the answer is the model’s direct one (hollow triangle). The Thinking with Spatial Code column shows its 3D boxes and its answer.",
+              "figure_id": "figure-6-5",
+              "figure_number": "6",
+              "height": 803,
+              "image_path": "figures/2611.26994/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1060
+            },
+            {
+              "caption": "Fig. 2. Overview, on one question. The question asks for the initial distance between two billiard balls, with the balls’ diameter as the prior. Tracks give one mask per object and frame. The VLM writes the structure of the scene program (Section 3.2). The structure holds the objects with coarse solid shapes, their motion as segments with laws, the prior bound to the balls’ size, and the camera. Physics-guided Fitting (Section 3.3) measures the magnitudes against the masks and marks each parameter determined (filled) or undetermined (hollow). The candidate tracks, the plan, and the authored shapes are each checked where they are made and redone when the check fails (return arrows). Here the focal length, the camera’s height and pitch, and the black ball’s position along the table are left open, and so is the asked distance. The read-out is therefore empty. The final answer is given for every question (Section 3.4). Figure 8 in the appendix shows every stage of this example with its numbers.",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 291,
+              "image_path": "figures/2611.26994/figure-003.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1064
+            },
+            {
+              "caption": "Fig. 8. Every stage on one question, the initial distance between the black and the purple billiard ball, with the prior “billiard ball diameter = 57.2mm”. Panels are numbered in reading order and arrows show what each stage passes on. Return arrows mark the stages that check their own product, the candidate tracks (2), the plan (5), and the shapes (6). (1) The input. (2) The object list and the chosen detection. (3) The tracks with their masks and frame ranges. (4) The tracks’ mask noise and consecutive-mask IoU, and the focal length the camera starts from. (5) The plan on the labelled frame grid, and its review. (6) The authored shapes, each measured against its masks, none judged. (7) The structure, with free and fixed parameters, held rows, and the parsed question. (8) The camera’s pitch starts. A cross means the table would lie above the camera, a hollow diamond means the start is carried through the full fit, and the filled blue diamond is the start kept. (9) The fit over the video, which also receives the masks and the focal start. (10) The anchors and votes. The stated diameter holds the scale. (11) The parameters the fit determines. The focal length, the camera’s height and pitch, and the black ball’s position along the table are open, so the distance is undetermined. (12) The answer step, which sees 16 timestamped frames, renderings of the program, and the reconstruction as text, without the determined flag or 𝜎 . (13) The read-out and the answer. The read-out is empty, and the final answer is 15.32 cm.",
+              "figure_id": "figure-8-4",
+              "figure_number": "8",
+              "height": 1031,
+              "image_path": "figures/2611.26994/figure-004.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 1019
+            },
+            {
+              "caption": "Fig. 3. One scene program as a tree. A ball is thrown between two people on a beach, and the question asks for its speed at 1.00 s with the prior 𝑔 = 9.8m/s2. Top, the input frame at 1.00 s and the fitted program rendered from the fitted camera, each body in the colour of its node. Below, the tree is drawn as the scene stands. The asked ball is on top, held by one person and then free in a ballistic segment that reads 𝑔, which fixes the scale. The people stand on the ground plane at the base, and the camera stands beside it. Each node shows the fitted shape, its size, and its segments on one time strip.",
+              "figure_id": "figure-3-7",
+              "figure_number": "3",
+              "height": 579,
+              "image_path": "figures/2611.26994/figure-005.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 506
+            },
+            {
+              "caption": "Fig. 5. The person template. Top, the four poses at one height. Bottom, a walking person of the benchmark and the template fitted to her.",
+              "figure_id": "figure-5-11",
+              "figure_number": "5",
+              "height": 510,
+              "image_path": "figures/2611.26994/figure-006.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 506
+            },
+            {
+              "caption": "Fig. 4. Segments and laws. A ping-pong ball rests on a table, rolls along it, and leaves its edge in ballistic flight. Each segment is a relation and a law with a few parameters. The fitted path is drawn into the video (left) and with the program’s bodies (right). The asked velocity is read from the rolling law at the asked time, and the ballistic segment reads 𝑔, which anchors the scale beside the prior.",
+              "figure_id": "figure-4-6",
+              "figure_number": "4",
+              "height": 187,
+              "image_path": "figures/2611.26994/figure-007.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 506
+            },
+            {
+              "caption": "Table 3. Constants of the method.",
+              "figure_id": "table-3-9",
+              "figure_number": "3",
+              "height": 541,
+              "image_path": "figures/2611.26994/table-008.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 510
+            },
+            {
+              "caption": "Table 6. Time per question over every question with a run, in the order of the steps. The time of the final answer includes the queue of the shared model endpoint. The focal length start is computed once per video, so it costs nothing on most questions.",
+              "figure_id": "table-6-8",
+              "figure_number": "6",
+              "height": 221,
+              "image_path": "figures/2611.26994/table-009.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 510
+            },
+            {
+              "caption": "Table 1. Quantitative comparison on the QuantiPhy validation split (MRA, higher is better). S / D denote that the prior states a size, or a speed or acceleration. The digits 2 / 3 denote questions without or with given distances from the camera. Overall is the mean of the four category means. The authors of Code as Worlds report overall scores of 0.506 (4B) and 0.554 (9B). The deeper blue marks the best and the lighter blue the second best in each column.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 241,
+              "image_path": "figures/2611.26994/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 510
+            },
+            {
+              "caption": "Table 5. Determined and undetermined parameters for the question of Figure 2. Every parameter has a value, but only filled ones are vouched for, with their 𝜎 . The camera’s roll is determined. Its focal length, height, and pitch are left open, and with them the black and purple balls’ positions along the table, the black ball’s motion, and the asked distance.",
+              "figure_id": "table-5-12",
+              "figure_number": "5",
+              "height": 281,
+              "image_path": "figures/2611.26994/table-011.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 510
+            },
+            {
+              "caption": "Table 2. Scale anchors.Questions grouped by what the scale test finds the metric scale rests on, with the MRA of the final answer in each group. An image measurement binds a prior statement and is counted under the prior, and so is a 𝑔 the prior states. Gravity 𝑔 counts as an anchor of its own only where the program takes it as the environment’s convention. Read from the scale test of the fit (Appendix B).",
+              "figure_id": "table-2-2",
+              "figure_number": "2",
+              "height": 85,
+              "image_path": "figures/2611.26994/table-012.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 510
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.26994/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.26994",
+          "relevance": 7,
+          "selection_reason": "Quantitative physical/spatial reasoning from video via scene reconstruction, fitting spatial intelligence and video understanding.",
+          "summary_status": "generated",
+          "title": "SceneRuler: Measuring Physical Quantities in Video via Minimal Sufficient Reconstruction",
+          "tldr": "SceneRuler answers quantitative video questions by reconstructing only the physical scene needed for measurement, making scale, uncertainty, and evidence explicit.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "spatial-intelligence"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            },
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Multimodal Large Language Models (MLLMs) have achieved strong video comprehension, largely benefiting from extensive training on realistic video data. However, when video perception severely conflicts with internal priors or common sense, we identify a critical failure pattern termed Modal Polarization, where models fail to integrate modalities and instead bifurcate into two distinct extremes: Cognitive Inertia, where models rigidly adhere to priors despite contradictory visual evidence, and Perceptual Inertia, where they blindly trust video perception while ignoring logical inconsistencies. To investigate this, we introduce TheaterBench, a benchmark designed to expose Modal Polarization using counter-intuitive scenarios that violate physical laws or common sense - situations rarely encountered in standard training distributions. Extensive experiments reveal that current state-of-the-art (SOTA) models exhibit severe Modal Polarization, and many de-hallucination methods merely rebalance the trade-off between Perceptual and Cognitive Inertia rather than fundamentally resolving the conflict. This work serves as a foundational step for evaluating and enhancing the perceptual-cognitive equilibrium of future video understanding models.",
+          "arxiv_id": "2611.26972",
+          "arxiv_url": "https://arxiv.org/abs/2611.26972",
+          "authors": [
+            "Yao Tong, Jiaxin Qi, Yan Cui, Jinli Ou, Yuhua Zheng, Jianqiang Huang"
+          ],
+          "bullets": [
+            "Introduces Cognitive Inertia and Perceptual Inertia as two opposing failure modes of multimodal integration.",
+            "Presents TheaterBench, a benchmark featuring counter-intuitive videos that violate physical laws or common sense.",
+            "Finds severe Modal Polarization across current state-of-the-art video understanding models.",
+            "Reports that existing de-hallucination methods often shift the balance between the two inertias rather than resolve the conflict.",
+            "Positions perceptual-cognitive equilibrium as an important direction for future model evaluation and improvement."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Overview of the TheaterBench evaluation framework using normal (left) and surreal (right) videos. The figure displays video frames alongside queries that specify either “according to the video” (green dashed box) or “according to your common sense” (blue dashed box). Different models exhibit distinct tendencies when facing surreal videos: models in the orange dashed box consistently answer based on the video content, while models in the plum dashed box always rely on common sense.",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 296,
+              "image_path": "figures/2611.26972/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 871
+            },
+            {
+              "caption": "Figure 2: Overview of the TheaterBench dataset construction workflow. The pipeline consists of three phases: Phase I: Timeline Generation (1. selecting an object, 2. scriptwriting, 3. rewriting, 4. quality vetting); Phase II: Video Generation (5. video generation, 6. consistency check); and Phase III: QA Generation (7. question formulation, 8. question filtering). The McGuffin used here is banana peel.",
+              "figure_id": "figure-2-7",
+              "figure_number": "2",
+              "height": 372,
+              "image_path": "figures/2611.26972/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 928
+            },
+            {
+              "caption": "Figure 7: Example of Video Quality Control. Left: Scenario 1 (Rejection): The VLM-based evaluator correctly identifies that the generated video fails to depict the surreal element (phasing hand) described in the prompt, classifying it as a normal interaction (Scenario 1) and thus rejecting it. Right: Scenario 2 (Revision): The generated video contains a surreal element (floating screen) but it differs from the prompt (screen detaches). The system classifies it as Scenario 2 and triggers a revision of the timeline caption to match the generated video content.",
+              "figure_id": "figure-7-12",
+              "figure_number": "7",
+              "height": 408,
+              "image_path": "figures/2611.26972/figure-003.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 882
+            },
+            {
+              "caption": "Figure 5: Visualization of attention score differences for middle layer of InternVL3.5 (SFT model minus base model). We present two examples: (a) a man recoils as a microphone transforms into a monster yelling at him, and (b) a person cleans a rocket during its launch. For each case, we visualize the frame-wise attention difference across Perception, Cognition, and P&C tests, as well as the attention difference for question tokens specifically during the Cognition Test.",
+              "figure_id": "figure-5-13",
+              "figure_number": "5",
+              "height": 443,
+              "image_path": "figures/2611.26972/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 832
+            },
+            {
+              "caption": "Figure 3: Data statistics of TheaterBench. Left: Frequency of McGuffin categories across the dataset. Right: Distribution of surreal-ify strategies and the proportion of source models (Sora 2 and Veo 3.1).",
+              "figure_id": "figure-3-14",
+              "figure_number": "3",
+              "height": 318,
+              "image_path": "figures/2611.26972/figure-005.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 882
+            },
+            {
+              "caption": "Figure 4: Examples of question variants in TheaterBench. We designed three types of tests: Perception (testing visual fidelity), Cognition (testing prior knowledge), and P&C (Perception & Cognition, testing the synergy between the two).",
+              "figure_id": "figure-4-16",
+              "figure_number": "4",
+              "height": 393,
+              "image_path": "figures/2611.26972/figure-006.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 932
+            },
+            {
+              "caption": "Figure 8: An example of a video sequence and its corresponding expanded caption. To eliminate the potential influence of token length differences between video and text inputs, we significantly expanded the original short captions into detailed descriptions, matching the information density of the video.",
+              "figure_id": "figure-8-18",
+              "figure_number": "8",
+              "height": 585,
+              "image_path": "figures/2611.26972/figure-007.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 979
+            },
+            {
+              "caption": "Figure 10: Example of a Cognition Test in TheaterBench.",
+              "figure_id": "figure-10-10",
+              "figure_number": "10",
+              "height": 335,
+              "image_path": "figures/2611.26972/figure-008.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 832
+            },
+            {
+              "caption": "Figure 9: Example of a Perception Test in TheaterBench.",
+              "figure_id": "figure-9-9",
+              "figure_number": "9",
+              "height": 321,
+              "image_path": "figures/2611.26972/figure-009.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 832
+            },
+            {
+              "caption": "Figure 11: Example of a P&C Test (Perception & Cognition synergy) in TheaterBench.",
+              "figure_id": "figure-11-8",
+              "figure_number": "11",
+              "height": 287,
+              "image_path": "figures/2611.26972/figure-010.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 832
+            },
+            {
+              "caption": "Figure 6: Example of a Normal Mode video successfully passed evaluation.",
+              "figure_id": "figure-6-11",
+              "figure_number": "6",
+              "height": 236,
+              "image_path": "figures/2611.26972/figure-011.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 786
+            },
+            {
+              "caption": "Table 3: Comprehensive comparison of various intervention methods. “+method” indicates applying the method for de-hallucination, while “−method” indicates reversing the method to enhance priors.",
+              "figure_id": "table-3-5",
+              "figure_number": "3",
+              "height": 486,
+              "image_path": "figures/2611.26972/table-012.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 494
+            },
+            {
+              "caption": "Table 1: Quantitative results on TheaterBench. The best performance is highlighted in bold and the second best is underlined. Nor. and Sur. denote Normal and Surreal videos, respectively. The data in gray indicates results on normal videos.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 356,
+              "image_path": "figures/2611.26972/table-013.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 902
+            },
+            {
+              "caption": "Table 4: Comparison of default and redundant instructions.",
+              "figure_id": "table-4-2",
+              "figure_number": "4",
+              "height": 359,
+              "image_path": "figures/2611.26972/table-014.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 984
+            },
+            {
+              "caption": "Table 5: Performance of base models and their SFT versions across different layer configurations on TheaterBench.",
+              "figure_id": "table-5-3",
+              "figure_number": "5",
+              "height": 255,
+              "image_path": "figures/2611.26972/table-015.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 462
+            },
+            {
+              "caption": "Table 8: Distribution of distractors in incorrect answers during the P&C Test. Distractor 1 (D1) represents content consistent with reality but absent from the video (Reality & !Video). Distractor 2 (D2) represents content in the video that contradicts reality (!Reality & Video). Distractor 3 (D3) represents content that is neither in reality nor the video (!Reality & !Video).",
+              "figure_id": "table-8-15",
+              "figure_number": "8",
+              "height": 192,
+              "image_path": "figures/2611.26972/table-016.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 412
+            },
+            {
+              "caption": "Table 2: Performance comparison between video inputs and expanded captions.",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 130,
+              "image_path": "figures/2611.26972/table-017.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 490
+            },
+            {
+              "caption": "Table 7: Analysis of cognition errors choosing surreal timeline (ratio).",
+              "figure_id": "table-7-17",
+              "figure_number": "7",
+              "height": 89,
+              "image_path": "figures/2611.26972/table-018.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 300
+            },
+            {
+              "caption": "Table 6: Analysis of perception errors choosing normal timeline (ratio).",
+              "figure_id": "table-6-19",
+              "figure_number": "6",
+              "height": 90,
+              "image_path": "figures/2611.26972/table-019.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 254
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.26972/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.26972",
+          "relevance": 8,
+          "selection_reason": "Introduces 'Modal Polarization' to diagnose failure modes in video understanding models where perception conflicts with internal priors, providing a new benchmark and analysis.",
+          "summary_status": "generated",
+          "title": "When Perception Collides with Priors: Diagnosing Modal Polarization in Video Understanding Models",
+          "tldr": "The paper identifies Modal Polarization in video MLLMs: models either cling to prior knowledge or blindly trust perception when visual evidence conflicts with common sense.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Video foresight reasoning requires vision-language models to anticipate future events or next actions from currently observed videos. Existing methods fit future captions, rationales, or full visual states, but face two limitations. First, they rely on annotations or external large models for supervision, limiting scalability. We address this with an on-policy self-distillation framework that turns past-future video pairs into a natural self-supervised signal without extra annotations or LLM supervision. Second, they treat the whole future clip as equally valuable, although most of it is irrelevant context information. We address this by defining a foresight score, from which we obtain a contrastive privilege advantage that drives the model to learn the most valuable future information. Since the score is intractable, we optimize a tractable lower-bound surrogate that interpolates this advantage, computed between the true and a random reference future, with a teacher-student distillation advantage; together, they amplify decision-relevant content information and suppress irrelevant context information. We call the resulting framework Future-OPSD. On open-ended prediction and closed-ended planning, Future-OPSD improves base models by up to 14.2 and 15.9 points without compromising general video understanding. Code will be available at https://jingchensun.github.io/future-opsd/",
+          "arxiv_id": "2611.26954",
+          "arxiv_url": "https://arxiv.org/abs/2611.26954",
+          "authors": [
+            "Jingchen Sun, Jiaxing Zhang, Qingqiao Hu, Dingqiang Ye, Yuqi Jia, Yijun Liang, Di Fu, Yunjie Tian, Dongdi Zhao, Changyou Chen"
+          ],
+          "bullets": [
+            "Addresses the scalability limits of annotated or externally supervised video foresight training.",
+            "Uses on-policy self-distillation over past–future video pairs as a natural self-supervised signal.",
+            "Introduces a foresight score and contrastive privilege advantage to emphasize informative future content over irrelevant context.",
+            "Optimizes a tractable lower-bound surrogate combining true-versus-random future comparison with teacher–student distillation.",
+            "Improves base models by up to 14.2 points on open-ended prediction and 15.9 points on closed-ended planning, without harming general video understanding."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of Future-OPSD and comparison with other training paradigms. (a) SFT learns annotated future descriptions y⋆ from past observations x using cross-entropy. (b) Naive OPSD uses a frozen future-aware teacher π0 to score the student’s own response ŷ, converting the teacher–student log-probability gap into token advantages for PPO. (c) Future-OPSD (ours) has a frozen teacher score the same response under the true future z (blue) and a reference future z̃ from another video (orange). The contrastive privilege advantage ℓzt −ℓz̃t compares the two futures, and the teacher–student distillation advantage ℓzt −ℓSt compares the true-future teacher with the past-only student. Their interpolation at down-weights context tokens supported by both futures (next / chop / the) while keeping content tokens specific to the true future (cilantro), helping the student focus on the most valuable future information. The advantages are clipped and centered into At for PPO, and inference uses only the student.",
+              "figure_id": "figure-2-10",
+              "figure_number": "2",
+              "height": 483,
+              "image_path": "figures/2611.26954/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1023
+            },
+            {
+              "caption": "Figure 4. Case study: why Future-OPSD improves video foresight reasoning. On an EgoPlan-IT example with Qwen3-VL-8B, we compare the initial token advantages and trained predictions of Naive OPSD and Future-OPSD. A frozen teacher scores the same initial rollout under the paired future z and a reference future z̃ from another video, giving token log-probabilities ℓzt and ℓz̃t ; ℓSt is the past-only student’s log-probability. The context and content components are Ct = ℓz̃t − ℓSt and It = ℓzt − ℓz̃t . Before clipping and centering, Naive OPSD uses at = It + Ct, while Future-OPSD uses at = It + (1 − λ)Ct with λ = 0.75. Plotted values are initial advantages, with Ct and It below each token. Future-OPSD suppresses context information and amplifies decision-relevant content information, yielding the correct next-action prediction.",
+              "figure_id": "figure-4-4",
+              "figure_number": "4",
+              "height": 486,
+              "image_path": "figures/2611.26954/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 1. Not all of the future is equally important. To answer what will I do next? from what is seen now, only a small part of the future clip carries content information (rinse the knife); most of it is context information (tap, dish rack, sink, sponge) that neither answers the question nor reflects the expected action and trajectory of the ongoing event.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 306,
+              "image_path": "figures/2611.26954/figure-003.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 492
+            },
+            {
+              "caption": "Figure 3. Data scaling on EgoPlan-IT (Qwen3-VL-2B). We compare SFT and GRPO trained with answer labels against Naive OPSD, Future-OPSD, and its stronger-teacher variant (frozen Qwen3-VL-4B-Instruct). Future-OPSD scales better than naive distillation and surpasses SFT and GRPO at larger data scales, with further gains from a stronger teacher.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 271,
+              "image_path": "figures/2611.26954/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 393
+            },
+            {
+              "caption": "Figure 5. Search over the mixing weight λ. We sweep λ ∈ {0, 0.25, 0.5, 0.75, 1} for Qwen3-VL-8B and Qwen3.5-9B on both tasks: (a) EgoPlan-IT training with SEED-Bench-R1 evaluation; (b) Future-L1 training with TwiFF-Bench evaluation. Among the tested values, λ = 0.75 achieves the best overall performance, balancing contrastive learning and distillation.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 201,
+              "image_path": "figures/2611.26954/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 465
+            },
+            {
+              "caption": "Figure 6. Teacher weights and vision encoder (Qwen3.5-2B, EgoPlan-IT). Each variant changes one setting of the default (frozen teacher, trained ViT).",
+              "figure_id": "figure-6-8",
+              "figure_number": "6",
+              "height": 231,
+              "image_path": "figures/2611.26954/figure-006.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 349
+            },
+            {
+              "caption": "Table 2. Closed-ended planning (trained on EgoPlan-IT). Yellow cells denote in-domain evaluation. Abbreviations: Temp. = TempCompass, T-B. = TemporalBench, V-M. = Video-MME, and MVB = MVBench. Bold marks the highest score in each column within each model. Future-OPSD improves in-domain performance by up to 15.9 points over the base models while preserving general video understanding.",
+              "figure_id": "table-2-12",
+              "figure_number": "2",
+              "height": 332,
+              "image_path": "figures/2611.26954/table-007.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1036
+            },
+            {
+              "caption": "Table 1. Open-ended prediction (trained on Future-L1). Blue cells denote in-domain evaluation. Abbreviations: Temp. = TempCompass, T-B. = TemporalBench, V-M. = Video-MME, and MVB = MVBench. Bold marks the highest score in each column within each model. Future-OPSD improves in-domain performance by up to 14.2 points over the base models while preserving general video understanding.",
+              "figure_id": "table-1-11",
+              "figure_number": "1",
+              "height": 296,
+              "image_path": "figures/2611.26954/table-008.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1036
+            },
+            {
+              "caption": "Table 4. GRPO versus Future-OPSD. Models are trained on Future-L1 and evaluated on TwiFF-Bench and SEED-Bench-R1 (mean of L1–L3). GRPO uses the student’s own base model as an LLM judge to provide rewards. Blue cells indicate in-domain evaluation.",
+              "figure_id": "table-4-5",
+              "figure_number": "4",
+              "height": 248,
+              "image_path": "figures/2611.26954/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 3. Teacher scaling on EgoPlan-IT. OPSD uses a frozen copy of the student as teacher; OPD uses a larger frozen teacher (Qwen3-VL-4B for the 2B student, Qwen3-VL-8B for the 4B student). Stronger teachers improve planning and open-ended prediction, and future contrast outperforms naive distillation.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 593,
+              "image_path": "figures/2611.26954/table-010.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 496
+            },
+            {
+              "caption": "Table 5. Text versus image privilege on Future-L1. Teachers receive future text or frames during Future-L1 training; students are evaluated on TwiFF-Bench. Blue parentheses show gains over the paired Naive OPSD row. Future frames outperform text, and Future-OPSD surpasses Naive OPSD with either modality.",
+              "figure_id": "table-5-6",
+              "figure_number": "5",
+              "height": 275,
+              "image_path": "figures/2611.26954/table-011.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 6. Training cost of Qwen3-VL-8B (8 B200 GPUs). FLOPs in EFLOPs; Mem is the peak allocated memory averaged over the eight GPUs (GiB); Time is wall-clock hours (node-normalized for Future-OPSD on Future-L1).",
+              "figure_id": "table-6-9",
+              "figure_number": "6",
+              "height": 174,
+              "image_path": "figures/2611.26954/table-012.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.26954/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.26954",
+          "relevance": 7,
+          "selection_reason": "Directly targets future-event anticipation and temporal reasoning in video, fitting video understanding and predictive video world modeling.",
+          "summary_status": "generated",
+          "title": "Learning Video Foresight Reasoning from Unlabeled Videos via On-Policy Self-Distillation",
+          "tldr": "Future-OPSD learns video foresight from unlabeled past–future clips by self-distilling decision-relevant future information without annotations or external LLM supervision.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Video large language models (LLMs) represent each video with thousands of visual tokens, and training-free accelerators that prune or merge these tokens lose accuracy on long videos. Analyzing frame similarity and the vision tokenizers of 16 open models, we trace this loss to a step before token selection. Under a token budget, the frames of a long video are sampled farther apart than the roughly 2 s over which frames remain similar. The two-frame 3D patches of models such as Qwen-VL then blend two unrelated scenes into each visual token, a double exposure that arises before any pruning or merging. Fixed-size tokenizers such as InternVL's avoid this blend but respond differently to the same reduction. We propose ESSENCE, a training-free method that tokenizes moments, segments within which frames remain similar, rather than frames. Before encoding, a closed-form rule uses the sampling interval and the tokenizer class to set the number of token grids and the dimension to reduce; visual tokens are then released from later LLM layers. Against five recent accelerators on Qwen3-VL, Qwen2.5-VL and InternVL3.5, ESSENCE achieves higher accuracy in 58 of 60 comparisons at matched mean time to first token (TTFT). With 80% of the tokens, it matches the average accuracy of the full Qwen models at $1.6\\times$ faster TTFT; on GLM-4.1V, it exceeds the full model by up to 3.4 points. Code is available at: https://github.com/zhkandsrz/ESSENCE.",
+          "arxiv_id": "2611.26933",
+          "arxiv_url": "https://arxiv.org/abs/2611.26933",
+          "authors": [
+            "Zirui Zhao, Kai Liu, Linghe Kong"
+          ],
+          "bullets": [
+            "Long-video token pruning and merging can lose accuracy because sparse frames may span unrelated scenes, causing 3D patch tokenizers to blend them before token selection.",
+            "The method analyzes frame similarity and tokenizer behavior across 16 open models to guide budget allocation.",
+            "A closed-form rule uses the sampling interval and tokenizer class to choose token grids and the reduction dimension before encoding.",
+            "Across five accelerators and three video LLMs, ESSENCE is more accurate in 58 of 60 matched-TTFT comparisons.",
+            "Using 80% of tokens, it matches full Qwen-model accuracy with 1.6× faster TTFT; on GLM-4.1V, it improves accuracy by up to 3.4 points."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 4. Overview of ESSENCE. Each color denotes one moment. (1) Frames separated by less than τc belong to one moment. (2) A closed-form rule sets the number of token grids, each with at most B/k∗ tokens (dashed boxes: the same budget B). (3) Each grid is encoded without modifying the model: Qwen-VL resizes its input, and InternVL pools its encoder output on sparse videos. (4) Visual tokens are released from the LLM at layer ℓ∗.",
+              "figure_id": "figure-4-33",
+              "figure_number": "4",
+              "height": 427,
+              "image_path": "figures/2611.26933/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1007
+            },
+            {
+              "caption": "Figure 6. Average accuracy against TTFT speedup; numbers: ESSENCE budget (%). Downscaling: budget of ESSENCE-66 (56 on InternVL). Uniform frames: 16 (Qwen-VL) or 18 (InternVL) frames at native resolution. VTW: all tokens, released at the layer chosen by VTW. Thin lines: FastVID and FlashVID at retention .10, .15, default and .40.",
+              "figure_id": "figure-6-7",
+              "figure_number": "6",
+              "height": 393,
+              "image_path": "figures/2611.26933/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 918
+            },
+            {
+              "caption": "Figure 8. A selected example from Video-MME on Qwen3-VL, with frames 83 s apart. Pairing blends each fox scene with its neighboring frame, and the full model, downscaling and all five baselines answer incorrectly; ESSENCE-66 encodes one frame per grid and answers correctly.",
+              "figure_id": "figure-8-24",
+              "figure_number": "8",
+              "height": 148,
+              "image_path": "figures/2611.26933/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 415
+            },
+            {
+              "caption": "Figure 1. 32 frames are not 32 samples. (a) Eight consecutive frames and the token grids of a two-frame patch (pixel mean shown) on Qwen3-VL-8B: redundant on a short clip, blended on a long video, at about the same token cost. (b) Accuracy loss when the full model retains 16 or 8 of its 32 frames, on short clips (∆t ≤ 1 s) and long videos (∆t > 2 s), with the TTFT speedup; on Qwen-VL, fewer frames also means fewer grids. (c) TTFT before and inside the LLM, normalized per model (labels in ms; dashed: LLM start in the full model).",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 201,
+              "image_path": "figures/2611.26933/figure-004.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 966
+            },
+            {
+              "caption": "Figure 7. Source of the improvement at the 66% budget (56% on InternVL). (a) Accuracy by sampling interval; baselines: mean of five. (b) Sparse videos of VM and LVB: one- vs. two-frame grids by token count (100%: full model; 200%: every frame at full size). (c) Lead over downscaling on these videos on Qwen3-VL (95% CIs); the budget scales with T ; the full model is omitted at 256 frames (about 32k tokens).",
+              "figure_id": "figure-7-25",
+              "figure_number": "7",
+              "height": 193,
+              "image_path": "figures/2611.26933/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 813
+            },
+            {
+              "caption": "Figure 2. Frames are not moments. (a) Phase-correlation peak between two frames of the same video against their temporal gap (median over videos). In long videos it reaches the range of unrelated frames (gray) between 2 and 3 s. (b) Sampling interval of 32 uniform frames per benchmark (black: median; bar: quartiles; line: 5th–95th percentile) and the median number of moments (neff , Sec. 4.1).",
+              "figure_id": "figure-2-16",
+              "figure_number": "2",
+              "height": 259,
+              "image_path": "figures/2611.26933/figure-006.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 393
+            },
+            {
+              "caption": "Figure 3. Two classes of tokenizers. (a) The two temporal kernels of a 3D patch are nearly identical: 21 of the 1152 filters of Qwen3VL-8B from the checkpoint, with W∆ nearly flat on the same scale (over all filters, ηt = 0.035). The token grid encodes the sum of the frames. (b) A fixed-size tokenizer encodes each frame independently, but with a single learned position grid.",
+              "figure_id": "figure-3-27",
+              "figure_number": "3",
+              "height": 187,
+              "image_path": "figures/2611.26933/figure-007.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 468
+            },
+            {
+              "caption": "Figure 9. TTFT by stage relative to each full model (totals in ms).",
+              "figure_id": "figure-9-26",
+              "figure_number": "9",
+              "height": 110,
+              "image_path": "figures/2611.26933/figure-008.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 480
+            },
+            {
+              "caption": "Figure 5. Late layers rarely change the prediction. Fraction of first-token decisions that change when visual tokens are released from layer ℓ, on 192 unlabeled calibration questions; after 2L/3 it stays below 3%. Inset: layers past 0.6L; gray: flips from numerical noise alone (an equivalent attention kernel).",
+              "figure_id": "figure-5-34",
+              "figure_number": "5",
+              "height": 148,
+              "image_path": "figures/2611.26933/figure-009.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 279
+            },
+            {
+              "caption": "Table 2. Accuracy, TTFT and E2E latency under one timing protocol, from decoded frames to the first answer token and to 32 generated tokens, with speedups over the full model. ESSENCE-x: x% of the full model’s tokens. Best in bold, second underlined, excluding the full model. †Authors’ modified Transformers, 1.44× slower than the native stack (Appendix A.4). ‡Qwen-VL only (Appendix E.3).",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 440,
+              "image_path": "figures/2611.26933/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 918
+            },
+            {
+              "caption": "Table 1. Tokenizer classes from model checkpoints. 3D-patch: two frames per patch (u = 2), ηt ≪ 1, variable input size. Fixed-size: one frame per patch (u = 1), one input resolution. Grid: learned position grid (–: none). ∗Main; ◦extension (Sec. 5.6).",
+              "figure_id": "table-1-15",
+              "figure_number": "1",
+              "height": 213,
+              "image_path": "figures/2611.26933/table-011.webp",
+              "kind": "table",
+              "page": 3,
+              "width": 435
+            },
+            {
+              "caption": "Table 18. Q-Frame and LDDR on Qwen3-VL-8B and Qwen2.5-VL-7B. Accuracy (%), mean visual tokens per request, and speedups over the full model on the 192 timed requests. The ESSENCE rows are those of Tab. 2.",
+              "figure_id": "table-18-3",
+              "figure_number": "18",
+              "height": 394,
+              "image_path": "figures/2611.26933/table-012.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 760
+            },
+            {
+              "caption": "Table 7. ShortV on InternVL3.5-8B at three freeze ratios with the same layer ranking. Accuracy (%) and speedups over the full model. The 60% and ESSENCE-56 rows are those of Tab. 2.",
+              "figure_id": "table-7-13",
+              "figure_number": "7",
+              "height": 125,
+              "image_path": "figures/2611.26933/table-013.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 421
+            },
+            {
+              "caption": "Table 11. Static sparse videos and on-screen text on Qwen3-VL. Accuracy (%) of ESSENCE-66, uniform downscaling at the same budget and the full model, and the differences of ESSENCE in points.",
+              "figure_id": "table-11-35",
+              "figure_number": "11",
+              "height": 126,
+              "image_path": "figures/2611.26933/table-014.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 416
+            },
+            {
+              "caption": "Table 13. Pooling after the encoder against a smaller input on InternVL3.5. Correct answers of 1580, 2700, 3800 and 1337; Avg: mean accuracy (%); speedups over the full model. TC inputs are identical within a budget. ESSENCE-56 and -32 are the pooling rows.",
+              "figure_id": "table-13-31",
+              "figure_number": "13",
+              "height": 163,
+              "image_path": "figures/2611.26933/table-015.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 450
+            },
+            {
+              "caption": "Table 4. Gain of the rule over two alternatives at a similar token count and the smallest budget (42%, InternVL 32%). Pair/still: two/one frames per grid; sizes in pixels; 8 pairs and 10 frames drop frames, others downscale or pool. †: 17–32 pairs/stills at 1 < ∆t ≤ 2 s. ◦: TC, MV only; ⋄: VM, LVB only. ∗: p < 0.05.",
+              "figure_id": "table-4-21",
+              "figure_number": "4",
+              "height": 250,
+              "image_path": "figures/2611.26933/table-016.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 448
+            },
+            {
+              "caption": "Table 3. Accuracy gain of ESSENCE over each baseline at matched mean TTFT, in points. ∗: p < 0.05. †: ESSENCE is slower on this benchmark alone, by at most 10.6%.",
+              "figure_id": "table-3-23",
+              "figure_number": "3",
+              "height": 161,
+              "image_path": "figures/2611.26933/table-017.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 500
+            },
+            {
+              "caption": "Table 22. Hour-scale subsets: ESSENCE-66 (-56 on InternVL3.5) minus each method, in points. VM long: 30–60 min, 900 questions. LVB 3600: 15–60 min, 564 questions.",
+              "figure_id": "table-22-11",
+              "figure_number": "22",
+              "height": 192,
+              "image_path": "figures/2611.26933/table-018.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 396
+            },
+            {
+              "caption": "Table 9. Every frame of a sparse video encoded on its own at full size, at twice the tokens: accuracy change against the full model in points, with p in parentheses.",
+              "figure_id": "table-9-2",
+              "figure_number": "9",
+              "height": 98,
+              "image_path": "figures/2611.26933/table-019.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 492
+            },
+            {
+              "caption": "Table 8. Pair probes on the full model: accuracy change in points, with p in parentheses.",
+              "figure_id": "table-8-1",
+              "figure_number": "8",
+              "height": 108,
+              "image_path": "figures/2611.26933/table-020.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 429
+            },
+            {
+              "caption": "Table 12. Sensitivity of the rule: correct answers of ESSENCE in the main table, and the change from halving or doubling τc or from the smooth fixed-size rule. In parentheses: questions whose input changes.",
+              "figure_id": "table-12-32",
+              "figure_number": "12",
+              "height": 263,
+              "image_path": "figures/2611.26933/table-021.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 433
+            },
+            {
+              "caption": "Table 5. Ablation at 66% of the tokens (56% on InternVL). Accuracy over all 9417 questions and the 3425 sparse ones (per question, unlike Avg in Tab. 2). W/o allocation: uniform downscaling to the same budget. ∗: below ESSENCE, p < 0.05.",
+              "figure_id": "table-5-22",
+              "figure_number": "5",
+              "height": 136,
+              "image_path": "figures/2611.26933/table-022.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 492
+            },
+            {
+              "caption": "Table 16. Net correct answers of ESSENCE, at the budget in the second column, over each variant.",
+              "figure_id": "table-16-28",
+              "figure_number": "16",
+              "height": 313,
+              "image_path": "figures/2611.26933/table-023.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 421
+            },
+            {
+              "caption": "Table 15. Release on TempCompass caption generation (2004 captions of up to 256 tokens, greedy). Accuracy (%) of a text-only judge that answers the multiple-choice question of each caption from the caption alone, mean caption length in words, and the net answers and p of release.",
+              "figure_id": "table-15-29",
+              "figure_number": "15",
+              "height": 156,
+              "image_path": "figures/2611.26933/table-024.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 450
+            },
+            {
+              "caption": "Table 25. Release on the baselines on Qwen3-VL, in points. Top: the method with release minus the published method. Bottom: ESSENCE-66 minus the method with release.",
+              "figure_id": "table-25-20",
+              "figure_number": "25",
+              "height": 119,
+              "image_path": "figures/2611.26933/table-025.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 479
+            },
+            {
+              "caption": "Table 19. Accuracy against the full model by sampling interval, in points, at the 66% budget (56% on InternVL3.5).",
+              "figure_id": "table-19-4",
+              "figure_number": "19",
+              "height": 510,
+              "image_path": "figures/2611.26933/table-026.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 389
+            },
+            {
+              "caption": "Table 6. Code and settings of the baselines on each backbone. Authors’ code: the released implementation. Port: our implementation of the released code, or of the paper for ShortV. Indices of layers and blocks start at 0. Released code at commits FastVID a40a109, FlashVID 983cce6, iLLaVA f4d24f8 and EarlyTom 83d80e0.",
+              "figure_id": "table-6-14",
+              "figure_number": "6",
+              "height": 67,
+              "image_path": "figures/2611.26933/table-027.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 1033
+            },
+            {
+              "caption": "Table 23. Frame count on sparse videos on Qwen3-VL, in points, with p in parentheses. Ours: ESSENCE-66. Down.: uniform downscaling. Speed: mean time per question of the full model over that of ESSENCE-66.",
+              "figure_id": "table-23-8",
+              "figure_number": "23",
+              "height": 109,
+              "image_path": "figures/2611.26933/table-028.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 412
+            },
+            {
+              "caption": "Table 27. LLaVA-OneVision-7B: correct answers and mean seconds per question, with the speedup over the full model on all 5617 questions.",
+              "figure_id": "table-27-18",
+              "figure_number": "27",
+              "height": 136,
+              "image_path": "figures/2611.26933/table-029.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 481
+            },
+            {
+              "caption": "Table 26. GLM-4.1V-9B: correct answers and mean seconds per question, with the speedup over the full model on all 5617 questions.",
+              "figure_id": "table-26-19",
+              "figure_number": "26",
+              "height": 119,
+              "image_path": "figures/2611.26933/table-030.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 481
+            },
+            {
+              "caption": "Table 14. Flips of the 192 calibration questions at ℓ∗ with one-sided 95% Clopper–Pearson bounds over questions and over videos, flips of the control, the depth ℓ0 of the null-calibrated criterion, and the same criterion on full-vocabulary KL. Layers are indexed from 0.",
+              "figure_id": "table-14-17",
+              "figure_number": "14",
+              "height": 93,
+              "image_path": "figures/2611.26933/table-031.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 460
+            },
+            {
+              "caption": "Table 17. Gain of ESSENCE over each baseline in points, at the largest budget at least as fast on mean TTFT (Tab. 3). ∗: p < 0.05 with 100 000 draws. †: ESSENCE is slower than the baseline on this benchmark.",
+              "figure_id": "table-17-30",
+              "figure_number": "17",
+              "height": 378,
+              "image_path": "figures/2611.26933/table-032.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 377
+            },
+            {
+              "caption": "Table 24. Time to first token by stage, in ms, on the 192 timed requests (one round).",
+              "figure_id": "table-24-12",
+              "figure_number": "24",
+              "height": 285,
+              "image_path": "figures/2611.26933/table-033.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 308
+            },
+            {
+              "caption": "Table 21. Accuracy against the full model on the 3425 sparse questions, in points.",
+              "figure_id": "table-21-10",
+              "figure_number": "21",
+              "height": 64,
+              "image_path": "figures/2611.26933/table-034.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 448
+            },
+            {
+              "caption": "Table 20. ESSENCE-66 minus uniform downscaling within one benchmark, in answers, with p where the difference is not zero by construction.",
+              "figure_id": "table-20-9",
+              "figure_number": "20",
+              "height": 83,
+              "image_path": "figures/2611.26933/table-035.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 448
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.26933/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.26933",
+          "relevance": 9,
+          "selection_reason": "Introduces a training-free method to accelerate video LLMs by tokenizing 'moments' (segments of frame similarity) rather than individual frames, addressing tokenization inefficiencies.",
+          "summary_status": "generated",
+          "title": "Tokenize Moments, Not Frames: Tokenizer-Aware Budget Allocation for Training-Free Video LLM Acceleration",
+          "tldr": "ESSENCE accelerates video LLMs without training by allocating tokens to temporally coherent moments instead of uniformly sampled frames.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Systems that flag violent video for a human operator can now be built from language models without training, by combining perception models and letting a language model decide. We ask how the observations of the perception models should reach the decision, and which evidence matters. On the XD-Violence test set (799 clips) we fix one set of perception agents (video description, object detection, sound tagging, speech recognition and speech tagging) and one reasoning model, and compare three interfaces: messages between agents, a typed evidence graph explored with tools, and flat text read in one pass; and a single audio-visual model given the raw clip. Two annotators provide a human reference that records the decision, the incident segments and whether they relied on sight, sound or speech. Flat text matches the single model (F1 0.967 against 0.968), while the graph agent and message passing are less accurate; a variant of the graph agent developed on a separate set did not close the gap, and both graph summaries and multi-turn tool use lowered accuracy. These results hold with reworded prompts and with a larger reasoning model, except that the larger model weakens message passing enough for the graph agent to beat it. Sound events improve F1 by +0.012 [+0.004, +0.021], in line with the annotators, who used sound or speech on most violent clips. Citations of stored observations are faithful, changing about half of the decisions when removed, but no more so with the graph than with flat text, and the agent pipeline costs about 3 times the GPU time of the single model. We also report two artefacts of vision-language describers that mislead pipelines built on them.",
+          "arxiv_id": "2611.26776",
+          "arxiv_url": "https://arxiv.org/abs/2611.26776",
+          "authors": [
+            "Mohammed El Amine Mokhtari, Matei Mancas, Virginie Vandenbulcke"
+          ],
+          "bullets": [
+            "Compared fixed perception agents and a common reasoning model using agent messages, a tool-explored evidence graph, flat text, or a single audio-visual model.",
+            "On 799 XD-Violence clips, flat text nearly matched the single model (F1 0.967 vs. 0.968), while graph and message interfaces were less accurate.",
+            "Sound events improved F1, consistent with annotators relying on sound or speech for most violent clips.",
+            "Stored-observation citations were generally faithful, but graphs did not improve faithfulness over flat text; the agent pipeline used about 3× the GPU time.",
+            "Results were broadly robust to prompt rewording and a larger reasoning model, though model scale changed the relative ranking of message passing and graph use."
+          ],
+          "categories": [
+            "cs.CL",
+            "cs.AI",
+            "cs.CV",
+            "cs.MM"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: The compared systems. Perception agents write their observations into one evidence graph per clip. S2, S3 and S4 pass the same observations to the same reasoning model in three ways; S1 gives the raw clip to one audio-visual model. All four answer the same question and return a decision, a score and time segments; S3 and S4 also cite the nodes their answer rests on.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 447,
+              "image_path": "figures/2611.26776/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 972
+            },
+            {
+              "caption": "Table 10: One test clip (17 seconds, from a film, labelled shooting). Top: the 14 nodes of its graph, as S4 reads them. Middle: the same nodes on a timeline, one lane per kind of observation, with the edges the rules added (numbers as in the list above). Bottom: each system’s answer. S3 opened the descriptions of the whole clip and searched for weapons, then answered No; all other systems answered Yes.",
+              "figure_id": "table-10-2",
+              "figure_number": "10",
+              "height": 923,
+              "image_path": "figures/2611.26776/table-002.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 956
+            },
+            {
+              "caption": "Table 6: Paired differences in F1 and AUC, with 95% bootstrap confidence intervals over clips. “With sound”: the clips whose soundtrack holds speech or other sound (Section 3.3).",
+              "figure_id": "table-6-11",
+              "figure_number": "6",
+              "height": 338,
+              "image_path": "figures/2611.26776/table-003.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 736
+            },
+            {
+              "caption": "Table 5: Systems on the 799 test clips. Frame AP: every frame at 24 frames per second. Grounding: share of predicted seconds inside labelled violent frames (precision) and share of labelled violent seconds covered (recall), on violent clips called Yes. Tokens: reasoning tokens per clip (prompt and answer); perception cost is in Table 12. F1 vs A: against annotator A’s decisions on the clips of Section 3.",
+              "figure_id": "table-5-5",
+              "figure_number": "5",
+              "height": 159,
+              "image_path": "figures/2611.26776/table-004.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 973
+            },
+            {
+              "caption": "Table 2: Audio content of the 799 test clips by XD-Violence class.",
+              "figure_id": "table-2-7",
+              "figure_number": "2",
+              "height": 244,
+              "image_path": "figures/2611.26776/table-005.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 702
+            },
+            {
+              "caption": "Table 1: Clips of the human reference by XD-Violence class (first class listed for the clip).",
+              "figure_id": "table-1-6",
+              "figure_number": "1",
+              "height": 242,
+              "image_path": "figures/2611.26776/table-006.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 698
+            },
+            {
+              "caption": "Table 3: Agreement with the XD-Violence labels by class. “Agrees” counts decided clips (Yes or No) whose answer matches the label; Unsure answers are listed separately.",
+              "figure_id": "table-3-13",
+              "figure_number": "3",
+              "height": 209,
+              "image_path": "figures/2611.26776/table-007.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 579
+            },
+            {
+              "caption": "Table 7: Robustness checks on the 799 test clips. Paraphrased: the same model with reworded instructions (S2 not rerun). Qwen3.6: the same prompts with a larger reasoning model; 2 S2 and 6 S3 answers could not be parsed and count as errors.",
+              "figure_id": "table-7-10",
+              "figure_number": "7",
+              "height": 140,
+              "image_path": "figures/2611.26776/table-008.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 614
+            },
+            {
+              "caption": "Table 12: GPU time per clip, averaged over the 799 test clips.",
+              "figure_id": "table-12-9",
+              "figure_number": "12",
+              "height": 223,
+              "image_path": "figures/2611.26776/table-009.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 590
+            },
+            {
+              "caption": "Table 9: Errors of S3 v1 on test clips that flat text (S4) got right, one category per clip.",
+              "figure_id": "table-9-4",
+              "figure_number": "9",
+              "height": 172,
+              "image_path": "figures/2611.26776/table-010.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 877
+            },
+            {
+              "caption": "Table 4: Segments where an annotator ticked sound, by the category the annotator gave, and the share in which the tagger finds a violence-related sound event at two score thresholds.",
+              "figure_id": "table-4-12",
+              "figure_number": "4",
+              "height": 185,
+              "image_path": "figures/2611.26776/table-011.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 796
+            },
+            {
+              "caption": "Table 8: Variants of S3 on the development set (151 clips), in the order they were tried. The selected variant is the one run on the test set as S3 v2. The S4 rows are references; the one-pass row is a diagnostic and was not eligible for selection.",
+              "figure_id": "table-8-3",
+              "figure_number": "8",
+              "height": 192,
+              "image_path": "figures/2611.26776/table-012.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 710
+            },
+            {
+              "caption": "Table 11: Deletion faithfulness: how often the decision changes when the cited nodes are hidden, against hiding as many random uncited nodes; and the mean change of the score.",
+              "figure_id": "table-11-8",
+              "figure_number": "11",
+              "height": 109,
+              "image_path": "figures/2611.26776/table-013.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 772
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.26776/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.26776",
+          "relevance": 7,
+          "selection_reason": "Evidence interface comparison for LM agents reviewing violent video; fits video understanding.",
+          "summary_status": "generated",
+          "title": "What Helps Language-Model Agents Review Violent Video? A Controlled Comparison with a Human Evidence Reference",
+          "tldr": "For violent-video review, a single-pass flat-text evidence interface performs as well as a raw-clip model and better than graph or message-based coordination, while audio cues improve detection and align with human evidence use.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Surgical video analysis requires video object segmentation (VOS), yet existing methods are commonly based on pretrained model fine-tuning using a large number of expert labels. In-context segmentation (ICS) offers the promise of bypassing this high cost by segmenting a target video using a few annotated references, which are the sole source of surgical knowledge for a frozen model. However, existing ICS methods tend to draw such references at random, which concentrate on a few views that dominate a surgical video and can miss other objects of interest (e.g., transient instruments and small structures). To address these challenges, we propose INCISE, a training-free ICS framework for surgical videos. INCISE selects unlabeled frames from multiple surgical videos that jointly cover the local appearances of a target video, and then segments the target video using these references. With only 1.7% of training frames selected and annotated as references and no target video frame labeled, INCISE obtains 67.2% mean mIoU and outperforms the best SOTA fine-tuned method by 9.2 points. We hope INCISE can help establish ICS as a practical alternative to fine-tuning in surgical video analysis and other domains with a costly labeling burden.",
+          "arxiv_id": "2611.26734",
+          "arxiv_url": "https://arxiv.org/abs/2611.26734",
+          "authors": [
+            "Yifan Xu, Bofang Zheng, Guangyu Meng, Nishchal Sapkota, Xianshi Ma, Xu Cao, Tianjiao Yu, Danny Z Chen"
+          ],
+          "bullets": [
+            "Addresses the high expert-labeling cost of fine-tuning-based video object segmentation.",
+            "Selects unlabeled frames across multiple surgical videos to cover the target video's local appearances.",
+            "Uses the selected frames as the sole references for a frozen model, with no target-frame annotations.",
+            "Using annotations for only 1.7% of training frames, achieves 67.2% mean mIoU.",
+            "Outperforms the best fine-tuned baseline by 9.2 percentage points, according to the abstract."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. Overview of INCISE. (a) Coverage-based reference selection (Sec. 3.1): (1) Given a target video and an unlabeled pool, a frozen DINOv3 extracts debiased features ϕ. (2) We cluster the target features and greedily select B pool frames that jointly cover the cluster centers, where the weights wk favor rare appearances (e.g., the orange cluster). (3)–(4) Only these B frames are labeled by experts to form a fixed reference set R. (b) Segmentation with independent pseudo-labels (Sec. 3.2): For each target frame It, (1) dense label transfer matches ϕ against R to produce coarse labels, which (2) affinity smoothing refines into an independent pseudo-label Ỹt using the original features ψt. (3) A frozen SAM 3 reads R and the history Ht of the last H pseudo-labels to predict Ŷt before Ỹt is written to Ht.",
+              "figure_id": "figure-3-5",
+              "figure_number": "3",
+              "height": 481,
+              "image_path": "figures/2611.26734/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1018
+            },
+            {
+              "caption": "Figure 5. Qualitative comparison on six surgical benchmarks. Datasets are grouped as in Tab. 1.",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 236,
+              "image_path": "figures/2611.26734/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 4. Coverage-based selection recovers a tool missed by global similarity retrieval. Left: A target frame from SARRARP50 containing a suction tool (yellow box) and the external reference (#6, yellow arrow) selected by our local coverage objective. Middle & Right: Local patch matching and segmentation predictions for global similarity retrieval (top, which selects 0/10 references containing the suction tool) versus our coverage selection (bottom, 1/10 references). Heatmaps show the maximum reference patch similarity h; right panels show predicted masks (green), the ground truth (white contours).",
+              "figure_id": "figure-4-9",
+              "figure_number": "4",
+              "height": 338,
+              "image_path": "figures/2611.26734/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 446
+            },
+            {
+              "caption": "Figure 6. History length, cluster balancing, annotation budget and computational cost. mIoU against (a) the history length H and (b) balancing strength β. (c) mIoU against reference number per target video. (d) Peak GPU memory in GB and time per frame (seconds).",
+              "figure_id": "figure-6-8",
+              "figure_number": "6",
+              "height": 201,
+              "image_path": "figures/2611.26734/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 818
+            },
+            {
+              "caption": "Table 1. Comparison with state-of-the-art methods on six surgical benchmarks (mIoU in % , ↑). Our evaluations exclude the first frame of each target video. Encoder: image backbone. Fine-tuned: trained with mask supervision for in-context, medical or surgical segmentation; training-free: pretrained models used as released. + our refs.: the baseline receives the reference sets selected by INCISE. Gray: trained on the training split of the corresponding dataset. Best result in bold; second best underlined.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 437,
+              "image_path": "figures/2611.26734/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1031
+            },
+            {
+              "caption": "Table 5. Cross-dataset transfer (mIoU %). Best in bold.",
+              "figure_id": "table-5-7",
+              "figure_number": "5",
+              "height": 219,
+              "image_path": "figures/2611.26734/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 3. Effect of reference selection. mIoU (%) of coverage, random and similarity references on CholecSeg8k (Chol.), EndoVis 2018 (EV18) and SAR-RARP50 (SAR). Random: frames drawn uniformly from the pool. Similarity: the frames whose global DINOv3 feature is most similar to the mean feature of the target video. All rows use the earlier configuration (supplementary material).",
+              "figure_id": "table-3-3",
+              "figure_number": "3",
+              "height": 215,
+              "image_path": "figures/2611.26734/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 4. Effect of segmenter components. We ablate the segmenter on CholecSeg8k (Chol.), EndoVis 2018 (EV18) and SARRARP50 (SAR) in mIoU (%).",
+              "figure_id": "table-4-6",
+              "figure_number": "4",
+              "height": 214,
+              "image_path": "figures/2611.26734/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 2. Transfer to polyp segmentation on PolypGen. INCISE uses their frames only as references and is never trained on them. Baseline values are reported by [1] and rounded there. INCISE keeps the surgical configuration fixed.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 106,
+              "image_path": "figures/2611.26734/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-22T21:00:00-05:00",
+          "hero_figure": "figures/2611.26734/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.26734",
+          "relevance": 7,
+          "selection_reason": "Training-free in-context video object segmentation for surgical videos; fits video understanding.",
+          "summary_status": "generated",
+          "title": "INCISE: Training-Free In-Context Segmentation of Surgical Videos",
+          "tldr": "INCISE enables training-free surgical video segmentation by selecting diverse annotated reference frames, achieving strong performance without labeling the target video.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-20",
       "paper_count": 1,
       "papers": [
@@ -116663,5 +119456,5 @@
   "schema_version": 1,
   "subtopic_id": "video-understanding",
   "topic_id": "video-models",
-  "total_paper_count": 604
+  "total_paper_count": 617
 }
