@@ -1,6 +1,1516 @@
 {
   "days": [
     {
+      "date": "2026-11-23",
+      "paper_count": 6,
+      "papers": [
+        {
+          "abstract": "A training-time attention change is usually judged for zero-shot context extension against a dense baseline beyond the training length at the default temperature, $\\tau = 1$. The outcome depends on how miscalibrated the baseline is there: the share of perplexity it recovers when its logits are sharpened by one scalar. Under the standard recipe (fp32 master weights), an 8k-trained baseline is 8-15% miscalibrated at 30k in three seed-paired 365M twins; in one of them this makes the block-sparse-trained twin look 7% better, which calibration removes. In pure-bf16 training without master weights the miscalibration is several times larger: an AdamW step ($\\beta_2 = 0.95$) on a gain initialised at 1.0 is below half the bf16 spacing at peak learning rates under $1.7\\times10^{-3}$, so gains never move (22 checkpoints), the baseline is 37-58% miscalibrated, and block-sparse pretraining, attention dropout and ALiBi look 6-35% better. Calibrating one temperature per model and length removes all three advantages, leaves ALiBi 5% behind RoPE and keeps part of the gain of a positive control, NTK-aware scaling. Unfreezing the gains reverses the block-sparse advantage at 365M and removes 71-89% of it at 1.2B. We recommend reporting extension results at calibrated temperatures and checking that normalisation gains moved.",
+          "arxiv_id": "2611.31113",
+          "arxiv_url": "https://arxiv.org/abs/2611.31113",
+          "authors": [
+            "Ruben Navasardyan"
+          ],
+          "bullets": [
+            "At the default temperature, baseline miscalibration beyond training length can make alternative attention methods appear better than they are.",
+            "In fp32-master-weight 365M twins, calibration removed a reported 7% block-sparse advantage; in pure-bf16 training, larger miscalibration produced apparent 6–35% advantages for several methods.",
+            "Per-model, per-length temperature calibration removed the apparent gains of block-sparse attention, attention dropout, and ALiBi, while retaining part of NTK-aware scaling’s gain.",
+            "Unfreezing attention gains reversed the block-sparse advantage at 365M and removed 71–89% of it at 1.2B.",
+            "The authors recommend calibrated-temperature reporting and checking that normalization gains actually update."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.AI",
+            "cs.CL"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: 30k perplexity against the attention temperature for the Dense (solid) and Mixed (dashed) arms: (a) frozen gains, 365M seed 42; (b) learnable QK gains, 365M, three pairs; (c) learnable QK gains, 1.2B, three pairs; (d) the standard recipe, 365M, three pairs. Curves: the 13-point sweep on the calibration windows, on which each arm’s τ∗ is selected (filled marker; open marker τ = 1; thin lines single pairs, thick their mean); these windows are easier than the held-out windows quoted in the text, so the curves sit lower than those numbers. Boxes: the held-out ∆ = log PPL(Mixed) − log PPL(Dense) at τ = 1 and at τ∗, seed-averaged (Table 1 for (a); Table 3 for (b)–(d)). With frozen gains (a) the baseline sits far up the right-hand branch at τ = 1 while Mixed’s curve is flatter there; the later recipes shrink that climb without removing it.",
+              "figure_id": "figure-1-7",
+              "figure_number": "1",
+              "height": 294,
+              "image_path": "figures/2611.31113/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 950
+            },
+            {
+              "caption": "Figure 2: Position-resolved perplexity at 30k with frozen and with learnable QK-normalisation gains (365M, diagnostics windows, eight bins, geometric mean over corpora). (a) Both arms at τ = 1: with frozen gains (six pairs; solid) both arms climb to 100–125 by the last bin and Mixed climbs less; with learnable gains (three pairs; dashed) both stay near 30 and Mixed is slightly worse throughout. (b) Mixed − Dense per bin: the frozen-gain default advantage grows to −0.20 (grey dotted); with learnable gains Mixed is worse in every bin at τ = 1 (solid) and calibrated (dashed), in all three seeds. Dash-dotted: the 1.2B seed-70 pair with learnable gains, whose Dense arm still rises from 18 to 26 at τ = 1 while Mixed rises only to 20, so Mixed’s τ = 1 advantage grows to −0.27 in the last bin; seeds 71 and 72 are in Appendix C.4.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 352,
+              "image_path": "figures/2611.31113/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 667
+            },
+            {
+              "caption": "Table 1: Calibrated comparison at 30k for the six frozen-gain pairs with their own temperature selection (365M seed 42, the four 1.2B pairs, 3B). ∆: corpus-mean log PPL(Mixed) − log PPL(Dense) on the held-out windows. Last two columns: the same pair on the 36-window set, mean ± 95% half-width and windows with Mixed ahead; these describe one pair, not seeds. The 8k rows: Appendix C.1.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 381,
+              "image_path": "figures/2611.31113/table-003.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 671
+            },
+            {
+              "caption": "Table C.7a: (columns 2/2) The 365M control arms under the held-out temperature protocol (frozen-gain checkpoints; true dense deployment; pooled held-out perplexity over arXiv, FineWeb-Edu and PG-19; ∆ = control − Dense in perplexity points, so negative favours the control). Each model selects its own τ on the calibration split (13-point grid) and is scored on the held-out split at τ = 1 and at its τ∗.",
+              "figure_id": "table-C.7-13",
+              "figure_number": "C.7",
+              "height": 259,
+              "image_path": "figures/2611.31113/table-004.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 808
+            },
+            {
+              "caption": "Table C.7a: (columns 1/2) The 365M control arms under the held-out temperature protocol (frozen-gain checkpoints; true dense deployment; pooled held-out perplexity over arXiv, FineWeb-Edu and PG-19; ∆ = control − Dense in perplexity points, so negative favours the control). Each model selects its own τ on the calibration split (13-point grid) and is scored on the held-out split at τ = 1 and at its τ∗.",
+              "figure_id": "table-C.7-14",
+              "figure_number": "C.7",
+              "height": 259,
+              "image_path": "figures/2611.31113/table-005.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 808
+            },
+            {
+              "caption": "Table 2: Every training-time change through the protocol at 30k. ∆ = log PPL(change) − log PPL(its Dense twin), averaged over pairs (negative favours the change); “Better” counts pairs with ∆ < 0; corpus means on the held-out windows (the four in-house control arms and frozen-gain ALiBi: per-seed log ratios of pooled held-out perplexity). Rows not marked otherwise are frozen-gain models. (a) Six seeds on the diagnostics windows at τ = 1; seed 42’s temperatures applied to all six at τ∗. (b) Inference-time positive control on Dense seed 42 of each tier; range over tiers. Per-pair values for the twin pairs: Appendix C.",
+              "figure_id": "table-2-2",
+              "figure_number": "2",
+              "height": 52,
+              "image_path": "figures/2611.31113/table-006.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 796
+            },
+            {
+              "caption": "Table C.2a: (columns 1/2) Calibrated residuals on 12 held-out windows per corpus (file RESOLUTION_2026092 1_driftfree_all_rows.tsv; Appendix B).",
+              "figure_id": "table-C.2-10",
+              "figure_number": "C.2",
+              "height": 888,
+              "image_path": "figures/2611.31113/table-007.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 951
+            },
+            {
+              "caption": "Table C.2a: (columns 2/2) Calibrated residuals on 12 held-out windows per corpus (file RESOLUTION_2026092 1_driftfree_all_rows.tsv; Appendix B).",
+              "figure_id": "table-C.2-9",
+              "figure_number": "C.2",
+              "height": 888,
+              "image_path": "figures/2611.31113/table-008.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 951
+            },
+            {
+              "caption": "Table C.10a: Data-free rule temperatures applied to both arms on the held-out windows (frozen-gain checkpoints; 365M seed 42, 1.2B seed 71 and 3B seed 42; true dense deployment; the same held-out windows as Table C.1b). Two rules that need no calibration data: YaRN’s τ = (0.1 ln s + 1)−2 with s = L/8,192 (0.87, 0.81, 0.78 at 16k, 24k, 30k) and the entropy-invariance rule τ = ln(8,192)/ln(L) (0.929, 0.891, 0.872). ∆ = corpus-mean log PPL(Mixed) − log PPL(Dense) with both arms at the same τ .",
+              "figure_id": "table-C.10-12",
+              "figure_number": "C.10",
+              "height": 414,
+              "image_path": "figures/2611.31113/table-009.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 900
+            },
+            {
+              "caption": "Table 4: The three recipes with three seed pairs, per seed, at 30k. τ∗: selected temperature (Dense / Mixed). Dense PPL: pooled held-out perplexity at τ = 1 → τ* (miscalibration in brackets). ∆: corpus-mean log PPL(Mixed) − log PPL(Dense) on the held-out windows at τ = 1 and at τ∗; 36w: the same on the 36-window set, mean ± 95% half-width and windows with Mixed ahead. ∆ 8k: in-span gap at τ = 1.",
+              "figure_id": "table-4-6",
+              "figure_number": "4",
+              "height": 205,
+              "image_path": "figures/2611.31113/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 889
+            },
+            {
+              "caption": "Table 3: The dense baseline’s miscalibration at 30k and the Mixed − Dense gap, by precision recipe. PPL: pooled held-out perplexity, geometric mean over the three corpora (frozen 365M is seed 42, the only frozen-gain 365M pair with its own selection; other rows are ranges or means over the pairs). Miscalibration: Dense’s perplexity drop from τ = 1 to τ∗. ∆: log PPL(Mixed) − log PPL(Dense); “ahead” counts pairs with ∆ < 0 (frozen 365M: six seeds on the diagnostics windows at τ = 1, seed 42’s temperatures applied to all six at τ∗). Per seed: Table 4 and Appendix C.1, C.4, C.5, C.8.",
+              "figure_id": "table-3-3",
+              "figure_number": "3",
+              "height": 121,
+              "image_path": "figures/2611.31113/table-011.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 796
+            },
+            {
+              "caption": "Table C.9c: (columns 1/2) NTK-aware RoPE scaling at inference as a positive control for the calibration protocol (frozen-gain checkpoints; Dense seed 42 of each tier; pooled held-out perplexity over the three corpora). For extension factor α = evaluation length / 8,192 the rotary base is set to base ×αd/(d−2) at inference only (the 8k case is the identity); no training was performed.",
+              "figure_id": "table-C.9-4",
+              "figure_number": "C.9",
+              "height": 235,
+              "image_path": "figures/2611.31113/table-012.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 687
+            },
+            {
+              "caption": "Table C.9b: Both arms at a common temperature on the calibration windows (dense operator; ∆ = mean NLL difference over three corpora). At τ = 0.85 (Dense’s 30k optimum) the 30k gap is near zero at 365M and 1.2B and slightly positive at 3B; at τ = 0.80 (Mixed’s optimum) Mixed leads by 0.01–0.04.",
+              "figure_id": "table-C.9-5",
+              "figure_number": "C.9",
+              "height": 235,
+              "image_path": "figures/2611.31113/table-013.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 687
+            },
+            {
+              "caption": "Table C.9c: (columns 2/2) NTK-aware RoPE scaling at inference as a positive control for the calibration protocol (frozen-gain checkpoints; Dense seed 42 of each tier; pooled held-out perplexity over the three corpora). For extension factor α = evaluation length / 8,192 the rotary base is set to base ×αd/(d−2) at inference only (the 8k case is the identity); no training was performed.",
+              "figure_id": "table-C.9-11",
+              "figure_number": "C.9",
+              "height": 235,
+              "image_path": "figures/2611.31113/table-014.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 687
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.31113/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.31113",
+          "relevance": 8,
+          "selection_reason": "Directly studies zero-shot context extension, calibration, RoPE/ALiBi scaling, and long-context evaluation for language models.",
+          "summary_status": "generated",
+          "title": "Attention Temperature Confounds Zero-Shot Context Extension",
+          "tldr": "Zero-shot context-extension gains can be artifacts of baseline logit miscalibration, so evaluations should calibrate temperature and verify normalization parameters moved.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "The search for computationally efficient alternatives to the Transformer has yielded numerous architectures in recent years; however, most exhibit severe weaknesses in associative recall-such as key-value (KV) retrieval-and length extrapolation, where even standard Transformers struggle. This paper introduces LimeTree, a linear-complexity architecture in both memory and compute for sequence modeling. By integrating synthetic KV retrieval tasks directly into standard language modeling training, LimeTree achieves strong perplexity alongside reliable recall. Two variants were evaluated on WikiText-103 and PG-19 under strict compute constraints. On WikiText-103, LimeTree reaches a token-level perplexity of 19 in just 6 hours on four Quadro RTX 8000 GPUs, while maintaining 100\\% KV retrieval accuracy even when extrapolating from a training context length of 512 to an evaluation length of 16,384. On PG-19, the model achieves a token-level perplexity of 13 in 35 hours on a single RTX PRO 6000 Blackwell GPU with minimal hyperparameter tuning. These results position LimeTree as a competitive linear-complexity alternative to Transformers, combining superior perplexity and training throughput with robust in-context retrieval and length extrapolation.",
+          "arxiv_id": "2611.30934",
+          "arxiv_url": "https://arxiv.org/abs/2611.30934",
+          "authors": [
+            "Elisabeth Fink"
+          ],
+          "bullets": [
+            "Targets Transformer inefficiencies, especially associative recall and context-length extrapolation.",
+            "Uses a tree-graph architecture and incorporates synthetic key-value retrieval tasks into language-model training.",
+            "Evaluated on WikiText-103 and PG-19 under strict compute constraints.",
+            "On WikiText-103, achieves perplexity 19 and 100% KV retrieval accuracy when extrapolating from context length 512 to 16,384.",
+            "Reports perplexity 13 on PG-19 with minimal hyperparameter tuning."
+          ],
+          "categories": [
+            "cs.CL",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Architecture of the GNN. (a) During the bottom-up pass, sibling pairs (hL, hR) are combined via a learned differential convex gate gbu with a right-branch recency prior boverride, followed by a tanh-gated FFN and multi-hop 4-grandchild mean/max skip connections every two tree levels. (b) During the top-down pass, the global root hroot modulates mid-level subtree slots Hmid through a multiplicative bilinear gate before a secondary convex tree sweep produces the global summary htd.",
+              "figure_id": "figure-2-10",
+              "figure_number": "2",
+              "height": 465,
+              "image_path": "figures/2611.30934/figure-001.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1085
+            },
+            {
+              "caption": "Figure 5: Processing speed of LimeTree 381 on Wikitext 103. (a) shows the tokens per second in both the language modeling (LM) and key-value retrieval (KV) task. (b) shows the latency in the key-value retrieval task as well as the peak GPU VRAM usage in the language modeling task. The orange dashed line indicates the training context length of 512.",
+              "figure_id": "figure-5-11",
+              "figure_number": "5",
+              "height": 323,
+              "image_path": "figures/2611.30934/figure-002.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 1008
+            },
+            {
+              "caption": "Figure 3: Distributed training dataflow across four NVIDIA Quadro RTX 8000 GPUs. Each device samples disjoint sequences from a local 4 GB int16 VRAM cache and accumulates gradients locally under no_sync() before overlapping bucketed AllReduce communication with the final micro-batch backward pass.",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 458,
+              "image_path": "figures/2611.30934/figure-003.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 946
+            },
+            {
+              "caption": "Figure 1: Sequence-to-Graph-Tree Construction. Adjacent context tokens are bound via shift-invariant bilinear interactions, causal Conv1D (K = 4), and intra-chunk causal RoPE attention (W = 64) to form leaf states H(0). The hierarchy is recursively merged upward with 2-level quadruple shortcuts while extracting (i) rightmost Fenwick boundary tails Ttail at every depth, (ii) top-down refined subtree slots H̃mid (≤ 128 nodes) augmented with adaptive leaf pooling, and (iii) the global root rfinal.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 465,
+              "image_path": "figures/2611.30934/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 815
+            },
+            {
+              "caption": "Figure 4: Performance of LimeTree 381 on Wikitext 103. (a) shows the excellent extrapolation capabilities, where the best perplexity score is achieved at the training context length 512. (b) shows the performance on the KV retrieval task.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 337,
+              "image_path": "figures/2611.30934/figure-005.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 1008
+            },
+            {
+              "caption": "Figure 6: Comparison of LimeTree 173, 230 and 381. All three models show a similar PPL score at the training context length of 512, but LimeTree 381 demonstrates the strongst extrapolation capabilities up to 65536.",
+              "figure_id": "figure-6-12",
+              "figure_number": "6",
+              "height": 281,
+              "image_path": "figures/2611.30934/figure-006.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 1008
+            },
+            {
+              "caption": "Figure 7: PG19 test evaluation with extrapolation.",
+              "figure_id": "figure-7-6",
+              "figure_number": "7",
+              "height": 237,
+              "image_path": "figures/2611.30934/figure-007.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 1008
+            },
+            {
+              "caption": "Table 5: Comparison of sequence modeling architectures evaluated on the PG-19 long-range book benchmark, highlighting sub-quadratic models alongside canonical quadratic/cached baselines. Complexity is reported per layer with respect to sequence length N , segment/window size W , latent/state dimension d (or latent count L), and external memory size M . NR denotes metrics not reported by the original authors.",
+              "figure_id": "table-5-5",
+              "figure_number": "5",
+              "height": 391,
+              "image_path": "figures/2611.30934/table-008.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 1012
+            },
+            {
+              "caption": "Table 3: Closed-corpus word-level language modeling benchmark progression on WikiText-103.",
+              "figure_id": "table-3-8",
+              "figure_number": "3",
+              "height": 408,
+              "image_path": "figures/2611.30934/table-009.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 1002
+            },
+            {
+              "caption": "Table 4: Multi-scale evaluation of LimeTree (L = 16, D = 1536, step 44000, BS = 1) across context lengths up to 512k tokens. The horizontal rule marks the maximum training context length (4k tokens).",
+              "figure_id": "table-4-7",
+              "figure_number": "4",
+              "height": 334,
+              "image_path": "figures/2611.30934/table-010.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 1015
+            },
+            {
+              "caption": "Table 1: Summary of LimeTree Hierarchical Graph-Tree Hyperparameters (D = 1536).",
+              "figure_id": "table-1-9",
+              "figure_number": "1",
+              "height": 231,
+              "image_path": "figures/2611.30934/table-011.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 939
+            },
+            {
+              "caption": "Table 2: Training and evaluation configurations for the WikiText-103 and PG-19 models.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 162,
+              "image_path": "figures/2611.30934/table-012.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 1008
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.30934/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.30934",
+          "relevance": 8,
+          "selection_reason": "Linear-memory architecture for language modeling with long-context extrapolation and memory efficiency.",
+          "summary_status": "generated",
+          "title": "LimeTree: Linear-Memory Graph Neural Networks over Tree-Graphs for Resource-Efficient Language Modeling and Context Extrapolation",
+          "tldr": "LimeTree is a linear-memory and linear-compute sequence model that combines strong language modeling with reliable long-context KV retrieval and extrapolation.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Sparse attention reduces the cost of long-context decoding, but token selection introduces additional scoring and ranking overhead. Moreover, uniform page scoring overlooks differences in relevance between near and far context. We propose Near-Far Attention (NFA), which adapts retrieval to regional attention patterns while keeping candidate scoring lightweight. During prefill, the Lightweight Gate Estimator identifies regions that can be skipped during decoding, adding less than 1% to dense-prefill time. For the remaining regions, the Calibration-Free Subspace Extractor supplies compact features shared by page-level and token-level scoring without offline calibration. The Distance-Aware Two-Level Selector then scores near and far pages differently and jointly ranks candidate tokens under a shared budget. Evaluations across model families, parameter scales, and GQA/MLA architectures show aggregate task quality comparable to full attention. On Qwen3-8B at 512K context length, NFA achieves up to $5.49\\times$ operator speedup and $2.97\\times$ whole-model decoding speedup over FlashInfer, including selection overhead.",
+          "arxiv_id": "2611.30554",
+          "arxiv_url": "https://arxiv.org/abs/2611.30554",
+          "authors": [
+            "YuanShuo Wang, Jianchao Tan, Lei Gong, Teng Wang, Wenqi Lou, Xuehai Zhou"
+          ],
+          "bullets": [
+            "Addresses retrieval overhead and the limits of uniform page scoring in sparse attention.",
+            "Uses a Lightweight Gate Estimator during prefill to skip low-value regions with under 1% added dense-prefill time.",
+            "Extracts compact, calibration-free features for both page- and token-level scoring.",
+            "A distance-aware two-level selector ranks near and far pages and candidate tokens under a shared budget.",
+            "On Qwen3-8B at 512K context, achieves up to 5.49× operator and 2.97× whole-model decoding speedup over FlashInfer, including selection overhead."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 2. Overview of NFA. (a) Prefill-time regional attention statistics determine per-layer skip flags, which remain fixed during decoding (1: skip; 0: compute). (b) Compact query and key representations are shared by both selection levels. (c) Region-specific page selection is followed by joint token ranking; selected and protected positions participate in full-dimensional attention.",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 811,
+              "image_path": "figures/2611.30554/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1054
+            },
+            {
+              "caption": "Fig. 4. NFA speedup over FlashInfer: (a) operator time including selection; (b) whole-model decoding. Dashed lines denote parity. Missing points exceed GPU memory capacity.",
+              "figure_id": "figure-4-4",
+              "figure_number": "4",
+              "height": 336,
+              "image_path": "figures/2611.30554/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 464
+            },
+            {
+              "caption": "Fig. 5. Whole-model decoding latency of NFA, JSSA, Quest, and AsyncTLS on Qwen3-8B at batch size one with a total attention budget of 1024 tokens, including protected positions. Latency includes selection overhead. Lower is better.",
+              "figure_id": "figure-5-5",
+              "figure_number": "5",
+              "height": 229,
+              "image_path": "figures/2611.30554/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 476
+            },
+            {
+              "caption": "Fig. 1. Observations on Qwen3-8B. (a) Retained attention mass relative to oracle TopK under a shared 32-coordinate budget; dots denote documents and diamonds denote means. (b) A representative example of the regional coverage differences between Avg and MinMax observed across profiled queries. (c) Regional attention patterns over contiguous query windows, summarized by median attention mass for each task and layer (F: far; N: near). Profiling settings are given in Section IV-A.",
+              "figure_id": "figure-1-9",
+              "figure_number": "1",
+              "height": 637,
+              "image_path": "figures/2611.30554/figure-004.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 499
+            },
+            {
+              "caption": "Fig. 7. Subspace ablation. (a) GLM average over HotpotQA/GovReport (200 examples each); all subsets use 32 NoPE coordinates. (b) Qwen3-8B scoring latency at 64K, gating disabled.",
+              "figure_id": "figure-7-8",
+              "figure_number": "7",
+              "height": 227,
+              "image_path": "figures/2611.30554/figure-005.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 470
+            },
+            {
+              "caption": "Fig. 6. Gate ablation on Qwen3-8B. (a) Selection latency under forced skip states, normalized to no skip. (b) Threshold sensitivity at 𝐾2 = 1024. Lines: HotpotQA F1 (Hot) and GovReport ROUGE-L (Gov), 200 examples each. Bars: all-layer L1+L2+attention latency per decode step on one 32K input per task at BS1. The dotted line marks the default 𝜏 = 0.1.",
+              "figure_id": "figure-6-7",
+              "figure_number": "6",
+              "height": 215,
+              "image_path": "figures/2611.30554/figure-006.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 482
+            },
+            {
+              "caption": "Fig. 3. Qwen3-8B task quality: (a) LongBench v1 average; (b) LongBench v2 accuracy; (c) RULER scores across context lengths. Vertical dashed lines in (a) and (b) mark FullKV. Configurations are given in Section IV-A.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 202,
+              "image_path": "figures/2611.30554/figure-007.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 473
+            },
+            {
+              "caption": "Fig. 8. NFA regional page selection versus single-pool Avg and MinMax on Qwen3-8B across RULER context lengths.",
+              "figure_id": "figure-8-6",
+              "figure_number": "8",
+              "height": 166,
+              "image_path": "figures/2611.30554/figure-008.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 457
+            },
+            {
+              "caption": "TABLE I LongBench v1 scores across models. Categories average their constituent tasks; Avg. is the unweighted mean over 16 tasks. Bold and underlined values mark the best and second-best sparse methods; FullKV is the dense reference.",
+              "figure_id": "table-I-1",
+              "figure_number": "I",
+              "height": 447,
+              "image_path": "figures/2611.30554/table-009.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 529
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.30554/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.30554",
+          "relevance": 8,
+          "selection_reason": "Sparse region-aware attention for long-context LLM decoding with lightweight page/token selection and retrieval.",
+          "summary_status": "generated",
+          "title": "Near-Far Attention: Region-Aware Sparse Retrieval for Long-Context LLM Decoding",
+          "tldr": "Near-Far Attention accelerates long-context LLM decoding by sparsely retrieving tokens with region-aware scoring while preserving task quality comparable to full attention.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction",
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Professional documents are a long-context workload that retrieval-style benchmarks do not capture. In a ten-domain enterprise collection, a task's evidence is spread across a source document of median length 27 pages (mean 48.8, maximum 873); a third of tasks rest mainly on charts, drawings, and maps; and 70.9% require two or more reasoning hops. We post-train Kimi-K2.7, an open-weight foundation model, at its full context window on 1,465 expert-authored tasks with atomic rubrics from that collection, training rank-32 adapters with one round of privileged-context on-policy self-distillation followed by two rounds of rubric-reward reinforcement learning. We render each PDF as text for training and as extracted text plus selected page images at evaluation. The smoothed RL training reward rises from 0.37 in the first tenth of the run to 0.67 in the last. On the 100-task GDP.pdf holdout, served in a 262,144-token window, strict pass (all rubric criteria met) more than doubles after the second round, from 11.0% to 24.5%, with gains across input lengths up to 240K tokens. Mean tokens generated stay flat (9,803 to 9,733), so the gain does not come from longer outputs. GPT-5.6 Sol's leaderboard strict pass is 30.7% at a measured 3,422 tokens. On 220 out-of-domain GDPval tasks, where the model runs as a long-horizon tool-using agent, mean rubric reward rises from 0.571 to 0.746 after the third round and zero-credit tasks fall from 54 to 10, while messages per task fall 18%, from 70.9 to 58.2. In paired trajectories, the third round replaces a context-thrashing retry loop with one up-front check of all sources, and verification extends from checking that files exist to checking what they contain. We argue that long-context evaluation of agents should report accuracy jointly with tokens and turns, and that datasets of long documents should ship text and image renderings alongside each PDF.",
+          "arxiv_id": "2611.30090",
+          "arxiv_url": "https://arxiv.org/abs/2611.30090",
+          "authors": [
+            "Sushant Mehta, Logan Ritchie, Edwin Chen"
+          ],
+          "bullets": [
+            "Evaluates professional-document tasks involving very long sources, visual evidence, and multi-hop reasoning across ten enterprise domains.",
+            "Post-trains Kimi-K2.7 using rank-32 adapters, one self-distillation round, and two rubric-reward RL rounds over 1,465 expert-authored tasks.",
+            "On a 100-task GDP.pdf holdout, strict pass rises from 11.0% to 24.5%, with gains up to 240K-token inputs while generated tokens remain nearly unchanged.",
+            "On 220 out-of-domain GDPval tasks, mean rubric reward increases from 0.571 to 0.746, zero-credit tasks decrease from 54 to 10, and messages per task fall 18%.",
+            "Argues that long-context agent evaluation should jointly report accuracy, tokens, and turns, and that document datasets should include both text and image renderings."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Accuracy against spend. (a) On the single-turn document interface, post-training moves the model upward at constant token spend; the frontier reference (leaderboard strict pass, measured output tokens) is more accurate and generates about a third as many tokens. (b) On the long-horizon agentic interface, turns (assistant messages) fall from 35.25 to 27.06 after the distillation round (M1) and rise to 33.33, still below base, after the first RL round (M2, the checkpoint with the most tasks at or above 90% of rubric points); the reference completes tasks in fewer than half the turns.",
+              "figure_id": "figure-2-2",
+              "figure_number": "2",
+              "height": 289,
+              "image_path": "figures/2611.30090/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 750
+            },
+            {
+              "caption": "Figure 1: RL training reward: the severity-weighted rubric reward on training prompts, as an exponential moving average over 32 steps, plotted against the share of the logged run completed.",
+              "figure_id": "figure-1-7",
+              "figure_number": "1",
+              "height": 169,
+              "image_path": "figures/2611.30090/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 806
+            },
+            {
+              "caption": "Table 7: RL training configuration. The feedback model applies to the distillation round (R1), which also lowers the response cap to fit its privileged context.",
+              "figure_id": "table-7-6",
+              "figure_number": "7",
+              "height": 294,
+              "image_path": "figures/2611.30090/table-003.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 822
+            },
+            {
+              "caption": "Table 4: Out-of-domain evaluation on 220 GDPval tasks (tools, web, deliverables), run through the Inspect Evals harness [UK AI Security Institute et al., 2024] on the Inspect AI framework [UK AI Security Institute, 2024] and judged by GPT-5.4 Mini. Reward is the share of rubric points earned; points missed are (1−reward) times a rubric’s net point total, with penalty items counted as negative. M3 comes from the third of three evaluation runs (Section 6).",
+              "figure_id": "table-4-8",
+              "figure_number": "4",
+              "height": 164,
+              "image_path": "figures/2611.30090/table-004.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 764
+            },
+            {
+              "caption": "Table 6: Session behavior on GDPval, base against M2, in the companion report’s replication of the GDPval comparison: a separate 100-task run, measured on the 94 task pairs in which both models wrote a gradable deliverable (60 pairs with named input files for the first row). Means per task unless stated. The paired 95% bootstrap intervals of the changes in source coverage, read-only calls per task, retrieved text, unique share, and deliverable checks exclude zero [Ritchie et al., 2026].",
+              "figure_id": "table-6-3",
+              "figure_number": "6",
+              "height": 185,
+              "image_path": "figures/2611.30090/table-005.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 556
+            },
+            {
+              "caption": "Table 1: Source-page profile, by domain, of the enterprise collection that supplies the 1,465 training tasks. Values come from the collection’s catalog at the time of the study; its rows cover 2,485 of the 3,001 tasks it listed.",
+              "figure_id": "table-1-4",
+              "figure_number": "1",
+              "height": 286,
+              "image_path": "figures/2611.30090/table-006.webp",
+              "kind": "table",
+              "page": 3,
+              "width": 636
+            },
+            {
+              "caption": "Table 2: Reasoning hops and dominant evidence modality in the same catalog (hop counts for 2,485 tasks, evidence for 2,470), and frontier pass rates across the collection’s prompts at that time. Parentheses give a model’s reasoning-effort setting.",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 165,
+              "image_path": "figures/2611.30090/table-007.webp",
+              "kind": "table",
+              "page": 3,
+              "width": 786
+            },
+            {
+              "caption": "Table 5: Strict pass on the GDP.pdf holdout by evaluation input length in tokens [Ritchie et al., 2026]; the M2 figures are four-run means.",
+              "figure_id": "table-5-1",
+              "figure_number": "5",
+              "height": 176,
+              "image_path": "figures/2611.30090/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 402
+            },
+            {
+              "caption": "Table 3: In-domain holdout: the 100 public GDP.pdf tasks at pass@1, served in a 262,144-token window. The M2 strict pass averages four evaluation runs (23, 24, 24, 27%); the M2 criterion pass rate comes from a single run, and all other cells are reported as single values. The GPT-5.6 Sol strict pass (public leaderboard, Max setting, July 2026) and criterion pass rate (from the leaderboard’s evaluation data) were not produced under this harness; its token count is our measurement, so its passes-per-token ratio combines the two sources.",
+              "figure_id": "table-3-9",
+              "figure_number": "3",
+              "height": 125,
+              "image_path": "figures/2611.30090/table-009.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 736
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.30090/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.30090",
+          "relevance": 8,
+          "selection_reason": "Post-training agents for long-document reasoning, directly relevant to long-context and LLM post-training.",
+          "summary_status": "generated",
+          "title": "Post-Training Agents for Long-Document Reasoning",
+          "tldr": "Post-training with privileged-context self-distillation and rubric-based reinforcement learning substantially improves long-document reasoning and tool-use efficiency without requiring longer answers.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "large-language-models",
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Top-k sparse attention relies on an indexer, a lightweight per-layer module that ranks cached tokens so attention covers only the k highest-scoring ones. Indexers are usually distilled from dense attention at the full serving length, so every training step pays for long-context dense attention. We show that when an indexer is distilled on short sequences, its failure to generalise to longer contexts is driven mainly by rotary positional encoding (RoPE), not by degraded content matching. We propose position-skipped distillation: the indexer and the frozen teacher see short sequences whose position IDs contain a randomly placed gap, so neither ever processes more than the short training length. On DeepSeek-V2-Lite and Qwen3-30B-A3B, an indexer distilled on 8K tokens this way matches a 32K-distilled indexer to within about 0.5 perplexity up to 32K, and on DeepSeek-V2-Lite matches a 64K-distilled indexer at 64K with roughly 6x less training compute per token. On Llama-3.1-8B it trails the stronger 32K run by 0.6 perplexity, and at 64K simple position compression is often as good, so the main gain is training cost rather than quality. We also quantise indexer keys to 3-4 bits without retraining and score them with a fused integer kernel: at 4 bits, perplexity changes by at most 0.05 and the scan is 1.6-2.2x faster than half precision. In a current serving engine, the indexer speeds up decoding only for long contexts with multiple concurrent streams.",
+          "arxiv_id": "2611.29664",
+          "arxiv_url": "https://arxiv.org/abs/2611.29664",
+          "authors": [
+            "Fu Dai, Haodi Quan, Kamal Taha"
+          ],
+          "bullets": [
+            "Short-sequence failures are mainly attributed to rotary positional encoding rather than content matching.",
+            "Random gaps in position IDs let the indexer and frozen teacher learn long-range positions without processing long sequences.",
+            "An 8K-distilled indexer nearly matches 32K- and, on one model, 64K-distilled quality; the reported training-cost reduction is about 6× per token.",
+            "3–4-bit key quantization requires no retraining; 4-bit keys change perplexity by at most 0.05 and yield 1.6–2.2× faster scans.",
+            "Benefits vary by model and serving setting: position compression can be competitive, and decoding speedups appear mainly for long contexts with multiple streams."
+          ],
+          "categories": [
+            "cs.CL",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Overview. Top, training. Left: an indexer distilled on 8K tokens sees only a small arc (blue) of a slow rotary pair, so at 64K it meets unseen rotations. (1) Position-skipped distillation lets the ids of T contiguous tokens jump by a random offset u after a cut point, so every distance up to the range R occurs. (2) The frozen model computes dense attention under the same ids, and each layer’s indexer matches its head-summed attention pt,s with a KL loss; only the indexer receives gradients. (3) Each token keeps one b-bit key, an integer scan scores all keys, and attention reads the k best (orange). Bottom, serving: in every layer H query heads are scored against the b-bit keys by a fused integer scan; beyond R the ids are scaled by ρ = R/L. Blue: our components.",
+              "figure_id": "figure-1-12",
+              "figure_number": "1",
+              "height": 444,
+              "image_path": "figures/2611.29664/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 906
+            },
+            {
+              "caption": "Figure 2: ∆PPL over DENSE at k = 2048 as a function of the evaluation length, on a logarithmic axis; the values are those of Table 2. SHORT-8K fails beyond 8K and LONG-32K degrades beyond 32K. SKIP-64K, distilled on 8K sequences, stays at or below 1.23% up to 64K.",
+              "figure_id": "figure-2-49",
+              "figure_number": "2",
+              "height": 256,
+              "image_path": "figures/2611.29664/figure-002.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 821
+            },
+            {
+              "caption": "Figure 3: Jaccard overlap Jℓℓ′ of the top-2048 sets of all pairs of layers of DeepSeek-V2-Lite at the same query, at 32K, averaged over the last 1024 decoding steps of four PG-19 documents. Left: ORACLE selection. Right: SKIP-64K at native positions. The diagonal is 1 and is clipped by the colour scale.",
+              "figure_id": "figure-3-5",
+              "figure_number": "3",
+              "height": 327,
+              "image_path": "figures/2611.29664/figure-003.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 962
+            },
+            {
+              "caption": "Figure 4: Left: Jaccard overlap of the top-2048 sets of each layer and the previous one on DeepSeek-V2-Lite (four PG-19 documents, last 1024 decoding steps, indexer SKIP-64K). Orange ticks: the five retrieval layers. Right: SKIP-64K in all 27 layers (All) or in 8, the others reusing the nearest earlier selection; the passcode probe is in-sample for GAPFILL-8, the RULER tasks are held out (all seven in Table 18).",
+              "figure_id": "figure-4-6",
+              "figure_number": "4",
+              "height": 283,
+              "image_path": "figures/2611.29664/figure-004.webp",
+              "kind": "figure",
+              "page": 53,
+              "width": 919
+            },
+            {
+              "caption": "Table 2: Indexers distilled with 400M tokens on DeepSeek-V2-Lite: ∆PPL (%) on PG-19 with recall in parentheses. The lower block compresses the indexer’s ids into its trained range; “in range” means compression changes nothing (ρ = 1). Four blocks up to 32K, two at 64K; bold is the best per row. The runs are matched in tokens, not steps: SHORT-8K takes 24,414 steps, SKIP-64K 8,138 and LONG-32K 2,035 (Appendix A).",
+              "figure_id": "table-2-43",
+              "figure_number": "2",
+              "height": 413,
+              "image_path": "figures/2611.29664/table-005.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 856
+            },
+            {
+              "caption": "Table 5: Distillation cost per training token, measured in steady state. Upper block: one A100, identical settings. Middle block: DeepSeek-V2-Lite on one H200 while the rest of the node was idle, with the settings of the 100M-token runs (49,152 tokens per step at 8K, 65,536 at 32K and 64K; query chunk 2048, 1024 at 64K), median over steps 6 to 20 of 20; the 128K row, one sequence per step and query chunk 1024, is a 20-step timing run made later while other jobs used the node, under which a 64K run took 1,327.5 µs, and no 128K indexer was trained. Lower block: Qwen3-30B-A3B with the settings of its 100M-token runs (query chunk 1024 at every length; no 64K indexer was trained on this model), timed in the same way on one H200 while other jobs ran on the other cards of the node; step times are recorded in whole seconds.",
+              "figure_id": "table-5-23",
+              "figure_number": "5",
+              "height": 375,
+              "image_path": "figures/2611.29664/table-006.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 772
+            },
+            {
+              "caption": "Table 1: Notation used throughout the paper and its appendix.",
+              "figure_id": "table-1-50",
+              "figure_number": "1",
+              "height": 332,
+              "image_path": "figures/2611.29664/table-007.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 786
+            },
+            {
+              "caption": "Table 3: Matched runs at 100M training tokens on three models, k = 2048: ∆PPL (%) with recall in parentheses, four PG-19 blocks up to 32K and eight at 64K, with intervals in Table 7. The +COMPRESS row compresses the ids of LONG-32K into 32K.",
+              "figure_id": "table-3-17",
+              "figure_number": "3",
+              "height": 228,
+              "image_path": "figures/2611.29664/table-008.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 980
+            },
+            {
+              "caption": "Table 7: Matched runs at 100M training tokens with 95% bootstrap intervals over blocks: ∆PPL (%) and the paired difference to SKIP-64K of the same model on the same blocks, in points (positive: SKIP-64K is better). DeepSeek-V2-Lite: the 16 blocks of Table 10 at 32K and the first eight of them at 64K. Qwen3-30B-A3B and Llama-3.1-8B: eight blocks at 64K each. +COMPRESS compresses the ids of LONG-32K into 32K.",
+              "figure_id": "table-7-35",
+              "figure_number": "7",
+              "height": 476,
+              "image_path": "figures/2611.29664/table-009.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 980
+            },
+            {
+              "caption": "Table 26: Llama-3.1-8B at 128K, k = 2048, two PG-19 blocks. Upper block: recall of SKIP-64K against the dense top-2048 with dense attention in the model, and the cosine of the mean layer input of each bin to that of the first bin, both averaged over layers, by query bin; Qwen3-30B-A3B for comparison. Lower block: ∆PPL (%) with all layers sparse or the first layers dense; ORACLE selects by head-summed dense attention, shared by all heads of a layer; – is not run.",
+              "figure_id": "table-26-19",
+              "figure_number": "26",
+              "height": 614,
+              "image_path": "figures/2611.29664/table-010.webp",
+              "kind": "table",
+              "page": 33,
+              "width": 942
+            },
+            {
+              "caption": "Table 4: Distillation settings. “Tokens per step” is the number of training tokens that contribute to one optimiser step, over all GPUs.",
+              "figure_id": "table-4-52",
+              "figure_number": "4",
+              "height": 463,
+              "image_path": "figures/2611.29664/table-011.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 876
+            },
+            {
+              "caption": "Table 37: Stages of the step of Table 36 in milliseconds, summed over the 27 layers. The stages were timed in separate repetitions that wait for the GPU after every stage, so their sum is slightly above the step time. “Query” is the query projection of the indexer and “attention” includes gathering the selected rows. “Other” is the feed-forward blocks and the query, key and output projections of the model. †Timing only.",
+              "figure_id": "table-37-40",
+              "figure_number": "37",
+              "height": 425,
+              "image_path": "figures/2611.29664/table-012.webp",
+              "kind": "table",
+              "page": 41,
+              "width": 677
+            },
+            {
+              "caption": "Table 39: Dense FlashMLA with a 16-bit and an 8-bit (FP8) cache against the indexer with three sparse attention paths, in vLLM 0.32.0 on one H200 in one session (DeepSeek-V2-Lite, SKIP-64K, k = 2048, length-aware select, protocol of Table 38). Keys: format of the indexer keys. ms: median time between two tokens; tok/s: generated tokens per second of all streams; both the mean of two repetitions. Off: generated tokens of one stream, out of 256, that lie outside 0.5 logits of the first choice of the 16-bit Hugging Face model, at 32K / 64K. The two FlashMLA sparse decode rows ran with the engine’s memory fraction at 0.52 instead of 0.85 because of their FP8 copy of the cache. Bold: fastest configuration of each column.",
+              "figure_id": "table-39-39",
+              "figure_number": "39",
+              "height": 290,
+              "image_path": "figures/2611.29664/table-013.webp",
+              "kind": "table",
+              "page": 44,
+              "width": 868
+            },
+            {
+              "caption": "Table 22: Second model, Qwen3-30B-A3B: three RULER tasks at 32K with k = 2048 that are not saturated, 200 samples per task, the same samples in every column, scored by teacher forcing. Upper block: token accuracy over the answer values (higher is better); lower block: mean negative log-likelihood of the answer values (lower is better). The indexer columns give the paired difference to DENSE with a 95% bootstrap interval over samples (20,000 resamples). The indexers are those of Table 19.",
+              "figure_id": "table-22-14",
+              "figure_number": "22",
+              "height": 264,
+              "image_path": "figures/2611.29664/table-014.webp",
+              "kind": "table",
+              "page": 29,
+              "width": 782
+            },
+            {
+              "caption": "Table 10: ∆PPL (%) over DENSE on 16 blocks of PG-19 per length, with 95% bootstrap intervals over blocks. At 64K the LONG-32K column is LONG-32K+COMPRESS; without compression LONG-32K has +13.17 and +4.34 there. SHORT-8K+COMPRESS is SHORT-8K without compression at 8K. The last column is the paired difference between the LONG-32K column and SKIP-64K.",
+              "figure_id": "table-10-8",
+              "figure_number": "10",
+              "height": 254,
+              "image_path": "figures/2611.29664/table-015.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 876
+            },
+            {
+              "caption": "Table 13: Exact-match rate on seven RULER tasks at 32K with k = 2048, 200 samples per task. The indexers are those of Table 2. One standard error of a rate is at most 0.036. Bold marks the better of SKIP-64K and LONG-32K where they differ by more than two unpaired standard errors.",
+              "figure_id": "table-13-24",
+              "figure_number": "13",
+              "height": 265,
+              "image_path": "figures/2611.29664/table-016.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 882
+            },
+            {
+              "caption": "Table 36: Time of one step of DeepSeek-V2-Lite in milliseconds (27 layers, one A100, median of 20 repetitions) for L cached tokens and Q new tokens per step, k = 2048. The two indexer rows differ only in the key format and the scan; each cell is the faster of two variants of the radix select. The ratio rows divide the row named first by the three-bit row, so values above 1 mean that three-bit keys are faster. †Timing only: the indexer was trained for positions up to 64K.",
+              "figure_id": "table-36-31",
+              "figure_number": "36",
+              "height": 451,
+              "image_path": "figures/2611.29664/table-017.webp",
+              "kind": "table",
+              "page": 40,
+              "width": 722
+            },
+            {
+              "caption": "Table 27: Llama-3.1-8B, indexers distilled with 100M tokens: ∆PPL (%) over DENSE with 95% bootstrap intervals over blocks, 16 PG-19 blocks at 32K and eight at 64K. +COMPRESS compresses the ids into the trained length (32K for LONG-32K, 8K for SHORT-8K). Run 2 of LONG-32K used twice the batch and half the steps of run 1. The 64K values of run 1 are those of Table 7.",
+              "figure_id": "table-27-18",
+              "figure_number": "27",
+              "height": 292,
+              "image_path": "figures/2611.29664/table-018.webp",
+              "kind": "table",
+              "page": 33,
+              "width": 980
+            },
+            {
+              "caption": "Table 35: Compact index: bytes per token and layer, attention mass of the top-2048 selection at 64K relative to full-precision keys (Table 32), and time of one scan in microseconds on one A100 for L cached keys and Q queries (H = 16, d = 64, median of 50 to 200 runs). All rows compute Eq. 2 for every key, on synthetic keys, with outputs checked against a CPU reference; the last row is the selection step alone.",
+              "figure_id": "table-35-15",
+              "figure_number": "35",
+              "height": 277,
+              "image_path": "figures/2611.29664/table-019.webp",
+              "kind": "table",
+              "page": 39,
+              "width": 898
+            },
+            {
+              "caption": "Table 41: Decoding throughput of Llama-3.1-8B in vLLM 0.32.0 on one H200 (generated tokens per second of all streams, mean of two repetitions, 256 generated tokens, protocol of Table 38). DENSE: the stock engine with its FlashAttention backend. Indexer: grouped-query port of the plugin, 100M-token SKIP-64K in all layers with uncompressed ids, k = 2048; at 128K this configuration fails in perplexity (Table 25). The ratio in parentheses is to DENSE. 16 streams were not measured at 64K and beyond; 96K and 128K were measured in a later session, with a prompt of 130,816 tokens at 128K.",
+              "figure_id": "table-41-22",
+              "figure_number": "41",
+              "height": 377,
+              "image_path": "figures/2611.29664/table-020.webp",
+              "kind": "table",
+              "page": 46,
+              "width": 636
+            },
+            {
+              "caption": "Table 44: Decoding throughput in vLLM 0.8.5 on one A100 (generated tokens per second of all streams, mean of two repetitions; DeepSeek-V2-Lite, SKIP-64K indexer, k = 2048). DENSE: stock engine. PyTorch dense: all cached rows attended with batched matrix products. Indexer: fused path with 16-bit or three-bit keys; the ratio in parentheses is to DENSE. These ratios are not comparable with Table 43, whose stock engine is up to 7.0 times faster.",
+              "figure_id": "table-44-51",
+              "figure_number": "44",
+              "height": 278,
+              "image_path": "figures/2611.29664/table-021.webp",
+              "kind": "table",
+              "page": 48,
+              "width": 782
+            },
+            {
+              "caption": "Table 32: Key formats for the SKIP-64K indexer: attention mass captured by the top-2048 selection made with compressed keys, relative to the selection made with full-precision keys. “Direct” uses the compressed keys alone. “Rescored” takes the best 4,096 candidates under the compressed keys and rescores them with full-precision keys. Bytes are per token and per layer and include a two-byte scale where one is used. Two PG-19 documents per length; every eighth of the last 512 query positions is evaluated.",
+              "figure_id": "table-32-44",
+              "figure_number": "32",
+              "height": 288,
+              "image_path": "figures/2611.29664/table-022.webp",
+              "kind": "table",
+              "page": 37,
+              "width": 736
+            },
+            {
+              "caption": "Table 21: Second model, Qwen3-30B-A3B: samples with an exact match on RULER tasks at 32K with k = 2048, out of 50 (upper block) or 200 (lower block). The indexers are those of Table 19.",
+              "figure_id": "table-21-13",
+              "figure_number": "21",
+              "height": 214,
+              "image_path": "figures/2611.29664/table-023.webp",
+              "kind": "table",
+              "page": 29,
+              "width": 564
+            },
+            {
+              "caption": "Table 15: Controls at 32K on 200 samples per task: ORACLE selection with k = 2048 and the SKIP-64K indexer with k = 4096. Token accuracy is the share of answer-value tokens that are predicted correctly.",
+              "figure_id": "table-15-42",
+              "figure_number": "15",
+              "height": 265,
+              "image_path": "figures/2611.29664/table-024.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 590
+            },
+            {
+              "caption": "Table 17: LongBench v2 accuracy, 503 four-option questions truncated in the middle to 32K tokens, answer chosen by the highest next-token logit among A to D (chance 0.25), k = 2048 in every layer. Columns by the benchmark’s length category, with the number of questions. ∆: paired difference to DENSE with a 95% bootstrap interval over questions (10,000 resamples); p: two-sided sign test over the questions on which the two configurations disagree, with the counts answered correctly only by DENSE / only by the indexer. The interval of DENSE is a 95% interval of its accuracy.",
+              "figure_id": "table-17-3",
+              "figure_number": "17",
+              "height": 248,
+              "image_path": "figures/2611.29664/table-025.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 977
+            },
+            {
+              "caption": "Table 34: End-to-end effect of compact key stores on DeepSeek-V2-Lite. The rows “16-bit float” give ∆PPL (%) over DENSE for k = 512 and k = 2048. The rows below them give the paired difference to that row in percentage points on the same blocks, and an asterisk marks a difference whose 95% bootstrap interval over blocks excludes zero, without correction for the number of comparisons. The upper block uses the 400M-token SKIP-64K indexer, and the lower block the 100M-token SKIP-64K indexer to which the codec was fitted. Integer keys are scored with an 8-bit query, and the two CODEC-8 rows store the weights in floating point and in 4 bits. 16 blocks of PG-19 per length, 8 at 64K. The last column is the number of passcodes out of 8 that are retrieved exactly at 32K, for k = 512 / k = 2048; DENSE retrieves 8.",
+              "figure_id": "table-34-4",
+              "figure_number": "34",
+              "height": 250,
+              "image_path": "figures/2611.29664/table-026.webp",
+              "kind": "table",
+              "page": 38,
+              "width": 882
+            },
+            {
+              "caption": "Table 18: Index reuse on RULER at 32K, k = 2048, 200 samples per task (the samples of Table 13): exact-match rate with the 400M-token SKIP-64K indexer in all 27 layers (All) or in 8 layers, the others reusing the nearest earlier selection. Token accuracy in parentheses where it is discussed in the text.",
+              "figure_id": "table-18-41",
+              "figure_number": "18",
+              "height": 264,
+              "image_path": "figures/2611.29664/table-027.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 756
+            },
+            {
+              "caption": "Table 43: Decoding throughput in vLLM 0.32.0 on one A100 (generated tokens per second of all streams, mean of two repetitions; DeepSeek-V2-Lite, SKIP-64K indexer, k = 2048, fused path with CUDA graphs). The ratio in parentheses is to DENSE, the stock engine. The 64K cell with 16 streams cannot be measured with this protocol.",
+              "figure_id": "table-43-10",
+              "figure_number": "43",
+              "height": 279,
+              "image_path": "figures/2611.29664/table-028.webp",
+              "kind": "table",
+              "page": 47,
+              "width": 636
+            },
+            {
+              "caption": "Table 23: Third model, Llama-3.1-8B: ∆PPL (%) over DENSE for k = 512 / k = 2048, indexers distilled with 100M tokens. Four PG-19 documents up to 32K and two at 64K and 128K. The +COMPRESS rows compress the indexer positions into the trained range, 64K for SKIP-64K and 32K for LONG-32K; every length is inside the range of SKIP-128K.",
+              "figure_id": "table-23-11",
+              "figure_number": "23",
+              "height": 181,
+              "image_path": "figures/2611.29664/table-029.webp",
+              "kind": "table",
+              "page": 30,
+              "width": 980
+            },
+            {
+              "caption": "Table 40: Decoding throughput of Qwen3-30B-A3B in vLLM 0.32.0 on one H200 (generated tokens per second of all streams, mean of two repetitions, protocol of Table 38). DENSE: the engine’s FlashAttention backend. Indexer: SKIP-64K with 100M training tokens, k = 2048, length-aware select and split-k sparse attention. The ratio in parentheses is to DENSE. 16 streams at 64K do not fit in memory.",
+              "figure_id": "table-40-26",
+              "figure_number": "40",
+              "height": 277,
+              "image_path": "figures/2611.29664/table-030.webp",
+              "kind": "table",
+              "page": 45,
+              "width": 636
+            },
+            {
+              "caption": "Table 38: Decoding throughput in vLLM 0.32.0 on one H200 (generated tokens per second of all streams, mean of two repetitions, protocol with an untimed warm-up round and prefix caching; DeepSeek-V2-Lite, SKIP-64K indexer, k = 2048). FlashMLA and Triton: the engine’s dense decoding kernels. Indexer: plugin on the Triton backend with the full-width select of the A100 measurement or the length-aware select.",
+              "figure_id": "table-38-1",
+              "figure_number": "38",
+              "height": 239,
+              "image_path": "figures/2611.29664/table-031.webp",
+              "kind": "table",
+              "page": 43,
+              "width": 718
+            },
+            {
+              "caption": "Table 30: Position-range ablation: ∆PPL (%) for k = 512 / k = 2048. All indexers are distilled on 8K sequences with 400M tokens. The +COMPRESS rows compress indexer positions into the trained range; a dash marks a length inside the range. Two documents at 64K and 128K. For reference, LONG-32K at 128K gives +22.9 / +10.9 and LONG-32K+COMPRESS gives +4.76 / −2.83.",
+              "figure_id": "table-30-33",
+              "figure_number": "30",
+              "height": 239,
+              "image_path": "figures/2611.29664/table-032.webp",
+              "kind": "table",
+              "page": 36,
+              "width": 672
+            },
+            {
+              "caption": "Table 19: Second model, Qwen3-30B-A3B: ∆PPL (%) over DENSE for k = 512 / k = 2048, indexers distilled with 100M tokens. Four PG-19 documents up to 32K, eight at 64K and two at 128K. The +COMPRESS rows compress the indexer positions into the trained range, 64K for SKIP-64K and 32K for LONG-32K.",
+              "figure_id": "table-19-27",
+              "figure_number": "19",
+              "height": 163,
+              "image_path": "figures/2611.29664/table-033.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 980
+            },
+            {
+              "caption": "Table 46: Shared keys at 32K with eight key-owning layers: ∆PPL (%) on two PG-19 documents. “Reuse” copies the selected set of the nearest earlier key-owning layer. “Rescore k′” selects the top k among the k′ best candidates of that layer.",
+              "figure_id": "table-46-29",
+              "figure_number": "46",
+              "height": 227,
+              "image_path": "figures/2611.29664/table-034.webp",
+              "kind": "table",
+              "page": 50,
+              "width": 594
+            },
+            {
+              "caption": "Table 24: Third model, Llama-3.1-8B: exact-match rate on four RULER tasks at 32K with k = 2048, 200 samples per task, the same samples in every column. Single-2 is affected by a scoring artefact (see text).",
+              "figure_id": "table-24-46",
+              "figure_number": "24",
+              "height": 152,
+              "image_path": "figures/2611.29664/table-035.webp",
+              "kind": "table",
+              "page": 31,
+              "width": 560
+            },
+            {
+              "caption": "Table 6: Matched runs at 100M training tokens, one H200 per run: ∆PPL (%) for k = 512 / k = 2048 and wall-clock time of the complete distillation run. LONG-64K is distilled on 64K sequences with ordinary positions. Four PG-19 documents up to 32K, eight at 64K and two at 128K; 128K is outside the range of all three indexers, and the values there are indicative only.",
+              "figure_id": "table-6-36",
+              "figure_number": "6",
+              "height": 198,
+              "image_path": "figures/2611.29664/table-036.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 979
+            },
+            {
+              "caption": "Table 8: ∆PPL (%) of ORACLE selection on PG-19 with a 95% bootstrap confidence interval over eight documents. The last 2,048 tokens of each document are scored. The last column is the share of dense attention mass that falls on the selected positions at k = 2048, averaged over layers.",
+              "figure_id": "table-8-47",
+              "figure_number": "8",
+              "height": 128,
+              "image_path": "figures/2611.29664/table-037.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 856
+            },
+            {
+              "caption": "Table 9: Passcode retrieval at 32K: number of samples, out of eight, in which every passcode token is predicted correctly. DENSE retrieves 8/8.",
+              "figure_id": "table-9-48",
+              "figure_number": "9",
+              "height": 104,
+              "image_path": "figures/2611.29664/table-038.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 656
+            },
+            {
+              "caption": "Table 11: ∆PPL (%) over DENSE at 128K on eight blocks of PG-19, 400M-token indexers, with 95% bootstrap intervals over blocks. Recall is for k = 2048. The last two columns are the paired difference to SKIP-64K+COMPRESS on the same blocks, in points. LONG-32K+COMPRESS compresses into 32K, SKIP-64K+COMPRESS into 64K; SKIP-128K is inside its range.",
+              "figure_id": "table-11-7",
+              "figure_number": "11",
+              "height": 183,
+              "image_path": "figures/2611.29664/table-039.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 980
+            },
+            {
+              "caption": "Table 12: ∆PPL (%) over DENSE on DeepSeek-V2-Lite at 160K (163,840 tokens) on eight blocks of PG-19, 400M-token indexers, with 95% bootstrap intervals over blocks. Recall is for k = 2048. The last two columns are the paired difference to SKIP-64K+COMPRESS on the same blocks, in points. ρ is the compression factor of Eq. 5; SKIP-128K without compression uses its own ids, beyond its range. Every configuration is below DENSE, which is weak at this length, so only the paired differences are read.",
+              "figure_id": "table-12-16",
+              "figure_number": "12",
+              "height": 176,
+              "image_path": "figures/2611.29664/table-040.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 980
+            },
+            {
+              "caption": "Table 14: Exact-match rate on four RULER tasks at 32K with k = 2048, 200 samples per task, for the three 100M-token indexers of Table 3 on DeepSeek-V2-Lite. The last two columns count the samples right only with the named indexer / only with SKIP-64K, with the p-value of an exact two-sided sign test.",
+              "figure_id": "table-14-25",
+              "figure_number": "14",
+              "height": 148,
+              "image_path": "figures/2611.29664/table-041.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 980
+            },
+            {
+              "caption": "Table 16: Exact-match rate on four RULER tasks at 64K with k = 2048, 50 samples per task, the same samples in every column. SKIP-64K and LONG-32K+COMPRESS: 400M training tokens; LONG-64K: 100M. One standard error of a rate is at most 0.071.",
+              "figure_id": "table-16-2",
+              "figure_number": "16",
+              "height": 153,
+              "image_path": "figures/2611.29664/table-042.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 794
+            },
+            {
+              "caption": "Table 29: Position-mechanism ablation on DeepSeek-V2-Lite. Each length column gives ∆PPL (%) for k = 512 / k = 2048; the passcode column gives the passcodes retrieved at 32K out of eight for k = 512, k = 2048. All rows are distilled on 8K sequences; the first uses 400M tokens and the others 100M. KL is the final training loss (Eq. 3). Four blocks at 8K to 32K, two at 64K.",
+              "figure_id": "table-29-21",
+              "figure_number": "29",
+              "height": 215,
+              "image_path": "figures/2611.29664/table-043.webp",
+              "kind": "table",
+              "page": 35,
+              "width": 894
+            },
+            {
+              "caption": "Table 33: Two-stage selection with a training-free first stage on the SKIP-64K indexer, k = 2048. Each cell gives the fraction of the full-precision top-2048 inside the M candidates and, after the slash, the attention mass of the final selection relative to the full-precision selection. Two PG-19 documents per length.",
+              "figure_id": "table-33-45",
+              "figure_number": "33",
+              "height": 202,
+              "image_path": "figures/2611.29664/table-044.webp",
+              "kind": "table",
+              "page": 37,
+              "width": 876
+            },
+            {
+              "caption": "Table 28: Block-level re-implementation of Wang et al. (2026b) on DeepSeek-V2-Lite: exact-match rate with token accuracy in parentheses on four RULER tasks at 32K with k = 2048, 200 samples per task, the same samples in every column. τ is the number of queries that share one selection; τ = 64 is the design, τ = 1 refreshes at every query. The other columns are the 100M-token indexers of Table 14; – is not run.",
+              "figure_id": "table-28-20",
+              "figure_number": "28",
+              "height": 177,
+              "image_path": "figures/2611.29664/table-045.webp",
+              "kind": "table",
+              "page": 35,
+              "width": 980
+            },
+            {
+              "caption": "Table 20: Qwen3-30B-A3B beyond the range of SKIP-32K: ∆PPL (%) for k = 512 / k = 2048, indexers distilled on 8K sequences with 100M tokens. +COMPRESS compresses the ids into the range, 32K for SKIP-32K and 64K for SKIP-64K. 64K: the eight PG-19 blocks of Table 7, with 95% bootstrap intervals over blocks. 128K: four blocks. – is not run or inside the range.",
+              "figure_id": "table-20-28",
+              "figure_number": "20",
+              "height": 166,
+              "image_path": "figures/2611.29664/table-046.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 980
+            },
+            {
+              "caption": "Table 45: Sparse-code indexers distilled end to end, 100M tokens: ∆PPL (%) for k = 512 / k = 2048. Four documents at 8K to 32K and two at 64K; the CODEC-8 row at 32K uses two documents and is not comparable with the other rows in that column.",
+              "figure_id": "table-45-34",
+              "figure_number": "45",
+              "height": 177,
+              "image_path": "figures/2611.29664/table-047.webp",
+              "kind": "table",
+              "page": 49,
+              "width": 890
+            },
+            {
+              "caption": "Table 25: Llama-3.1-8B beyond the range of SKIP-32K: ∆PPL (%) for k = 512 / k = 2048, indexers distilled on 8K sequences with 100M tokens. +COMPRESS compresses the ids into the range, 32K for SKIP-32K and 64K for SKIP-64K. 64K: the eight PG-19 blocks of Table 7, with 95% bootstrap intervals over blocks. 128K: four blocks, the first two of which are those of Table 26; † on those two blocks only. – is not run or inside the range.",
+              "figure_id": "table-25-38",
+              "figure_number": "25",
+              "height": 158,
+              "image_path": "figures/2611.29664/table-048.webp",
+              "kind": "table",
+              "page": 32,
+              "width": 977
+            },
+            {
+              "caption": "Table 42: Decoding throughput of the deployable configuration of Llama-3.1-8B in vLLM 0.32.0 on one H200 (generated tokens per second of all streams, mean of three repetitions with the range across them, 256 generated tokens). Indexer: 100M-token SKIP-64K, k = 2048, layers 0 and 1 dense, indexer positions scaled by 0.5. DENSE: stock engine, BF16 cache, repeated in the same session. The ratio in parentheses is to DENSE. With four streams at 128K, DENSE with an FP8 key-value cache decodes 228.7 tokens per second (224.3 to 231.9).",
+              "figure_id": "table-42-9",
+              "figure_number": "42",
+              "height": 154,
+              "image_path": "figures/2611.29664/table-049.webp",
+              "kind": "table",
+              "page": 47,
+              "width": 872
+            },
+            {
+              "caption": "Table 31: Post-hoc sparse key codec on the 100M-token SKIP-64K indexer: ∆PPL (%) for k = 512 / k = 2048, with recall against ORACLE in parentheses. CODEC-n stores n pairs of atom id and weight per key. Bytes assume 12-bit ids and 4-bit weights. Four documents at 8K, two at 32K and 64K.",
+              "figure_id": "table-31-32",
+              "figure_number": "31",
+              "height": 129,
+              "image_path": "figures/2611.29664/table-050.webp",
+              "kind": "table",
+              "page": 36,
+              "width": 868
+            },
+            {
+              "caption": "Table 47: Forced local window at 32K: ∆PPL (%) for k = 512 / k = 2048 when the kw most recent positions are always selected. All indexers use 100M tokens. kw = 1024 is evaluated for k = 2048 only. This table uses two documents, so its first column differs from the four-document values of Table 29.",
+              "figure_id": "table-47-30",
+              "figure_number": "47",
+              "height": 127,
+              "image_path": "figures/2611.29664/table-051.webp",
+              "kind": "table",
+              "page": 50,
+              "width": 698
+            },
+            {
+              "caption": "Table 48: Forced local window at 8K: ∆PPL (%) for k = 512 / k = 2048 on four PG-19 documents. All indexers use 100M tokens. kw = 1024 is evaluated for k = 2048 only.",
+              "figure_id": "table-48-37",
+              "figure_number": "48",
+              "height": 129,
+              "image_path": "figures/2611.29664/table-052.webp",
+              "kind": "table",
+              "page": 51,
+              "width": 682
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.29664/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.29664",
+          "relevance": 8,
+          "selection_reason": "Improves sparse-attention indexer distillation for long-context serving with position-skipped training and quantization, relevant to efficient long-context LLMs.",
+          "summary_status": "generated",
+          "title": "Position-Skipped Distillation of Sparse-Attention Indexers: Train Short, Serve Long",
+          "tldr": "Position-skipped distillation trains sparse-attention indexers on short sequences that generalize to long contexts, substantially reducing training cost while preserving quality in several models.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction",
+                "efficient-attention"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Modern language models (LMs) are post-trained and deployed as agents inside a \"harness\", but standard harness designs accumulate context that the neural network is forced to generalize to, making training for long-horizon tasks expensive and time-consuming. We study an alternative emerging path: training inherently neurosymbolic LM harnesses, which externalize and manage context programmatically to compose existing LM capabilities. We hypothesize that training around these harnesses can offer a better return on compute by enabling compositional generalization, as they can learn to decompose complex problems so that every observation their neural LM receives is locally in-distribution, even when the full task is novel. We find that harnesses like the Recursive Language Model (RLM) learn such decompositions readily under reinforcement learning post-training: (1) we demonstrate that training only on short tasks can generalize to tasks 2-64$\\times$ longer while the base neural LM improves less, and (2) training on one domain transfers to novel domains that share latent structure. On messier, complex tasks, we find that we can target individual LLM calls within a harness by generating and training on easier, synthetically generated surrogate environments with fake tool / sub-calls, a technique we call surrogate harness training. From this finding, we train RLM-27B on synthetic data, and show it improves Qwen3.8-27B in the same RLM harness on a hard suite of long-context tasks like CTC-Bench and ExpertLongBench by 26.9% on average while using $\\sim$2$\\times$ fewer tokens at inference time. Finally, we show that harnesses can compose over these newly learned decompositions using recursive sub-harness calls.",
+          "arxiv_id": "2611.28298",
+          "arxiv_url": "https://arxiv.org/abs/2611.28298",
+          "authors": [
+            "Alex L. Zhang, Souradip Chakraborty, Omar Khattab"
+          ],
+          "bullets": [
+            "Standard harnesses accumulate context, making long-horizon training costly because the LM must generalize over increasingly complex inputs.",
+            "Recursive Language Model (RLM) harnesses trained on short tasks generalize to tasks 2–64× longer, while the base LM improves less.",
+            "Decompositions learned in one domain transfer to novel domains with shared latent structure.",
+            "Surrogate harness training uses easier synthetic environments to target individual LM calls within complex harnesses.",
+            "RLM-27B trained on synthetic data improves Qwen3.8-27B by 26.9% on average on CTC-Bench and ExpertLongBench while using about 2× fewer inference tokens."
+          ],
+          "categories": [
+            "cs.CL",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Harnesses like Recursive Language Models (RLM) can enable compositional generalization on unseen tasks by shaping prompts for each individual language model call to be indistribution, a property we call locally-in-distribution (LID). “Trajectory-as-a-prompt” harnesses like ReAct rely on a root language model to generalize its policy to a growing trajectory as incontext prompts, frequently leading to erroneous behavior on out-of-distribution (OOD) prompts.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 828,
+              "image_path": "figures/2611.28298/figure-001.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 979
+            },
+            {
+              "caption": "Figure 3: On six environments with controlled context lengths, we train several harnesses and the base Transformer on short tasks, and evaluate on longer variants. We plot their train reward (smoothing window=3) and evaluation reward (smoothing window=11) over training, and include a frontier model, GPT-6 Astra (OpenAI, 2026b), using the RLM as a reference. The evaluation reward of the RLM closely follows the trend of the training reward, while for the base Transformer it does not.",
+              "figure_id": "figure-3-28",
+              "figure_number": "3",
+              "height": 450,
+              "image_path": "figures/2611.28298/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 826
+            },
+            {
+              "caption": "Figure 4: We choose three environments with splits that are completely disjoint in domain (e.g. math vs. essay writing questions), but share a similar decomposition structure (e.g. ranking). We train several harnesses and the base Transformer (Qwen3-30B-A3B-Instruct-2507) on one domain, and evaluate on the other, where the RLM generalizes the strongest among other harness abstractions and the base model.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 258,
+              "image_path": "figures/2611.28298/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 826
+            },
+            {
+              "caption": "Figure 5: For several harnesses, we train on short tasks and evaluate on their long-context variants. For each setting, we track the nearest three training trajectories by Weighted Jaccard Similarity to each long evaluation trajectory, and average their rewards. We find that context-offloading harnesses learn root-level trajectories that are re-used in longer tasks compared to “trajectory-as-a-prompt”, but training performance does not necessarily transfer for all harnesses, like Pi on OOLONG.",
+              "figure_id": "figure-5-10",
+              "figure_number": "5",
+              "height": 286,
+              "image_path": "figures/2611.28298/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 826
+            },
+            {
+              "caption": "Figure 6: Harnesses that decompose tasks to be locally in-distribution (LID) are composed of individual LLM trajectories. (a) On the left, we describe surrogate harness training, a strategy for training on synthetic environments to target individual LLM behavior within a harness, using a surrogate synthetic environment that transfers behavior to the real environment when tools and sub-calls are real. (b) On the right, we describe how learned decomposition strategies invoked by the harness can be composed to be LID, by enabling the harness to invoke sub-harness calls recursively.",
+              "figure_id": "figure-6-25",
+              "figure_number": "6",
+              "height": 252,
+              "image_path": "figures/2611.28298/figure-005.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 826
+            },
+            {
+              "caption": "Figure 7: We reproduced Figure 3 but swapped out the RLM implementation with a version that does not use the orchestration hint. The model roughly follows the same trends, except on MRCRv2, where it learns a non-generalizable solution that has context window issues.",
+              "figure_id": "figure-7-23",
+              "figure_number": "7",
+              "height": 450,
+              "image_path": "figures/2611.28298/figure-006.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 826
+            },
+            {
+              "caption": "Figure 2: Several popular harness abstractions are useful for controlling what individual LM calls observe. (a) Context offloading keeps the full context in the environment and only allows the model to see slices. (b) Programmatic tool calling treats tools (e.g. sub-agents) as functions in code, which can manipulate intermediate state without the model needing to see it. (c) Sub-agent calling allows the model to explicitly fan out to other LMs, each with their own fresh context. These abstractions can be composed, yielding stronger task generalization effects.",
+              "figure_id": "figure-2-15",
+              "figure_number": "2",
+              "height": 193,
+              "image_path": "figures/2611.28298/figure-007.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 826
+            },
+            {
+              "caption": "Figure 11: Cross-task harness trajectory similarity. For each evaluation environment in the length generalization experiments in Figure 3, we also check how similar RLM trajectories on evaluation tasks are to unrelated tasks. We look at cross-task trajectory similarity: we plot the mean maximum similarity of trajectories in each long evaluation setting, to its closest training trajectory in each training environment, even those unrelated to the target evaluation task. Across all tasks, there is a higher similarity for harness trajectories transferring from a shorter variant to the longer variant of the same environment versus shorter variants of different tasks.",
+              "figure_id": "figure-11-5",
+              "figure_number": "11",
+              "height": 527,
+              "image_path": "figures/2611.28298/figure-008.webp",
+              "kind": "figure",
+              "page": 53,
+              "width": 748
+            },
+            {
+              "caption": "Figure 10: For each evaluation environment in the length and strategy generalization experiments in Figures 3, 4, we plot the mean maximum similarity to a successful training trajectory under each metric. Higher values indicate higher similarity.",
+              "figure_id": "figure-10-27",
+              "figure_number": "10",
+              "height": 488,
+              "image_path": "figures/2611.28298/figure-009.webp",
+              "kind": "figure",
+              "page": 52,
+              "width": 748
+            },
+            {
+              "caption": "Figure 9: We evaluate 2000 meta-tasks, each sampling (without replacement) four tasks that must be solved in order. Left: The selected tasks are drawn from a pool of tasks that the RLM-27B was trained to solve, whose root LM learned in post-training how to decompose the task over existing tools and sub-calls. Right: a chain is any four pool tasks in any order. Only the first task is visible, and must be solved. The unlock tool reveals the next task after a correct answer and handoff starts a fresh RLM call on it, so solving a chain composes the learned compositions by recursion.",
+              "figure_id": "figure-9-4",
+              "figure_number": "9",
+              "height": 252,
+              "image_path": "figures/2611.28298/figure-010.webp",
+              "kind": "figure",
+              "page": 43,
+              "width": 826
+            },
+            {
+              "caption": "Figure 8: We report the average training reward in gray and the held-out reward (red) for Qwen3-30B-A3B-Instruct-2507 on the broader training mixture in Table 9. The dotted line is the checkpoint selected for evaluation.",
+              "figure_id": "figure-8-26",
+              "figure_number": "8",
+              "height": 246,
+              "image_path": "figures/2611.28298/figure-011.webp",
+              "kind": "figure",
+              "page": 31,
+              "width": 826
+            },
+            {
+              "caption": "Table 4: We report average scores for several base and post-trained models using the RLM harness on long tasks in Table 3. For each model, we RL post-train on the short-context variants of the environments studied in §3.1, as well as the targeted synthetic environments constructed in §4.2.",
+              "figure_id": "table-4-17",
+              "figure_number": "4",
+              "height": 421,
+              "image_path": "figures/2611.28298/table-012.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 836
+            },
+            {
+              "caption": "Table 5: We report average harness statistics for the evaluation trajectories in Table 4. Delegates reports the percentage of trajectories with at least one sub-call. Turn Cap reports the percentage of trajectories that hit the 40-turn harness limit (harnesses can still submit an answer at the turn cap). Expanded per-environment statistics are reported in Appendix C.",
+              "figure_id": "table-5-24",
+              "figure_number": "5",
+              "height": 305,
+              "image_path": "figures/2611.28298/table-013.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 752
+            },
+            {
+              "caption": "Table 3: Held-out evaluation splits. Context lengths are approximate token estimates from the input text; BrowseComp-Plus includes its full shared corpus. CTC-Bench scores are averaged over each split, which each contain a different number of entries.",
+              "figure_id": "table-3-11",
+              "figure_number": "3",
+              "height": 270,
+              "image_path": "figures/2611.28298/table-014.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 828
+            },
+            {
+              "caption": "Table 7: Default training configuration used in prime-rl for all RL post-training experiments, unless otherwise specified.",
+              "figure_id": "table-7-6",
+              "figure_number": "7",
+              "height": 690,
+              "image_path": "figures/2611.28298/table-015.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 843
+            },
+            {
+              "caption": "Table 8: We explore how training on the full suite of short task environments influences harness behavior. For several harnesses and the base neural language model, we compare the base model and one trained on only short tasks from Table 1. For the RLM, we also isolate checkpoints that only trained on one short task to compare to the mix.",
+              "figure_id": "table-8-9",
+              "figure_number": "8",
+              "height": 275,
+              "image_path": "figures/2611.28298/table-016.webp",
+              "kind": "table",
+              "page": 30,
+              "width": 830
+            },
+            {
+              "caption": "Table 19: Delegated-subtask scores (%) for the base model → best checkpoint, on the training and evaluation splits. Metric-specific aggregation is defined in the text.",
+              "figure_id": "table-19-19",
+              "figure_number": "19",
+              "height": 269,
+              "image_path": "figures/2611.28298/table-017.webp",
+              "kind": "table",
+              "page": 64,
+              "width": 834
+            },
+            {
+              "caption": "Table 15: Statistics of the gated-chain runs in Table 6, over 2000 chains each. Chains by tasks passed counts chains by the number of tasks whose answer passed the gate. The Per chain columns are averages over chains: tasks passed, unlock and handoff calls, and RLM calls with saved trajectories. The Per RLM call columns are averages over RLM calls with saved trajectories; failed calls without a saved trajectory are excluded from these call-level averages. 2nd att. is the share of passed tasks that passed on the second attempt. The RLM harness has an 80-turn budget for the whole chain, the + recursion hint setting has 80 turns per RLM call, and the + SFT setting has 20.",
+              "figure_id": "table-15-16",
+              "figure_number": "15",
+              "height": 284,
+              "image_path": "figures/2611.28298/table-018.webp",
+              "kind": "table",
+              "page": 46,
+              "width": 863
+            },
+            {
+              "caption": "Table 17: Average number of sub-calls per rollout, by benchmark.",
+              "figure_id": "table-17-8",
+              "figure_number": "17",
+              "height": 284,
+              "image_path": "figures/2611.28298/table-019.webp",
+              "kind": "table",
+              "page": 47,
+              "width": 798
+            },
+            {
+              "caption": "Table 16: Average number of root turns per rollout, by benchmark.",
+              "figure_id": "table-16-7",
+              "figure_number": "16",
+              "height": 285,
+              "image_path": "figures/2611.28298/table-020.webp",
+              "kind": "table",
+              "page": 47,
+              "width": 764
+            },
+            {
+              "caption": "Table 2: Training and evaluation environments that do not share domain-specific context, but share similar decomposition strategies.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 214,
+              "image_path": "figures/2611.28298/table-021.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 838
+            },
+            {
+              "caption": "Table 1: Training and evaluation environments, where the evaluation splits are longer variants of the training split within the same task domain.",
+              "figure_id": "table-1-18",
+              "figure_number": "1",
+              "height": 200,
+              "image_path": "figures/2611.28298/table-022.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 838
+            },
+            {
+              "caption": "Table 6: We randomly draw ordered sets of four tasks from Table 3, and form a new meta-task where a harness must solve each task in sequence to find the task prompt for the next task, and eventually to find the final answer. The partial solve rate is the percentage of individual tasks whose answers are correct. The full solve rate is the percentage of meta-tasks where all four task answers are correct. We report 95% normal confidence intervals, using meta-tasks as the independent units.",
+              "figure_id": "table-6-12",
+              "figure_number": "6",
+              "height": 137,
+              "image_path": "figures/2611.28298/table-023.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 840
+            },
+            {
+              "caption": "Table 12: Task-description overlap between the clean training export and updated real evaluation splits. |S| counts distinct descriptions, not trajectories. Larger J3 means more shared wording. H13 counts the number of real questions with at least one exact 13-word sequence shared with any training description; it does not count all matching sequences and does not by itself measure contamination.",
+              "figure_id": "table-12-22",
+              "figure_number": "12",
+              "height": 328,
+              "image_path": "figures/2611.28298/table-024.webp",
+              "kind": "table",
+              "page": 41,
+              "width": 486
+            },
+            {
+              "caption": "Table 13: Seconds per rollout for RLM-27B, real benchmark vs. synthetic environment (lower is bold; the parenthesis is synthetic/real).",
+              "figure_id": "table-13-13",
+              "figure_number": "13",
+              "height": 240,
+              "image_path": "figures/2611.28298/table-025.webp",
+              "kind": "table",
+              "page": 42,
+              "width": 618
+            },
+            {
+              "caption": "Table 14: Seconds per rollout for Qwen3.8-27B, real benchmark vs. synthetic environment (lower is bold; the parenthesis is synthetic/real).",
+              "figure_id": "table-14-14",
+              "figure_number": "14",
+              "height": 239,
+              "image_path": "figures/2611.28298/table-026.webp",
+              "kind": "table",
+              "page": 42,
+              "width": 606
+            },
+            {
+              "caption": "Table 10: Average benchmark results for the broad-mixture RL ablation and main experiment models. BrowseComp-Plus and OBLIQ-Bench are excluded from the average because they are included in the larger training mix.",
+              "figure_id": "table-10-21",
+              "figure_number": "10",
+              "height": 150,
+              "image_path": "figures/2611.28298/table-027.webp",
+              "kind": "table",
+              "page": 32,
+              "width": 844
+            },
+            {
+              "caption": "Table 11: Average trajectory statistics for the models in Table 10, averaged equally across its six benchmarks (the Table 3 environments excluding BrowseComp-Plus and OBLIQ-Bench).",
+              "figure_id": "table-11-20",
+              "figure_number": "11",
+              "height": 140,
+              "image_path": "figures/2611.28298/table-028.webp",
+              "kind": "table",
+              "page": 32,
+              "width": 614
+            },
+            {
+              "caption": "Table 18: Average root and sub-call input / output tokens in thousands (K = 1,000), rounded to the nearest K.",
+              "figure_id": "table-18-29",
+              "figure_number": "18",
+              "height": 88,
+              "image_path": "figures/2611.28298/table-029.webp",
+              "kind": "table",
+              "page": 48,
+              "width": 828
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.28298/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.28298",
+          "relevance": 7,
+          "selection_reason": "Shows neurosymbolic LM harnesses improve compositional generalization and long-context task performance with fewer inference tokens.",
+          "summary_status": "generated",
+          "title": "Language Model Harnesses can be Compositional Generalizers",
+          "tldr": "Programmatically managed LM harnesses can learn reusable task decompositions, enabling stronger compositional generalization to longer and new-domain tasks with fewer inference tokens.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-22",
       "paper_count": 6,
       "papers": [
@@ -35941,5 +37451,5 @@
   "schema_version": 1,
   "subtopic_id": "long-context-models",
   "topic_id": "language-foundation-models",
-  "total_paper_count": 162
+  "total_paper_count": 168
 }

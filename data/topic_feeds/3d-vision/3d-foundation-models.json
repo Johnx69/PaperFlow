@@ -1,6 +1,2458 @@
 {
   "days": [
     {
+      "date": "2026-11-23",
+      "paper_count": 13,
+      "papers": [
+        {
+          "abstract": "Generative Pre-Training (GPT) represents a profound milestone in natural language processing, serving as the foundation for most of today's state-of-the-art large language models. By casting diverse understanding and generation problems into a shared token representation, GPT enables a single architecture and unified optimization loop to master heterogeneous tasks across massive corpora, giving rise to powerful foundation models for natural language. In contrast, 4D spatiotemporal vision lacks a common representational protocol: perception (such as depth and camera estimation) and generation are either handled by separate one-way pipelines or bolted together from unaligned single-modality spaces. In this work, we introduce WorldLatent, a framework that formulates a unified 4D latent space as a common protocol for both world perception and generation. Rather than relying on fragmented, task-specific models or stacked single-modality representations, our framework proposes a multimodal VAE architecture that compresses and fuses complex 4D visual appearance, geometry, and dynamics into a single structured latent representation. Within this formulation, perception and generation operate as complementary denoising processes over the same latent space, enabling one generative model to learn both capabilities simultaneously within a single training loop. Experiments across representative 4D benchmarks verify that our fused latent protocol achieves specialist-level zero-shot 4D perception, coherent 4D generation, and controllable editing from a single model. By demonstrating that diverse 4D tasks can be seamlessly unified under a shared representational protocol, our work provides a scalable foundation for general-purpose 4D spatial intelligence.",
+          "arxiv_id": "2611.31209",
+          "arxiv_url": "https://arxiv.org/abs/2611.31209",
+          "authors": [
+            "Jingxi Chen, Yujia Chen, Cornelia Fermuller, Yiannis Aloimonos, Wen-Sheng Chu, Du Tran"
+          ],
+          "bullets": [
+            "Addresses the lack of a common representation for 4D spatiotemporal vision.",
+            "Uses a multimodal VAE to fuse visual appearance, geometry, and dynamics into one structured latent representation.",
+            "Frames perception and generation as complementary denoising processes over the same latent space.",
+            "A single model achieves specialist-level zero-shot 4D perception, coherent generation, and controllable editing across representative benchmarks.",
+            "Positions the shared latent protocol as a foundation for general-purpose 4D spatial intelligence."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. WorldLatent training pipeline. (a) WorldVAE training: Multiple 4D spatiotemporal modalities, including monocular RGB video, depth maps, and camera Plücker coordinates (ray direction d and moment m), are compressed via modality-specific encoders (E1– E4) and fused by a Dense Prediction Transformer (DPT) into a unified latent bottleneck, z4d (WorldLatent). Modality-specific decoders (D1–D4) then reconstruct the original modalities from this shared latent space. (b) Any-to-4D generative modeling: With the WorldVAE frozen, a unified diffusion model is trained within the learned latent space. It takes Gaussian noise, text prompts (Ctext), and partial or empty 4D latents c4d(S) (e.g., S = ∅ for text-to-4D generation, RGB-only for perception, or depth-only for editing) to synthesize the full 4D latent z4d. Finally, the frozen decoders (D1–D4) map z4d back into temporally coherent video, 3D geometry, and camera trajectories.",
+              "figure_id": "figure-2-9",
+              "figure_number": "2",
+              "height": 299,
+              "image_path": "figures/2611.31209/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1031
+            },
+            {
+              "caption": "Figure 3. Qualitative comparison of zero-shot video depth estimation. Results are shown across the MPI Sintel, Bonn, and ScanNet datasets. For each clip, we display the input RGB frames, ground-truth depth, predictions from the teacher model (DA3-Giant) and WorldLatent-14B (Ours).",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 380,
+              "image_path": "figures/2611.31209/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1017
+            },
+            {
+              "caption": "Figure 5. Any-to-4D: text-to-4D world generation with WorldLatent. Given only a text prompt, our model jointly denoises appearance, depth, and camera rays from noise, producing an RGB video together with aligned depth maps and a 3D scene with camera trajectory.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 289,
+              "image_path": "figures/2611.31209/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 924
+            },
+            {
+              "caption": "Figure 4. Any-to-4D: world editing and depth-conditioned re-rendering with WorldLatent. (1) Given an input RGB video, our model first performs 4D perception to estimate dense depth maps. (2) Conditioned on these predicted depth maps and new text prompts, the same model then performs 4D re-rendering to synthesize appearance-edited RGB videos. For each example, we show the input video, the predicted depth and camera outputs from our 4D perception stage, and the re-rendered videos across diverse text prompts.",
+              "figure_id": "figure-4-4",
+              "figure_number": "4",
+              "height": 924,
+              "image_path": "figures/2611.31209/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 986
+            },
+            {
+              "caption": "Figure 6. Linear subspace decomposition of WorldLatent. Visualization across videos re-rendered from an identical depth sequence under different text prompts (Row 1). The 16-D appearance projection Π∥z4d (Row 2) varies markedly with visual style, whereas the orthogonal 16-D geometry-and-camera projection Π⊥z4d (Row 3) remains nearly invariant.",
+              "figure_id": "figure-6-8",
+              "figure_number": "6",
+              "height": 371,
+              "image_path": "figures/2611.31209/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Figure 7. Additional 4D perception visual results. Qualitative video depth comparison on KITTI [14] (Top) and Sintel (Bottom). Panels (from left to right, top to bottom) show: input RGB, ground-truth depth, WorldLatent-14B (Ours), DA3-Giant (Teacher), VGGT-1B, CUT3R-512, MonST3R, DUSt3R, MASt3R, Video-Depth-Anything-L, DepthCrafter, Marigold-v1.1, and Metric-VDA-Large.",
+              "figure_id": "figure-7-3",
+              "figure_number": "7",
+              "height": 1202,
+              "image_path": "figures/2611.31209/figure-006.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 886
+            },
+            {
+              "caption": "Figure 8. Additional 4D perception visual results. Qualitative video depth comparison on Bonn (Top) and ScanNet (Bottom), panel layout follows Fig. 7.",
+              "figure_id": "figure-8-12",
+              "figure_number": "8",
+              "height": 1204,
+              "image_path": "figures/2611.31209/figure-007.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 886
+            },
+            {
+              "caption": "Figure 9. Additional depth-conditioned re-rendering results. For each input RGB video (kitchen inspection, cloth folding, and multihuman tracking), we show our estimated depth maps and 3D geometry with camera poses (top row). The estimated depth is then combined with two new text prompts to re-render the scene (bottom row), changing its appearance while keeping its geometry and motion.",
+              "figure_id": "figure-9-10",
+              "figure_number": "9",
+              "height": 970,
+              "image_path": "figures/2611.31209/figure-008.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 10. Additional text-based 4D generation results. For each text prompt, we show the generated RGB video (top), depth maps (middle), and 3D geometry with camera poses (bottom).",
+              "figure_id": "figure-10-6",
+              "figure_number": "10",
+              "height": 964,
+              "image_path": "figures/2611.31209/figure-009.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 1036
+            },
+            {
+              "caption": "Table 2. Comparison with state-of-the-art methods on 4D perception. Zero-shot evaluation across dynamic and static multi-domain datasets under scale-and-shift alignment. Evaluated capabilities include (1) Depth estimation, (2) camera Pose estimation, (3) 4D Generation, and (4) controllable Re-rendering/editing from depth maps. +GA denotes the test-time global alignment optimization used by baseline methods. Bold and underlined values indicate the best and second-best results, respectively. WorldLatent performs comparably to dedicated 3D/4D perception specialists, while providing additional capabilities for generation and re-rendering.",
+              "figure_id": "table-2-1",
+              "figure_number": "2",
+              "height": 400,
+              "image_path": "figures/2611.31209/table-010.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Table 1. 4D WorldVAE reconstruction quality and efficiency. WorldVAE jointly compresses RGB, depth, and camera rays into the exact the numbers of DiT tokens as an RGB-only VAE while enabling high-fidelity 4D reconstruction.",
+              "figure_id": "table-1-11",
+              "figure_number": "1",
+              "height": 215,
+              "image_path": "figures/2611.31209/table-011.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 496
+            },
+            {
+              "caption": "Table 5. Training data mixture (∼1.4M clips, % of all samples). Real-world videos (79.4%) and (DA3)-marked 3D datasets use DA3-Giant [31] depth and camera pose pseudo-labels.",
+              "figure_id": "table-5-5",
+              "figure_number": "5",
+              "height": 296,
+              "image_path": "figures/2611.31209/table-012.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.31209/hero.webp",
+          "novelty": 9,
+          "pdf_url": "https://arxiv.org/pdf/2611.31209",
+          "relevance": 8,
+          "selection_reason": "Unified 4D latent space for world perception and generation, relevant to world models and 3D foundation models.",
+          "summary_status": "generated",
+          "title": "WorldLatent: A Unified 4D Latent Space for World Perception and Generation",
+          "tldr": "WorldLatent unifies 4D perception and generation in a shared latent space, allowing one model to perform both tasks and support controllable 4D editing.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "3d-foundation-models"
+              ],
+              "topic_id": "3d-vision"
+            }
+          ]
+        },
+        {
+          "abstract": "3D indoor scene synthesis requires generating objects to form a complete and coherent scene. Existing approaches rely heavily on manually annotated datasets, leading to high costs and limited generalization. We present SceneCast, an annotation-free framework that trains on large-scale, unlabeled videos, addressing two key challenges: (1) Videos provide only partial views of a scene, requiring the model to extrapolate unseen 3D regions, which is inherently error-prone; (2) Raw videos available online are uncurated, suffering from uncontrolled conditions and variable data quality. First, we design a Transformer-based model that predicts objects sequentially and is fine-tuned with reinforcement learning (RL), where an LLM acts as a spatial common-sense evaluator. The LLM provides reward signals through chain-of-thought reasoning and code-executable geometric checks to refine object configurations. Second, we introduce \\trim, a data curation approach that generates training videos with controllable video generation models. Crucially, it retains only high-quality prefix clips via multi-criteria quality assessment with an entropy-based weighting strategy. Evaluated on curated synthetic video sets, our annotation-free approach outperforms state-of-the-art supervised methods in scene quality.",
+          "arxiv_id": "2611.30345",
+          "arxiv_url": "https://arxiv.org/abs/2611.30345",
+          "authors": [
+            "Ziyang Zong, Canming Xia, Haoran Xu, Guang Tan"
+          ],
+          "bullets": [
+            "Addresses costly annotations and limited generalization in existing indoor scene synthesis methods.",
+            "Uses a Transformer to sequentially predict objects and extrapolate unseen 3D regions from partial video views.",
+            "Fine-tunes scene configurations with RL using LLM rewards based on spatial reasoning and executable geometric checks.",
+            "Curates synthetic training videos by retaining high-quality prefix clips selected with multi-criteria, entropy-weighted assessment.",
+            "Outperforms state-of-the-art supervised methods in scene quality on curated synthetic video sets."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1. SceneCast overview. (a) Our generation model predicts 3D objects sequentially, starting from an initial set of objects. The model is fine-tuned with a reinforcement learning phase with LLM feedback. (b) Our ViTrim strategy removes low-quality tail segments from generated video using multiple quality assessment criteria, ensuring only valid clips are used for training.",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 306,
+              "image_path": "figures/2611.30345/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 920
+            },
+            {
+              "caption": "Figure 2. SceneCast pipelines. (a) Transformer-based autoregressive 3D indoor scene completion backbone network. (b) LLM-driven reinforcement learning fine-tuning loop incorporating CoT spatial reasoning, automatic geometric code execution, and multi-dimensional reward fusion. (c) ViTrim pipeline for high-quality video segment selection.",
+              "figure_id": "figure-2-7",
+              "figure_number": "2",
+              "height": 317,
+              "image_path": "figures/2611.30345/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 882
+            },
+            {
+              "caption": "Figure 3. Generation samples from an empty scene. SceneCast performs well in producing reasonable and complete object layouts, with correct collision avoidance. ATISS and DiffuScene generate misaligned objects and unnatural layouts. Perhaps restricted by the video generation model, VIPScene generates a small number of objects with narrow coverage of the scene, missing objects that are commonly found in realistic scenes (e.g., wardrobe for bedroom, sofa for livingdiningroom). SAGE [52] lacks the understanding of the actual physical space, resulting in the generation of duplicate or poorly arranged objects (e.g., bedroom without bed, impassable passageway).",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 656,
+              "image_path": "figures/2611.30345/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 5. LLM reasoning process. (a) Position refinement for minor spatial overlap; (b) Size correction for severe object interpenetration; (c) Layout saturation detection and generation stopping. The LLM Agent applies CoT reasoning and self-programmed geometric computation. In each case, Size[x,y,z] denotes the corrected 3D dimension of an object, Position[x,y,z] its refined 3D centroid. CONTINUE indicates proceeding with object generation, while STOP terminates the process when layout is complete or spatially invalid.",
+              "figure_id": "figure-5-4",
+              "figure_number": "5",
+              "height": 509,
+              "image_path": "figures/2611.30345/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 934
+            },
+            {
+              "caption": "Figure 4. Scene completion results from partial scenes. Starting from a few objects, SceneCast completes the scenes more thoroughly and plausibly.",
+              "figure_id": "figure-4-3",
+              "figure_number": "4",
+              "height": 308,
+              "image_path": "figures/2611.30345/figure-005.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 932
+            },
+            {
+              "caption": "Table 2. Ablations on the bedroom set. (a) Unified reward ablation. Each row augments the previous one with a single component, isolating its effect. The LLM reward outperforms handcrafted rules, and code execution provides a further gain over language-only reasoning. (b) ViTrim ablation. All models share identical architecture and training hyperparameters, while only the data curation strategy differs. Rows 1–2 isolate the effect of trimming, row 3 isolates the spatial IoU signal and rows 4–5 compare entropy-based vs uniform weighting.(c) SceneCast completion quality across condition coverage on held-out 3D-FRONT scenes.",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 183,
+              "image_path": "figures/2611.30345/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 540
+            },
+            {
+              "caption": "Table 1. Quantitative results. ATISS [38], DiffuScene [48], and VIPScene [21] are compared. SceneCast performs best across all metrics. PIoU (↓) is newly introduced to measure physical plausibility; baseline PIoU values are computed on their released scenes.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 202,
+              "image_path": "figures/2611.30345/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1036
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.30345/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.30345",
+          "relevance": 7,
+          "selection_reason": "Presents SceneCast, a framework for 3D indoor scene synthesis using synthetic videos and LLM-based rewards. This fits the 3D Vision topic as a foundation model for scene generation.",
+          "summary_status": "generated",
+          "title": "SceneCast: Learning Indoor Scene Synthesis from Curated Synthetic Videos with LLM Reward",
+          "tldr": "SceneCast learns coherent 3D indoor scene synthesis without manual annotations by combining curated synthetic videos with LLM-guided reinforcement learning.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "3d-foundation-models"
+              ],
+              "topic_id": "3d-vision"
+            }
+          ]
+        },
+        {
+          "abstract": "Interactive segmentation models turn a few clicks into a segmentation prediction across domains, so annotators only decide where the prediction still needs correction. Annotation thus becomes a loop of inspecting the prediction and clicking again. Each step of this loop is a visual judgment, which suits general-purpose multimodal large language model (MLLM) agents. In this work, we focus on letting these agents run this loop on 3D volumes. However, the MLLM in such an agent takes only 2D images as input, so the agent must observe the 3D volume in 2D. Since the loop calls the MLLM many times, this observation must be token-compact enough to keep every call cheap, yet informative enough to show error regions in the 3D prediction. We meet both needs with tri-planes, the three orthogonal planes that cross at one point in the volume. We show, both theoretically and empirically, that tri-planes are context-efficient yet keep sufficient detail to show error regions in the 3D prediction. Building on tri-planes, we introduce TriSegAgent, an MLLM agent that refines the 3D prediction iteratively. Within the agent, the MLLM only judges the prediction on tri-planes, while a visual harness turns each judgment into a 3D action in code. To make the loop reliable, the harness places each click at an exact voxel in the volume and checks whether to accept the 3D prediction. To evaluate the agent, we build a diverse benchmark of 690 regions of interest (ROIs) from 35 public medical datasets across three imaging modalities. With frontier MLLMs, TriSegAgent reaches an overall Dice about 10 points above the strongest baseline, and its lead is even larger on targets below 3 cm. With flash-level MLLMs, it outperforms a recent 3D segmentation agent built on a frontier MLLM.",
+          "arxiv_id": "2611.30240",
+          "arxiv_url": "https://arxiv.org/abs/2611.30240",
+          "authors": [
+            "Qingqiao Hu, Jialin Li, Meilong Xu, Kehan Qi, Yipeng Zhang, Lin Tian, Hongwei Bran Li, Klaus Mueller, Xiaoling Hu"
+          ],
+          "bullets": [
+            "Addresses the challenge of giving 2D-input MLLMs informative, token-efficient views of 3D prediction errors.",
+            "Represents each volume with three orthogonal planes intersecting at a point, preserving detail around error regions.",
+            "An MLLM judges tri-plane predictions while a visual harness converts judgments into precise voxel-level 3D clicks and validates predictions.",
+            "Evaluated on 690 ROIs from 35 public medical datasets across three imaging modalities.",
+            "Achieves about 10 Dice points over the strongest baseline with frontier MLLMs, with larger gains for targets smaller than 3 cm; also outperforms a recent 3D agent using flash-level MLLMs."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. Overview of TriSegAgent. Given a volume V and a text goal q, the agent refines a 3D prediction until it passes multi-view verification. (a) The localization model floc locates the target, and preprocessing turns its prior into the initial prediction M0 in view v0. (b) The MLLM judges the tri-planes ot of view vt with Mt as an overlay: if it reports an error, the interactive segmentation model fseg turns a click at into Mt+1; otherwise, verification starts. (c) The MLLM judges up to K verification views in turn; the first view with an",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 497,
+              "image_path": "figures/2611.30240/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1008
+            },
+            {
+              "caption": "Figure 2. Visualization of different 3D inputs. At the same detail, a dense slice stack costs one image per slice (D slices in the volume), whereas tri-planes need only three images; at the same pixel budget, a sparse stack leaves gaps between its slices.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 991,
+              "image_path": "figures/2611.30240/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 496
+            },
+            {
+              "caption": "Figure 7. Accepted ROIs with Dice below 50%, with and without multi-view verification.",
+              "figure_id": "figure-7-6",
+              "figure_number": "7",
+              "height": 810,
+              "image_path": "figures/2611.30240/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 495
+            },
+            {
+              "caption": "Figure 4. Comparison of small-target segmentation. The three targets measure 13, 21, and 22 mm from top to bottom; gray is the ground truth and orange the 3D prediction, and a panel without orange has no prediction in view. nnI-Agent: nnInteractive Agent [48] with GPT-6.1-Sol [85]. Sec. K shows more cases.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 373,
+              "image_path": "figures/2611.30240/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 495
+            },
+            {
+              "caption": "Figure 5. Context efficiency of the input layout. Only the input layout differs between the lines. Slice stack: parallel axial slices around the view center, one image per slice; tri-planes always show three planes, so they appear as a dashed line.",
+              "figure_id": "figure-5-8",
+              "figure_number": "5",
+              "height": 209,
+              "image_path": "figures/2611.30240/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 450
+            },
+            {
+              "caption": "Figure 8. One click of TriSegAgent on the liver (CT, AbdomenAtlas). The red overlay is the 3D prediction before (left) and after (right) the click; the middle panel enlarges the blue box with the candidate points.",
+              "figure_id": "figure-8-9",
+              "figure_number": "8",
+              "height": 187,
+              "image_path": "figures/2611.30240/figure-006.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 1029
+            },
+            {
+              "caption": "Figure 6. Generalization to unseen datasets. Dice of floc, of floc→fseg (no MLLM), and of TriSegAgent with Gemini-3.8Flash and GPT-6-Astra on the seen (480 ROIs) and unseen (210 ROIs) datasets of floc.",
+              "figure_id": "figure-6-4",
+              "figure_number": "6",
+              "height": 122,
+              "image_path": "figures/2611.30240/figure-007.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 430
+            },
+            {
+              "caption": "Table 3. Ablation of the harness. × marks a removed design, and the shaded row is the full TriSegAgent. Without the prior mask, fseg starts from one click that the harness places on the same view; without click selection, the MLLM outputs the coordinates of every click itself.",
+              "figure_id": "table-3-5",
+              "figure_number": "3",
+              "height": 279,
+              "image_path": "figures/2611.30240/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 508
+            },
+            {
+              "caption": "Table 2. Generalization of the harness design to other agents. Prior: the first view comes from floc. Codex accepts every prediction that it submits, and its calls are the turns that ran a command; –: not recorded. Codex runs GPT-6.1-Sol and nnInteractive Agent runs GPT-5.6-Sol.",
+              "figure_id": "table-2-7",
+              "figure_number": "2",
+              "height": 228,
+              "image_path": "figures/2611.30240/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 500
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.30240/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.30240",
+          "relevance": 8,
+          "selection_reason": "Introduces TriSegAgent, an MLLM agent for 3D annotation using tri-planes. This combines Multimodal Foundation Models (MLLMs) with 3D Vision (3D Foundation Models) for spatial reasoning and context efficiency.",
+          "summary_status": "generated",
+          "title": "TriSegAgent: Context-Efficient 3D Annotation with MLLMs via Tri-Planes",
+          "tldr": "TriSegAgent uses compact tri-plane views to let MLLM agents iteratively correct 3D segmentations efficiently and accurately.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "spatial-intelligence"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            },
+            {
+              "subtopic_ids": [
+                "3d-foundation-models"
+              ],
+              "topic_id": "3d-vision"
+            }
+          ]
+        },
+        {
+          "abstract": "Dense visual SLAM built on learned two-view geometry is evaluated in good light; in low light it fails silently. Two frames of 9-level quantized noise, no scene at all, give MASt3R-SLAM's network a cross-view geometric self-consistency of 0.936; a real dark frame pair gives 0.935. Starved of structure, the network invents the same geometry for both views and the system trusts the agreement: on a dark sequence it consumes 1,605 frames, emits 7 keyframes, rejects no factor-graph edges and reports full frame rate, while over 95% of the correspondences it accepts violate the ground-truth epipolar geometry. One inflated statistic is read by two subsystems against thresholds in opposite directions, so keyframing starves while relocalization accepts almost every candidate. The same statistic, read at keyframe-pair baselines, separates the confident collapse from working runs on the ETH3D dark sequences without ground truth or extra computation (in-sample). Low-light-adapted weights take tracked trajectories from 1/6 to 5/6, as does retuning two thresholds; neither yields accurate ones, because the adaptation withdraws confidence from wrong geometry rather than finding right geometry. Replayed on a Jetson AGX Orin carried by a legged robot, the mechanism's signature reproduces on the two darkest of four routes, and which of its faces appears varies with route geometry and sensor encoding. The network does not lose confidence in the dark; it manufactures it.",
+          "arxiv_id": "2611.30173",
+          "arxiv_url": "https://arxiv.org/abs/2611.30173",
+          "authors": [
+            "Shrikrishna Bhagirath Rajule, Srinath Neelamagam, Aniket Bera"
+          ],
+          "bullets": [
+            "Noise-only and real dark frame pairs produce nearly identical, high self-consistency, masking the absence of reliable scene structure.",
+            "On a dark sequence, the system processed 1,605 frames and produced 7 keyframes while rejecting no factor-graph edges; over 95% of accepted correspondences violated ground-truth epipolar geometry.",
+            "A single inflated statistic is interpreted in opposite ways by keyframing and relocalization, starving keyframes while accepting almost every relocalization candidate.",
+            "Reading the statistic at keyframe-pair baselines separates confident collapse from working runs on ETH3D dark sequences without ground truth or extra computation, in-sample.",
+            "Low-light weights and threshold retuning increased tracking but did not recover accurate geometry; the failure signature also reproduced on the two darkest of four Jetson robot routes."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 2. The mechanism. Two frames enter the pointmap network; a correspondence is accepted when the two views’ geometry predictions agree within 10 cm; the confident fraction is the one statistic both rules read. The keyframe rule fires when it falls below 0.333 and the relocalization rule accepts an anchor when it rises above 0.30. In good light it sits near 0.4 and both rules behave. Starved of structure, the network invents geometry that agrees with itself, the statistic rises to about 0.7, keyframing starves (7 keyframes in 1 605 frames) and relocalization accepts wrong anchors (497 of 543 on plant_dark). Frames: the robot’s gripper camera, lights on and at 1/100 s.",
+              "figure_id": "figure-2-9",
+              "figure_number": "2",
+              "height": 266,
+              "image_path": "figures/2611.30173/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 740
+            },
+            {
+              "caption": "Fig. 6. The robot’s ladder, first room. Top: four of the five levels as captured by the gripper camera (lights on 1/100 s gain 0.05; L2 1/40 s, L3 1/100 s, L4 1/200 s at gain 0.40). Below: the saved reconstruction and keyframe poses of each replay on the payload AGX Orin, stock and adapted, each run in its own scale (square: start). Both arms map the route through L2; at L3 both lose it and relocalize hundreds of times; at L4 neither maps the route.",
+              "figure_id": "figure-6-5",
+              "figure_number": "6",
+              "height": 307,
+              "image_path": "figures/2611.30173/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 512
+            },
+            {
+              "caption": "Fig. 3. The agreement is wrong. Per frame pair at a 40-frame baseline, the fraction of the correspondences each arm accepts (valid and above the confidence gate) that lie more than 5 px from the ground-truth epipolar line; red bars are medians; the dashed line is a random permutation of the same pixels. Bright pairs from two ETH3D sequences (42 per arm), dark pairs from three of the five dark sequences (61 per arm).",
+              "figure_id": "figure-3-10",
+              "figure_number": "3",
+              "height": 304,
+              "image_path": "figures/2611.30173/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 512
+            },
+            {
+              "caption": "Fig. 4. The (g,m) plane, one dot per run for 121 runs with a reading. Circles ETH3D 8-bit, squares Dark3R raw, triangles kitchen re-encoded to 8- bit; tints are the stock working band (0.369–0.611) and the degenerate band (0.821–0.929); dashed and dotted lines are the keyframe rule (0.333) and the relocalization rule (0.30) on m. Labels never use g or m: an ETH3D dark run is working at ≥ 50 keyframes with a converging alignment, thrashing at ≥ 100 relocalization attempts, silent otherwise; a bright run is degenerate at ≥ 10 Cholesky failures; a raw run is lost if it relocalized at all. Hollow: the kidnap_dark controls and the two partial-dose sofa_dark_2 runs.",
+              "figure_id": "figure-4-8",
+              "figure_number": "4",
+              "height": 295,
+              "image_path": "figures/2611.30173/figure-004.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 387
+            },
+            {
+              "caption": "Fig. 1. Silent failure. ETH3D sofa_dark_1, 1 605 frames, shipped configuration, both arms untuned. Left: keyframes retained over the sequence, 7 for stock against 201 for the adapted arm. Middle and right: the saved reconstruction of each run, top-down, with its keyframe poses (square: start). Stock reported 14.6 FPS, no error, and no relocalization, and saved an empty reconstruction.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 185,
+              "image_path": "figures/2611.30173/figure-005.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 594
+            },
+            {
+              "caption": "Fig. 5. Ablations. Left and middle: acceptance radius on sofa_dark_1 (circles) and sofa_dark_3 (squares), stock (blue) and adapted (orange): at 2 cm stock’s keyframe count turns healthy while its ATE does not move; hollow markers mark runs under 50 keyframes, where ATE is not a measurement. Right: keyframes against dose s on three ETH3D dark sequences; hollow markers are runs that starved or thrashed.",
+              "figure_id": "figure-5-1",
+              "figure_number": "5",
+              "height": 193,
+              "image_path": "figures/2611.30173/figure-006.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 792
+            },
+            {
+              "caption": "Fig. 7. The robot’s ladder in numbers (Table II), both arms, five light levels: route spanned by keyframes (keyframe path over path walked), keyframes per 1 000 frames, relocalization attempts (log scale; zero drawn at the floor) and energy per frame from the full power trace. Nothing separates the arms until L3, where both fail loudly; the adapted arm’s keyframes span half the route, and the loud failure costs 2–4× the energy per frame.",
+              "figure_id": "figure-7-7",
+              "figure_number": "7",
+              "height": 183,
+              "image_path": "figures/2611.30173/figure-007.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 792
+            },
+            {
+              "caption": "TABLE II ROBOT LADDER, BOTH ARMS, PAYLOAD AGX ORIN. ONE WALK PER LEVEL (REPEATS GAVE THE SAME VERDICTS). KF PATH: ODOMETRY DISTANCE SPANNED BY KEYFRAMES / WALKED. g PER CALLER (BACKEND / RELOC). J: ENERGY PER FRAME.",
+              "figure_id": "table-II-4",
+              "figure_number": "II",
+              "height": 199,
+              "image_path": "figures/2611.30173/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 450
+            },
+            {
+              "caption": "TABLE I SHIPPED CONFIGURATION, BOTH ARMS UNTUNED, RTX 5080. ATE (M) OVER KEYFRAME POSES AFTER SIM(3) ALIGNMENT; “–” = FEWER THAN 50 KEYFRAMES; “FAILS” = ALIGNMENT DOES NOT CONVERGE.",
+              "figure_id": "table-I-6",
+              "figure_number": "I",
+              "height": 171,
+              "image_path": "figures/2611.30173/table-009.webp",
+              "kind": "table",
+              "page": 3,
+              "width": 500
+            },
+            {
+              "caption": "TABLE III THREE ROUTES IN BRIGHTER ROOMS THAT NEVER REVISIT THEIR START, BOTH ARMS, 512-SLOT STORE. COVERAGE: ODOMETRY PATH SPANNED BY KEYFRAMES OVER PATH WALKED. LIT CONTROLS COVER 93–97% ON BOTH ARMS. STRUCTURE SNR AT 1 MS: +4.7, −0.3 AND +9.1 DB (FIRST ROOM’S FAILING LEVEL: −4.6).",
+              "figure_id": "table-III-3",
+              "figure_number": "III",
+              "height": 160,
+              "image_path": "figures/2611.30173/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 448
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.30173/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.30173",
+          "relevance": 7,
+          "selection_reason": "Analyzes silent failure and confidence miscalibration in learned dense visual SLAM; relevant to embodied perception and 3D foundation model reliability.",
+          "summary_status": "generated",
+          "title": "Confidently Lost: Silent Failure and Edge Deployment of Dense Visual SLAM under Photon Starvation",
+          "tldr": "Under photon starvation, dense learned visual SLAM can generate highly consistent but incorrect geometry, causing silent failure in real-time edge deployment.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "3d-foundation-models"
+              ],
+              "topic_id": "3d-vision"
+            }
+          ]
+        },
+        {
+          "abstract": "Understanding a scene requires both geometry and semantics: geometry recovers its spatial structure, and semantics separates it into objects. Current models obtain the two from separate networks or separate passes. We present PINE, a one-step Omni Diffusion Transformer that predicts the point map, the surface normals, and the instance map of an image in one forward pass. PINE treats each map as a token stream, and a stream mask decides which streams interact. A camera-aware ray encoding positions every token by its camera ray rather than its pixel. Grounding attention adds the affinity of pretrained DINOv3 features to the attention logits. Trained on only 139K synthetic images for geometry, PINE achieves state-of-the-art point maps whether or not intrinsics are given and the best average rank on surface normals. It also exceeds SAM on large objects with less than 1 percent of its training images, and it predicts all three maps 5.7x faster than MoGe-3 with SAM.",
+          "arxiv_id": "2611.29389",
+          "arxiv_url": "https://arxiv.org/abs/2611.29389",
+          "authors": [
+            "Zeyu Ren, Jie Ni, Rui Qian, Jiahao Wei, Hao Tang, Yongtai Liu, Zeyu Zhang"
+          ],
+          "bullets": [
+            "Addresses the inefficiency of estimating geometry and semantics with separate networks or passes.",
+            "Uses an Omni Diffusion Transformer with separate token streams for point maps, surface normals, and instance maps.",
+            "Employs stream-masked interactions, camera-ray token encoding, and DINOv3-based grounding attention.",
+            "Trained on 139K synthetic geometry images, it achieves state-of-the-art point maps and the best average rank for surface normals.",
+            "Outperforms SAM on large objects and predicts all three maps 5.7× faster than MoGe-3 with SAM."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of PINE. The point, normal and instance streams embed their maps with the frozen DINOv3 features and pass through DiT blocks as one sequence. In attention, the stream mask decides which streams interact, ray positions encode the intrinsics and grounding attention adds the DINOv3 affinity. Each stream decodes its own map, and one step at inference gives all three maps.",
+              "figure_id": "figure-2-16",
+              "figure_number": "2",
+              "height": 394,
+              "image_path": "figures/2611.29389/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 998
+            },
+            {
+              "caption": "Figure 17. Surface normals. For each image, the first row shows the input and the predicted normals, and the second row shows the ground-truth normals and the angular error map of each method.",
+              "figure_id": "figure-17-5",
+              "figure_number": "17",
+              "height": 609,
+              "image_path": "figures/2611.29389/figure-002.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 1034
+            },
+            {
+              "caption": "Figure 5. Qualitative comparison on point maps, depth, normals and instances. The red dot marks the point prompt of each instance. Arrows highlight the regions we significantly improved.",
+              "figure_id": "figure-5-11",
+              "figure_number": "5",
+              "height": 436,
+              "image_path": "figures/2611.29389/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 7. Average rank against latency for the three maps. Ranks are averaged over the columns of Tabs. 2, 3 and 17, with each PINE model ranked against the baselines only. Latency is measured on one A100 at 512× 512 with batch size one.",
+              "figure_id": "figure-7-27",
+              "figure_number": "7",
+              "height": 300,
+              "image_path": "figures/2611.29389/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 482
+            },
+            {
+              "caption": "Figure 13. Point maps (1/3). For each image, the first row shows the input and the predicted point maps, and the second row shows the ground-truth point map and the point error map of each method.",
+              "figure_id": "figure-13-10",
+              "figure_number": "13",
+              "height": 1061,
+              "image_path": "figures/2611.29389/figure-005.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 1034
+            },
+            {
+              "caption": "Figure 12. Attention with and without grounding attention. Each row shows the image, the attention of the query patch without and with grounding attention, and their difference. The cross marks the query patch, and the contour marks its region.",
+              "figure_id": "figure-12-31",
+              "figure_number": "12",
+              "height": 809,
+              "image_path": "figures/2611.29389/figure-006.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 1008
+            },
+            {
+              "caption": "Figure 14. Point maps (2/3). For each image, the first row shows the input and the predicted point maps, and the second row shows the ground-truth point map and the point error map of each method.",
+              "figure_id": "figure-14-13",
+              "figure_number": "14",
+              "height": 1061,
+              "image_path": "figures/2611.29389/figure-007.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 1034
+            },
+            {
+              "caption": "Figure 15. Point maps (3/3). For each image, the first row shows the input and the predicted point maps, and the second row shows the ground-truth point map and the point error map of each method.",
+              "figure_id": "figure-15-21",
+              "figure_number": "15",
+              "height": 1061,
+              "image_path": "figures/2611.29389/figure-008.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 1034
+            },
+            {
+              "caption": "Figure 9. Effect of the camera-aware ray encoding during training. Relp and mean angular error with intrinsics over the training epochs of the ablation model in Tab. 5, with and without the camera-aware ray encoding.",
+              "figure_id": "figure-9-8",
+              "figure_number": "9",
+              "height": 216,
+              "image_path": "figures/2611.29389/figure-009.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 481
+            },
+            {
+              "caption": "Figure 16. Depth. For each image, the first row shows the input and the predicted depth maps, and the second row shows the ground-truth depth and the depth error map of each method.",
+              "figure_id": "figure-16-33",
+              "figure_number": "16",
+              "height": 1061,
+              "image_path": "figures/2611.29389/figure-010.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 1034
+            },
+            {
+              "caption": "Figure 18. Planarity on iBims-1. Each row shows the input and, for the ground truth and each method, the signed distance of each point to the plane fitted to its annotated plane region. Red and blue mark the two sides of the plane, and gray marks pixels outside the planes.",
+              "figure_id": "figure-18-6",
+              "figure_number": "18",
+              "height": 996,
+              "image_path": "figures/2611.29389/figure-011.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 1034
+            },
+            {
+              "caption": "Figure 3. Camera-aware ray encoding. (a) The position ρj of token j is the point where its ray meets the image plane of a reference camera. (b) With ray positions, a zoomed crop lands inside the full view, and the point at the red cross keeps one position. (c) With patch indices, the crop has its own grid and gives the same point a second position.",
+              "figure_id": "figure-3-28",
+              "figure_number": "3",
+              "height": 379,
+              "image_path": "figures/2611.29389/figure-012.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 489
+            },
+            {
+              "caption": "Figure 6. Lateral and depth error with and without the camera-aware ray encoding. (a) Input image with five marked pixels on one row. (b) Top view of the points of this row. Each arrow points from the ground-truth point of a marked pixel to its predicted point. (c) The error of pixel 2, split into a lateral part εxy and a depth part εz .",
+              "figure_id": "figure-6-12",
+              "figure_number": "6",
+              "height": 234,
+              "image_path": "figures/2611.29389/figure-013.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 492
+            },
+            {
+              "caption": "Figure 4. Grounding attention. Each row shows an image and the attention of the query patch at the red cross, without and with grounding attention. Grounding attention keeps the attention on the region of the query patch.",
+              "figure_id": "figure-4-35",
+              "figure_number": "4",
+              "height": 234,
+              "image_path": "figures/2611.29389/figure-014.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 471
+            },
+            {
+              "caption": "Figure 10. Point error with and without the camera-aware ray encoding. Top: input image and predicted depth. Bottom: ground-truth depth and point error maps.",
+              "figure_id": "figure-10-9",
+              "figure_number": "10",
+              "height": 364,
+              "image_path": "figures/2611.29389/figure-015.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 494
+            },
+            {
+              "caption": "Figure 8. Error by distance and depth. Lateral error εxy and depth error εz in percent of ∥P (u)∥, over the valid pixels of the 3,444 images with intrinsics. (a) Pixels in 8 bins of the distance to the principal point; (b) pixels in 8 bins of the depth rank.",
+              "figure_id": "figure-8-7",
+              "figure_number": "8",
+              "height": 286,
+              "image_path": "figures/2611.29389/figure-016.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 481
+            },
+            {
+              "caption": "Figure 11. Region mass over the depth of PINE-L. Region mass with and without grounding attention for (a) the instance stream and (b) the normal stream. Each point averages three consecutive blocks and pools the query patches of all benchmarks of the stream.",
+              "figure_id": "figure-11-37",
+              "figure_number": "11",
+              "height": 313,
+              "image_path": "figures/2611.29389/figure-017.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 458
+            },
+            {
+              "caption": "Figure 20. Point-prompted instances (2/2). Each row shows the input with its point prompt, the ground-truth instance and the masks of SAM, gen2seg and PINE for the same prompt.",
+              "figure_id": "figure-20-22",
+              "figure_number": "20",
+              "height": 1181,
+              "image_path": "figures/2611.29389/figure-018.webp",
+              "kind": "figure",
+              "page": 28,
+              "width": 1034
+            },
+            {
+              "caption": "Figure 19. Point-prompted instances (1/2). Each row shows the input with its point prompt, the ground-truth instance and the masks of SAM, gen2seg and PINE for the same prompt.",
+              "figure_id": "figure-19-32",
+              "figure_number": "19",
+              "height": 1179,
+              "image_path": "figures/2611.29389/figure-019.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 1034
+            },
+            {
+              "caption": "Table 14. Cost of the three maps. Each baseline pipeline runs one model per map, and its latency sums the latencies in Tab. 13. Marigold V2 runs its depth and normal models, which share 21.3B parameters.",
+              "figure_id": "table-14-20",
+              "figure_number": "14",
+              "height": 148,
+              "image_path": "figures/2611.29389/table-020.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 489
+            },
+            {
+              "caption": "Table 18. Quantitative comparison on zero-shot surface normal estimation with all baselines. Mean angular error in degrees and accuracy within 11.25◦ under the full-frame protocol of DSINE. ⋆: relies on pretrained Stable Diffusion; ‡: the Marigold normal model of its repository.",
+              "figure_id": "table-18-29",
+              "figure_number": "18",
+              "height": 592,
+              "image_path": "figures/2611.29389/table-021.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 1022
+            },
+            {
+              "caption": "Table 5. Ablation of the camera-aware ray encoding, the stream mask and grounding attention. The first row is the final recipe with the mean and standard deviation over three seeds. PEimg and PEgeo are sine-cosine positions on the image features and the geometry tokens, and X←Y means that the tokens of X attend to the tokens of Y.",
+              "figure_id": "table-5-25",
+              "figure_number": "5",
+              "height": 311,
+              "image_path": "figures/2611.29389/table-022.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 1026
+            },
+            {
+              "caption": "Table 17. Per-dataset point map results. The Avg column is the sample-weighted mean over all 3,444 images.",
+              "figure_id": "table-17-30",
+              "figure_number": "17",
+              "height": 577,
+              "image_path": "figures/2611.29389/table-023.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 1026
+            },
+            {
+              "caption": "Table 19. Per-dataset depth results. The Avg column is the sample-weighted mean over all 3,444 images.",
+              "figure_id": "table-19-34",
+              "figure_number": "19",
+              "height": 621,
+              "image_path": "figures/2611.29389/table-024.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 1026
+            },
+            {
+              "caption": "Table 1. Average results on point maps and depth over the 3,444 images of the seven datasets. Params and Latency are from Tab. 13, and the latency of PINE includes its normals and instances. Best results are in bold, separately for the settings with and without intrinsics.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 604,
+              "image_path": "figures/2611.29389/table-025.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 488
+            },
+            {
+              "caption": "Table 13. Cost of single models for one 512 × 512 image with batch size one on one A100. P, D, N and I mark point map, depth, normal and instance outputs, and SAM and SimpleClick take one point prompt.",
+              "figure_id": "table-13-18",
+              "figure_number": "13",
+              "height": 493,
+              "image_path": "figures/2611.29389/table-026.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 496
+            },
+            {
+              "caption": "Table 2. Quantitative comparison on zero-shot surface normal estimation. Mean angular error in degrees and accuracy within 11.25◦ under the full-frame protocol of DSINE. Best results are in bold, separately for the settings with and without intrinsics.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 310,
+              "image_path": "figures/2611.29389/table-027.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 492
+            },
+            {
+              "caption": "Table 16. Planarity on iBims-1. Planarity error εplan in cm and orientation error εorie in degrees over 155 planes of 100 images. All models run without intrinsics on the full frame.",
+              "figure_id": "table-16-17",
+              "figure_number": "16",
+              "height": 279,
+              "image_path": "figures/2611.29389/table-028.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 496
+            },
+            {
+              "caption": "Table 6. Region mass with and without grounding attention. Region mass in percent, averaged over all blocks and all query patches of a benchmark. Chance is the region mass of uniform attention. The blue number is the gain, the relative increase of the region mass above chance.",
+              "figure_id": "table-6-26",
+              "figure_number": "6",
+              "height": 263,
+              "image_path": "figures/2611.29389/table-029.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 15. Sampling steps. Point-map and depth metrics over the 3,444 images and normal metrics averaged over the four normal benchmarks. Best results within each model are in bold.",
+              "figure_id": "table-15-19",
+              "figure_number": "15",
+              "height": 200,
+              "image_path": "figures/2611.29389/table-030.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 496
+            },
+            {
+              "caption": "Table 4. Field-of-view estimation. Mean absolute error in degrees of the horizontal field of view recovered from the predicted point map without intrinsics. The Avg column is the sample-weighted mean over all 3,444 images.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 181,
+              "image_path": "figures/2611.29389/table-031.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 489
+            },
+            {
+              "caption": "Table 7. Training data. P, N and I mark point map, normal and instance labels.",
+              "figure_id": "table-7-23",
+              "figure_number": "7",
+              "height": 185,
+              "image_path": "figures/2611.29389/table-032.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 496
+            },
+            {
+              "caption": "Table 8. Model sizes.",
+              "figure_id": "table-8-24",
+              "figure_number": "8",
+              "height": 117,
+              "image_path": "figures/2611.29389/table-033.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 496
+            },
+            {
+              "caption": "Table 9. Training hyperparameters.",
+              "figure_id": "table-9-14",
+              "figure_number": "9",
+              "height": 659,
+              "image_path": "figures/2611.29389/table-034.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 496
+            },
+            {
+              "caption": "Table 10. Inference settings.",
+              "figure_id": "table-10-15",
+              "figure_number": "10",
+              "height": 204,
+              "image_path": "figures/2611.29389/table-035.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 496
+            },
+            {
+              "caption": "Table 11. Region mass with and without grounding attention. Region mass in percent, averaged over all blocks and all query patches of a benchmark, and All pools the query patches of a stream. Chance is the region mass of uniform attention. The blue number is the gain, the relative increase of the region mass above chance.",
+              "figure_id": "table-11-36",
+              "figure_number": "11",
+              "height": 244,
+              "image_path": "figures/2611.29389/table-036.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 1036
+            },
+            {
+              "caption": "Table 12. Field-of-view estimation. Mean absolute error in degrees of the horizontal field of view recovered from the predicted point map without intrinsics. The Avg column is the sampleweighted mean over all 3,444 images.",
+              "figure_id": "table-12-38",
+              "figure_number": "12",
+              "height": 160,
+              "image_path": "figures/2611.29389/table-037.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 496
+            },
+            {
+              "caption": "Table 3. Point-prompted instance segmentation. mIoU with one point prompt per instance, where L, M and S split COCOexc into large, medium and small instances. ‡: re-evaluated under our protocol; SimpleClick is taken from gen2seg, and † merges the instances of one class.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 135,
+              "image_path": "figures/2611.29389/table-038.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 489
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.29389/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.29389",
+          "relevance": 6,
+          "selection_reason": "Generalist one-step model jointly predicting point maps, normals, and instance maps qualifies as a broad 3D perception foundation model.",
+          "summary_status": "generated",
+          "title": "PINE: Point, Instance and Normal Estimation in One-Step Diffusion Model",
+          "tldr": "PINE jointly predicts scene geometry and object instances in one diffusion-model forward pass, achieving strong accuracy with substantially faster inference.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "3d-foundation-models"
+              ],
+              "topic_id": "3d-vision"
+            }
+          ]
+        },
+        {
+          "abstract": "Modifying 3D assets requires enacting targeted structural transformations while strictly preserving the geometric identity of unedited regions. While recent probability flow models enable training-free editing, bounding these modifications within a high-dimensional latent space presents severe mathematical challenges. Current inversion-free trajectories rely on global velocity updates, which often cause spatial bleed into preserved structures and induce trajectory under-commitment, causing edits to stall mid-path. To resolve these dual failures, we introduce FocusFlow, a segmentation-free framework that structures the integration trajectory into two disjoint phases. During early coarse structure formation, FocusFlow applies Feature-Divergence Localization (FDL) to spatially gate the velocity field using intrinsic cross-attention. Once coarse structure has formed, FocusFlow applies Reference Generation Guidance (RGG), a trajectory-correction term that drives convergence to the target shape by pulling the trajectory toward an explicit clean-latent target. Evaluated on the joint Google Scanned Objects and PartObjaverse-Tiny benchmarks, FocusFlow obtains the best preservation scores and the largest edit magnitude among compared methods, suggesting that it can reduce the traditional preservation-modification trade-off. By providing stable, localized geometric control without manual spatial annotations, this phase-scheduled approach lowers technical barriers to the modification of synthetic 3D media.",
+          "arxiv_id": "2611.29165",
+          "arxiv_url": "https://arxiv.org/abs/2611.29165",
+          "authors": [
+            "Tri Ton, Siwoo Lim, Joshua Tian Jin Tee, Chang D. Yoo"
+          ],
+          "bullets": [
+            "Addresses spatial bleed and stalled edits in inversion-free probability-flow editing.",
+            "Uses Feature-Divergence Localization to gate velocity updates during early coarse structure formation.",
+            "Applies Reference Generation Guidance later to pull the trajectory toward a clean latent representing the target shape.",
+            "On Google Scanned Objects and PartObjaverse-Tiny, reports the best preservation scores and largest edit magnitude among compared methods.",
+            "Requires no segmentation or manual spatial annotations, though its scope is evaluated on these benchmarks."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: FocusFlow framework. Left: Precomputation of the DINO distance, the edit region and the reference latent zref . Top: Per-step velocities and the alignment gradient. Center (localization phase): FDL gates the velocity field via soft mask m to confine the edit. Right (guidance phase): RGG applies a ramped pull toward zref , driving structural commitment.",
+              "figure_id": "figure-2-11",
+              "figure_number": "2",
+              "height": 329,
+              "image_path": "figures/2611.29165/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 826
+            },
+            {
+              "caption": "Figure 4: Qualitative comparison of 3D editing baselines. The inset under each result shows the per-point deviation of the output from the source mesh (blue: unchanged, red: changed), so a well-localized edit appears blue outside the edit region. While prior methods either alter the source geometry or fail to fully realize the target modification, FocusFlow realizes the edit while leaving unedited regions largely intact.",
+              "figure_id": "figure-4-9",
+              "figure_number": "4",
+              "height": 528,
+              "image_path": "figures/2611.29165/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 818
+            },
+            {
+              "caption": "Figure 5: Qualitative ablation results. Visual comparison of ablated variants against the full framework on two part-replacement cases.",
+              "figure_id": "figure-5-15",
+              "figure_number": "5",
+              "height": 208,
+              "image_path": "figures/2611.29165/figure-003.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 818
+            },
+            {
+              "caption": "Figure 3: FDL soft mask construction. A: Source condition. B: Target condition. C: DINO distance Dp highlighting the semantic modification. D: Final soft mask mn.",
+              "figure_id": "figure-3-16",
+              "figure_number": "3",
+              "height": 214,
+              "image_path": "figures/2611.29165/figure-004.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 664
+            },
+            {
+              "caption": "Figure 1: FocusFlow addresses global editing failures. The baseline [52] exhibits spatial bleed and trajectory under-commitment (red boxes). FocusFlow confines the velocity field during localization and pulls toward a clean-latent target during guidance, realizing the target with less background distortion and no segmentation masks (green boxes).",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 228,
+              "image_path": "figures/2611.29165/figure-005.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 582
+            },
+            {
+              "caption": "Figure 6: Extended qualitative comparison of 3D editing baselines. FocusFlow realizes the target while leaving most of the unedited geometry unchanged; the baselines show the spatial bleed or trajectory under-commitment.",
+              "figure_id": "figure-6-12",
+              "figure_number": "6",
+              "height": 550,
+              "image_path": "figures/2611.29165/figure-006.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 826
+            },
+            {
+              "caption": "Table 8: Computational cost comparison.",
+              "figure_id": "table-8-18",
+              "figure_number": "8",
+              "height": 129,
+              "image_path": "figures/2611.29165/table-007.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 410
+            },
+            {
+              "caption": "Table 1: Quantitative comparison on GSO and PartObjaverse-Tiny. We mark the best and second-best results. Note: All reported numbers are scaled by a factor of 102.",
+              "figure_id": "table-1-5",
+              "figure_number": "1",
+              "height": 174,
+              "image_path": "figures/2611.29165/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 772
+            },
+            {
+              "caption": "Table 2: Component ablations on the combined GSO and PartObjaverse-Tiny set.",
+              "figure_id": "table-2-10",
+              "figure_number": "2",
+              "height": 164,
+              "image_path": "figures/2611.29165/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 732
+            },
+            {
+              "caption": "Table 12: Exact gradient gexact against the scalar form gapprox over 100 sampled edits, binned by flow time t.",
+              "figure_id": "table-12-8",
+              "figure_number": "12",
+              "height": 162,
+              "image_path": "figures/2611.29165/table-010.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 432
+            },
+            {
+              "caption": "Table 5: Sensitivity to the reference weight w.",
+              "figure_id": "table-5-2",
+              "figure_number": "5",
+              "height": 131,
+              "image_path": "figures/2611.29165/table-011.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 694
+            },
+            {
+              "caption": "Table 3: Sensitivity to the preservation floor α.",
+              "figure_id": "table-3-3",
+              "figure_number": "3",
+              "height": 129,
+              "image_path": "figures/2611.29165/table-012.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 694
+            },
+            {
+              "caption": "Table 4: Sensitivity to the sharpness exponent γ.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 109,
+              "image_path": "figures/2611.29165/table-013.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 694
+            },
+            {
+              "caption": "Table 6: Sensitivity to the discrete mask boundary smask.",
+              "figure_id": "table-6-19",
+              "figure_number": "6",
+              "height": 112,
+              "image_path": "figures/2611.29165/table-014.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 714
+            },
+            {
+              "caption": "Table 7: Sensitivity to the number of denoising steps for zref .",
+              "figure_id": "table-7-17",
+              "figure_number": "7",
+              "height": 111,
+              "image_path": "figures/2611.29165/table-015.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 710
+            },
+            {
+              "caption": "Table 9: Results on Eval3DEdit (100 cases). We mark the best and second-best results.",
+              "figure_id": "table-9-13",
+              "figure_number": "9",
+              "height": 192,
+              "image_path": "figures/2611.29165/table-016.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 798
+            },
+            {
+              "caption": "Table 10: Results on Nano3D-Edit (100 cases). We mark the best and second-best results.",
+              "figure_id": "table-10-14",
+              "figure_number": "10",
+              "height": 175,
+              "image_path": "figures/2611.29165/table-017.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 798
+            },
+            {
+              "caption": "Table 13: User study.",
+              "figure_id": "table-13-7",
+              "figure_number": "13",
+              "height": 110,
+              "image_path": "figures/2611.29165/table-018.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 668
+            },
+            {
+              "caption": "Table 11: Outcomes over 100 test cases under a degraded zref at w = 0.3 (case counts).",
+              "figure_id": "table-11-6",
+              "figure_number": "11",
+              "height": 117,
+              "image_path": "figures/2611.29165/table-019.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 540
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.29165/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.29165",
+          "relevance": 7,
+          "selection_reason": "Proposes FocusFlow for training-free 3D asset editing using feature-divergence localization, offering a method for controllable 3D generation and editing.",
+          "summary_status": "generated",
+          "title": "Training-Free 3D Editing via Feature-Divergence Localization and Trajectory Correction",
+          "tldr": "FocusFlow enables training-free, localized 3D editing by combining feature-based spatial gating with trajectory correction to preserve unedited geometry while completing target edits.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "3d-foundation-models"
+              ],
+              "topic_id": "3d-vision"
+            }
+          ]
+        },
+        {
+          "abstract": "Unified 3D understanding and generation require compact sequences preserving spatial structure. Dense grids yield long sequences, while serialization can separate spatial neighbors. We propose Sparse Proximity Aware Compression (SPAC), a shared sparse SDF vocabulary combining sparse encoding with reversible spatial merging. A Sparse SDF VQ-VAE quantizes near-surface features while retaining explicit coordinates, using reconstruction supervision for surface fidelity and detail. 3D Byte-Pair Encoding (3D-BPE) merges recurring face-adjacent patterns using relative offsets before serialization. Macro tokens expand exactly into leaf tokens and coordinates. After Morton serialization, a shared LLM reads geometry for captioning and predicts tokens that decode into meshes for text-conditioned generation. With fixed geometry, architecture, and band width in voxels, sparse encoder cost grows approximately quadratically with resolution. 3D-BPE reduces mean complete LLM sequence length by 45.4 percent, including coordinates, text, and control tokens. SPAC achieves strong results in both 3D captioning and text-conditioned mesh generation. Ablations show gains over leaf tokens and Morton 1D-BPE in both tasks. The project page at https://yangjj007.github.io/spac/ .",
+          "arxiv_id": "2611.28913",
+          "arxiv_url": "https://arxiv.org/abs/2611.28913",
+          "authors": [
+            "Junjie Yang, Rui Qian, Yijiang Li, Jinyi Xu, Yuhao Yan, Xinjian Yi, Yanfeng Li, Mingxuan Li, Xiang Wan, Jicong Fan, Siqi Liu, Ahmed Elazab, Changmiao Wang"
+          ],
+          "bullets": [
+            "Targets long sequences from dense 3D grids and spatially disconnected serialization.",
+            "Uses a sparse SDF VQ-VAE with explicit coordinates and reconstruction supervision to preserve surface detail.",
+            "Applies 3D-BPE to merge recurring face-adjacent patterns using relative offsets; macro tokens decode exactly to leaf tokens and coordinates.",
+            "Reduces mean complete LLM sequence length by 45.4% and achieves strong captioning and text-conditioned mesh-generation results.",
+            "Ablations report gains over leaf-token and Morton 1D-BPE baselines; encoder cost still grows approximately quadratically with resolution under fixed settings."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3 | Comparisons with other baselines on the Text-to-3D task. SPAC generates untextured meshes. Following ShapeLLM-Omni (Ye et al., 2025), we use TRELLIS (Xiang et al., 2025b) to add surface appearance to the SPAC results shown here.",
+              "figure_id": "figure-3-9",
+              "figure_number": "3",
+              "height": 417,
+              "image_path": "figures/2611.28913/figure-001.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 983
+            },
+            {
+              "caption": "Figure 2 | Spatial compression with 3D-BPE. Subscripts 𝑀 denote lookup in the shared merge table, learned offline and then fixed. The local example illustrates face-adjacent merging and exact recovery of leaf codes and coordinates. Below, SPAC predicts coordinate–macro pairs, which are expanded using the same table and decoded into a mesh.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 327,
+              "image_path": "figures/2611.28913/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 971
+            },
+            {
+              "caption": "Figure 5 | Encoder efficiency across input resolutions. The top-left and top-right panels report forward FLOPs and encoder inference latency; the bottom-left and bottom-right panels report prepared-input wall time and peak inference VRAM. Results use batch size 1 and logarithmic vertical axes. SPAC’s sparse encoder exhibits near-𝑂(𝑅2) scaling with low memory growth. PointLLM’s fixed 512-group budget yields nearly constant FLOPs, while EVA01 incurs a larger constant cost. Dense FLOPs beyond the executable range are analytically extrapolated.",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 277,
+              "image_path": "figures/2611.28913/figure-003.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 404
+            },
+            {
+              "caption": "Table 6 | Model, training, and sampling settings. LLM optimization settings apply to language-model training; the tokenizer stages are described in Sec. A.2.",
+              "figure_id": "table-6-5",
+              "figure_number": "6",
+              "height": 661,
+              "image_path": "figures/2611.28913/table-004.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 983
+            },
+            {
+              "caption": "Table 2 | 3D object captioning results on Objaverse. The table highlights the best result for each metric in bold and marks the second-best result with underlining.",
+              "figure_id": "table-2-8",
+              "figure_number": "2",
+              "height": 329,
+              "image_path": "figures/2611.28913/table-005.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 983
+            },
+            {
+              "caption": "Table 3 | Comparison on text-to-3D generation. KD is scaled by 102. Best are in bold and second-best are underlined.",
+              "figure_id": "table-3-6",
+              "figure_number": "3",
+              "height": 313,
+              "image_path": "figures/2611.28913/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 983
+            },
+            {
+              "caption": "Table 1 | Language capabilities comparison. Best values are bold and second-best values are underlined.",
+              "figure_id": "table-1-7",
+              "figure_number": "1",
+              "height": 177,
+              "image_path": "figures/2611.28913/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 983
+            },
+            {
+              "caption": "Table 4 | 3D-BPE ablation. KD is scaled by 102. The best result in each column is bold, and the second best is underlined.",
+              "figure_id": "table-4-3",
+              "figure_number": "4",
+              "height": 91,
+              "image_path": "figures/2611.28913/table-008.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 962
+            },
+            {
+              "caption": "Table 5 | BPE compression and full LLM reference sequence lengths. Results use 8,192 merge rules. 𝑅len is the retained geometry-token fraction; entropy metrics are in bits. Full sequence lengths count geometry, coordinates, text, and control tokens before truncation or packing; reduction is relative to Leaf. Best are in bold and second-best are underlined.",
+              "figure_id": "table-5-4",
+              "figure_number": "5",
+              "height": 77,
+              "image_path": "figures/2611.28913/table-009.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 962
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.28913/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.28913",
+          "relevance": 7,
+          "selection_reason": "Sparse 3D mesh generation with shared LLM, a 3D foundation model approach.",
+          "summary_status": "generated",
+          "title": "From Dense to Sparse: Morton-Ordered Sparse Mapping for Efficient 3D Mesh Generation",
+          "tldr": "SPAC compresses sparse 3D geometry with spatially reversible tokens and Morton ordering, enabling shorter sequences for shared 3D captioning and text-to-mesh generation.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "3d-foundation-models"
+              ],
+              "topic_id": "3d-vision"
+            }
+          ]
+        },
+        {
+          "abstract": "Autoregressive diffusion world models deliver strong video generation performance, yet they typically output only RGB frames rather than explicit 3D Gaussian Splatting (3DGS) scene representations, creating a gap between learned visual world dynamics and usable 3D assets for downstream robotics, simulation and rendering. To bridge this gap, we introduce ArgsWorld, an autoregressive diffusion model that also produces an explicit 3DGS scene. For each generation chunk, the diffusion transformer jointly processes clean historical image latents and noisy latents for new views. It keeps the historical image latents fixed and refreshes the scene features so that the Gaussian representation can be revised as new regions come into view. Our 3D Self-Forcing Distillation trains the model on its own generated histories using a mixture of single-view and multi-view data. Distribution matching supervises direct image latents and latents of Gaussian renderings at both generation and additional cameras. ArgsWorld unifies 3D scene reconstruction from posed images, scene generation from image or text prompts, and scene extrapolation across camera segments with disconnected endpoints. Experimental results demonstrate that ArgsWorld achieves state-of-the-art performance across multiple 3D scene modeling tasks. Project page: https://m4a1tastegood.github.io/ArgsWorld/",
+          "arxiv_id": "2611.28792",
+          "arxiv_url": "https://arxiv.org/abs/2611.28792",
+          "authors": [
+            "Weiming Chen, Shuaiyan Liu, Xinyu Shao, Zhewen Chen, Tian Guan, Yonghong He, Xitong Ling"
+          ],
+          "bullets": [
+            "Addresses the gap between RGB-only video world models and usable 3D scene representations.",
+            "Jointly processes fixed historical image latents and noisy new-view latents while refreshing Gaussian scene features as regions are revealed.",
+            "Uses 3D Self-Forcing Distillation with single- and multi-view data, plus distribution matching for direct and Gaussian-rendered image latents.",
+            "Supports 3D reconstruction, image- or text-prompted scene generation, and camera-segment extrapolation with disconnected endpoints.",
+            "Reports state-of-the-art performance across multiple 3D scene modeling tasks."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. ArgsWorld inference. (a) We process a camera trajectory in successive chunks, using available reference images to condition the first chunk. Multiple input images enable scene reconstruction, while a single input image supports open-ended scene generation. (b) Each DiT call attends jointly to the current views and their clean history, predicting new RGB latents and refreshing features for Gaussian decoding across all views processed so far. 3DGS latents and DiT features feed the next denoising step within a chunk. Across chunks, the model carries forward its final direct RGB latents and 3DGS latents.",
+              "figure_id": "figure-2-4",
+              "figure_number": "2",
+              "height": 522,
+              "image_path": "figures/2611.28792/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1024
+            },
+            {
+              "caption": "Figure 6. Autoregressive extrapolation from one image. We show RGB and depth for selected views. (a) Three eight-view chunks follow a continuous trajectory. (b) A second chunk switches from a horizontal to a vertical orbit. The first orbit’s endpoint and the second orbit’s start are separated, with a shared interior camera pose marked on both paths.",
+              "figure_id": "figure-6-6",
+              "figure_number": "6",
+              "height": 530,
+              "image_path": "figures/2611.28792/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 5. Qualitative single-view scene generation. Each column compares ArgsWorld with the named baseline using the same reference image. The smaller panels show views 8 and 16 from direct 16-view generation.",
+              "figure_id": "figure-5-3",
+              "figure_number": "5",
+              "height": 479,
+              "image_path": "figures/2611.28792/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1025
+            },
+            {
+              "caption": "Figure 4. Qualitative multi-view reconstruction. ArgsWorld reconstructs scenes from two or four posed reference images. Blue borders mark inputs and red borders mark synthesized views. The diagrams at left show the camera trajectories.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 368,
+              "image_path": "figures/2611.28792/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1017
+            },
+            {
+              "caption": "Figure 1. ArgsWorld is an autoregressive 3DGS world model that unifies 3D scene reconstruction, trajectory-guided view generation, and open-ended scene extrapolation. It reconstructs a 3D Gaussian scene from posed views (blue), generates views along the trajectory (green), and extrapolates along vertical (orange) and aerial (purple) camera paths.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 394,
+              "image_path": "figures/2611.28792/figure-005.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 485
+            },
+            {
+              "caption": "Figure 3. 3D Self-Forcing Distillation. We replay a shared denoising step in each chunk and apply DMD to the direct RGB latents and both rendering branches. The input-view render latents also match the final chunk’s clean RGB context.",
+              "figure_id": "figure-3-10",
+              "figure_number": "3",
+              "height": 575,
+              "image_path": "figures/2611.28792/figure-006.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 461
+            },
+            {
+              "caption": "Table 5. Static world generation on WorldScore. Average is the unweighted mean of the six metrics.",
+              "figure_id": "table-5-8",
+              "figure_number": "5",
+              "height": 284,
+              "image_path": "figures/2611.28792/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 932
+            },
+            {
+              "caption": "Table 1. Multi-view reconstruction on DL3DV-200. Cell colors",
+              "figure_id": "table-1-11",
+              "figure_number": "1",
+              "height": 275,
+              "image_path": "figures/2611.28792/table-008.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 495
+            },
+            {
+              "caption": "Table 6. Ablations on DL3DV-200. Both settings start from one reference image.",
+              "figure_id": "table-6-9",
+              "figure_number": "6",
+              "height": 212,
+              "image_path": "figures/2611.28792/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 379
+            },
+            {
+              "caption": "Table 2. Quantitative comparison of single-image 3D scene generation on DL3DV-200.",
+              "figure_id": "table-2-12",
+              "figure_number": "2",
+              "height": 174,
+              "image_path": "figures/2611.28792/table-010.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 433
+            },
+            {
+              "caption": "Table 3. Quantitative comparison of single-image autoregressive 3D scene extrapolation on DL3DV-200.",
+              "figure_id": "table-3-7",
+              "figure_number": "3",
+              "height": 174,
+              "image_path": "figures/2611.28792/table-011.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 433
+            },
+            {
+              "caption": "Table 4. Text-conditioned generation on T3Bench-200.",
+              "figure_id": "table-4-5",
+              "figure_number": "4",
+              "height": 146,
+              "image_path": "figures/2611.28792/table-012.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 464
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.28792/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.28792",
+          "relevance": 8,
+          "selection_reason": "Autoregressive diffusion world model producing explicit 3DGS scenes, unifying reconstruction, generation, and extrapolation.",
+          "summary_status": "generated",
+          "title": "ArgsWorld: Unifying 3DGS Scene Reconstruction, Generation and Extrapolation with Autoregressive Diffusion Transformer",
+          "tldr": "ArgsWorld is an autoregressive diffusion world model that generates and continually updates explicit 3D Gaussian Splatting scenes alongside novel views.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "3d-foundation-models"
+              ],
+              "topic_id": "3d-vision"
+            }
+          ]
+        },
+        {
+          "abstract": "As code agents evolve, their scope is expanding from generating simple static 3D meshes to constructing structurally complete, complex, interactive 3D scenes. However, existing datasets mainly rely on converting or captioning pre-existing 3D assets, consisting mostly of single-turn code data for static single objects and struggling to scale task diversity and scene complexity, leaving such training data scarce. We present 3DCodeFactory, an automated framework that directly constructs diverse, complex 3D training data from abundant raw text (e.g., diffusion prompts and product descriptions). The framework first leverages an image generator to synthesize 3D reference images from raw text as visual anchors, guiding the generation of concrete modeling specifications and interactive functional requirements; meanwhile, it jointly constructs visual, specification, and functional rubrics from the reference images and requirements to automatically score and filter multi-turn agent rollouts. Based on this framework, we release 3DCodeFactory-Data, comprising 5,045 high-quality task instances and multi-turn interaction trajectories. Fine-tuning Qwen3.5-9B and Qwen3.8-27B on 3DCodeFactory-Data significantly improves performance on BlenderWorld, P3D-Bench, and 3DCodeBench, consistently outperforming models trained on existing open-source 3D code datasets, with our 27B model further surpassing the same-series 2.4T flagship Qwen3.8-Max in overall performance.",
+          "arxiv_id": "2611.28783",
+          "arxiv_url": "https://arxiv.org/abs/2611.28783",
+          "authors": [
+            "Zhaoyu Wang, Xueru Wen, XingYu Li, Jie Lou"
+          ],
+          "bullets": [
+            "Addresses the scarcity of training data beyond static, single-object 3D code generation.",
+            "Uses image-generated 3D references to guide modeling specifications and interactive requirements.",
+            "Automatically creates visual, specification, and functional rubrics to score and filter agent rollouts.",
+            "Releases 3DCodeFactory-Data with 5,045 high-quality task instances and interaction trajectories.",
+            "Fine-tuned Qwen3.5 models improve performance across BlenderWorld, P3D-Bench, and 3DCodeBench; the 27B model surpasses Qwen3.8-Max overall."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1 Overview of 3DCodeFactory examples. Grounded in synthesized reference images as visual anchors, our framework drives code agents to construct 3D objects and complex interactive scenes matching visual and specification requirements, curating the resulting multi-turn trajectories via multi-dimensional rubrics.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 1131,
+              "image_path": "figures/2611.28783/figure-001.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 1077
+            },
+            {
+              "caption": "Figure 3 Reference-guided task and rubric synthesis pipeline.",
+              "figure_id": "figure-3-9",
+              "figure_number": "3",
+              "height": 475,
+              "image_path": "figures/2611.28783/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 699
+            },
+            {
+              "caption": "Figure 8 Same-view multi-turn construction comparison on a BlenderWorld indoor scene (bw_0073) before and after fine-tuning Qwen3.8-27B. Rendered from a fixed camera pose, Row 1 shows 5 evenly spaced progress stages of the Base model, while Rows 2–3 show 10 evenly spaced stages of the fine-tuned model.",
+              "figure_id": "figure-8-4",
+              "figure_number": "8",
+              "height": 389,
+              "image_path": "figures/2611.28783/figure-003.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 972
+            },
+            {
+              "caption": "Figure 2 Hierarchical 3D content taxonomy. Consolidated from major 3D asset and scene platforms, the taxonomy spans 10 primary domains and 56 fine-grained categories.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 323,
+              "image_path": "figures/2611.28783/figure-004.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 938
+            },
+            {
+              "caption": "Figure 5 Dataset statistics of 3DCodeFactory-Data. (a) Primary domain (inner ring) and platform (outer ring) distribution; (b) trajectory token length distribution; (c) action breakdown of agent tool calls across platforms (a single call may invoke multiple actions).",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 232,
+              "image_path": "figures/2611.28783/figure-005.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 958
+            },
+            {
+              "caption": "Figure 7 Tool action distribution of Qwen3.8-27B on BlenderWorld before and after fine-tuning.",
+              "figure_id": "figure-7-8",
+              "figure_number": "7",
+              "height": 295,
+              "image_path": "figures/2611.28783/figure-006.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 463
+            },
+            {
+              "caption": "Figure 6 Effect of rubric filtering on Qwen3.8-27B finetuning. Score progression on BlenderWorld during training on rubric-filtered (w/ filter) versus unfiltered (w/o filter) trajectories.",
+              "figure_id": "figure-6-7",
+              "figure_number": "6",
+              "height": 295,
+              "image_path": "figures/2611.28783/figure-007.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 374
+            },
+            {
+              "caption": "Table 1 Comparison of 3D code training datasets. LoC denotes median lines of code per sample; all token statistics are measured using the Qwen3.8-27B tokenizer.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 207,
+              "image_path": "figures/2611.28783/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 972
+            },
+            {
+              "caption": "Table 4 Zero-shot transfer of Qwen3.8-27B to scene editing on BlenderGym. PL and N-CLIP are scaled by 103; Rel. ∆ denotes relative error change over Base.",
+              "figure_id": "table-4-6",
+              "figure_number": "4",
+              "height": 271,
+              "image_path": "figures/2611.28783/table-009.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 702
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.28783/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.28783",
+          "relevance": 6,
+          "selection_reason": "Scales training data and fine-tunes code agents for complex 3D scene generation, relevant to 3D foundation models.",
+          "summary_status": "generated",
+          "title": "3DCodeFactory: Scaling Training Data for 3D Code Agents",
+          "tldr": "3DCodeFactory automatically turns raw text into diverse, multi-turn training data for agents that build complex interactive 3D scenes.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "3d-foundation-models"
+              ],
+              "topic_id": "3d-vision"
+            }
+          ]
+        },
+        {
+          "abstract": "Video generation models are widely used as 3D priors for novel view synthesis and 3D scene generation. Fine-tuned for perception, generation models also excel at dense prediction such as depth estimation. However, methods that apply video generation models to 3D reconstruction either predict depth without cameras or generate geometry and estimate cameras through many iterative denoising steps, which makes them slower. In this paper, we present $\\textbf{VG3R}$, which turns a pretrained video generation model into a feed-forward 3D reconstruction model. Our key observation is that such a model already captures the depth and camera motion of a video, but not in the form required for reconstruction. We introduce two components: $\\textit{clip-level shift prediction}$, which corrects depth distortion caused by the unknown shift in decoded inverse depth, and a $\\textit{multi-layer camera head}$, which predicts per-frame cameras parameters by combining features across transformer blocks. Using Wan2.1 as its video backbone, VG3R reconstructs a scene and estimate the camera of every frame without iterative denoising. It achieves the lowest ATE and reconstruction errors among methods built on video generation models, runs about 4 and 14 times faster than Aether and Geo4D. VG3R also demonstrates competitive depth estimation and 3D reconstruction performance compared with geometry foundation models. Project page: https://github.com/KTH-RPL/VG3R",
+          "arxiv_id": "2611.28520",
+          "arxiv_url": "https://arxiv.org/abs/2611.28520",
+          "authors": [
+            "Jingong Chen, Qingwen Zhang, Lin Lian, Xinxin Zuo, Yang Wang, Chulwoo Pack, Kyle Gao, Patric Jensfelt, Kwanghee Won"
+          ],
+          "bullets": [
+            "Addresses the slowness and incomplete camera modeling of prior video-generation-based 3D reconstruction methods.",
+            "Corrects decoded inverse-depth distortion using clip-level shift prediction.",
+            "Predicts per-frame camera parameters with a multi-layer camera head that fuses features across transformer blocks.",
+            "Using Wan2.1, reconstructs scenes without iterative denoising and reports the lowest ATE and reconstruction errors among comparable video-generation methods.",
+            "Runs about 4× faster than Aether and 14× faster than Geo4D, while remaining competitive with geometry foundation models."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. Overview. VG3R encodes the input video with the frozen VAE of Wan2.1 and processes its latents with a LoRA-adapted transformer at a fixed timestep, with blocks ordered from bottom to top. The final-block features are decoded into inverse depth x̂ through the output layer and VAE decoder D. ClipShift uses these features to predict a single shift ĉ for a video clip, recovering depth up to a global scale. LayerTap combines features from multiple transformer blocks and pairs each latent frame with the first to predict per-frame cameras. Depth and cameras yield the reconstructed point maps. Gray losses are used only during training.",
+              "figure_id": "figure-3-11",
+              "figure_number": "3",
+              "height": 312,
+              "image_path": "figures/2611.28520/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1024
+            },
+            {
+              "caption": "Figure 7. Reconstructions of the methods built on video generation models on 7-Scenes heads-seq-01 and redkitchen-seq-12 and on NRGBD morning apartment and grey white room, in the format of Fig. 4: every method fuses the point maps of all frames with its own predicted cameras, without confidence filtering or other post-processing, and is aligned to the ground truth by a similarity transform.",
+              "figure_id": "figure-7-14",
+              "figure_number": "7",
+              "height": 624,
+              "image_path": "figures/2611.28520/figure-002.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 5. Video depth from video generation models. One frame per benchmark, shown as inverse depth after alignment in Tab. 1, using a shared color range with the ground truth for each sequence.",
+              "figure_id": "figure-5-4",
+              "figure_number": "5",
+              "height": 551,
+              "image_path": "figures/2611.28520/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 4. Reconstructions from video. One sequence per row. Every method fuses the point maps of all frames with its own predicted cameras, without confidence filtering or other post-processing, and is aligned to the ground truth by a similarity transform.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 345,
+              "image_path": "figures/2611.28520/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 2. Motivation. (i) A video generation model used for feed-forward depth prediction outputs clip-normalized inverse depth x̂ (shown on a ScanNet clip). (ii) Normalization sets the farthest surfaces to zero inverse depth, so directly taking 1/x̂ places them at infinity and distorts the room, even with ground-truth cameras and scale alignment (gray: ground truth). (iii) VG3R predicts a clip-level shift ĉ to restore the inverse-depth offset and reconstructs the room using its own predicted cameras. Its camera head also reads the highlighted intermediate transformer blocks in (i).",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 310,
+              "image_path": "figures/2611.28520/figure-005.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 8. Reconstructions and cameras on ScanNet scene0735 00, scene0749 00 and scene0743 00, in the format of Fig. 4, with the predicted camera of every tenth frame colored by time.",
+              "figure_id": "figure-8-13",
+              "figure_number": "8",
+              "height": 345,
+              "image_path": "figures/2611.28520/figure-006.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 9. Video depth on further frames of Sintel shaman 3 and market 2, Bonn synchronous and balloon2, and KITTI 2011 09 29 drive 0026, in the format of Fig. 5: inverse depth after the alignment of Tab. 1, with one color range per sequence from the ground truth.",
+              "figure_id": "figure-9-7",
+              "figure_number": "9",
+              "height": 959,
+              "image_path": "figures/2611.28520/figure-007.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 6. Camera trajectories over the ground-truth point cloud, with ground-truth trajectories in black. One sequence per benchmark among the five where VG3R leads most in ATE. Left: GeometryCrafter (blue), Aether (purple) and Geo4D (yellow), with ATE reported in this order. Right: VG3R.",
+              "figure_id": "figure-6-10",
+              "figure_number": "6",
+              "height": 133,
+              "image_path": "figures/2611.28520/figure-008.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1029
+            },
+            {
+              "caption": "Figure 10. Camera trajectories on further videos, in the format of Fig. 6: two more sequences per benchmark: Sintel alley 2 and market 6, two sequences with recognizable scenes on which VG3R has the lowest ATE, and TUM-dynamics walking rpy and sitting rpy and ScanNet scene0720 00 and scene0717 00, among the five where VG3R leads most in ATE. Left of each pair: GeometryCrafter (blue), Aether (purple) and Geo4D (yellow), with ATE reported in this order. Right: VG3R.",
+              "figure_id": "figure-10-12",
+              "figure_number": "10",
+              "height": 273,
+              "image_path": "figures/2611.28520/figure-009.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 1029
+            },
+            {
+              "caption": "Table 1. Comparison on video benchmarks. Video depth is aligned once per video, with scale and shift fitted in inverse depth (†) or depth (‡), and scale-only alignment otherwise. A dash indicates methods without camera predictions. Bold and underline mark the best and second-best results among VG3R and video-generation-based methods; dark and light shading mark those among VG3R and geometry foundation models. VG3R achieves the lowest ATE among video-generation-based methods across all three trajectory benchmarks, and outperforms all geometry foundation models in depth error on Bonn and reconstruction completeness error on 7-Scenes.",
+              "figure_id": "table-1-16",
+              "figure_number": "1",
+              "height": 317,
+              "image_path": "figures/2611.28520/table-010.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1038
+            },
+            {
+              "caption": "Table 2. Inference time in ms per frame on one GH200, reported as the median across sequences, excluding model loading. Each method uses its official resolution.",
+              "figure_id": "table-2-2",
+              "figure_number": "2",
+              "height": 240,
+              "image_path": "figures/2611.28520/table-011.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 438
+            },
+            {
+              "caption": "Table 7. Settings of the compared methods: input size H × W on Sintel / Bonn / KITTI / ScanNet, with the size of Bonn for TUMdynamics, 7-Scenes and NRGBD, window in frames, output, and fit of the video depth to the ground truth by scale and shift (s, t) or by scale (s).",
+              "figure_id": "table-7-17",
+              "figure_number": "7",
+              "height": 387,
+              "image_path": "figures/2611.28520/table-012.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 960
+            },
+            {
+              "caption": "Table 3. Ablation of ClipShift and LayerTap on eval20 and ARKit43: camera RPE-r (degrees) and reconstruction F@5 (Fscore at 5 cm). Component ablation: otherwise identical runs of 10,000 steps on 16 GPUs; ✗ and const. use the decoded inverse depth without a shift or with one constant shift across clips, respectively, while keeping the predicted cameras unchanged. Final model: trained for 30,000 steps on 128 GPUs, with reconstructions using either predicted or ground-truth (GT) cameras; ‘GT fit’ recovers depth by fitting a scale and shift between the decoded and ground-truth inverse depth over the clip.",
+              "figure_id": "table-3-5",
+              "figure_number": "3",
+              "height": 239,
+              "image_path": "figures/2611.28520/table-013.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 437
+            },
+            {
+              "caption": "Table 8. Video depth with the evaluation code of π3 [70]: AbsRel and δ < 1.25 after one alignment per video by scale and shift or by scale alone, and TAE [78] on 94 ScanNet sequences. Best and second best are shaded.",
+              "figure_id": "table-8-18",
+              "figure_number": "8",
+              "height": 279,
+              "image_path": "figures/2611.28520/table-014.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 775
+            },
+            {
+              "caption": "Table 9. Read-out of the final model: F@5 of the fused point cloud after one scale per clip, for different shifts of the decoded inverse depth and with ground-truth (GT) or its own cameras.",
+              "figure_id": "table-9-19",
+              "figure_number": "9",
+              "height": 123,
+              "image_path": "figures/2611.28520/table-015.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 402
+            },
+            {
+              "caption": "Table 4. Windows and training data on the benchmarks of Tab. 1. Models are trained on three datasets, while the final model is trained longer on all eleven datasets.",
+              "figure_id": "table-4-8",
+              "figure_number": "4",
+              "height": 108,
+              "image_path": "figures/2611.28520/table-016.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 456
+            },
+            {
+              "caption": "Table 6. Window length and stride on 30 ScanNet validation clips of 97 frames, for an earlier model trained on three datasets. Passes: inputs per clip. Bold: best among the windows.",
+              "figure_id": "table-6-6",
+              "figure_number": "6",
+              "height": 140,
+              "image_path": "figures/2611.28520/table-017.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 510
+            },
+            {
+              "caption": "Table 5. Video input and pretraining on held-out clips of TUM RGB-D, ETH3D and ARKitScenes: medians over clips of F@5, with the ground-truth cameras and one scale and shift per clip, and of the drift G5.",
+              "figure_id": "table-5-9",
+              "figure_number": "5",
+              "height": 104,
+              "image_path": "figures/2611.28520/table-018.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 458
+            },
+            {
+              "caption": "Table 11. Video pretraining, temporal input and initialization: median of the per-clip differences on the 79 held-out clips between the first and the second model of Sec. G, positive in favor of the first (a higher F@5 or a lower G5), and its 90% bootstrap interval. Solved shift: the shift of the decoded inverse depth solved from the known cameras, as for deployment; released DVD: the better of the released DVD v1.0 and v1.1 on each set.",
+              "figure_id": "table-11-15",
+              "figure_number": "11",
+              "height": 128,
+              "image_path": "figures/2611.28520/table-019.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 768
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.28520/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.28520",
+          "relevance": 7,
+          "selection_reason": "Turns a pretrained video generation model into a feed-forward 3D reconstruction model with camera estimation; relevant to generalist 3D perception from video priors.",
+          "summary_status": "generated",
+          "title": "VG3R: Video Generation Model for Feed-Forward 3D Reconstruction",
+          "tldr": "VG3R repurposes a pretrained video generation model for fast, feed-forward 3D reconstruction with per-frame camera estimation.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "3d-foundation-models"
+              ],
+              "topic_id": "3d-vision"
+            }
+          ]
+        },
+        {
+          "abstract": "Vision Banana showed that a closed image generator, instruction-tuned to paint perception outputs as RGB images, becomes a generalist vision model. Does this carry over to \\emph{open} generators, and if not, what fails? We answer with \\textbf{Open Vision Banana (OVB)}, an open framework that adapts the 7B diffusion generator of Qwen-Image-2.1 into one instruction-driven model for metric depth, semantic, instance, and referring segmentation, using a single shared low-rank adapter and public data. Each task is a \\emph{task contract} whose RGB encoder, instruction, and decoder share one specification and are checked before training. Studying 42 externally evaluated checkpoints from two 100k-update runs, six exact weight-space merges, and eight controlled shorter runs, we find that the gap to the closed system is specific and measurable. Geometry is learned early while absolute scale is not: median-aligned NYUv2 $\\delta_1$ stays at 0.89--0.93 throughout training as unaligned $\\delta_1$ wanders between 0.11 and 0.50. The scale is not committed by a single sample: a ten-seed ensemble lifts unaligned $\\delta_1$ from 0.348 to 0.516 without retraining. Depth and 2D segmentation compete for the shared adapter, and weight merging moves along this trade-off without escaping it. Finally, lower validation flow loss comes with lower Cityscapes accuracy (Spearman $\\rho\\approx-0.9$ between loss reduction and mIoU), so the loss cannot select checkpoints. We release code, contracts, training data, and all evaluation outputs.",
+          "arxiv_id": "2611.28489",
+          "arxiv_url": "https://arxiv.org/abs/2611.28489",
+          "authors": [
+            "Xu Lin, Ruilin Yao, Haoran Xu, Zixiang Wang, Ming Ma, Yu Zhao, Pu Miao, Chonghan Liu"
+          ],
+          "bullets": [
+            "Adapts Qwen-Image-2.1 into one instruction-driven model for metric depth, semantic segmentation, instance segmentation, and referring segmentation.",
+            "Uses a shared low-rank adapter, public data, and task contracts that align each task’s encoder, instruction, and decoder before training.",
+            "Geometry is learned early, but absolute depth scale remains unstable; ensembling predictions improves unaligned depth accuracy without retraining.",
+            "Depth and 2D segmentation compete for adapter capacity, and weight merging does not remove this trade-off.",
+            "Lower validation flow loss correlates with worse Cityscapes mIoU, making the loss unreliable for checkpoint selection; code, data, contracts, and evaluations are released."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 1. Open Vision Banana overview. A source image x and a task instruction pq condition a frozen generative backbone (Qwen-Image-2.1 in all experiments; the backbone is a configuration choice) that carries one newly initialized rank-64 LoRA adapter δ shared by all tasks. The source enters as visual tokens and reference latents, the instruction as the text condition, and the target latent is generated from noise in 50 flow steps. The generated RGB image r̂q is converted by a parameter-free decoder Dq into a structured prediction ŷq: metric depth, a class-ID map, instance masks, or a binary mask. Bottom: a task contract Cq = (Eq, pq, Dq; Sq) ties encoder, instruction, and decoder to one specification and is validated before training. The scene is a rendered illustration; its RGB tiles are produced by the contract encoders from exact annotations and are not model predictions.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 590,
+              "image_path": "figures/2611.28489/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 986
+            },
+            {
+              "caption": "Fig. 3. Training data and task mixture of the main runs. (a) The 1,098,435 training records by task and source; one record is an image–instruction–target triple, so an image can appear in several records. Small sources are listed to the right of their bar; “Indoor observed” combines ARKitScenes, DIODE, and SUN RGB-D frames with at least 98% observed depth, and “Earlier pool” is the segmentation data of the earlier OVB stages. (b) Each task’s share of the pool (light) against its per-update sampling probability (dark), and the expected number of times each record is drawn over the 3.2M draws of a 100k-update run. Sampling reweights the pool: semantic segmentation and editing replay are drawn more often than their size implies, referring segmentation less often.",
+              "figure_id": "figure-3-1",
+              "figure_number": "3",
+              "height": 592,
+              "image_path": "figures/2611.28489/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 969
+            },
+            {
+              "caption": "Fig. 4. Training trajectories of the two 100k-update runs (A: lr 3 × 10−5, B: lr 1 × 10−5; EMA “best” checkpoints, external evaluation). (a) Median-aligned NYUv2 δ1 is flat at 0.89–0.93 from the first evaluated checkpoint, while unaligned δ1 moves between 0.11 and 0.49: training changes the scale, not the geometry. (b) Cityscapes mIoU declines in both runs while depth improves; ReasonSeg peaks early in B and recovers late in A.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 326,
+              "image_path": "figures/2611.28489/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 940
+            },
+            {
+              "caption": "Fig. 5. Qualitative results: metric depth and semantic segmentation of Qwen-Image-2.1 with run B at 20k updates (EMA adapter, merged) on benchmark validation images. Depth is the RGB code before decoding.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 662,
+              "image_path": "figures/2611.28489/figure-004.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 818
+            },
+            {
+              "caption": "Fig. 6. Qualitative results: instance and referring segmentation, same model as Fig. 5. Instance colors are arbitrary per instance and need not match the ground truth.",
+              "figure_id": "figure-6-8",
+              "figure_number": "6",
+              "height": 946,
+              "image_path": "figures/2611.28489/figure-005.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 902
+            },
+            {
+              "caption": "Fig. 2. Task contracts, contract check, and training. (a) Each task is an explicit, decodable RGB code given by a specification Sq, an encoder Eq, an instruction pq, and a decoder Dq; the depth card shows the colormap path along the edges of the RGB cube, each vertex labeled with the metric depth it encodes under Eq. (2). (b) Checks that run on the training manifest and configuration before the first update. (c) Training: an annotation is encoded into an RGB target and then into a latent b by the frozen autoencoder; conditional flow matching updates the shared adapter while the backbone stays frozen. Run A uses peak lr 3 × 10−5 (shown) and run B uses 1 × 10−5; editing replay is included with the intent of preserving generation, which we have not measured (Sec. 6).",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 211,
+              "image_path": "figures/2611.28489/figure-006.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 982
+            },
+            {
+              "caption": "Table 8 gives all metrics and Table 9 the gap to interpolation. Cityscapes is above interpolation for every merge, ReasonSeg below for every merge, and unaligned NYUv2 δ1 below for all merges except P6. P2, P3, and P4 show unstable DIODE AbsRel (1.1–2.9), while P1 and P5 stay at 0.50–0.56, close to the 17.5k checkpoint (0.51), and P6 is 0.79.",
+              "figure_id": "table-8-3",
+              "figure_number": "8",
+              "height": 186,
+              "image_path": "figures/2611.28489/table-007.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 422
+            },
+            {
+              "caption": "Table 10 extends Sec. 5.5. Only Cityscapes has a consistent sign, and it is negative in both runs. Across runs, A ends at a lower loss than B (3.079 vs. 3.120 × 10−2) while being worse on unaligned depth and Cityscapes.",
+              "figure_id": "table-10-4",
+              "figure_number": "10",
+              "height": 94,
+              "image_path": "figures/2611.28489/table-008.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 564
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.28489/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.28489",
+          "relevance": 8,
+          "selection_reason": "Unified perception through generation in RGB space, including metric depth and segmentation, directly relevant to 3D foundation models and spatial intelligence.",
+          "summary_status": "generated",
+          "title": "Open Vision Banana: An Open Framework for Unified Visual Perception through Generation in RGB Space",
+          "tldr": "Open Vision Banana shows that an open 7B diffusion generator can unify depth and segmentation perception tasks, but shared-adapter interference, unresolved depth scale, and misleading validation loss limit performance selection.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "spatial-intelligence"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            },
+            {
+              "subtopic_ids": [
+                "3d-foundation-models"
+              ],
+              "topic_id": "3d-vision"
+            }
+          ]
+        },
+        {
+          "abstract": "Coding agents can translate 3D measurements into CAD geometry, but reconstructing engineering models for the built environment demands semantic interpretation and consistent construction constraints beyond surface fitting. We formulate scene-level Scan-to-BIM (Building Information Modeling) as an agentic 3D coding task and introduce S2Bench, comprising public and proprietary scans of 128 real-world scenes across five domains, paired with expert-curated reference models spanning diverse spatial scales. A shared framework lets agents measure scans in Python, build class-labeled components in a live CAD/BIM kernel, and iteratively refine their code. We also propose parallel asynchronous collaboration, where a lead delegates versioned tasks, continues modeling while workers execute, and integrates revision-bound proposals. Evaluating five agents and a collaborative team across 1,028 reconstructions shows that scan-to-model residuals directly guide geometric repair, whereas inferring semantic classes and construction relations requires joint geometric, visual, and engineering reasoning that agents struggle to ground and verify. Consequently, the leading agent fits scan geometry closely ($96\\%$ coverage within $5\\,\\text{cm}$) yet reaches only $63\\%$ mIoU, and no agent passes all engineering checks on more than $38\\%$ of scenes. Coverage and engineering conformance drop with scene scale, whereas running a smaller model as a team improves all three axes with greater coverage gains on larger scenes. The project page is available at https://tumcms.github.io/S2Bench.github.io/",
+          "arxiv_id": "2611.28197",
+          "arxiv_url": "https://arxiv.org/abs/2611.28197",
+          "authors": [
+            "Changyu Du, Stavros Nousias, Syed Salman Ahmed, Kai Dietmair, Mohammad Alrabab'h, Andr\\'e Borrmann"
+          ],
+          "bullets": [
+            "Introduces 1,028 reconstructions across 128 real-world scenes, five domains, and varied spatial scales, using expert-curated BIM references.",
+            "Agents measure scans with Python, create labeled components in a live CAD/BIM kernel, and iteratively refine reconstruction code.",
+            "Parallel asynchronous collaboration enables a lead agent to delegate, model concurrently, and integrate versioned worker proposals.",
+            "The leading agent achieves 96% scan coverage within 5 cm but only 63% semantic mIoU; no agent passes all engineering checks on over 38% of scenes.",
+            "Larger scenes reduce coverage and engineering conformance, while smaller-model teams improve performance, especially on larger scenes."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.CL",
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1. Overview of S2Bench. S2Bench pairs scans of 128 scenes across five built-environment domains and spatial scales with expert-curated reference models (top). A coding agent builds a component model by writing and inspecting code in a live CAD/BIM kernel (middle). Despite high geometric fidelity, agentbuilt models can fail semantic accuracy (1: door as wall) or engineering consistency (2: open wall joint).",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 346,
+              "image_path": "figures/2611.28197/figure-001.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 499
+            },
+            {
+              "caption": "Figure 2. Reconstruction framework. (a) Within an isolated workspace, a harness runs one agent or a team to measure scans in Python and iterate code in Rhino 8, receiving structured feedback (execution errors, validity checks, and agent-written validation) and rendered views before exporting the program, model, and IFC. (b) Single-agent timeline and revisions. (c) Team run on the same scan: the lead (solid icon) delegates regions to three workers, keeps modeling, and merges their parts under a shared 45-minute deadline.",
+              "figure_id": "figure-2-28",
+              "figure_number": "2",
+              "height": 77,
+              "image_path": "figures/2611.28197/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1014
+            },
+            {
+              "caption": "Figure 3. Reconstructed models compared with the input scan and reference. Colors denote component semantic classes, and tunnel and interior views are cut open for visibility. * and ** mark two Qwen outputs whose raw-coordinate 5 cm scan coverage (R5) is 0% due to frame/unit errors and are transformed for display only: (*) rotated 180◦ to undo a flipped local frame, and (**) scaled by 1,000 from metres to millimetres. Additional comparisons across 48 scenes appear in Supp. Figs. 11 to 14.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 394,
+              "image_path": "figures/2611.28197/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1033
+            },
+            {
+              "caption": "Figure 6. What agents do, and where errors enter. (a) An interior region in the scan and five reconstructed models, with rings marking scan door locations. (b) Sample outputs by Sol and Opus alongside each agent’s mean share of meshes and kernel solids across 128 scenes. (c) Share of runs (%) with scan checks or declared interference, contact, and support checks, and median program executions.",
+              "figure_id": "figure-6-19",
+              "figure_number": "6",
+              "height": 345,
+              "image_path": "figures/2611.28197/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 9. Kimi K3.1 Pro on Japan RC Bridges Bridge_3 (bridge). The run takes 43 minutes and executes the model program 8 times. The delivery has 9 components, lies within 5 cm of 63.3% of the scan points, and reaches 32.4% mIoU. The agent first reads the span as one slab (step 3), then finds vertical faces below both deck edges and models them as edge girders (step 4). It builds the components as hexahedra between fitted planes and declares contact and interference checks (step 6). When a thickness check fails, it sets the expected value to the value of the model (steps 7–8). The comparison with the scan shows misfits at the abutment tops, and the agent finds that its earlier sections were clipped and revises the end blocks (steps 9–12).",
+              "figure_id": "figure-9-10",
+              "figure_number": "9",
+              "height": 854,
+              "image_path": "figures/2611.28197/figure-005.webp",
+              "kind": "figure",
+              "page": 29,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 10. GPT-6.1 Sol on STSD horse-1-6_2 (tunnel). The run takes 27 minutes and executes the model program 9 times. The delivery has 276 components, lies within 5 cm of 99.7% of the scan points, and reaches 47.3% mIoU. The agent fits the tunnel axis (step 3) and a lining profile. It enters the stations of the ring joints as a list of constants (step 5) and models the joints as bands 8 mm wide (step 6). It assigns the invert to the tunnel wall (step 6). Two declared checks fail and are repaired in the geometry: an interference between rail and invert (steps 6–7) and the contact of the walkway brackets (steps 9–10). The remaining clusters of unexplained points receive a decision by position for the report (step 12).",
+              "figure_id": "figure-10-8",
+              "figure_number": "10",
+              "height": 842,
+              "image_path": "figures/2611.28197/figure-006.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 5. Rule conformance. Cells report RCR (%), the share of applicable scenes passing each rule completely. The bottom row reports ECR.",
+              "figure_id": "figure-5-9",
+              "figure_number": "5",
+              "height": 623,
+              "image_path": "figures/2611.28197/figure-007.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 498
+            },
+            {
+              "caption": "Figure 4. Coverage and IoU per class (Sol and Opus mean). Bars span from class IoU to 5 cm coverage (per-agent values in Supp. Tab. 11).",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 254,
+              "image_path": "figures/2611.28197/figure-008.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 400
+            },
+            {
+              "caption": "Figure 16. The wall junction on which the expert and the checker disagree (rule T04, plan view of a model of GPT-6.1 Sol). Left: walls A and B end at the corner without overlapping, and the corner square (dashed) is empty. Other walls of the model are shown in gray. Right: the marked square, enlarged. The two dots are vertical wall edges seen from above. They lie 14.5 mm apart, within the joint tolerance of 20 mm, over 2.76 m of height. T04 accepts such a line junction (Tab. 7), so the checker passes, while the expert judges the empty corner a defect.",
+              "figure_id": "figure-16-27",
+              "figure_number": "16",
+              "height": 254,
+              "image_path": "figures/2611.28197/figure-009.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 632
+            },
+            {
+              "caption": "Figure 11. Qualitative examples: interiors (1/2). Layout and colors as in Fig. 3. Numbers under each model are R5 / mIoU (%).",
+              "figure_id": "figure-11-25",
+              "figure_number": "11",
+              "height": 1251,
+              "image_path": "figures/2611.28197/figure-010.webp",
+              "kind": "figure",
+              "page": 31,
+              "width": 1033
+            },
+            {
+              "caption": "Figure 12. Qualitative examples: interiors (2/2). Layout and colors as in Fig. 3. Numbers under each model are R5 / mIoU (%).",
+              "figure_id": "figure-12-23",
+              "figure_number": "12",
+              "height": 1216,
+              "image_path": "figures/2611.28197/figure-011.webp",
+              "kind": "figure",
+              "page": 32,
+              "width": 1033
+            },
+            {
+              "caption": "Figure 14. Qualitative examples: tunnels, heritage, and facades. Layout and colors follow Fig. 3. Numbers under each model are R5 / mIoU (%).",
+              "figure_id": "figure-14-14",
+              "figure_number": "14",
+              "height": 1135,
+              "image_path": "figures/2611.28197/figure-012.webp",
+              "kind": "figure",
+              "page": 34,
+              "width": 1033
+            },
+            {
+              "caption": "Figure 13. Qualitative examples: bridges. Layout and colors as in Fig. 3. Numbers under each model are R5 / mIoU (%).",
+              "figure_id": "figure-13-15",
+              "figure_number": "13",
+              "height": 1125,
+              "image_path": "figures/2611.28197/figure-013.webp",
+              "kind": "figure",
+              "page": 33,
+              "width": 1033
+            },
+            {
+              "caption": "Figure 8. Claude Opus 5.5 on BIMNet ur6 (interior). The run takes 41 minutes and executes the model program 14 times. The delivery has 508 components, lies within 5 cm of 92.2% of the scan points, and reaches 27.8% mIoU. The agent measures the scan for 15 minutes before its first program execution and then extends the model in stages: walls, slabs, openings, and objects from clusters of unexplained points. It searches for doors as open gaps, drops a detector for closed doors (steps 6–7), and later notes an undetected closed door in an elevation sheet (step 11). Its elevation images color scan points by offset from its fitted wall plane: white within the wall, green in front, red behind, and black where there are no points. It repairs a failed interference check between doors and walls (steps 12–13) and reports that the door count is short. The run ends shortly after the five-minute notice of the harness (Sec. A), which the agent describes as the harness stopping the run.",
+              "figure_id": "figure-8-18",
+              "figure_number": "8",
+              "height": 915,
+              "image_path": "figures/2611.28197/figure-014.webp",
+              "kind": "figure",
+              "page": 28,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 15. The three axes by reference component count across all 128 scenes, binned by the number of components of the reference model: small (≤75, 43), medium (76–201, 43), and large (>201, 42). Dashed lines show the Terra team. Metrics and conventions are those of Fig. 7.",
+              "figure_id": "figure-15-4",
+              "figure_number": "15",
+              "height": 225,
+              "image_path": "figures/2611.28197/figure-015.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 513
+            },
+            {
+              "caption": "Figure 7. The three axes by scene extent across all 128 scenes, binned by bounding-box diagonal: small (≤24 m, 43), medium (24–51 m, 42), and large (>51 m, 43). Dashed lines show the Terra team (sensitivity in Supp. Sec. F).",
+              "figure_id": "figure-7-20",
+              "figure_number": "7",
+              "height": 48,
+              "image_path": "figures/2611.28197/figure-016.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 498
+            },
+            {
+              "caption": "Table 5. Representative common expert comments on the starting models of the 63 expert-authored references, by domain.",
+              "figure_id": "table-5-30",
+              "figure_number": "5",
+              "height": 333,
+              "image_path": "figures/2611.28197/table-017.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 1000
+            },
+            {
+              "caption": "Table 7. Units, geometric predicates, and frozen tolerances of T01–T09 across all 128 scene protocols. Contact means that opposed faces of two components lie within τjoint of each other over a finite patch.",
+              "figure_id": "table-7-16",
+              "figure_number": "7",
+              "height": 775,
+              "image_path": "figures/2611.28197/table-018.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 967
+            },
+            {
+              "caption": "Table 6. Scored task classes per dataset. Case and dataset-native spellings are preserved.",
+              "figure_id": "table-6-22",
+              "figure_number": "6",
+              "height": 425,
+              "image_path": "figures/2611.28197/table-019.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 1032
+            },
+            {
+              "caption": "Table 9. Scene-level uncertainty of Tab. 3 on all 128 scenes. Top: mean and 95% bootstrap interval (%). Bottom: paired difference in percentage points (computed before rounding) with its 95% interval, and the p-value of the paired test. Surface F1 averages valid measured submissions.",
+              "figure_id": "table-9-6",
+              "figure_number": "9",
+              "height": 311,
+              "image_path": "figures/2611.28197/table-020.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 848
+            },
+            {
+              "caption": "Table 12. Acquisition and R5 / mIoU (%) for each of the 14 datasets, including the six private Weilheim bridges. TLS denotes terrestrial laser scanning, and MLS denotes mobile laser scanning. SemanticBridge comprises 15 TLS and five handheld MLS scans. Every cell includes all scenes of the dataset, and failed runs contribute zero. Scenes receive equal weight. Vocabularies and annotation conventions differ between datasets (Tab. 6), so mIoU is comparable between agents within a row more than between rows.",
+              "figure_id": "table-12-13",
+              "figure_number": "12",
+              "height": 389,
+              "image_path": "figures/2611.28197/table-021.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 964
+            },
+            {
+              "caption": "Table 14. ECR (%) of the single-agent runs under three scene cohorts: all scenes, scenes without any resource-limit exclusion, and scenes where every agent’s model is checked (no resource-excluded or failed run).",
+              "figure_id": "table-14-17",
+              "figure_number": "14",
+              "height": 162,
+              "image_path": "figures/2611.28197/table-022.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 464
+            },
+            {
+              "caption": "Table 18. Script operations and run properties across 128 runs per agent. Shares count runs with at least one matching script (runs without scripts count as zero). Valid submissions are 73 for Qwen and 128 for all others.",
+              "figure_id": "table-18-5",
+              "figure_number": "18",
+              "height": 421,
+              "image_path": "figures/2611.28197/table-023.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 486
+            },
+            {
+              "caption": "Table 3. Main results across all 128 scenes. Small text after each agent gives its harness. R5 and mIoU are scene means (%), scoring failed runs as zero, while F surf",
+              "figure_id": "table-3-29",
+              "figure_number": "3",
+              "height": 115,
+              "image_path": "figures/2611.28197/table-024.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1014
+            },
+            {
+              "caption": "Table 19. Expert review of 27 unit verdicts by rule: the number of units that the checker passes and fails, and the number of units on which the expert agrees with the checker.",
+              "figure_id": "table-19-21",
+              "figure_number": "19",
+              "height": 287,
+              "image_path": "figures/2611.28197/table-025.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 456
+            },
+            {
+              "caption": "Table 8. Valid submissions (out of 128 scenes) and mean estimated API cost per scene under the 45-minute budget. Team cost includes the lead and all workers.",
+              "figure_id": "table-8-26",
+              "figure_number": "8",
+              "height": 185,
+              "image_path": "figures/2611.28197/table-026.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 418
+            },
+            {
+              "caption": "Table 10. Harness and repeated attempts on the 22 core22 scenes. Runs 1–3 are attempts in the native harness (Codex for Sol, Claude Code for Opus), and run 1 is the run in Tab. 3. Pi runs the same agent in the Pi harness. All values are in %.",
+              "figure_id": "table-10-7",
+              "figure_number": "10",
+              "height": 213,
+              "image_path": "figures/2611.28197/table-027.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 356
+            },
+            {
+              "caption": "Table 11. Per-class coverage and IoU of Sol and Opus (scene means, %), supporting Fig. 4 (which plots the mean of the two agents). Classes keep their dataset-native names and pool the scenes of all datasets that use the name.",
+              "figure_id": "table-11-11",
+              "figure_number": "11",
+              "height": 242,
+              "image_path": "figures/2611.28197/table-028.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 926
+            },
+            {
+              "caption": "Table 15. GPT-6.1 Sol on the six private bridge scenes with auxiliary evidence (%, one run per scene and arm). ECR counts all six scenes, and qr averages the unit pass rate over the six rules that apply to these scenes (T01–T03 and T06–T08).",
+              "figure_id": "table-15-24",
+              "figure_number": "15",
+              "height": 139,
+              "image_path": "figures/2611.28197/table-029.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 464
+            },
+            {
+              "caption": "Table 13. Agent-to-reference agreement (%) at 10 cm tolerance: surface precision P , recall R, and F1 (F s 1 ) as equal-scene means over valid submissions. Bridges include the six private bridges.",
+              "figure_id": "table-13-12",
+              "figure_number": "13",
+              "height": 143,
+              "image_path": "figures/2611.28197/table-030.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 1036
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.28197/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.28197",
+          "relevance": 9,
+          "selection_reason": "Introduces S2Bench, a benchmark for agentic 3D reconstruction in the built environment, evaluating coding agents on scan-to-BIM tasks.",
+          "summary_status": "generated",
+          "title": "From Point Clouds to Engineering Models: Benchmarking Agentic 3D Reconstruction in the Built Environment",
+          "tldr": "S2Bench benchmarks agentic Scan-to-BIM reconstruction and shows that agents can fit 3D geometry well but still struggle with semantic interpretation and engineering-valid modeling.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "3d-foundation-models"
+              ],
+              "topic_id": "3d-vision"
+            }
+          ]
+        },
+        {
+          "abstract": "3D vision-language models (3D VLMs) have demonstrated strong capabilities in 3D scene understanding and spatial reasoning. However, their reliance on multi-view inputs produces long visual token sequences, imposing substantial computational overhead during inference. Existing pruning methods often rely on token salience or feature diversity as proxies for representativeness, without explicitly modeling the representation gap between the original token set and the retained subset, thereby leading to suboptimal representation of the original scene. In this paper, we propose ReMiC, a training-free, representation-driven token pruning framework based on minimax hierarchical clustering. ReMiC treats retained tokens as prototypes for the original observations, formulating pruning as minimizing the maximum representation error under a fixed token budget. Local prototype initialization allocates tokens according to regional representation needs, while global prototype refinement updates the selected prototypes using cross-region information to further reduce the maximum representation error. Extensive experiments conducted on three representative 3D VLMs across five 3D scene understanding benchmarks demonstrate the effectiveness and generalization of our method. Notably, by retaining only 10% of visual tokens, ReMiC preserves 93.2% of the performance of Video-3D LLM and achieves a $2.04\\times$ faster inference speed.",
+          "arxiv_id": "2611.28124",
+          "arxiv_url": "https://arxiv.org/abs/2611.28124",
+          "authors": [
+            "Bangfeng Yan, Chaoning Zhang, Yuanhao Liu, Pengcheng Zheng, Mengyuan Li, Wei Dong, Sheng Zheng, Yang Yang"
+          ],
+          "bullets": [
+            "Targets the long visual token sequences created by multi-view 3D inputs.",
+            "Formulates pruning as minimizing the maximum representation error under a fixed token budget.",
+            "Uses local prototype initialization followed by global cross-region refinement via minimax hierarchical clustering.",
+            "Evaluated across three 3D VLMs and five 3D scene-understanding benchmarks.",
+            "With 10% of visual tokens retained, preserves 93.2% of Video-3D LLM performance and delivers 2.04× faster inference."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of the ReMiC framework. ReMiC serves as a training-free, plug-and-play module inserted between the visualgeometric encoder and the LLM. In Stage 1, local prototype initialization builds a minimax tree within each spatial region and jointly cuts the trees under a shared token budget to select initial prototypes. In Stage 2, global prototype refinement reassigns all original tokens to their nearest prototypes across regions and reselects a prototype for each cluster.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 356,
+              "image_path": "figures/2611.28124/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1018
+            },
+            {
+              "caption": "Figure 3. Qualitative comparison. (a) Frame-wise maximum representation errors of different pruning methods. (b) Visualization of retained tokens in the 3D scene. Red boxes highlight the piano and both toolboxes.",
+              "figure_id": "figure-3-8",
+              "figure_number": "3",
+              "height": 626,
+              "image_path": "figures/2611.28124/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1028
+            },
+            {
+              "caption": "Figure 1. Illustration of the relationship between original tokens and retained prototypes. Retained prototypes are shown as solid squares with white borders. Translucent patches of the same color indicate the original tokens they represent across views.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 550,
+              "image_path": "figures/2611.28124/figure-003.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 496
+            },
+            {
+              "caption": "Table 2. Performance comparison with other baselines on Ross3D and GS-Reasoner. Avg. reports the average percentage of original performance retained across the three benchmarks and ten metrics.",
+              "figure_id": "table-2-2",
+              "figure_number": "2",
+              "height": 629,
+              "image_path": "figures/2611.28124/table-004.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Table 6. Efficiency analysis of our ReMiC. Times are reported in seconds and Memory in GB.",
+              "figure_id": "table-6-7",
+              "figure_number": "6",
+              "height": 288,
+              "image_path": "figures/2611.28124/table-005.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 3. Ablation study on region count L.",
+              "figure_id": "table-3-5",
+              "figure_number": "3",
+              "height": 198,
+              "image_path": "figures/2611.28124/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 4. Ablation Study on Tree Cutting Strategies.",
+              "figure_id": "table-4-3",
+              "figure_number": "4",
+              "height": 163,
+              "image_path": "figures/2611.28124/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 5. Ablation study on prototype refinement strategies.",
+              "figure_id": "table-5-4",
+              "figure_number": "5",
+              "height": 163,
+              "image_path": "figures/2611.28124/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 1. Performance comparison with other baselines on Video-3D LLM. Avg. reports the average percentage of original performance retained across the five benchmarks and nine metrics.",
+              "figure_id": "table-1-9",
+              "figure_number": "1",
+              "height": 106,
+              "image_path": "figures/2611.28124/table-009.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1036
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.28124/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.28124",
+          "relevance": 9,
+          "selection_reason": "Representation-driven token pruning for 3D VLMs via minimax clustering; directly fits token pruning, spatial intelligence, and 3D foundation models.",
+          "summary_status": "generated",
+          "title": "ReMiC: Representation-Driven Token Pruning for 3D VLMs via Minimax Hierarchical Clustering",
+          "tldr": "ReMiC is a training-free token-pruning method that preserves 3D VLM performance while reducing inference cost by selecting representative visual tokens.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "spatial-intelligence"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            },
+            {
+              "subtopic_ids": [
+                "3d-foundation-models"
+              ],
+              "topic_id": "3d-vision"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-22",
       "paper_count": 6,
       "papers": [
@@ -62852,5 +65304,5 @@
   "schema_version": 1,
   "subtopic_id": "3d-foundation-models",
   "topic_id": "3d-vision",
-  "total_paper_count": 336
+  "total_paper_count": 349
 }

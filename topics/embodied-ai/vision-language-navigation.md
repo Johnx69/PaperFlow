@@ -6,10 +6,14 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Vision-Language Navigation
 
-**174 papers total**
+**178 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-23 | [Audio-Visual Rearrangement](https://arxiv.org/abs/2611.30171) | Embodied AI: Vision-Language Navigation, Robot Learning and Manipulation; Multimodal Foundation Models: Multimodal Large Language Models, Spatial Intelligence | AVR introduces a benchmark and audio-visual framework for robots to understand spoken object requests, locate speakers, and deliver objects appropriately. | 8 | 8 |
+| 2026-11-23 | [NavDecision: Parallel Multi-Step Action Prediction with Persistent Self-Referential Learning for Vision-and-Language Navigation](https://arxiv.org/abs/2611.28796) | Embodied AI: Vision-Language Navigation | NavDecision accelerates vision-and-language navigation by predicting multiple actions in parallel while using successful trajectories as persistent training references. | 9 | 7 |
+| 2026-11-23 | [JevNavAgent: A Single-Forward Visual Navigation Agent with Trajectory-Level RL for Gigapixel Pathology](https://arxiv.org/abs/2611.28766) | Embodied AI: Vision-Language Navigation | JevNavAgent is a decoding-free visual navigation agent that uses trajectory-level reinforcement learning to efficiently locate and stop on lesions in gigapixel pathology slides. | 4 | 7 |
+| 2026-11-23 | [WorldWeave: Rethinking Embodied Navigation through Cross-Task World Modeling](https://arxiv.org/abs/2611.28553) | Embodied AI: Vision-Language Navigation, Robot Navigation; World Models: Latent Action Models | WorldWeave jointly learns transferable world dynamics from navigation and tracking tasks by inferring latent actions from observed state changes. | 9 | 8 |
 | 2026-11-22 | [NavRSI: Recursive Harness Self-Improvement for Vision-and-Language Navigation](https://arxiv.org/abs/2611.27499) | Embodied AI: Vision-Language Navigation | NavRSI recursively improves the interaction harness around frozen LLMs, enabling stronger vision-and-language navigation without training the navigator or adding tools. | 8 | 7 |
 | 2026-11-22 | [Beyond Future Views: Exploring Future-State World Models for Vision-Language Navigation](https://arxiv.org/abs/2611.27418) | Embodied AI: Vision-Language Navigation; World Models: Interactive World Models | FS-Nav models future navigation states as waypoints and route corridors—not just future views—to improve vision-language navigation in unseen environments. | 9 | 8 |
 | 2026-11-22 | [AceVLN: Asynchronous Cloud Edge Deployment of VLNs via Latent Scheduling and Compensation](https://arxiv.org/abs/2611.27255) | Embodied AI: Vision-Language Navigation | AceVLN is a training-free cloud–edge VLN framework that adaptively refreshes latent guidance and compensates for communication latency, improving navigation while reducing computation. | 8 | 7 |

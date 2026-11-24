@@ -1,6 +1,1904 @@
 {
   "days": [
     {
+      "date": "2026-11-23",
+      "paper_count": 12,
+      "papers": [
+        {
+          "abstract": "Large and diverse video sources, such as egocentric human video and heterogeneous robot recordings, carry rich dynamics but come either without actions or without a shared action space. Latent action models (LAMs) can recover these dynamics, but they train their inverse- and forward-dynamics models (IDM, FDM) from scratch, trading off pixel reconstruction against latent capacity and accuracy. Pretrained video world models natively generate high-fidelity dynamics, yet represent them densely, entangled across all layers. Viewing the world model as a LAM, we show that these dynamics can be extracted with minimal changes to the model. Native LAM operates one pretrained video diffusion transformer as both IDM and FDM, with learnable dynamics registers as the only causal bridge between the two, and trains on counterfactual temporal pairs that differ in motion alone, so that the registers distill a video's dynamics into a compact native latent action. We further propose a pretraining paradigm for vision-language-action (VLA) policies, Pretraining Actions from World models (PAWlicy), in which Native LAM serves as a dynamics teacher on large-scale video; unlike world action models, it never generates video. Native latent actions outperform existing LAMs on the LARY benchmark in both action classification and control regression, and replay the same motion on new robots, in new scenes, and from human hands to robots, although no transfer objective is used in training. With a 3.8B model, PAWlicy reaches a 93.6% average success rate on RoboTwin 2.0 trained with domain-randomized demonstrations, the highest among VLAs. On RoboDojo, it is competitive on every dimension we evaluate, and its Precision, evaluated by us, is on par with the leading leaderboard entries. On real robots, it improves over the pi_0.5 baseline on both tasks. Both stages use only public data and a publicly released world model.",
+          "arxiv_id": "2611.30898",
+          "arxiv_url": "https://arxiv.org/abs/2611.30898",
+          "authors": [
+            "Qinyue Li, Weijie Qiao, Qingyi Tao, Zerui Gong, Zhe Yang, Quanzhou Li, Taolin Zhang, Jinglin He, Zhonghua Wu, Chen Change Loy"
+          ],
+          "bullets": [
+            "Addresses learning actions from diverse videos that lack actions or share no common action space.",
+            "Uses one pretrained video diffusion transformer as both inverse- and forward-dynamics models, connected by learnable dynamics registers.",
+            "Trains on counterfactual video pairs differing only in motion to distill compact latent actions without video generation.",
+            "Native latent actions outperform existing LAMs on LARY for action classification and control, and transfer motion across robots, scenes, and human-to-robot settings.",
+            "The PAWlicy pretraining paradigm achieves a 93.6% average success rate on RoboTwin 2.0 and improves over pi_0.5 on both evaluated real-robot tasks."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.LG",
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1 World models as native latent action models. (a) Existing LAMs learn an IDM and an FDM from scratch. (b) A pretrained video world model is already an FDM. (c) Native LAM runs one world model in two modes, reading a latent action â from video and regenerating the future from â. (d) Latent actions share one space and replay the same motion from edited first frames in new setups. (e) PAWlicy pretrains a VLA on â without reconstructing pixels.",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 681,
+              "image_path": "figures/2611.30898/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 4 Native latent actions transfer. A latent â is read once from a source clip (blue) in the IDM mode of Native LAM and replayed in its FDM mode from a different first frame (orange), which is generated with GPT image generation from the source first frame; dotted frames are generated. The generated videos carry out the source motion with another embodiment, in another scene, from human to robot, and from simulation to a photorealistic scene, although no transfer objective is used in training.",
+              "figure_id": "figure-4-9",
+              "figure_number": "4",
+              "height": 458,
+              "image_path": "figures/2611.30898/figure-002.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 2 Training Native LAM. (a) Each video x is paired with a retimed copy x′ = x ◦ ϕ of the same footage that shares the first frame but not the motion. (b) In IDM mode, dynamics registers read the clean video through a read-only attention mask and are projected to the latent action â; on AgiBot World and DROID, a kinematic head grounds â in end-effector motion. (c) In FDM mode, the same DiT regenerates the future from v0 and â alone, with â inserted into the token sequence through the adapter MLPin, taking over the conditioning role of text, trained with its original flow-matching loss; both clips of a pair share the noise and diffusion time, so only â can explain their difference.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 395,
+              "image_path": "figures/2611.30898/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 3 PAWlicy. A frozen Native LAM labels each video window with one past and three future latent groups; t−1, t, . . . , t+3 index temporal groups, each containing four video frames. Sharing attention with the VLM, the latent action DiT reconstructs the past and predicts the future, and the action DiT conditions on it to generate actions. Video without actions still trains the latent pathway.",
+              "figure_id": "figure-3-1",
+              "figure_number": "3",
+              "height": 469,
+              "image_path": "figures/2611.30898/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 694
+            },
+            {
+              "caption": "Figure 5 Interpolating latents interpolates the motion. Latents read from a still clip and a full-action clip are blended and replayed from the same first frame. The top and bottom rows are the two source clips; the dotted frames between them are generated. Each intermediate latent yields one coherent motion that travels part of the way, further as β grows; blending pixels instead superimposes static and moving arms (red box).",
+              "figure_id": "figure-5-10",
+              "figure_number": "5",
+              "height": 441,
+              "image_path": "figures/2611.30898/figure-005.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 638
+            },
+            {
+              "caption": "Figure 7 Counterfactual pairs prevent posterior collapse. A latent action is read in IDM mode from a source clip in which the left arm grasps the tissue (top) or from its still counterfactual, which holds the first frame (bottom), and the FDM regenerates the clip from the same start frame with shared prompt, noise, and seed. Circles mark the end pose of the arm. Trained for 2k steps without counterfactual pairs, the FDM reaches for the cup in both cases. This is posterior collapse: the FDM ignores the latent and hallucinates a reach for the cup from the first frame alone. With counterfactual pairs, the same 2k steps already keep the still latent still, although the moving latent still reaches for the cup. At 13k steps the generated end frames match the source in both cases.",
+              "figure_id": "figure-7-4",
+              "figure_number": "7",
+              "height": 302,
+              "image_path": "figures/2611.30898/figure-006.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 964
+            },
+            {
+              "caption": "Table 6 Training and inference cost. Top: dynamics-module training cost per step on 33-frame clips (384×256, width×height; batch size 1), measured for each module alone and excluding shared attention; values are rounded, and those of Kairos 3.1 include a recurrence-equivalent estimate for its fused GatedDeltaNet kernels. Bottom: median inference latency per control step over 20 runs, measured by us on one RTX 6000 Ada, our deployment GPU (BF16, batch size 1, 10 action sampling steps, action horizon 32). Each method uses its default input setting: the world action models take three views, and PAWlicy takes three views and one past frame; text and visual conditions are recomputed for every call.",
+              "figure_id": "table-6-7",
+              "figure_number": "6",
+              "height": 234,
+              "image_path": "figures/2611.30898/table-007.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 1007
+            },
+            {
+              "caption": "Table 1 Data sources and their supervision in the two stages. Native LAM is trained on video, and on end-effector actions for kinematic grounding where marked; PAWlicy is pretrained on the teacher’s latent actions and, where marked, on robot actions. The sources below the line are used for PAWlicy only: Native LAM never sees them, and they are labeled by the frozen Native LAM. RoboTwin 2.0 and RoboDojo are excluded from PAWlicy pretraining.",
+              "figure_id": "table-1-6",
+              "figure_number": "1",
+              "height": 654,
+              "image_path": "figures/2611.30898/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1005
+            },
+            {
+              "caption": "Table 4 Real-robot tasks on AgileX NERO. Top: start and end of each task. Bottom: success rate (%) over 30 trials, with 100 training demonstrations per task.",
+              "figure_id": "table-4-2",
+              "figure_number": "4",
+              "height": 216,
+              "image_path": "figures/2611.30898/table-009.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 583
+            },
+            {
+              "caption": "Table 3 RoboTwin 2.0 with clean training (success rate, %). Policies are trained on 50 clean demos per task and tested in clean (c2c) or randomized (c2r) scenes, with 100 seeds per task. π0.5 + past + aug. uses the same past frame and augmentation as PAWlicy.",
+              "figure_id": "table-3-3",
+              "figure_number": "3",
+              "height": 117,
+              "image_path": "figures/2611.30898/table-010.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 377
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.30898/hero.webp",
+          "novelty": 9,
+          "pdf_url": "https://arxiv.org/pdf/2611.30898",
+          "relevance": 10,
+          "selection_reason": "Native latent action extraction from pretrained video world models for VLA pretraining, directly fits world models and embodied AI.",
+          "summary_status": "generated",
+          "title": "World Models as Native Latent Action Models",
+          "tldr": "A pretrained video world model can be minimally adapted into a native latent-action model that extracts transferable dynamics and improves vision-language-action policy training.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-action",
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "latent-action-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Proactive assistants that guide people through physical tasks must decide, every few seconds, whether a step is complete and whether a mistake has occurred. We find that two benchmarks for this task largely reward knowing when rather than seeing what: a timer that never looks at the video, raising an alarm at 25 s and confirming each step at 30 s, reaches a mistake F1 of 0.373 on Ego-MC-Bench, above every published result (at most 0.27). We formalize this as the video-blind frontier, the best trade-off between completion accuracy and mistake F1 that policies reach from the elapsed time, the instruction and training statistics alone: every published per-step result on Ego-MC-Bench lies inside it, and so do all twelve zero-shot models we run on QICD. To move beyond it, we introduce Evidence-Contrastive Training (ECT): fine-tune on the benchmark's own questions, and pair its positives with negatives from the same recording at the same elapsed time, so that elapsed time cannot separate the two sides of a pair. Trained on 209 QICD videos in about 15 GPU-hours, a 2B model with ECT crosses the frontier on both benchmarks in all four seeds; transferred to Ego-MC-Bench without adaptation, it confirms 59% of mistake-free steps in time, against 30% for a published model with the same backbone trained on about 25k synthetic counterfactuals and real recordings. Its decisions follow the video beyond what timing explains: at equal elapsed time it tells a finished step from an unfinished one in 90-92% of test pairs, where the instruction's typical duration reaches 65%, rescaling the time stamps between the frames leaves it essentially unchanged, and swapping in another recording, of the same recipe where one exists, cuts its completion accuracy by two thirds. The code and model weights will be publicly released.",
+          "arxiv_id": "2611.30895",
+          "arxiv_url": "https://arxiv.org/abs/2611.30895",
+          "authors": [
+            "Bohe Chen"
+          ],
+          "bullets": [
+            "Existing benchmarks can be largely solved by timing alone: a video-blind timer surpasses published mistake-detection results on Ego-MC-Bench, while published per-step systems and tested zero-shot models remain within the timing-based frontier.",
+            "Evidence-Contrastive Training pairs examples from the same recording at the same elapsed time, preventing models from using time as a shortcut.",
+            "A 2B model trained with ECT crossed the video-blind frontier on both benchmarks across all four seeds, using 209 QICD videos and about 15 GPU-hours.",
+            "Without adaptation, the model confirmed 59% of mistake-free steps on Ego-MC-Bench, compared with 30% for a published comparable-backbone model.",
+            "Its decisions reflect video content: it distinguished finished from unfinished steps in 90–92% of equal-time pairs, while time-based instruction statistics reached 65%; performance degraded substantially when recordings were swapped."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. The video-blind frontier contains every published Ego-MC-Bench result and every zero-shot model we run on QICD; ECT lies beyond it on both benchmarks in all four seeds. The gray region is reached by policies that use only the elapsed time, the instruction and training-set statistics: timing rules and a learned policy, both tuned on the test set itself. Points are scores under the per-step protocol; published points are the 18 per-step results of Ego-MC-Bench v2, and its v3 results also lie inside. On Ego-MC-Bench a single rule (black cross) has higher mistake F1 than every published result, at zero completion accuracy; Qwen3.8-Max is the only zero-shot model beyond the frontier there.",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 319,
+              "image_path": "figures/2611.30895/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1013
+            },
+            {
+              "caption": "Figure 3. Paired negatives reduce the steps lost to false alarms; swapping the video delays confirmation. Outcome of every mistakefree step under official scoring (means over seeds; the swapped row is seed 0; grey: never confirmed or not reached). Zero-shot models lose steps to false alarms and plain fine-tuning to early confirmation. ECT confirms more steps in time than the variant without paired negatives on both benchmarks. In the QICD swap (last row, left), late and missing confirmations are more common.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 271,
+              "image_path": "figures/2611.30895/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1024
+            },
+            {
+              "caption": "Figure 4. Without the matching video, ECT waits. A mistakefree QICD test step under the original recording (top) and under another recording of the same recipe at the same frame indices (bottom); instruction and clock are unchanged. ECT confirms the step on time in the original and 129 s late in the swap, without raising an alarm. Gray: the ±15 s tolerance around the step end. The step is one of the seven nearest the median duration among the 28 test steps that seed 0 confirms on time and, after the swap, neither flags nor confirms within tolerance (Supplement H).",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 297,
+              "image_path": "figures/2611.30895/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 489
+            },
+            {
+              "caption": "Table 1. Who is beyond the video-blind frontier. IC-Acc: completion accuracy (%); F1: mistake F1; ∆: mistake F1 minus the best videoblind F1 at the same or a higher IC-Acc, over the rules and the learned blind policy of Sec. 3 (negative, in gray: inside the frontier). †IC-Acc exceeds that of every blind policy, where the frontier is zero (two of the four seeds on Ego-MC-Bench). All rows except “Published” are our runs under the official per-step protocol; ECT is trained on QICD only. Rows with 4 or 2 seeds are means (± standard deviation over the four seeds); every other row is a single run. Shaded: greedy decoding, our main setting; thresholded decoding uses two thresholds fixed on the validation split, and the row without negatives is that of Tab. 2. Published rows are the scores reported in v2 of Ego-MC-Bench [11] on 40 sessions (39 are available to us); the fine-tuned ones decide with a per-frame action head. The scores of its v3 also lie inside the frontier (Supplement B). ♭QICD only (Supplement C). Model settings are in Supplement A.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 238,
+              "image_path": "figures/2611.30895/table-004.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1052
+            },
+            {
+              "caption": "Table 2. What each ingredient changes. All rows fine-tune Qwen3-VL-2B and use greedy decoding; means over n training seeds. ∆: margin over the video-blind frontier. Void / Early: share (%) of mistake-free steps voided by a false alarm / confirmed too early. Pair: accuracy on time-matched mistake pairs (0.50 for any policy of elapsed time alone). ECT is to be compared with “No paired neg.”, which differs from it in the negatives alone. ∗Two seeds on Ego-MC-Bench. ‡An earlier recipe that also differs in how situations are placed and sampled (Supplement J); it never raises an alarm. §ECT with negatives drawn at random moments of the same steps; same-seed comparisons, including Ego-MC-Bench, are in Supplement C.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 129,
+              "image_path": "figures/2611.30895/table-005.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 1029
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.30895/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.30895",
+          "relevance": 8,
+          "selection_reason": "Evidence-contrastive training for proactive task assistants from egocentric video, fits embodied video understanding.",
+          "summary_status": "generated",
+          "title": "Speak When You See It: Proactive Task Assistants Should Wait for Evidence, Not the Clock",
+          "tldr": "Proactive task assistants should base step-completion and mistake alerts on visual evidence rather than elapsed time; Evidence-Contrastive Training helps them do so.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Learning robot manipulation from egocentric human videos requires accurate metric 3D hand motion. Recent methods leverage pretrained video diffusion model (VDM) priors to recover occluded hands directly from full-frame videos, but their appearance-based depth regression generalizes poorly to unseen cameras. In this work, we propose ViDiHand2, a geometry-driven framework that reformulates VDM-based hand depth estimation from direct regression into fine-grained geometric constraint solving. Specifically, we introduce Fine-Grained Geometric Lifting and Clip-Level Ray Fitting, which recover metric depth by enforcing geometric consistency between pixel-aligned 2D joints and the metric structure of MANO hands, while leveraging temporal observations across the clip. Since the lifting relies on these 2D joints, to improve robustness under occlusion and image truncation, we further develop Confidence-Gated Fusion to adaptively combine geometrically lifted joints with MANO predictions according to localization confidence. Finally, we enhance the VDM backbone to better capture spatial-temporal representations and produce the per-frame 2D joint and MANO predictions that both steps rely on. Extensive experiments on seven public datasets demonstrate that ViDiHand2 consistently outperforms 18 baselines, reducing in-the-wild absolute joint error by 42% and detection failures by 8.82x compared with the best baseline on each metric, while running at 57 FPS. The code is available at https://github.com/NTUYWANG103/ViDiHand.",
+          "arxiv_id": "2611.30597",
+          "arxiv_url": "https://arxiv.org/abs/2611.30597",
+          "authors": [
+            "Yuxi Wang, Yufei Liu, Chengkai Jin, Qingyue Chen, Wenqi Ouyang, Tianyi Wei, Kerui Ren, Siyuan Huang, Zhiqi Shen, Hongsheng Li, Xingang Pan"
+          ],
+          "bullets": [
+            "Addresses poor cross-camera generalization of appearance-based hand depth regression in VDM-based methods.",
+            "Uses Fine-Grained Geometric Lifting and Clip-Level Ray Fitting to enforce consistency between 2D joints and metric MANO hand geometry across video clips.",
+            "Introduces Confidence-Gated Fusion to combine geometrically lifted joints with MANO predictions under occlusion and truncation.",
+            "Enhances the video diffusion backbone to predict per-frame 2D joints and MANO parameters with improved spatial-temporal representations.",
+            "On seven public datasets, outperforms 18 baselines, reducing in-the-wild absolute joint error by 42% and detection failures by 8.82×, while running at 57 FPS."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. Overview of ViDiHand2. The Multi-Level Latent Encoder and the Hand Latent Decoder turn the input clip into video features and hand and joint tokens. In autoregressive (AR) rollouts, each chunk also attends to the key-value (KV) cache of the previous chunk. The Joint-Heatmap Refiner predicts the 2D joint locations, and MANO gives the posed hand. Fine-Grained Geometric Lifting places this hand in camera coordinates, and Confidence-Gated Fusion fuses it with the 2D locations. In the bottom row, the refiner blends heat-map and regressed locations. The lifting fits the depth Zt at which the joint pairs on the rays keep their MANO distances Lt,b. Clip-Level Ray Fitting adds a temporal constraint. The fusion blends the joints on the rays and the MANO joints with a gate gj .",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 466,
+              "image_path": "figures/2611.30597/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1034
+            },
+            {
+              "caption": "Figure 5. Qualitative comparison in the wild on Gen-HumanEgo. MANO overlays, where a visible hand without a mesh is a detection failure. Insets: the hands in 3D with 10 s wrist paths, with the ground truth in light colors. Top: a left hand behind a shoe, which HaWoR, ViDiHand and ACE-Ego-Hand misplace. Middle: the hands open a drawer and take something out, with the right hand in dim light. HaWoR misplaces the right hand, ACE-Ego-Hand both hands and ViDiHand the left hand. Bottom: at a basket, HaWoR puts the left hand on the right leg and ViDiHand draws the right one far too large. WiLoR fails to detect one hand in every row. ViDiHand2 places both hands correctly.",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 328,
+              "image_path": "figures/2611.30597/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 4. Confidence-Gated Fusion on a hand truncated by the image border. Projected joints of the variants of Tab. 8 and the ground truth, shown in gray, with mean 2D errors. The checkerboard lies beyond the image. The fusion follows the 2D location where the MANO finger leaves the image finger in the orange box, and keeps the MANO hand beyond the border in the red box.",
+              "figure_id": "figure-4-10",
+              "figure_number": "4",
+              "height": 999,
+              "image_path": "figures/2611.30597/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 499
+            },
+            {
+              "caption": "Figure 2. Sensitivity to the focal length. An in-domain frame under its original camera and with the video and intrinsics rescaled by 0.60. ViDiHand and ACE-Ego-Hand, which regress the depth, misplace the 3D hands after rescaling, while ViDiHand2 stays closest to the ground truth. Insets show the mesh overlays.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 999,
+              "image_path": "figures/2611.30597/figure-004.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 498
+            },
+            {
+              "caption": "Figure 6. Qualitative comparison in the wild on Ego4D [13], EgoDex [15] and Xperience [53]. Without reliable ground truth, the overlays show image alignment only. Top: hands in a plant. Middle: a tray and a rake. Bottom: a phone. WiLoR places the left hand on the leg in the top row and fails to detect the right hand in the other two. HaWoR detects only one hand in the top row, mis-poses the right hand in the middle row, fails to detect both hands at the phone and puts a right hand on the floor. ViDiHand and ACE-Ego-Hand draw the hands one size too large in the top row and misplace or mis-pose a hand in the other two. ViDiHand2 aligns with the image in every row.",
+              "figure_id": "figure-6-3",
+              "figure_number": "6",
+              "height": 279,
+              "image_path": "figures/2611.30597/figure-005.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1035
+            },
+            {
+              "caption": "Table 8. Ablation of Confidence-Gated Fusion. Joints on their rays, MANO joints, or both refined with gj = cj or the learned gate.",
+              "figure_id": "table-8-8",
+              "figure_number": "8",
+              "height": 893,
+              "image_path": "figures/2611.30597/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 511
+            },
+            {
+              "caption": "Table 6. Ablation of Clip-Level Ray Fitting. Depth regression (raw or normalized by focal length f ) and per-frame or clip-level fitting.",
+              "figure_id": "table-6-9",
+              "figure_number": "6",
+              "height": 163,
+              "image_path": "figures/2611.30597/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 509
+            },
+            {
+              "caption": "Table 5. Ablation of the backbone. Heads and losses are shared. The last three rows use Wan2.2. MPJPE in mm, jitter in mm/frame2. Best in bold.",
+              "figure_id": "table-5-7",
+              "figure_number": "5",
+              "height": 122,
+              "image_path": "figures/2611.30597/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 509
+            },
+            {
+              "caption": "Table 7. Ablation of the Joint-Heatmap Refiner. The coarse 2D locations, or those of Eq. (6) inside the image only or for all joints.",
+              "figure_id": "table-7-6",
+              "figure_number": "7",
+              "height": 93,
+              "image_path": "figures/2611.30597/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 509
+            },
+            {
+              "caption": "Table 4. Ablation of Autoregressive Rollout Adaptation. Cached AR uses prior chunks. Boundary jitter measures wrist-relative jitter across chunks.",
+              "figure_id": "table-4-5",
+              "figure_number": "4",
+              "height": 79,
+              "image_path": "figures/2611.30597/table-010.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 509
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.30597/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.30597",
+          "relevance": 8,
+          "selection_reason": "Metric 3D hand motion reconstruction from egocentric human videos for robot manipulation learning.",
+          "summary_status": "generated",
+          "title": "ViDiHand2: Unifying Video Diffusion Priors and Hand Geometry for 3D Hand Motion Reconstruction in the Wild",
+          "tldr": "ViDiHand2 reconstructs metric 3D hand motion in unconstrained egocentric videos by combining video diffusion priors with geometry-based depth estimation and confidence-aware fusion.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Demonstrations show how a task can be completed, but differences in embodiment, appearance, and execution speed make it difficult to identify the guidance relevant to the robot's current progress. We introduce JEPA-ICL, a vision-language-action framework that couples predictive planning with demonstration learning. The policy learns to plan by predicting ordered future states in JEPA feature space up to subtask completion, capturing what remains to be accomplished. These plans guide action generation and locate relevant stages in demonstrations, whose JEPA-supervised content features provide progress-aligned context. Learning from this context, in turn, updates the shared policy that produces the plans and actions. This coupling connects anticipating the robot's own execution with reusing demonstrated experience. On the Imitator Game, JEPA-ICL achieves 80.0% seen-task success under C15 pretraining, outperforming Zero-WAM by 12.0 percentage points. Without contextual demonstrations, JEPA-ICL outperforms the VLA-JEPA variant without human-video pretraining, improving success rates from 96.1% to 97.6% on LIBERO and from 62.9% to 73.2% on LIBERO-Plus. With demonstration-based training and contextual guidance at inference, LIBERO-Plus success further increases from 73.2% to 75.2%.",
+          "arxiv_id": "2611.30516",
+          "arxiv_url": "https://arxiv.org/abs/2611.30516",
+          "authors": [
+            "Tingjun Dai, Jianxiang He, Mingfei Han, Qihao Yu, Longtao Jiang, Changlin Li, Minghao Jin, Zhihui Li, Xiaojun Chang"
+          ],
+          "bullets": [
+            "Addresses the challenge of transferring demonstrations across different embodiments, appearances, and execution speeds.",
+            "Predicts ordered future states in JEPA feature space until subtask completion to represent what remains to be done.",
+            "Uses these predicted plans to retrieve progress-aligned demonstration context and guide action generation.",
+            "Achieves 80.0% seen-task success on Imitator Game under C15 pretraining, 12 percentage points above Zero-WAM.",
+            "Improves LIBERO-Plus success from 73.2% to 75.2% when demonstration-based training and contextual guidance are used at inference."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. One backbone plans, predicts the remaining subtask and reads demonstrations. (a) Plan, memory, future and action queries share the VLA backbone; plan tokens Z are blue, content features E green; solid arrows are the forward pass, dashed arrows supervision. (b) Conditioned on the plan, the latent world model W predicts the JEPA features of the checkpoints that remain up to subtask completion, one transition at a time. (c) The indexer matches the robot’s plan to the plan tokens of the demonstration, the content features around the matched stage are read, and the memory adapter turns them into the memory tokens M the policy attends to.",
+              "figure_id": "figure-2-7",
+              "figure_number": "2",
+              "height": 414,
+              "image_path": "figures/2611.30516/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1014
+            },
+            {
+              "caption": "Figure 3. A demonstration from the deployment setup is read stage by stage. (a) Top camera of the two setups: same robot model, different table, lighting and background. (b) The demonstration recorded in the deployment setup and a rollout with it, at matched stages; the dashed box marks the corrective rotation that decides success. (c) The last frame of one failed trial per setting, as examples and not as counts; the bar marks the stage of failure (place the base, align the gear, insert, mesh).",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 264,
+              "image_path": "figures/2611.30516/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1020
+            },
+            {
+              "caption": "Figure 4. Effectiveness of latent planning and progress alignment. (a) On LIBERO, we compare policies with and without the latent plan. On LIBERO-Plus, we compare a policy trained and evaluated without context against a context-trained checkpoint evaluated with the demonstration either withheld or provided. (b) On the Imitator Game under C15 pretraining, we evaluate progress alignment by comparing the same policy with no demonstration, temporally shuffled demonstrations, visual-similarity retrieval, and progress-aligned retrieval (ours).",
+              "figure_id": "figure-4-10",
+              "figure_number": "4",
+              "height": 319,
+              "image_path": "figures/2611.30516/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 484
+            },
+            {
+              "caption": "Figure 1. A progress-aligned latent plan guides execution and reads demonstrations. Top: from the current observation, the plan Zt predicts the JEPA features of the checkpoints that remain in the current subtask. Bottom: the same plan locates the demonstration stage at the same progress, where a time index points to the wrong stage; what the demonstration shows next at that stage is fed back to the policy.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 319,
+              "image_path": "figures/2611.30516/figure-004.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 477
+            },
+            {
+              "caption": "Figure 5. The plan locates matching stages across embodiments, though not always. Online indexer scores (cosine similarity over the temperature 0.1) between the robot’s plan (rows) and three stages of the human demonstration (columns); outlined cells are selected online. (a) Scanning: the selection follows the robot. (b) Two-object placement: once the robot turns to the second object, retrieval returns to the segment of the first.",
+              "figure_id": "figure-5-11",
+              "figure_number": "5",
+              "height": 273,
+              "image_path": "figures/2611.30516/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 488
+            },
+            {
+              "caption": "Table 3. Comparison on LIBERO-Plus [15]. Models are trained on the original LIBERO data and evaluated zero-shot under seven perturbation dimensions; each dimension covers all four LIBERO suites. Top: per-dimension numbers reported in [50] (†its variant without human-video pretraining). Bottom: our policy without (✗) and with (✓) one demonstration in context; the Demo column marks whether a demonstration is given at test time, and the second row is the in-context checkpoint, trained for 10K further updates with demonstrations. Avg. is the macro average over the seven dimensions, recomputed for every row. Bold / underline: best / second best. Per-suite results are in the appendix.",
+              "figure_id": "table-3-5",
+              "figure_number": "3",
+              "height": 263,
+              "image_path": "figures/2611.30516/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 822
+            },
+            {
+              "caption": "Table 5. RoboTwin 2.0 [10]. Average success rate over the 50 bimanual tasks on the clean evaluation setting. All rows use 50 clean demonstrations per task and no domain-randomized data; the leaderboard entries that add 500 randomized demonstrations per task are not comparable. The reference methods train one policy per task, whereas our rows train a single multi-task policy. ‡Retrained with our data and protocol.",
+              "figure_id": "table-5-8",
+              "figure_number": "5",
+              "height": 201,
+              "image_path": "figures/2611.30516/table-007.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 392
+            },
+            {
+              "caption": "Table 6. LIBERO-Plus per-suite breakdown (success rate, %), all perturbations pooled. ‡Our re-run of VLA-JEPA under the same protocol. Our policy runs without a demonstration in context. The variant without the plan keeps its world model and was evaluated on the Long suite only.",
+              "figure_id": "table-6-9",
+              "figure_number": "6",
+              "height": 140,
+              "image_path": "figures/2611.30516/table-008.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 379
+            },
+            {
+              "caption": "Table 4. Real-world gear assembly in a parallel setup. Same π0.5 checkpoint, same 100 demonstrations from the training setup, deployed in the parallel setup without fine-tuning; 20 trials per row. The three JEPA-ICL rows are one policy: with no demonstration, with one recorded in the training setup, and with one recorded in the deployment setup.",
+              "figure_id": "table-4-4",
+              "figure_number": "4",
+              "height": 141,
+              "image_path": "figures/2611.30516/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 448
+            },
+            {
+              "caption": "Table 1. Main results on the Imitator Game [64] (simulation, %). C15 and C45: pretraining on 15 or 45 tasks; each entry averages five seen or unseen tasks over the four imitation levels L0–L3. P+FT: the pretrained policy is fine-tuned on 10 robot demonstrations per unseen task. Sub-SR: the benchmark-defined subtask progress, the fraction of a task’s stages whose sub-reward reaches its threshold within the episode. Baselines are aggregated from the official per-scale leaderboard data. Our row is the full JEPA-ICL, given the human video. Colours mark the paradigm.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 213,
+              "image_path": "figures/2611.30516/table-010.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 882
+            },
+            {
+              "caption": "Table 2. Comparison on LIBERO [32]. Success rate (%) on the four suites (Long = LIBERO-10) and their average. Our policy runs without a demonstration in context. Baseline numbers are taken from [50]; †its variant without human-video pretraining. Bold / underline: best / second best.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 427,
+              "image_path": "figures/2611.30516/table-011.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 404
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.30516/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.30516",
+          "relevance": 9,
+          "selection_reason": "Vision-language-action framework with predictive planning, demonstration learning, and human-video pretraining directly matches embodied AI subtopics.",
+          "summary_status": "generated",
+          "title": "JEPA-ICL: Progress-Aligned Latent Plans for In-Context Robotic Manipulation",
+          "tldr": "JEPA-ICL improves in-context robotic manipulation by using progress-aligned latent plans to identify and leverage the most relevant parts of demonstrations.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-action",
+                "robot-learning-and-manipulation",
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Human demonstrations provide a rich source of bimanual dexterous skills, yet transferring them to robot hands remains challenging. Existing methods primarily optimize object trajectory tracking, often overlooking how human hands interact with the object. Even with accurate tracking, robots may contact incorrect object parts or slide their fingers, resulting in unstable manipulation. We present DexDuet, a framework that learns contact-preserving bimanual dexterity from a single human demonstration. DexDuet employs two interaction rewards to preserve human hand-object configurations and contacts. To enable coordinated manipulation, we factorize the bimanual policy into two weight-sharing per-hand policies that condition on each other's states. We further propose assisted reference-state initialization (A-RSI), an adaptive curriculum that adjusts object assistance and training starts across demonstration segments to overcome difficult manipulation phases. Across four benchmarks spanning three simulators and five robot embodiments, DexDuet improves object-tracking ADD-AUC by 11 to 41 points over the corresponding baselines while consistently achieving better contact preservation. Notably, among 122 paired runs with comparable object-tracking accuracy, DexDuet preserves the human's contacts better in 117 cases. Code and videos are available at https://rcl-robotics.github.io/Dexduet.io/",
+          "arxiv_id": "2611.30495",
+          "arxiv_url": "https://arxiv.org/abs/2611.30495",
+          "authors": [
+            "Haoran Zhang, Haokai Ding, Han Zhou, Zuxing Lu, Heng Zhang, Xingxing Zuo"
+          ],
+          "bullets": [
+            "Addresses failures of object-only trajectory tracking, such as incorrect contacts and finger sliding.",
+            "Uses interaction rewards to preserve demonstrated hand-object configurations and contacts.",
+            "Factorizes the bimanual policy into two weight-sharing per-hand policies conditioned on each other’s states.",
+            "Introduces assisted reference-state initialization (A-RSI), an adaptive curriculum for difficult manipulation phases.",
+            "Across four benchmarks, three simulators, and five robot embodiments, it improves tracking and contact preservation over baselines; contact preservation is better in 117 of 122 comparable runs."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of DexDuet. (a) A human demonstration provides the object trajectory, which gives the policy πθ the next object pose, and the hand motion, which is retargeted to a reference motion that the robot hands imitate. Inside πθ , two per-hand policies share one network, and each maps its own observation o and the partner observation z to an action a. (b) Two interaction rewards compare each robot hand with the human hand relative to the object. The hand graph reward compares the palm and finger directions and the fingertip gaps, and the hand-object contact reward compares the distance and the closest point of each hand region to the object. (c) A-RSI gives each segment b of the demonstration its own assistance level hb, which it lowers (green) or raises (red), never above a ceiling h̄(u) that decreases over the updates u. Episodes start from states that the policy has reached, and their start segment is drawn from p(b), which favors the segments with a high failure rate fb.",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 487,
+              "image_path": "figures/2611.30495/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 3. Qualitative comparison with the baselines. The robot is named above each column. The first four columns are Box-200, Ketchup-100, Mixer-170 and Notebook-300 from the DexMachina suite. Each pairs a DexMachina [30] checkpoint with a DexDuet run whose ADD-AUC differs by at most 3 points. The last two columns are the spray bottle and basket episodes of V2D, where the baseline is CHORD [63]. Soft patches mark where the left (teal) and right (violet) hand touch the object.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 419,
+              "image_path": "figures/2611.30495/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1027
+            },
+            {
+              "caption": "Figure 4. Real-world demonstrations. DexDuet’s simulated rollouts replayed on real robots. (a) A Unitree G1 with Inspire hands places a box on the floor. (b) Two Franka arms with Allegro hands reorient a bottle and (c) place a gamepad on a block.",
+              "figure_id": "figure-4-4",
+              "figure_number": "4",
+              "height": 139,
+              "image_path": "figures/2611.30495/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1036
+            },
+            {
+              "caption": "Table 1. Comparison with prior methods. All metrics are in % except MPPE (cm). Each entry is the mean over demonstrations ± the std over seeds, with five seeds on the DexMachina and SPIDER suites and three on the ManipTrans suite. On V2D, each method is trained with one seed, and each entry is the mean over the 30 episodes of four runs of the challenge’s official evaluator ± the std over these four runs. Numbers are not comparable across benchmarks.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 463,
+              "image_path": "figures/2611.30495/table-004.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 798
+            },
+            {
+              "caption": "Table 3. Ablations on the DexMachina suite (Inspire, seven demonstrations, three seeds): ADD-AUC and Contact-AUC in %, mean± std over seeds, and mean PPO updates until training stops.",
+              "figure_id": "table-3-5",
+              "figure_number": "3",
+              "height": 183,
+              "image_path": "figures/2611.30495/table-005.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 454
+            },
+            {
+              "caption": "Table 2. Contact preservation at equal tracking and holding after the last frame (DexMachina suite). Equal tracking: pairs of a DexDuet and a baseline run on the same hand and demonstration whose ADD-AUCs differ by at most 3 points. Higher: pairs in which DexDuet has the higher Contact-AUC, of all pairs. Gain: median difference in Contact-AUC, in points. Hold rate: share of rollouts that keep the object within 5 cm of its final pose for 3 s after the last frame, with every reference frozen, in %, mean± std over training seeds. Details are in Secs. C.4 and D.3.",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 184,
+              "image_path": "figures/2611.30495/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 414
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.30495/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.30495",
+          "relevance": 8,
+          "selection_reason": "Contact-preserving bimanual dexterity learned from human demonstrations.",
+          "summary_status": "generated",
+          "title": "DexDuet: Learning Contact-Preserving Bimanual Dexterity from Human Demonstrations",
+          "tldr": "DexDuet learns stable bimanual robot manipulation from one human demonstration by preserving both object motion and hand-object contacts.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation",
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Coordinating locomotion and dexterous manipulation is fundamental to humanoid robots operating in human environments. A key challenge is learning motion priors from diverse data and using them effectively for coordinated robot control. We present CHAMP, a unified framework for humanoid loco-manipulation that combines whole-body motion pretraining with adaptive feature extraction. CHAMP pretrains a vision-language model to predict future body and hand motion from approximately 2,298 hours of heterogeneous human and robot data. A shared motion representation enables unified whole-body motion learning across embodiments from datasets with body annotations, hand annotations, or both. To ground these motion priors in robot control, we introduce a Coordination-oriented Action Expert (CAE) and train it on replay data generated using the target controller. Through sparse routing, CAE adaptively selects, transforms, and fuses features from multiple layers of the pretrained model to jointly generate body and hand actions. In experiments, CHAMP achieves overall success rates of 84.8% on seven simulated tasks and 91.4% on seven real-world tasks with a Unitree G1, outperforming the evaluated baselines in both settings. In particular, CHAMP achieves 70.0% success on the long-horizon popcorn-serving task, compared with 40.0% for the best-performing baseline.",
+          "arxiv_id": "2611.30449",
+          "arxiv_url": "https://arxiv.org/abs/2611.30449",
+          "authors": [
+            "Lijun Han, Muyuan Ma, Zichen Wang, Siyuan Liu, Yuxi Liu, Yutong Wang, Bohao Zhang, Heng Zhou, Wei Sui"
+          ],
+          "bullets": [
+            "Pretrains a vision-language model on approximately 2,298 hours of heterogeneous human and robot motion data.",
+            "Uses a shared representation to learn body and hand motion across datasets and robot embodiments.",
+            "Introduces a Coordination-oriented Action Expert that sparsely selects and fuses pretrained features to jointly produce body and hand actions.",
+            "Achieves 84.8% success across seven simulated tasks and 91.4% across seven real-world tasks on a Unitree G1.",
+            "Reaches 70.0% success on a long-horizon popcorn-serving task, versus 40.0% for the best evaluated baseline."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Model architecture. (A) Qwen3-VL is pretrained to predict future body and hand motion tokens using available annotations. (B) Robot action grounding freezes the VLM and trains CAE, which adaptively selects, projects, and fuses multi-layer VLM features through sparse layer–expert routing. The fused features and robot state condition a flow-matching DiT for coordinated whole-body control.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 366,
+              "image_path": "figures/2611.30449/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 6. Layer and expert fusion weights. Weights are averaged separately by token category and equally across the seven task models. (a) Layer weights sum to 100% within each category. (b) Expert weights sum to 100% across all 32 experts within each category and use a shared color scale; E1–E8 identify experts within each layer. Values are rounded percentages, with labels omitted below 5%.",
+              "figure_id": "figure-6-14",
+              "figure_number": "6",
+              "height": 372,
+              "image_path": "figures/2611.30449/figure-002.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 969
+            },
+            {
+              "caption": "Figure 4. Simulation task settings. Rendered demonstration frames from SIMPLE illustrate the seven tasks.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 324,
+              "image_path": "figures/2611.30449/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 972
+            },
+            {
+              "caption": "Figure 5. Real-world task settings. Images from our robot recordings illustrate the seven tasks. (g) shows successive stages of longhorizon popcorn serving.",
+              "figure_id": "figure-5-9",
+              "figure_number": "5",
+              "height": 320,
+              "image_path": "figures/2611.30449/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 972
+            },
+            {
+              "caption": "Figure 7. Temporal routing dynamics. (a) Mean and standard deviation of image-token layer weights across sampled sequences for each task, with time normalized within each sequence. (b) Mutually exclusive changes in the active set between adjacent sampled observations at corresponding image-grid positions. “Different experts only” denotes a change of experts with the layer pair retained. (c) Total variation of the 32 expert weights (×100), capturing changes in both selection and weighting. Circles denote sequence means, diamonds denote task means, and the final row pools all tasks.",
+              "figure_id": "figure-7-7",
+              "figure_number": "7",
+              "height": 842,
+              "image_path": "figures/2611.30449/figure-005.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 1028
+            },
+            {
+              "caption": "Figure 3. Motion pretraining data. The outer and middle rings show data domains and sources. The inner ring independently summarizes available motion annotations, without assigning its sectors to individual sources.",
+              "figure_id": "figure-3-12",
+              "figure_number": "3",
+              "height": 393,
+              "image_path": "figures/2611.30449/figure-006.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 392
+            },
+            {
+              "caption": "Table 6. CAE architecture and G1–Dex3 interfaces. State dimensions correspond to measured joint angles; action dimensions comprise the SONIC latent and bilateral hand targets.",
+              "figure_id": "table-6-5",
+              "figure_number": "6",
+              "height": 277,
+              "image_path": "figures/2611.30449/table-007.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 454
+            },
+            {
+              "caption": "Table 4. Pretraining data sources and motion annotations. Durations are rounded independently. UnifoLM-WBT contributes 6.37 hours with BrainCo hands, 7.11 hours with Inspire hands, and 1.14 hours with Dex1 grippers. The first two subsets provide body and hand targets, while Dex1 provides body targets only. The simulated GR1 data comprise the arms-only, arms-and-waist, and unified subsets.",
+              "figure_id": "table-4-8",
+              "figure_number": "4",
+              "height": 287,
+              "image_path": "figures/2611.30449/table-008.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 890
+            },
+            {
+              "caption": "Table 8. Optimization settings for motion pretraining, action grounding, and per-task simulation fine-tuning. Fine-tuning uses a batch size of 16 per GPU without gradient accumulation. The pretraining and grounding columns describe the checkpoints used to initialize the subsequent stage.",
+              "figure_id": "table-8-15",
+              "figure_number": "8",
+              "height": 323,
+              "image_path": "figures/2611.30449/table-009.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 826
+            },
+            {
+              "caption": "Table 1. Successful trials on seven SIMPLE tasks (30 per task, 10 per randomization level). Overall success is reported as successful/total trials and a percentage. Best and second-best results are bold and underlined, respectively.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 263,
+              "image_path": "figures/2611.30449/table-010.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Table 2. Successful trials on seven real-world tasks (10 per task). Overall success is reported as successful/total trials and a percentage. Best and second-best results are bold and underlined, respectively.",
+              "figure_id": "table-2-11",
+              "figure_number": "2",
+              "height": 262,
+              "image_path": "figures/2611.30449/table-011.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 1036
+            },
+            {
+              "caption": "Table 3. Ablations on seven SIMPLE tasks (210 trials per variant). Decrease denotes the success-rate drop from full CHAMP in percentage points, computed from trial counts.",
+              "figure_id": "table-3-10",
+              "figure_number": "3",
+              "height": 239,
+              "image_path": "figures/2611.30449/table-012.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 5. Action-grounding corpus after episode-level screening. Durations are computed from retained frame counts and rounded independently. Actions comprise a 64-dimensional SONIC latent and source-specific end-effector channels.",
+              "figure_id": "table-5-4",
+              "figure_number": "5",
+              "height": 243,
+              "image_path": "figures/2611.30449/table-013.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 452
+            },
+            {
+              "caption": "Table 7. Image resizing before the Qwen image processor. Motion pretraining and robot action grounding use the same resolutiondependent policy.",
+              "figure_id": "table-7-3",
+              "figure_number": "7",
+              "height": 162,
+              "image_path": "figures/2611.30449/table-014.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 300
+            },
+            {
+              "caption": "Table 9. Real-world task procedures. † marks the long-horizon task.",
+              "figure_id": "table-9-13",
+              "figure_number": "9",
+              "height": 40,
+              "image_path": "figures/2611.30449/table-015.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.30449/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.30449",
+          "relevance": 8,
+          "selection_reason": "Humanoid loco-manipulation with whole-body motion priors pretrained on human and robot data.",
+          "summary_status": "generated",
+          "title": "CHAMP: Coordinated Humanoid Loco-Manipulation with Whole-Body Motion Priors",
+          "tldr": "CHAMP enables humanoid robots to coordinate walking and dexterous manipulation by combining whole-body motion priors with adaptive action generation.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-action",
+                "robot-learning-and-manipulation",
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Wrist cameras provide an action-centric view that is directly relevant to robot manipulation. However, collecting human wrist-camera videos at scale is challenging due to cumbersome setups that can interfere with natural hand movements. In contrast, head-mounted human egocentric videos are much easier to scale. We introduce Ego2Wrist, which synthesizes synchronized wrist-camera views from human egocentric videos and task descriptions. Trained on approximately 940 hours of paired head- and wrist-camera recordings, Ego2Wrist jointly generates three views. To evaluate generated wrist views without ground truth, we propose hand-centric cross-view consistency (HCC), which measures consistency between generated wrist views and corresponding hand regions in the input head view. HCC ranks model checkpoints comparably to ground-truth-based LPIPS, and human evaluators prefer HCC-selected generations in 77% of responses. Evaluated on four datasets, Ego2Wrist outperforms fine-tuned WorldWander, reducing LPIPS by 28% and receiving human preference in 76% of responses. More importantly, HCC facilitates recursive self-improvement on in-the-wild egocentric videos by selecting generated wrist views for further training. Generation quality progressively improves over three rounds. These results demonstrate a scalable approach to generating real-world wrist-view human manipulation videos for robot policy training.",
+          "arxiv_id": "2611.29850",
+          "arxiv_url": "https://arxiv.org/abs/2611.29850",
+          "authors": [
+            "Ziyao Zeng, Xiatao Sun, Hao Wang, Ziyu Guo, Youheng Yao, Jingcheng Ni, Shenyuan Gao, Fengyu Yang, Renrui Zhang, Bangya Liu, Daniel Rakita"
+          ],
+          "bullets": [
+            "Addresses the difficulty of collecting large-scale human wrist-camera data without disrupting natural hand movements.",
+            "Generates synchronized wrist views and three total views from egocentric video and task descriptions.",
+            "Introduces hand-centric cross-view consistency (HCC) to evaluate generated wrist views without ground truth.",
+            "Across four datasets, reduces LPIPS by 28% versus fine-tuned WorldWander and receives human preference in 76% of responses.",
+            "HCC enables self-improvement on in-the-wild videos, with quality improving over three training rounds."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. Ego2Wrist keeps the viewpoint and layout of the real wrist view, while WorldWander often shows the hand and object from a wrong viewpoint. Each row is one test clip: the head input, then the left and right wrist views from the real cameras, from Ego2Wrist (w=3) and from WorldWander fine-tuned on our data. Numbers on the right are LPIPS (lower is better). The rows are typical cases: for each dataset we show the clip with the median LPIPS gap between the two methods, among 82 test clips drawn without looking at any score.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 386,
+              "image_path": "figures/2611.29850/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1033
+            },
+            {
+              "caption": "Figure 2. Ego2Wrist generates the two wrist views next to the head view in one panel, and HCC checks the result against the head view. (a) The head video and the two wrist videos are encoded and placed side by side. A frozen video diffusion transformer with LoRA adapters denoises the wrist parts while the head part stays clean, so the wrist views can attend to the head view. Dashed: the camera branch of the camera-conditioned model. (b) Wrist cameras have different configurations, so training frames are re-rendered into random virtual cameras. The grid shows how each lens bends the same directions. (c) HCC compares image patches of the generated wrist frame with the head-view region: the area around the same-side hand in the head frame. P (solid arrows): does each patch at the center of the wrist view have a similar patch in the head-view region? It is low when the wrist view shows content absent from the head view. Q (dashed arrows): does each patch of the head-view region have a similar patch in the wrist view? It is low when the wrist view misses the hand or the object.",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 295,
+              "image_path": "figures/2611.29850/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1034
+            },
+            {
+              "caption": "Figure 5. Training on its own HCC-selected wrist videos improves the model round after round. Left: in-the-wild windows with the head frame (top), the generated wrists (bottom) and their HCC. The top 30% are kept for training (11,597 of 38,657) and the rest are dropped; shown are random draws from the kept and from the bottom 30%. Right: LPIPS on the standard test set relative to the starting model M0 after each round (lower is better, 95% CIs). Teal: trained on HCC-selected data (M1 to M3). Grey: trained on the same amount of randomly chosen data in the first round; M1 and the random point are the seed pair that continues. The axis gives the cumulative hours of selected and of candidate video.",
+              "figure_id": "figure-5-4",
+              "figure_number": "5",
+              "height": 245,
+              "image_path": "figures/2611.29850/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1034
+            },
+            {
+              "caption": "Figure 4. HCC agrees with people as well as LPIPS does, although it never sees the real wrist video. (a) People chose the better of two generated videos, and the bars show how well each score predicts their choice (Spearman correlation, 95% CIs). Left: the two videos come from different checkpoints (407 answers). Right: they are two samples of the same checkpoint (542 answers), where every score is weak. Ours: HCC. Dashed line: agreement between two people. (b) How often HCC ranks a real wrist video above a corrupted copy (0.5 is chance). It detects wrong content well and geometric changes such as mirroring less well. Open circle: with an explicit test for mirrored layouts.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 364,
+              "image_path": "figures/2611.29850/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 416
+            },
+            {
+              "caption": "Table 1. Ego2Wrist has the lowest LPIPS on every dataset (standard test set, 375 clips). LPIPS compares the generated with the real wrist videos (lower is better), and layout PSNR measures the coarse layout (higher is better). “Ours better” is the share of clips on which Ego2Wrist (w=3) beats the method of that row. In a human study with the real wrist videos shown, people prefer Ego2Wrist over WorldWander in 76% of answers. w is the head-guidance weight. Unmon.: the 257 clips never monitored during training (Sec. 4.1).",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 230,
+              "image_path": "figures/2611.29850/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 964
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.29850/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.29850",
+          "relevance": 9,
+          "selection_reason": "Synthesizes wrist views from egocentric video for robot policy training, fitting embodied learning from human videos.",
+          "summary_status": "generated",
+          "title": "Ego2Wrist: Bootstrapping Wrist-View Synthesis from Egocentric Video",
+          "tldr": "Ego2Wrist synthesizes robot-relevant wrist-camera views from scalable egocentric videos and uses cross-view consistency to enable recursive improvement.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation",
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "We introduce Egocentric Human Motion Bridging, a task that generates a coherent 3D human motion sequence from two endpoint egocentric images. Unlike conventional motion in-betweening, which requires structured 3D endpoint poses, this setting uses raw first-person observations available from wearable devices in VR/AR and robotics. It presents challenges due to viewpoint variations, partial body visibility, and temporal ambiguity under cross-modal endpoint constraints. To address these challenges, we propose Ego-HMB, a unified diffusion-based framework that learns endpoint pose estimation and temporally consistent motion infilling within a single model through two training stages. First, Egocentric-to-Canonical Pretraining uses a hierarchical curriculum with progressively increasing temporal spans to strengthen endpoint pose priors. Second, Motion Bridge Diffusion Training incorporates endpoint and physics awareness, diffusing from neighboring poses to promote temporal continuity while preserving global endpoint constraints. Extensive experiments compare our approach with one-stage methods that directly generate motion from two egocentric images and two-stage pipelines that combine endpoint pose estimation with motion interpolation. Ego-HMB consistently outperforms these baselines in endpoint accuracy and motion generation quality. Code is available at https://github.com/gaogehan/Ego-HMB.",
+          "arxiv_id": "2611.29218",
+          "arxiv_url": "https://arxiv.org/abs/2611.29218",
+          "authors": [
+            "Gaoge Han, Yongkang Cheng, Shaoli Huang, Jing Zhang, Mingming Gong, Fakhri Karray, Tongliang Liu"
+          ],
+          "bullets": [
+            "Addresses motion in-betweening from raw first-person images rather than structured 3D endpoint poses.",
+            "Uses egocentric-to-canonical pretraining with progressively longer temporal spans to learn endpoint pose priors.",
+            "Applies endpoint- and physics-aware motion bridge diffusion to preserve endpoint constraints and temporal continuity.",
+            "Outperforms reported one-stage and two-stage baselines in endpoint accuracy and motion quality.",
+            "Targets wearable-device applications in VR/AR and robotics despite viewpoint variation, partial visibility, and temporal ambiguity."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Egocentric Human Motion Bridging and Methods Comparison. Top: Egocentric human motion bridging from first-person observations to produce coherent intermediate motions; Bottom: Comparison of one-stage, two-stage, and Brownian bridge diffusion pipelines with improved training consistency and reduced error accumulation.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 602,
+              "image_path": "figures/2611.29218/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 826
+            },
+            {
+              "caption": "Figure 2: Qualitative Comparison with Strong Baselines. The first two columns show the input start (bright white) / end (dark gray) egocentric images and the corresponding ground-truth endpoint poses. The next two columns present the one-stage baseline (UEM) and the two-stage baseline (EgoAllo+UEM), respectively, followed by our method in the last column. Further comparisons demonstrating physical continuity are available in the supplementary material video.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 449,
+              "image_path": "figures/2611.29218/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 822
+            },
+            {
+              "caption": "Figure 3: Visual Comparison of E2C Pretraining Ablation.",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 377,
+              "image_path": "figures/2611.29218/figure-003.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 564
+            },
+            {
+              "caption": "Table 4: Cross-dataset Generalization on Nymeria [7]. Models trained on EE4D-Motion are evaluated directly on Nymeria without training or fine-tuning on Nymeria.",
+              "figure_id": "table-4-7",
+              "figure_number": "4",
+              "height": 220,
+              "image_path": "figures/2611.29218/table-004.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 760
+            },
+            {
+              "caption": "Table 3: Motion Generation Results: Comparison with strong baselines on EE4D-Motion for motion generation quality and diversity.",
+              "figure_id": "table-3-8",
+              "figure_number": "3",
+              "height": 176,
+              "image_path": "figures/2611.29218/table-005.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 668
+            },
+            {
+              "caption": "Table 5: Ablation Study. A controlled comparison of standard diffusion and bridge diffusion with and without E2C endpoint pretraining. Endpoint MPJPE evaluates endpoint-pose accuracy; the remaining metrics evaluate motion generation quality.",
+              "figure_id": "table-5-3",
+              "figure_number": "5",
+              "height": 156,
+              "image_path": "figures/2611.29218/table-006.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 722
+            },
+            {
+              "caption": "Table 2: Endpoint Results: Comparison with strong baselines for endpoint pose estimation.",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 158,
+              "image_path": "figures/2611.29218/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 610
+            },
+            {
+              "caption": "Table 1: Model Efficiency Comparison: Comparison of model complexity and inference latency for generating a 1-second clip using 1000 diffusion steps on an NVIDIA A100 GPU.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 35,
+              "image_path": "figures/2611.29218/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 301
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.29218/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.29218",
+          "relevance": 7,
+          "selection_reason": "Egocentric-image-driven 3D human motion bridging; relevant to learning human motion from egocentric observations for embodied agents.",
+          "summary_status": "generated",
+          "title": "Ego-HMB: Human Motion Bridging from Egocentric Images via A Motion Bridge Diffusion Model",
+          "tldr": "Ego-HMB generates coherent 3D human motion between two egocentric images using a two-stage diffusion framework that jointly estimates endpoint poses and infills motion.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Human videos promise a scalable way to reduce expensive robot data collection, but the embodiment gap limits the resulting policies to coarse behaviors, and they fail at precise tasks such as insertion. Existing methods co-train or finetune a single policy on both data sources, treating each source as equally useful in every state: the policy either absorbs the embodiment error at precision-critical steps or spends scarce robot data relearning free-space motion. We observe that the value of each source depends on the state: human data is useful where precision requirements are low, while robot data is disproportionately valuable near precision-critical states. We therefore propose \\textbf{DUO Policy} (Dual-Actor Policy), which decouples a manipulation skill into a hand policy, pretrained on human videos for global free-space motion, and a robot policy, trained on sparse in-hand data for local precise corrections, with a gate learned from human interventions switching between them. This design is robust to moderate embodiment error in human data and generalizes to scene layouts beyond the coverage of the robot data. On tasks such as K-cup coffee making, desk cleanup, and cluttered candy sorting, DUO Policy outperforms the baseline with the highest average success by 12.9 percentage points over four simulated tasks and by 51.7 points over three real-world tasks, and matches robot-only training with 2.75$\\times$ less data-collection time. Project Webpage: https://mingxi-jia.github.io/duo_policy_site/",
+          "arxiv_id": "2611.29101",
+          "arxiv_url": "https://arxiv.org/abs/2611.29101",
+          "authors": [
+            "Mingxi Jia, Patton Jiyang Yin, Haojie Huang, Ivy Xiao He, Xuanru Liu, Gefei Liu, Dian Wang, Stefanie Tellex"
+          ],
+          "bullets": [
+            "Human videos scale data collection but are unreliable for precision-critical actions such as insertion.",
+            "The method uses separate hand and robot policies: human-pretrained motion for free-space behavior and robot-trained corrections for precise states.",
+            "A gate learned from human interventions switches between policies based on the current state.",
+            "The approach handles moderate embodiment error and generalizes beyond robot-data scene layouts.",
+            "It improves average success over the strongest baseline by 12.9 points in simulation and 51.7 points in real-world tasks, while matching robot-only training with 2.75× less collection time."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 8. Learned Gate on a Real-World K-Cup Coffee Trajectory. Top: external-camera views. Middle: in-hand views. Bottom: the gate’s predicted intervention probability over time. Control passes from πhand to πrobot when the probability exceeds 0.5. The gate switches on at the contact-rich steps, such as grasping the mug and the pod, inserting the pod, and pressing the button, and stays near zero during free-space motion.",
+              "figure_id": "figure-8-12",
+              "figure_number": "8",
+              "height": 365,
+              "image_path": "figures/2611.29101/figure-001.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1076
+            },
+            {
+              "caption": "Fig. 5. Real-World Baseline Failure Cases. (a) Hand data: estimated poses (red) deviate from the true poses (green), but a limited time budget still covers the workspace broadly. (b) Co-training on hand data (Masquerade-3D) fails at precision-critical steps. (c) Training without hand data (DP3) fails at poses unseen in the robot data. DUO (green) succeeds in all four cases.",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 379,
+              "image_path": "figures/2611.29101/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 1. Where Is Each Data Source Useful? Human Hand Data is imprecise but sufficient in free space. Near insertion, only Robot Data is precise enough. DUO Policy uses each where it is valuable.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 329,
+              "image_path": "figures/2611.29101/figure-003.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 11. Real-World Case Study on Candy Sorting. (a) Hand data cover the cluttered bag configurations within a limited time budget. (b) Without hand data, DP3 places a bag in the wrong box (red); DUO places it in the box of matching color (green).",
+              "figure_id": "figure-11-11",
+              "figure_number": "11",
+              "height": 175,
+              "image_path": "figures/2611.29101/figure-004.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 474
+            },
+            {
+              "caption": "Fig. 13. Action Distribution Comparison. Human hand actions vs. robot actions collected with a SpaceMouse (without interventions).",
+              "figure_id": "figure-13-6",
+              "figure_number": "13",
+              "height": 254,
+              "image_path": "figures/2611.29101/figure-005.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 526
+            },
+            {
+              "caption": "Fig. 6. Data Collection Time. Success rate vs. wall-clock data-collection time on candy sorting.",
+              "figure_id": "figure-6-3",
+              "figure_number": "6",
+              "height": 327,
+              "image_path": "figures/2611.29101/figure-006.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 370
+            },
+            {
+              "caption": "Fig. 12. Success during Finetuning on Coffee D2. Evaluated every 50 epochs.",
+              "figure_id": "figure-12-10",
+              "figure_number": "12",
+              "height": 200,
+              "image_path": "figures/2611.29101/figure-007.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 225
+            },
+            {
+              "caption": "TABLE I SIMULATION RESULTS",
+              "figure_id": "table-I-15",
+              "figure_number": "I",
+              "height": 298,
+              "image_path": "figures/2611.29101/table-008.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 1072
+            },
+            {
+              "caption": "TABLE VII HYPERPARAMETERS AND SETTINGS",
+              "figure_id": "table-VII-9",
+              "figure_number": "VII",
+              "height": 337,
+              "image_path": "figures/2611.29101/table-009.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 522
+            },
+            {
+              "caption": "TABLE V ABLATION STUDY",
+              "figure_id": "table-V-14",
+              "figure_number": "V",
+              "height": 192,
+              "image_path": "figures/2611.29101/table-010.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 446
+            },
+            {
+              "caption": "TABLE VI LOCALITY AND EQUIVARIANCE OF THE ROBOT ACTOR",
+              "figure_id": "table-VI-13",
+              "figure_number": "VI",
+              "height": 159,
+              "image_path": "figures/2611.29101/table-011.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 374
+            },
+            {
+              "caption": "TABLE III GATE ANALYSIS",
+              "figure_id": "table-III-7",
+              "figure_number": "III",
+              "height": 154,
+              "image_path": "figures/2611.29101/table-012.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 324
+            },
+            {
+              "caption": "TABLE VIII NOISE LOCALIZATION",
+              "figure_id": "table-VIII-5",
+              "figure_number": "VIII",
+              "height": 119,
+              "image_path": "figures/2611.29101/table-013.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 342
+            },
+            {
+              "caption": "TABLE IV LEARNED GATE ON HELD-OUT REAL-WORLD TRAJECTORIES",
+              "figure_id": "table-IV-8",
+              "figure_number": "IV",
+              "height": 139,
+              "image_path": "figures/2611.29101/table-014.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 525
+            },
+            {
+              "caption": "TABLE II REAL-WORLD TASK SUCCESS RATES",
+              "figure_id": "table-II-4",
+              "figure_number": "II",
+              "height": 101,
+              "image_path": "figures/2611.29101/table-015.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 462
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.29101/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.29101",
+          "relevance": 9,
+          "selection_reason": "Dual-actor policy combining human-video pretraining with sparse robot data for fine-grained manipulation; directly fits robot learning and learning from human videos.",
+          "summary_status": "generated",
+          "title": "DUO Policy: Bridging Human Video Coverage and Robot Precision for Fine-Grained Manipulation",
+          "tldr": "DUO Policy combines human-video learning for broad motion with sparse robot data for precise corrections, improving fine-grained manipulation under embodiment gaps.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation",
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Action tokenizers let robot policies treat control as autoregressive next-token prediction. As these policies are trained on larger and more diverse datasets, they will need a universal tokenizer that can encode actions from many embodiments and data sources, including ones it has not seen. We study action tokenization at scale, training on 49k hours of action data from real-world robots, handheld grippers, simulation, and humans. We introduce Neural Action Tokenizer (NAT), a causal tokenizer whose decoder lets actions be executed as their tokens are generated. Across four simulation benchmarks, NAT outperforms FAST and prior neural action tokenizers when tokenizing unseen robot embodiments, and in vision-language-action models it outperforms FAST+ across four benchmarks and on a real robot when acting through its tokens. NAT tokens also close the performance gap to a flow-matching action head on some benchmarks while lowering the inference latency for first actions. Our experiments also find that robot data may not be necessary to learn an effective action space: a NAT trained only on human hand motion performs close to tokenizers trained on robot data.",
+          "arxiv_id": "2611.28873",
+          "arxiv_url": "https://arxiv.org/abs/2611.28873",
+          "authors": [
+            "Ahad Jawaid, Alexander Swerdlow, Yu Xiang"
+          ],
+          "bullets": [
+            "Trained on 49k hours spanning real robots, handheld grippers, simulation, and human motion.",
+            "Its causal decoder executes actions as tokens are generated, reducing latency for first actions.",
+            "Outperforms FAST and prior neural tokenizers across four simulation benchmarks, including unseen embodiments.",
+            "Improves vision-language-action models over FAST+ across four benchmarks and on a real robot.",
+            "Human-hand-motion-only training performs close to robot-data-trained tokenizers, suggesting robot data may not be essential."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.AI",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 5. NAT is data-efficient. LIBERO-Long success of a fixed policy as NAT is trained on growing shares of the zero-shot corpus with the same number of updates. Error bars are 95% confidence intervals.",
+              "figure_id": "figure-5-19",
+              "figure_number": "5",
+              "height": 264,
+              "image_path": "figures/2611.28873/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 473
+            },
+            {
+              "caption": "Fig. 6. Real-world tasks on the Trossen AI Solo arm: start and goal states.",
+              "figure_id": "figure-6-2",
+              "figure_number": "6",
+              "height": 234,
+              "image_path": "figures/2611.28873/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 524
+            },
+            {
+              "caption": "Fig. 4. Action corpus. Hours by source (top) and action representation (bottom).",
+              "figure_id": "figure-4-18",
+              "figure_number": "4",
+              "height": 215,
+              "image_path": "figures/2611.28873/figure-003.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 492
+            },
+            {
+              "caption": "TABLE IX NAT ARCHITECTURE",
+              "figure_id": "table-IX-14",
+              "figure_number": "IX",
+              "height": 450,
+              "image_path": "figures/2611.28873/table-004.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 458
+            },
+            {
+              "caption": "TABLE IV ARCHITECTURE ABLATIONS ON LIBERO-LONG",
+              "figure_id": "table-IV-3",
+              "figure_number": "IV",
+              "height": 150,
+              "image_path": "figures/2611.28873/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 529
+            },
+            {
+              "caption": "TABLE VIII ACTION CORPUS BY SOURCE TYPE",
+              "figure_id": "table-VIII-16",
+              "figure_number": "VIII",
+              "height": 396,
+              "image_path": "figures/2611.28873/table-006.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 1010
+            },
+            {
+              "caption": "TABLE XI POLICIES",
+              "figure_id": "table-XI-15",
+              "figure_number": "XI",
+              "height": 260,
+              "image_path": "figures/2611.28873/table-007.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE XIII NAT DESIGN SWEEPS ON LIBERO-LONG",
+              "figure_id": "table-XIII-10",
+              "figure_number": "XIII",
+              "height": 546,
+              "image_path": "figures/2611.28873/table-008.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 492
+            },
+            {
+              "caption": "TABLE XII PRETRAINED VLA BACKBONES ON HELD-OUT ROBOT DATA",
+              "figure_id": "table-XII-9",
+              "figure_number": "XII",
+              "height": 234,
+              "image_path": "figures/2611.28873/table-009.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE XVI VLA PRETRAINING MIXTURE",
+              "figure_id": "table-XVI-11",
+              "figure_number": "XVI",
+              "height": 252,
+              "image_path": "figures/2611.28873/table-010.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 450
+            },
+            {
+              "caption": "TABLE X TOKENIZER TRAINING",
+              "figure_id": "table-X-13",
+              "figure_number": "X",
+              "height": 203,
+              "image_path": "figures/2611.28873/table-011.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 520
+            },
+            {
+              "caption": "TABLE III DATA MIXTURE ABLATION",
+              "figure_id": "table-III-1",
+              "figure_number": "III",
+              "height": 193,
+              "image_path": "figures/2611.28873/table-012.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 497
+            },
+            {
+              "caption": "TABLE II TOKENIZERS TRAINED ON ALL DATA OR ON HUMAN DATA ONLY",
+              "figure_id": "table-II-4",
+              "figure_number": "II",
+              "height": 166,
+              "image_path": "figures/2611.28873/table-013.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 540
+            },
+            {
+              "caption": "TABLE XIV TOKEN BUDGET AND CODEBOOK SIZE ON LIBERO-LONG",
+              "figure_id": "table-XIV-12",
+              "figure_number": "XIV",
+              "height": 185,
+              "image_path": "figures/2611.28873/table-014.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 298
+            },
+            {
+              "caption": "TABLE XVII DIFFERENCE BETWEEN CONSECUTIVE ACTIONS",
+              "figure_id": "table-XVII-5",
+              "figure_number": "XVII",
+              "height": 214,
+              "image_path": "figures/2611.28873/table-015.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 501
+            },
+            {
+              "caption": "TABLE VI ACTION LATENCY (MS) ON AN RTX 4090",
+              "figure_id": "table-VI-7",
+              "figure_number": "VI",
+              "height": 183,
+              "image_path": "figures/2611.28873/table-016.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE I COMPARISON WITH PRIOR ACTION TOKENIZERS",
+              "figure_id": "table-I-20",
+              "figure_number": "I",
+              "height": 157,
+              "image_path": "figures/2611.28873/table-017.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE V ONE VLA FINE-TUNED ON FOUR BENCHMARKS",
+              "figure_id": "table-V-8",
+              "figure_number": "V",
+              "height": 150,
+              "image_path": "figures/2611.28873/table-018.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE XV NAT TRAINED ON HUMAN-HAND DATA ONLY",
+              "figure_id": "table-XV-17",
+              "figure_number": "XV",
+              "height": 150,
+              "image_path": "figures/2611.28873/table-019.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 529
+            },
+            {
+              "caption": "TABLE VII VLA SUCCESS ON A REAL TROSSEN AI SOLO ARM",
+              "figure_id": "table-VII-6",
+              "figure_number": "VII",
+              "height": 102,
+              "image_path": "figures/2611.28873/table-020.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 529
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.28873/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.28873",
+          "relevance": 9,
+          "selection_reason": "Action tokenizer for robot policies across embodiments; directly relevant to embodied AI and VLA.",
+          "summary_status": "generated",
+          "title": "NAT: Scaling Causal Neural Action Tokenizers Across Embodiments",
+          "tldr": "NAT is a scalable causal action tokenizer that enables fast, autoregressive robot control across unseen embodiments and diverse action sources.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-action",
+                "robot-learning-and-manipulation",
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "In-context learning (ICL) enables foundation models to perform unseen tasks from context without parameter updates. In robotic manipulation, a human video provides the context that specifies how a task should be performed. However, scaling human-video ICL on world-action models (WAMs) faces two challenges: task-level human-robot pairs are not temporally aligned with robot actions, and standard action losses allow policies to rely on initial-scene or task-identity shortcuts rather than tracking the context. We present Entangle, an in-context world-action model that maps a single human video and current robot observations to future visual states and executable actions. To scale temporally aligned training data, we convert recorded robot videos into matched human contexts via video-to-video generation, supplemented by real paired recordings. For model training, we combine variable-length video windows with an intra-task contrastive objective that distinguishes the paired action trajectory from other executions of the same task, preventing task-identity shortcuts. Without task-specific fine-tuning, Entangle improves steadily as aligned training data scales, reaching an average score of 83.5/100 across six unseen tasks on an Astribot S1 robot, and achieves a 69.5% average success rate on seven unseen RoboTwin tasks, outperforming Zero-WAM by 22.6 percentage points. Under Context-OOD, although trained only on scene-aligned pairs, Entangle transfers context-specified behaviors across rearranged layouts and substituted tools.",
+          "arxiv_id": "2611.28732",
+          "arxiv_url": "https://arxiv.org/abs/2611.28732",
+          "authors": [
+            "Chendong Xiang, Chengwen Zhang, Ruowen Zhao, Zeyuan Wang, Shuhe Huang, Rongxu Cui, Min Zhao, Fan Bao, Hengkai Tan, Jun Zhu"
+          ],
+          "bullets": [
+            "Addresses temporal misalignment between human demonstrations and robot actions, plus shortcut reliance on scene or task identity.",
+            "Generates matched human contexts from recorded robot videos and supplements them with real paired recordings.",
+            "Uses variable-length video windows and intra-task contrastive learning to make actions track the provided human context.",
+            "Achieves 83.5/100 across six unseen Astribot S1 tasks and 69.5% success on seven unseen RoboTwin tasks, surpassing Zero-WAM by 22.6 percentage points.",
+            "Transfers context-specified behaviors to rearranged layouts and substituted tools despite training only on scene-aligned pairs."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2 Overview of the Ent-Dataset. (a) Ent-Syn pipeline: source robot trajectories undergo (1) keyframe hand editing, (2) motion-guided video generation, and (3) VLM verification for visual quality and action consistency, before pairing the generated human video with the original robot observations and actions. (b) Dataset composition: concentric rings (from inner to outer) break down all 21,269 paired episodes by data source (Ent-Real, Astribot, AgiBot), human-video source (Human, Seedance, Wan), train/validation split (19,115 / 2,154), and task category (635 tasks). (c) Paired demonstrations: examples from the Ent-Real and Ent-Syn subsets across five matched timestamps, illustrating temporally aligned robot and human executions.",
+              "figure_id": "figure-2-14",
+              "figure_number": "2",
+              "height": 581,
+              "image_path": "figures/2611.28732/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 982
+            },
+            {
+              "caption": "Figure 3 Overview of Entangle. (a) Human context and the current robot observation condition joint video–action prediction, with action tokens attending to video tokens. (b) Temporal RoPE places context and robot video sequentially while preserving local spatial coordinates, and anchors action positions to the robot segment. (c) Each inference round jointly denoises future video and actions, executes an action prefix, and replans with updated observations and context.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 508,
+              "image_path": "figures/2611.28732/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 964
+            },
+            {
+              "caption": "Figure 1 Executing an unseen task. The input context (top) shows a human using a brush (1) to sweep a plastic block (2) into a dustpan (3), a task absent from training. Task-OOD (middle): conditioned on this context, the robot executes the unseen task with the same objects. Context-OOD (bottom): the robot executes the same interaction with objects that differ from those in the input context, using a banana (1) to sweep a wooden block (2) into a cardboard box (3); dashed outlines mark substituted objects.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 807,
+              "image_path": "figures/2611.28732/figure-003.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 1079
+            },
+            {
+              "caption": "Figure 12 RoboTwin task environments and interactions for OS, SS, OM, and MP. Two human-context keyframes precede initial, intermediate, and late robot observations from the temporal-reset model after 4,000 SFT steps. Robot panels show the head-camera view. Timestamps are relative to each source video.",
+              "figure_id": "figure-12-7",
+              "figure_number": "12",
+              "height": 695,
+              "image_path": "figures/2611.28732/figure-004.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 944
+            },
+            {
+              "caption": "Figure 6 Four types of Context-OOD, shown as compact process sequences. (a) Pen placement with changed spatial layout; selected frames show the initial scene and the first two placements. (b) Black-to-white mouse substitution: lines denote mouse writing strokes. (c) Picture-frame-to-stand transfer preserves the hold-and-wipe interaction. (d) A banana takes the unconventional role of a sweeping tool.",
+              "figure_id": "figure-6-9",
+              "figure_number": "6",
+              "height": 283,
+              "image_path": "figures/2611.28732/figure-005.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 986
+            },
+            {
+              "caption": "Figure 7 Cloth rotation and toss in two rollouts conditioned on the same human video. Schematic arrows show circular or side-to-side motion during the turning phase and the toss or drop direction in the final column. The cloth color differs across the rollouts.",
+              "figure_id": "figure-7-10",
+              "figure_number": "7",
+              "height": 286,
+              "image_path": "figures/2611.28732/figure-006.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 876
+            },
+            {
+              "caption": "Figure 8 Circles mark the frame snag (middle row) and early left-gripper withdrawal (bottom row).",
+              "figure_id": "figure-8-3",
+              "figure_number": "8",
+              "height": 362,
+              "image_path": "figures/2611.28732/figure-007.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 802
+            },
+            {
+              "caption": "Figure 13 RoboTwin task environments and interactions for BB, EC, and SB, using the same layout and temporal-reset model as Figure 12.",
+              "figure_id": "figure-13-12",
+              "figure_number": "13",
+              "height": 456,
+              "image_path": "figures/2611.28732/figure-008.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 944
+            },
+            {
+              "caption": "Figure 5 CT-data scaling on six real-robot tasks (10 trials each). Faint curves: task scores; dark: unweighted mean. Positive data fractions are log-spaced.",
+              "figure_id": "figure-5-17",
+              "figure_number": "5",
+              "height": 192,
+              "image_path": "figures/2611.28732/figure-009.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 413
+            },
+            {
+              "caption": "Figure 10 The robot reproduces the demonstrated handover motions on an empty tabletop.",
+              "figure_id": "figure-10-5",
+              "figure_number": "10",
+              "height": 231,
+              "image_path": "figures/2611.28732/figure-010.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 802
+            },
+            {
+              "caption": "Figure 9 Deployment from Seedance-generated context without a recorded human demonstration. Astribot S1 first pushes the pen holder, then gathers three pens. Yellow arrows indicate motion.",
+              "figure_id": "figure-9-4",
+              "figure_number": "9",
+              "height": 207,
+              "image_path": "figures/2611.28732/figure-011.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 578
+            },
+            {
+              "caption": "Figure 11 Human demonstrations and robot executions for the six real-robot tasks. Each row shows early and late demonstration frames, followed by initial, intermediate, and late frames from the robot head camera.",
+              "figure_id": "figure-11-19",
+              "figure_number": "11",
+              "height": 910,
+              "image_path": "figures/2611.28732/figure-012.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 922
+            },
+            {
+              "caption": "Figure 4 Six real-robot tasks with execution frames in chronological order. The cyan arrow in (f) marks the required left opening.",
+              "figure_id": "figure-4-13",
+              "figure_number": "4",
+              "height": 166,
+              "image_path": "figures/2611.28732/figure-013.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 986
+            },
+            {
+              "caption": "Table 7 Training settings for the real-robot scaling and RoboTwin experiments. The CT step budget refers to the scaling runs. The RoboTwin SFT models initialize from the corresponding CT EMA weights.",
+              "figure_id": "table-7-11",
+              "figure_number": "7",
+              "height": 433,
+              "image_path": "figures/2611.28732/table-014.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 940
+            },
+            {
+              "caption": "Table 1 RoboTwin success (%, ↑): mean ± SD over three seeds; best/second-best means bold/underlined. Tasks: OS, object on scale; SS, stamp seal; OM, open microwave; MP, stapler to pad; BB, bread in basket; EC, empty cup on coaster; SB, stack three blocks. WAN-Action, LingBot-VA, and Zero-WAM results come from Zero-WAM Table 2 [9]; ∗RoboICL reports first-attempt success (Appendix E.2).",
+              "figure_id": "table-1-6",
+              "figure_number": "1",
+              "height": 245,
+              "image_path": "figures/2611.28732/table-015.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 986
+            },
+            {
+              "caption": "Table 4 Task-specific deductions for real-robot evaluation.",
+              "figure_id": "table-4-15",
+              "figure_number": "4",
+              "height": 382,
+              "image_path": "figures/2611.28732/table-016.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 986
+            },
+            {
+              "caption": "Table 6 Binary success criteria from the released Zero-WAM evaluation. All conditions in a row must hold.",
+              "figure_id": "table-6-8",
+              "figure_number": "6",
+              "height": 292,
+              "image_path": "figures/2611.28732/table-017.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 952
+            },
+            {
+              "caption": "Table 2 Astribot S1 ablations: 10-trial mean scores (0–100, ↑). Best/second-best per column: bold/underlined. Counter.: counterintuitive goals; Avoid.: obstacle avoidance.",
+              "figure_id": "table-2-18",
+              "figure_number": "2",
+              "height": 171,
+              "image_path": "figures/2611.28732/table-018.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 990
+            },
+            {
+              "caption": "Table 5 RoboTwin control results over three evaluation seeds. Each seed runs 700 episodes with a fixed checkpoint per row. We report success counts and the mean ± sample standard deviation of the seed-level success rates.",
+              "figure_id": "table-5-16",
+              "figure_number": "5",
+              "height": 133,
+              "image_path": "figures/2611.28732/table-019.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 398
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.28732/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.28732",
+          "relevance": 9,
+          "selection_reason": "In-context world-action model for robotic manipulation from human video, directly matching VLA, robot learning, and human-video learning interests.",
+          "summary_status": "generated",
+          "title": "Entangle: Scaling Human-Video In-Context World-Action Models across Unseen Tasks and Contexts",
+          "tldr": "Entangle scales human-video in-context robot learning by aligning training videos and discouraging task-identity shortcuts, enabling strong transfer to unseen tasks and contexts without fine-tuning.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-action",
+                "robot-learning-and-manipulation",
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Multimodal Egocentric Human Activity Recognition (Ego-HAR) leverages complementary cues from first-person vision (V) and inertial sensor data (S) to recognize daily activities, where video mainly captures appearance and object-related context while inertial signals capture motion cues that video may miss. However, existing pre-training methods typically supervise the fused representation with a single joint objective, which may underemphasize the complementarity between the two modalities and limit the model's ability to learn from distinct modality-oriented signals. To address this issue, we propose Multimodal Dual Representation Reconstruction (MDR2), a teacher-guided pre-training framework in which frozen, label-informed video and inertial teachers each provide dense, modality-specific targets to a multimodal student trained on temporally sparse inputs. On the EvIs-Kitchen dataset, MDR2 improves noun/verb F1-macro over the supervised M-Baseline by 9.20/6.17 points at K=4 video key frames and by 1.21/1.82 points at K=32. These results show that MDR2 consistently achieves higher mean recognition performance across the evaluated video-observation settings under the unified backbone setting, with more pronounced gains under sparse inputs.",
+          "arxiv_id": "2611.28090",
+          "arxiv_url": "https://arxiv.org/abs/2611.28090",
+          "authors": [
+            "Yuzhe Hao, Ikuro Sato, Rei Kawakami, Koichi Shinoda"
+          ],
+          "bullets": [
+            "Targets the limitation of single-objective pre-training, which can underuse differences between video and inertial modalities.",
+            "Uses frozen, label-informed video and inertial teachers to provide dense modality-specific targets.",
+            "Trains a multimodal student from temporally sparse inputs through dual representation reconstruction.",
+            "On EvIs-Kitchen, improves noun/verb F1-macro over supervised M-Baseline by 9.20/6.17 points at 4 frames and 1.21/1.82 points at 32 frames.",
+            "Reports larger gains under sparse video observation settings within the evaluated unified-backbone setup."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.MM"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 2. Overview of the proposed teacher-guided multimodal representation pre-training framework, Multimodal Dual Representation Reconstruction (MDR2). A multimodal student encoder integrates sparse visual and inertial inputs into a fused representation. Two heads reconstruct the dense visual and inertial teacher representations from this fused representation. Instead of reconstructing toward a single shared target as in conventional representation reconstruction frameworks (Fig. 1(b)), MDR2 supervises the fused representation using dual unimodal reconstruction targets.",
+              "figure_id": "figure-2-11",
+              "figure_number": "2",
+              "height": 442,
+              "image_path": "figures/2611.28090/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 979
+            },
+            {
+              "caption": "Fig. 1. Comparing our MDR2 with previous multimodal pre-training frameworks.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 662,
+              "image_path": "figures/2611.28090/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 513
+            },
+            {
+              "caption": "Fig. 4. Weighted mean F1-macro scores ± descriptive standard deviation across three evaluation folds (Folds 2–4) for different numbers of video key frames.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 487,
+              "image_path": "figures/2611.28090/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 504
+            },
+            {
+              "caption": "Fig. 3. Illustration of the sensor masking strategy, where each bar represents a single frame of inertial sensor data, and random masking is applied to clips of l consecutive frames, with a total masking ratio σ.",
+              "figure_id": "figure-3-15",
+              "figure_number": "3",
+              "height": 200,
+              "image_path": "figures/2611.28090/figure-004.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 500
+            },
+            {
+              "caption": "TABLE II PAIRED DIFFERENCES IN F1-MACRO PERFORMANCE BETWEEN MDR2 AND COMPARISON METHODS. DIFFERENCES, SDS, AND CONFIDENCE INTERVALS ARE EXPRESSED IN PERCENTAGE POINTS; POSITIVE DIFFERENCES FAVOR MDR2.",
+              "figure_id": "table-II-4",
+              "figure_number": "II",
+              "height": 217,
+              "image_path": "figures/2611.28090/table-005.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 529
+            },
+            {
+              "caption": "TABLE VI COMPATIBILITY OF MDR2 WITH THE EVIMAE FRAMEWORK ON THE CMU-MMAC DATASET. BOLD NUMBERS INDICATE THE BEST PERFORMANCE.",
+              "figure_id": "table-VI-13",
+              "figure_number": "VI",
+              "height": 106,
+              "image_path": "figures/2611.28090/table-006.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 412
+            },
+            {
+              "caption": "TABLE III QUALITATIVE TOP-3 PREDICTION RESULTS UNDER K = 4 SETTING. PERCENTAGES DENOTE SOFTMAX PROBABILITIES. TOP-1 PREDICTIONS ARE SHOWN IN GREEN WHEN CORRECT AND RED WHEN INCORRECT. CORRECT LOWER-RANKED PREDICTIONS ARE SHOWN IN BOLD.",
+              "figure_id": "table-III-9",
+              "figure_number": "III",
+              "height": 261,
+              "image_path": "figures/2611.28090/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE I DOWNSTREAM F1-MACRO PERFORMANCE (%) UNDER SPARSE (K = 4) AND FULL (K = 32) VIDEO OBSERVATIONS. RESULTS ARE REPORTED AS WEIGHTED MEAN ± DESCRIPTIVE STANDARD DEVIATION ACROSS THREE EVALUATION FOLDS. BOLD NUMBERS INDICATE THE BEST PERFORMANCE.",
+              "figure_id": "table-I-3",
+              "figure_number": "I",
+              "height": 279,
+              "image_path": "figures/2611.28090/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 508
+            },
+            {
+              "caption": "TABLE IV COMPARISON WITH EVIMAE [22] ON DOWNSTREAM PERFORMANCE. BOLD AND UNDERLINED NUMBERS INDICATE THE BEST AND SECOND-BEST RESULTS.",
+              "figure_id": "table-IV-10",
+              "figure_number": "IV",
+              "height": 231,
+              "image_path": "figures/2611.28090/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 512
+            },
+            {
+              "caption": "TABLE X INPUT TEMPORAL SPARSITY COMPARISONS ON MDR2. BOLD NUMBERS INDICATE THE BEST PERFORMANCE.",
+              "figure_id": "table-X-5",
+              "figure_number": "X",
+              "height": 214,
+              "image_path": "figures/2611.28090/table-010.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 510
+            },
+            {
+              "caption": "TABLE IX INPUT MODALITY SPARSIFICATION COMPARISON ON MDR2. BOLD NUMBERS INDICATE THE BEST PERFORMANCE.",
+              "figure_id": "table-IX-7",
+              "figure_number": "IX",
+              "height": 169,
+              "image_path": "figures/2611.28090/table-011.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 506
+            },
+            {
+              "caption": "TABLE VII COMPARISON OF JOINT-HEAD AND DUAL-TARGET RECONSTRUCTION USING THE SAME TEACHERS AND TRAINING PROTOCOL. PERFORMANCE AND PAIRED STATISTICS FOLLOW TABLES I AND II, RESPECTIVELY. PAIRED DIFFERENCES ARE MDR2 MINUS JOINT-HEAD. BOLD INDICATES THE BEST PERFORMANCE.",
+              "figure_id": "table-VII-12",
+              "figure_number": "VII",
+              "height": 156,
+              "image_path": "figures/2611.28090/table-012.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 516
+            },
+            {
+              "caption": "TABLE XI MODALITY LOSS WEIGHTS COMPARISON ON MDR2. BOLD NUMBERS INDICATE THE BEST PERFORMANCE.",
+              "figure_id": "table-XI-6",
+              "figure_number": "XI",
+              "height": 146,
+              "image_path": "figures/2611.28090/table-013.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 510
+            },
+            {
+              "caption": "TABLE V COMPARISON WITH EVIMAE [22] IN MODEL SIZE, COMPUTATIONAL COST, AND INFERENCE LATENCY. LOWER VALUES INDICATE HIGHER COMPUTATIONAL EFFICIENCY.",
+              "figure_id": "table-V-14",
+              "figure_number": "V",
+              "height": 135,
+              "image_path": "figures/2611.28090/table-014.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 512
+            },
+            {
+              "caption": "TABLE VIII LEARNING POLICY AND TEACHER QUALITY COMPARISONS OF MDR2. BOLD NUMBERS INDICATE THE BEST PERFORMANCE.",
+              "figure_id": "table-VIII-8",
+              "figure_number": "VIII",
+              "height": 141,
+              "image_path": "figures/2611.28090/table-015.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 502
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.28090/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.28090",
+          "relevance": 7,
+          "selection_reason": "Egocentric video plus inertial activity recognition with teacher-guided dual reconstruction; fits egocentric video learning and video understanding.",
+          "summary_status": "generated",
+          "title": "Teacher-Guided Multimodal Dual Representation Reconstruction for Egocentric Human Activity Recognition",
+          "tldr": "MDR2 improves egocentric activity recognition by using teacher-guided, modality-specific reconstruction to preserve complementary visual and inertial cues, especially with sparse video inputs.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-22",
       "paper_count": 7,
       "papers": [
@@ -51242,5 +53140,5 @@
   "schema_version": 1,
   "subtopic_id": "learning-from-human-video",
   "topic_id": "embodied-ai",
-  "total_paper_count": 265
+  "total_paper_count": 277
 }

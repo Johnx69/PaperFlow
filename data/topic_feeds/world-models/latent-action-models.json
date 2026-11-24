@@ -1,6 +1,2280 @@
 {
   "days": [
     {
+      "date": "2026-11-23",
+      "paper_count": 14,
+      "papers": [
+        {
+          "abstract": "World action model (WAM) is a promising paradigm for visuomotor control by jointly modeling world dynamics and actions. Notably, existing WAMs often rely on large generative models and iterative sampling which incur substantial latency for action generation, limiting real-time deployment. In particular, there are two root causes of inefficiency in conventional flow matching or diffusion based action models in WAMs: 1) transporting uninformative Gaussian noise into precise actions necessitating multiple ODE steps, and 2) repeatedly injecting task context through expensive cross-attention modules. Our key insight is that jointly learning and aligning the source and action manifolds streamlines the transport between them, substantially accelerating action generation. Building on this insight, we introduce VITA-WAM, a WAM architecture with manifold-aligned flow-matching (VITA flow matching) that directly transports latent observation representations containing visual, language, and proprioceptive information into latent actions. More specifically, a flow latent alignment (FLA) mechanism is employed to facilitate manifold alignment between latent observation and action representations, enabling accurate generation with few ODE steps. The resulting architecture also eliminates costly attention for observation conditioning during repeated denoising steps. Notably, with a single ODE step, VITA-WAM outperforms 10-step FastWAM by 21.47 pp on LIBERO-Plus and by 1.65 pp on LIBERO, achieving these gains through the FLA objective without distillation, while inferring at 55.67~ms latency, a $2.10\\times$ speedup compared to FastWAM.",
+          "arxiv_id": "2611.31195",
+          "arxiv_url": "https://arxiv.org/abs/2611.31195",
+          "authors": [
+            "Boqi Zhao, Dechen Gao, Hanchu Zhou, Hang Wang, Junshan Zhang"
+          ],
+          "bullets": [
+            "Addresses the latency of conventional diffusion- or flow-matching-based world-action models caused by noise-to-action transport and repeated cross-attention.",
+            "Directly transports latent visual, language, and proprioceptive observation representations into latent actions.",
+            "Uses flow latent alignment (FLA) to align observation and action manifolds and support accurate generation with few ODE steps.",
+            "With one ODE step, it outperforms 10-step FastWAM by 21.47 percentage points on LIBERO-Plus and 1.65 points on LIBERO.",
+            "Achieves 55.67 ms inference latency, a 2.10× speedup over FastWAM, without distillation."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Illustration of VITA-WAM architecture. 1) During training (top), a Q-Former fuses visual, language and proprioception into a latent source z0, where the visual signal is the output of the video DiT supervised by video flow matching. The action encoder maps the action chunk into a target latent z1. The source and target representations are jointly learned with VITA flow matching through FM, AE and FLA objectives, with FLA supervising the action chunk decoded from the ODE-generated latent. 2) During inference (bottom), a single video DiT forward pass extracts current-observation features, which are fused with language and proprioception by the Q-Former to construct the source latent z0. The action DiT then performs conditioningfree ODE integration starting from z0 to generate the action latent ẑ1, which is decoded into an action chunk.",
+              "figure_id": "figure-2-2",
+              "figure_number": "2",
+              "height": 546,
+              "image_path": "figures/2611.31195/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 864
+            },
+            {
+              "caption": "Figure 6: Training and inference architecture of VITA-WAM (visual conditioning). The Q-Former constructs the source latent from visual observations, language, and proprioception. During ODE integration, the action DiT additionally uses mixed video–action attention with cached video K/V. The action decoder converts the generated latent into an action chunk.",
+              "figure_id": "figure-6-16",
+              "figure_number": "6",
+              "height": 619,
+              "image_path": "figures/2611.31195/figure-002.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 976
+            },
+            {
+              "caption": "Figure 1: Comparing conventional flow matching (left) vs. VITA flow matching (right). Conventional flow matching learns to transport Gaussian noise to the target manifold, necessitating multiple ODE steps. VITA flow matching (right) jointly learns and aligns the source and target representation manifolds with the Flow Latent Alignment (FLA) mechanism, thus enabling generation with simplified transport paths and fewer ODE steps. VITA-WAM employs VITA flow matching, significantly improving the efficiency of WAM action generation.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 905,
+              "image_path": "figures/2611.31195/figure-003.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 1058
+            },
+            {
+              "caption": "Figure 3: Illustration of Flow Latent Alignment (FLA) in VITA-WAM",
+              "figure_id": "figure-3-10",
+              "figure_number": "3",
+              "height": 270,
+              "image_path": "figures/2611.31195/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 934
+            },
+            {
+              "caption": "Figure 7: Training convergence on LIBERO. Each point reports success across 40 tasks with 50 episodes per task. We evaluate both policies every 500 optimizer updates.",
+              "figure_id": "figure-7-7",
+              "figure_number": "7",
+              "height": 371,
+              "image_path": "figures/2611.31195/figure-005.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 543
+            },
+            {
+              "caption": "Figure 4: Ablation of stochasticity in the latent source on LIBERO.",
+              "figure_id": "figure-4-12",
+              "figure_number": "4",
+              "height": 351,
+              "image_path": "figures/2611.31195/figure-006.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 385
+            },
+            {
+              "caption": "Figure 8: Q-Former source encoder. A learned readout query pools the 16 fused query tokens into the source latent z0.",
+              "figure_id": "figure-8-5",
+              "figure_number": "8",
+              "height": 381,
+              "image_path": "figures/2611.31195/figure-007.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 258
+            },
+            {
+              "caption": "Figure 9: Real-world tasks on the Franka Research 3. Each pair shows two stages of the same task in temporal order.",
+              "figure_id": "figure-9-9",
+              "figure_number": "9",
+              "height": 129,
+              "image_path": "figures/2611.31195/figure-008.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 976
+            },
+            {
+              "caption": "Table 1: LIBERO SRs (%). K is the number of ODE steps for flow matching. Bold values indicate the highest SRs.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 277,
+              "image_path": "figures/2611.31195/table-009.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 978
+            },
+            {
+              "caption": "Table 4: Comparison of inference efficiency. We report latency (ms) and computational cost (TFLOPs) per action chunk. All measurements are conducted on a single NVIDIA RTX 4090. K denotes ODE steps used for flow matching. Appendix F details the timing protocol and parameter counts.",
+              "figure_id": "table-4-13",
+              "figure_number": "4",
+              "height": 256,
+              "image_path": "figures/2611.31195/table-010.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 978
+            },
+            {
+              "caption": "Table 2: LIBERO-Plus SRs (%).",
+              "figure_id": "table-2-15",
+              "figure_number": "2",
+              "height": 234,
+              "image_path": "figures/2611.31195/table-011.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 978
+            },
+            {
+              "caption": "Table 8: LIBERO training configuration. The global batch size is 8 examples per GPU × 2 GPUs × 8 gradient-accumulation steps. Schedule durations refer to optimizer updates.",
+              "figure_id": "table-8-11",
+              "figure_number": "8",
+              "height": 318,
+              "image_path": "figures/2611.31195/table-012.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 956
+            },
+            {
+              "caption": "Table 7: Real-world demonstration tasks, instructions, and task outcomes.",
+              "figure_id": "table-7-8",
+              "figure_number": "7",
+              "height": 327,
+              "image_path": "figures/2611.31195/table-013.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 878
+            },
+            {
+              "caption": "Table 3: Real-world task success rates (%). Each policy is evaluated on 20 episodes per task.",
+              "figure_id": "table-3-14",
+              "figure_number": "3",
+              "height": 111,
+              "image_path": "figures/2611.31195/table-014.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 978
+            },
+            {
+              "caption": "Table 6: Ablation of visual conditioning on LIBERO-Plus (SRs, %).",
+              "figure_id": "table-6-6",
+              "figure_number": "6",
+              "height": 152,
+              "image_path": "figures/2611.31195/table-015.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 978
+            },
+            {
+              "caption": "Table 5: Ablation of visual conditioning on LIBERO (SRs, %).",
+              "figure_id": "table-5-4",
+              "figure_number": "5",
+              "height": 150,
+              "image_path": "figures/2611.31195/table-016.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 978
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.31195/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.31195",
+          "relevance": 8,
+          "selection_reason": "World-action model with manifold-aligned flow matching for fast latent action generation in robot control.",
+          "summary_status": "generated",
+          "title": "VITA-WAM: Manifold-Aligned World-Action Modeling for Real-Time Robot Control",
+          "tldr": "VITA-WAM accelerates real-time robot control by aligning observation and action manifolds, enabling accurate one-step flow-matching inference without repeated attention-based conditioning.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "latent-action-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "World models facilitate planning and control in robotic manipulation by enabling agents to anticipate the consequences of their actions. However, they typically rely on action-labelled interaction data that is costly to acquire and difficult to scale. These models are also often tied to the specific embodiment they were trained on, limiting transferability to previously unseen robot morphologies. We introduce a 3D latent-action world model that learns continuous action representations directly from point-cloud observations of retargeted human manipulation demonstrations. A contrastive objective is used to encourage consistent representations of motion across embodiments. The resulting unified latent action space serves directly as the search space for model-predictive control, where sampled latent actions condition particle-based future predictions. Executable robot commands are then recovered from the predicted geometric motion without requiring an embodiment-specific action decoder. Through extensive evaluations, we demonstrate that the learned latent actions exhibit controllable and compositional motion, transfer to unseen robot embodiments, and support zero-shot manipulation with unseen gripper geometries. Following task-agnostic adaptation, our model achieves 90%, 92%, and 60% success on reaching, grasping, and placing, respectively, compared with DexWM's reported 72%, 58%, and 28%. Finally, we demonstrate zero-shot real-world manipulation with an unseen dexterous hand, achieving an 86% success rate across 50 trials on five diverse tasks involving pushing, grasping, and lifting everyday objects. These results highlight the potential of geometry-grounded latent actions as a unified, transferable interface for world-model-based robotic manipulation. Project materials, including demonstration videos and source code, are available at https://vinaymohan0409.github.io/DexLatentWorld/.",
+          "arxiv_id": "2611.30907",
+          "arxiv_url": "https://arxiv.org/abs/2611.30907",
+          "authors": [
+            "Vinay Udit Mohan, Xuchuan Huang, Rolandos Alexandros Potamias"
+          ],
+          "bullets": [
+            "Addresses the high cost of action-labelled data and poor transferability of embodiment-specific world models.",
+            "Learns continuous latent actions from point-cloud observations using retargeted human demonstrations and a contrastive cross-embodiment objective.",
+            "Uses latent actions directly for model-predictive control with particle-based future prediction; executable commands are recovered from predicted geometric motion.",
+            "Reports 90%, 92%, and 60% success on reaching, grasping, and placing, respectively, and 86% success across 50 real-world trials on five tasks with an unseen dexterous hand.",
+            "Demonstrates controllable, compositional, and transferable motion, including zero-shot manipulation with unseen gripper geometries."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.CV",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of DexLatentWorld. An inverse dynamics model encodes scene transitions into compact latent actions, which are aligned across embodiments through contrastive learning. Here, Ei denotes an embodiment or morphology (e.g., human, Allegro, XHand), while a, b, c, . . . denote different transitions. zE1,b",
+              "figure_id": "figure-2-17",
+              "figure_number": "2",
+              "height": 336,
+              "image_path": "figures/2611.30907/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 3. Counterfactual evaluation. Left: Latent actions inferred from the ground-truth sequence of Transition A are applied to its initial frame. The world model’s predictions closely follow the ground-truth trajectories. Right: Latent actions inferred from Transition B are applied to the initial frame of Transition A, inducing a corresponding motion pattern. Results are shown at steps 0 and 5, with dotted lines indicating object trajectories.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 201,
+              "image_path": "figures/2611.30907/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 471
+            },
+            {
+              "caption": "Figure 8. Latent action embeddings across embodiments. UMAP, t-SNE, and PCA visualisations (left to right) of 8,465 first-step latent actions (32 dimensions, comprising four 8-dimensional tokens) inferred from held-out H2O validation sequences. Each window is encoded under one randomly assigned embodiment, with colours indicating the eight training robot hands and grey markers the three held-out hands (SVH, DG-5F, Dex3). The embeddings overlap substantially across embodiments. Local structure largely reflects temporal continuity, with consecutive windows from the same manipulation appearing nearby across different embodiments.",
+              "figure_id": "figure-8-20",
+              "figure_number": "8",
+              "height": 379,
+              "image_path": "figures/2611.30907/figure-003.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 932
+            },
+            {
+              "caption": "Figure 5. Cross-embodiment latent transfer. Each cell reports the Mover EPE averaged over five rollout steps when latent actions inferred from the source embodiment (rows) are decoded using the initial point cloud of the target embodiment (columns). All evaluations use the same 256 validation windows. Embodiments highlighted in red (SVH, DG-5F, Dex3) were unseen during training.",
+              "figure_id": "figure-5-5",
+              "figure_number": "5",
+              "height": 366,
+              "image_path": "figures/2611.30907/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 446
+            },
+            {
+              "caption": "Figure 7. Zero-shot real-world dexterous manipulation. (a– e) Representative snapshots of five tasks performed with a Sharpa Wave hand unseen during training, without hand-specific adaptation. Success rates are measured over ten trials per task.",
+              "figure_id": "figure-7-16",
+              "figure_number": "7",
+              "height": 331,
+              "image_path": "figures/2611.30907/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 441
+            },
+            {
+              "caption": "Figure 6. Human-to-robot transfer. Latent actions are encoded from a human pouring demonstration (our validation set) and decoded with the initial point cloud of each held-out hand (SVH, DG-5F, Dex3). The dotted line traces the carton’s centre over steps 1–5. For clearer visualisation, predicted points are rendered as meshes to better illustrate the resulting motion.",
+              "figure_id": "figure-6-6",
+              "figure_number": "6",
+              "height": 270,
+              "image_path": "figures/2611.30907/figure-006.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Figure 4. Action composition. Latents inferred from synthetic forward and rightward hand motions are repeated, averaged, and alternated to visualise their effects on predicted trajectories.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 173,
+              "image_path": "figures/2611.30907/figure-007.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 398
+            },
+            {
+              "caption": "Table 15. Dexterous planning, execution and evaluation.",
+              "figure_id": "table-15-4",
+              "figure_number": "15",
+              "height": 700,
+              "image_path": "figures/2611.30907/table-008.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 968
+            },
+            {
+              "caption": "Table 12. Gripper tasks. Replans are the maximum per phase.",
+              "figure_id": "table-12-10",
+              "figure_number": "12",
+              "height": 292,
+              "image_path": "figures/2611.30907/table-009.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 948
+            },
+            {
+              "caption": "Table 3. Planning and execution ablations. Task success rates over 20 trials per task and configuration. AIK and Adir search in the native action space, executing through inverse kinematics and direct action commands, respectively. LIK (ours) and Ldec optimise latent actions, executing through geometry-based inverse kinematics and a learned latent-to-action decoder, respectively.",
+              "figure_id": "table-3-15",
+              "figure_number": "3",
+              "height": 117,
+              "image_path": "figures/2611.30907/table-010.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 373
+            },
+            {
+              "caption": "Table 5. Data and preprocessing.",
+              "figure_id": "table-5-3",
+              "figure_number": "5",
+              "height": 448,
+              "image_path": "figures/2611.30907/table-011.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 466
+            },
+            {
+              "caption": "Table 8. Evaluation protocols for Sec. 5.1–5.3.",
+              "figure_id": "table-8-19",
+              "figure_number": "8",
+              "height": 570,
+              "image_path": "figures/2611.30907/table-012.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 481
+            },
+            {
+              "caption": "Table 7. Training configuration.",
+              "figure_id": "table-7-18",
+              "figure_number": "7",
+              "height": 472,
+              "image_path": "figures/2611.30907/table-013.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 466
+            },
+            {
+              "caption": "Table 11. Zero-shot gripper setup.",
+              "figure_id": "table-11-11",
+              "figure_number": "11",
+              "height": 477,
+              "image_path": "figures/2611.30907/table-014.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 481
+            },
+            {
+              "caption": "Table 13. Task-agnostic domain adaptation.",
+              "figure_id": "table-13-8",
+              "figure_number": "13",
+              "height": 709,
+              "image_path": "figures/2611.30907/table-015.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 458
+            },
+            {
+              "caption": "Table 14. Differences between the two dexterous settings. Heldout hand error is before → after fine-tuning. The 20 episodes of Sec. 5.5 are the first evaluation demonstrations not already solved at the start or by holding still. Sec. 5.6 runs on a single H100 GPU.",
+              "figure_id": "table-14-9",
+              "figure_number": "14",
+              "height": 217,
+              "image_path": "figures/2611.30907/table-016.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 462
+            },
+            {
+              "caption": "Table 9. Latent conditioning at every prediction horizon. Full version of Tab. 1 of the main paper: particle EPE in mm (↓) at each of the five rollout steps on our H2O validation split (nine training embodiments). Hand and object errors are evaluated on points with ground-truth displacement > 5mm, while scene errors include static table and distractor points. No motion assumes zero displacement. Other rows use correct, zeroed, shuffled, or fixed-donor latent actions.",
+              "figure_id": "table-9-12",
+              "figure_number": "9",
+              "height": 186,
+              "image_path": "figures/2611.30907/table-017.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 1036
+            },
+            {
+              "caption": "Table 10. Planning and control configurations. Both settings use a five-step planning horizon and a 160-dimensional latent-action sequence.",
+              "figure_id": "table-10-13",
+              "figure_number": "10",
+              "height": 200,
+              "image_path": "figures/2611.30907/table-018.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 948
+            },
+            {
+              "caption": "Table 4. Dexterous manipulation performance. Success rates for Reach, Grasp, and Place. Our method is evaluated over 50 held-out episodes per task, with scene geometry and target poses estimated from images. DexWM results are from the original paper.",
+              "figure_id": "table-4-14",
+              "figure_number": "4",
+              "height": 85,
+              "image_path": "figures/2611.30907/table-019.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 325
+            },
+            {
+              "caption": "Table 2. Zero-shot gripper manipulation. Task success rates over 10 evaluation trials per task. Our model is evaluated without world-model fine-tuning on the target gripper. PointWorld results are reported for the two shared manipulation tasks.",
+              "figure_id": "table-2-7",
+              "figure_number": "2",
+              "height": 100,
+              "image_path": "figures/2611.30907/table-020.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 358
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.30907/hero.webp",
+          "novelty": 9,
+          "pdf_url": "https://arxiv.org/pdf/2611.30907",
+          "relevance": 9,
+          "selection_reason": "Directly addresses latent-action world models for robotic manipulation with cross-embodiment transfer, fitting both robot learning and latent action model topics.",
+          "summary_status": "generated",
+          "title": "DexLatentWorld: 3D Cross-Embodiment Latent Action World Models for Zero-Shot Robotic Manipulation",
+          "tldr": "DexLatentWorld learns geometry-grounded latent actions from 3D demonstrations, enabling world-model planning and zero-shot manipulation across unseen robot embodiments without action labels or embodiment-specific decoders.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "latent-action-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Large and diverse video sources, such as egocentric human video and heterogeneous robot recordings, carry rich dynamics but come either without actions or without a shared action space. Latent action models (LAMs) can recover these dynamics, but they train their inverse- and forward-dynamics models (IDM, FDM) from scratch, trading off pixel reconstruction against latent capacity and accuracy. Pretrained video world models natively generate high-fidelity dynamics, yet represent them densely, entangled across all layers. Viewing the world model as a LAM, we show that these dynamics can be extracted with minimal changes to the model. Native LAM operates one pretrained video diffusion transformer as both IDM and FDM, with learnable dynamics registers as the only causal bridge between the two, and trains on counterfactual temporal pairs that differ in motion alone, so that the registers distill a video's dynamics into a compact native latent action. We further propose a pretraining paradigm for vision-language-action (VLA) policies, Pretraining Actions from World models (PAWlicy), in which Native LAM serves as a dynamics teacher on large-scale video; unlike world action models, it never generates video. Native latent actions outperform existing LAMs on the LARY benchmark in both action classification and control regression, and replay the same motion on new robots, in new scenes, and from human hands to robots, although no transfer objective is used in training. With a 3.8B model, PAWlicy reaches a 93.6% average success rate on RoboTwin 2.0 trained with domain-randomized demonstrations, the highest among VLAs. On RoboDojo, it is competitive on every dimension we evaluate, and its Precision, evaluated by us, is on par with the leading leaderboard entries. On real robots, it improves over the pi_0.5 baseline on both tasks. Both stages use only public data and a publicly released world model.",
+          "arxiv_id": "2611.30898",
+          "arxiv_url": "https://arxiv.org/abs/2611.30898",
+          "authors": [
+            "Qinyue Li, Weijie Qiao, Qingyi Tao, Zerui Gong, Zhe Yang, Quanzhou Li, Taolin Zhang, Jinglin He, Zhonghua Wu, Chen Change Loy"
+          ],
+          "bullets": [
+            "Addresses learning actions from diverse videos that lack actions or share no common action space.",
+            "Uses one pretrained video diffusion transformer as both inverse- and forward-dynamics models, connected by learnable dynamics registers.",
+            "Trains on counterfactual video pairs differing only in motion to distill compact latent actions without video generation.",
+            "Native latent actions outperform existing LAMs on LARY for action classification and control, and transfer motion across robots, scenes, and human-to-robot settings.",
+            "The PAWlicy pretraining paradigm achieves a 93.6% average success rate on RoboTwin 2.0 and improves over pi_0.5 on both evaluated real-robot tasks."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.LG",
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1 World models as native latent action models. (a) Existing LAMs learn an IDM and an FDM from scratch. (b) A pretrained video world model is already an FDM. (c) Native LAM runs one world model in two modes, reading a latent action â from video and regenerating the future from â. (d) Latent actions share one space and replay the same motion from edited first frames in new setups. (e) PAWlicy pretrains a VLA on â without reconstructing pixels.",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 681,
+              "image_path": "figures/2611.30898/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 4 Native latent actions transfer. A latent â is read once from a source clip (blue) in the IDM mode of Native LAM and replayed in its FDM mode from a different first frame (orange), which is generated with GPT image generation from the source first frame; dotted frames are generated. The generated videos carry out the source motion with another embodiment, in another scene, from human to robot, and from simulation to a photorealistic scene, although no transfer objective is used in training.",
+              "figure_id": "figure-4-9",
+              "figure_number": "4",
+              "height": 458,
+              "image_path": "figures/2611.30898/figure-002.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 2 Training Native LAM. (a) Each video x is paired with a retimed copy x′ = x ◦ ϕ of the same footage that shares the first frame but not the motion. (b) In IDM mode, dynamics registers read the clean video through a read-only attention mask and are projected to the latent action â; on AgiBot World and DROID, a kinematic head grounds â in end-effector motion. (c) In FDM mode, the same DiT regenerates the future from v0 and â alone, with â inserted into the token sequence through the adapter MLPin, taking over the conditioning role of text, trained with its original flow-matching loss; both clips of a pair share the noise and diffusion time, so only â can explain their difference.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 395,
+              "image_path": "figures/2611.30898/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1032
+            },
+            {
+              "caption": "Figure 3 PAWlicy. A frozen Native LAM labels each video window with one past and three future latent groups; t−1, t, . . . , t+3 index temporal groups, each containing four video frames. Sharing attention with the VLM, the latent action DiT reconstructs the past and predicts the future, and the action DiT conditions on it to generate actions. Video without actions still trains the latent pathway.",
+              "figure_id": "figure-3-1",
+              "figure_number": "3",
+              "height": 469,
+              "image_path": "figures/2611.30898/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 694
+            },
+            {
+              "caption": "Figure 5 Interpolating latents interpolates the motion. Latents read from a still clip and a full-action clip are blended and replayed from the same first frame. The top and bottom rows are the two source clips; the dotted frames between them are generated. Each intermediate latent yields one coherent motion that travels part of the way, further as β grows; blending pixels instead superimposes static and moving arms (red box).",
+              "figure_id": "figure-5-10",
+              "figure_number": "5",
+              "height": 441,
+              "image_path": "figures/2611.30898/figure-005.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 638
+            },
+            {
+              "caption": "Figure 7 Counterfactual pairs prevent posterior collapse. A latent action is read in IDM mode from a source clip in which the left arm grasps the tissue (top) or from its still counterfactual, which holds the first frame (bottom), and the FDM regenerates the clip from the same start frame with shared prompt, noise, and seed. Circles mark the end pose of the arm. Trained for 2k steps without counterfactual pairs, the FDM reaches for the cup in both cases. This is posterior collapse: the FDM ignores the latent and hallucinates a reach for the cup from the first frame alone. With counterfactual pairs, the same 2k steps already keep the still latent still, although the moving latent still reaches for the cup. At 13k steps the generated end frames match the source in both cases.",
+              "figure_id": "figure-7-4",
+              "figure_number": "7",
+              "height": 302,
+              "image_path": "figures/2611.30898/figure-006.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 964
+            },
+            {
+              "caption": "Table 6 Training and inference cost. Top: dynamics-module training cost per step on 33-frame clips (384×256, width×height; batch size 1), measured for each module alone and excluding shared attention; values are rounded, and those of Kairos 3.1 include a recurrence-equivalent estimate for its fused GatedDeltaNet kernels. Bottom: median inference latency per control step over 20 runs, measured by us on one RTX 6000 Ada, our deployment GPU (BF16, batch size 1, 10 action sampling steps, action horizon 32). Each method uses its default input setting: the world action models take three views, and PAWlicy takes three views and one past frame; text and visual conditions are recomputed for every call.",
+              "figure_id": "table-6-7",
+              "figure_number": "6",
+              "height": 234,
+              "image_path": "figures/2611.30898/table-007.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 1007
+            },
+            {
+              "caption": "Table 1 Data sources and their supervision in the two stages. Native LAM is trained on video, and on end-effector actions for kinematic grounding where marked; PAWlicy is pretrained on the teacher’s latent actions and, where marked, on robot actions. The sources below the line are used for PAWlicy only: Native LAM never sees them, and they are labeled by the frozen Native LAM. RoboTwin 2.0 and RoboDojo are excluded from PAWlicy pretraining.",
+              "figure_id": "table-1-6",
+              "figure_number": "1",
+              "height": 654,
+              "image_path": "figures/2611.30898/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1005
+            },
+            {
+              "caption": "Table 4 Real-robot tasks on AgileX NERO. Top: start and end of each task. Bottom: success rate (%) over 30 trials, with 100 training demonstrations per task.",
+              "figure_id": "table-4-2",
+              "figure_number": "4",
+              "height": 216,
+              "image_path": "figures/2611.30898/table-009.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 583
+            },
+            {
+              "caption": "Table 3 RoboTwin 2.0 with clean training (success rate, %). Policies are trained on 50 clean demos per task and tested in clean (c2c) or randomized (c2r) scenes, with 100 seeds per task. π0.5 + past + aug. uses the same past frame and augmentation as PAWlicy.",
+              "figure_id": "table-3-3",
+              "figure_number": "3",
+              "height": 117,
+              "image_path": "figures/2611.30898/table-010.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 377
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.30898/hero.webp",
+          "novelty": 9,
+          "pdf_url": "https://arxiv.org/pdf/2611.30898",
+          "relevance": 10,
+          "selection_reason": "Native latent action extraction from pretrained video world models for VLA pretraining, directly fits world models and embodied AI.",
+          "summary_status": "generated",
+          "title": "World Models as Native Latent Action Models",
+          "tldr": "A pretrained video world model can be minimally adapted into a native latent-action model that extracts transferable dynamics and improves vision-language-action policy training.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-action",
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "latent-action-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Egocentric human manipulation data offer a scalable resource for training dexterous robot policies. However, how effectively robots can learn and benefit from these data remains unclear due to the embodiment gap between humans and robots. We present EgoStudy, a systematic, controlled study of egocentric data for robot learning. Holding the robot dataset fixed, we vary the scale and diversity of egocentric data, data processing strategies, and co-training configurations. We investigate three questions: (1) Which data processing and pretraining choices most effectively exploit egocentric data? (2) Which components of robot action prediction benefit most from scaling these data? (3) How do scaling effects differ between vision-language-action models (VLAs) and world-action models (WAMs)? Our experiments yield three main findings. First, data diversity, alignment between trajectories, and detailed language annotations are key factors in effective transfer. Second, scaling egocentric data yields larger gains in predicting end-effector translation than in predicting fine-grained finger movements. Third, WAMs perform better when egocentric data are limited, whereas VLAs exhibit greater gains as the amount of egocentric data increases. Together, these findings provide practical guidance on processing and using egocentric data to train VLAs and WAMs, while clarifying the benefits and limitations of scaling these data.",
+          "arxiv_id": "2611.30490",
+          "arxiv_url": "https://arxiv.org/abs/2611.30490",
+          "authors": [
+            "Puzhen Yuan, Yanjiang Guo, Yichen Liu, Xiang Zhu, Qingzhou Lu, Chenxin Liu, Tun Ban, Haodong Yan, Zhide Zhong, Jianyu Chen"
+          ],
+          "bullets": [
+            "Egocentric data transfer improves with greater diversity, trajectory alignment, and detailed language annotations.",
+            "Scaling primarily benefits end-effector translation prediction rather than fine-grained finger movement.",
+            "WAMs perform better with limited egocentric data, while VLAs gain more as egocentric data scale increases.",
+            "The study offers practical guidance for processing and co-training egocentric and robot data."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 5. Which data processing and co-training designs improve transfer? Complete episodes, detailed captions, and the dataset diversity yield lower wrist translation error on both robot holdouts for both model families. This indicates that data diversity and alignment between trajectories and detailed language annotations are key factors in effective transfer. Moreover, fixed-step sampling yields lower error for the VLA, and event-level sampling yields lower error for the WAM.",
+              "figure_id": "figure-5-1",
+              "figure_number": "5",
+              "height": 485,
+              "image_path": "figures/2611.30490/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1015
+            },
+            {
+              "caption": "Figure 7. Which action components benefit most from scaling egocentric data? We measure mean squared error (MSE) separately for wrist translation, wrist rotation, and fingertip pose on high-quality, held-out robot trajectories. Across both robot domains and model families, wrist translation MSE generally decreases as egocentric data scale, while wrist rotation and fingertip pose errors show no consistent decline. We hypothesize that due to human–robot embodiment gap and errors in estimating actions limit transfer primarily to large-scale motions such as wrist translation, with less benefit for the finger movements and wrist rotations.",
+              "figure_id": "figure-7-2",
+              "figure_number": "7",
+              "height": 387,
+              "image_path": "figures/2611.30490/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 4. Does scaling egocentric data improve robot learning? We pretrain the VLA (left) and WAM (right) with 1%, 3%, 10%, 30%, and 100% of the egocentric human data while keeping robot training exposure and the optimization budget fixed. We evaluate wrist translation MSE on held-out trajectories from Bimanual XHand and RoboCasa-GR1. All four model–domain pairs show a consistent downward trend, indicating effective human-to-robot transfer in EgoStudy.",
+              "figure_id": "figure-4-8",
+              "figure_number": "4",
+              "height": 314,
+              "image_path": "figures/2611.30490/figure-003.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1031
+            },
+            {
+              "caption": "Figure 6. Do pretraining gains carry over to robot control? RoboCasa-GR1 task success increases after posttraining for both model families, consistent with the decrease in pretraining validation loss. Gray dashed lines mark the corresponding baselines without pretraining.",
+              "figure_id": "figure-6-9",
+              "figure_number": "6",
+              "height": 278,
+              "image_path": "figures/2611.30490/figure-004.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 491
+            },
+            {
+              "caption": "Figure 9. How does backbone choice affect scaling gains between VLA and WAM? The wrist translation error decreases to the same extent across different VLAs, indicating that the 4B backbone is already capable of effectively extracting features shared between the egocentric and robot data. When the backbone of WAM is changed to 5B, its human-to-robot capability declines indicating that WAM relies more heavily on a powerful video backbone to assimilate egocentric data.",
+              "figure_id": "figure-9-5",
+              "figure_number": "9",
+              "height": 206,
+              "image_path": "figures/2611.30490/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1030
+            },
+            {
+              "caption": "Figure 8. How do VLA and WAM visual features change with scale? As egocentric data scale, relative separation R between human and robot features decreases in both robot domains for the VLA but shows no consistent decrease across the WAM layers examined. We hypothesize that human and robot features align more closely in our VLA because it only needs to output actions in a shared action space. Our WAM must also predict future video, which may encourage it to retain visual differences between human and robot hands.",
+              "figure_id": "figure-8-4",
+              "figure_number": "8",
+              "height": 206,
+              "image_path": "figures/2611.30490/figure-006.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 1024
+            },
+            {
+              "caption": "Figure 3. Pretraining samples allocation. Egocentric datasets receive 75% of samples, with probabilities proportional to the square root of their filtered durations; VITRA aggregates three subsets. The sampling probabilities of Bimanual XHand (20%) and RoboCasa-GR1 (5%) are fixed across experiments.",
+              "figure_id": "figure-3-7",
+              "figure_number": "3",
+              "height": 344,
+              "image_path": "figures/2611.30490/figure-007.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 473
+            },
+            {
+              "caption": "Figure 2. Red points and arrows indicate positions and orientations (omitting 2 axes for clarity), respectively, in shared dexterous action space and different embodiments.",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 291,
+              "image_path": "figures/2611.30490/figure-008.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 496
+            },
+            {
+              "caption": "Table 1. Post-filtering duration of the pretraining data (hours). The egocentric pool is curated from about 18,000 hours of raw video.",
+              "figure_id": "table-1-6",
+              "figure_number": "1",
+              "height": 471,
+              "image_path": "figures/2611.30490/table-009.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.30490/hero.webp",
+          "novelty": 9,
+          "pdf_url": "https://arxiv.org/pdf/2611.30490",
+          "relevance": 9,
+          "selection_reason": "Systematically studies the scaling effects of egocentric data on Vision-Language-Action (VLA) and World-Action Model (WAM) pretraining, providing key insights for robot learning and latent action modeling.",
+          "summary_status": "generated",
+          "title": "EgoStudy: How Does Scaling Egocentric Data Affect VLA and WAM Pretraining?",
+          "tldr": "EgoStudy systematically shows how the scale, diversity, and processing of egocentric data affect robot policy pretraining, with different benefits for VLAs and WAMs.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "latent-action-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Distilling localization knowledge into compact detection transformers (DETRs) requires consistent teacher-student query correspondence across decoder layers. However, in DETRs with encoder-based query selection, the teacher and student select top-K proposals independently. Same-rank queries can originate from different spatial locations and correspond to different objects, making rank-based layer-wise supervision unreliable. To address this problem, we propose Trajectory-Aligned Encoder-Decoder Distillation (TAED), a framework for knowledge transfer between DETRs of different capacities. Encoder feature distillation matches normalized multi-scale features to strengthen student representations and increase the number of teacher-student query pairs from the same encoder locations. Source-indexed query alignment pairs native queries from the same encoder locations and retains pairs associated with the same object for which the teacher provides reliable and more accurate final localization than the student. Trajectory-aligned localization distillation maintains these correspondences and uses teacher proposals and corresponding decoder-layer box predictions to guide student refinement, without introducing additional queries. On COCO, TAED improves DINO-R18 and two-stage Deformable DETR-R18 by 2.5 and 1.7 AP, respectively. Further gains on D-FINE and ECDet demonstrate applicability to recent real-time DETRs at no additional inference cost.",
+          "arxiv_id": "2611.30326",
+          "arxiv_url": "https://arxiv.org/abs/2611.30326",
+          "authors": [
+            "Zilong He, Zhangchi Hu, Hebei Li, Yijun Pan, Yifan Zhao, Xiangyu Yu, Yansong Peng, Xinghao Wang, Dongsheng Jiang, Xiaoyan Sun"
+          ],
+          "bullets": [
+            "Addresses unreliable rank-based supervision caused by independently selected top-K proposals in teacher and student DETRs.",
+            "Distills normalized multi-scale encoder features to improve student representations and increase shared-location query matches.",
+            "Aligns native queries by source encoder index and keeps pairs where the teacher offers more accurate localization for the same object.",
+            "Transfers teacher proposal and decoder-layer box trajectories to guide student refinement without adding queries.",
+            "Improves DINO-R18 by 2.5 AP and two-stage Deformable DETR-R18 by 1.7 AP on COCO; also applies to D-FINE and ECDet without extra inference cost."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of TAED. Encoder feature distillation increases the number of teacher–student query pairs from the same encoder locations, while source-indexed query alignment selects reliable pairs. Trajectory-aligned localization distillation uses fixed query correspondence for proposal supervision and layer-wise localization target replacement.",
+              "figure_id": "figure-2-10",
+              "figure_number": "2",
+              "height": 350,
+              "image_path": "figures/2611.30326/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1024
+            },
+            {
+              "caption": "Figure 3. Qualitative comparison. Predictions are shown for the D-FINE-X† teacher, D-FINE-L (DEIM) baseline, and TAED-distilled student. Dashed yellow boxes denote GT; solid boxes denote predictions. IoU is computed against the highlighted GT box.",
+              "figure_id": "figure-3-9",
+              "figure_number": "3",
+              "height": 518,
+              "image_path": "figures/2611.30326/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 967
+            },
+            {
+              "caption": "Figure 1. Query correspondence and cross-family results. (A) Comparison of query correspondence in existing methods and TAED. (B) AP gains of TAED across DETR families on COCO val2017 without additional inference cost.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 446,
+              "image_path": "figures/2611.30326/figure-003.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 466
+            },
+            {
+              "caption": "Figure 4. Final boxes and IoU trajectories. Two cases showing TAED gains over the baseline are selected from 2,000 COCO val2017 images. On the x-axis, P denotes the initial encoder proposal; 1–6 denote decoder layers.",
+              "figure_id": "figure-4-8",
+              "figure_number": "4",
+              "height": 346,
+              "image_path": "figures/2611.30326/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 466
+            },
+            {
+              "caption": "Table 1. Distillation results across DETR families on COCO val2017. We compare TAED with existing distillation methods on twostage Deformable DETR, DINO, and D-FINE. D-FINE-L follows the DEIM training recipe. Gray text denotes teachers, and shaded rows highlight TAED. † denotes teachers pretrained on Objects365 and fine-tuned on COCO.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 529,
+              "image_path": "figures/2611.30326/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Table 2. Accuracy–efficiency results on COCO val2017. TAED is evaluated on ECDet-S/M/L using ECDet-X as the teacher. Other real-time detectors serve as references. Gray text denotes the teacher, and shaded rows highlight TAED.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 477,
+              "image_path": "figures/2611.30326/table-006.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1006
+            },
+            {
+              "caption": "Table 6. Query-pair selection statistics. The D-FINE-X† teacher and D-FINE-L (DEIM) students each select their top-300 native queries. Mean query pairs per image are reported after each step under different encoder feature distillation settings, measured offline using fixed models on COCO val2017 (5,000 images).",
+              "figure_id": "table-6-6",
+              "figure_number": "6",
+              "height": 152,
+              "image_path": "figures/2611.30326/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 487
+            },
+            {
+              "caption": "Table 3. Component ablations of TAED. Results are for D-FINEX† → D-FINE-L (DEIM). Components are added cumulatively; the last row removes encoder feature distillation from full TAED while keeping all other components unchanged.",
+              "figure_id": "table-3-7",
+              "figure_number": "3",
+              "height": 244,
+              "image_path": "figures/2611.30326/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 466
+            },
+            {
+              "caption": "Table 5. Source consistency across pairing strategies. D-FINEX† → D-FINE-L (DEIM), evaluated on 5,000 COCO val2017 images. Values are percentages of all student positive queries paired with teacher queries sharing the same encoder source index.",
+              "figure_id": "table-5-5",
+              "figure_number": "5",
+              "height": 126,
+              "image_path": "figures/2611.30326/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 487
+            },
+            {
+              "caption": "Table 4. Source alignment and quality-gate ablations. Results are for D-FINE-X† → D-FINE-L (DEIM). Without source alignment, query pairs are formed by Hungarian matching.",
+              "figure_id": "table-4-4",
+              "figure_number": "4",
+              "height": 117,
+              "image_path": "figures/2611.30326/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.30326/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.30326",
+          "relevance": 8,
+          "selection_reason": "The paper introduces 'trajectory-aligned' distillation, a mechanism for aligning latent representations (trajectories) between teacher and student models. This concept of aligning latent trajectories is highly transferable to World Models (Latent Action Models) and Embodied AI (memory/trajectory understanding).",
+          "summary_status": "generated",
+          "title": "TAED: Trajectory-Aligned Encoder--Decoder Distillation for Detection Transformers",
+          "tldr": "TAED improves compact DETR detectors by aligning teacher–student queries through shared encoder locations and decoder trajectories for more reliable localization distillation.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "latent-action-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "World models support planning by predicting how the environment evolves under candidate actions. However, one-step predictive accuracy alone does not characterize multi-step planning utility, which depends on distinguishing candidate futures. This raises a natural question: How does latent transition geometry shape planning? We investigate this through an action-conditioned transition-field view, using curvature regularization as a controlled intervention. Across four continuous-control tasks, appropriately tuned regularization improves planning, while excessive regularization can be detrimental. By decomposing the transition field into affine and non-affine components, we find that regularization reduces action sensitivity mainly through the non-affine component. To assess its role in planning, we directly manipulate the non-affine action response in frozen models and show that it affects candidate selection and closed-loop success. Further analysis shows that curvature generally brings predicted futures closer together, while preserving more of the differences along the goal direction. This helps explain why the planning effects vary across tasks. We observe broadly consistent planning trends across five sampling- and gradient-based solvers on LeWM and similar rollout-geometry trends on DINO-WM. Qualitative attention visualizations reveal accompanying shifts toward task-relevant visual structure. Together, these findings clarify how latent transition geometry influences multi-step planning.",
+          "arxiv_id": "2611.30064",
+          "arxiv_url": "https://arxiv.org/abs/2611.30064",
+          "authors": [
+            "Xuanya Zhu, Da Li, Xiatian Zhu"
+          ],
+          "bullets": [
+            "The study examines how curvature in action-conditioned latent transition fields affects multi-step planning.",
+            "Moderate curvature regularization improves planning across four continuous-control tasks, whereas excessive regularization can hurt.",
+            "Regularization mainly reduces action sensitivity in the non-affine transition component.",
+            "Directly manipulating non-affine action responses changes candidate selection and closed-loop success in frozen models.",
+            "Curvature brings predicted futures closer together while preserving more goal-relevant differences, helping explain task-dependent effects across multiple planning solvers and world models."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 6: Encoder attention across curvature regularization strengths. Maps compare the base and beneficial models on the same observations, with additional stronger regularization settings for PushT. Colors are normalized per panel and indicate relative spatial emphasis.",
+              "figure_id": "figure-6-13",
+              "figure_number": "6",
+              "height": 515,
+              "image_path": "figures/2611.30064/figure-001.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 818
+            },
+            {
+              "caption": "Figure 1: Overview of the transition field. LeWM encodes observations into latent states and predicts the latent change produced by an action, which we denote by the transition field F (zt, at). During planning, we repeatedly compose these predicted changes along candidate action sequences. Differences introduced by actions at one step are therefore transformed over later rollout steps, determining how separated the candidate futures remain at the planning horizon.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 220,
+              "image_path": "figures/2611.30064/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 820
+            },
+            {
+              "caption": "Figure 7: One-step prediction error and five-step candidate regret for the base models. Each point represents one held-out state–goal pair evaluated with 300 candidate sequences.",
+              "figure_id": "figure-7-12",
+              "figure_number": "7",
+              "height": 249,
+              "image_path": "figures/2611.30064/figure-003.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 826
+            },
+            {
+              "caption": "Figure 5: Rollout geometry and closed-loop CEM success across curvature regularization strengths. Rtotal < 1 indicates overall contraction, while q > 1 indicates greater relative retention of response energy along the goal direction. Curves show means, with shaded bands indicating standard deviations. Vertical dashed lines mark the beneficial regimes.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 424,
+              "image_path": "figures/2611.30064/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 817
+            },
+            {
+              "caption": "Figure 3: Effect of scaling non-affine action differences on elite selection and closed-loop success. The top row shows normalized elite regret for the initial CEM proposal, with lower values indicating better elite selection. The bottom row shows closed-loop success. Curves show means, with shaded bands indicating standard deviations. The dashed line marks the original scale β = 1.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 384,
+              "image_path": "figures/2611.30064/figure-005.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 827
+            },
+            {
+              "caption": "Figure 8: Five-step prediction error and closed-loop success under response scaling. The top row shows five-step error normalized to its value at β = 1 for the same checkpoint. The bottom row shows closed-loop success. Vertical dashed lines mark β = 1.",
+              "figure_id": "figure-8-11",
+              "figure_number": "8",
+              "height": 287,
+              "image_path": "figures/2611.30064/figure-006.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 816
+            },
+            {
+              "caption": "Figure 2: One-step action sensitivity across curvature regularization strengths, normalized to the base-model level of 100%. Curves show means, with shaded bands indicating standard deviations.",
+              "figure_id": "figure-2-14",
+              "figure_number": "2",
+              "height": 233,
+              "image_path": "figures/2611.30064/figure-007.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 827
+            },
+            {
+              "caption": "Figure 4: Illustration of rollout-response contraction. Moderate contraction makes goal-direction differences relatively more prominent, while excessive contraction weakens candidate distinctions. Shaded regions show terminal-state responses to matched action perturbations; dashed contours indicate the base response.",
+              "figure_id": "figure-4-6",
+              "figure_number": "4",
+              "height": 149,
+              "image_path": "figures/2611.30064/figure-008.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 798
+            },
+            {
+              "caption": "Figure 9: LeWM planning success across curvature regularization strengths. Solid lines show the sampling-based solvers and dashed lines show the gradient-based solvers.",
+              "figure_id": "figure-9-10",
+              "figure_number": "9",
+              "height": 167,
+              "image_path": "figures/2611.30064/figure-009.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 814
+            },
+            {
+              "caption": "Table 1: Closed-loop CEM success rates (%) across curvature regularization strengths. Results are the mean ± standard deviation over three independent training seeds. Green entries highlight representative high-performing settings within each task.",
+              "figure_id": "table-1-8",
+              "figure_number": "1",
+              "height": 285,
+              "image_path": "figures/2611.30064/table-010.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 468
+            },
+            {
+              "caption": "Table 2: Contributions to one-step action-response energy reduction. For each training seed, reductions are expressed as percentages of the corresponding base model’s total energy. Positive values indicate reductions, and negative values offset the reduction.",
+              "figure_id": "table-2-1",
+              "figure_number": "2",
+              "height": 170,
+              "image_path": "figures/2611.30064/table-011.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 698
+            },
+            {
+              "caption": "Table 3: Model, training, and planning settings for the LeWM experiments with CEM.",
+              "figure_id": "table-3-4",
+              "figure_number": "3",
+              "height": 459,
+              "image_path": "figures/2611.30064/table-012.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 332
+            },
+            {
+              "caption": "Table 6: Five-step MSE on 30 held-out start–goal pairs and closed-loop success (%) on all 50 pairs from evaluation seed 42. Each group starts with the uncalibrated result. Indented rows calibrate that group’s β to the uncalibrated MSE at the indicated reference scale. A dash indicates that the held-out MSE fell outside the 10% matching tolerance.",
+              "figure_id": "table-6-5",
+              "figure_number": "6",
+              "height": 243,
+              "image_path": "figures/2611.30064/table-013.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 760
+            },
+            {
+              "caption": "Table 5: Held-out R2 F of the global affine reference in the base and beneficial regimes. Entries report means and sample standard deviations across three training seeds.",
+              "figure_id": "table-5-16",
+              "figure_number": "5",
+              "height": 88,
+              "image_path": "figures/2611.30064/table-014.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 594
+            },
+            {
+              "caption": "Table 4: Agreement between the base transition field and encoded displacements, evaluated on 100 held-out trajectories per task.",
+              "figure_id": "table-4-15",
+              "figure_number": "4",
+              "height": 89,
+              "image_path": "figures/2611.30064/table-015.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 572
+            },
+            {
+              "caption": "Table 7: Rollout geometry and CEM planning success for DINO-WM across four tasks. The geometry diagnostics use each task’s λ = 0 checkpoint as the reference. CEM success rates (%) are measured over 50 closed-loop episodes per setting.",
+              "figure_id": "table-7-9",
+              "figure_number": "7",
+              "height": 140,
+              "image_path": "figures/2611.30064/table-016.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 822
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.30064/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.30064",
+          "relevance": 8,
+          "selection_reason": "Studies how latent transition geometry affects action-conditioned planning in world models, directly fitting latent-action and interactive world-model interests.",
+          "summary_status": "generated",
+          "title": "How Latent Transition Geometry Matters for Planning in World Models",
+          "tldr": "Latent transition geometry—not just one-step prediction accuracy—shapes how effectively world models distinguish and plan among candidate futures.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "latent-action-models",
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Terraforming Mars is a long-horizon, action-conditioned control problem that requires predicting atmospheric responses to interventions over centuries to identify effective policies. This position paper argues that physics-regularized recurrent state-space world models are the most promising foundation for this setting. Data-driven climate emulators lack action-conditioning, and physics-based general circulation models (GCMs) are too expensive for policy search. Among learned world models, recurrent state-space architectures with physics constraints are better suited than transformer-based alternatives: they provide native uncertainty quantification through their stochastic-deterministic decomposition, remain stable under sparse non-terrestrial training data, and enforce physical consistency at each rollout step. To make this position concrete, we describe a potential architecture combining JEPA-inspired latent encoding, universal differential equation constraints, and a Dreamer-lineage planning head. We also introduce MarsWorld, an open benchmark proposal for intervention-conditioned planetary world models, and discuss broader implications and objections.",
+          "arxiv_id": "2611.29856",
+          "arxiv_url": "https://arxiv.org/abs/2611.29856",
+          "authors": [
+            "Sameera S Kashyap, Akshitha Nagaraj, Razvan Marinescu"
+          ],
+          "bullets": [
+            "Terraforming requires long-horizon, action-conditioned predictions of atmospheric responses.",
+            "Climate emulators often lack intervention conditioning, while physics-based GCMs are too costly for policy search.",
+            "The paper favors recurrent state-space models over transformers for uncertainty estimation, sparse-data stability, and stepwise physical consistency.",
+            "A proposed design combines JEPA-inspired latent representations, universal differential equation constraints, and a Dreamer-style planning head.",
+            "The paper proposes MarsWorld, an open benchmark for intervention-conditioned planetary world models, but presents a position and architecture proposal rather than experimental validation."
+          ],
+          "categories": [
+            "cs.LG",
+            "astro-ph.EP",
+            "astro-ph.IM"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Proposed Mars atmospheric world model architecture. S1: A two-stage training strategy separates synthetic pre-training data (MCD v6.1) from observational fine-tuning sources (EMARS, OpenMARS; with TES/MCS as the underlying retrievals); intervention actions at enter the transition model as continuous vectors. S2: A state encoder maps atmospheric fields to a latent z; PINN constraints and UDE residuals regularize the latent and downstream dynamics, merged at the concatenation node. S3: An RSSM propagates stochastic latent zt and recurrent memory ht under action-conditioned transitions ρ(z | h, a) with physics enforced at every step; ht is updated from (ht−1, zt−1, at−1) via the recurrent backbone. S4: An actor-critic head trains within imagined latent rollouts; the actor π(a | z, h) outputs intervention policies, the critic V (z, h) estimates returns from (∆P,∆T,∆O2), and a decoder reconstructs gridded fields against EMARS as an auxiliary signal. S5: Outputs are a learned policy trajectory, a long-horizon atmospheric forecast, and a rollout uncertainty map from stochastic latent samples.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 831,
+              "image_path": "figures/2611.29856/figure-001.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 706
+            },
+            {
+              "caption": "Table 1: Requirements for Mars terraforming simulation vs. existing systems. (i) Mars physical accuracy; (ii) tractable for policy search; (iii) action-conditioned rollouts; (iv) century-scale stability; (v) trainable on sparse non-terrestrial data.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 392,
+              "image_path": "figures/2611.29856/table-002.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 440
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.29856/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.29856",
+          "relevance": 7,
+          "selection_reason": "Proposes action-conditioned recurrent state-space world models for long-horizon planetary control, directly fitting interactive and latent-action world-model interests.",
+          "summary_status": "generated",
+          "title": "World Models Are the Right Foundation for Simulating Mars Terraforming",
+          "tldr": "Physics-regularized recurrent world models are proposed as a practical foundation for learning and planning Mars-terraforming interventions over centuries.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "latent-action-models",
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "We introduce MotionPort, which learns low-dimensional latent representations of body motion for accurate dynamics prediction and effective long-horizon planning. Existing world-model planners often search over action representations learned for prediction, yet we show that predictive accuracy alone does not ensure that optimization can discover successful trajectories. MotionPort addresses this mismatch by representing body trajectories rather than action chunks and organizing the search space by motion similarity, helping predicted improvements translate into successful execution. Without fine-tuning state encoders, MotionPort raises average goal-reaching success from 37.9% to 87.8% across three backbones and seven settings in four domains. On the evaluated AntMaze-OGBench tasks, it achieves 72% success, compared with 4% for the strongest baseline.",
+          "arxiv_id": "2611.29759",
+          "arxiv_url": "https://arxiv.org/abs/2611.29759",
+          "authors": [
+            "Renhao Zhang, Abhranil Chandra, Bruno Castro da Silva"
+          ],
+          "bullets": [
+            "Predictive accuracy alone may not yield an action-search space that supports successful trajectory optimization.",
+            "MotionPort represents body trajectories and aligns the latent search space with motion similarity.",
+            "It requires no fine-tuning of state encoders.",
+            "Across three backbones and seven settings in four domains, average goal-reaching success increases from 37.9% to 87.8%.",
+            "On evaluated AntMaze-OGBench tasks, MotionPort achieves 72% success versus 4% for the strongest baseline."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Learning and planning with MotionPort. (a) Representative body trajectories are encoded into geometry-structured motion codes, which condition an action decoder and a dynamics model, while the pretrained state encoder remains frozen. (b) A learned prior initializes motion-code sequences, which are iteratively refined by an optimizer. The diagram shows successive motion segments horizontally and iterative plan refinement vertically. The selected motion is decoded into executable actions and checked before execution.",
+              "figure_id": "figure-2-6",
+              "figure_number": "2",
+              "height": 308,
+              "image_path": "figures/2611.29759/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 954
+            },
+            {
+              "caption": "Figure 5. Effect of learned priors on PushT planning. All methods share the same start and goal. Rows compare planning without (top) and with (bottom) learned priors. Only full MotionPort with the prior successfully reaches the goal in this example.",
+              "figure_id": "figure-5-4",
+              "figure_number": "5",
+              "height": 282,
+              "image_path": "figures/2611.29759/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 491
+            },
+            {
+              "caption": "Figure 3. From imagined optimization to physical execution on Cube. We visualize two-dimensional slices of the planning spaces of HWM-Macro, MP-noGeo, and MotionPort. The top row shows predicted goal costs, while the bottom row shows actual cube-to-goal distances after executing the corresponding actions for 20 environment steps. The same optimization path is shown in both rows, with circles marking the starting points, stars marking the first updates reaching the predicted-cost threshold, and squares marking the final solutions after 30 updates. Solid contours indicate the predicted low-cost region (J/Jref ≤ 0.6), while dashed contours indicate the physical success region (distance ≤ 4 cm). MotionPort exhibits a larger overlap between these regions, allowing optimization to find a solution that succeeds.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 302,
+              "image_path": "figures/2611.29759/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 6. Planning efficiency across frozen world models. Goalreaching success versus planning time on long-horizon PushT. Colors distinguish LeWM, HWM, and H-JEPA, while dashed lines with circles represent native planners and solid lines with triangles represent MotionPort. Using their frozen backbones, MotionPort achieves higher success with substantially less planning time.",
+              "figure_id": "figure-6-8",
+              "figure_number": "6",
+              "height": 271,
+              "image_path": "figures/2611.29759/figure-004.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 448
+            },
+            {
+              "caption": "Figure 7. High goal-reaching success persists under continued execution. Ever success measures whether a goal is reached at any point, while terminal success measures success at the final step. Results on PushT and Cube show that MotionPort achieves both higher goal-reaching success and smaller gaps between ever and terminal success than most baselines.",
+              "figure_id": "figure-7-9",
+              "figure_number": "7",
+              "height": 245,
+              "image_path": "figures/2611.29759/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 457
+            },
+            {
+              "caption": "Figure 4. A better goal score benefits motion-space planning. (a–d) Goal-cost landscapes for two AntMaze goals, comparing visual-feature distance (E2) with the combined visual and temporal score (E2 + ϕ). Darker regions indicate lower costs, and stars mark the goals. The learned temporal score better captures the maze’s reachable paths. (e) Goal-reaching success on AntMaze-hard with and without ϕ, where MotionPort improves from 38% to 58%, while HWM-Macro decreases from 14% to 12%.",
+              "figure_id": "figure-4-3",
+              "figure_number": "4",
+              "height": 194,
+              "image_path": "figures/2611.29759/figure-006.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1020
+            },
+            {
+              "caption": "Table 1. Goal-reaching success on Push-T, Cube, FourRoom, and AntMaze. Results show mean success rates (%) and standard errors across seven settings. MotionPort uses a frozen HWM encoder. ∆ denotes improvement over the strongest baseline in each setting.",
+              "figure_id": "table-1-10",
+              "figure_number": "1",
+              "height": 75,
+              "image_path": "figures/2611.29759/table-007.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1036
+            },
+            {
+              "caption": "Table 2. Prediction reliability and control performance on PushT and Cube. Validation error (VE) measures prediction accuracy on logged trajectories, while planning error (PE) measures prediction accuracy on planner-selected actions. Error ratio (ER) is defined as PE/VE, and success rate (SR) measures goal-reaching performance (%). Results are reported as mean ± standard error using frozen HWM42. Prediction errors are measured in latent SSE for PushT and position error (cm) for Cube.",
+              "figure_id": "table-2-1",
+              "figure_number": "2",
+              "height": 89,
+              "image_path": "figures/2611.29759/table-008.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 496
+            },
+            {
+              "caption": "Table 4. Motion-space planning better realizes predicted progress. Both planners use the same temporal goal score on AntMaze-hard. PP (Predicted Progress) and RP (Realized Progress) measure reductions in ϕ-distance based on predicted and actual outcomes. RPR (Realized-to-Predicted Ratio) is the ratio of mean RP to mean PP. NPE (Normalized Prediction Error) measures squared prediction error relative to squared observed state change.",
+              "figure_id": "table-4-7",
+              "figure_number": "4",
+              "height": 86,
+              "image_path": "figures/2611.29759/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 3. Effect of learned priors on goal-reaching. NP (No Prior) uses Gaussian initialization, while LP (Learned Prior) uses a 1:1 mixture of prior and Gaussian samples. ∆P denotes the improvement from NP to LP in percentage points.",
+              "figure_id": "table-3-5",
+              "figure_number": "3",
+              "height": 40,
+              "image_path": "figures/2611.29759/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.29759/hero.webp",
+          "novelty": 9,
+          "pdf_url": "https://arxiv.org/pdf/2611.29759",
+          "relevance": 9,
+          "selection_reason": "Introduces MotionPort to learn geometry-aligned latent representations of body motion for improved dynamics prediction and long-horizon planning in world models.",
+          "summary_status": "generated",
+          "title": "What Should World Models Plan Over? Learning Geometry-Aligned Representations of Body Motion",
+          "tldr": "MotionPort improves long-horizon world-model planning by organizing low-dimensional body-motion trajectories around geometric similarity rather than relying solely on predictive action representations.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "latent-action-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Recent advances in physics-based humanoid control enable teams of varying sizes to coordinate their movements and cooperatively transport shared objects. However, adapting learned cooperative behaviors to unseen environmental constraints remains challenging, particularly when obstacles require coordinated detours and changes in team configuration. We propose CarlHOI, a counterfactual predictive imagination framework built upon a counterfactual-anchored relational latent world model (CarlWM) for human-object interaction (HOI), enabling multi-humanoid teams to adapt to unseen environmental constraints without retraining their underlying cooperative control policies. CarlHOI explicitly represents the shared object, individual humanoids, and environmental obstacles as interacting entities. Trained offline using counterfactual simulator rollouts, the model imagines alternative collective futures under different shared waypoint commands, predicting how the coupled humanoid team and object would respond. By evaluating these imagined outcomes through predicted progress, failure, and contact risks, and long-horizon value estimates, CarlHOI selects adaptive guidance commands while preserving the pretrained cooperative controller. We introduce a benchmark comprising three challenging obstacle-constrained transport tasks to evaluate adaptation and generalization. Despite being trained exclusively with four humanoids, our model generalizes without retraining to teams of two to ten humanoids, unseen obstacle geometries and placements, unseen objects, and novel combinations of environmental constraints. Extensive experiments demonstrate improved cooperative transport success over evaluated baselines across diverse configurations. Results highlight the potential of counterfactual predictive imagination to extend pretrained multi-humanoid cooperative skills beyond their original training conditions.",
+          "arxiv_id": "2611.29749",
+          "arxiv_url": "https://arxiv.org/abs/2611.29749",
+          "authors": [
+            "Wenjie Lin, Jin Wei-Kocsis"
+          ],
+          "bullets": [
+            "Targets cooperative transport in environments requiring obstacle detours and changing team configurations.",
+            "Models humanoids, shared objects, and obstacles as interacting entities in a relational latent world model.",
+            "Imagines outcomes of alternative waypoint commands using offline counterfactual simulator rollouts.",
+            "Selects guidance commands using predicted progress, failure, contact risk, and long-horizon value.",
+            "Evaluated on three obstacle-constrained transport tasks, with generalization from four-humanoid training to teams of two to ten and unseen configurations; experiments report improved success over evaluated baselines."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of CarlHOI. CarlWM predicts how a humanoid team and its shared load will respond to alternative waypoint commands from the same observed state. Each prediction is anchored to guidance toward the original goal. The highlighted branch shows the waypoint selected for the frozen transport policy, which generates each humanoid’s joint actions until CarlWM replans.",
+              "figure_id": "figure-2-4",
+              "figure_number": "2",
+              "height": 339,
+              "image_path": "figures/2611.29749/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1033
+            },
+            {
+              "caption": "Figure 8. Team reformation for n = 2, . . . , 10 (CarlWM steering TeamHOI-FT, table, 2.0 m gate). One row per team size; the row label gives the number of humanoids in front of and behind the table inside the gate. Blue: ahead of the table center; orange: behind.",
+              "figure_id": "figure-8-7",
+              "figure_number": "8",
+              "height": 623,
+              "image_path": "figures/2611.29749/figure-002.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 818
+            },
+            {
+              "caption": "Figure 3. Generalization to unseen objects across team sizes and tasks. Success rate of TeamHOI-FT alone and with each world-model planner. Band: 95% bootstrap confidence interval.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 366,
+              "image_path": "figures/2611.29749/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 424
+            },
+            {
+              "caption": "Figure 7. Qualitative results across tasks with four humanoids. The first four rows compare the same table-transport episodes. The last two rows show CarlHOI transporting the unseen bed and sofa. Earlier poses are faded; blue lines trace the object center, and crosses mark temporary targets.",
+              "figure_id": "figure-7-8",
+              "figure_number": "7",
+              "height": 906,
+              "image_path": "figures/2611.29749/figure-004.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 722
+            },
+            {
+              "caption": "Figure 5. Change in success rate over the policy alone (pp: percentage points, averaged over n = 2, . . . , 10). Diamonds/squares: CarlHOI; ×: best of TD-MPC2 and SeqWM on the same policy. Planners are trained only on the table with n = 4; all other objects, team sizes and policies are zero-shot.",
+              "figure_id": "figure-5-6",
+              "figure_number": "5",
+              "height": 491,
+              "image_path": "figures/2611.29749/figure-005.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 436
+            },
+            {
+              "caption": "Figure 4. Cumulative arrival rates across tasks and objects. Curves show the percentage of episodes reaching the target by time t, averaged over team sizes n = 2, . . . , 10. Vertical dotted lines mark deadlines: 30 s for table wall/passage tasks, 52 s for the table course, and 60 s for bed/sofa tasks.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 380,
+              "image_path": "figures/2611.29749/figure-006.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 439
+            },
+            {
+              "caption": "Figure 6. Team reformation during successful CarlHOI crossings of 2.0 m gates (matching the table’s diameter). Teams reorganize into front (blue) and rear (orange) groups: 2+2, 1+3, and 5+5. Formations of other team sizes are shown in Supplementary Material, Sec. 8.3.",
+              "figure_id": "figure-6-9",
+              "figure_number": "6",
+              "height": 288,
+              "image_path": "figures/2611.29749/figure-007.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 300
+            },
+            {
+              "caption": "Table 2. Component ablation. Results for the table object, four humanoids and TeamHOI-FT. Narrow Passage (P): 2.1 and 2.0 m gates; Multi-Obstacle Course (M): one 13 m layout. ∆: change from the full model in pp (percentage points), paired by episode.",
+              "figure_id": "table-2-10",
+              "figure_number": "2",
+              "height": 238,
+              "image_path": "figures/2611.29749/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 3. Additional metrics and final distance for the table object, averaged over n = 2, . . . , 10 as in Tab. 1. Supp.: the team stopped supporting the object; N.A.: not arrived (time limit or route termination without arrival); all as % of episodes. Dist.: mean distance from the object center to the target at the end of the episode (m), over all episodes. Bold: lowest value per policy and column.",
+              "figure_id": "table-3-12",
+              "figure_number": "3",
+              "height": 242,
+              "image_path": "figures/2611.29749/table-009.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 732
+            },
+            {
+              "caption": "Table 9. Planners compared. All are trained with four humanoids on the same conditions with TeamHOI-FT and act through the same aim-point interface. Branched: counterfactual rollouts of several commands from restored simulator states. π: learned policy prior.",
+              "figure_id": "table-9-13",
+              "figure_number": "9",
+              "height": 224,
+              "image_path": "figures/2611.29749/table-010.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 391
+            },
+            {
+              "caption": "Table 1. Carrying the table across policies, tasks, and team sizes. Each team size n is split into W: Obstacle Wall (spans 1.0–3.0 m), P: Narrow Passage (2.1 and 2.0 m gates) and M: Multi-Obstacle Course (two 13 m layouts). Each obstacle is evaluated on 256 episodes per team size. †Planners are only trained with n = 4 and TeamHOI-FT on 2.1 m passages and 1.25-1.75 m walls; every other policy, team size, and obstacle task is zero-shot. Time to arrival: mean arrival time over successful episodes of the task; –: no successful episode. Detailed results for individual subtasks, objects, policies, and team sizes are provided in the Supplementary Material, Sec. 8.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 73,
+              "image_path": "figures/2611.29749/table-011.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Table 4. Carrying the unseen bed across tasks and team sizes. Layout and aggregation as in Tab. 1: W: Obstacle Wall (TeamHOI and CooHOI: 1.0 and 2.0–3.0 m), P: Narrow Passage (2.1 and 2.0 m gates), M: Multi-Obstacle Course (two layouts). †Planners are trained with n = 4, TeamHOI-FT and the table only. Time: mean arrival time of successful episodes (limit 60 s); –: no successful episode.",
+              "figure_id": "table-4-11",
+              "figure_number": "4",
+              "height": 73,
+              "image_path": "figures/2611.29749/table-012.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 1036
+            },
+            {
+              "caption": "Table 5. Carrying the unseen sofa across tasks and team sizes. Layout and aggregation as in Tab. 1: W: Obstacle Wall (TeamHOI and CooHOI: 1.0 and 2.0–3.0 m), P: Narrow Passage (2.1 and 2.0 m gates), M: Multi-Obstacle Course (two layouts). †Planners are trained with n = 4, TeamHOI-FT and the table only. Time: mean arrival time of successful episodes (limit 60 s); –: no successful episode.",
+              "figure_id": "table-5-3",
+              "figure_number": "5",
+              "height": 73,
+              "image_path": "figures/2611.29749/table-013.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 1036
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.29749/hero.webp",
+          "novelty": 9,
+          "pdf_url": "https://arxiv.org/pdf/2611.29749",
+          "relevance": 9,
+          "selection_reason": "Uses a counterfactual latent world model for multi-humanoid cooperative manipulation, fitting robot learning and interactive/latent action world models.",
+          "summary_status": "generated",
+          "title": "CarlHOI: Counterfactual Predictive Imagination for Generalizable Multi-Humanoid Object Interaction under Constrained Environments",
+          "tldr": "CarlHOI uses counterfactual world-model predictions to adapt pretrained multi-humanoid object-transport skills to unseen obstacles, team sizes, objects, and constraints without retraining.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "latent-action-models",
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Sequence models trained on game moves have been shown to encode world models, with structured linear probes revealing the underlying game states. World models, however, are inherently dynamic: in deterministic board games, a set of rules constrain how states evolve over time. We therefore ask if and how OthelloGPT, a transformer trained only on Othello move sequences, manifests the rules of the game in its activation space. We divide the rules of Othello, and symmetrically their violations, into three classes: placing a disc on an empty square (R1), flanking an opponent's disc (R2), and moving in turn (R3). We find that linear probes accurately separate legal from illegal moves, and also distinguish between the three kinds of rule violations. We introduce an unsupervised rule-violation detector based on the step length of activations between consecutive moves, which identifies illegal moves above chance. We further improve our detection metric by computing step length in the latent space of select sparse autoencoders. Together, we find that OthelloGPT follows game rules of Othello to a large extent, and that we can detect rule violations using structured detectors on model activations.",
+          "arxiv_id": "2611.29715",
+          "arxiv_url": "https://arxiv.org/abs/2611.29715",
+          "authors": [
+            "David L. Cao, Sai Sumedh R. Hindupur, Demba Ba"
+          ],
+          "bullets": [
+            "Linear probes separate legal from illegal moves in activation space.",
+            "Probes distinguish violations involving placement, flanking, and turn order.",
+            "An unsupervised detector uses activation step lengths between consecutive moves to identify illegal moves above chance.",
+            "Measuring step length in selected sparse-autoencoder latent spaces improves detection.",
+            "The study finds that OthelloGPT follows Othello’s rules to a large extent."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 6: Hyperparameter sweep of each SAE architecture used in this work across sparsity L0. Every point is one trained dictionary at expansion factor 16 (8192 latents) on layer-5 activations, scored with Karvonen’s board-game suite [18]; all four panels share the x-axis L0, clipped to [0, 400], and marker shape denotes the architecture. (a) Loss recovered (fidelity) against L0, each point colored by its coverage of the Othello board state. (b) Coverage of the Othello board state against L0. (c) As in (a), each point colored by its board state reconstruction F1. (d) Board state reconstruction F1 against L0.",
+              "figure_id": "figure-6-1",
+              "figure_number": "6",
+              "height": 507,
+              "image_path": "figures/2611.29715/figure-001.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 664
+            },
+            {
+              "caption": "Figure 4: Detecting rule violations in SAE latent space. (a) AUROC of the detector applied in the latent spaces of eight SAE architectures. Several SAE representations outperform the raw residual stream, with GatedSAE achieving the highest AUROC (∼ 0.75) for distinguishing illegal from legal moves. (b) Less overlap in the distribution of the metric between legal moves and illegal moves is observed for GatedSAE latent space as opposed to that of residual stream activations (see Figure 3).",
+              "figure_id": "figure-4-15",
+              "figure_number": "4",
+              "height": 218,
+              "image_path": "figures/2611.29715/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 664
+            },
+            {
+              "caption": "Figure 3: Step-length metric detects rule violations in residual stream activations. (a) Example Othello game centered at t0 = 20, where an R2 violation occurs; the metric correctly classifies 4/5 moves in the displayed window. (b) The detection metric computed from residual stream activations peaks at the illegal move t0. (c) AUROC for detecting {illegal,R1,R2,R3} against {legal} exceeds the random baseline of 0.50 for all violation classes. (d) Despite this separation, the metric distributions show substantial overlap between legal moves and illegal moves, including each rule-violation class.",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 404,
+              "image_path": "figures/2611.29715/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 664
+            },
+            {
+              "caption": "Figure 7: Concrete example of OthelloGPT following the rules. (a) Randomly chosen game, board state at move t = 25, white to move. ‘m’ denotes move t = 26, ‘s’ denotes the opponent’s flanked disc, and ‘m′’ denotes the matched control move. (b) Tensor product probe (TPR) on the board state of Othello. The y-axis indicates whether or not a square is occupied, and the x-axis indicates OthelloGPT’s understanding of the relative disc color (mine versus their directions). The TPR shows that OthelloGPT updates its internal board representation in accordance with the flanking rule, changing the represented color of the flanked disc after the move.",
+              "figure_id": "figure-7-16",
+              "figure_number": "7",
+              "height": 319,
+              "image_path": "figures/2611.29715/figure-004.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 664
+            },
+            {
+              "caption": "Figure 8: Step length performs the best compared to the other rule violation detection metrics we tested. AUROC comparing three rule violation detection metrics – step length d, representation norm ∥z∥, and turning angle θ – in residual stream activations and in the SAE latent activations, averaged over n = 500 games.",
+              "figure_id": "figure-8-4",
+              "figure_number": "8",
+              "height": 513,
+              "image_path": "figures/2611.29715/figure-005.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 664
+            },
+            {
+              "caption": "Figure 5: Accuracy of linear probe trained on Othello board state over each residual stream layer of OthelloGPT. A linear probe classifies each of the 64 squares on the board as {empty,mine, theirs} from the residual stream activations after each block ℓ ∈ {0, . . . , 7}, scored on n = 1000 held-out games (58,000 positions).",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 342,
+              "image_path": "figures/2611.29715/figure-006.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 582
+            },
+            {
+              "caption": "Figure 2: Rule violations can be distinguished using linear probes. (a) 2D Multidimensional Scaling (MDS) visualization of linear probe directions (ring is linear probe direction, point is re-fitted probe per square) of the five classes (legal, illegal, R1, R2, and R3) (b) Cosine similarity matrix between the five probe directions. Illegal moves are anti-correlated with legal moves, and illegal classes are also anti-correlated with each other. (c) AUROC of linear probes for distinguishing each class. Performance is highest for distinguishing legal from illegal moves and lowest for distinguishing legal from R1 violations.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 209,
+              "image_path": "figures/2611.29715/figure-007.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 582
+            },
+            {
+              "caption": "Figure 1: OthelloGPT largely follows the rules of Othello. (a) Board state from a randomly chosen game at move t = 16, with black to move, illustrating a legal move and the three classes of rule violations (R1, R2, R3). (b) Next-token probability of generating an illegal move at move t, separated by violation class and averaged over n = 1000 games. This probability remains low throughout the game, reaching 7.1% at t = 58, indicating that OthelloGPT generally generates moves consistent with the rules of Othello.",
+              "figure_id": "figure-1-3",
+              "figure_number": "1",
+              "height": 215,
+              "image_path": "figures/2611.29715/figure-008.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 475
+            },
+            {
+              "caption": "Figure 16: Distance from the reference in R21 curvature space, unnormalized (moves are NOT regenerated after t0). Figure 15 without the divisor, in per-game descriptor SDs. Column scaling puts every panel’s peak within 1.3× of every other’s, so one y axis holds all nine.",
+              "figure_id": "figure-16-14",
+              "figure_number": "16",
+              "height": 318,
+              "image_path": "figures/2611.29715/figure-009.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 402
+            },
+            {
+              "caption": "Figure 14: Distance from the reference after a rule-violating move, unnormalized (moves are NOT regenerated after t0). Figure 13 without the divisor: distances in each space’s own units, so every panel carries its own y axis. What the nine draw spans 1360×, from SpaDE to raw layer 5.",
+              "figure_id": "figure-14-12",
+              "figure_number": "14",
+              "height": 318,
+              "image_path": "figures/2611.29715/figure-010.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 399
+            },
+            {
+              "caption": "Figure 13: Distance from the reference after a rule-violating move (moves are NOT regenerated after t0). Each rule’s distance from the reference branch, measured in the plane its panel of Figure 9 draws and divided by that panel’s own legal control, against move index t relative to t0 = 20. Panels are as in Figure 9. One curve per rule, the mean of its categories; bands are 95% CIs over n = 100 games. Left of t0, the branches share their prefix and the distance is 0 by construction; a curve that leaves the y cap carries the value it reaches.",
+              "figure_id": "figure-13-13",
+              "figure_number": "13",
+              "height": 314,
+              "image_path": "figures/2611.29715/figure-011.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 399
+            },
+            {
+              "caption": "Figure 15: Distance from the reference in R21 curvature space after a rule violating move (moves are NOT regenerated after t0). As Figure 13, but distances are taken in Figure 11’s curvature descriptor plane rather than in the displacement plane.",
+              "figure_id": "figure-15-11",
+              "figure_number": "15",
+              "height": 314,
+              "image_path": "figures/2611.29715/figure-012.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 399
+            },
+            {
+              "caption": "Figure 10: Divergence of activations in the residual stream after a rule-violating move (moves ARE regenerated after t0). As Figure 9, but each branch samples its own continuation from OthelloGPT assuming the move at t0 was played. Each path is the mean over K = 4 sampled futures, and the window stops at t0 + 8, where the comparison saturates.",
+              "figure_id": "figure-10-10",
+              "figure_number": "10",
+              "height": 429,
+              "image_path": "figures/2611.29715/figure-013.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 399
+            },
+            {
+              "caption": "Figure 11: Divergence of R21 curvature descriptors after a rule-violating move (moves are NOT regenerated after t0). As Figure 9, but the PCs are of the curvature displacement ∆φ(t) = φ(zb(t)) − φ(zref(t)), inside ReStraV’s 21-dimensional descriptor space of 11 step-length and 10 turning-angle components.",
+              "figure_id": "figure-11-8",
+              "figure_number": "11",
+              "height": 429,
+              "image_path": "figures/2611.29715/figure-014.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 399
+            },
+            {
+              "caption": "Figure 12: Divergence of R21 curvature descriptors after a rule-violating move (moves ARE regenerated after t0). Figure 11’s descriptor plane on Figure 10’s regenerated branches.",
+              "figure_id": "figure-12-7",
+              "figure_number": "12",
+              "height": 429,
+              "image_path": "figures/2611.29715/figure-015.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 399
+            },
+            {
+              "caption": "Figure 9: Divergence of activations in the residual stream after a rule-violating move (moves are NOT regenerated after t0). Trajectories of one game’s eight branches after t0 = 20, projected onto the first two PCs of the displacement from the reference, ∆(t) = zb(t)− zref(t), with move index t on the vertical axis. (a) Residual stream activations at layer 5, (b)–(i) SAE latent activations of the eight SAE types. Branches share both the prefix and the suffix with the reference, so two of them differ in exactly one token.",
+              "figure_id": "figure-9-9",
+              "figure_number": "9",
+              "height": 429,
+              "image_path": "figures/2611.29715/figure-016.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 399
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.29715/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.29715",
+          "relevance": 8,
+          "selection_reason": "Investigates how a game-playing transformer (OthelloGPT) encodes game rules and dynamics in its latent space, introducing unsupervised detectors for rule violations.",
+          "summary_status": "generated",
+          "title": "From States to Dynamics: Detecting Rule Violations in OthelloGPT",
+          "tldr": "OthelloGPT’s activations encode Othello’s transition rules, enabling legal-move classification and unsupervised detection of rule violations.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "latent-action-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "World-action models learn from future prediction, but accessing their future representations directly at test time can require costly frame generation. Methods that generate future frames before planning incur additional forward passes, while future co-training methods omit explicit future predictions at inference. We introduce \\method, a planner that reads the hidden states of masked future tokens without decoding future frames. We pretrain MMaDA-Parallel-M on driving video using frame-level masked world modeling, which predicts a masked suffix of future frames and explicitly includes inputs with all future frames masked. Learned planning queries attend to these masked positions and the observed context, and a continuous head predicts the trajectory in the same forward pass. With a single front camera, \\method reaches 92.0 PDMS on NAVSIM v1 and 89.3 EPDMS on NAVSIM v2, with an end-to-end latency of 60.3\\,ms.",
+          "arxiv_id": "2611.29125",
+          "arxiv_url": "https://arxiv.org/abs/2611.29125",
+          "authors": [
+            "Ziyu Zhao, Casey Sun, Zeyu Wang, Shicong Ma, Emily T Zhang, Cheng Lu"
+          ],
+          "bullets": [
+            "Addresses the inference cost of generating future frames before planning.",
+            "Pretrains a masked world model on driving video, including inputs where all future frames are masked.",
+            "Uses planning queries over masked future states and observed context, with a continuous trajectory head in one forward pass.",
+            "Achieves 92.0 PDMS on NAVSIM v1 and 89.3 EPDMS on NAVSIM v2 using a single front camera.",
+            "Runs with 60.3 ms end-to-end latency."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Training of SilentWAM. (a) Frame-level masking replaces the last n future frames with [M] (all of them at t = 1), and LWM is computed only there. (b) Masked-state imitation uses the same input as at test time; gϕ predicts residuals, then the reference is added. (c) Post-training with simulator rewards, then a footprint loss.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 327,
+              "image_path": "figures/2611.29125/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1008
+            },
+            {
+              "caption": "Figure 4. Accuracy against latency on NAVSIM v1 navtest. Latency is end-to-end per plan on one B200 GPU (bf16, batch size 1). SilentWAM achieves the highest PDMS and lowest latency among the compared world-model planners.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 241,
+              "image_path": "figures/2611.29125/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 476
+            },
+            {
+              "caption": "Figure 3. Inference in one forward pass: in every layer, each query attends to the context, the masked future and the other queries; the masked positions are never decoded.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 188,
+              "image_path": "figures/2611.29125/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 450
+            },
+            {
+              "caption": "Table 1. Comparison on NAVSIM v1 navtest. NC: no at-fault collision, DAC: drivable area compliance, EP: ego progress, TTC: time to collision, C: comfort. Second group: methods that train a world model. Best in bold, excluding the human reference.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 365,
+              "image_path": "figures/2611.29125/table-004.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 740
+            },
+            {
+              "caption": "Table 2. Comparison on NAVSIM v2 navtest. DDC: driving direction compliance, TLC: traffic light compliance, LK: lane keeping, HC: history comfort, EC: extended comfort. EPDMS∗ / EPDMS: original / revised evaluation code (NAVSIM issue #151); –: not reported.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 276,
+              "image_path": "figures/2611.29125/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 898
+            },
+            {
+              "caption": "Table 3. Open-loop planning on nuScenes val. WM: trains a world model. Ego: ego status as input.",
+              "figure_id": "table-3-7",
+              "figure_number": "3",
+              "height": 231,
+              "image_path": "figures/2611.29125/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 806
+            },
+            {
+              "caption": "Table 4. Ablation of the main components. PT / IL: LWM in pretraining / masked-state imitation. [M]K : masked future frames in the planner input. V̂ : future decoded before planning. Post.: posttraining (Sec. 3.4; NAVSIM only). nuScenes: average L2 (m) and collision rate (%). Latency per plan on one B200 GPU.",
+              "figure_id": "table-4-6",
+              "figure_number": "4",
+              "height": 184,
+              "image_path": "figures/2611.29125/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 479
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.29125/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.29125",
+          "relevance": 9,
+          "selection_reason": "Introduces SilentWAM, a planner that reads hidden states of masked future tokens in a diffusion world model for driving, directly addressing the cost of frame generation in world-action models.",
+          "summary_status": "generated",
+          "title": "SilentWAM: Planning in the Masked State of a Diffusion World Model",
+          "tldr": "SilentWAM plans from masked future-token representations, predicting driving trajectories without decoding future frames.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "latent-action-models",
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Marine robots face partial observability, non-stationary dynamics, and sparse communication, motivating WMs that learn compact predictive states for planning. This review develops a functional taxonomy of WMs for ocean engineering, focusing on Joint-Embedding Predictive Architectures (JEPAs) and AdaJEPA's test-time adaptation within model predictive control, mapping them to navigation, adaptive sampling, digital twins, and biodiversity monitoring, and separating demonstrated evidence from prospective applications. The synthesis identifies key Gaps: benchmarks, uncertainty calibration, safe adaptation and proposes a research agenda for physics-informed, deployment-adaptive marine WMs validated through simulation and field missions.",
+          "arxiv_id": "2611.28978",
+          "arxiv_url": "https://arxiv.org/abs/2611.28978",
+          "authors": [
+            "Basma Dokkara, Esteban W. G. Cluab, Luiz M. G. Goncalves, Paolo Spagnolo, Cosimo Distante"
+          ],
+          "bullets": [
+            "Marine robots must operate under partial observability, changing dynamics, and limited communication.",
+            "It provides a functional taxonomy spanning navigation, adaptive sampling, digital twins, and biodiversity monitoring.",
+            "The review focuses on JEPAs and AdaJEPA-style test-time adaptation integrated with model predictive control.",
+            "It distinguishes demonstrated evidence from prospective applications.",
+            "Key gaps include benchmarks, uncertainty calibration, and safe adaptation; it proposes physics-informed, deployment-adaptive validation in simulation and field missions."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.AI",
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: General framework of JEPAs. The main architecture includes a joint embedding (context encoder and target encoder), a predictor, and a loss. The architecture can be adapted to more complex data types through pre-embedding processes such as sequencing and token embedding. The predictor can benefit from auxiliary variables such as actions and proprioceptive embeddings.",
+              "figure_id": "figure-2-7",
+              "figure_number": "2",
+              "height": 379,
+              "image_path": "figures/2611.28978/figure-001.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 604
+            },
+            {
+              "caption": "Figure 1: Conceptual framework of Marine WMs for Ocean Intelligence",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 454,
+              "image_path": "figures/2611.28978/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 754
+            },
+            {
+              "caption": "Figure 4: Conceptual overview of the data-centric paradigm for Marine WMs. Decades of open, FAIRcompliant ocean observations—satellite remote sensing, oceanographic monitoring, biodiversity repositories, and acoustic observatories—provide the multimodal training data for learning predictive marine representations. Integrating these sources into a common latent space enables future-state prediction, adaptive robotic exploration, digital twins, and biodiversity forecasting, laying the foundation for next-generation Ocean Foundation Models supporting intelligent ocean observation at global scale.",
+              "figure_id": "figure-4-6",
+              "figure_number": "4",
+              "height": 379,
+              "image_path": "figures/2611.28978/figure-003.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 754
+            },
+            {
+              "caption": "Figure 3: Biodiversity WM for Adaptive Ocean Monitoring",
+              "figure_id": "figure-3-9",
+              "figure_number": "3",
+              "height": 396,
+              "image_path": "figures/2611.28978/figure-004.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 754
+            },
+            {
+              "caption": "Table 1: Key challenges of autonomous marine systems and the potential advantages offered by WMs.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 376,
+              "image_path": "figures/2611.28978/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1113
+            },
+            {
+              "caption": "Table 3: Summary of Previous Surveys",
+              "figure_id": "table-3-8",
+              "figure_number": "3",
+              "height": 683,
+              "image_path": "figures/2611.28978/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 1102
+            },
+            {
+              "caption": "Table 7: Candidate world-model families for marine applications and the evidence required before deployment.",
+              "figure_id": "table-7-10",
+              "figure_number": "7",
+              "height": 777,
+              "image_path": "figures/2611.28978/table-007.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 1084
+            },
+            {
+              "caption": "Table 5: Literature search strategy summary.",
+              "figure_id": "table-5-4",
+              "figure_number": "5",
+              "height": 416,
+              "image_path": "figures/2611.28978/table-008.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 1029
+            },
+            {
+              "caption": "Table 2: List of Acronyms and Abbreviations",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 142,
+              "image_path": "figures/2611.28978/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1096
+            },
+            {
+              "caption": "Table 4: Functional dimensions for comparing WMs in ocean engineering.",
+              "figure_id": "table-4-2",
+              "figure_number": "4",
+              "height": 150,
+              "image_path": "figures/2611.28978/table-010.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 1084
+            },
+            {
+              "caption": "Table 6: Representative open ocean data sources and their potential contribution to Marine WMs.",
+              "figure_id": "table-6-11",
+              "figure_number": "6",
+              "height": 1210,
+              "image_path": "figures/2611.28978/table-011.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 1063
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.28978/hero.webp",
+          "novelty": 5,
+          "pdf_url": "https://arxiv.org/pdf/2611.28978",
+          "relevance": 7,
+          "selection_reason": "Review of world models for maritime autonomy with test-time adaptation, directly relevant to world models and embodied navigation.",
+          "summary_status": "generated",
+          "title": "World Models for Ocean Engineering: A Critical Review of Maritime Autonomy, Adaptive Latent Prediction, Digital Twins, and Biodiversity Monitoring",
+          "tldr": "This review maps world models for ocean engineering, emphasizing predictive latent representations and safe adaptation while identifying gaps needed for reliable maritime autonomy.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "latent-action-models",
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "test-time-learning"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "World action models (WAMs) leverage the world knowledge of video generation models to improve action generation by aligning visual prediction with action prediction. However, their prediction overhead prevents real-time deployment on edge devices, and they usually lack an effective long-term memory. We introduce SANA-Robot, a 4.5B WAM with minute-level memory that runs in real time on edge devices, built on the following core designs: (1) hybrid memory at constant cost: our WAM relies on linear attention to maintain a global memory with a fixed-size state, and on sliding window softmax attention layers that propagate previous information, enabling high success rates on tasks requiring whole-episode memory while keeping an efficient and constant inference speed; (2) a unified model: by dynamically applying different noise levels to action and video tokens, SANA-Robot can serve not only as a policy but also as a world simulator; (3) a full-stack infrastructure for both memory training and inference, including efficient data packing and shuffling as well as memory-phase-based asynchronous execution. SANA-Robot achieves the best performance on the memory dimension of RoboDojo among models of medium size (about 5B) and the highest success rates on LIBERO-Plus, LIBERO-Pro and LIBERO-Max. In real-world deployment, SANA-Robot takes 135 ms per action chunk on an RTX 5090 with FP8 GEMMs and 115 ms with NVFP4 GEMMs, and achieves closed-loop, real-time asynchronous robot control at 30 Hz on edge devices, demonstrating both the efficiency and the effectiveness of SANA-Robot. Project page: https://nvlabs.github.io/Sana/Robot/",
+          "arxiv_id": "2611.28943",
+          "arxiv_url": "https://arxiv.org/abs/2611.28943",
+          "authors": [
+            "Yuyang Zhao, Zekai Li, Yicheng Pan, Jiaming Tang, Zhuoyang Zhang, Jiaxu Xing, Moritz Reuss, Quanquan Peng, Junsong Chen, Enze Xie, Zhijian Liu, Song Han"
+          ],
+          "bullets": [
+            "Addresses WAM inference overhead and weak long-term memory for real-time, whole-episode robot tasks.",
+            "Uses linear attention for fixed-size global memory plus sliding-window softmax attention to propagate recent information at constant inference cost.",
+            "Dynamically assigns noise levels to action and video tokens, allowing one model to function as both a policy and a world simulator.",
+            "Includes infrastructure for memory training and inference, including efficient data handling and asynchronous memory-phase execution.",
+            "Reports strong memory-task performance and real-time deployment: 135 ms per action chunk on an RTX 5090 and 30 Hz control on edge devices."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2 | Overview of SANA-Robot, a unified world action model for FDM, IDM and policy. The video VAE encodes each camera view separately into the observation latent 𝑜 and the future video latent 𝑧, which enter the DiT together with the proprioception 𝑠 and the actions 𝑎; mRoPE places the views on a 2 × 2 grid of positions. The hybrid DiT stacks 8 blocks, each with three GDN layers and one softmax layer.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 311,
+              "image_path": "figures/2611.28943/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 920
+            },
+            {
+              "caption": "Figure 6 | Asynchronous execution of SANA-Robot-AR with 𝐶 = 32 and 𝑑 = 16. Request 𝑘 starts at step 𝑡𝑘, drops the first 𝑑 actions of its chunk and executes the next 𝐶 − 𝑑. (a) Direct RTC keeps a single memory and writes the 𝐶 − 𝑑 executed steps as one memory chunk, so its memory chunks are shorter than in training. (b) Memory RTC keeps one memory per phase 𝜙, whose chunks span 𝐶 steps as in training; at each 𝑡𝑘 (triangles), the window that has just ended is written into the memory of phase 𝜙𝑘, here every 16 steps, alternating between the two memories.",
+              "figure_id": "figure-6-5",
+              "figure_number": "6",
+              "height": 412,
+              "image_path": "figures/2611.28943/figure-002.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 956
+            },
+            {
+              "caption": "Figure 4 | Training SANA-Robot-AR on whole episodes. (a) Attention mask of chunk-causal teacher forcing for a window of four chunks: each row is a query and each column a key, and 𝑐𝑘, 𝑜𝑘 and 𝑛𝑘 denote the clean, observation (with proprioception) and noisy entries of chunk 𝑘. (b) Task-balanced ordering and one training step, schematic: the windows of each task are laid end to end on a line from 0 to 1 and sorted by their midpoints into one queue, which packing places on the GPUs without padding; length-bucketed padding wastes compute and skews the task mix of the step. (c) Per-step training loss when fine-tuning SANA-Robot-AR on RoboDojo: task-balanced ordering with packing halves the detrended loss fluctuation and shortens the median step time.",
+              "figure_id": "figure-4-11",
+              "figure_number": "4",
+              "height": 297,
+              "image_path": "figures/2611.28943/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 975
+            },
+            {
+              "caption": "Figure 5 | Synchronous and asynchronous inference. (a) Synchronous execution: the robot idles for the latency 𝐿 of each request and then executes all 𝐶 actions of the new chunk. (b) Asynchronous execution: the request at 𝑡𝑘 is issued when 𝑑 actions of the current chunk remain and runs while the robot executes them; the first 𝑑 actions of chunk 𝑘 are dropped, and the robot executes the next 𝑃 = 𝐶 − 𝑑.",
+              "figure_id": "figure-5-17",
+              "figure_number": "5",
+              "height": 270,
+              "image_path": "figures/2611.28943/figure-004.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 939
+            },
+            {
+              "caption": "Figure 8 | Real-world capabilities. (a) SANA-Robot-base and SANA-Robot-AR; the dashed line marks random guessing. (b) Synchronous and asynchronous execution of SANA-Robot-AR with BF16 GEMMs: success rate, stall time per chunk and effective control frequency; the dashed line marks the 30 Hz cap of the controller. (c) Success on Tower of Hanoi and Air Hockey with BF16, FP8 and NVFP4 GEMMs.",
+              "figure_id": "figure-8-3",
+              "figure_number": "8",
+              "height": 261,
+              "image_path": "figures/2611.28943/figure-005.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 965
+            },
+            {
+              "caption": "Figure 9 | Memory designs on RoboDojo. The baseline memories are used to post-train SANA-Robot-base with the same data and initialization as SANA-Robot-AR; (b) reports the success rate on the memory tasks.",
+              "figure_id": "figure-9-19",
+              "figure_number": "9",
+              "height": 258,
+              "image_path": "figures/2611.28943/figure-006.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 974
+            },
+            {
+              "caption": "Figure 11 | Memory analysis of SANA-Robot-AR offline on RoboDojo. (a) Action MSE on the memory tasks during post-training, with sources of history removed; “w/o sliding window” writes the past chunks without the window. (b) Increase of the action MSE at 20k steps when the GDN history is removed or the sliding window is cut, by chunk index 𝑐 and task category.",
+              "figure_id": "figure-11-14",
+              "figure_number": "11",
+              "height": 268,
+              "image_path": "figures/2611.28943/figure-007.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 968
+            },
+            {
+              "caption": "Figure 3 | Pretraining data by source: shares of the raw hours, of the filtered hours, and of the training chunks per epoch after balancing. Other Robots are the ten smaller robot families of Table 1.",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 187,
+              "image_path": "figures/2611.28943/figure-008.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 957
+            },
+            {
+              "caption": "Figure 10 | Three ways to condition the target chunk on the current observation 𝑜𝑐. (a) 𝑜𝑐 is not in the target chunk and appears only as the last frame of the previous chunk in the memory. (b) 𝑜𝑐 and the targets attend to each other. (c) The targets read 𝑜𝑐, but 𝑜𝑐 does not read them and is not written into the memory. Filled: attention; dashed: no attention. (d) Average score / success rate (%) on the memory and the precision tasks.",
+              "figure_id": "figure-10-15",
+              "figure_number": "10",
+              "height": 183,
+              "image_path": "figures/2611.28943/figure-009.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 950
+            },
+            {
+              "caption": "Figure 12 | Comparison of policy success rate in real robot and world simulator. The closer to the dashed line (𝑦 = 𝑥), the better the world simulator agrees with real deployment.",
+              "figure_id": "figure-12-13",
+              "figure_number": "12",
+              "height": 365,
+              "image_path": "figures/2611.28943/figure-010.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 357
+            },
+            {
+              "caption": "Table 1 | Pretraining data before and after filtering. Hours are real time, Views is the number of cameras, and FPS is the training frame-rate tier. Human video is recorded at 30 Hz and played at 15 Hz.",
+              "figure_id": "table-1-18",
+              "figure_number": "1",
+              "height": 728,
+              "image_path": "figures/2611.28943/table-011.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 885
+            },
+            {
+              "caption": "Table 5 | Zero-shot success rate (%) on LIBERO-Plus [13] of policies trained on the LIBERO [69] dataset.",
+              "figure_id": "table-5-10",
+              "figure_number": "5",
+              "height": 616,
+              "image_path": "figures/2611.28943/table-012.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 843
+            },
+            {
+              "caption": "Table 3 | Results on RoboDojo [11] (simulation). Each cell: average score / success rate (%). Generalization is the mean of the standard and randomized settings, and the average is taken over the five dimensions. All results, including SANA-Robot-AR, are from the official leaderboard.",
+              "figure_id": "table-3-16",
+              "figure_number": "3",
+              "height": 536,
+              "image_path": "figures/2611.28943/table-013.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 927
+            },
+            {
+              "caption": "Table 9 | Results on WorldArena [19]. Latency is the end-to-end time in seconds to generate 30 frames at 640 × 480 on one H100 GPU.",
+              "figure_id": "table-9-12",
+              "figure_number": "9",
+              "height": 275,
+              "image_path": "figures/2611.28943/table-014.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 875
+            },
+            {
+              "caption": "Table 6 | Zero-shot success rate (%) on LIBERO-Pro [17] of policies trained on the LIBERO [69] dataset.",
+              "figure_id": "table-6-7",
+              "figure_number": "6",
+              "height": 502,
+              "image_path": "figures/2611.28943/table-015.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 573
+            },
+            {
+              "caption": "Table 2 | Per-request latency (ms) of SANA-Robot-AR (𝑁 = 1) in synchronous execution with 𝐾 = 4: the sum of video encoding, prefill and 𝐾 denoising steps. Opt.: kernel fusion, CUDA graphs and prefix caching in BF16; +FP8 and +NVFP4: with low-bit GEMMs. Speed-ups over eager in parentheses.",
+              "figure_id": "table-2-1",
+              "figure_number": "2",
+              "height": 117,
+              "image_path": "figures/2611.28943/table-016.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 563
+            },
+            {
+              "caption": "Table 4 | Results on RoboTwin 2.0 [12] with cleanonly training (Clean2Random).",
+              "figure_id": "table-4-9",
+              "figure_number": "4",
+              "height": 401,
+              "image_path": "figures/2611.28943/table-017.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 408
+            },
+            {
+              "caption": "Table 7 | Zero-shot success rate (%) on LIBERO-Max [18] of policies trained on the LIBERO [69] dataset.",
+              "figure_id": "table-7-6",
+              "figure_number": "7",
+              "height": 457,
+              "image_path": "figures/2611.28943/table-018.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 337
+            },
+            {
+              "caption": "Table 8 | Real-world comparison with baselines (%). Make Coffee: the number of finished steps before the first error. Tower of Hanoi: rings stacked consecutively in the correct order before the first error, out of 7. Magic Cube: successful turns of the cube.",
+              "figure_id": "table-8-2",
+              "figure_number": "8",
+              "height": 117,
+              "image_path": "figures/2611.28943/table-019.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 550
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.28943/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.28943",
+          "relevance": 9,
+          "selection_reason": "Presents an efficient World Action Model (WAM) with hybrid memory that runs in real-time on edge devices, bridging world models and robot policy learning.",
+          "summary_status": "generated",
+          "title": "SANA-Robot: Efficient World Action Model with Hybrid Memory",
+          "tldr": "SANA-Robot is a 4.5B world action model that combines constant-cost hybrid memory and unified policy/world simulation to enable effective, real-time robot control on edge devices.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-action"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "latent-action-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Mobile embodied agents continuously alter their observations through their own motion, while external dynamics further shape future interactions. Different mobile embodied tasks therefore capture complementary patterns of state evolution, yet jointly learning world dynamics across such interactions remains less explored. We investigate this problem through Vision-and-Language Navigation (VLN) and Embodied Visual Tracking (EVT), which respectively involve navigation toward a stationary goal and interaction with a moving target. We propose WorldWeave, a cross-task world model that couples shared predictive dynamics with task-specific adaptation. Instead of conditioning state transitions on heterogeneous physical actions, WorldWeave learns latent actions from observed state changes via inverse-forward dynamics, establishing a shared transition representation across tasks. The resulting future-state predictions are adaptively integrated into task-specific representations for downstream decision making. Experiments across multiple VLN and EVT benchmarks demonstrate consistent improvements over specialized baselines.",
+          "arxiv_id": "2611.28553",
+          "arxiv_url": "https://arxiv.org/abs/2611.28553",
+          "authors": [
+            "Xuan Yao, Jiahao Zhang, Rongjunchen Zhang, Kaixuan Huang, Junyu Gao, Changsheng Xu"
+          ],
+          "bullets": [
+            "Addresses underexplored cross-task world modeling for embodied agents whose actions and environments continually change future observations.",
+            "Uses inverse-forward dynamics to learn latent actions and a shared transition representation instead of relying on heterogeneous physical actions.",
+            "Combines shared predictive dynamics with task-specific adaptation for downstream navigation and tracking decisions.",
+            "Evaluations across multiple VLN and EVT benchmarks show consistent improvements over specialized baselines."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of WORLDWEAVE. Shared predictive dynamics are learned from state changes in consecutive observations through inverse–forward dynamics and transferred across VLN and EVT without relying on task-specific action definitions. Task-specific adaptation then incorporates the predicted future states into each task’s decision process.",
+              "figure_id": "figure-2-7",
+              "figure_number": "2",
+              "height": 317,
+              "image_path": "figures/2611.28553/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1027
+            },
+            {
+              "caption": "Figure 1. Motivation of WORLDWEAVE. (a) VLN and EVT capture complementary dynamics through navigation to fixed goals and tracking moving targets. (b) Naive representation sharing creates cross-task trade-offs, which WORLDWEAVE mitigates through shared predictive dynamics and task-specific adaptation.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 306,
+              "image_path": "figures/2611.28553/figure-002.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 496
+            },
+            {
+              "caption": "Figure 3. Real-world deployment for embodied navigation tasks.",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 298,
+              "image_path": "figures/2611.28553/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 489
+            },
+            {
+              "caption": "Table 2. Comparison on R2R-CE and RxR-CE Val-Unseen splits under monocular settings. Results outperforming the baseline are bold; best results among publicly available methods are underlined. Gray rows indicate recent VLM-based methods whose code or training data are not publicly released; we include their officially reported results for reference only.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 266,
+              "image_path": "figures/2611.28553/table-004.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1006
+            },
+            {
+              "caption": "Table 4. Comparison of cross-task sharing strategies on R2R Val-Unseen and EVT-Bench STT sets. Variants (a)–(d) progressively examine the sharing of state representations, predictive dynamics, and task-specific predictive adaptation. Best results are in bold.",
+              "figure_id": "table-4-5",
+              "figure_number": "4",
+              "height": 335,
+              "image_path": "figures/2611.28553/table-005.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 1031
+            },
+            {
+              "caption": "Table 3. Comparison on EVT-Bench. Results outperforming the baseline are bold.",
+              "figure_id": "table-3-3",
+              "figure_number": "3",
+              "height": 305,
+              "image_path": "figures/2611.28553/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 986
+            },
+            {
+              "caption": "Table 1. Cross-task performance comparison of task-specific baselines, Uni-NaVid, and WORLDWEAVE on VLN and EVT tasks.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 147,
+              "image_path": "figures/2611.28553/table-007.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 492
+            }
+          ],
+          "first_seen_at": "2026-11-23T21:00:00-05:00",
+          "hero_figure": "figures/2611.28553/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.28553",
+          "relevance": 9,
+          "selection_reason": "Proposes a cross-task world model for embodied navigation that learns latent actions from state changes, bridging VLN and Embodied Visual Tracking.",
+          "summary_status": "generated",
+          "title": "WorldWeave: Rethinking Embodied Navigation through Cross-Task World Modeling",
+          "tldr": "WorldWeave jointly learns transferable world dynamics from navigation and tracking tasks by inferring latent actions from observed state changes.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-navigation",
+                "robot-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "latent-action-models"
+              ],
+              "topic_id": "world-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-22",
       "paper_count": 5,
       "papers": [
@@ -24758,5 +27032,5 @@
   "schema_version": 1,
   "subtopic_id": "latent-action-models",
   "topic_id": "world-models",
-  "total_paper_count": 132
+  "total_paper_count": 146
 }
