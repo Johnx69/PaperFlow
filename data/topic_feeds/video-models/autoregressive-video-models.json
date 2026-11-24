@@ -3860,6 +3860,231 @@
       ]
     },
     {
+      "date": "2026-11-09",
+      "paper_count": 1,
+      "papers": [
+        {
+          "abstract": "Agentic autoregressive video generation combines semantic planning, sequential generation, and visual verification for controllable synthesis. Growing visual histories enlarge the key-value (KV) cache, increasing memory use and attention costs across candidate rollouts. Existing compression methods primarily optimize individual generators without the planner's semantic constraints, risking low priority for states supporting requested attributes or actions. We introduce SemanticKV, a training-free method for semantically aligned KV cache compression. To our knowledge, SemanticKV is the first KV cache compression method for agentic autoregressive video generation that explicitly uses planner-extracted semantic constraints to guide retention. Text cross-attention identifies constraint-related video positions, whose self-attention queries are collected into separate groups. Attention weights are averaged within each group and maximized across groups, giving each cached entry a high score when strongly used by any represented constraint. A single top-k selection retains high-scoring entries under the memory budget, leaving their keys, values, and positions unchanged. For fixed query groups and equal entry costs, this selection minimizes an additive upper bound on worst-group discarded attention. The method operates independently within each candidate without retraining or additional video generations. We evaluate four AR video backbones on three benchmarks for 5-, 30-, and 60-second generation. On Causal Forcing at a compression ratio of 0.7, SemanticKV obtains a VBench Total Score of 84.10, compared with 84.05 for the strongest compressed baseline and 83.99 for Full KV. It achieves a 1.22x speedup over Full KV and reduces KV-cache memory from 6.04 GB to 1.81 GB, a 3.35x reduction.",
+          "arxiv_id": "2611.11452",
+          "arxiv_url": "https://arxiv.org/abs/2611.11452",
+          "authors": [
+            "Weizhong Huang",
+            "Huaijia Kou",
+            "Tianyu Xie",
+            "Xiawu Zheng",
+            "Liujuan Cao"
+          ],
+          "bullets": [
+            "Addresses growing KV-cache memory and attention costs from long visual histories and candidate rollouts.",
+            "Uses planner-extracted constraints and text cross-attention to group relevant queries, then selects a single top-k set of high-value cache entries.",
+            "Training-free, operates independently per candidate, and preserves retained keys, values, and positions without extra video generation.",
+            "Across four backbones and three benchmarks, it supports 5-, 30-, and 60-second generation; on Causal Forcing, it reports a 1.22× speedup and 3.35× lower KV-cache memory.",
+            "At 0.7 compression on Causal Forcing, it reports a VBench score of 84.10 versus 84.05 for the strongest compressed baseline and 83.99 for Full KV."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of SEMANTICKV. Semantic constraints R are matched to prompt tokens. Text cross-attention identifies related video positions, from which we collect the generator’s self-attention queries. Their attention to each KV entry is averaged within groups and maximized across groups. A single top-k selection retains high-scoring entries within the byte budget, together with states required by the backbone. Retained keys, values, and positions remain unchanged.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 292,
+              "image_path": "figures/2611.11452/figure-001.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 798
+            },
+            {
+              "caption": "Figure 11: Scene fidelity on LongLive. Prompt: “palace” (seed 45). Full KV and the three compressed baselines converge to a generic neoclassical institutional facade and receive per-video Scene scores of 0.00. SEMANTICKV produces palatial architecture across the sequence and scores 0.75.",
+              "figure_id": "figure-11-12",
+              "figure_number": "11",
+              "height": 494,
+              "image_path": "figures/2611.11452/figure-002.webp",
+              "kind": "figure",
+              "page": 32,
+              "width": 748
+            },
+            {
+              "caption": "Figure 1: Agentic AR video generation. Semantic constraints R and prompt-specific exclusions N guide prompt refinement. The original-prompt and planned candidates from the same generator undergo randomized, anonymous visual verification, followed by conservative selection using Eq. 7.",
+              "figure_id": "figure-1-10",
+              "figure_number": "1",
+              "height": 299,
+              "image_path": "figures/2611.11452/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 798
+            },
+            {
+              "caption": "Figure 7: Human-action fidelity on LongLive. Prompt: “A person is dunking basketball” (seed 42). R-KV, Dummy Forcing, and Forcing-KV depict ball handling or dribbling and fail the VBench Human Action check. SEMANTICKV depicts the requested dunk and passes the check, matching the Full-KV reference. Rows compare methods and columns show uniformly sampled timestamps.",
+              "figure_id": "figure-7-4",
+              "figure_number": "7",
+              "height": 494,
+              "image_path": "figures/2611.11452/figure-004.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 748
+            },
+            {
+              "caption": "Figure 3: Five-second VBench across compression ratios 0.5/0.7/0.9, with the same five methods and six dimensions; higher is better. Table 4 gives exact scores and DiT-only efficiency.",
+              "figure_id": "figure-3-14",
+              "figure_number": "3",
+              "height": 71,
+              "image_path": "figures/2611.11452/figure-005.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 756
+            },
+            {
+              "caption": "Figure 6: Within-video drift on a fixed 96-prompt subset. (a) Change in CLIP image–prompt alignment relative to the first frame. (b) CLIP visual-feature similarity to the first frame. Curves show means and shaded prompt-bootstrap 95% confidence intervals over 96 videos per method. Full KV is the uncompressed reference.",
+              "figure_id": "figure-6-6",
+              "figure_number": "6",
+              "height": 262,
+              "image_path": "figures/2611.11452/figure-006.webp",
+              "kind": "figure",
+              "page": 29,
+              "width": 742
+            },
+            {
+              "caption": "Figure 9: Multi-object fidelity on LongLive. Prompt: “a tennis racket and a bottle” (seed 43). The compressed baselines replace the requested bottle with tennis balls, producing per-video Multiple Objects scores of 0.44, 0.12, and 0.00 for R-KV, Dummy Forcing, and Forcing-KV, respectively. SEMANTICKV retains both requested objects and scores 1.00; Full KV scores 0.81.",
+              "figure_id": "figure-9-15",
+              "figure_number": "9",
+              "height": 494,
+              "image_path": "figures/2611.11452/figure-007.webp",
+              "kind": "figure",
+              "page": 31,
+              "width": 748
+            },
+            {
+              "caption": "Figure 8: Object-class fidelity on LongLive. Prompt: “a snowboard” (seed 45). Full KV and all three compressed baselines generate a skateboard against a studio background and receive a per-video Object Class score of 0.00. SEMANTICKV generates a snowboard being ridden on snow and receives 1.00. The example illustrates that semantically guided retention can preserve the requested class even when a visually related concept is a strong failure mode.",
+              "figure_id": "figure-8-3",
+              "figure_number": "8",
+              "height": 491,
+              "image_path": "figures/2611.11452/figure-008.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 748
+            },
+            {
+              "caption": "Figure 10: Compositional object fidelity on LongLive. Prompt: “an airplane and a train” (seed 44). The compressed baselines produce ambiguous airplane–train hybrids and obtain per-video Multiple Objects scores of 0.44, 0.44, and 0.38 for R-KV, Dummy Forcing, and Forcing-KV, respectively. SEMANTICKV keeps an airplane and a rail vehicle visually distinguishable and scores 1.00; Full KV scores 0.00.",
+              "figure_id": "figure-10-16",
+              "figure_number": "10",
+              "height": 491,
+              "image_path": "figures/2611.11452/figure-009.webp",
+              "kind": "figure",
+              "page": 31,
+              "width": 748
+            },
+            {
+              "caption": "Figure 12: Activity-rich scene fidelity on LongLive. Prompt: “construction site” (seed 43). SEMANTICKV preserves discriminative construction cues, including excavation, a worker, tools, and machinery, and obtains a per-video Scene score of 0.81. The corresponding scores are 0.00 for Full KV, 0.00 for R-KV, 0.06 for Dummy Forcing, and 0.00 for Forcing-KV.",
+              "figure_id": "figure-12-11",
+              "figure_number": "12",
+              "height": 491,
+              "image_path": "figures/2611.11452/figure-010.webp",
+              "kind": "figure",
+              "page": 32,
+              "width": 748
+            },
+            {
+              "caption": "Figure 4: Paired semantic fidelity on matched prompt–seed tuples. (a) Tie-aware superiority rates. (b) Mean paired differences with prompt-clustered bootstrap 95% confidence intervals. Positive differences favor SEMANTICKV; Full KV is the uncompressed reference.",
+              "figure_id": "figure-4-13",
+              "figure_number": "4",
+              "height": 275,
+              "image_path": "figures/2611.11452/figure-011.webp",
+              "kind": "figure",
+              "page": 27,
+              "width": 772
+            },
+            {
+              "caption": "Figure 5: Semantic fidelity as a function of planner-extracted prompt complexity. Values are macro-averaged paired differences between SEMANTICKV and each comparator across six semantic VBench dimensions. Shaded regions show prompt-clustered bootstrap 95% confidence intervals. The grouping uses the planner decomposition only and is fixed before inspecting the video scores.",
+              "figure_id": "figure-5-7",
+              "figure_number": "5",
+              "height": 294,
+              "image_path": "figures/2611.11452/figure-012.webp",
+              "kind": "figure",
+              "page": 28,
+              "width": 475
+            },
+            {
+              "caption": "Table 1: Five-second VBench at compression ratio 0.7: Total Score, temporal quality, and six shared semantic diagnostics. Table 3 gives all 16 dimensions. Full KV is the uncompressed reference; efficiency is DiT-only. ↑/↓: higher/lower is better. Bold: best compressed result for Total Score.",
+              "figure_id": "table-1-9",
+              "figure_number": "1",
+              "height": 278,
+              "image_path": "figures/2611.11452/table-013.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 836
+            },
+            {
+              "caption": "Table 6: VisionReward evaluation on LongLive at compression ratio 0.9. We use the 100 prompts from Causal Forcing and score all methods with the same evaluator runtime. Higher is better for both metrics.",
+              "figure_id": "table-6-2",
+              "figure_number": "6",
+              "height": 170,
+              "image_path": "figures/2611.11452/table-014.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 506
+            },
+            {
+              "caption": "Table 5: Comparison of SEMANTICKV with Full KV on VBenchLong for 30- and 60-second video generation. Full KV retains the native cache without additional eviction and serves as the reference. Speedup is measured relative to Full KV. ↑ indicates higher is better and ↓ indicates lower is better. The comparison measures the quality–throughput trade-off relative to the uncompressed reference; no ranking among compression methods is reported.",
+              "figure_id": "table-5-1",
+              "figure_number": "5",
+              "height": 144,
+              "image_path": "figures/2611.11452/table-015.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 832
+            },
+            {
+              "caption": "Table 9: Mean paired semantic-score difference (SEMANTICKV minus comparator), in percentage points. The macro column averages the six dimensions without reweighting them.",
+              "figure_id": "table-9-8",
+              "figure_number": "9",
+              "height": 119,
+              "image_path": "figures/2611.11452/table-016.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 830
+            },
+            {
+              "caption": "Table 2: An illustrative example of conservative semantic planning. Matching colors trace the requested content from q0 through R to q1: subjects and attributes, actions and their order, and scene and camera. Prompt-specific exclusions identify changes to avoid.",
+              "figure_id": "table-2-17",
+              "figure_number": "2",
+              "height": 40,
+              "image_path": "figures/2611.11452/table-017.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 827
+            }
+          ],
+          "first_seen_at": "2026-11-09T21:00:00-05:00",
+          "hero_figure": "figures/2611.11452/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.11452",
+          "relevance": 8,
+          "selection_reason": "Semantic KV cache compression for agentic autoregressive video generation; directly targets KV-cache memory and video generation efficiency.",
+          "summary_status": "generated",
+          "title": "Semantically Aligned KV Cache Compression for Efficient Agentic Autoregressive Video Generation",
+          "tldr": "SemanticKV compresses KV caches for agentic autoregressive video generation by preserving entries most relevant to planner-specified semantic constraints, reducing memory and improving speed with minimal reported quality change.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "autoregressive-video-models"
+              ],
+              "topic_id": "video-models"
+            },
+            {
+              "subtopic_ids": [
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-08",
       "paper_count": 2,
       "papers": [
@@ -18011,5 +18236,5 @@
   "schema_version": 1,
   "subtopic_id": "autoregressive-video-models",
   "topic_id": "video-models",
-  "total_paper_count": 80
+  "total_paper_count": 81
 }

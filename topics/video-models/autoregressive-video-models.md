@@ -6,7 +6,7 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Autoregressive Video Models
 
-**80 papers total**
+**81 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
@@ -26,6 +26,7 @@ SOURCE: configs/topics.yaml + data/papers.json
 | 2026-11-16 | [LiveView: Real-Time Camera-Controlled Re-filming of Streaming Videos](https://arxiv.org/abs/2611.20461) | Video Generation and Understanding: Autoregressive Video Models | LiveView enables low-latency, camera-controlled re-filming of streaming video with consistent views over long rollouts. | 5 | 6 |
 | 2026-11-16 | [Nahual: A Sequence Model for Language and Atoms](https://arxiv.org/abs/2611.19072) | World Models: Video World Models; Video Generation and Understanding: Autoregressive Video Models | Nahual is a decoder-only multimodal sequence model that jointly generates language and 3D molecular structures using next-token diffusion. | 4 | 7 |
 | 2026-11-15 | [InfiHall-Bench: A Benchmark for Hallucination Evaluation in Autoregressive Text-to-Image Generation](https://arxiv.org/abs/2611.18053) | Video Generation and Understanding: Autoregressive Video Models | InfiHall-Bench evaluates hallucinations in autoregressive text-to-image models through multi-skill prompts and motivates CMHM, which focuses fine-tuning on uncertain visual-token predictions. | 7 | 7 |
+| 2026-11-09 | [Semantically Aligned KV Cache Compression for Efficient Agentic Autoregressive Video Generation](https://arxiv.org/abs/2611.11452) | Video Generation and Understanding: Autoregressive Video Models; Efficient AI: KV Cache and Memory Efficiency | SemanticKV compresses KV caches for agentic autoregressive video generation by preserving entries most relevant to planner-specified semantic constraints, reducing memory and improving speed with minimal reported quality change. | 8 | 8 |
 | 2026-11-08 | [AR-Edit: Training-Free Autoregressive Video Editing without Inversion](https://arxiv.org/abs/2611.09795) | Video Generation and Understanding: Video Diffusion, Autoregressive Video Models | AR-Edit enables real-time, training-free video editing from streaming frames by caching and reusing source value features, avoiding inversion. | 7 | 8 |
 | 2026-11-08 | [Trajectory Forcing: Exploiting Diffusion Trajectories for Autoregressive Long Video Generation](https://arxiv.org/abs/2611.09096) | Video Generation and Understanding: Autoregressive Video Models | Trajectory Forcing improves autoregressive long-video diffusion by conditioning each new chunk on the full denoising trajectories of previous chunks. | 8 | 8 |
 | 2026-11-05 | [WAM-Sim0.1: World Anchored Memory Meets Online RL for Consistent and Realistic Driving Simulation](https://arxiv.org/abs/2611.07939) | World Models: Video World Models, Interactive World Models; Video Generation and Understanding: Autoregressive Video Models; Adaptation and Memory: Embodied Memory | WAM-Sim combines persistent hierarchical memory with online flow-matching reinforcement learning to produce more consistent, realistic, and physically plausible long-horizon driving simulations. | 9 | 8 |

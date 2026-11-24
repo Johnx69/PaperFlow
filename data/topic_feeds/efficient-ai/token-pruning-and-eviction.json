@@ -17023,6 +17023,1612 @@
       ]
     },
     {
+      "date": "2026-11-09",
+      "paper_count": 7,
+      "papers": [
+        {
+          "abstract": "Sliced inference such as SAHI is the standard remedy for small objects in high-resolution imagery, but its gains are usually measured against low-resolution baselines. We revisit sliced inference with scale as the explicit variable and ask when tiling actually pays off. We compare nine dense detectors, eight YOLO models of four generations and FCOS, on VisDrone and DOTA, under pre-specified hypotheses, calibration-only tuning and a single evaluation on held-out test data. Two findings emerge. First, much of the benefit attributed to slicing is a resolution effect: on VisDrone, a single pass trained at a higher resolution outperforms tiling with box fusion (merging decoded boxes) for every detector that could be trained at that resolution, and at equal compute a higher resolution helps more than a larger model. Second, tiles carry complementary information that box fusion wastes. We introduce SCAHI (Slicing with Coverage-Aware Hyper Inference), which accumulates the dense outputs of all passes with weights that give every image position the same total coverage, and reads objects off a peak grid fine enough to keep crowded neighbours apart. On identical passes, SCAHI outperforms box fusion for every YOLO detector on both datasets and matches it for FCOS. On DOTA, whose images far exceed the resolution a single pass can be trained at, tiles with SCAHI beat the best single pass for every detector, by 4.3 to 5.6 mAP50 at 2048 px, and replacing only SAHI's merge step by SCAHI adds 2.3 to 4.0 mAP50. An ablation attributes the gain to the border weighting and the resolution of the peak grid. Source code is available at https://github.com/beckerio/scahi.",
+          "arxiv_id": "2611.12657",
+          "arxiv_url": "https://arxiv.org/abs/2611.12657",
+          "authors": [
+            "Stefan Becker",
+            "Jens Bayer",
+            "David Münch",
+            "Wolfgang Hübner"
+          ],
+          "bullets": [
+            "The study evaluates nine dense detectors, including eight YOLO models and FCOS, on VisDrone and DOTA with controlled tuning and held-out testing.",
+            "On VisDrone, training a single detector at higher resolution outperforms tiled inference with box fusion whenever that resolution is feasible; higher resolution also beats a larger model at equal compute.",
+            "SCAHI combines dense outputs from tiles using coverage-aware weighting and a fine peak grid, avoiding information loss from decoded-box fusion.",
+            "With identical tiles, SCAHI outperforms box fusion for every YOLO detector on both datasets and matches it for FCOS.",
+            "On DOTA, where full-image resolution is infeasible, SCAHI improves over the best single pass and replacing SAHI's merge step yields substantial gains."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1. Overview. One detector processes a whole-image pass at its training size and overlapping tiles. The baseline merges decoded boxes across passes (orange). SCAHI accumulates the dense outputs of all passes in a global volume over position and object size, weights them so that every position receives the same total weight, and extracts one peak per object. For YOLOv10 and YOLO26, SCAHI uses the one-to-many head.",
+              "figure_id": "figure-1-15",
+              "figure_number": "1",
+              "height": 221,
+              "image_path": "figures/2611.12657/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1022
+            },
+            {
+              "caption": "Figure 5. Pre-specified questions across detectors (VisDrone model extension). Differences with paired bootstrap 95 % confidence intervals on val (filled) and test-dev (hollow); dashed line: threshold ε = 0.30AP. Q2 is shown for passes at 1280 and 2048 px; the last panel compares the two heads under SCAHI for YOLOv10m and YOLO26. The pooled row covers the five detectors of the original extension; YOLO26s/m, added by addendum, are shown below it. YOLOv12m could only be tested at 1280 px, as it could not be trained at 2048 px. YOLOv10s, the detector of the main study, is reported in Sec. 10.",
+              "figure_id": "figure-5-3",
+              "figure_number": "5",
+              "height": 467,
+              "image_path": "figures/2611.12657/figure-002.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 1005
+            },
+            {
+              "caption": "Figure 2. Why dense fusion removes tile-border fragments. (a) Box fusion sees two decoded boxes for one object that straddles a tile seam: the fragment predicted by tile A overlaps the full box from tile B too little to be suppressed. (b) Dense fusion weights every prediction by a raised-cosine taper bt over the overlap; the tapers of overlapping tiles sum to one (Eq. 2), so a prediction near a tile border carries little weight and the cluster around the object yields one detection. The fusion must also keep adjacent objects apart: its peak search has to be fine relative to object size (Sec. 5.2). Schematic, not to scale.",
+              "figure_id": "figure-2-36",
+              "figure_number": "2",
+              "height": 289,
+              "image_path": "figures/2611.12657/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 971
+            },
+            {
+              "caption": "Figure 3. Resolution or model size (VisDrone val). Singlepass AP against compute for each detector at 1280 and 2048 px (YOLOv10s also at 640, 1536 and 2560 px).",
+              "figure_id": "figure-3-53",
+              "figure_number": "3",
+              "height": 286,
+              "image_path": "figures/2611.12657/figure-004.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 469
+            },
+            {
+              "caption": "Figure 10. Compute control for YOLOv10s: AP against GFLOPs and against latency on val (top) and test-dev (bottom), for single passes at 2048 and 2560 px and tiles with SCAHI (pre-specified and refined grid).",
+              "figure_id": "figure-10-54",
+              "figure_number": "10",
+              "height": 599,
+              "image_path": "figures/2611.12657/figure-005.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 858
+            },
+            {
+              "caption": "Figure 6. Decomposition of the gain of tiles with SCAHI for the detectors of the extension, including YOLO26, on val and test-dev, at 1280 px (top) and 2048 px (bottom): single pass, then SCAHI on the single pass, then adding z=2 tiles, then the refined grid. Error bars: paired bootstrap 95 % confidence intervals of each step. For YOLOv10m and YOLO26, the single pass uses the one-to-one head; YOLOv12m only at 1280 px, as it could not be trained at 2048 px. YOLOv10s is shown in paper Fig. 4.",
+              "figure_id": "figure-6-42",
+              "figure_number": "6",
+              "height": 378,
+              "image_path": "figures/2611.12657/figure-006.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 977
+            },
+            {
+              "caption": "Figure 7. Recall of crowded and isolated objects (IoU 0.5, val) for the single pass (A), SCAHI on the single pass (B), tiles with SCAHI (C) and the refined grid, for the detectors of the extension; YOLOv12m only at 1280 px, as it could not be trained at 2048 px.",
+              "figure_id": "figure-7-35",
+              "figure_number": "7",
+              "height": 557,
+              "image_path": "figures/2611.12657/figure-007.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 855
+            },
+            {
+              "caption": "Figure 8. Search of the refined peak grid on calib, detectors of the main study and the original extension. AP against fusion time per image for every searched configuration, per detector, input size N and row (B: single pass, C: with tiles); the selected configuration is marked. The time limit was twice the fusion time of the pre-specified setting.",
+              "figure_id": "figure-8-25",
+              "figure_number": "8",
+              "height": 917,
+              "image_path": "figures/2611.12657/figure-008.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 1002
+            },
+            {
+              "caption": "Figure 4. Decomposition on VisDrone test-dev at 2048 px (post hoc). Gain over the single pass with standard post-processing, for SCAHI on the single pass alone, on the single pass plus tiles, and with the refined grid. Tiles add a similar amount for every detector; fusing the single pass alone helps detectors with NMS and costs the NMS-free YOLOv10 and YOLO26; the refined grid makes the overall gain consistent.",
+              "figure_id": "figure-4-51",
+              "figure_number": "4",
+              "height": 245,
+              "image_path": "figures/2611.12657/figure-009.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 446
+            },
+            {
+              "caption": "Figure 9. Search of the refined peak grid on calib, YOLO26s and YOLO26m, with the same grid, time limit and markers as in Fig. 8.",
+              "figure_id": "figure-9-8",
+              "figure_number": "9",
+              "height": 698,
+              "image_path": "figures/2611.12657/figure-010.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 802
+            },
+            {
+              "caption": "Figure 11. Calibration AP during training for all detectors and input sizes; the selected epoch is the maximum on calib.",
+              "figure_id": "figure-11-41",
+              "figure_number": "11",
+              "height": 967,
+              "image_path": "figures/2611.12657/figure-011.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 803
+            },
+            {
+              "caption": "Figure 15. Information loss vs. population. Recall of large objects natively and after degradation by d, compared with originally small objects zoomed to the same apparent size (val, 95 % CIs).",
+              "figure_id": "figure-15-9",
+              "figure_number": "15",
+              "height": 276,
+              "image_path": "figures/2611.12657/figure-012.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 902
+            },
+            {
+              "caption": "Figure 16. H1 diagnostic: per-size AP of T4 vs. T2 and positives per training chip by zoom level.",
+              "figure_id": "figure-16-10",
+              "figure_number": "16",
+              "height": 264,
+              "image_path": "figures/2611.12657/figure-013.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 852
+            },
+            {
+              "caption": "Figure 20. Accuracy vs. cost (val; final latencies with exclusive GPU and CPU). The single-pass front dominates all pre-specified multipass rows; only the exploratory 2048 px pass with z=2 tiles and dense fusion lies above it.",
+              "figure_id": "figure-20-22",
+              "figure_number": "20",
+              "height": 400,
+              "image_path": "figures/2611.12657/figure-014.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 1002
+            },
+            {
+              "caption": "Figure 18. Analytic windows: border tapers (sum to 1 over the overlap) and validity windows over log2(σz) (gate G5a: deviation from 1 at most 0.045).",
+              "figure_id": "figure-18-21",
+              "figure_number": "18",
+              "height": 265,
+              "image_path": "figures/2611.12657/figure-015.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 845
+            },
+            {
+              "caption": "Figure 22. val vs. test-dev: AP per frozen row, per-size effect and test-dev Pareto view.",
+              "figure_id": "figure-22-29",
+              "figure_number": "22",
+              "height": 319,
+              "image_path": "figures/2611.12657/figure-016.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 854
+            },
+            {
+              "caption": "Figure 21. Main study: pre-specified criteria on val and test-dev with paired-bootstrap 95 % CIs; dashed lines mark the thresholds.",
+              "figure_id": "figure-21-31",
+              "figure_number": "21",
+              "height": 276,
+              "image_path": "figures/2611.12657/figure-017.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 856
+            },
+            {
+              "caption": "Figure 23. When do tiles pay off? Per-image gain of tiles with SCAHI (refined grid) over the single pass at 2048 px, in bins of the share of objects below 16 px and of crowded objects, on VisDrone test-dev and DOTA-val (post hoc; mean with 95 % CI).",
+              "figure_id": "figure-23-14",
+              "figure_number": "23",
+              "height": 490,
+              "image_path": "figures/2611.12657/figure-018.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 845
+            },
+            {
+              "caption": "Figure 25. All frozen configurations on DOTA-val (mAP50, devkit, no cap), for YOLOv10s and YOLOv10m at 1024 and 2048 px: single pass, tiles with box fusion (both heads), SCAHI with the setting from VisDrone and with the refined grid (pre-specified on DOTA), SCAHI on the single pass, and SAHI.",
+              "figure_id": "figure-25-45",
+              "figure_number": "25",
+              "height": 465,
+              "image_path": "figures/2611.12657/figure-019.webp",
+              "kind": "figure",
+              "page": 31,
+              "width": 797
+            },
+            {
+              "caption": "Figure 27. Ablation on VisDrone val: difference to the pre-specified SCAHI setting for each variant and detector, with paired bootstrap 95 % confidence intervals, and the sweep of the cell factor. All detectors of the original studies with 2048 px weights; YOLOv12m could not be trained at 2048 px.",
+              "figure_id": "figure-27-27",
+              "figure_number": "27",
+              "height": 356,
+              "image_path": "figures/2611.12657/figure-020.webp",
+              "kind": "figure",
+              "page": 33,
+              "width": 799
+            },
+            {
+              "caption": "Figure 28. Ablation on DOTA-val (post hoc, after the single held-out evaluation). The validity windows are sized for VisDrone and cut off large DOTA objects; they are shown for completeness only.",
+              "figure_id": "figure-28-24",
+              "figure_number": "28",
+              "height": 354,
+              "image_path": "figures/2611.12657/figure-021.webp",
+              "kind": "figure",
+              "page": 34,
+              "width": 798
+            },
+            {
+              "caption": "Figure 26. Calibration mAP50 during training on DOTA; the selected epoch is the maximum on calib.",
+              "figure_id": "figure-26-46",
+              "figure_number": "26",
+              "height": 325,
+              "image_path": "figures/2611.12657/figure-022.webp",
+              "kind": "figure",
+              "page": 31,
+              "width": 797
+            },
+            {
+              "caption": "Figure 14. Fusion gain (best dense variant minus NMS) for every weight set and stack, configurations chosen on calib.",
+              "figure_id": "figure-14-49",
+              "figure_number": "14",
+              "height": 248,
+              "image_path": "figures/2611.12657/figure-023.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 534
+            },
+            {
+              "caption": "Figure 13. Lower detection edge on calib: recall over apparent size in the network input; 25/50/75 % points at 5.6/8.7/14.3 px.",
+              "figure_id": "figure-13-50",
+              "figure_number": "13",
+              "height": 278,
+              "image_path": "figures/2611.12657/figure-024.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 409
+            },
+            {
+              "caption": "Figure 12. Object sizes and the sizes each pass can see. Top: share of ground truth per size bin in val and test-dev. Bottom: the band of original object sizes σ whose apparent size σz lies in the valid input range of 8–192 px (soft edges 6–14 and 192– 256 px), for a native full-image pass and for z=2 tiles. Objects below about 4 px are out of reach of both; test-dev has twice the share of objects below 8 px.",
+              "figure_id": "figure-12-47",
+              "figure_number": "12",
+              "height": 229,
+              "image_path": "figures/2611.12657/figure-025.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 467
+            },
+            {
+              "caption": "Figure 17. False positives near tile borders for box fusion and dense fusion on identical passes (YOLOv10s, val).",
+              "figure_id": "figure-17-11",
+              "figure_number": "17",
+              "height": 261,
+              "image_path": "figures/2611.12657/figure-026.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 490
+            },
+            {
+              "caption": "Figure 29. Qualitative comparison of box fusion (NMS, left) and SCAHI (pre-specified setting, right) on the passes of the 1280 px pass with z=2 tiles (YOLOv10s, val). Green: correct detections; red: false positives; yellow dashed: missed objects (IoU 0.5). Rows: one image per quartile of the per-image AP difference, and the image with the most objects below 16 px.",
+              "figure_id": "figure-29-37",
+              "figure_number": "29",
+              "height": 1121,
+              "image_path": "figures/2611.12657/figure-027.webp",
+              "kind": "figure",
+              "page": 36,
+              "width": 774
+            },
+            {
+              "caption": "Figure 30. Qualitative comparison on DOTA-val: box fusion (left) and SCAHI with the refined grid (right), YOLOv10s, 2048 px pass with tiles. Green: correct detections; red: false positives; yellow dashed: missed objects (IoU 0.5).",
+              "figure_id": "figure-30-44",
+              "figure_number": "30",
+              "height": 1106,
+              "image_path": "figures/2611.12657/figure-028.webp",
+              "kind": "figure",
+              "page": 37,
+              "width": 555
+            },
+            {
+              "caption": "Figure 24. Pre-specified questions on DOTA-val: differences in mAP50 with 95 % confidence intervals; dashed: ε.",
+              "figure_id": "figure-24-12",
+              "figure_number": "24",
+              "height": 326,
+              "image_path": "figures/2611.12657/figure-029.webp",
+              "kind": "figure",
+              "page": 30,
+              "width": 602
+            },
+            {
+              "caption": "Figure 19. Slices of the fused scale-space volume S(x, y, log σ) for four size ranges (blue, darker = higher; orange = ground truth of that size). Small objects light up only in the small-σ slices, larger vehicles in the 18–21 px slice (val image 0000295 02000 d 0000031).",
+              "figure_id": "figure-19-20",
+              "figure_number": "19",
+              "height": 198,
+              "image_path": "figures/2611.12657/figure-030.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 1006
+            },
+            {
+              "caption": "Table 17. FCOS diagnostics and limit check on DOTA-val (post hoc; verdicts unchanged). (a) SCAHI (refined grid) minus box fusion in mAP50 under the pre-specified evaluation (cap 4000), as evaluated, with both fusions capped at the top 200,000 detections per image, and without the pipeline limit. (b) Candidate predictions with IoU≥ 0.5 per ground-truth object at 2048 px, summed over all passes, mean (median). (c) Recall at IoU 0.5, SCAHI (refined grid) vs. box fusion. (d) mAP50 of every affected row with and without the 200,000 limit (box fusion: limit per pass).",
+              "figure_id": "table-17-6",
+              "figure_number": "17",
+              "height": 416,
+              "image_path": "figures/2611.12657/table-031.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 814
+            },
+            {
+              "caption": "Table 3. DOTA v1.5 (mAP50 on the held-out val split, devkit, no cap). Tiles at native resolution, merged by box fusion or by SCAHI with the refined grid (pre-specified on DOTA). YOLOv12s could not be trained at 2048 px; its Q3 is measured on its largest trainable pass (†1024 px). SAHI + SCAHI: SAHI’s own passes (1024 px weights) merged by SCAHI with the refined grid instead of SAHI’s merge; SAHI rows were not part of the pre-specified FCOS design. Bold: best configuration per detector and input size N . Bottom: pre-specified questions, difference with 95 % CI; verdicts with Holm over YOLOv10s/m and, separately, over YOLOv11s/v12s (both pairs also for Q4); FCOS, a single model, without correction. For YOLOv10, the fusion rows use the one-to-many head; Q1 is pre-specified against box fusion on the one-to-one head (63.18 and 63.97 at 1024 px). FCOS uses a simpler training recipe; compare within a column only.",
+              "figure_id": "table-3-17",
+              "figure_number": "3",
+              "height": 213,
+              "image_path": "figures/2611.12657/table-032.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1018
+            },
+            {
+              "caption": "Table 2. Compute control, YOLOv10s on VisDrone. AP on val and test-dev, compute per image and latency on one RTX 5090, all rows measured in one exclusive run. Box fusion merges on the CPU, SCAHI on the GPU; SCAHI needs the detector’s dense oneto-many outputs and an unfused model, which is included in its latency; its GPU fusion matches the CPU reference up to float32 rounding. Rows marked † are post hoc; the 3072 px row is evaluated on val only.",
+              "figure_id": "table-2-1",
+              "figure_number": "2",
+              "height": 144,
+              "image_path": "figures/2611.12657/table-033.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 362
+            },
+            {
+              "caption": "Table 5. Status of the reported results. Pre-specified: questions, rules and settings fixed in writing before the corresponding results existed; post hoc: defined after the relevant results were known (exploratory, never part of a verdict).",
+              "figure_id": "table-5-2",
+              "figure_number": "5",
+              "height": 379,
+              "image_path": "figures/2611.12657/table-034.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 1026
+            },
+            {
+              "caption": "Table 18. All frozen configurations on DOTA-val for the five detectors (devkit mAP50 without cap, with cap 4000, with difficult objects counted, and AP@[.5:.95]). YOLOv10: single pass and SAHI on the one-to-one head, box fusion and SCAHI on the one-to-many head unless marked; YOLOv11s/v12s and FCOS use their single head (FCOS score √ p · centerness). For box fusion, the pipeline limit applies per pass and the merged output is not capped.",
+              "figure_id": "table-18-43",
+              "figure_number": "18",
+              "height": 1146,
+              "image_path": "figures/2611.12657/table-035.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 760
+            },
+            {
+              "caption": "Table 8. YOLO26 addendum: all frozen rows (VisDrone, AP on val and test-dev, one evaluation each). N : input size of the single pass; tiles at z = 2. Rows marked † are exploratory and enter no verdict. The questions use: Q1, single pass at 2048 px minus 1280 px + tiles with box fusion (one-to-one head); Q2, SCAHI minus box fusion (one-to-many head); Q3, 2048 px + tiles with SCAHI (one-to-many) minus the single pass at 2048 px (one-to-one).",
+              "figure_id": "table-8-28",
+              "figure_number": "8",
+              "height": 671,
+              "image_path": "figures/2611.12657/table-036.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 832
+            },
+            {
+              "caption": "Table 4. SCAHI component ablation (post hoc; 2048 px pass with tiles). Difference to the pre-specified setting (border taper, normalisation, cell factor 5) in AP on VisDrone val (range over five detectors) and mAP50 on DOTA-val (YOLOv10s / YOLOv10m), and change in recall of objects with a same-class neighbour.",
+              "figure_id": "table-4-16",
+              "figure_number": "4",
+              "height": 197,
+              "image_path": "figures/2611.12657/table-037.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 489
+            },
+            {
+              "caption": "Table 24. Border-weighted box fusion (post hoc, same passes and head). VisDrone val: AP@[.5:.95] / AP50; DOTA-val: mAP50 / AP@[.5:.95]. Recall at IoU 0.5 of crowded / isolated objects. Differences in the first metric with paired bootstrap 95 % CI, against box fusion and against SCAHI with the refined grid; only rows on the same head are compared. Variant (b) was not run for FCOS.",
+              "figure_id": "table-24-26",
+              "figure_number": "24",
+              "height": 619,
+              "image_path": "figures/2611.12657/table-038.webp",
+              "kind": "table",
+              "page": 33,
+              "width": 998
+            },
+            {
+              "caption": "Table 7. YOLO26 addendum (VisDrone; ∆AP with 95 % CI on val, ∆ on test-dev; verdict on val).",
+              "figure_id": "table-7-7",
+              "figure_number": "7",
+              "height": 162,
+              "image_path": "figures/2611.12657/table-039.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 437
+            },
+            {
+              "caption": "Table 20. Per-class AP50 on DOTA-val at the largest trainable input size N : single pass (SP), tiles + box fusion (BF), tiles + SCAHI with refined grid (SC).",
+              "figure_id": "table-20-33",
+              "figure_number": "20",
+              "height": 427,
+              "image_path": "figures/2611.12657/table-040.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 1036
+            },
+            {
+              "caption": "Table 19. Q3 on DOTA-val under four evaluations: tiles + SCAHI (refined grid) vs. the single pass, both at the largest trainable size, with paired bootstrap 95 % CI. Only the primary metric carries the pre-specified verdict. †YOLOv12s could only be trained at 1024 px, where the single pass is weaker; not comparable with the 2048 px values.",
+              "figure_id": "table-19-32",
+              "figure_number": "19",
+              "height": 548,
+              "image_path": "figures/2611.12657/table-041.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 782
+            },
+            {
+              "caption": "Table 16. Multi-zoom without tiles and convolutional control on DOTA-val (post hoc). Top: native whole-image pass plus the 2048 px pass, fused by SCAHI (refined grid) or by box fusion, on the images where the native pass fits. Middle: FCOS as a native whole-image pass on all images. Differences in mAP50 with paired bootstrap 95 % CI. Bottom: latency and memory on the images where the native pass fits (YOLOv10s / YOLOv11s).",
+              "figure_id": "table-16-5",
+              "figure_number": "16",
+              "height": 444,
+              "image_path": "figures/2611.12657/table-042.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 960
+            },
+            {
+              "caption": "Table 25. Selected SCAHI parameters for tiles with SCAHI (one-to-many head), per dataset, detector and size of the single pass: cell factor f , bins per octave of the size axis, and the thresholds τsplat and τpeak. The pre-specified setting was tuned on calib over thresholds and bins with f = 5; the refined grid also selects f (post hoc on VisDrone, pre-specified on DOTA). Predictions are clustered at IoU 0.5 in all settings.",
+              "figure_id": "table-25-23",
+              "figure_number": "25",
+              "height": 503,
+              "image_path": "figures/2611.12657/table-043.webp",
+              "kind": "table",
+              "page": 34,
+              "width": 744
+            },
+            {
+              "caption": "Table 11. Training variants (z1 + z2 tiles, box fusion, one-to-one head).",
+              "figure_id": "table-11-38",
+              "figure_number": "11",
+              "height": 125,
+              "image_path": "figures/2611.12657/table-044.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 348
+            },
+            {
+              "caption": "Table 10. Degradation test (recall at score ≥ 0.25, val). All 95 % CIs between columns are disjoint.",
+              "figure_id": "table-10-48",
+              "figure_number": "10",
+              "height": 266,
+              "image_path": "figures/2611.12657/table-045.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 378
+            },
+            {
+              "caption": "Table 23. Latency breakdown on VisDrone (ms per image, YOLOv10s, exclusive GPU and CPU, RTX 5090 at default power, batch 1, one run): time of the passes and of the fusion on the CPU or the GPU.",
+              "figure_id": "table-23-13",
+              "figure_number": "23",
+              "height": 209,
+              "image_path": "figures/2611.12657/table-046.webp",
+              "kind": "table",
+              "page": 30,
+              "width": 982
+            },
+            {
+              "caption": "Table 12. Training × fusion (val AP, z0.64 + z2 tiles, one-tomany head; SCAHI with validity windows).",
+              "figure_id": "table-12-40",
+              "figure_number": "12",
+              "height": 92,
+              "image_path": "figures/2611.12657/table-047.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 462
+            },
+            {
+              "caption": "Table 14. Main study: pre-specified criteria with confidence intervals (seed 0; paired bootstrap 95 % CI over images, 1,000 resamples; ε = 0.30 AP).",
+              "figure_id": "table-14-30",
+              "figure_number": "14",
+              "height": 208,
+              "image_path": "figures/2611.12657/table-048.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 890
+            },
+            {
+              "caption": "Table 22. Latency on DOTA-val (ms per image, mean over 458 images; RTX 5090 at default power, exclusive use, batch 1; all rows from one run on the same machine as Tab. 2). Totals including the tile passes. Box fusion and SCAHI on the CPU use the reference passes (tile passes 137.9, 188.7, 125.9 and 133.8 ms); SCAHI on the GPU uses the optimised path of Tab. 2 (passes 120.4, 172.2, 121.0 and 129.6 ms; fusion 13.2–13.8 ms). A one-to-one matching of its detections with the CPU reference shows no deviation beyond float32 rounding. Box fusion runs on the CPU, so the table shows how the cost splits, not which merge step is faster. Peak GPU memory of the SCAHI fusion: 1.6–1.9 GB.",
+              "figure_id": "table-22-19",
+              "figure_number": "22",
+              "height": 140,
+              "image_path": "figures/2611.12657/table-049.webp",
+              "kind": "table",
+              "page": 29,
+              "width": 868
+            },
+            {
+              "caption": "Table 21. SCAHI on SAHI’s passes (Q4) on DOTA-val (mAP50 without cap unless stated). Differences to SAHI with paired bootstrap 95 % CI; Q4 is decided on the primary metric for the refined grid, Holm over YOLOv10s/m and, separately, over YOLOv11s/12s. Latency (ms per image, fusion on the GPU, optimised path) from one exclusive run; not measured for YOLOv11s/12s.",
+              "figure_id": "table-21-18",
+              "figure_number": "21",
+              "height": 117,
+              "image_path": "figures/2611.12657/table-050.webp",
+              "kind": "table",
+              "page": 29,
+              "width": 936
+            },
+            {
+              "caption": "Table 1. VisDrone: single pass vs. tiling (AP on val). Single passes trained and run at 1280 and 2048 px; SAHI; the 1280 px pass with tiles merged by box fusion (NMS); and the 2048 px pass with tiles merged by SCAHI with the pre-specified setting and with the refined grid (†post hoc on VisDrone). ∆Q1 = single pass at 2048 px minus tiles with box fusion, on val and on the held-out test-dev. YOLOv12m could not be trained at 2048 px. ‡Added after the verdicts of the other detectors under a dated addendum with unchanged rules.",
+              "figure_id": "table-1-52",
+              "figure_number": "1",
+              "height": 60,
+              "image_path": "figures/2611.12657/table-051.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 483
+            },
+            {
+              "caption": "Table 13. Exploratory rows: single pass + z=2 tiles, ∆AP vs. the single pass of the same weights.",
+              "figure_id": "table-13-39",
+              "figure_number": "13",
+              "height": 110,
+              "image_path": "figures/2611.12657/table-052.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 354
+            },
+            {
+              "caption": "Table 6. Small objects on test-dev (AP for objects below 8 px and 8–16 px, passes at 2048 px). Single pass with standard post-processing; tiles with box fusion (NMS); tiles with SCAHI, pre-specified and with refined grid. Detectors of the extension that could be trained at 2048 px (YOLOv12m could not); small objects of YOLOv10s are in Tab. 9.",
+              "figure_id": "table-6-34",
+              "figure_number": "6",
+              "height": 39,
+              "image_path": "figures/2611.12657/table-053.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 627
+            },
+            {
+              "caption": "Table 15. Native-resolution single pass on DOTA-val (post hoc; 2048 px weights at z = 1). Differences in mAP50 (and AP@[.5:.95] where stated) with paired bootstrap 95 % CI. Top: on the images that fit into memory (YOLOv10s 449, YOLOv11s 450 images). Middle: on all images, native where it fits and tiles + SCAHI otherwise. Bottom: native pass minus tiles + SCAHI in AP50 per object size on the images that fit.",
+              "figure_id": "table-15-4",
+              "figure_number": "15",
+              "height": 38,
+              "image_path": "figures/2611.12657/table-054.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 772
+            }
+          ],
+          "first_seen_at": "2026-11-09T21:00:00-05:00",
+          "hero_figure": "figures/2611.12657/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.12657",
+          "relevance": 6,
+          "selection_reason": "Introduces SCAHI, a method for efficient small object detection using dense fusion and coverage-aware inference, which is relevant for perception in embodied systems.",
+          "summary_status": "generated",
+          "title": "When Does Sliced Inference Pay Off? Resolution, Tiling and Dense Fusion for Small Object Detection",
+          "tldr": "Slicing helps mainly when full-image resolution is insufficient, and SCAHI improves tile fusion by preserving dense, complementary predictions.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "As long-video understanding gains increasing attention, augmented reality (AR) devices are emerging as a compelling deployment platform. However, egocentric videos exhibit significant temporal redundancy, imposing substantial memory and computational burdens on resource-constrained AR hardware. To address this challenge, we introduce UTOPI, a plug-and-play pre-compression module designed specifically for egocentric long videos on AR platforms. First, we leverage user motion signals to estimate inter-frame overlap and propose a viewpoint-shift-invariant pruning algorithm. Second, we exploit eye-tracking sensors to identify user fixations, enabling the separation of attended foreground content from background and its preferential retention via a fine-tuned neural network-based adjustment mechanism. Across multiple benchmarks and model backbones, UTOPI achieves up to 95% compression while preserving performance. Code and project page are available at https://sai-lab-nyu.github.io/utopi/.",
+          "arxiv_id": "2611.11562",
+          "arxiv_url": "https://arxiv.org/abs/2611.11562",
+          "authors": [
+            "Ziqi Wang",
+            "Su Chen",
+            "Qiance Tang",
+            "Jieyu Lin",
+            "Ziyun Li",
+            "Barbara De Salvo",
+            "Sai Qian Zhang"
+          ],
+          "bullets": [
+            "Addresses the memory and computation costs of temporally redundant egocentric videos on resource-constrained AR hardware.",
+            "Uses user motion to estimate inter-frame overlap and perform viewpoint-shift-invariant token pruning.",
+            "Uses eye tracking to distinguish attended foreground content from background and preferentially retain it.",
+            "Works as a plug-and-play pre-compression module across multiple benchmarks and model backbones.",
+            "Achieves up to 95% compression while preserving performance, according to the abstract."
+          ],
+          "categories": [
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 11: The visualization of re-projection. The odd rows show the original sampled frames, while the even rows show the previous sampled frames re-projected onto the current frames. To better illustrate the re-mapping quality, we present pixel-level re-projection here. As can be seen, the frames obtained by mapping from the previous frame closely match the original frames. The differences between the upper and lower frames mainly come from two factors: (1) the black regions indicate locations that are not visible in the previous frame; (2) dynamic contents, such as Frame 27 in the second video and the frame labeled “from 18”.",
+              "figure_id": "figure-11-7",
+              "figure_number": "11",
+              "height": 246,
+              "image_path": "figures/2611.11562/figure-001.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 822
+            },
+            {
+              "caption": "Figure 6: Additional question-option examples in EgoEye and their corresponding selected question subjects.",
+              "figure_id": "figure-6-2",
+              "figure_number": "6",
+              "height": 750,
+              "image_path": "figures/2611.11562/figure-002.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 822
+            },
+            {
+              "caption": "Figure 3: The overall workflow of UTOPI.",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 215,
+              "image_path": "figures/2611.11562/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 579
+            },
+            {
+              "caption": "Figure 1: (a) UTOPI compresses temporal redundancy from viewpoint changes and spatial redundancy in unattended regions. (b) An example of how user attention varies with gaze.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 226,
+              "image_path": "figures/2611.11562/figure-004.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 825
+            },
+            {
+              "caption": "Figure 2: (a) Meta Aria glasses equipped with multiple cameras. (b) Meta Quest Pro headset, which functions as both an AR and VR device. (c) Distribution of image differences.",
+              "figure_id": "figure-2-3",
+              "figure_number": "2",
+              "height": 138,
+              "image_path": "figures/2611.11562/figure-005.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 607
+            },
+            {
+              "caption": "Table 2: Latency and Peak Memory Evaluation. \"w/ ours\" indicates that UTOPI is implemented over the corresponding model.",
+              "figure_id": "table-2-5",
+              "figure_number": "2",
+              "height": 196,
+              "image_path": "figures/2611.11562/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 830
+            },
+            {
+              "caption": "Table 3: Budget Analysis.",
+              "figure_id": "table-3-4",
+              "figure_number": "3",
+              "height": 240,
+              "image_path": "figures/2611.11562/table-007.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 269
+            },
+            {
+              "caption": "Table 5: Performance comparison on the LowMotion subset “SLOW” and Motion-Intensive subset “FAST”.",
+              "figure_id": "table-5-9",
+              "figure_number": "5",
+              "height": 113,
+              "image_path": "figures/2611.11562/table-008.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 314
+            },
+            {
+              "caption": "Table 4: Evaluation of different AGTS / IVOC configurations",
+              "figure_id": "table-4-8",
+              "figure_number": "4",
+              "height": 113,
+              "image_path": "figures/2611.11562/table-009.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 186
+            },
+            {
+              "caption": "Table 6: Impact of gaze noise.",
+              "figure_id": "table-6-10",
+              "figure_number": "6",
+              "height": 136,
+              "image_path": "figures/2611.11562/table-010.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 145
+            }
+          ],
+          "first_seen_at": "2026-11-09T21:00:00-05:00",
+          "hero_figure": "figures/2611.11562/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.11562",
+          "relevance": 7,
+          "selection_reason": "Addresses egocentric long-video understanding with token pre-compression/pruning, fitting both video understanding and token-level efficiency.",
+          "summary_status": "generated",
+          "title": "UTOPI: Efficient Egocentric Long-Video Understanding in AR via User-Guided Token Pre-Compression",
+          "tldr": "UTOPI enables efficient egocentric long-video understanding on AR devices by compressing redundant content while preserving user-attended information and task performance.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Block-diffusion drafters propose a whole block of tokens in one forward pass, and draft trees built from their position-wise marginals increase the expected accepted length of speculative decoding. Every tree node occupies a query row in target verification, so under concurrent serving low-yield branches compete with other requests for verification capacity. Existing tree methods select verified nodes by draft probability under a fixed or cost-selected per-request budget, and thus always retain a prefix of the drafter's ranking. We present D3Tree, which learns which nodes of a block-diffusion draft tree are worth verifying. A tree-size head with 2H+2 parameters predicts each candidate's conditional survival from the draft state, the candidate embedding, and its draft log-probability. Thresholding the product of these scores along parent chains yields an ancestor-closed subtree whose size adapts to each request and decoding round. The head is trained on a frozen drafter with conditional labels on the full candidate tree; an optional joint mode also steers the drafter toward the retained reference path. At serving time, D3Tree verifies whole trees under light load and, under heavy load, allocates one batch-wide node budget by predicted survival, sized to the target's matrix-multiplication tiles. Retained trees share one ancestor-masked target pass, while construction, pruning, and scheduling run on the GPU and overlap with the host. Across six vision-language verifiers and 17 text and multimodal benchmarks, D3Tree is fastest in 70 of 72 load settings, with 3.2-4.0x speedup over autoregressive decoding for one request and 1.3-1.8x at 64 concurrent requests, where fixed-budget trees fall below autoregressive speed. Under a time-varying arrival trace, it has the lowest mean end-to-end latency in every arrival phase.",
+          "arxiv_id": "2611.11371",
+          "arxiv_url": "https://arxiv.org/abs/2611.11371",
+          "authors": [
+            "Hong Nie",
+            "Zhangchi Gao",
+            "Jun Yu",
+            "Bo Wang",
+            "Jianqing Sun",
+            "Shengping Liu"
+          ],
+          "bullets": [
+            "Fixed probability-ranked trees waste verification capacity on low-yield branches when requests compete for resources.",
+            "D3Tree predicts each candidate’s conditional survival and retains an ancestor-closed subtree with request- and round-adaptive size.",
+            "It supports whole-tree verification under light load and batch-wide, tile-aligned node budgeting under heavy load.",
+            "Across six vision-language verifiers and 17 benchmarks, it is fastest in 70 of 72 load settings.",
+            "Reported speedups are 3.2–4.0× for one request and 1.3–1.8× at 64 concurrent requests; it also achieves the lowest latency across all phases of a time-varying arrival trace."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 6. Every strategy serving the same time-varying load. (a) Each curve ends, with a dot, when the last request of that run finishes. From top: one tick per arriving request; requests in the system (in flight or waiting at the client; 4-s moving average; the axis is compressed above 100); and, as in Fig. 5, tokens per target pass, verified draft tokens per request and decoding round, and accepted length τ . (b) Mean verified draft tokens and accepted length τ over the decoding steps with at most 8 (open) and at least 16 (filled) requests in flight; AR is omitted. (c) Mean end-to-end latency, from arrival to the last token, of the requests arriving in each phase (log scale).",
+              "figure_id": "figure-6-10",
+              "figure_number": "6",
+              "height": 807,
+              "image_path": "figures/2611.11371/figure-001.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 1056
+            },
+            {
+              "caption": "Fig. 1. Verification selection in closely related methods. (a) Each method on one candidate space; numbers give the best-first order by draft path score, and W counts target query rows, including the root. Chips mark the selection signal. (b) CaDDTree and D3Tree under light load (one request) and heavy load (R = 4 requests in one target pass whose matrix multiplications process tiles of s = 16 rows); below the trees, each step’s query rows fill the tiles (dashed: idle; red: a second tile). CaDDTree sizes each tree from a latency table profiled offline for a single request, regardless of the current load, so here it verifies B∗ = 4 nodes per request at either load: rows stay idle under light load and spill into a second tile under heavy load. D3Tree sets the size from the current load: the whole tree when the tile has room, and otherwise the 12 nodes of highest survival across the batch, which fill one tile.",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 411,
+              "image_path": "figures/2611.11371/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1069
+            },
+            {
+              "caption": "Fig. 5. Every strategy serving 200 requests at a fixed concurrency of 64 (Q3.5-9B, RTX A6000; all requests are due at once, as in the sweeps of Table III). (a) Each curve ends, with a dot, when the last request of that run finishes. From top: requests completed; requests in flight; tokens per target pass, i.e., the roots and verified draft tokens of all decoding requests; verified draft tokens per request and decoding round; and accepted length τ (sliding means over about 12, 12, and 28 s). (b) Output throughput over the run and the time until all 200 requests have finished. (c) Distribution of the latency from sending a request to its last token.",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 797,
+              "image_path": "figures/2611.11371/figure-003.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 1056
+            },
+            {
+              "caption": "Fig. 2. D3Tree in one decoding round (top) and in training (bottom), on a running example with B = 7. (a) One drafter pass yields position-wise marginals pd. (b) Best-first construction keeps the B highest-scoring prefixes; numbers give their order. (c) The tree-size head scores each depth–token pair, so repeated pairs share q. (d) Parent-chain products S (above the nodes) are thresholded: N = 4 nodes survive and the target verifies W = 5 rows. (e) Under the ancestor mask the target accepts tea with lemon, rejects the retained sibling and, emits the bonus token, and commits the KV rows of the accepted path. Survival labels come from the full tree and are all that head-only fitting uses; in the optional joint mode, the coverage L and frontier F of the pruned tree weight the token loss. Discrete construction and pruning are stop-gradient (sg). The threshold δ = 0.25 is illustrative.",
+              "figure_id": "figure-2-9",
+              "figure_number": "2",
+              "height": 401,
+              "image_path": "figures/2611.11371/figure-004.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1062
+            },
+            {
+              "caption": "Fig. 4. Multi-request serving with D3Tree (illustrative, R = 4, B = 7, Rfull = 2). (a) Every request’s full candidate tree on its path survival S(v) (log scale; edges join parents and children). Above Rfull one threshold serves the whole batch: δt is the Ntot-th largest survival, with Ntot from (33) (here n̄ = 3 and a tile of s = 16 rows). Requests keep different numbers of nodes, R2 only its root, and the R + Ntot = 16 rows fill one tile instead of the R(B+1) = 32 of full trees. (b) All retained trees share one target pass. Each query row attends to its request’s committed prefix through the block table and to its own ancestors; rows of other requests are masked. KV slots stay sequential while RoPE uses tree depth. (c) Each request accepts a path independently and commits Ai + 1 tokens; accepted rows are compacted, and GDN layers replay the accepted path into the request’s state slot.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 386,
+              "image_path": "figures/2611.11371/figure-005.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1062
+            },
+            {
+              "caption": "Fig. 3. Survival landscape of the example in Fig. 2. Each node sits at its depth and its path survival S(v) on a log scale; edge labels give the conditional score q that multiplies S, so no node rises above its parent. At δ = 0.25, N = 4 of the B = 7 candidates survive: the depth-3 path is kept, whereas milk, second in the best-first order, is pruned. The lower threshold 0.12 keeps a superset, here all B nodes. Both thresholds are illustrative; Section III-E chooses the threshold of each step.",
+              "figure_id": "figure-3-12",
+              "figure_number": "3",
+              "height": 285,
+              "image_path": "figures/2611.11371/figure-006.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 488
+            },
+            {
+              "caption": "TABLE II Speedup over AR per benchmark at concurrency R = 1: output throughput divided by that of AR for the same verifier, GPU, and prompts. Strategies and benchmark abbreviations as in Table I. Best per verifier and benchmark in bold.",
+              "figure_id": "table-II-11",
+              "figure_number": "II",
+              "height": 777,
+              "image_path": "figures/2611.11371/table-007.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 1062
+            },
+            {
+              "caption": "TABLE I Accepted length τ per benchmark at concurrency R = 1, greedy decoding. All strategies for a verifier share the same drafter and runtime. DFlash verifies the full linear draft; DSpark a prefix chosen by the drafter’s length head; DDTree the full best-first tree of B = 15 nodes; CaDDTree a cost-selected prefix of its best-first tree; D3Tree prunes the B = 15 tree under its load-dependent node budget. Benchmarks: GSM8K, MATH-500, AIME25, HumanEval, MBPP, LiveCodeBench, MT-Bench, OmniDocBench, OCRBench-v2, DocVQA, olmOCR, CharXiv, TextVQA, MMMU-Pro, GQA, COCO Caption, and MM-MT-Bench. Highest per verifier and benchmark in bold.",
+              "figure_id": "table-I-8",
+              "figure_number": "I",
+              "height": 777,
+              "image_path": "figures/2611.11371/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 1027
+            },
+            {
+              "caption": "TABLE III Speedup over AR at concurrency R and mean accepted length τ (Avg. over benchmarks and loads), greedy decoding. Strategies as in Table I. Best speedup per verifier and column in bold.",
+              "figure_id": "table-III-5",
+              "figure_number": "III",
+              "height": 758,
+              "image_path": "figures/2611.11371/table-009.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 958
+            },
+            {
+              "caption": "TABLE V D3Tree at construction budgets B ∈ {15, 31, 63} with the same allocation table, columns as in Table IV: speedup over AR and accepted length τ / verified draft tokens per request and decoding round, over all 17 benchmarks. Best speedup per verifier and column in bold.",
+              "figure_id": "table-V-6",
+              "figure_number": "V",
+              "height": 346,
+              "image_path": "figures/2611.11371/table-010.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE IV Every strategy at every verification budget over all 17 benchmarks: speedup over AR, and accepted length τ / verified draft tokens per request and decoding round (tree nodes, root excluded), at each concurrency R. DFlash verifies the first N tokens of the linear draft (budget N ); DSpark a prefix of at most N = 15 tokens chosen by the drafter’s length head; DDTree verifies the full best-first tree of B nodes, CaDDTree a cost-selected prefix of its best-first tree, and D3Tree prunes the B-node tree under its load-dependent node budget. Best speedup per verifier and column in bold.",
+              "figure_id": "table-IV-7",
+              "figure_number": "IV",
+              "height": 1266,
+              "image_path": "figures/2611.11371/table-011.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 1076
+            },
+            {
+              "caption": "TABLE VI Speedup over AR and Avg. τ on an RTX 5090 (32 GB) and an A800 (80 GB), with the protocol of Table III. On the A800, D3Tree uses an allocation table retuned for that GPU at R ≥ 16.",
+              "figure_id": "table-VI-3",
+              "figure_number": "VI",
+              "height": 1103,
+              "image_path": "figures/2611.11371/table-012.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 1038
+            }
+          ],
+          "first_seen_at": "2026-11-09T21:00:00-05:00",
+          "hero_figure": "figures/2611.11371/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.11371",
+          "relevance": 8,
+          "selection_reason": "Learns to prune draft-tree nodes for efficient speculative-decoding verification, directly relevant to token/candidate pruning for efficient inference.",
+          "summary_status": "generated",
+          "title": "D3Tree: Learning to Prune Block-Diffusion Draft Trees for Efficient Verification",
+          "tldr": "D3Tree learns to prune block-diffusion draft trees according to predicted node survival, improving speculative-decoding efficiency—especially under high concurrency.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Adaptive tokenization aims to reduce the compute spent on uninformative image regions while preserving accuracy. Existing work relies on (i) fixed or frozen scoring rules, which cannot be trained toward the task loss, or (ii) discrete masks trained with straight-through estimators, which yield noisy gradients, while fully differentiable alternatives instead leave the pre-trained regular grid. We revisit adaptive tokenization from a regular-grid perspective and ask: can a two-scale quadtree be learned end-to-end without deleting a single token during training? We show that one coarse token and its four fine children can be made the two endpoints of a single continuous interpolation. We introduce Differentiable Virtual-Slot Partitioning (\\dvsp{}), which keeps four \\emph{virtual slots} per $2{\\times}2$ region and blends their token features and attention mass with a single weight $α$, exactly reproducing the discrete grid at $α\\in \\{0,1\\}$. On COCO detection with EVA-02-B, \\dvsp{} retains $97.9\\%$ of dense Box AP while removing $64.2\\%$ of visual tokens, giving a $1.61\\times$ end-to-end speedup, and it outperforms entropy-based APT, DART, and uniform lower-resolution dense adaptation at matched budgets; these gains depend on the conserved attention mass, whose removal costs $1.59$ Box AP. On a frozen Segmenter it also improves Cityscapes mIoU, and on frozen DeiT backbones it exceeds entropy selection at identical per-image token counts.",
+          "arxiv_id": "2611.11058",
+          "arxiv_url": "https://arxiv.org/abs/2611.11058",
+          "authors": [
+            "Gaoxiang He",
+            "Bin Zhu",
+            "Bo Xie",
+            "Xiaotong Yu",
+            "Yi Chen",
+            "Hongfei Yan"
+          ],
+          "bullets": [
+            "Addresses fixed scoring rules, noisy straight-through masks, and differentiable methods that abandon the pre-trained regular grid.",
+            "Uses four virtual slots per 2×2 region and a single interpolation weight to blend coarse and fine token features and attention mass.",
+            "On COCO detection with EVA-02-B, removes 64.2% of visual tokens while retaining 97.9% of dense Box AP and achieving a 1.61× end-to-end speedup.",
+            "Outperforms entropy-based APT, DART, and uniform lower-resolution adaptation at matched token budgets.",
+            "Improves Cityscapes mIoU on a frozen Segmenter and exceeds entropy selection on frozen DeiT backbones; conserving attention mass is important."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 1. DVSP overview. (a) A dense ViT detector processes 9,216 uniform 16×16 tokens. (b) DVSP chooses 16×16 or 32×32 tokens per 2×2 parent with learned continuous weights, keeping fine tokens on the person and bench. (c) On COCO val2017 (EVA-02-B), DVSP retains 97.9% Box AP (58.93→ 57.72) with 3,303 tokens per image (↓ 64.2%) and a measured 1.61× speedup.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 456,
+              "image_path": "figures/2611.11058/figure-001.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 2. Token allocation paradigms. (a) APT picks coarse/fine regions with a fixed image-entropy rule, so task gradients cannot train the router. (b) Discrete-gate methods (e.g., MSViT) gate in the forward pass and rely on straight-through gradients. (c) DVSP keeps four continuous virtual slots per parent: one router weight α blends token features and attention mass, so exact task gradients reach the router.",
+              "figure_id": "figure-2-4",
+              "figure_number": "2",
+              "height": 585,
+              "image_path": "figures/2611.11058/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1076
+            },
+            {
+              "caption": "Fig. 8. ImageNet-1k classification examples. Five val images from the frozen-backbone router study of Sec. IV-C; in every row DVSP is correct while the entropy control is wrong. (a) DVSP partition; (b) APT entropy partition. Class names under the panels give each method’s Top-1 prediction, and the ground truth tags each row. DVSP spends its tokens on the object while the entropy control spends them on background texture. Best viewed zoomed in.",
+              "figure_id": "figure-8-3",
+              "figure_number": "8",
+              "height": 1022,
+              "image_path": "figures/2611.11058/figure-003.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 586
+            },
+            {
+              "caption": "Fig. 9. Cityscapes semantic segmentation examples. Six fixed 768×768 val windows (rows) under the frozen Segmenter of Sec. IV-C: two non-overlapping windows from each of three val images. Each window compares three methods at the same fine-parent budget: Dense (uniform 16×16 grid, 2,304 tokens), APT entropy (the Table II baseline), and DVSP (1,035/1,098/1,161/1,167/1,146/1,074 tokens). In each of the three columns the left panel is the input with that method’s executed patch assignment and the right panel the resulting segmentation. Entropy places fine patches on textured facades and foliage, while DVSP keeps them along object edges and small pedestrians; flat road and sky become 32×32 tokens in both adaptive rows. The DVSP partitions use the recorded |α|≥0.1 projection of this frozen-scorer study.",
+              "figure_id": "figure-9-10",
+              "figure_number": "9",
+              "height": 770,
+              "image_path": "figures/2611.11058/figure-004.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 790
+            },
+            {
+              "caption": "Fig. 7. COCO object detection examples. Each row is one val2017 scene; columns show the Dense detector, APT, and DVSP with their recorded partitions (white lines, 32×32 coarse regions rendered as centered mini patches) and all saved score ≥ 0.5 predictions. Token plates give each model’s executed count on the full 15362 canvas. Best viewed zoomed in.",
+              "figure_id": "figure-7-8",
+              "figure_number": "7",
+              "height": 1110,
+              "image_path": "figures/2611.11058/figure-005.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 1076
+            },
+            {
+              "caption": "Fig. 5. Measured EVA-02-B runtime breakdown. COCO val2017, TITAN RTX, FP16, batch one, same compile+TensorRT backend for both systems. Wall time covers transfer, preprocessing, routing, patch construction, the detector, and postprocessing, excluding data loading. Routing and the coarse-token patch branch add 15.6ms while the transformer drops 98.7 → 25.2ms, so wall time falls 157.5 → 97.6ms (6.35 → 10.24 images/s, 1.61×).",
+              "figure_id": "figure-5-2",
+              "figure_number": "5",
+              "height": 332,
+              "image_path": "figures/2611.11058/figure-006.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 502
+            },
+            {
+              "caption": "Fig. 4. Token splits on a COCO scene. (a) Dense, (b) APT, (c) DART-Flow, (d) DVSP, with 9,216, 3,303, 3,303, and 3,378 tokens. Boxes with score ≥ 0.5. Of the 35 annotated objects, DVSP matches 21, as many as dense, against 14 for APT and 13 for DART-Flow. More cases in Appendix C.",
+              "figure_id": "figure-4-12",
+              "figure_number": "4",
+              "height": 302,
+              "image_path": "figures/2611.11058/figure-007.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 1076
+            },
+            {
+              "caption": "Fig. 6. Token budget during router-only training on frozen DeiT backbones (ImageNet-1k). Training-set mean visual tokens; the ℓ1 penalty ramps over epochs 0.5–1.5. Final full-validation Top-1 is 75.36% and 80.86%; executed validation lengths are 154.0 and 136.4.",
+              "figure_id": "figure-6-6",
+              "figure_number": "6",
+              "height": 304,
+              "image_path": "figures/2611.11058/figure-008.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 529
+            },
+            {
+              "caption": "Fig. 3. Learned coordinates after training on frozen DeiT-Tiny/Small (ImageNet-1k). Coordinates concentrate at the two binary endpoints; at most 3.5% remain within 0.4–0.6 of the deployment threshold, and excursions outside [0, 1] are shallow (6.4%/7.6%, almost all within 0.1 of 0).",
+              "figure_id": "figure-3-9",
+              "figure_number": "3",
+              "height": 242,
+              "image_path": "figures/2611.11058/figure-009.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 514
+            },
+            {
+              "caption": "TABLE I COCO VAL2017 DETECTION AND INSTANCE SEGMENTATION WITH EVA-02-B (9,216 DENSE VISUAL TOKENS). EACH BUDGET BLOCK LISTS THE SAME FIVE SYSTEMS IN THE SAME ORDER, SO EVERY DVSP ROW IS READ AGAINST THE FOUR ROWS DIRECTLY ABOVE IT. PARENTHESES GIVE THE MEAN FRACTION OF KEPT TOKENS. ∆ IS RELATIVE TO THE UNADAPTED DENSE DETECTOR. DART-GRID’S N = NhNw GRID USES THE EXACT COUNTS 4,225/3,600/3,306, WITHIN 0.4% OF EACH TIER.",
+              "figure_id": "table-I-11",
+              "figure_number": "I",
+              "height": 515,
+              "image_path": "figures/2611.11058/table-010.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 722
+            },
+            {
+              "caption": "TABLE IV CONTINUOUS FIELD VS. ITS BINARY PROJECTION. EACH PAIR USES THE SAME ROUTER CHECKPOINT AND THE SAME EXECUTED TOKEN COUNT; ACCURACY IS MEASURED WITH THE FIELD EXECUTED CONTINUOUSLY (α) VERSUS PROJECTED (bi=1[αi≥0.5]).",
+              "figure_id": "table-IV-7",
+              "figure_number": "IV",
+              "height": 317,
+              "image_path": "figures/2611.11058/table-011.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 498
+            },
+            {
+              "caption": "TABLE III ATTENTION-MASS CONSERVATION ON COCO VAL2017. SAME EVA-02-B RECIPE AND POSTPROCESSING; ONLY THE MASS RULE DIFFERS. BOTH ROWS EXECUTE IN NATIVE SIGNED-THRESHOLD MODE.",
+              "figure_id": "table-III-5",
+              "figure_number": "III",
+              "height": 89,
+              "image_path": "figures/2611.11058/table-012.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 420
+            }
+          ],
+          "first_seen_at": "2026-11-09T21:00:00-05:00",
+          "hero_figure": "figures/2611.11058/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.11058",
+          "relevance": 8,
+          "selection_reason": "Differentiable adaptive tokenization removes a large fraction of visual tokens in ViTs, directly relevant to token pruning and eviction.",
+          "summary_status": "generated",
+          "title": "Differentiable Virtual-Slot Partitioning for Adaptive Tokenization in Vision Transformers",
+          "tldr": "Differentiable Virtual-Slot Partitioning learns adaptive quadtree tokenization end-to-end while preserving regular-grid training, substantially reducing vision-token compute with limited accuracy loss.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Video fusion aims to integrate complementary cues from heterogeneous sources, producing visually informative videos with coherent spatio-temporal structures. Jointly learning cross-modal complementarity and temporal dependencies typically relies on large-scale, high-quality video datasets, whose storage and repeated use during optimization incur substantial costs, making data-efficient learning highly desirable. To address this challenge, we rethink video fusion from the perspective of dataset condensation and propose STAR-VF, the first framework that condenses spatio-temporal representations for data-efficient video fusion. STAR-VF condenses the original training set into a compact set of learnable spatio-temporal representations, which are decoded into synthetic video clips and optimized using feature-level supervision provided by a frozen proxy model. The resulting condensed data preserves fusion-relevant spatial and temporal cues without requiring ground-truth fused videos as supervision. To adapt fusion learning to condensed representations, we equip the final fusion model with flow-free inter-frame temporal modeling and query-driven intra-frame aggregation, enabling direct temporal interaction and adaptive selection of fusion-relevant information in representation space. Extensive experiments on infrared-visible, multi-exposure, multi-focus, and medical video fusion benchmarks demonstrate that STAR-VF, trained with only approximately 1/16 of the original temporal training set, achieves fusion quality comparable to methods trained on the full data. Further analyses validate the contributions of learned condensation and flow-free temporal modeling, and demonstrate the robustness of the condensed supervision across different proxy encoders and downstream fusion models. Project page: https://zju-xyc.github.io/STAR-VF-Project-Page/.",
+          "arxiv_id": "2611.10811",
+          "arxiv_url": "https://arxiv.org/abs/2611.10811",
+          "authors": [
+            "Yuchen Xian",
+            "Yunqiu Xu",
+            "Guosheng Lin",
+            "Yang He"
+          ],
+          "bullets": [
+            "Targets the storage and optimization costs of large video-fusion training datasets.",
+            "Learns compact spatio-temporal representations, decodes them into synthetic clips, and optimizes them with feature-level supervision from a frozen proxy model.",
+            "Uses flow-free inter-frame temporal modeling and query-driven intra-frame aggregation for fusion directly in representation space.",
+            "Supports infrared-visible, multi-exposure, multi-focus, and medical video fusion without requiring ground-truth fused videos.",
+            "Using approximately 1/16 of the original temporal training data, it achieves fusion quality comparable to full-data training; robustness is shown across proxy encoders and downstream fusion models."
+          ],
+          "categories": [
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: Overview of the proposed STAR-VF framework. In Stage I, learnable compact spatio-temporal canvases and the canvas decoder𝑈 are jointly optimized under feature-level supervision from a frozen proxy feature extractor, yielding the learned condensed set 𝑆∗ and decoder 𝑈 ∗. In Stage II, the learned condensed set is decoded into synthetic temporal samples to train the final fusion model 𝐹𝜃 with flow-free temporal alignment and query-driven intra-frame aggregation. During inference, only the trained fusion model is used, without the condensed set or proxy model.",
+              "figure_id": "figure-2-10",
+              "figure_number": "2",
+              "height": 575,
+              "image_path": "figures/2611.10811/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 1044
+            },
+            {
+              "caption": "Figure 1: Comparison of temporal alignment paradigms under video fusion dataset condensation. Conventional flowbased alignment is not naturally suited to condensed synthetic clips , whereas our method models order-aware temporal dependency in compact representation space.",
+              "figure_id": "figure-1-3",
+              "figure_number": "1",
+              "height": 396,
+              "image_path": "figures/2611.10811/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 1065
+            },
+            {
+              "caption": "Figure 3: Qualitative comparison on four representative benchmarks. For each example, we show the input pair, our method, the full-size variant trained on the original data, and competing video fusion baselines (VideoFusion, UniVF, and TemCoCo). The cyan boxes indicate enlarged local regions for detailed comparison.",
+              "figure_id": "figure-3-1",
+              "figure_number": "3",
+              "height": 479,
+              "image_path": "figures/2611.10811/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1049
+            },
+            {
+              "caption": "Figure 6: Alignment consistency comparison across video fusion methods, evaluated by frame-wise aligned ROI luminance trajectories after min-max normalization",
+              "figure_id": "figure-6-6",
+              "figure_number": "6",
+              "height": 241,
+              "image_path": "figures/2611.10811/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 506
+            },
+            {
+              "caption": "Figure 7: Illustration of the capacity–compactness trade-off controlled by the grid size 𝜌 . Increasing 𝜌 enlarges both the latent canvas size and the decoded synthetic clip length 𝑇cond = 𝜌2, thereby increasing the effective supervision budget available to Stage II. At the same time, a larger 𝜌 weakens the compression effect by making the condensed source more flexible. The default setting 4 × 4 in STAR-VF is selected as a balanced operating point under this trade-off.",
+              "figure_id": "figure-7-2",
+              "figure_number": "7",
+              "height": 398,
+              "image_path": "figures/2611.10811/figure-005.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 664
+            },
+            {
+              "caption": "Figure 8: Distribution of random initialization across five metrics, with the condensation result overlaid as a reference point. For comparability across metrics with different scales and optimization directions, all values are transformed into direction-aligned normalized scores. A wider spread of the random runs indicates stronger seed sensitivity and lower stability.",
+              "figure_id": "figure-8-12",
+              "figure_number": "8",
+              "height": 406,
+              "image_path": "figures/2611.10811/figure-006.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 664
+            },
+            {
+              "caption": "Figure 9: Mean-and-variance summary of random initialization across different metrics. Error bars denote the standard deviation over random runs, while the star marks the condensation result. The comparison shows that random initialization exhibits larger performance variability, whereas condensation provides a more stable and consistently strong outcome.",
+              "figure_id": "figure-9-9",
+              "figure_number": "9",
+              "height": 450,
+              "image_path": "figures/2611.10811/figure-007.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 740
+            },
+            {
+              "caption": "Figure 5: Visual comparison between the full dataset and the learned condensed dataset.",
+              "figure_id": "figure-5-4",
+              "figure_number": "5",
+              "height": 289,
+              "image_path": "figures/2611.10811/figure-008.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 472
+            },
+            {
+              "caption": "Table 1: Quantitative comparison on IVF (VTMOT), MVF (Harvard), MEF (YouTube-HDR), and MFF (DAVIS). The trainingdata ratio 𝑟train denotes the fraction of the original temporal training units used to train each method. STAR-VF uses only approximately 1/16 of the original training source, yet achieves fusion quality comparable to the full-data baselines. The best",
+              "figure_id": "table-1-13",
+              "figure_number": "1",
+              "height": 215,
+              "image_path": "figures/2611.10811/table-009.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 1056
+            },
+            {
+              "caption": "Table 6: Proxy robustness and downstream transferability on VTMOT. “Full” denotes UniVF trained on the complete real set; all other rows use a 1/16 condensed source.",
+              "figure_id": "table-6-7",
+              "figure_number": "6",
+              "height": 894,
+              "image_path": "figures/2611.10811/table-010.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 508
+            },
+            {
+              "caption": "Table 8: Quantitative comparison on IVF (VTMOT [43]). Red and Blue indicate the best and second-best results. Notably, STAR-VF is trained using only 1/16 of the original training data, yet still achieves competitive performance on VTMOT.",
+              "figure_id": "table-8-8",
+              "figure_number": "8",
+              "height": 299,
+              "image_path": "figures/2611.10811/table-011.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 786
+            },
+            {
+              "caption": "Table 7: Comparison between random initialization and condensation on VTMOT. Higher is better for EN, CC, and SSIM, while lower is better for BiSWE and MS2R.",
+              "figure_id": "table-7-11",
+              "figure_number": "7",
+              "height": 283,
+              "image_path": "figures/2611.10811/table-012.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 560
+            },
+            {
+              "caption": "Table 5: Ablation on condensation grid size on IVF.",
+              "figure_id": "table-5-5",
+              "figure_number": "5",
+              "height": 124,
+              "image_path": "figures/2611.10811/table-013.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 500
+            }
+          ],
+          "first_seen_at": "2026-11-09T21:00:00-05:00",
+          "hero_figure": "figures/2611.10811/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.10811",
+          "relevance": 8,
+          "selection_reason": "Introduces STAR-VF for data-efficient video fusion via spatio-temporal representation condensation, fitting Video Understanding and Token Pruning/Eviction.",
+          "summary_status": "generated",
+          "title": "STAR-VF: Spatio-Temporal Aware Representation Condensation for Data-Efficient Video Fusion",
+          "tldr": "STAR-VF condenses video datasets into compact spatio-temporal representations, enabling data-efficient video fusion with near-full-data fusion quality.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "video-understanding"
+              ],
+              "topic_id": "video-models"
+            },
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Long-horizon LLM agents accumulate sessions of up to millions of tokens, far more key-value (KV) cache than one GPU holds, so serving systems keep a small budget of tokens and evict the rest. Eviction methods differ in which tokens they keep but share one goal: that the tokens a later step needs are still cached. We show this is not enough. In 100K-token coding sessions on Qwen3-8B with a 2,048-token budget, a planner-guided policy that keeps over 99% of the needed tokens resident still fails late steps increasingly often: its accuracy falls from 93% to 64% as the gap between a definition and its use grows from 2K to 90K tokens, at residency 0.996. The needed tokens are resident but unretrievable: what grows is their rotary-position distance to the query. We present PACE (Planner-Aware Context Engine), a KV-cache engine that couples plan-aware retention, in which the agent's planner tells the cache which context future steps will read, with bounded positions, which renumber kept tokens so their rotary distance to the query stays below 8K at any session length. In a pre-registered evaluation on fresh tasks, PACE passes 97% of hidden unit tests at 100K tokens, against 42% for H2O and 3% for SnapKV under the same budget, and needs both components: either alone reaches 63% (the combination beats each, p < 10^-4). The result holds with length: in 1M- and 2M-token sessions on one 24 GB GPU, with definitions written 0.9M and 1.8M tokens before use, PACE passes 99% and 100% of checks and recalls every session fact, while bounded positions without foresight falls from 33% to 13%; PACE holds under 0.7 GB of KV state where the full cache would need 147-295 GB. Renumbering is exact, costs no measurable perplexity, and adds 9% wall time. On Mistral-7B, whose coding ability caps it at 40% even with nothing evicted, PACE stays at that ceiling while retention alone falls below it.",
+          "arxiv_id": "2611.10240",
+          "arxiv_url": "https://arxiv.org/abs/2611.10240",
+          "authors": [
+            "Suman Chatterjee"
+          ],
+          "bullets": [
+            "Long sessions can exceed one GPU’s KV-cache capacity, requiring aggressive token eviction.",
+            "Even when over 99% of later-needed tokens remain cached, accuracy drops as their rotary-position distance from the query grows.",
+            "PACE uses the agent’s plan to retain future-relevant context and bounds rotary distances by renumbering retained tokens.",
+            "On 100K-token Qwen3-8B coding tasks with a 2,048-token budget, PACE passes 97% of hidden-unit tests versus 42% for H2O and 3% for SnapKV.",
+            "The method scales to 1M–2M-token sessions on one 24 GB GPU, with 9% added wall time and no measurable perplexity cost."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.CL",
+            "cs.DC"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: PACE inside the engine’s KV-cache manager. The planner’s dependency graph becomes a per-span foresight bonus that decides which tokens stay; bounded positions renumber the kept tokens so their rotary distance to the query stays below L; persistent sessions carry the cache across steps; evicted context is tiered and restored when the plan needs it.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 425,
+              "image_path": "figures/2611.10240/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 790
+            },
+            {
+              "caption": "Figure 1: Keeping the right tokens is not enough. 100K-token coding sessions, Qwen3-8B, KV budget 2,048 tokens. Planner-guided retention keeps 99.6% of the tokens each late step needs, yet its accuracy falls as those tokens recede; H2O loses them outright. PACE adds bounded positions, holding the rotary distance to the query below 8K, and stays at 97–100%. Five randomized sessions per point, three probes each.",
+              "figure_id": "figure-1-6",
+              "figure_number": "1",
+              "height": 300,
+              "image_path": "figures/2611.10240/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 877
+            },
+            {
+              "caption": "Figure 3: Accuracy tracks rotary distance at full residency. All 225 probes of the three PACE-family arms in the Qwen3-8B distance sweep, binned by the reconstructed distance from the query to the definitions. Bars: checks passed. Residency of the needed tokens is 0.995–0.996 in every bin. Probes per bin, left to right: 47, 58, 30, 38, 22, 15, 15. No probe fell in 32–40K.",
+              "figure_id": "figure-3-5",
+              "figure_number": "3",
+              "height": 279,
+              "image_path": "figures/2611.10240/figure-003.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 732
+            },
+            {
+              "caption": "Table 5: Quality at length (Qwen3-8B, one 24 GB GPU, B = 2,048, filler excluding task-topic chunks, fresh sessions). Definitions are placed 90% of the session before the probes. H2O and the YaRN arms cannot run past 131K positions; the StreamingLLM-style arm, at 0% at 1M, was not re-run at 2M.",
+              "figure_id": "table-5-7",
+              "figure_number": "5",
+              "height": 336,
+              "image_path": "figures/2611.10240/table-004.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 648
+            },
+            {
+              "caption": "Table 2: Pre-registered comparison (Qwen3-8B, 100K-token sessions, B = 2,048, ten fresh sessions, three probes each). Checks: hidden-test checks passed. Full: probes passing every check. Paired: (session, probe) pairs better/worse/tied against the reference arm, two-sided sign test. Residency: fraction of needed tokens resident at the probes.",
+              "figure_id": "table-2-10",
+              "figure_number": "2",
+              "height": 250,
+              "image_path": "figures/2611.10240/table-005.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 926
+            },
+            {
+              "caption": "Table 3: Distance sweep (Qwen3-8B, 100K-token sessions, definitions D tokens before the probes, five sessions per D, same seeds at every D). Hidden-test checks passed; the rotary gap is the mean distance, in the positions the model sees, from the query to the definitions, reconstructed from the position ledger recorded at each probe. Residency is 0.992–0.996 for every PACE-family arm at every D.",
+              "figure_id": "table-3-9",
+              "figure_number": "3",
+              "height": 213,
+              "image_path": "figures/2611.10240/table-006.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 806
+            },
+            {
+              "caption": "Table 1: Arms. All share the KV budget (B = 2,048 tokens, including 4 sink and 128 recent tokens), the engine, greedy decoding, persistent sessions, and the eager decode path. Arms without bounded positions use YaRN × 4 so that 100K-token sessions fit the positional range.",
+              "figure_id": "table-1-4",
+              "figure_number": "1",
+              "height": 202,
+              "image_path": "figures/2611.10240/table-007.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 976
+            },
+            {
+              "caption": "Table 4: Mistral-7B-Instruct-v0.3, distance layout, primary measures (p1 + p2). D = 2K and 25K: five sessions; D = 90K: ten (a pre-declared single extension). Residency 0.997–0.998 for both PACE-family arms.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 164,
+              "image_path": "figures/2611.10240/table-008.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 814
+            },
+            {
+              "caption": "Table 7: Recall of session facts in the distance sweep (Qwen3-8B).",
+              "figure_id": "table-7-2",
+              "figure_number": "7",
+              "height": 178,
+              "image_path": "figures/2611.10240/table-009.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 606
+            },
+            {
+              "caption": "Table 6: Earlier 2 × 2 at L = 40K (Qwen3-8B, 100K tokens, ten sessions, single layout). The interaction is computed on per-probe fractions of checks.",
+              "figure_id": "table-6-11",
+              "figure_number": "6",
+              "height": 190,
+              "image_path": "figures/2611.10240/table-010.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 736
+            },
+            {
+              "caption": "Table 8: Mistral-7B-Instruct-v0.3, all probes (p3 included; the no-eviction control passes 40% of checks).",
+              "figure_id": "table-8-3",
+              "figure_number": "8",
+              "height": 162,
+              "image_path": "figures/2611.10240/table-011.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 748
+            }
+          ],
+          "first_seen_at": "2026-11-09T21:00:00-05:00",
+          "hero_figure": "figures/2611.10240/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.10240",
+          "relevance": 9,
+          "selection_reason": "KV-cache engine for long-horizon LLM agents directly targets cache memory efficiency, token retention, and long-context processing.",
+          "summary_status": "generated",
+          "title": "PACE: Keeping the Right Tokens in the KV Cache Is Not Enough for Long-Horizon LLM Agents",
+          "tldr": "PACE shows that retaining the right KV-cache tokens is insufficient for long-horizon agents unless their positional distance remains retrievable, and combines plan-aware retention with position renumbering to preserve long-context performance.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction",
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Context selection can reduce input length during long-input inference but can remove evidence required to answer a query. We introduce CoRA-Bench, a benchmark for evaluating evidence preservation under shared token budgets. We compare head and tail truncation, BM25, dense retrieval, dense retrieval with reranking, LLMLingua-2, and Provence across BABILong, LOONG Financial Spotlight, a custom NoLiMa diagnostic, and LongMemEval. Evidence-preservation results reveal task-dependent tradeoffs: BM25 achieves 0.921 supporting-fact recall on BABILong at 128K, dense retrieval and dense reranking each achieve 0.908 needle recall on NoLiMa at 64K, and dense retrieval achieves 0.993 answer-bearing-turn recall on LongMemEval at 64K. Evidence, token retention, and complementary reader evaluations use the same selected contexts. Reader evaluations use dataset-native answer metrics and three runs on the same questions, with paired bootstrap confidence intervals. At a 32K budget, BM25 achieves 46.20% BABILong answer accuracy and dense retrieval achieves 71.13% LongMemEval accuracy. The results show that method rankings vary across evidence types and between evidence recall and downstream accuracy.",
+          "arxiv_id": "2611.10238",
+          "arxiv_url": "https://arxiv.org/abs/2611.10238",
+          "authors": [
+            "Huzaifa Pardawala",
+            "Siddhant Sukhani",
+            "Sudheer Chava",
+            "Agam Shah"
+          ],
+          "bullets": [
+            "Compares truncation, BM25, dense retrieval, reranking, LLMLingua-2, and Provence across four long-context benchmarks.",
+            "Evaluates evidence recall, token retention, and downstream reader accuracy using the same selected contexts.",
+            "Reports strong but task-specific recall: BM25 reaches 0.921 supporting-fact recall on BABILong, while dense retrieval reaches 0.993 answer-bearing-turn recall on LongMemEval.",
+            "At 32K tokens, BM25 obtains 46.20% BABILong answer accuracy and dense retrieval obtains 71.13% LongMemEval accuracy.",
+            "Finds that evidence-recall rankings do not consistently predict downstream answer accuracy."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.CL"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: CoRA-Bench: shared token budgets and dataset-specific evidence scoring across four retrieval regimes. Evidence and reader evaluation use the same final context, with overlapping retrieval spans merged; reader inference is repeated with 3 seeds. The LM-filter bypass denotes Threshold ≥ 50, uncapped; its ranked, capped arms follow budget enforcement without a score threshold.",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 473,
+              "image_path": "figures/2611.10238/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 826
+            },
+            {
+              "caption": "Figure 2: Reader accuracy at 32K with Gemini 2.5 Flash-Lite, averaged over seeds 5768, 78516, and 944601. Points show mean accuracy. Horizontal bars are 95% paired-bootstrap intervals after averaging reader runs within question. BABILong is task-stratified and NoLiMa is needle-familyclustered. Full/empty controls have no budget cap. LOONG reports Perfect Rate; other panels report their dataset-specific answer metrics. Evidence and token-retention measurements in Figure 3 use these same emitted contexts.",
+              "figure_id": "figure-2-2",
+              "figure_number": "2",
+              "height": 317,
+              "image_path": "figures/2611.10238/figure-002.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 760
+            },
+            {
+              "caption": "Figure 3: Evidence recall versus retained source tokens across four datasets. Both axes show percentages, with a logarithmic token axis. Marker shapes indicate token budgets with hollow markers denoting verbatim evidence scoring and ringed markers denoting full context. Dashed lines show nondominated envelopes for fixed-cohort datasets. LOONG uses different cohorts across budgets (74/69/50 evidence-evaluable examples). Insets enlarge clustered results, with horizontally offset markers for clarity. Provence is shown once where results coincide across budgets. LM-filter results are excluded. All values are point estimates without confidence intervals.",
+              "figure_id": "figure-3-16",
+              "figure_number": "3",
+              "height": 590,
+              "image_path": "figures/2611.10238/figure-003.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 823
+            },
+            {
+              "caption": "Table 6: LOONG: reader evaluation under overlap-union packing. The LM-filter threshold arm keeps scores ≥ 50 without a cap; its ranked arms use no score threshold. Accuracy is LOONG Perfect Rate with the adapted GPT-5.5 judge; eligible cohorts are 75/70/51 at 32K/64K/128K; brackets are 95% paired-bootstrap intervals after averaging three reader runs within each question (BABILong: task-stratified; NoLiMa: needle-family-clustered). The seed range is descriptive, not a confidence interval. Coverage counts questions scored at all three seeds; cap hits count outputs reaching the output-token limit.",
+              "figure_id": "table-6-14",
+              "figure_number": "6",
+              "height": 634,
+              "image_path": "figures/2611.10238/table-004.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 822
+            },
+            {
+              "caption": "Table 5: BABILong: reader evaluation under overlap-union packing. Accuracy is a percentage; brackets are 95% paired-bootstrap intervals after averaging three reader runs within each question (BABILong: task-stratified; NoLiMa: needle-family-clustered). The seed range is descriptive, not a confidence interval. Coverage counts questions scored at all three seeds; cap hits count outputs reaching the output-token limit.",
+              "figure_id": "table-5-1",
+              "figure_number": "5",
+              "height": 462,
+              "image_path": "figures/2611.10238/table-005.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 640
+            },
+            {
+              "caption": "Table 13: LongMemEval macro answer-bearing turn recall over 470 answerable examples and macro compression ratio over all 500 examples, including 30 abstentions. All methods have complete coverage.",
+              "figure_id": "table-13-3",
+              "figure_number": "13",
+              "height": 201,
+              "image_path": "figures/2611.10238/table-006.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 460
+            },
+            {
+              "caption": "Table 7: NoLiMa custom 870-observation diagnostic: reader evaluation under overlap-union packing. Accuracy is a percentage; brackets are 95% paired-bootstrap intervals after averaging three reader runs within each question (BABILong: task-stratified; NoLiMa: needle-family-clustered). The seed range is descriptive, not a confidence interval. Coverage counts questions scored at all three seeds; cap hits count outputs reaching the output-token limit.",
+              "figure_id": "table-7-13",
+              "figure_number": "7",
+              "height": 338,
+              "image_path": "figures/2611.10238/table-007.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 640
+            },
+            {
+              "caption": "Table 8: LongMemEval: reader evaluation under overlap-union packing. Accuracy includes all 500 questions, including 30 abstentions, and is a percentage; brackets are 95% paired-bootstrap intervals after averaging three reader runs within each question (BABILong: task-stratified; NoLiMa: needle-family-clustered). The seed range is descriptive, not a confidence interval. Coverage counts questions scored at all three seeds; cap hits count outputs reaching the output-token limit.",
+              "figure_id": "table-8-9",
+              "figure_number": "8",
+              "height": 337,
+              "image_path": "figures/2611.10238/table-008.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 640
+            },
+            {
+              "caption": "Table 3: Historical per-method selection compute under chunk-concatenation packing, in L4 instance wall-clock hours (recorded via time.perf_counter around each selector’s main compute block; this is instance wall time, not measured GPU utilization). CPU-only baselines and API-based LM filtering are excluded. LM-filter API costs are reported separately in the text.",
+              "figure_id": "table-3-11",
+              "figure_number": "3",
+              "height": 162,
+              "image_path": "figures/2611.10238/table-009.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 648
+            },
+            {
+              "caption": "Table 2: Reader accuracy (%) at a 32K context budget under overlap-union packing, averaged over seeds 5768, 78516, and 944601. LOONG uses Perfect Rate; NoLiMa is the custom diagnostic. Full and empty controls use all questions without a context budget. Confidence intervals and all budgets are reported in Appendix B.",
+              "figure_id": "table-2-12",
+              "figure_number": "2",
+              "height": 211,
+              "image_path": "figures/2611.10238/table-010.webp",
+              "kind": "table",
+              "page": 4,
+              "width": 564
+            },
+            {
+              "caption": "Table 9: LOONG complementary mean rubric scores (0 to 100 scale as returned by the native parser) with the adapted GPT-5.5 judge at each budget. Full and empty controls use all 75 questions. The LM-filter ranked arms apply no threshold; Threshold ≥ 50, uncapped has mean score 81.15 on all 75 questions. Scores outside the requested 1 to 100 rubric range are preserved and flagged, not clipped.",
+              "figure_id": "table-9-10",
+              "figure_number": "9",
+              "height": 232,
+              "image_path": "figures/2611.10238/table-011.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 364
+            },
+            {
+              "caption": "Table 11: LOONG macro automatically matched candidate-line survival and macro compression ratio. Evidence denominators are 74/69/50; reader and token denominators are 75/70/51 at 32K/64K/128K. LM filter (ranked) applies no score threshold. Threshold ≥ 50, uncapped is reported separately: survival 0.932 (n = 74) and compression ratio 0.037 (n = 75).",
+              "figure_id": "table-11-5",
+              "figure_number": "11",
+              "height": 223,
+              "image_path": "figures/2611.10238/table-012.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 506
+            },
+            {
+              "caption": "Table 10: BABILong macro supporting-fact recall and macro compression ratio. Each cell uses the same 500 examples, all longer than 128K tokens.",
+              "figure_id": "table-10-6",
+              "figure_number": "10",
+              "height": 202,
+              "image_path": "figures/2611.10238/table-013.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 486
+            },
+            {
+              "caption": "Table 12: Custom NoLiMa normalized verbatim needle survival and macro compression ratio over 870 repeated observations.",
+              "figure_id": "table-12-7",
+              "figure_number": "12",
+              "height": 203,
+              "image_path": "figures/2611.10238/table-014.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 460
+            },
+            {
+              "caption": "Table 4: Reader and evaluation settings. The same questions are evaluated at 3 seeds; dataset-native scoring rules are retained, with an adapted judge model for LOONG.",
+              "figure_id": "table-4-15",
+              "figure_number": "4",
+              "height": 35,
+              "image_path": "figures/2611.10238/table-015.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 827
+            },
+            {
+              "caption": "Table 1: Evaluated data. Lengths use cl100k_base. NoLiMa is a custom repeated-measures diagnostic, not the official benchmark aggregate. LongMemEval is treated as static context selection, not online memory management.",
+              "figure_id": "table-1-8",
+              "figure_number": "1",
+              "height": 38,
+              "image_path": "figures/2611.10238/table-016.webp",
+              "kind": "table",
+              "page": 3,
+              "width": 827
+            }
+          ],
+          "first_seen_at": "2026-11-09T21:00:00-05:00",
+          "hero_figure": "figures/2611.10238/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.10238",
+          "relevance": 8,
+          "selection_reason": "Directly evaluates context selection under token budgets, fitting token pruning/eviction and long-context efficiency for language models.",
+          "summary_status": "generated",
+          "title": "CoRA-Bench: Evaluating Evidence Preservation by Context Selectors Under Token Budgets",
+          "tldr": "CoRA-Bench evaluates how well context-selection methods preserve answer-relevant evidence under fixed token budgets, showing that rankings depend on the task and evaluation metric.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "token-pruning-and-eviction"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-08",
       "paper_count": 6,
       "papers": [
@@ -85638,5 +87244,5 @@
   "schema_version": 1,
   "subtopic_id": "token-pruning-and-eviction",
   "topic_id": "efficient-ai",
-  "total_paper_count": 431
+  "total_paper_count": 438
 }

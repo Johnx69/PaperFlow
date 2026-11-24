@@ -12532,6 +12532,363 @@
       ]
     },
     {
+      "date": "2026-11-09",
+      "paper_count": 3,
+      "papers": [
+        {
+          "abstract": "Egocentric auto-labeling requires depth, camera pose, object, and human-pose estimates to agree across independently developed models. Differences in units, coordinate conventions, and scale can make individually plausible predictions geometrically inconsistent. We present \\textbf{EgoLabel}, a zero-shot pipeline that combines off-the-shelf models without target-domain labeled training and provides explicit cross-modal registration and consistency diagnostics. The pipeline integrates MonST3R for geometry, LocateAnything with GMC-BoT-SORT and SAM~2 for objects, and V-HPOT for hands; FisheyeViT provides a separate whole-body compatibility demonstration. Our main hand evaluation uses H2O sensor depth. Across 20 sequences, per-hand depth anchoring reduces the mean of per-sequence median hand--depth residuals by $23\\%$ relative to a single global scale, yielding a pooled median of $84.6\\,\\mathrm{mm}$ against a $20.5\\,\\mathrm{mm}$ ground-truth reference. Hand PA-MPJPE is $14.53\\pm1.29\\,\\mathrm{mm}$, whereas absolute MPJPE is $119.1\\pm31.3\\,\\mathrm{mm}$, revealing a substantial gap between aligned and metric accuracy. On three RGB-only sequences, camera ATE is $1.40\\pm0.29\\,\\mathrm{cm}$ after $\\mathrm{Sim}(3)$ alignment. We also identify a sliding-window implementation issue that allows sensor-initialized depth to change during optimization. Because hand anchoring and its residual share the same depth map, the residual measures internal consistency rather than independent accuracy. These results characterize both the utility and the current limits of the registration pipeline.",
+          "arxiv_id": "2611.12149",
+          "arxiv_url": "https://arxiv.org/abs/2611.12149",
+          "authors": [
+            "Xiaozhi Zhang",
+            "Changjia Xu",
+            "Yaoyuan Yan",
+            "Haoxiang Jie",
+            "Bingjie Fu"
+          ],
+          "bullets": [
+            "Addresses inconsistencies from differing units, coordinate conventions, and scales across independently developed models.",
+            "Combines MonST3R, LocateAnything, GMC-BoT-SORT, SAM 2, and V-HPOT, with FisheyeViT used for whole-body compatibility.",
+            "Per-hand depth anchoring reduces median hand–depth residuals by 23% versus a single global scale; pooled residual is 84.6 mm against a 20.5 mm reference.",
+            "Hand pose reaches 14.53 ± 1.29 mm PA-MPJPE but 119.1 ± 31.3 mm absolute MPJPE, showing a large aligned-versus-metric accuracy gap.",
+            "The hand–depth residual is only an internal-consistency measure because anchoring and evaluation use the same depth map; a sliding-window optimization issue is also identified."
+          ],
+          "categories": [
+            "cs.CV",
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Overall architecture of EgoLabel. Off-the-shelf models produce geometry (MonST3R), object annotations (LocateAnything + GMC-BoT-SORT + SAM 2), and hand poses (V-HPOT). Unit conversion, coordinate alignment, and per-hand depth anchoring connect these streams for joint inspection. Hand–depth residuals, object-trajectory smoothness, and control experiments assess their consistency. FisheyeViT is demonstrated on separate fisheye recordings, and structured manipulation captioning is a downstream application. Metric-scale limitations are detailed in Section 3.4.",
+              "figure_id": "figure-1-10",
+              "figure_number": "1",
+              "height": 654,
+              "image_path": "figures/2611.12149/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 979
+            },
+            {
+              "caption": "Figure 4: Final end-to-end output of EgoLabel on H2O h1/0, as rendered in the Rerun viewer at four stages of the manipulation: (a) lifting the box to examine it, (b) peeling the top flaps, (c) removing the flaps, and (d) pulling the box sides. Each panel is one screenshot of the integrated viewer and simultaneously shows the object stream (LocateAnything detections, GMC-BoT-SORT track IDs, and SAM 2 masks, drawn as colored boxes on the overlay video), the 3D hand prediction (left/right V-HPOT skeletons and the camera+wrist trajectory in 3D), and the ASID task caption (bottom panel: hand usage, manipulated object, and action). Object, hand, and camera annotations are produced by independent zero-shot models; the ASID caption (bottom panel) is a GT-assisted downstream consumer (Section 3.5).",
+              "figure_id": "figure-4-9",
+              "figure_number": "4",
+              "height": 492,
+              "image_path": "figures/2611.12149/figure-002.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 979
+            },
+            {
+              "caption": "Figure 3: Qualitative whole-body results from the FisheyeViT stream. Each panel pairs a head-mounted fisheye frame (left) with the reconstructed 3D skeleton in the shared metric frame (right); predicted skeletons are orange and, where available, ground-truth skeletons are red. (a) Prediction only; (b)–(d) prediction overlaid with ground truth. The skeleton is mapped into the shared frame by the camera-to-world transform (Section 3.2.4); this is a compatibility demonstration on separate recordings, not a joint H2O result.",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 432,
+              "image_path": "figures/2611.12149/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 976
+            },
+            {
+              "caption": "Figure 5: Cross-modal consistency of the V-HPOT hand stream against the depth map on H2O h1/0. (a) Distribution of the per-joint hand–depth residual; the solid line is the median. (b) Median residual for a single global scale, our per-hand anchoring, and the reprojected ground-truth hands. The figure shows a representative sequence; across the 20 sequences the per-sequence median ranges from 64.2 to 119.7mm, and the pooled medians are in Table 6. The residual is a consistency check (does the fused skeleton lie on the reconstructed surface?), not an independent accuracy metric.",
+              "figure_id": "figure-5-5",
+              "figure_number": "5",
+              "height": 399,
+              "image_path": "figures/2611.12149/figure-004.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 924
+            },
+            {
+              "caption": "Figure 6: Camera trajectory on H2O k1/0 for the sensor-depth-injection ablation (the RGB-only trajectory, which we take as the main camera result, is summarized in Table 5), in the first-frame camera frame. (a) Top view: ground-truth (gray) and MonST3R trajectory after 7-DoF Sim(3) alignment (blue). (b) Per-frame ATE (blue) with the mean as a dashed line. The injected run recovers the trajectory shape well, with the residual global-scale error left by the injection acting only as an initialization rather than a constraint (recomputed with the released estimator: Sim(3) ATE 1.76 cm, fitted scale 0.45, strict SE(3) 3.12 cm).",
+              "figure_id": "figure-6-12",
+              "figure_number": "6",
+              "height": 430,
+              "image_path": "figures/2611.12149/figure-005.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 875
+            },
+            {
+              "caption": "Figure 8: Fused 3D scene on H2O (frame 225), in the first-frame camera frame. Gray: ground-truth camera trajectory; blue: predicted camera trajectory (Sim(3)-aligned); green: the V-HPOT hand skeleton after metric-scale anchoring; colored lines: 3D trajectories of the tracked objects lifted through the depth map and the camera pose (start points marked). The independently estimated hand, object, and camera streams are drawn in one coordinate system for inspection.",
+              "figure_id": "figure-8-15",
+              "figure_number": "8",
+              "height": 290,
+              "image_path": "figures/2611.12149/figure-006.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 683
+            },
+            {
+              "caption": "Figure 7: V-HPOT hand accuracy on H2O h1/0. (a) Summary bars: scale-invariant PA-MPJPE (14.13mm), scalealigned MPJPE (22.0mm), and absolute (metric) MPJPE (63.7mm) over 900 hand samples. (b) Per-frame PA-MPJPE over time (light) with a 15-frame smoothed curve and the sequence mean (dashed). The per-frame PA-MPJPE is broadly stable over the sequence. 20 sequences: 14.53±1.29 PA-MPJPE, 26.46±4.40 scale-aligned (mean±std).",
+              "figure_id": "figure-7-8",
+              "figure_number": "7",
+              "height": 393,
+              "image_path": "figures/2611.12149/figure-007.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 867
+            },
+            {
+              "caption": "Figure 2: Object tracking and segmentation on H2O h1/0 (frames 0, 225, 449). LocateAnything detects the prompted objects, GMC-BoT-SORT assigns identity-preserving track IDs (colored boxes), and SAM 2 produces per-instance masks overlaid on the frames. The identities are maintained across head motion and partial hand occlusion by the objects.",
+              "figure_id": "figure-2-14",
+              "figure_number": "2",
+              "height": 186,
+              "image_path": "figures/2611.12149/figure-008.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 976
+            },
+            {
+              "caption": "Table 4: Per-module accuracy measured with the pipeline on H2O with off-the-shelf models, reported as a component sanity check rather than a new benchmark claim. Camera ATE is averaged over three sequences (h1/0, k1/0, o1/0; 1,233 frames); hand metrics over 20 sequences (h1/0–h1/7, h2/0–h2/7, o1/0–o1/3; 12,032 frames, 21,876 hand samples). Hand metrics are means over hand samples within a sequence, then averaged across sequences; ± denotes sample standard deviation across sequences, not across samples. V-HPOT is run frozen (no test-time optimization); the source paper’s 71% figure is for its TTO variant and is not reproduced here.",
+              "figure_id": "table-4-1",
+              "figure_number": "4",
+              "height": 158,
+              "image_path": "figures/2611.12149/table-009.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 826
+            },
+            {
+              "caption": "Table 3: Coverage of the quantitative results in Section 4. Hand accuracy and hand–depth consistency are measured on 20 sequences; camera ATE on three; object-trajectory smoothness requires the full tracking run and is validated on h1/0. RGB-only variants are listed separately.",
+              "figure_id": "table-3-2",
+              "figure_number": "3",
+              "height": 234,
+              "image_path": "figures/2611.12149/table-010.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 860
+            },
+            {
+              "caption": "Table 1: Provenance of the geometry behind each reported quantity. “Sensor depth” is the dataset’s depth map converted to meters and resampled to 320×176 (nearest neighbor); it never passes through MonST3R. “Window-optimized” is the depth after the sliding-window alignment of Section 3.2.1.",
+              "figure_id": "table-1-13",
+              "figure_number": "1",
+              "height": 171,
+              "image_path": "figures/2611.12149/table-011.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 894
+            },
+            {
+              "caption": "Table 2: Annotation coverage and role of the datasets. ✓ = ground truth available; — = not available. “Quant.” indicates whether the dataset yields quantitative results in this work.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 171,
+              "image_path": "figures/2611.12149/table-012.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 753
+            },
+            {
+              "caption": "Table 5: Camera ATE (cm) on the three H2O ATE sequences, paired on the same sequences and frame sets and computed with the same evaluation script (scripts/eval_ate.py), using similarity or rigid alignment of camera translations. “Inj.” is the sensor-depth initialization (the released sensor-assisted mode) with the focal either optimized (free) or initialized from the dataset intrinsics (focal-init, not pinned); “RGB-only” uses MonST3R’s predicted depth and is the main camera result. Fitted Sim(3) scale in parentheses.",
+              "figure_id": "table-5-11",
+              "figure_number": "5",
+              "height": 199,
+              "image_path": "figures/2611.12149/table-013.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 848
+            },
+            {
+              "caption": "Table 6: Cross-modal consistency on H2O. Hand–depth residual: pooled median over 20 sequences (429,896 joints), with the per-sequence mean±std of the medians below it. Object-trajectory smoothness: median on h1/0. “Naive” applies no unit conversion; “Const-scale” applies one global scale; “Per-hand” is our anchoring (Eq. (11)); “GT” reprojects the dataset’s ground-truth hands onto the same depth map as a GT reference residual. Aggregation differs by row: the residual is a pooled median over all joint samples, with the distribution of per-sequence medians underneath, and the smoothness is a median over object-frame samples at H2O’s fixed 30 fps. Lower is better.",
+              "figure_id": "table-6-7",
+              "figure_number": "6",
+              "height": 146,
+              "image_path": "figures/2611.12149/table-014.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 962
+            },
+            {
+              "caption": "Table 7: Sensor-depth-free (RGB-only) hand–depth residual on the two sequences that have V-HPOT tracks. MonST3R’s predicted depth is defined only up to a scale, so the residual is normalized by the wrist depth (dimensionless); “per-hand” uses the per-frame box-median ratio and “const” a single per-sequence ratio. These values must not be compared with the millimeter residuals of Table 6.",
+              "figure_id": "table-7-6",
+              "figure_number": "7",
+              "height": 88,
+              "image_path": "figures/2611.12149/table-015.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 352
+            }
+          ],
+          "first_seen_at": "2026-11-09T21:00:00-05:00",
+          "hero_figure": "figures/2611.12149/hero.webp",
+          "novelty": 6,
+          "pdf_url": "https://arxiv.org/pdf/2611.12149",
+          "relevance": 6,
+          "selection_reason": "Zero-shot egocentric auto-labeling pipeline with cross-modal consistency, relevant to generating embodied training data from human egocentric video.",
+          "summary_status": "generated",
+          "title": "EgoLabel: Zero-Shot Egocentric Auto-Labeling with Cross-Modal Consistency",
+          "tldr": "EgoLabel is a zero-shot pipeline that registers off-the-shelf egocentric geometry, object, and pose models, improving internal hand–depth consistency while exposing substantial metric-accuracy and evaluation limitations.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "We present a pipeline for transferring Awa Odori, a traditional Japanese festival dance, from monocular video to a commercial Unitree G1 EDU humanoid. The pipeline combines human mesh recovery, kinematic retargeting, reinforcement learning for motion tracking in simulation, and onboard deployment via ONNX. Training ran on a single RTX 5070 GPU. An eleven-version deployment ladder evaluated on hardware examines three interventions. We detect and repair silent corruption of deployment artifacts, model state-estimator drift during training, and edit the reference motion to support stable execution and a controlled ending. The final policies achieved three consecutive rope-free completions of a 43-second routine, a 46-second performance with automatic handoff, and a continuous 9.7-minute rope-free performance composed from the captured motion. In a live handover, a single remote request let the robot start from and return to the manufacturer's walking controller on stage, with a measured torque-free window of 45-140 ms. We report the training dynamics and hardware outcomes and discuss failure boundaries involving compliant flooring and occlusion in monocular capture.",
+          "arxiv_id": "2611.11127",
+          "arxiv_url": "https://arxiv.org/abs/2611.11127",
+          "authors": [
+            "Hesham Shehata"
+          ],
+          "bullets": [
+            "Combines human mesh recovery, kinematic retargeting, simulated reinforcement-learning motion tracking, and ONNX onboard deployment.",
+            "An eleven-version hardware ladder addresses deployment-artifact corruption, state-estimator drift, and reference-motion edits for stable completion.",
+            "The robot completed the routine three consecutive times without a rope, performed a 46-second automatic-handoff demonstration, and sustained a 9.7-minute composed performance.",
+            "A live remote handoff returned control between the dance policy and the manufacturer's walking controller, with a measured torque-free window of 45–140 ms.",
+            "Failure boundaries include compliant flooring and occlusions in monocular video capture."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "failed",
+          "figures": [],
+          "first_seen_at": "2026-11-09T21:00:00-05:00",
+          "hero_figure": null,
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.11127",
+          "relevance": 8,
+          "selection_reason": "Sim-to-real humanoid dance learning from monocular human video via RL and retargeting; directly fits embodied robot learning and human-video transfer.",
+          "summary_status": "generated",
+          "title": "From Festival Video to the Stage: A Sim-to-Real Ladder for Long-Horizon Expressive Whole-Body Dance on a Commercial Humanoid",
+          "tldr": "A sim-to-real pipeline transfers a 43-second Awa Odori dance from monocular video to a Unitree G1 EDU, enabling repeated and extended hardware performances with automatic controller handoff.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation",
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Learning whole-body musculoskeletal control from human motion is important for developing human-like robots, assistive devices, and rehabilitation systems. This task presents two main challenges, namely reference trajectories that are kinematically plausible but difficult to reproduce through muscle-driven dynamics, and a highly redundant 700-dimensional action space in which unstructured exploration can easily disrupt the target motion. In this paper, we propose a motion-to-policy pipeline that exploits muscle redundancy in two complementary stages. First, muscle-aware retargeting (MAR) performs bounded adaptation of kinematic trajectories subject to hard semantic, anatomical, and contact constraints. We motivate the constraint bounds by analyzing how reference-trajectory artifacts affect muscle-driven tracking. Second, null-space exploration (NSE) estimates a one-control-frame mapping from muscle excitations to generalized forces and injects bounded, anatomically structured perturbations along its null space into the actions of a value-guided flow policy. On a 24-clip motion-capture benchmark, MAR and NSE together solve every reference, reach the full horizon with half the samples of the baseline pipeline, and lower joint-center error by 44% without late collapse. To the best of our knowledge, this is the first end-to-end pipeline that transforms monocular video into a trained whole-body imitation policy controlling 700 muscles.",
+          "arxiv_id": "2611.10682",
+          "arxiv_url": "https://arxiv.org/abs/2611.10682",
+          "authors": [
+            "Ruiyang Kong",
+            "Takeshi Oishi"
+          ],
+          "bullets": [
+            "Addresses kinematically plausible references that are difficult to reproduce with muscle-driven dynamics and exploration in a 700-dimensional action space.",
+            "Muscle-aware retargeting adapts trajectories within semantic, anatomical, and contact constraints.",
+            "Null-space exploration adds bounded, anatomically structured perturbations that preserve generalized forces while guiding policy learning.",
+            "On 24 motion-capture clips, the combined method solved every reference, used half the baseline samples, and reduced joint-center error by 44%.",
+            "Scope: whole-body musculoskeletal control with 700 muscles; the abstract does not report broader settings beyond this benchmark."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 1. Pipeline from MoCap or video (GVHMR) through faithful IK and grounding, MAR with bounded edits under muscle-motivated gates, and QFlex imitation with NSE on the behavior actions to a 700-muscle policy. Redundancy is used twice, to pick a realizable reference and to explore without disturbing the task.",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 256,
+              "image_path": "figures/2611.10682/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 898
+            },
+            {
+              "caption": "Fig. 4. Video to policy on the tennis clip. Rows show the MAR + NSE rollout overlaid on the video and the rollout alone, sampled about once per second over the 10.38 s clip.",
+              "figure_id": "figure-4-5",
+              "figure_number": "4",
+              "height": 304,
+              "image_path": "figures/2611.10682/figure-002.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 1054
+            },
+            {
+              "caption": "Fig. 3. (a) NSE versus pure QFlex on the built-in walking task with the same reference and reward. Lines are 500k-bin means of episode return over 50M samples averaged over five seeds, and bands are p10–p90 ranges of the per-episode values pooled across seeds. (b) Benchmark learning curves over the first 50M samples, with the axis compressed between 10 and 40M. Episode return is normalized per reference and averaged over the 24 references, shown as 1M-bin means with faint 50k-step traces. Triangles mark the mean first full completion, hollow for pure QFlex and filled for NSE. Blue denotes BA and orange MAR, while dashed lines denote pure QFlex and solid lines NSE.",
+              "figure_id": "figure-3-3",
+              "figure_number": "3",
+              "height": 252,
+              "image_path": "figures/2611.10682/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1031
+            },
+            {
+              "caption": "Fig. 2. Null directions in the excitation box of three muscles, with an exaggerated margin m (green band). With only ut,k within the margin of its lower bound, the cone Tm(ut) is the half-space dk ≥ 0 above the gray plane ∂Tm through ut. Its intersection with the null space Nε(Bt) is a half-plane. For the sample ξt, Dykstra’s iterates (dashed) alternate between ∂Tm and Nε(Bt) and converge to the boundary direction dt, whereas one projection takes the opposite sample ξ′t = −ξt to d′ t inside the half-plane.",
+              "figure_id": "figure-2-7",
+              "figure_number": "2",
+              "height": 248,
+              "image_path": "figures/2611.10682/figure-004.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 496
+            },
+            {
+              "caption": "TABLE II 2× 2 RESULTS ON THE 24-CLIP BENCHMARK (MEANS OVER REFERENCES).",
+              "figure_id": "table-II-2",
+              "figure_number": "II",
+              "height": 223,
+              "image_path": "figures/2611.10682/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1052
+            },
+            {
+              "caption": "TABLE III REFERENCE-LEVEL COMPARISON. KINEMATIC ERRORS ARE RELATIVE TO THE FAITHFUL REFERENCE, STATIC FEASIBILITY USES BOUNDED ACTIVATIONS WITH ADMISSIBLE CONTACT FORCES, AND RESIDUAL IS THE MINIMUM NORM OF THE UNMET GENERALIZED FORCE (BODY WEIGHT 590 N).",
+              "figure_id": "table-III-1",
+              "figure_number": "III",
+              "height": 187,
+              "image_path": "figures/2611.10682/table-006.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 512
+            },
+            {
+              "caption": "TABLE I BENCHMARK CLIPS WITH CATEGORIES AND DURATIONS (S).",
+              "figure_id": "table-I-8",
+              "figure_number": "I",
+              "height": 195,
+              "image_path": "figures/2611.10682/table-007.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 471
+            },
+            {
+              "caption": "TABLE IV STATIC-FEASIBLE FRAMES (%) WITHIN RESIDUAL TOLERANCE ε.",
+              "figure_id": "table-IV-6",
+              "figure_number": "IV",
+              "height": 83,
+              "image_path": "figures/2611.10682/table-008.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 396
+            }
+          ],
+          "first_seen_at": "2026-11-09T21:00:00-05:00",
+          "hero_figure": "figures/2611.10682/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.10682",
+          "relevance": 8,
+          "selection_reason": "Whole-body musculoskeletal imitation from monocular human video, directly relevant to robot learning and learning from human video.",
+          "summary_status": "generated",
+          "title": "Burden, Bounty, or Bliss? Muscle-Aware Retargeting and Null-Space Exploration for Whole-Body Musculoskeletal Control",
+          "tldr": "A two-stage muscle-aware pipeline retargets human motion and explores redundant muscle controls to train robust whole-body imitation policies from monocular video.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation",
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-08",
       "paper_count": 2,
       "papers": [
@@ -55589,5 +55946,5 @@
   "schema_version": 1,
   "subtopic_id": "learning-from-human-video",
   "topic_id": "embodied-ai",
-  "total_paper_count": 289
+  "total_paper_count": 292
 }
