@@ -15,6 +15,7 @@ on:
   workflow_run:
     workflows:
       - PaperFlow Daily
+      - PaperFlow Backfill
       - Recover October 6-8
       - Recover November 12-13
     types:
@@ -37,7 +38,7 @@ jobs:
       github.event.workflow_run.conclusion == 'success'
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment_retry.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Report initial disk space
@@ -68,8 +69,19 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _pages
+      # The ~9 GB Pages artifact is sometimes not yet visible to the Pages API
+      # when deploy-pages queries it ("Found 0 artifact(s)"). Retry after the
+      # artifact backend has finalized instead of failing the whole deploy.
       - name: Deploy to GitHub Pages
         id: deployment
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+      - name: Wait for Pages artifact to finalize
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 120
+      - name: Retry deploy to GitHub Pages
+        id: deployment_retry
+        if: steps.deployment.outcome == 'failure'
         uses: actions/deploy-pages@v4
       - name: Report final disk space
         if: always()

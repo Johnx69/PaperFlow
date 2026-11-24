@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Mapping, Sequence
-from dataclasses import dataclass
-from datetime import UTC, datetime
+from dataclasses import dataclass, replace
+from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Protocol
+from zoneinfo import ZoneInfo
 
 from paperflow.arxiv_client import ArxivSourceError, save_raw_snapshot
+from paperflow.arxiv_listing import ArxivListingNotReady
 from paperflow.config import load_config_bundle
 from paperflow.llm.filtering import (
     FilterRunResult,
@@ -46,7 +48,7 @@ from paperflow.paper_store import (
     save_selected_store,
     validate_selected_collection,
 )
-from paperflow.recovery import load_recovery_snapshot
+from paperflow.recovery import load_backfill_snapshot, load_recovery_snapshot
 from paperflow.render.contracts import FeedIndex
 from paperflow.render.validation import publish_outputs, validate_repository
 from paperflow.render.view_models import build_public_projection
@@ -56,7 +58,7 @@ from paperflow.retry_queue import (
     WorkReason,
     determine_workset,
 )
-from paperflow.schedule import evaluate_schedule
+from paperflow.schedule import ScheduleDecision, evaluate_schedule
 from paperflow.screening_ledger import ScreeningLedger
 from paperflow.taxonomy import (
     load_taxonomy,
@@ -111,11 +113,22 @@ def run_pipeline(
     manual_override_ids: Sequence[str] = (),
     maintenance_only: bool = False,
     source_snapshot: Path | None = None,
+    backfill_snapshot: Path | None = None,
 ) -> PipelineRunResult:
-    """Execute one validated run; callers commit only after this returns."""
+    """Execute one validated run; callers commit only after this returns.
+
+    ``backfill_snapshot`` republishes one *historical* publication date whose
+    arXiv listing was lost. It screens only papers never seen before, dates
+    them to that publication, and leaves the run state of the live daily
+    schedule untouched.
+    """
     root = root.resolve()
     if source_snapshot is not None and (manual or maintenance_only):
         raise ValueError("snapshot recovery requires scheduled publication semantics")
+    if backfill_snapshot is not None and (
+        manual or maintenance_only or source_snapshot is not None or manual_override_ids
+    ):
+        raise ValueError("backfill runs exclusively from one historical snapshot")
     bundle = load_config_bundle(root)
     taxonomy = load_taxonomy(root / "configs/topics.yaml")
     renderer = PromptRenderer(root / "configs/prompts", bundle.prompts)
@@ -124,7 +137,27 @@ def run_pipeline(
     instant = dependencies.now()
     if instant.tzinfo is None or instant.utcoffset() is None:
         raise ValueError("pipeline clock must return a timezone-aware timestamp")
-    decision = evaluate_schedule(bundle.runtime, state, now=instant, manual=manual)
+    backfill_date: date | None = None
+    backfill_entries: list[RawArxivEntry] | None = None
+    if backfill_snapshot is not None:
+        backfill_date, backfill_entries = load_backfill_snapshot(
+            backfill_snapshot,
+            categories=bundle.runtime.source.categories,
+            latest_published=state.last_successful_local_date,
+        )
+        timezone = ZoneInfo(bundle.runtime.timezone)
+        decision = ScheduleDecision(
+            True,
+            backfill_date,
+            datetime.combine(
+                backfill_date, bundle.runtime.schedule.run_at_local, timezone
+            ),
+            "backfill",
+        )
+    else:
+        decision = evaluate_schedule(
+            bundle.runtime, state, now=instant, manual=manual
+        )
     if not decision.due:
         structured_event(
             "run_skipped",
@@ -134,7 +167,9 @@ def run_pipeline(
         return PipelineRunResult(False, None, None, decision.reason)
 
     recovered_entries = (
-        load_recovery_snapshot(
+        backfill_entries
+        if backfill_entries is not None
+        else load_recovery_snapshot(
             source_snapshot,
             publication_date=decision.local_date,
             categories=bundle.runtime.source.categories,
@@ -142,6 +177,40 @@ def run_pipeline(
         if source_snapshot is not None
         else None
     )
+
+    # Resolve the live source before touching any canonical state, so a listing
+    # that is not published yet skips the run without side effects.
+    source_used = "snapshot" if recovered_entries is not None else "rss"
+    if recovered_entries is None and not maintenance_only and not manual:
+        fetch_for_publication = getattr(
+            dependencies.source_client, "fetch_for_publication", None
+        )
+        if fetch_for_publication is not None:
+            try:
+                recovered_entries, source_used = fetch_for_publication(
+                    bundle.runtime.source.categories,
+                    timeout_seconds=bundle.runtime.source.request_timeout_seconds,
+                    publication_date=decision.local_date,
+                )
+            except ArxivListingNotReady:
+                structured_event(
+                    "run_skipped",
+                    local_date=decision.local_date.isoformat(),
+                    reason="source_not_ready",
+                )
+                return PipelineRunResult(False, None, None, "source_not_ready")
+            except ArxivSourceError:
+                failed_stats = _empty_source_failure_stats(
+                    "source-failure", decision.scheduled_for, bundle.runtime
+                )
+                stats_path = _stats_path(root, decision.scheduled_for)
+                if (
+                    bundle.runtime.observability.persist_run_stats
+                    and not stats_path.exists()
+                ):
+                    save_run_stats(stats_path, failed_stats)
+                structured_event("run_failed", error_type="source_failure")
+                raise
 
     # A delayed GitHub cron trigger belongs to its missed publication date, not
     # to the wall-clock date on which GitHub eventually delivered it.
@@ -152,6 +221,7 @@ def run_pipeline(
         run_id=run_id,
         publication_date=decision.local_date.isoformat(),
         triggered_at=instant.isoformat(),
+        source=source_used,
     )
     structured_event("config_loaded", run_id=run_id)
     structured_event("taxonomy_validated", run_id=run_id)
@@ -223,6 +293,15 @@ def run_pipeline(
         refetcher=dependencies.refetcher,
         manual_override_ids=manual_override_ids,
     )
+    if backfill_date is not None:
+        # Retrying old FAILED papers here would re-date them to the backfill
+        # day; leave them to the live daily run.
+        workset = replace(
+            workset,
+            items=tuple(
+                item for item in workset.items if item.reason == WorkReason.NEW_UNSEEN
+            ),
+        )
     structured_event(
         "retry_backlog_built",
         run_id=run_id,
@@ -327,7 +406,11 @@ def run_pipeline(
     projection = build_public_projection(
         summarized.papers,
         taxonomy,
-        generated_at=local_now,
+        generated_at=(
+            state.last_successful_at
+            if backfill_date is not None and state.last_successful_at is not None
+            else local_now
+        ),
         timezone=bundle.runtime.timezone,
         base_url=str(bundle.runtime.publishing.base_url),
         successful_dates=successful_dates,
@@ -352,6 +435,22 @@ def run_pipeline(
         filtered=filtered,
         summarized=summarized,
     )
+    if backfill_date is not None:
+        if bundle.runtime.observability.persist_run_stats:
+            save_run_stats(
+                root / "data/run_stats/backfill" / f"{backfill_date.isoformat()}.json",
+                stats,
+            )
+        validate_repository(root)
+        structured_event("validation_completed", run_id=run_id)
+        structured_event(
+            "backfill_succeeded",
+            run_id=run_id,
+            publication_date=backfill_date.isoformat(),
+            cost_usd=stats.llm_cost_usd,
+        )
+        print(render_run_report(stats))
+        return PipelineRunResult(True, run_id, stats, "backfill")
     if bundle.runtime.observability.persist_run_stats:
         save_run_stats(_stats_path(root, local_now), stats)
     success_state = RunState(

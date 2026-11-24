@@ -12,6 +12,7 @@ from paperflow.arxiv_client import (
     ArxivMetadataRefetcher,
     UrllibTransport,
 )
+from paperflow.arxiv_listing import ArxivApiListingClient, GuardedArxivSource
 from paperflow.config import load_config_bundle, load_openrouter_credentials
 from paperflow.figures.adapters.pdffigures2 import PDFFigures2Adapter
 from paperflow.figures.extract import (
@@ -39,6 +40,11 @@ def main(argv: list[str] | None = None) -> int:
         type=Path,
         help="use a validated historical snapshot for the next due publication",
     )
+    parser.add_argument(
+        "--backfill-snapshot",
+        type=Path,
+        help="republish one historical date whose arXiv listing was lost",
+    )
     arguments = parser.parse_args(argv)
     root = arguments.root.resolve()
     bundle = load_config_bundle(root)
@@ -61,7 +67,10 @@ def main(argv: list[str] | None = None) -> int:
         )
 
     dependencies = PipelineDependencies(
-        source_client=ArxivClient(transport),
+        source_client=GuardedArxivSource(
+            rss=ArxivClient(transport),
+            api=ArxivApiListingClient(transport),
+        ),
         refetcher=ArxivMetadataRefetcher(
             transport,
             timeout_seconds=bundle.runtime.source.request_timeout_seconds,
@@ -79,6 +88,7 @@ def main(argv: list[str] | None = None) -> int:
             manual_override_ids=arguments.paper,
             maintenance_only=arguments.maintenance_only,
             source_snapshot=arguments.source_snapshot,
+            backfill_snapshot=arguments.backfill_snapshot,
         )
     except Exception as error:
         fields: dict[str, object] = {"error_type": type(error).__name__}

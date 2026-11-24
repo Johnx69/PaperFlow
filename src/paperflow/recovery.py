@@ -38,3 +38,22 @@ def load_recovery_snapshot(
     if len(normalize_and_deduplicate(snapshot.entries)) != snapshot.candidate_count:
         raise ValueError("recovery candidate count does not match snapshot contents")
     return snapshot.entries
+
+
+def load_backfill_snapshot(
+    path: Path, *, categories: Sequence[str], latest_published: date | None
+) -> tuple[date, list[RawArxivEntry]]:
+    """Load a snapshot that repairs an already-published historical date."""
+    snapshot = RecoverySnapshot.model_validate_json(path.read_bytes())
+    if latest_published is None or snapshot.publication_date > latest_published:
+        raise ValueError(
+            "backfill is only for dates already published; "
+            "use the scheduled run or --source-snapshot instead"
+        )
+    if snapshot.announcement_date != snapshot.publication_date + timedelta(days=1):
+        raise ValueError("backfill announcement date does not match publication")
+    if snapshot.categories != list(categories):
+        raise ValueError("backfill categories do not match configured source coverage")
+    if len(normalize_and_deduplicate(snapshot.entries)) != snapshot.candidate_count:
+        raise ValueError("backfill candidate count does not match snapshot contents")
+    return snapshot.publication_date, snapshot.entries

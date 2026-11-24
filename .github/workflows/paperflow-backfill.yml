@@ -1,0 +1,101 @@
+name: PaperFlow Backfill
+
+# Republish historical publication dates whose arXiv RSS listing was lost
+# (empty or stale feed at run time). Listings are rebuilt from the arXiv API
+# by submission window, screened like a daily run, and dated to the original
+# publication day. The live daily schedule state is not changed.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dates:
+        description: Comma-separated publication dates (YYYY-MM-DD), oldest first
+        required: true
+        type: string
+
+concurrency:
+  # Share the daily lock so backfill and daily runs never race on commits.
+  group: paperflow-daily
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+          ref: main
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install -e .
+      - name: Validate requested dates
+        env:
+          DATES: ${{ inputs.dates }}
+        run: |
+          python - <<'PY'
+          import os
+          from datetime import date
+          values = [v.strip() for v in os.environ["DATES"].split(",") if v.strip()]
+          if not values:
+              raise SystemExit("No dates given")
+          parsed = [date.fromisoformat(v) for v in values]
+          if parsed != sorted(set(parsed)):
+              raise SystemExit("Dates must be unique and oldest first")
+          PY
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Build pinned PDFFigures2
+        run: |
+          git clone --filter=blob:none https://github.com/allenai/pdffigures2.git /tmp/pdffigures2
+          git -C /tmp/pdffigures2 checkout 3d7ad46753d4a315cccd1c2bcab398380e88c534
+          curl --fail --location --retry 3 \
+            --output /tmp/sbt.tgz \
+            https://github.com/sbt/sbt/releases/download/v1.7.1/sbt-1.7.1.tgz
+          tar -xzf /tmp/sbt.tgz -C /tmp
+          cd /tmp/pdffigures2
+          /tmp/sbt/bin/sbt -Dsbt.log.noformat=true -batch -no-colors assembly
+          echo "PAPERFLOW_PDFFIGURES2_JAR=/tmp/pdffigures2/pdffigures2.jar" >> "$GITHUB_ENV"
+      - name: Rebuild listings and run backfill
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          DATES: ${{ inputs.dates }}
+          PYTHONUNBUFFERED: "1"
+        run: |
+          IFS=',' read -ra requested <<< "$DATES"
+          for day in "${requested[@]}"; do
+            day="$(echo "$day" | xargs)"
+            [ -z "$day" ] && continue
+            snapshot=".cache/paperflow/backfill/$day.json"
+            python -m paperflow.cli.build_backfill_snapshot \
+              --date "$day" --output "$snapshot"
+            python -m paperflow.main --backfill-snapshot "$snapshot"
+          done
+      - name: Validate generated outputs
+        run: python -m paperflow.render.validation
+      - name: Preserve rebuilt listings
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: paperflow-backfill-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .cache/paperflow/backfill/*.json
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 30
+      - name: Commit generated content
+        env:
+          DATES: ${{ inputs.dates }}
+        run: |
+          git config user.name "paperflow-bot"
+          git config user.email "paperflow-bot@users.noreply.github.com"
+          python -m paperflow.cli.commit_generated \
+            --message "chore: backfill lost arXiv listings ($DATES)"
+          git push

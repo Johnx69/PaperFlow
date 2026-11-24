@@ -9,6 +9,7 @@ import urllib.error
 import urllib.request
 import xml.etree.ElementTree as ET
 from collections.abc import Mapping, Sequence
+from datetime import date
 from pathlib import Path
 from typing import Protocol
 from urllib.parse import quote
@@ -73,6 +74,30 @@ class ArxivClient:
                     f"arXiv response for {category} was invalid"
                 ) from error
         return entries
+
+    def fetch_listings(
+        self, categories: Sequence[str], *, timeout_seconds: float
+    ) -> list[tuple[str, date | None, list[RawArxivEntry]]]:
+        """Fetch every category with the listing date its RSS channel declares."""
+        from paperflow.arxiv_listing import rss_listing_date
+
+        listings: list[tuple[str, date | None, list[RawArxivEntry]]] = []
+        for category in categories:
+            url = self._endpoint_template.format(category=quote(category, safe="."))
+            payload = self._transport.get(url, timeout=timeout_seconds)
+            try:
+                listings.append(
+                    (
+                        category,
+                        rss_listing_date(payload),
+                        parse_arxiv_rss(payload, source_category=category),
+                    )
+                )
+            except (ET.ParseError, ValueError) as error:
+                raise ArxivSourceError(
+                    f"arXiv response for {category} was invalid"
+                ) from error
+        return listings
 
 
 class ArxivMetadataRefetcher:
