@@ -1,0 +1,20 @@
+name: RSS date probe
+on:
+  push:
+    branches: [probe/rss-date]
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          date -u; TZ=America/New_York date
+          for c in cs.RO cs.AI; do
+            curl -sS --max-time 60 "https://rss.arxiv.org/rss/$c" -o feed.xml
+            grep -o -E "<(pubDate|lastBuildDate)>[^<]*</(pubDate|lastBuildDate)>" feed.xml | head -3
+            echo "items: $(grep -c '<item>' feed.xml)"
+            grep -o -E "<item>.{0,0}" feed.xml >/dev/null
+            grep -o -E "arxiv.org/abs/[0-9.]+v[0-9]+" feed.xml | head -2
+            grep -o -E "<skipDays>.*</skipDays>" feed.xml | head -1
+          done
