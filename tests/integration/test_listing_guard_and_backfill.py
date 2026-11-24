@@ -6,6 +6,13 @@ from pathlib import Path
 
 import pytest
 import yaml
+from test_full_pipeline import (
+    FixturePipelineLLM,
+    FixtureRefetch,
+    SequencedSource,
+    project_copy,
+    raw_fixture,
+)
 
 from paperflow.arxiv_listing import ArxivListingNotReady
 from paperflow.cli.sync_schedule import sync_schedule
@@ -16,13 +23,6 @@ from paperflow.pipeline import PipelineDependencies, run_pipeline
 from paperflow.render.validation import validate_repository
 from paperflow.screening_ledger import ScreeningLedger
 from paperflow.taxonomy import load_taxonomy
-from tests.integration.test_full_pipeline import (
-    FixturePipelineLLM,
-    FixtureRefetch,
-    SequencedSource,
-    project_copy,
-    raw_fixture,
-)
 
 
 def _configured_project(tmp_path: Path) -> Path:
