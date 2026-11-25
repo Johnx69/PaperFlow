@@ -120,7 +120,9 @@ class PublishingConfig(StrictConfigModel):
 
 class FigureConfig(StrictConfigModel):
     enabled: bool
-    iphone_placeholder: bool
+    # Papers first seen within this many days keep extracted figures; older
+    # papers keep title, summary and categories only.
+    retention_days: int = Field(default=30, ge=1, le=365)
     extractor: Literal["pdffigures2"] = "pdffigures2"
     concurrency: int = Field(default=2, ge=1, le=4)
     extraction_timeout_seconds: int = Field(default=180, ge=10, le=900)

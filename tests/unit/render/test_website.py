@@ -69,8 +69,8 @@ def _paper(
     )
 
 
-def _render():
-    papers = [
+def _render(extra: tuple[SelectedPaper, ...] = ()):
+    papers = [*extra,
         _paper(1, title="Escaped <script>alert(1)</script>"),
         _paper(
             2,
@@ -136,10 +136,27 @@ def test_figure_states_use_stable_placeholder_or_ready_image() -> None:
 
     assert "Figure preview coming later" in root
     assert "Figure unavailable" in root
-    assert (
-        '<img src="https://example.test/PaperFlow/figures/2608.90003/hero.webp"'
-        in root
+    # Relative to the page, so the site survives an owner/domain change.
+    assert '<img src="figures/2608.90003/hero.webp"' in root
+    assert "example.test" not in root
+    day = next(
+        content
+        for path, content in files.items()
+        if path.parts[:2] == ("site", "days")
     )
+    assert '<img src="../figures/2608.90003/hero.webp"' in day
+
+
+def test_archived_papers_render_text_only_cards() -> None:
+    files, _, _ = _render((_paper(4, figure_status=FigureStatus.ARCHIVED),))
+    root = files[PurePosixPath("site/index.html")]
+    card = root.split('data-arxiv-id="2608.90004"', 1)[1].split("</article>", 1)[0]
+
+    assert 'class="paper-card paper-card--text"' in root
+    assert "figure-shell" not in card
+    assert "Website Paper 4" in card
+    assert "Website summary 4." in card
+    assert "Video World Models" in card or "World Models" in card
 
 
 def test_empty_topic_and_subtopic_pages_are_present() -> None:

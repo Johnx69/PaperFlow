@@ -287,7 +287,7 @@ def test_five_date_core_soak_with_retry_fallback_and_failure_drill(
     assert fourth.stats is not None
     assert fifth.stats is not None
     assert all(
-        result.stats.figure_mode == "placeholder"
+        result.stats.figure_mode == "disabled"
         for result in (first, second, third, fourth, fifth)
         if result.stats is not None
     )

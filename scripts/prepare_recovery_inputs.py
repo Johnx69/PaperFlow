@@ -48,7 +48,7 @@ def main() -> None:
             request = urllib.request.Request(
                 url,
                 headers={
-                    "User-Agent": "PaperFlow/0.1 (+https://github.com/anhdao69/PaperFlow)"
+                    "User-Agent": "PaperFlow/0.1 (+https://github.com/Johnx69/PaperFlow)"
                 },
             )
             for attempt in range(3):

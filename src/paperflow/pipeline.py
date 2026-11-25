@@ -12,6 +12,11 @@ from zoneinfo import ZoneInfo
 from paperflow.arxiv_client import ArxivSourceError, save_raw_snapshot
 from paperflow.arxiv_listing import ArxivListingNotReady
 from paperflow.config import load_config_bundle
+from paperflow.figures.retention import (
+    archive_expired_figures,
+    delete_archived_figure_files,
+    retention_start,
+)
 from paperflow.llm.filtering import (
     FilterRunResult,
     StructuredChatClient,
@@ -363,6 +368,27 @@ def run_pipeline(
     else:
         summarized = SummaryRunResult(papers=papers, outcomes=())
 
+    retention_reference = max(
+        local_now.date(),
+        state.last_successful_local_date or local_now.date(),
+    )
+    retained_papers, newly_archived = archive_expired_figures(
+        summarized.papers,
+        keep_since=retention_start(
+            retention_reference, bundle.runtime.figures.retention_days
+        ),
+    )
+    summarized = SummaryRunResult(
+        papers=retained_papers, outcomes=summarized.outcomes
+    )
+    if newly_archived:
+        structured_event(
+            "figures_archived",
+            run_id=run_id,
+            papers=len(newly_archived),
+            retention_days=bundle.runtime.figures.retention_days,
+        )
+
     if bundle.runtime.figures.enabled:
         structured_event(
             "figure_production_started",
@@ -401,6 +427,7 @@ def run_pipeline(
             ),
         )
 
+    delete_archived_figure_files(root, summarized.papers)
     successful_dates = _successful_dates(root)
     successful_dates.add(local_now.date())
     projection = build_public_projection(
@@ -544,7 +571,7 @@ def _fail_unready_figures(
     return {
         paper_id: (
             paper
-            if paper.figure_status == FigureStatus.READY
+            if paper.figure_status in {FigureStatus.READY, FigureStatus.ARCHIVED}
             else paper.model_copy(
                 update={
                     "hero_figure": None,
@@ -603,13 +630,7 @@ def _build_stats(
         summary_failed=sum(
             outcome.status == SummaryStatus.FAILED for outcome in summarized.outcomes
         ),
-        figure_mode=(
-            "extraction"
-            if runtime.figures.enabled
-            else "placeholder"
-            if runtime.figures.iphone_placeholder
-            else "disabled"
-        ),
+        figure_mode="extraction" if runtime.figures.enabled else "disabled",
         llm_input_tokens=sum(item.input_tokens for item in breakdown.values()),
         llm_output_tokens=sum(item.output_tokens for item in breakdown.values()),
         llm_cached_input_tokens=sum(
@@ -635,9 +656,7 @@ def _empty_source_failure_stats(run_id, local_now, runtime) -> RunStats:
         filter_failed=0,
         summary_generated=0,
         summary_failed=0,
-        figure_mode=(
-            "placeholder" if runtime.figures.iphone_placeholder else "disabled"
-        ),
+        figure_mode="extraction" if runtime.figures.enabled else "disabled",
         llm_input_tokens=0,
         llm_output_tokens=0,
         llm_cached_input_tokens=0,

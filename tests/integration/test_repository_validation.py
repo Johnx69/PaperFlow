@@ -17,8 +17,21 @@ ROOT = Path(__file__).parents[2]
 
 def copy_project(tmp_path: Path) -> Path:
     project = tmp_path / "project"
-    for relative in ("configs", "data", "figures", "site", "topics"):
+    for relative in ("configs", "data", "site", "topics"):
         shutil.copytree(ROOT / relative, project / relative)
+    # Figures are multi-GB; validation only checks that referenced files exist,
+    # so mirror each referenced path as an empty file instead of copying bytes.
+    taxonomy = load_taxonomy(ROOT / "configs/topics.yaml")
+    selected = load_selected_store(ROOT / "data/papers.json", taxonomy)
+    for paper in selected.papers.values():
+        for relative_path in (
+            paper.hero_figure,
+            *(figure.image_path for figure in paper.figures),
+        ):
+            if relative_path is not None:
+                target = project / relative_path
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.touch()
     if (ROOT / "daily").exists():
         shutil.copytree(ROOT / "daily", project / "daily")
     shutil.copy2(ROOT / "README.md", project / "README.md")

@@ -6,8 +6,10 @@ Read before implementing:
 
 1. docs/specification/PaperFlow_Technical_Plan_v1.md
 2. docs/architecture/IMPLEMENTATION_DECISIONS_v1.md
-3. docs/ui/PaperFlow_UI_UX_SPEC.md
-4. docs/ui/reference/\*.png
+
+PaperFlow is now a GitHub Pages website plus its daily pipeline. The former
+iPhone app was removed; iOS/SwiftUI sections in the historical docs no longer
+apply.
 
 `docs/specification/PaperFlow_Technical_Plan_v3_2.md` is retained as historical
 planning context. It is not authoritative where the V1 as-built plan or
@@ -17,10 +19,6 @@ Priority when sources conflict:
 
 1. V1 technical plan for data models, state semantics, and pipeline behavior.
 2. V1 implementation decisions for accepted architectural choices.
-3. UI/UX spec for interaction and presentation.
-4. PNG mockups only for visual reference.
-
-Never invent functionality solely because it appears in a generated mockup.
 
 ## Development rules
 
@@ -30,8 +28,6 @@ Never invent functionality solely because it appears in a generated mockup.
 - Run the smallest relevant test after each change.
 - Run the broader test suite before completing a task.
 - Never commit secrets.
-- Never place OPENROUTER_API_KEY in iOS code.
-- Keep public PaperFlow state separate from personal iPhone state.
 
 ## Python
 
@@ -48,41 +44,11 @@ pytest
 ruff check .
 python -m paperflow.cli.validate_taxonomy
 
-## iOS
+## Figure retention
 
-- SwiftUI.
-- SwiftData for personal interaction state.
-- Use async/await.
-- Use dependency injection for public feed networking.
-- No API secrets in the app.
-- Public feed is read-only.
-- One canonical personal state per versionless arXiv ID.
-- Use reusable PaperFlow UI components.
-- Use accessibility identifiers for important interactive controls.
-
-After iOS changes:
-
-- build the relevant scheme with xcodebuild
-- run affected unit tests
-- run affected UI test when interaction behavior changed
-- capture a Simulator screenshot when UI changed
-
-## UI
-
-Permanent tabs are exactly:
-
-- Today
-- Topics
-- Saved
-
-Avoid:
-
-- excessive dashboard density
-- unsupported gamification
-- tiny typography
-- hard-coded taxonomy
-- duplicate implementations of PaperDetail
-- duplicate paper state
+- Papers first seen within `figures.retention_days` (default 30) keep
+  extracted figures. Older papers are marked `archived`: their figure files
+  are deleted and they keep title, summary, categories and topics only.
 
 ## Completion report
 
@@ -103,7 +69,6 @@ The following variables may exist:
 
 - OPENROUTER_API_KEY
 - GH_TOKEN, if explicitly configured
-- future App Store Connect credentials
 
 Only check whether a credential exists, never display its value.
 
@@ -112,7 +77,6 @@ Never modify .env or secret stores unless the task explicitly requires it.
 Never commit:
 
 - .env
-- \*.p8
 - credentials
 - API keys
 - authorization headers

@@ -36,7 +36,7 @@ class UrllibTransport:
     def get(self, url: str, *, timeout: float) -> bytes:
         request = urllib.request.Request(
             url,
-            headers={"User-Agent": "PaperFlow/0.1 (+https://github.com/anhdao69/PaperFlow)"},
+            headers={"User-Agent": "PaperFlow/0.1 (+https://github.com/Johnx69/PaperFlow)"},
         )
         try:
             with urllib.request.urlopen(request, timeout=timeout) as response:

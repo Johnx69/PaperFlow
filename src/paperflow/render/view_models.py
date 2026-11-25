@@ -159,7 +159,7 @@ def build_public_projection(
     base_url: str,
     successful_dates: Iterable[date] = (),
 ) -> PublicProjection:
-    """Project canonical KEEP records once for JSON, Markdown, web, and iOS."""
+    """Project canonical KEEP records once for JSON, Markdown, and web."""
     if generated_at.tzinfo is None or generated_at.utcoffset() is None:
         raise ValueError("projection generated_at must be timezone-aware")
     try:

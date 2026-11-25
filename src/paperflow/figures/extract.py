@@ -128,6 +128,7 @@ class FigureProductionService:
             paper
             for paper_id, paper in sorted(papers.items())
             if (not requested or paper_id in requested)
+            and paper.figure_status != FigureStatus.ARCHIVED
             and (force or not _ready_assets_exist(paper, publication_root))
         ]
         updated = dict(papers)

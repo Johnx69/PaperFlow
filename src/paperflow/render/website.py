@@ -7,7 +7,10 @@ from pathlib import Path, PurePosixPath
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined, select_autoescape
 
-from paperflow.render.contracts import PublicPaper, resolve_publication_url
+from paperflow.render.contracts import (
+    PublicPaper,
+    validate_relative_publication_path,
+)
 from paperflow.render.view_models import (
     DayProjection,
     PublicProjection,
@@ -147,7 +150,7 @@ def _render_page(
                 PurePosixPath("site/days", f"{day.date}.html"),
             ),
             "papers": tuple(
-                _paper_context(paper, projection.base_url, taxonomy)
+                _paper_context(paper, source_path, taxonomy)
                 for paper in day.papers
             ),
         }
@@ -169,15 +172,21 @@ def _render_page(
 
 def _paper_context(
     paper: PublicPaper,
-    base_url: str,
+    source_path: PurePosixPath,
     taxonomy: TaxonomyConfig,
 ) -> dict[str, object]:
     return {
         "paper": paper,
         "topic_labels": _topic_labels(paper, taxonomy),
         "uses_fallback": paper.tldr is None,
+        # Relative to the page, so the site works under any owner/domain.
         "hero_src": (
-            resolve_publication_url(base_url, paper.hero_figure)
+            _relative_href(
+                source_path,
+                PurePosixPath("site") / validate_relative_publication_path(
+                    paper.hero_figure
+                ),
+            )
             if paper.hero_figure is not None
             else None
         ),
@@ -186,6 +195,8 @@ def _paper_context(
             if paper.figure_status.value == "failed"
             else "Figure preview coming later"
         ),
+        # Outside the retention window: render a compact text-only card.
+        "text_only": paper.figure_status.value == "archived",
     }
 
 

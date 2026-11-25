@@ -152,6 +152,8 @@ class FigureStatus(StrEnum):
     NOT_IMPLEMENTED = "not_implemented"
     READY = "ready"
     FAILED = "failed"
+    # Figures were removed by the rolling retention window; never re-extracted.
+    ARCHIVED = "archived"
 
 
 class FigureAsset(DomainModel):

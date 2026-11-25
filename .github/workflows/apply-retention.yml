@@ -1,0 +1,52 @@
+name: Apply Figure Retention
+
+# Apply figures.retention_days to the checked-in data without any LLM or
+# network call: archive figures of papers older than the window (keeping
+# title, summary, categories and topics), delete their image files, rebuild
+# every public output, validate, and commit. Daily runs apply the same rule
+# automatically; use this after changing the window or for the first rollout.
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  # Share the daily lock so retention and daily runs never race on commits.
+  group: paperflow-daily
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  retain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Report initial disk space
+        run: df -h
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+          ref: main
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install -e .
+      - name: Report what will change
+        run: python -m paperflow.cli.apply_figure_retention --dry-run
+      - name: Apply retention and rebuild outputs
+        run: python -m paperflow.cli.apply_figure_retention
+      - name: Validate generated outputs
+        run: python -m paperflow.render.validation
+      - name: Report figure storage
+        run: |
+          du -sh figures || true
+          find figures -mindepth 1 -maxdepth 1 -type d | wc -l
+      - name: Commit generated content
+        run: |
+          git config user.name "paperflow-bot"
+          git config user.email "paperflow-bot@users.noreply.github.com"
+          python -m paperflow.cli.commit_generated \
+            --message "chore: apply ${{ github.workflow }} (keep figures for recent papers only)"
+          git push
