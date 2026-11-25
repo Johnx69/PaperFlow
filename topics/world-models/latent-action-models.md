@@ -6,10 +6,14 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Latent Action Models
 
-**158 papers total**
+**162 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-24 | [Learning World Models through Contrastive Identification of Actions](https://arxiv.org/abs/2611.32776) | World Models: Latent Action Models | Contrastive Identification of Actions (CIA) trains visual world models to preserve action-relevant information that standard inverse-dynamics regression can miss, improving planning success across five visual control benchmarks. | 9 | 8 |
+| 2026-11-24 | [Relation Before Action: Explicit Relation Modeling for Latent Action Pretraining](https://arxiv.org/abs/2611.32226) | Embodied AI: Robot Learning and Manipulation; World Models: Latent Action Models | RELACT improves latent action pretraining by modeling visual transition relations before abstracting them into compact, predictive actions. | 9 | 8 |
+| 2026-11-24 | [Learning Agent States for Latent Action Modeling](https://arxiv.org/abs/2611.32017) | Embodied AI: Robot Learning and Manipulation; World Models: Latent Action Models | Agent-State LAM learns compact representations focused on an agent’s evolving physical state, improving latent action learning for control and world-model prediction. | 8 | 8 |
+| 2026-11-24 | [LeanWAM: Learning Latent World Action Models from Frozen Video Models](https://arxiv.org/abs/2611.31740) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation; World Models: Latent Action Models, Video World Models | LeanWAM compresses video-derived future representations into compact latent tokens, enabling fast robot control without large-scale embodied pretraining. | 9 | 8 |
 | 2026-11-23 | [VITA-WAM: Manifold-Aligned World-Action Modeling for Real-Time Robot Control](https://arxiv.org/abs/2611.31195) | Embodied AI: Robot Learning and Manipulation; World Models: Latent Action Models | VITA-WAM accelerates real-time robot control by aligning observation and action manifolds, enabling accurate one-step flow-matching inference without repeated attention-based conditioning. | 8 | 8 |
 | 2026-11-23 | [DexLatentWorld: 3D Cross-Embodiment Latent Action World Models for Zero-Shot Robotic Manipulation](https://arxiv.org/abs/2611.30907) | Embodied AI: Robot Learning and Manipulation; World Models: Latent Action Models | DexLatentWorld learns geometry-grounded latent actions from 3D demonstrations, enabling world-model planning and zero-shot manipulation across unseen robot embodiments without action labels or embodiment-specific decoders. | 9 | 9 |
 | 2026-11-23 | [World Models as Native Latent Action Models](https://arxiv.org/abs/2611.30898) | Embodied AI: Vision-Language-Action, Learning from Human Videos; World Models: Latent Action Models | A pretrained video world model can be minimally adapted into a native latent-action model that extracts transferable dynamics and improves vision-language-action policy training. | 10 | 9 |

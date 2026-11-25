@@ -6,10 +6,14 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Long-Context Models
 
-**186 papers total**
+**190 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-24 | [Factorized Context Attention: From Emulated to Native Grid Probing](https://arxiv.org/abs/2611.32423) | Efficient AI: Efficient Attention, KV Cache and Memory Efficiency; Language Foundation Models: Long-Context Models | Factorized Context Attention natively reproduces grid probing’s long-context benefits with much lower inference cost in frozen language and vision-language models. | 8 | 8 |
+| 2026-11-24 | [Integral DeltaNet: Improved Linear Attention with Adaptive Memory Integration](https://arxiv.org/abs/2611.32063) | Efficient AI: Efficient Attention, KV Cache and Memory Efficiency; Language Foundation Models: Long-Context Models | Integral DeltaNet improves linear attention by combining fast-changing and long-term recurrent memories for better long-context information retention. | 8 | 8 |
+| 2026-11-24 | [FlashQLA: Efficient Context Parallelism for Gated DeltaNet](https://arxiv.org/abs/2611.32039) | Efficient AI: Efficient Attention; Language Foundation Models: Long-Context Models | FlashQLA accelerates long-context Gated DeltaNet by exposing more sequence-level parallelism and reducing recurrent boundary overhead. | 6 | 6 |
+| 2026-11-24 | [Self-Improving Long-Horizon Reasoning by Learning Summaries from Local Continuations](https://arxiv.org/abs/2611.31621) | Language Foundation Models: Large Language Models, Long-Context Models | TruSuCo extends long-horizon reasoning by training a summarizer to preserve a frozen model’s short-context behavior when compressing reasoning traces. | 8 | 7 |
 | 2026-11-23 | [Attention Temperature Confounds Zero-Shot Context Extension](https://arxiv.org/abs/2611.31113) | Language Foundation Models: Long-Context Models | Zero-shot context-extension gains can be artifacts of baseline logit miscalibration, so evaluations should calibrate temperature and verify normalization parameters moved. | 8 | 7 |
 | 2026-11-23 | [LimeTree: Linear-Memory Graph Neural Networks over Tree-Graphs for Resource-Efficient Language Modeling and Context Extrapolation](https://arxiv.org/abs/2611.30934) | Efficient AI: KV Cache and Memory Efficiency; Language Foundation Models: Long-Context Models | LimeTree is a linear-memory and linear-compute sequence model that combines strong language modeling with reliable long-context KV retrieval and extrapolation. | 8 | 7 |
 | 2026-11-23 | [Near-Far Attention: Region-Aware Sparse Retrieval for Long-Context LLM Decoding](https://arxiv.org/abs/2611.30554) | Efficient AI: Token Pruning and Eviction, Efficient Attention; Language Foundation Models: Long-Context Models | Near-Far Attention accelerates long-context LLM decoding by sparsely retrieving tokens with region-aware scoring while preserving task quality comparable to full attention. | 8 | 7 |
