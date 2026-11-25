@@ -4,6 +4,7 @@ import json
 from datetime import UTC, datetime
 from pathlib import Path
 
+import pytest
 import yaml
 from test_full_pipeline import (
     FixturePipelineLLM,
@@ -141,3 +142,32 @@ def test_retention_command_applies_window_offline(tmp_path: Path) -> None:
     # Same day, 1-day window: the paper is still inside (inclusive).
     assert apply_figure_retention.main(["--root", str(project), "--dry-run"]) == 0
     assert directory.is_dir()
+    # A real run after a runtime-config change rebuilds outputs and records the
+    # new runtime hash, so full validation passes again.
+    with pytest.raises(ValueError, match="runtime hash is stale"):
+        validate_repository(project)
+    assert apply_figure_retention.main(["--root", str(project)]) == 0
+    assert directory.is_dir()
+    validate_repository(project)
+
+
+def test_retention_command_archives_offline(tmp_path: Path) -> None:
+    project = _project(tmp_path, retention_days=1)
+    instants = iter(
+        [datetime(2026, 8, 24, 2, tzinfo=UTC), datetime(2026, 8, 25, 2, tzinfo=UTC)]
+    )
+    dependencies = _publish_first_day(project, instants)
+    # Publish the next day with retention disabled in effect (large window),
+    # then shrink the window and apply it offline.
+    runtime_path = project / "configs/runtime.yaml"
+    runtime = yaml.safe_load(runtime_path.read_text())
+    runtime["figures"]["retention_days"] = 30
+    runtime_path.write_text(yaml.safe_dump(runtime, sort_keys=False))
+    directory = _give_ready_figures(project)
+    assert run_pipeline(project, dependencies, manual=False).ran
+    assert directory.is_dir()
+
+    runtime["figures"]["retention_days"] = 1
+    runtime_path.write_text(yaml.safe_dump(runtime, sort_keys=False))
+    assert apply_figure_retention.main(["--root", str(project)]) == 0
+    _assert_archived(project, directory)
