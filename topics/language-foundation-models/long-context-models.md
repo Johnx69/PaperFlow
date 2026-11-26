@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Long-Context Models
 
-**190 papers total**
+**192 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-25 | [Letting Models Manage Their Own Context: Where We Stand](https://arxiv.org/abs/2611.34147) | Efficient AI: KV Cache and Memory Efficiency; Language Foundation Models: LLM Memory, Long-Context Models | Model-driven context management can substantially improve agent accuracy and token efficiency under tight context budgets, especially when inference engines support efficient KV-cache editing. | 7 | 7 |
+| 2026-11-25 | [State Space Attention: Learning Context-Dependent Memory Retention](https://arxiv.org/abs/2611.33625) | Efficient AI: KV Cache and Memory Efficiency; Language Foundation Models: LLM Memory, Long-Context Models | State Space Attention learns which past representations to retain in a bounded memory, enabling long-context reasoning with constant inference memory and performance often close to full attention. | 8 | 8 |
 | 2026-11-24 | [Factorized Context Attention: From Emulated to Native Grid Probing](https://arxiv.org/abs/2611.32423) | Efficient AI: Efficient Attention, KV Cache and Memory Efficiency; Language Foundation Models: Long-Context Models | Factorized Context Attention natively reproduces grid probing’s long-context benefits with much lower inference cost in frozen language and vision-language models. | 8 | 8 |
 | 2026-11-24 | [Integral DeltaNet: Improved Linear Attention with Adaptive Memory Integration](https://arxiv.org/abs/2611.32063) | Efficient AI: Efficient Attention, KV Cache and Memory Efficiency; Language Foundation Models: Long-Context Models | Integral DeltaNet improves linear attention by combining fast-changing and long-term recurrent memories for better long-context information retention. | 8 | 8 |
 | 2026-11-24 | [FlashQLA: Efficient Context Parallelism for Gated DeltaNet](https://arxiv.org/abs/2611.32039) | Efficient AI: Efficient Attention; Language Foundation Models: Long-Context Models | FlashQLA accelerates long-context Gated DeltaNet by exposing more sequence-level parallelism and reducing recurrent boundary overhead. | 6 | 6 |

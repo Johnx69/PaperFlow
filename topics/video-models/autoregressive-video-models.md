@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Autoregressive Video Models
 
-**81 papers total**
+**83 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-25 | [LuxAvatar: Real-Time Relightable Head Avatars via Causal Neural Shading of 3D Intrinsic Proxies](https://arxiv.org/abs/2611.34940) | 3D Vision; Video Generation and Understanding: Autoregressive Video Models | LuxAvatar enables real-time, controllable head animation and relighting from a single portrait by combining an intrinsic 3D Gaussian proxy with a distilled causal neural shader. | 5 | 7 |
+| 2026-11-25 | [Agentic LongLive: Asynchronous Agentic Memory for Long Video Generation](https://arxiv.org/abs/2611.34907) | Video Generation and Understanding: Autoregressive Video Models | Agentic LongLive adds asynchronous text-and-image agent memory to real-time long-video generation, substantially improving consistency without interrupting streaming. | 7 | 8 |
 | 2026-11-23 | [Analyzing and Improving FlowMap Distillation of Autoregressive Video Models](https://arxiv.org/abs/2611.31164) | Video Generation and Understanding: Autoregressive Video Models | Two guidance mechanisms make pure FlowMap distillation effective for few-step autoregressive video generation while reducing rollout drift and preserving diversity. | 7 | 7 |
 | 2026-11-23 | [Draft Forcing: Target-guided Speculative Drafting and Learned Verifier for Autoregressive Video Generation](https://arxiv.org/abs/2611.30328) | Video Generation and Understanding: Autoregressive Video Models | Draft Forcing accelerates autoregressive video generation by using target-guided feature drafting and a learned verifier to accept reliable speculative chunks without costly decoding. | 9 | 8 |
 | 2026-11-23 | [Mass Forcing: On-Policy Mass-Aware Distillation for Autoregressive Video Generation](https://arxiv.org/abs/2611.29618) | Video Generation and Understanding: Autoregressive Video Models | Mass Forcing improves few-step autoregressive video generation by preventing DMD-induced mode collapse through state-level, probability-mass-aware distillation. | 9 | 8 |

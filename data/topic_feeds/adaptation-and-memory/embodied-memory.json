@@ -1,6 +1,1599 @@
 {
   "days": [
     {
+      "date": "2026-11-25",
+      "paper_count": 9,
+      "papers": [
+        {
+          "abstract": "Vision-language models (VLMs) enable robots to reason about semantic and spatio-temporal context, verify task-relevant objects, and guide sensing and navigation. Persistent memory can reduce redundant search for field robots, but when should a memory continue to guide behavior? Repeated misses may suggest that a memory is stale. Our experiments show why this evidence can remain ambiguous under VLM-based perception. Using a Boston Dynamics Spot with four fixed cameras and a persistent spatio-temporal visual memory, we measure negative-verification behavior across targets, viewpoints, language queries, and repeated revisits. False-negative rates vary substantially across objects, nearby revisits often reproduce the same detector outcome, and some matched target-present and target-removed experiments yield identical miss histories. This ambiguity persists under changed observation geometry, identity-preserving query reformulation, and conditioning on a previously verified target image. These findings raise two questions: is the object still there, and is this memory still useful for navigation? We introduce a dependence-aware, reversible memory-update mechanism that avoids double-counting correlated misses and stops using unsupported memories as direct navigation goals without claiming that the object is absent. Later positive evidence can restore a memory's use for navigation. One resident onboard VLM is shared across memory verification, semantic frontier reasoning, and in-motion perception. In three matched real-robot decision contexts, an episode-local baseline selected a stale memory as its navigation objective in every case, whereas our method selected semantic frontiers in all three. A complementary trial re-verified the target during motion and promoted fresh memory. These results support revising memory actionability rather than interpreting failed detection as object absence.",
+          "arxiv_id": "2611.34915",
+          "arxiv_url": "https://arxiv.org/abs/2611.34915",
+          "authors": [
+            "Sumukh Shrote, Shenbagaraj Kannapiran, Eric Eaton, Camillo Jose Taylor"
+          ],
+          "bullets": [
+            "VLM-based negative detections are ambiguous: false-negative rates vary, repeated nearby views can reproduce misses, and target-present and target-removed scenes may look identical.",
+            "The proposed dependence-aware, reversible updates avoid double-counting correlated misses and stop unsupported memories from serving as direct navigation goals.",
+            "Semantic frontiers become alternatives when memory confidence is insufficient; later positive evidence can restore navigation use.",
+            "On a Spot robot in three matched decision contexts, the baseline chose a stale memory every time, while the proposed method chose semantic frontiers in all three.",
+            "A motion-time recheck demonstrated that fresh positive evidence can promote memory again."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 2. Persistent semantic-navigation system architecture. The robot combines four fixed cameras, persistent CLIP/FAISS visual memory, semantic frontier exploration, and a shared resident VLM. Historical observations are retrieved and strictly reverified before they can influence navigation. Negative evidence updates memory actionability from VERIFIED ACTIVE to SUSPECT and eventually DORMANT UNTRUSTED, while later strict positive evidence can restore navigation authority. When no trusted memory remains, the system selects a semantic frontier instead. A single resident Qwen3-VL-8B-Instruct instance is shared across target verification, memory verification, frontier reasoning, and asynchronous perception during motion.",
+              "figure_id": "figure-2-7",
+              "figure_number": "2",
+              "height": 695,
+              "image_path": "figures/2611.34915/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 948
+            },
+            {
+              "caption": "Fig. 1. Memory is not ground truth. A previously verified object can fail current VLM verification either because the environment has changed or because perception has failed. An episode-local policy forgets earlier failed verification and can repeatedly revisit the same remembered location. Our method instead revises the memory’s navigation authority without asserting that the object is absent, redirects search toward a semantically selected frontier, and preserves the memory for future positive evidence. The inset in (c) shows frontier candidates in the deployed 2-D navigation representation.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 487,
+              "image_path": "figures/2611.34915/figure-002.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 948
+            },
+            {
+              "caption": "Fig. 3. Repeated VLM misses are redundant and can be ambiguous with respect to physical object state. In E2, Spot repeatedly leaves and returns to human-visible target viewpoints; nearby revisits frequently preserve the previous verifier outcome, with 90.0% of adjacent observations producing the same result. In E3, the corresponding objects are physically removed and the same anchor regions are revisited. For the three blue-chair anchors C1-C3, both target-present and target-removed conditions produce the identical six-observation history MMMMMM. Thus, the deployed detector observations alone cannot distinguish the two physical states.",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 664,
+              "image_path": "figures/2611.34915/figure-003.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 948
+            },
+            {
+              "caption": "TABLE III NEGATIVE-EVIDENCE BASELINES ON FROZEN E2/E3 OBSERVATIONS. LITERATURE METHODS ARE COMMON-INTERFACE ADAPTATIONS RATHER THAN END-TO-END REPRODUCTIONS. ANCHOR- AND TRAJECTORY-LEVEL ROWS USE DIFFERENT EVALUATION UNITS.",
+              "figure_id": "table-III-3",
+              "figure_number": "III",
+              "height": 248,
+              "image_path": "figures/2611.34915/table-004.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 492
+            },
+            {
+              "caption": "TABLE V ASYNCHRONOUS POSITIVE VERIFICATION AND MEMORY PROMOTION DURING NAVIGATION. THE RESTORED TARGET WAS NOT VISIBLE IN THE INITIAL TASK-START OBSERVATION.",
+              "figure_id": "table-V-6",
+              "figure_number": "V",
+              "height": 214,
+              "image_path": "figures/2611.34915/table-005.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 348
+            },
+            {
+              "caption": "TABLE II E1 TARGET-CONDITIONED PERFORMANCE OF THE FROZEN VERIFIER UNDER THE ORIGINAL SEMANTIC QUERY.",
+              "figure_id": "table-II-1",
+              "figure_number": "II",
+              "height": 163,
+              "image_path": "figures/2611.34915/table-006.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 371
+            },
+            {
+              "caption": "TABLE I MEMORY ACTIONABILITY STATES AND THEIR OPERATIONAL MEANING. ALL STATES PRESERVE HISTORICAL OBSERVATIONS AND PERMIT SUBSEQUENT POSITIVE RECOVERY.",
+              "figure_id": "table-I-8",
+              "figure_number": "I",
+              "height": 129,
+              "image_path": "figures/2611.34915/table-007.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 412
+            },
+            {
+              "caption": "TABLE IV MATCHED E4 STALE-MEMORY DECISIONS. THE EPISODE-LOCAL BASELINE FORGETS THE PRIOR FAILED REVISIT, WHEREAS OURS RETAINS PERSISTENT ACTIONABILITY STATE.",
+              "figure_id": "table-IV-5",
+              "figure_number": "IV",
+              "height": 88,
+              "image_path": "figures/2611.34915/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 462
+            }
+          ],
+          "first_seen_at": "2026-11-25T21:00:00-05:00",
+          "hero_figure": "figures/2611.34915/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.34915",
+          "relevance": 8,
+          "selection_reason": "Persistent spatio-temporal memory for semantic navigation with VLM-based verification, fitting embodied memory and vision-language navigation.",
+          "summary_status": "generated",
+          "title": "Memory Is Not Ground Truth: Revising Navigation Authority under Unreliable VLM Evidence for Persistent Semantic Navigation",
+          "tldr": "Robots should reduce a memory’s navigation authority after correlated detection failures without assuming the remembered object is absent.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-navigation",
+                "robot-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "embodied-memory"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "The behavior of memory systems for long-running AI assistants is governed by a harness, which consists of the code, prompts, and configurations for memory construction, maintenance, retrieval, and answer generation. However, optimizing the harness of a memory system remains largely manual, and unrestricted editing alone does not ensure structural improvements. In this paper, we introduce HoMe, an evaluation-driven framework that iteratively evaluates candidate harnesses and derives each new candidate from any previously evaluated harness by editing any part of it. HoMe combines session-level memory versioning with execution traces to identify shared failure mechanisms across cases and localize them to the responsible sessions and harness components. It encourages early structural exploration through candidate gating and reduces evaluation cost through smoke tests, adaptive sampling, and the reuse of constructed memory. We validate HoMe with the open-source memory system ReMe on two large-scale long-horizon memory benchmarks, LongMemEval-S and BEAM. With six formal candidate evaluations per benchmark, after a full initial evaluation, HoMe discovers harnesses that improve end-task performance over the originally strong harness while consuming far fewer query-time tokens. The code is available at https://github.com/agentscope-ai/ReMe.",
+          "arxiv_id": "2611.34624",
+          "arxiv_url": "https://arxiv.org/abs/2611.34624",
+          "authors": [
+            "Yifei Xu, Li Yu, Zhaoyang Liu, Ce Wang, Sen Huang, Yanyan Shen, Yun Lin, Linpeng Huang, Hong Mei"
+          ],
+          "bullets": [
+            "Targets the largely manual optimization of memory-system code, prompts, and configurations.",
+            "Iteratively evaluates and edits previously tested harnesses, using session-level memory versions and execution traces to localize shared failures.",
+            "Promotes structural exploration with candidate gating and lowers evaluation cost through smoke tests, adaptive sampling, and memory reuse.",
+            "Validated with ReMe on LongMemEval-S and BEAM; after six formal evaluations per benchmark, it found harnesses with better end-task performance and fewer query-time tokens than the original harness."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Overview of HoMe. The Developer Agents diagnose failures and edit the harness to generate candidates. The Experiment Manager records candidates and results, controls tool access, and plans evaluations. The Evaluation Environment evaluates candidates in isolated sandboxes.",
+              "figure_id": "figure-1-11",
+              "figure_number": "1",
+              "height": 358,
+              "image_path": "figures/2611.34624/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 902
+            },
+            {
+              "caption": "Figure 3: Harness modifications generated by HoMe . (a-b) Independently discovered on both datasets; (c-d) dataset-specific adaptations.",
+              "figure_id": "figure-3-17",
+              "figure_number": "3",
+              "height": 194,
+              "image_path": "figures/2611.34624/figure-002.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 629
+            },
+            {
+              "caption": "Figure 2: Performance of all candidates on BEAM.",
+              "figure_id": "figure-2-16",
+              "figure_number": "2",
+              "height": 194,
+              "image_path": "figures/2611.34624/figure-003.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 228
+            },
+            {
+              "caption": "Figure 4: BEAM-1M results. Upper left is better. HoMe runs lie on the empirical Pareto frontier.",
+              "figure_id": "figure-4-7",
+              "figure_number": "4",
+              "height": 311,
+              "image_path": "figures/2611.34624/figure-004.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 612
+            },
+            {
+              "caption": "Table 7: BEAM optimization trajectory.",
+              "figure_id": "table-7-13",
+              "figure_number": "7",
+              "height": 324,
+              "image_path": "figures/2611.34624/table-005.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 876
+            },
+            {
+              "caption": "Table 6: LongMemEval-S optimization trajectory.",
+              "figure_id": "table-6-14",
+              "figure_number": "6",
+              "height": 279,
+              "image_path": "figures/2611.34624/table-006.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 810
+            },
+            {
+              "caption": "Table 4: Per-category scores on LongMemEval-S.",
+              "figure_id": "table-4-6",
+              "figure_number": "4",
+              "height": 831,
+              "image_path": "figures/2611.34624/table-007.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 660
+            },
+            {
+              "caption": "Table 5: Per-category scores on BEAM-1M.",
+              "figure_id": "table-5-3",
+              "figure_number": "5",
+              "height": 831,
+              "image_path": "figures/2611.34624/table-008.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 836
+            },
+            {
+              "caption": "Table 13: Search token consumption by model on BEAM-100K. Percentages are relative to each method’s total.",
+              "figure_id": "table-13-1",
+              "figure_number": "13",
+              "height": 131,
+              "image_path": "figures/2611.34624/table-009.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 532
+            },
+            {
+              "caption": "Table 8: Problems and proposed solutions in the two BEAM experiments. Comparison refers to the underlying solution principles rather than identical implementations. Entries summarize proposals throughout each experiment.",
+              "figure_id": "table-8-12",
+              "figure_number": "8",
+              "height": 916,
+              "image_path": "figures/2611.34624/table-010.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 902
+            },
+            {
+              "caption": "Table 1: Overall results. Token counts (input, output) and LLM calls (Calls) are averages per query.",
+              "figure_id": "table-1-9",
+              "figure_number": "1",
+              "height": 165,
+              "image_path": "figures/2611.34624/table-011.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 832
+            },
+            {
+              "caption": "Table 2: Cross-benchmark transfer performance and token usage.",
+              "figure_id": "table-2-10",
+              "figure_number": "2",
+              "height": 123,
+              "image_path": "figures/2611.34624/table-012.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 836
+            },
+            {
+              "caption": "Table 3: Time for one formal evaluation as acceleration mechanisms are added cumulatively. Each reduction is measured relative to the preceding row.",
+              "figure_id": "table-3-15",
+              "figure_number": "3",
+              "height": 146,
+              "image_path": "figures/2611.34624/table-013.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 686
+            },
+            {
+              "caption": "Table 10: MemPro search trajectory on BEAM-100K. Lines count added/deleted nonempty prompt-text lines relative to the parent, excluding formatting-only changes.",
+              "figure_id": "table-10-5",
+              "figure_number": "10",
+              "height": 256,
+              "image_path": "figures/2611.34624/table-014.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 460
+            },
+            {
+              "caption": "Table 11: MemPro search trajectory on LongMemEval-S. Scores use the same 50-case training subset throughout. Lines report recorded additions/deletions relative to the parent.",
+              "figure_id": "table-11-8",
+              "figure_number": "11",
+              "height": 254,
+              "image_path": "figures/2611.34624/table-015.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 460
+            },
+            {
+              "caption": "Table 12: Search token consumption by stage on BEAM-100K. Query includes answer generation and rubric scoring.",
+              "figure_id": "table-12-2",
+              "figure_number": "12",
+              "height": 229,
+              "image_path": "figures/2611.34624/table-016.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 536
+            },
+            {
+              "caption": "Table 9: Evaluation results for the recorded optimization trace. All versions use the same 200 training queries.",
+              "figure_id": "table-9-4",
+              "figure_number": "9",
+              "height": 104,
+              "image_path": "figures/2611.34624/table-017.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 590
+            }
+          ],
+          "first_seen_at": "2026-11-25T21:00:00-05:00",
+          "hero_figure": "figures/2611.34624/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.34624",
+          "relevance": 7,
+          "selection_reason": "Introduces HoMe, a framework for optimizing the 'harness' of memory systems in long-running AI assistants to improve performance and reduce token usage.",
+          "summary_status": "generated",
+          "title": "HoMe: Toward Practical Harness Optimization of Memory Systems for AI Assistants",
+          "tldr": "HoMe is an evaluation-driven framework that automatically improves AI-assistant memory harnesses while reducing optimization cost and query-time token use.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "embodied-memory"
+              ],
+              "topic_id": "adaptation-and-memory"
+            },
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Multi-session hiring assistants must infer evolving recruiter preferences and decision patterns across projects and time. We introduce Open Knowledge Format (OKF)-indexed episodic memory to organize interactions and retrieve related events through their lineage. We also introduce Procedure Memory, which learns reusable decision procedures from these episodes through prompted reflection or reinforcement learning. We compare these approaches with no memory, full-history context, and conversation search, and evaluate Jev-class models for index navigation and GPT-5.6 Luna as a lower-cost alternative to GPT-5.4. In our evaluation, OKF-indexed retrieval achieves low-priority preference F1 scores of 0.93-0.95 at medium and high preference overlap between hiring projects. It significantly outperforms full-history context and conversation search in both settings, and no memory at high overlap, while using 69% fewer context tokens than full history. Procedure Memory reduces conversational turns by up to 39% relative to no memory. Qualitative and long-horizon evaluations provide evidence of temporal reasoning, with RL-learned procedures achieving 60% on both correct abstention and exact-field identification. Jev-class models improve conversational efficiency but more frequently miss temporally relevant evidence, highlighting the importance of evidence selection. On PersonaMem-v2, Procedure Memory with OKF retrieval achieves 50.2% accuracy versus 48.6% for full-history context and 29.0% for no memory, using 90.5% fewer reader input tokens than full history. GPT-5.6 Luna performs comparably to GPT-5.4 at lower cost. These findings highlight the value of structured episodic memory and learned decision procedures for efficient personalization and temporal reasoning.",
+          "arxiv_id": "2611.34576",
+          "arxiv_url": "https://arxiv.org/abs/2611.34576",
+          "authors": [
+            "Praveen Kumar Bodigutla, Yizhi Zhang, Sai Vivek Kanaparthy, Arup De"
+          ],
+          "bullets": [
+            "OKF-indexed memory organizes interactions by lineage to retrieve temporally and project-relevant episodes.",
+            "Procedure Memory learns reusable hiring decision procedures through prompted reflection or reinforcement learning.",
+            "OKF retrieval reaches 0.93–0.95 low-priority preference F1 and uses 69% fewer context tokens than full-history context.",
+            "Procedure Memory reduces conversational turns by up to 39%; on PersonaMem-v2, the combined approach reaches 50.2% accuracy with 90.5% fewer reader input tokens than full history.",
+            "Smaller Jev-class models improve efficiency but more often miss temporally relevant evidence, emphasizing evidence selection."
+          ],
+          "categories": [
+            "cs.AI",
+            "cs.HC",
+            "cs.IR"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Memory-context construction across strategies. Conversation and OKF indexes are updated incrementally; prompted and RL procedures are learned from observable Days 1–5 interactions. Jev-class models replace the LLM-based OKF event selector while retaining lineage expansion and downstream retrieval.",
+              "figure_id": "figure-1-5",
+              "figure_number": "1",
+              "height": 596,
+              "image_path": "figures/2611.34576/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1054
+            },
+            {
+              "caption": "Table 5: Experimental parameters: Jev-class model selection, model comparison, and prompted learning.",
+              "figure_id": "table-5-6",
+              "figure_number": "5",
+              "height": 675,
+              "image_path": "figures/2611.34576/table-002.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 1010
+            },
+            {
+              "caption": "Table 4: Experimental parameters: simulation and retrieval infrastructure.",
+              "figure_id": "table-4-8",
+              "figure_number": "4",
+              "height": 512,
+              "image_path": "figures/2611.34576/table-003.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 1010
+            },
+            {
+              "caption": "Table 6: Experimental parameters: RL procedure training and evaluation protocol.",
+              "figure_id": "table-6-4",
+              "figure_number": "6",
+              "height": 639,
+              "image_path": "figures/2611.34576/table-004.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 1010
+            },
+            {
+              "caption": "Table 1: Memory-arm performance for early and later days. Results in each cell are ordered by low / medium / high project overlap, with 50 trajectories per arm and overlap. Low- and high-priority F1 are computed from pooled confusion counts; priority inference uses GPT-5.4 with reasoning effort set to none. EOD denotes end of day. Procedure arms are shown only for Days 6–14, after learning on Days 1–5. Within each day-window, metric, and overlap, the best value is bold and the second-best is italicized (lower average turns; higher F1). ∗, †, and ‡ indicate significantly better performance than Memnone, Memconv, and Memsearch, respectively. Tests use exact two-sided paired recruiter-level permutations (10 recruiters per overlap; 1,024 swaps), recomputing pooled F1 or mean turns per day after each swap. Symbols require unadjusted p < 0.05 for the individual comparison; Significance depends on paired recruiter-level variation, not just the pooled improvement.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 460,
+              "image_path": "figures/2611.34576/table-005.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1052
+            },
+            {
+              "caption": "Table 2: Memory overhead. Retrieved tokens and LLM calls are averages per memory invocation. Token means cover Days 6–14 for procedure arms and Days 1–14 for the rest. a Calls are logical generative priority-inference/navigation requests per memory invocation, including cache hits; Jev-class model scoring is not counted. Procedure-arm call counts are shown only for Days 6–14.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 248,
+              "image_path": "figures/2611.34576/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 500
+            },
+            {
+              "caption": "Table 7: Differences between GPT-5.6 Luna and GPT-5.4 with reasoning effort none, grouped by day range and preference overlap. All entries are Luna minus GPT-5.4. Positive F1 differences indicate higher F1; negative turn differences indicate fewer turns per day. Each model contributes 50 trajectories per overlap tier. ∗ Nominal two-sided p < 0.05 from exact paired model-label permutations at the recruiter-cluster level: all 210 = 1024 permutations per overlap tier, retaining each recruiter’s five trajectories and all days within the evaluated period. No difference remains significant after Holm correction across the 108 comparisons. F1 is computed from pooled confusion counts; turns are averaged across daily conversations. Memproc inherits days 1–5 from Memokf , and Memjevproc inherits them from Memjev, so their prefix rows are duplicated observations, not independent results. The procedure comparison uses the original 150-trajectory GPT-5.4 procedure run.",
+              "figure_id": "table-7-2",
+              "figure_number": "7",
+              "height": 919,
+              "image_path": "figures/2611.34576/table-007.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 736
+            },
+            {
+              "caption": "Table 3: Day-15 behavior-inference accuracy, failure attribution, and reasoning intervention. Abst. and Field report the numbers of correct abstentions and exact-field identifications, respectively, out of 10 cases of each type per arm. Reference labels are frozen (Appendix G). Failure analysis uses the original 20-case sample per arm, split equally between abstention and field-identification cases; Total: original errors; R/S: Reasoning over fetched context errors / selection misses; Fixed: original context understanding errors corrected by changing GPT-5.4 reasoning effort from none to low, with prompts, evidence, and completion budgets fixed.",
+              "figure_id": "table-3-7",
+              "figure_number": "3",
+              "height": 227,
+              "image_path": "figures/2611.34576/table-008.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 500
+            },
+            {
+              "caption": "Table 9: Sampled job preferences and final priorities for the example project.",
+              "figure_id": "table-9-10",
+              "figure_number": "9",
+              "height": 233,
+              "image_path": "figures/2611.34576/table-009.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 500
+            },
+            {
+              "caption": "Table 10: Sampled requirements and final simulator priorities for the Mem_proc location-relaxation example.",
+              "figure_id": "table-10-11",
+              "figure_number": "10",
+              "height": 191,
+              "image_path": "figures/2611.34576/table-010.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 500
+            },
+            {
+              "caption": "Table 8: PersonaMem-v2 results on 255 matched held-out questions from 97 eligible personas. Tokens are mean input tokens per reader call, including provider-cached input. They exclude index navigation, retrieval infrastructure, and procedure learning.",
+              "figure_id": "table-8-9",
+              "figure_number": "8",
+              "height": 171,
+              "image_path": "figures/2611.34576/table-011.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 500
+            }
+          ],
+          "first_seen_at": "2026-11-25T21:00:00-05:00",
+          "hero_figure": "figures/2611.34576/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.34576",
+          "relevance": 7,
+          "selection_reason": "Introduces Procedure Memory and OKF-indexed episodic memory for multi-session hiring assistants, focusing on temporal reasoning and decision procedures for memory systems.",
+          "summary_status": "generated",
+          "title": "Procedure Inference as Memory: Learning Recruiter Decision Procedures from OKF-Structured Episodes in Multi-Session Hiring Assistants",
+          "tldr": "Structured episodic memory and learned decision procedures help multi-session hiring assistants track evolving recruiter preferences while reducing context use and conversation length.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "embodied-memory"
+              ],
+              "topic_id": "adaptation-and-memory"
+            },
+            {
+              "subtopic_ids": [
+                "llm-memory"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Effective robotic manipulation calls for multimodal memory and rapid adaptation to shifts in contact dynamics. However, many existing policies, which retain either visual or wrench history, may miss key cues from the other modality. Moreover, even with wrench memory, fixed policies can struggle when contact conditions shift at deployment. To this end, we introduce M$^{2}$AdaptVLA, a vision-language-action model that integrates visual and wrench memories with predictive test-time adaptation. For visual memory, the model uses test-time training (TTT) to encode observation history in fast weights. Each entry in the bounded TTT bank combines the corresponding frame's features with a readout from these weights, preserving cues that predate the oldest retained frame. For wrench memory, a context gate controls how much the action expert draws on wrench history as it jointly denoises future actions and wrenches. For predictive test-time adaptation, the auxiliary wrench prediction loss also provides online self-supervision. Using measured wrenches as targets, we update low-rank policy adapters by backpropagating only through the final denoising step. Real-world experiments show that the TTT bank outperforms visual memory baselines on progress tracking, scene recall, and demonstration following. On contact-sensitive tasks, the context gate yields higher success rates than direct injection or gated cross-attention. Predictive test-time adaptation improves robustness to shifts in contact dynamics. On eight tasks requiring visual and wrench memory, M$^{2}$AdaptVLA achieves a mean success rate of 82.71%, a 31.46% absolute gain over the strongest baseline. The project page is available at https://tlf-tlf.github.io/M2AdaptVLAPage/.",
+          "arxiv_id": "2611.34560",
+          "arxiv_url": "https://arxiv.org/abs/2611.34560",
+          "authors": [
+            "Liufan Tan, Tong Wang, Yuehao Yin, Jian Chen, Yihang Yin, Ying Qu, Wenyu Li, Ruyi Gan, Hao Wang"
+          ],
+          "bullets": [
+            "Integrates visual history encoded with test-time training and wrench history controlled by a context gate.",
+            "Uses auxiliary wrench prediction as online self-supervision to update low-rank policy adapters during deployment.",
+            "Experiments show improved progress tracking, scene recall, demonstration following, and contact-sensitive manipulation robustness.",
+            "Achieves an 82.71% mean success rate across eight visual-and-wrench-memory tasks, a 31.46-point gain over the strongest baseline."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. M2AdaptVLA architecture. (a) Each bank entry combines current visual features with a gated fast-weight readout. (b) At each full-attention layer, VLM context and TCN-encoded wrench history gate the action expert’s wrench residual. (c) At test time, we backpropagate the wrench loss only through the final denoising step to update LoRA adapters in layers 1–4 of the VLM and expert.",
+              "figure_id": "figure-2-11",
+              "figure_number": "2",
+              "height": 498,
+              "image_path": "figures/2611.34560/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1014
+            },
+            {
+              "caption": "Figure 4. Eight real-robot tasks grouped by memory capability. Panels (a), (b–e), and (f–h) test visual memory, wrench memory, and both, respectively.",
+              "figure_id": "figure-4-1",
+              "figure_number": "4",
+              "height": 574,
+              "image_path": "figures/2611.34560/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 11. Plug insertion with a raised power strip. A board eraser raises one side of the strip. In the fixed-policy example (top), repeated attempts leave the plug unseated. With predictive test-time adaptation using LoRA in layers 1–4 (bottom), the robot adjusts its insertion and releases the seated plug. The rows show separate illustrative trials; timestamps refer to their respective recordings.",
+              "figure_id": "figure-11-18",
+              "figure_number": "11",
+              "height": 618,
+              "image_path": "figures/2611.34560/figure-003.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 10. Wiping under two contact shifts. The entire board is raised (top), or the board is flipped and its rear edge is raised (bottom). In both examples, a short ink mark remains with the fixed policy (left); predictive test-time adaptation clears the corresponding target region (right). Insets enlarge the boxed regions.",
+              "figure_id": "figure-10-5",
+              "figure_number": "10",
+              "height": 406,
+              "image_path": "figures/2611.34560/figure-004.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 496
+            },
+            {
+              "caption": "Figure 5. Where TTT memory enters the policy. (a) The fastweight readout enters the current visual input. (b) Layer-local fast weights feed a gated residual back into the action expert before its feed-forward block. (c) A bank entry written at decision t first becomes available at t + 1, when it can be read alongside fresh visual features.",
+              "figure_id": "figure-5-6",
+              "figure_number": "5",
+              "height": 323,
+              "image_path": "figures/2611.34560/figure-005.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 489
+            },
+            {
+              "caption": "Figure 6. Context gate and GCA gate values across stages of the same Open Safe episode.",
+              "figure_id": "figure-6-13",
+              "figure_number": "6",
+              "height": 306,
+              "image_path": "figures/2611.34560/figure-006.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 492
+            },
+            {
+              "caption": "Figure 3. Robot platforms. The TeleTwin Desktop (left) and Tianji (right) each have one front camera and two wrist cameras.",
+              "figure_id": "figure-3-16",
+              "figure_number": "3",
+              "height": 231,
+              "image_path": "figures/2611.34560/figure-007.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 496
+            },
+            {
+              "caption": "Figure 8. Sampling the two wrist wrenches. At n = 32, step −4 precedes the rollout. At step 20 only the right wrist is masked in this example.",
+              "figure_id": "figure-8-9",
+              "figure_number": "8",
+              "height": 148,
+              "image_path": "figures/2611.34560/figure-008.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 489
+            },
+            {
+              "caption": "Figure 7. Whiteboard contact conditions. The board is (a) flat at its original height, (b) raised, or (c) flipped with its rear edge raised.",
+              "figure_id": "figure-7-14",
+              "figure_number": "7",
+              "height": 119,
+              "image_path": "figures/2611.34560/figure-009.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Figure 9. Initial-scene recall beyond the explicit window. The external camera shows the last clearly visible opening at a sampled decision (31 s), the scene when its entry is evicted (41 s), and the same drawer reopening (105 s). Video times are approximate. We align the arm’s motion and pauses with the logged action times.",
+              "figure_id": "figure-9-10",
+              "figure_number": "9",
+              "height": 134,
+              "image_path": "figures/2611.34560/figure-010.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 496
+            },
+            {
+              "caption": "Table 1. Success rates (%) on eight real-robot tasks. We report each method’s per-task success rates and their mean. Bold marks the highest value in each row, and underlining marks the next highest distinct value.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 266,
+              "image_path": "figures/2611.34560/table-011.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 1036
+            },
+            {
+              "caption": "Table 2. Open Safe ablations by stage (%). Each stage is evaluated over 60 trials per variant. Press SR and Mean SR average the five keypad stages and all nine stages, respectively. Ranks are within groups.",
+              "figure_id": "table-2-8",
+              "figure_number": "2",
+              "height": 421,
+              "image_path": "figures/2611.34560/table-012.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1036
+            },
+            {
+              "caption": "Table 4. Predictive test-time adaptation on Wipe Board. Success rates are based on 20 trials per policy and condition. Parentheses give the relative change (∆) from the fixed policy. LoRA variants were timed sequentially on one RTX 5090.",
+              "figure_id": "table-4-12",
+              "figure_number": "4",
+              "height": 173,
+              "image_path": "figures/2611.34560/table-013.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Table 3. Visual memory for drawer recall and button-sequence following. Whole-task success (%) over 20 trials per condition.",
+              "figure_id": "table-3-7",
+              "figure_number": "3",
+              "height": 163,
+              "image_path": "figures/2611.34560/table-014.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 6. Visual memory capacity in the deployed policy. Counts describe one active rollout and exclude frozen model weights.",
+              "figure_id": "table-6-15",
+              "figure_number": "6",
+              "height": 116,
+              "image_path": "figures/2611.34560/table-015.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 496
+            },
+            {
+              "caption": "Table 7. Server-side update time (ms) on one RTX 5090; 20 timed updates per configuration. The fixed policy makes no update.",
+              "figure_id": "table-7-4",
+              "figure_number": "7",
+              "height": 94,
+              "image_path": "figures/2611.34560/table-016.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 496
+            },
+            {
+              "caption": "Table 5. Offline training settings for the Open Safe policy with joint action–wrench prediction.",
+              "figure_id": "table-5-3",
+              "figure_number": "5",
+              "height": 38,
+              "image_path": "figures/2611.34560/table-017.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 496
+            },
+            {
+              "caption": "Table 8. Predictive test-time adaptation on Insert Plug. Success rates are based on 20 trials per policy. Parentheses give the relative change from the fixed policy.",
+              "figure_id": "table-8-17",
+              "figure_number": "8",
+              "height": 71,
+              "image_path": "figures/2611.34560/table-018.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-25T21:00:00-05:00",
+          "hero_figure": "figures/2611.34560/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.34560",
+          "relevance": 9,
+          "selection_reason": "Vision-language-action model with multimodal memory and predictive test-time adaptation for robotic manipulation, fitting embodied AI and adaptation/memory topics.",
+          "summary_status": "generated",
+          "title": "M$^{2}$AdaptVLA: Multimodal Memory-Augmented Vision-Language-Action Model with Predictive Test-Time Adaptation",
+          "tldr": "M²AdaptVLA combines visual and wrench memory with predictive test-time adaptation to improve robotic manipulation under changing contact dynamics.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-action",
+                "robot-learning-and-manipulation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "test-time-learning",
+                "embodied-memory"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Vision-and-Language Navigation (VLN) with general-purpose multimodal large language models (MLLMs) offers a flexible alternative to task-specific navigation policies, while reliable long-horizon execution remains challenging. Agents must track navigation progress, detect discrepancies between commanded and actual motion, and recognize when movement has passed relevant landmarks or entrances. We present Navigent, an agentic VLN framework built around a frozen MLLM and a Geometry-Grounded Execution Critic (GEC). GEC performs two complementary checks: action-to-motion consistency, which evaluates measured displacement against commanded movement, and motion-to-landmark consistency, which tracks agent-selected visual anchors and entrance candidates in world coordinates. Detected discrepancies interrupt the remaining action sequence and trigger reobservation, local adjustment, or node-based recovery. Historical visual memory supports progress tracking across extended routes. An offline self-improvement procedure further analyzes successful and failed training trajectories to refine navigation prompts and GEC logic while keeping model weights fixed. On the R2R-CE validation-unseen split (1,839 episodes) and RxR-CE validation-unseen split(3,669 episodes), Navigent achieves 84.0%/86.0% SR and 72.9%/69.1% SPL, respectively, demonstrating the value of geometry-grounded execution verification for reliable agentic navigation. Project Page: https://marslab-navigent.github.io/navigent.github.io/ Code: https://github.com/MarsLab-Navigent/Navigent",
+          "arxiv_id": "2611.34249",
+          "arxiv_url": "https://arxiv.org/abs/2611.34249",
+          "authors": [
+            "Xinyu Zhou, Weiren Cai, Yitong Chen, Shenghai Yuan, Zihang Mu, Boyu Ma, Jiahua Dong, Yanshuo Lu, Jiaqi Bai, Jianfei Yang"
+          ],
+          "bullets": [
+            "Addresses unreliable long-horizon navigation, including mismatches between commanded and actual motion and missed landmarks or entrances.",
+            "Uses a frozen multimodal large language model with a Geometry-Grounded Execution Critic (GEC).",
+            "GEC checks action-to-motion consistency and motion-to-landmark consistency using visual anchors and entrance candidates in world coordinates.",
+            "Detected discrepancies trigger reobservation, local adjustment, or node-based recovery; historical visual memory tracks progress.",
+            "Reports 84.0%/86.0% success rate and 72.9%/69.1% SPL on R2R-CE/RxR-CE validation-unseen splits, respectively."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2 Navigent uses visual memory and GEC for online navigation and refines prompts and critic code through offline self-improvement.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 545,
+              "image_path": "figures/2611.34249/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 979
+            },
+            {
+              "caption": "Figure 5 Navigent follows instructions and reaches the specified goals in real-world environments (a) and Habitat simulation (b).",
+              "figure_id": "figure-5-9",
+              "figure_number": "5",
+              "height": 847,
+              "image_path": "figures/2611.34249/figure-002.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 970
+            },
+            {
+              "caption": "Figure 7 AgileX SCOUT MINI chassis and geometric inputs to the execution critic.",
+              "figure_id": "figure-7-5",
+              "figure_number": "7",
+              "height": 329,
+              "image_path": "figures/2611.34249/figure-003.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 475
+            },
+            {
+              "caption": "Figure 6 Episode outcomes by first recorded GEC event on logged R2R-CE and RxR-CE subsets.",
+              "figure_id": "figure-6-10",
+              "figure_number": "6",
+              "height": 225,
+              "image_path": "figures/2611.34249/figure-004.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 475
+            },
+            {
+              "caption": "Table 1 Comparison with sota methods on R2R-CE and RxR-CE val-unseen splits. —indicates the model was not evaluated on the metric.",
+              "figure_id": "table-1-7",
+              "figure_number": "1",
+              "height": 519,
+              "image_path": "figures/2611.34249/table-005.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 986
+            },
+            {
+              "caption": "Figure 1 Navigent combines geometric execution checks with self-improvement. The plots compare navigation performance on R2R-CE and RxR-CE [8, 24].",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 261,
+              "image_path": "figures/2611.34249/figure-006.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 130
+            },
+            {
+              "caption": "Table 5 Six real-world instructions with five trials per task.",
+              "figure_id": "table-5-3",
+              "figure_number": "5",
+              "height": 299,
+              "image_path": "figures/2611.34249/table-007.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 475
+            },
+            {
+              "caption": "Table 4 Effects of different components on Open-Nav100.",
+              "figure_id": "table-4-2",
+              "figure_number": "4",
+              "height": 155,
+              "image_path": "figures/2611.34249/table-008.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 475
+            },
+            {
+              "caption": "Table 3 Effect of pose and visited-node inputs on OpenNav100. The executor retains geometric feedback.",
+              "figure_id": "table-3-4",
+              "figure_number": "3",
+              "height": 133,
+              "image_path": "figures/2611.34249/table-009.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 475
+            },
+            {
+              "caption": "Table 2 Effect of GEC and route review on Open-Nav100 with the navigation prompt fixed.",
+              "figure_id": "table-2-6",
+              "figure_number": "2",
+              "height": 94,
+              "image_path": "figures/2611.34249/table-010.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 475
+            }
+          ],
+          "first_seen_at": "2026-11-25T21:00:00-05:00",
+          "hero_figure": "figures/2611.34249/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.34249",
+          "relevance": 9,
+          "selection_reason": "Agentic VLN framework with geometry-grounded execution verification and historical visual memory; directly matches vision-language navigation, spatial intelligence, and embodied memory.",
+          "summary_status": "generated",
+          "title": "Navigent: A Geometry-Grounded Agentic Framework for Vision Language Navigation",
+          "tldr": "Navigent improves long-horizon vision-language navigation by using geometric execution checks to detect motion errors and recover while keeping the multimodal model frozen.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "vision-language-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "spatial-intelligence"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            },
+            {
+              "subtopic_ids": [
+                "embodied-memory"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "General-purpose multimodal foundation models enable robots to adapt during deployment from observations and execution feedback, without task-specific demonstrations or training. However, the robot retains what it learns only in the model's working context. Once the task ends, it loses this execution knowledge, such as how to carry a bowl between two grippers. On the next attempt at the task, the robot may take just as long and repeat the same mistakes. To avoid this repetition, robots must retain execution knowledge across attempts. Yet replaying past actions is insufficient, because their effects depend on the current conditions. Procedures that determine actions from the current scene address this, but when they meet conditions that earlier attempts did not cover, revising them requires the measured effects of earlier actions. We therefore propose SEEK, an agentic framework that retains both, enabling robots to improve across attempts while keeping the underlying model fixed. To adapt retained knowledge to the current scene, SEEK adopts a Self-Evolving Programmatic Policy (SEPP) that encodes manipulation as executable procedures and determines each action from current observations. As the robot executes these procedures, SEEK records the measured effects of its actions, including those from failed attempts, in a Persistent Action-Effect Bank (PAEB). Where a retained procedure applies, it acts without a model request; where it meets a condition it does not cover, this evidence guides its revision. On RoboDojo, knowledge retained over ten attempts raises SEEK's average task score from 27.0 to 54.4 and its success rate from 19.7% to 48.0% across all 42 tasks. On 34 of these tasks with GPT-6.2 Astra, SEEK reaches 80.1 after five attempts, against 49.6 for the same model acting directly, and uses 77.6% fewer model requests. https://zeyangguan.github.io/SEEK-Agentic-Robot-Manipulation/",
+          "arxiv_id": "2611.33915",
+          "arxiv_url": "https://arxiv.org/abs/2611.33915",
+          "authors": [
+            "Zeyang Guan, Qihao Zhao, Rui Gong, Zhang Haitian, Yalun Dai, Yangyu Huang, Lingao Xiao, Haozhe Du, Xuehui Yu, Ye Lu, Jianjun Gao, Ruoyu Wang, Haowen Bai, Hao Li, Scarlett Li, Kim-Hui Yap"
+          ],
+          "bullets": [
+            "Addresses the problem of robots repeating mistakes because execution knowledge is lost when a task ends.",
+            "Uses a Self-Evolving Programmatic Policy to choose actions from current scene observations.",
+            "Stores measured effects—including failures—in a Persistent Action-Effect Bank to revise procedures when needed.",
+            "Across 42 RoboDojo tasks, ten retained attempts increased average score from 27.0 to 54.4 and success rate from 19.7% to 48.0%.",
+            "With GPT-6.2 Astra on 34 tasks, SEEK reached 80.1 after five attempts versus 49.6 for direct acting, while using 77.6% fewer model requests."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3. Per-task change from GPT-6.2 Astra acting directly to SEEK. On the 34 tasks outside Open, a line joins the direct agent and SEEK after 5 evolution attempts, both with GPT-6.2 Astra, in task score (top) and in model requests per episode (bottom). The last column gives the averages.",
+              "figure_id": "figure-3-4",
+              "figure_number": "3",
+              "height": 492,
+              "image_path": "figures/2611.33915/figure-001.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 967
+            },
+            {
+              "caption": "Figure 2. Execution and self-evolution in SEEK. SEPP grounds reusable procedures in the current observation 𝑥𝑡 and controls execution, while PAEB accumulates the resulting evidence. At step 𝑡, 𝑐𝑡 denotes the execution context used by the active procedure. In the progress panel, a check marks a goal 𝑔𝑡 that the procedure verifies by itself before advancing, and the model icons mark the only steps where the fixed model is called: when a procedure requests help or execution stalls (red cross). When called, the fixed model retrieves evidence from PAEB to guide execution, by interpreting observations or proposing action candidates, or to revise the main program or operations. Across attempts, post-attempt review consolidates the policy, while scene-dependent state is initialized anew.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 480,
+              "image_path": "figures/2611.33915/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 961
+            },
+            {
+              "caption": "Figure 1. Motivation and central idea of SEEK. Top: GPT-6 Astra [29] acting directly keeps what the robot learns only in its working context and loses it once the task ends, so the next attempt may repeat the same mistakes; on a real robot, the last cube of a square is again grasped and set down, leaving a gap. Bottom: SEEK retains this execution knowledge across attempts as action-effect evidence (PAEB), including that of failed attempts, and reusable procedures (SEPP), while the model remains fixed; its next attempt pushes the cube in. Right: with GPT-6.2 Astra on 34 RoboDojo tasks, task score by category and model requests per episode of SEEK after 5 attempts and of the model acting directly [38].",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 401,
+              "image_path": "figures/2611.33915/figure-003.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 959
+            },
+            {
+              "caption": "Figure 4. Case study on Deposit Coin. (a) After attempt 1, consolidation creates the rim-pinch operation ( 1⃝) from PAEB evidence. (b) Grasp verification ( 2⃝) is revised online in attempt 3 and retained. (c) Attempt 5 reuses both, with a test lift detecting an empty grasp ( 2⃝) and triggering a rim re-grasp ( 1⃝). Numbered frames mark the supporting procedure. Orange and purple arrows carry evidence and procedures to later attempts. In each SEPP card, the open tab is the changed operation, with additions in gold and removals dashed.",
+              "figure_id": "figure-4-6",
+              "figure_number": "4",
+              "height": 316,
+              "image_path": "figures/2611.33915/figure-004.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 969
+            },
+            {
+              "caption": "Figure 5. Real-robot setup and tasks. The Franka arm with its wrist and front cameras, and each of the four tasks in an example layout.",
+              "figure_id": "figure-5-5",
+              "figure_number": "5",
+              "height": 443,
+              "image_path": "figures/2611.33915/figure-005.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 979
+            },
+            {
+              "caption": "Table 2. Comparison on RoboDojo. Task score and success rate (SR, %) by category, with category-averaged results for the full benchmark. Baselines follow the official leaderboard [6]. The setting columns list what each method uses: Demos, training on 100 demonstrations per task, which exist for every category except Open; and Experience, what each method has for a task before the evaluated episodes. Shaded cells mark the best (darker, bold) and second-best (lighter) results; – marks entries that do not apply or are unreported. SEEK, no carryover: the control that starts every episode from K0 (Sec. 4.3). The last block uses GPT-6.2 Astra on the 34 tasks outside Open, where the model acting directly and SEEK after 5 attempts run the same 10 unseen episodes per task (Sec. 4.2); its averages are over four categories and are not marked. ∗Agent combined with a VLA. †Ten layouts, each attempted up to six times.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 555,
+              "image_path": "figures/2611.33915/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 960
+            },
+            {
+              "caption": "Table 4. Effect of retained knowledge and of its two components. Req. (shaded): model requests per episode. The last two configurations carry both, after 5 and 10 evolution attempts.",
+              "figure_id": "table-4-7",
+              "figure_number": "4",
+              "height": 444,
+              "image_path": "figures/2611.33915/table-007.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 977
+            },
+            {
+              "caption": "Table 3. Task-level scores on 20 representative RoboDojo tasks. Settings, shading, and symbols follow Table 2; the best and second-best results are marked per task. Columns shaded in lighter purple use GPT-6.2 Astra, as in the last block of Table 2, and are unmarked.",
+              "figure_id": "table-3-1",
+              "figure_number": "3",
+              "height": 619,
+              "image_path": "figures/2611.33915/table-008.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 977
+            }
+          ],
+          "first_seen_at": "2026-11-25T21:00:00-05:00",
+          "hero_figure": "figures/2611.33915/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.33915",
+          "relevance": 9,
+          "selection_reason": "Retains execution knowledge across robot manipulation attempts, addressing continual adaptation and embodied memory.",
+          "summary_status": "generated",
+          "title": "SEEK: Self-Evolution through Execution Knowledge for Agentic Robot Manipulation",
+          "tldr": "SEEK helps robots improve across repeated manipulation attempts by retaining executable procedures and action-effect knowledge instead of forgetting after each task.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "continual-and-online-learning",
+                "embodied-memory"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Long-horizon robotic manipulation requires historical context, yet retaining extensive visual histories incurs growing storage and retrieval costs, while aggressive compression risks losing fine-grained information needed for subsequent decisions. Moreover, executed action histories capture intermediate behaviors that sparse visual observations may miss. Preserving this complementary context efficiently calls for modality-specific memory mechanisms that balance recent detail with long-term retention. To this end, we introduce $\\mathrm{M}^{2}$-WAM, a world-action model equipped with hierarchical visual and interaction memories. $\\mathrm{M}^{2}$-WAM preserves recent visual observations in dense short-term memory while consolidating entries evicted from this window into fixed-size associative long-term memory through gated delta updates. Within the same short- and long-term hierarchy, interaction memory encodes executed action prefixes into compact temporal representations, complementing visual observations with behavioral context. These complementary memories are integrated into world-action modeling through layer-wise retrieval, enabling memory-augmented action generation with a bounded online memory footprint independent of episode length. On the memory-dependent simulation benchmarks MIKASA-Robo and RMBench, $\\mathrm{M}^{2}$-WAM achieves +53.2% and +61.2% absolute improvements in average success rates over Fast-WAM, respectively. These gains extend to real-world manipulation, where $\\mathrm{M}^{2}$-WAM achieves a +29.3% absolute improvement over LingBot-VA in average success across three tasks. These results suggest that $\\mathrm{M}^{2}$-WAM offers a promising approach to efficient memory-augmented world-action modeling.",
+          "arxiv_id": "2611.33710",
+          "arxiv_url": "https://arxiv.org/abs/2611.33710",
+          "authors": [
+            "Xiaopeng Zhang, Weiqi Yuan, Xin Zhu, Jiaxi Huang, Yueqi Hu, Yin Zhang, Jian Yao, Yanjie Li"
+          ],
+          "bullets": [
+            "Addresses the storage, retrieval, and information-loss challenges of retaining long visual histories, while capturing behavioral context missing from sparse observations.",
+            "Uses dense short-term visual memory and fixed-size associative long-term memory updated through gated delta consolidation.",
+            "Encodes executed action prefixes in a matching short-/long-term interaction-memory hierarchy.",
+            "Integrates visual and interaction memories through layer-wise retrieval for memory-augmented action generation with episode-length-independent online memory.",
+            "Reports absolute average-success improvements of 53.2% and 61.2% over Fast-WAM on MIKASA-Robo and RMBench, and 29.3% over LingBot-VA across three real-world tasks."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of the M2-WAM architecture. (a) Video and action diffusion transformers form a mixture-of-transformers backbone; future-video prediction is training-only. (b) Action features retrieve visual memory within MoT attention and interaction memory (IM) through a reader. Both combine short-term memory (STM) attention with associative long-term memory (LTM) readouts. (c) Modalityspecific writers consolidate evicted visual key-value entries and executed prefixes into fixed-size LTM states using a common gated delta update rule. Blue and orange indicate visual and interaction memory, respectively. Some normalization and scaling operations are omitted.",
+              "figure_id": "figure-2-14",
+              "figure_number": "2",
+              "height": 481,
+              "image_path": "figures/2611.33710/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 1022
+            },
+            {
+              "caption": "Figure 3. Robot platform used in real-world experiments and representative tasks from simulation benchmarks and real-world evaluation.",
+              "figure_id": "figure-3-2",
+              "figure_number": "3",
+              "height": 302,
+              "image_path": "figures/2611.33710/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 1018
+            },
+            {
+              "caption": "Figure 9. Real-world task sequences. Demonstration frames progress from left to right. (a) Put Back Block: move the block to the center, then return it to its original location. (b) Shell Game: use the initial scene to identify and lift the cup covering the block. (c) Press Button: press the first two buttons the indicated number of times, then press the completion button. Frames show task milestones at nonuniform intervals.",
+              "figure_id": "figure-9-19",
+              "figure_number": "9",
+              "height": 594,
+              "image_path": "figures/2611.33710/figure-003.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 8. Storage and retrieval scaling across memory designs. Left: persistent memory-bank tensor storage. Right: MoT and memoryread latency per denoising iteration. Dotted lines mark FIFO capacity N = 16; latency shading shows the range of medians across five measurement rounds. Full-history storage and read latency grow with history, while bounded FIFOs and fixed-size states yield storage plateaus and approximately stable read latency.",
+              "figure_id": "figure-8-21",
+              "figure_number": "8",
+              "height": 375,
+              "image_path": "figures/2611.33710/figure-004.webp",
+              "kind": "figure",
+              "page": 17,
+              "width": 1001
+            },
+            {
+              "caption": "Figure 13. Qualitative effects of disabling memory retrieval. Each pair uses the same checkpoint and environment seed. (a) In RememberColor3, the robot reaches the red target with full retrieval, whereas disabling visual memory and anchor reads leads the robot toward a green distractor. (b) In Put Back Block, disabling visual and interaction memory reads, including the anchor, leaves the robot holding the block without completing the task.",
+              "figure_id": "figure-13-12",
+              "figure_number": "13",
+              "height": 866,
+              "image_path": "figures/2611.33710/figure-005.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 6. Effect of memory retrieval on task success. Full retrieval performs best on all five MIKASA-Robo tasks, while disabling both memory levels causes the largest decline.",
+              "figure_id": "figure-6-17",
+              "figure_number": "6",
+              "height": 256,
+              "image_path": "figures/2611.33710/figure-006.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 440
+            },
+            {
+              "caption": "Figure 5. Inference efficiency as trajectories grow. Inference latency (left) and peak GPU memory usage (right). Both costs stabilize for M2-WAM as history accumulates.",
+              "figure_id": "figure-5-16",
+              "figure_number": "5",
+              "height": 239,
+              "image_path": "figures/2611.33710/figure-007.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 471
+            },
+            {
+              "caption": "Figure 7. Qualitative comparison on Put Back Block. (a) FastWAM selects an incorrect placement location. (b) M2-WAM selects the correct target and succeeds.",
+              "figure_id": "figure-7-18",
+              "figure_number": "7",
+              "height": 219,
+              "image_path": "figures/2611.33710/figure-008.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 496
+            },
+            {
+              "caption": "Figure 4. Results on real-world tasks. M2-WAM achieves the highest success on all three tasks, with the largest margin over LingBot-VA on Put Back Block.",
+              "figure_id": "figure-4-9",
+              "figure_number": "4",
+              "height": 244,
+              "image_path": "figures/2611.33710/figure-009.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 409
+            },
+            {
+              "caption": "Figure 15. Decision and manipulation-precision failures of M2-WAM. (a) Shell Game: the robot approaches the middle cup although the initial cue identifies the right cup. (b) Press Button: the robot makes one downward pressing motion at the first button and two at the second, reversing the required counts. (c) Put Back Block: gripper misalignment prevents a stable grasp. Panels (a,b) use the main view; panel (c) uses the wrist view to show the contact geometry. Labels identify recorded steps, initial observations, or trial endpoints.",
+              "figure_id": "figure-15-22",
+              "figure_number": "15",
+              "height": 540,
+              "image_path": "figures/2611.33710/figure-010.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 12. Training instability and the effect of erase granularity. (a) RMBench training losses with channel-wise erasure; shading marks the interval with non-finite losses. (b) Maximum absolute state entries during cyclic replay of the same input sequence under the two erase rules. Channel-wise erasure produces sustained state growth, whereas scalar erasure suppresses this amplification.",
+              "figure_id": "figure-12-8",
+              "figure_number": "12",
+              "height": 334,
+              "image_path": "figures/2611.33710/figure-011.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 993
+            },
+            {
+              "caption": "Figure 14. Effect of stored history with current inputs fixed. In Put Back Block, the two rows use memory snapshots from before steps 304 and 272, respectively, while sharing the current inputs and simulation state at step 304. The first column shows the most recent observation stored in each snapshot. The remaining columns show the shared starting state and the states after 8 and 16 executed actions. With all readers enabled, changing the stored history produces different subsequent movements.",
+              "figure_id": "figure-14-15",
+              "figure_number": "14",
+              "height": 462,
+              "image_path": "figures/2611.33710/figure-012.webp",
+              "kind": "figure",
+              "page": 23,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 11. Memory-bank storage under different FIFO capacities. Storage is measured in MiB as historical entries accumulate. Larger capacities yield higher storage plateaus.",
+              "figure_id": "figure-11-26",
+              "figure_number": "11",
+              "height": 313,
+              "image_path": "figures/2611.33710/figure-013.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 478
+            },
+            {
+              "caption": "Figure 19. Representative real-world trajectories of Fast-WAM and M2-WAM. (a) Put Back Block: M2-WAM returns the block to its initial position, while Fast-WAM moves toward a different location. (b) Shell Game: M2-WAM reveals the hidden block, while Fast-WAM approaches an incorrect cup. (c) Press Button: M2-WAM completes the button sequence, while Fast-WAM stalls near the first button. Rows show separate trials. Labels indicate recorded steps, initial observations, or trial endpoints.",
+              "figure_id": "figure-19-5",
+              "figure_number": "19",
+              "height": 1095,
+              "image_path": "figures/2611.33710/figure-014.webp",
+              "kind": "figure",
+              "page": 26,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 16. PressButton failure with memory retrieval enabled. The policy reaches the required task-button counts [1, 9] but continues to [1, 10] before repeatedly pressing the confirmation button. The task remains unsuccessful. Labels report control steps, task-button counts, and confirmation counts from the environment’s event log.",
+              "figure_id": "figure-16-23",
+              "figure_number": "16",
+              "height": 212,
+              "image_path": "figures/2611.33710/figure-015.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 17. ObserveAndPickup failure with memory retrieval enabled. The initial reference specifies the matching blue bell on the tabletop, marked by a dashed blue circle in each frame. After the reference is occluded, the robot operates near non-target objects and fails to lift the target within 250 steps. Frames are captured from a front-right display camera, with control steps labeled.",
+              "figure_id": "figure-17-4",
+              "figure_number": "17",
+              "height": 196,
+              "image_path": "figures/2611.33710/figure-016.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 1026
+            },
+            {
+              "caption": "Figure 18. BatteryTry failure with memory retrieval enabled. One battery remains beside its slot, while subsequent manipulation dislodges the other from an initially aligned position. The robot fails to recover before the 1,000-step limit. Frames show a close-up display view at the labeled control steps.",
+              "figure_id": "figure-18-3",
+              "figure_number": "18",
+              "height": 196,
+              "image_path": "figures/2611.33710/figure-017.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 1026
+            },
+            {
+              "caption": "Table 4. Shared architecture, training, and inference hyperparameters. Noise parameters apply only when executed-prefix augmentation is enabled.",
+              "figure_id": "table-4-13",
+              "figure_number": "4",
+              "height": 844,
+              "image_path": "figures/2611.33710/table-018.webp",
+              "kind": "table",
+              "page": 14,
+              "width": 706
+            },
+            {
+              "caption": "Table 2. RMBench success rates (%). M(1) and M(n) require one and multiple task-relevant past observations, respectively [9]. Boldface and parentheses follow Table 1.",
+              "figure_id": "table-2-11",
+              "figure_number": "2",
+              "height": 367,
+              "image_path": "figures/2611.33710/table-019.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 1036
+            },
+            {
+              "caption": "Table 1. MIKASA-Robo success rates (%). RC3/5/9 denote RememberColor with three, five, or nine candidates. Bold marks columnwise best results in the main comparison. Parentheses show gains over Fast-WAM in percentage points.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 336,
+              "image_path": "figures/2611.33710/table-020.webp",
+              "kind": "table",
+              "page": 6,
+              "width": 832
+            },
+            {
+              "caption": "Table 3. RoboTwin 2.0 success rates (%). Avg. is the mean of the two settings.",
+              "figure_id": "table-3-10",
+              "figure_number": "3",
+              "height": 202,
+              "image_path": "figures/2611.33710/table-021.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 496
+            },
+            {
+              "caption": "Table 6. Persistent memory storage and retrieval complexity. Retrieval costs are per denoising iteration; constant factors and fixed visual-anchor costs are omitted. Among these designs, only Full-history memory scales with accumulated history.",
+              "figure_id": "table-6-27",
+              "figure_number": "6",
+              "height": 140,
+              "image_path": "figures/2611.33710/table-022.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 427
+            },
+            {
+              "caption": "Table 7. Simulation observation and action configurations. Image sizes are height × width in pixels after combining camera views. qpos denotes joint-position targets; action dimensions include gripper commands.",
+              "figure_id": "table-7-20",
+              "figure_number": "7",
+              "height": 219,
+              "image_path": "figures/2611.33710/table-023.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 496
+            },
+            {
+              "caption": "Table 8. Success rates (%) across visual FIFO capacities. Shell and Intercept denote ShellGameTouch and InterceptMedium; RC3/5/9 follow Table 1. † denotes an earlier evaluation of the same checkpoint, included for reference and not rerun in this sweep.",
+              "figure_id": "table-8-24",
+              "figure_number": "8",
+              "height": 186,
+              "image_path": "figures/2611.33710/table-024.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 342
+            },
+            {
+              "caption": "Table 5. Task-specific hyperparameters. The sampling stride counts source frames; prediction and execution lengths count action steps. FIFO capacity excludes the permanent visual anchor.",
+              "figure_id": "table-5-6",
+              "figure_number": "5",
+              "height": 231,
+              "image_path": "figures/2611.33710/table-025.webp",
+              "kind": "table",
+              "page": 15,
+              "width": 818
+            },
+            {
+              "caption": "Table 9. Effect of the visual anchor on MIKASA-Robo success rates (%). The w/o-anchor variant omits the anchor during training and evaluation. Task abbreviations follow Table 8.",
+              "figure_id": "table-9-25",
+              "figure_number": "9",
+              "height": 96,
+              "image_path": "figures/2611.33710/table-026.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 408
+            },
+            {
+              "caption": "Table 10. Effect of decay granularity on MIKASA-Robo success rates (%). Entry-level decay is used in M2-WAM. Task abbreviations follow Table 8.",
+              "figure_id": "table-10-7",
+              "figure_number": "10",
+              "height": 95,
+              "image_path": "figures/2611.33710/table-027.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 404
+            }
+          ],
+          "first_seen_at": "2026-11-25T21:00:00-05:00",
+          "hero_figure": "figures/2611.33710/hero.webp",
+          "novelty": 9,
+          "pdf_url": "https://arxiv.org/pdf/2611.33710",
+          "relevance": 9,
+          "selection_reason": "Introduces M2-WAM, a world-action model with efficient hierarchical memory mechanisms (visual and interaction) to handle long-horizon manipulation tasks without unbounded memory growth.",
+          "summary_status": "generated",
+          "title": "$\\mathrm{M}^{2}$-WAM: Efficient Hierarchical Memory Across Modalities and Timescales for World-Action Models",
+          "tldr": "M²-WAM enables long-horizon robotic manipulation with bounded-memory world-action modeling by combining hierarchical visual and interaction memories across timescales.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "interactive-world-models"
+              ],
+              "topic_id": "world-models"
+            },
+            {
+              "subtopic_ids": [
+                "embodied-memory"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Open-vocabulary 3D semantic maps have emerged as a key spatial memory representation for long-horizon robot autonomy, enabling robots to reason about objects, their spatial relationships, and past observations across time. However, existing object-centric semantic maps are primarily designed for static environments and rely on an append-only point integration strategy, where newly observed points are accumulated but previously integrated points are rarely reevaluated. Consequently, perception errors accumulate over time, and outdated points persist after objects move or disappear. Although recent dynamic mapping methods update object-level representations in changing scenes, they do not explicitly revise noisy or obsolete points within each object. We propose an online refinable semantic mapping framework that continuously refines object representations through probabilistic point-level confidence updating. Each object point maintains a confidence score that is updated online using multi-view temporal evidence: consistent observations reinforce reliable points, while inconsistent segmentation masks, depth measurements, and visibility cues suppress spurious and outdated points. Combined with object tracking and re-identification to preserve instance identities under motion and relocation, our framework enables object-centric semantic maps to be continuously refined rather than monotonically accumulated. Experiments demonstrate improved mapping accuracy over the previous method by 3.46% on Replica and 2.55% on ScanNet, show robustness in dynamic environments and under perception noise, and provide an effective spatial memory for object navigation and embodied question-answering with success rates of 82.4% and 76.7%.",
+          "arxiv_id": "2610.31476",
+          "arxiv_url": "https://arxiv.org/abs/2610.31476",
+          "authors": [
+            "Taimeng Fu",
+            "Yi Du",
+            "Zitong Zhan",
+            "Qiwei Du",
+            "Shaoshu Su",
+            "Zhipeng Zhao",
+            "Chen Wang"
+          ],
+          "bullets": [
+            "Addresses error accumulation and stale points caused by append-only mapping in dynamic scenes.",
+            "Updates each point’s confidence using multi-view temporal evidence from segmentation, depth, and visibility consistency.",
+            "Combines point refinement with object tracking and re-identification to maintain identities through motion and relocation.",
+            "Improves mapping accuracy over the previous method by 3.46% on Replica and 2.55% on ScanNet.",
+            "Supports downstream object navigation and embodied question-answering, with reported success rates of 82.4% and 76.7%."
+          ],
+          "categories": [
+            "cs.RO"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Fig. 2: Overview of the proposed dynamic semantic mapping framework. Given posed RGB-D observations, openvocabulary detections are generated and associated with object instances in the 3D semantic map. For each association, we perform a visibility-based point confidence update. Points supported by current detections, such as the green points on the table, receive higher confidence. In contrast, inconsistent outlier points, such as red points mistakenly fused into a bed instance due to previous segmentation errors, are down-weighted when later observations identify them as pillows. Points belonging to removed objects are identified through visibility reasoning, assigned lower confidence, and eventually pruned. Unobserved points in the current frame, shown in gray, remain unchanged until more evidence is collected in later frames. The semantic map is updated online in this frame-by-frame manner, while periodic instance-fragment merging reduces duplicate instances and re-identification preserves object identities when objects are relocated and re-observed at new locations.",
+              "figure_id": "figure-2-8",
+              "figure_number": "2",
+              "height": 379,
+              "image_path": "figures/2610.31476/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 938
+            },
+            {
+              "caption": "Fig. 6: Example of handling under-segmentation. A pillow is initially fused into the chair instance due to undersegmentation. Once the pillow is correctly segmented in later frames, our method adds it as a separate instance and gradually removes the corresponding points from the chair instance through confidence updates.",
+              "figure_id": "figure-6-4",
+              "figure_number": "6",
+              "height": 268,
+              "image_path": "figures/2610.31476/figure-002.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 434
+            },
+            {
+              "caption": "Fig. 7: Example of in-view object tracking. Our method tracks the moving bowl in images and updates its location in the semantic map while preserving the same instance ID.",
+              "figure_id": "figure-7-5",
+              "figure_number": "7",
+              "height": 223,
+              "image_path": "figures/2610.31476/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 410
+            },
+            {
+              "caption": "Fig. 5: Example of object fragment merging. A table is initially reconstructed as two separate instances due to temporally disconnected partial observations at 1s and 10s. As more observations become available at 12s, our method merges the fragments into a complete object instance.",
+              "figure_id": "figure-5-3",
+              "figure_number": "5",
+              "height": 183,
+              "image_path": "figures/2610.31476/figure-004.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 437
+            },
+            {
+              "caption": "Fig. 1: Dynamic open-vocabulary semantic mapping. Our method maintains a refinable object-centric 3D semantic map through point-level probabilistic updates. It handles dynamic objects that newly appear, move within the robot’s view, or are relocated out of view and later re-identified.",
+              "figure_id": "figure-1-1",
+              "figure_number": "1",
+              "height": 427,
+              "image_path": "figures/2610.31476/figure-005.webp",
+              "kind": "figure",
+              "page": 1,
+              "width": 462
+            },
+            {
+              "caption": "Fig. 9: Examples of object navigation and EQA tasks executed on the Spot robot. Our semantic map serves as an online memory that helps the LLM localize target objects, plan embodied skills, and answer questions.",
+              "figure_id": "figure-9-7",
+              "figure_number": "9",
+              "height": 310,
+              "image_path": "figures/2610.31476/figure-006.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 512
+            },
+            {
+              "caption": "Fig. 4: Example of handling incorrect detections. A plastic bag is mistakenly detected as a pillow, creating a false instance in the map. Our confidence update mechanism accumulates positive evidence for consistently detected objects and negative evidence for unsupported instances, eventually removing the false pillow while preserving the true one.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 287,
+              "image_path": "figures/2610.31476/figure-007.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 452
+            },
+            {
+              "caption": "TABLE I: Evaluation results of open-vocabulary 3D semantic mapping methods on Replica and ScanNet datasets.",
+              "figure_id": "table-I-10",
+              "figure_number": "I",
+              "height": 223,
+              "image_path": "figures/2610.31476/table-008.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 475
+            },
+            {
+              "caption": "TABLE VI: Performance on real-world object navigation and embodied question answering tasks.",
+              "figure_id": "table-VI-6",
+              "figure_number": "VI",
+              "height": 133,
+              "image_path": "figures/2610.31476/table-009.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 504
+            },
+            {
+              "caption": "TABLE II: Computational efficiency and final map size.",
+              "figure_id": "table-II-11",
+              "figure_number": "II",
+              "height": 109,
+              "image_path": "figures/2610.31476/table-010.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 506
+            },
+            {
+              "caption": "TABLE III: Ablation of point-level confidence updating and fragment merging on the Replica dataset.",
+              "figure_id": "table-III-9",
+              "figure_number": "III",
+              "height": 100,
+              "image_path": "figures/2610.31476/table-011.webp",
+              "kind": "table",
+              "page": 5,
+              "width": 508
+            }
+          ],
+          "first_seen_at": "2026-11-25T21:00:00-05:00",
+          "hero_figure": "figures/2610.31476/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2610.31476",
+          "relevance": 8,
+          "selection_reason": "Online refinable 3D semantic mapping as spatial memory for object navigation and embodied QA.",
+          "summary_status": "generated",
+          "title": "Point-Level Refinable Semantic Mapping for Spatial Understanding",
+          "tldr": "An online semantic-mapping framework refines object-level 3D maps point by point, removing noisy or outdated information as environments change.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "spatial-intelligence"
+              ],
+              "topic_id": "multimodal-foundation-models"
+            },
+            {
+              "subtopic_ids": [
+                "embodied-memory"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        },
+        {
+          "abstract": "Long-horizon human-scene interaction requires coordinated spatial reasoning, physical feasibility, and the ability to recover from compounding execution errors. Text-driven motion models are largely scene-agnostic and lack closed-loop correction, while geometry-conditioned approaches depend on paired scene-motion training or explicit 3D preprocessing that limits generalization to novel layouts and open-vocabulary goals. We present InteractAgent, an agentic multimodal LLM system for long-horizon human-scene interaction that plans, executes, observes, and reflects in a closed loop, using a single MLLM as both planner and evaluator and a frozen MotionLLM as the executor. InteractAgent integrates Online Observation for step-wise recovery decisions (continue/redo/replan) and Memory-Augmented Reflection for multi-round plan refinement with adaptive stopping. On UniHSI, InteractAgent improves task success and reduces penetration compared with training-free baselines. Code: https://github.com/AIGeeksGroup/InteractAgent.",
+          "arxiv_id": "2610.25649",
+          "arxiv_url": "https://arxiv.org/abs/2610.25649",
+          "authors": [
+            "Senhe Zhang",
+            "Tao Zhang",
+            "Yujia Zhang",
+            "Zeyu Zhang",
+            "Dong Gong"
+          ],
+          "bullets": [
+            "Addresses scene-agnostic text-driven motion generation and error accumulation in long-horizon interactions.",
+            "Uses one multimodal LLM as planner and evaluator, with a frozen MotionLLM executing motions.",
+            "Performs step-wise recovery via continue, redo, or replan decisions.",
+            "Refines plans across multiple rounds with memory-augmented reflection and adaptive stopping.",
+            "On UniHSI, improves task success and reduces penetration versus training-free baselines."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.CV"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2. Overview of InteractAgent. Our framework couples a single multimodal LLM with a frozen MotionLLM executor. Two key components enable training-free, long-horizon interaction generation: (1) Online Observation provides step-wise visual feedback during execution, allowing the MLLM to correct local deviations; (2) Memory-Augmented Reflection aggregates planning–execution histories across rounds and refines future plans at the trajectory level. Together, these mechanisms form a dual-layer reflective loop that progressively improves motion quality and scene consistency.",
+              "figure_id": "figure-2-5",
+              "figure_number": "2",
+              "height": 383,
+              "image_path": "figures/2610.25649/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 932
+            },
+            {
+              "caption": "Figure B.2: Online Observation example (steps 3–4 and final plan).",
+              "figure_id": "figure-B.2-2",
+              "figure_number": "B.2",
+              "height": 537,
+              "image_path": "figures/2610.25649/figure-002.webp",
+              "kind": "figure",
+              "page": 13,
+              "width": 1036
+            },
+            {
+              "caption": "Figure 3. Trajectory visualization image used as a compact reflection signal for the MLLM.",
+              "figure_id": "figure-3-6",
+              "figure_number": "3",
+              "height": 341,
+              "image_path": "figures/2610.25649/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 496
+            },
+            {
+              "caption": "Table 1. Result of methods on tasks of different complexity levels. Success Rate (SR, %) and penetration errors are reported.",
+              "figure_id": "table-1-1",
+              "figure_number": "1",
+              "height": 217,
+              "image_path": "figures/2610.25649/table-004.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 454
+            },
+            {
+              "caption": "Table 2. Comparison of SR and PC (Y/N decided by human) across different LLM types.",
+              "figure_id": "table-2-4",
+              "figure_number": "2",
+              "height": 125,
+              "image_path": "figures/2610.25649/table-005.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 404
+            },
+            {
+              "caption": "Table 3. Comparison of SR and penetration between Motion Executors.",
+              "figure_id": "table-3-3",
+              "figure_number": "3",
+              "height": 126,
+              "image_path": "figures/2610.25649/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 496
+            }
+          ],
+          "first_seen_at": "2026-11-25T21:00:00-05:00",
+          "hero_figure": "figures/2610.25649/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2610.25649",
+          "relevance": 7,
+          "selection_reason": "Agentic MLLM for long-horizon human-scene interaction with memory-augmented reflection and closed-loop correction.",
+          "summary_status": "generated",
+          "title": "InteractAgent: Agentic Human Motion Interaction with Memory-Augmented Reflection",
+          "tldr": "InteractAgent enables long-horizon human–scene interaction through closed-loop planning, execution, observation, and memory-based reflection.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-learning-and-manipulation",
+                "learning-from-human-video"
+              ],
+              "topic_id": "embodied-ai"
+            },
+            {
+              "subtopic_ids": [
+                "embodied-memory"
+              ],
+              "topic_id": "adaptation-and-memory"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-24",
       "paper_count": 13,
       "papers": [
@@ -25415,81 +27008,10 @@
             "cs.RO",
             "cs.CV"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Figure 2: RoboDoctor architecture: experience-guided control and grounded execution. After three HYBRID Warmup episodes, Harness RSI selects HYBRID or DIRECT control and keeps this choice fixed. In HYBRID, the Doctor reviews a WAM proposal and its robot-only forwardkinematics preview, then retains up to 16 unchanged policy steps or issues a grounded correction of 1–5 physical steps. Corrections and DIRECT actions ground the current scene, execute a physical method, and verify its observed effect. The illustrated pouring episode separates a lateral alignment correction that preserves the grasp from subsequent policy-led pouring. Task experience links diagnostic cues, attempted operations, and observed outcomes to inform later decisions.",
-              "figure_id": "figure-2-6",
-              "figure_number": "2",
-              "height": 471,
-              "image_path": "figures/2610.35604/figure-001.webp",
-              "kind": "figure",
-              "page": 4,
-              "width": 794
-            },
-            {
-              "caption": "Figure 1: RoboDoctor: training-free adaptation across three levels of execution. Harness RSI allocates control between the policy and the Doctor; Intervention RSI decides when to retain or correct policy motion; Operation RSI revises physical methods and verifies their effects. External experience connects these decisions while both models remain frozen. The radar chart summarizes five capability scores for Warmup, Refinement, and the published GPT-6-Astra reference. Recorded examples illustrate alignment correction followed by pouring, and grasp revision followed by a test lift.",
-              "figure_id": "figure-1-1",
-              "figure_number": "1",
-              "height": 862,
-              "image_path": "figures/2610.35604/figure-002.webp",
-              "kind": "figure",
-              "page": 1,
-              "width": 927
-            },
-            {
-              "caption": "Table 2: Performance across capability dimensions. Gen. denotes the equally weighted mean of the standard and randomized Generalization scores. The overall score is the equally weighted mean of the five capability scores. Reference rows report published values; the final two rows summarize selected local outcomes.",
-              "figure_id": "table-2-5",
-              "figure_number": "2",
-              "height": 338,
-              "image_path": "figures/2610.35604/table-003.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 828
-            },
-            {
-              "caption": "Table 1: Overall performance on RoboDojo-Sim. Scores and native success rates follow the benchmark’s five-dimension aggregation across 54 task entries. Reference values are published leaderboard results, while RoboDoctor values summarize selected local outcomes. Evaluation protocols and interaction budgets are not matched.",
-              "figure_id": "table-1-4",
-              "figure_number": "1",
-              "height": 314,
-              "image_path": "figures/2610.35604/table-004.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 828
-            },
-            {
-              "caption": "Table 4: All 54 task entries. W: Warmup score; R: Refinement score; ∆ = R − W; SR: Refinement success rate (%); n: valid Refinement episodes out of six nominal slots. All tasks have three Warmup outcomes. Route describes the selected Refinement records; Mixed identifies retrospective combination of both modes. Native task IDs are preserved.",
-              "figure_id": "table-4-2",
-              "figure_number": "4",
-              "height": 1084,
-              "image_path": "figures/2610.35604/table-005.webp",
-              "kind": "table",
-              "page": 15,
-              "width": 827
-            },
-            {
-              "caption": "Table 3: Evidence contracts for grounded action. These checks distinguish levels of support; none replaces the final native task outcome.",
-              "figure_id": "table-3-3",
-              "figure_number": "3",
-              "height": 43,
-              "image_path": "figures/2610.35604/table-006.webp",
-              "kind": "table",
-              "page": 14,
-              "width": 827
-            },
-            {
-              "caption": "Table 5: Visual evidence in Figure 4. Each example connects a revised interaction to its depicted outcome.",
-              "figure_id": "table-5-7",
-              "figure_number": "5",
-              "height": 48,
-              "image_path": "figures/2610.35604/table-007.webp",
-              "kind": "table",
-              "page": 16,
-              "width": 827
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-26T21:00:00-04:00",
-          "hero_figure": "figures/2610.35604/hero.webp",
+          "hero_figure": null,
           "novelty": 7,
           "pdf_url": "https://arxiv.org/pdf/2610.35604",
           "relevance": 7,
@@ -25530,191 +27052,10 @@
           "categories": [
             "cs.CV"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Figure 2: MEMVLN model overview. MEMVLN combines Qwen3-VL’s native SigLIP-2-based vision encoder and LLM, a frozen StreamVGGT geometry encoder, and our memory module. It receives a short-term context for local perception and an episodic memory for long-horizon reasoning.",
-              "figure_id": "figure-2-12",
-              "figure_number": "2",
-              "height": 463,
-              "image_path": "figures/2610.35066/figure-001.webp",
-              "kind": "figure",
-              "page": 4,
-              "width": 824
-            },
-            {
-              "caption": "Figure 5: Qualitative results in simulation and the real world. Selected observations, actions, and instructions for RxR-CE (top, with top-down trajectories) and G1 (bottom).",
-              "figure_id": "figure-5-17",
-              "figure_number": "5",
-              "height": 556,
-              "image_path": "figures/2610.35066/figure-002.webp",
-              "kind": "figure",
-              "page": 9,
-              "width": 829
-            },
-            {
-              "caption": "Figure 3: Long-horizon analysis on RxR-CE Val-Unseen. Success rate (top) and navigation error (bottom) are grouped by instruction complexity (left) and instruction type (right). Base denotes the VLM baseline, and +Mem adds the memory module. Back, Stop, and Pass denote instructions involving backtracking, stop conditions and long hallways, and passing landmarks, respectively.",
-              "figure_id": "figure-3-11",
-              "figure_number": "3",
-              "height": 347,
-              "image_path": "figures/2610.35066/figure-003.webp",
-              "kind": "figure",
-              "page": 8,
-              "width": 816
-            },
-            {
-              "caption": "Figure 4: Real-world results on G1.",
-              "figure_id": "figure-4-10",
-              "figure_number": "4",
-              "height": 175,
-              "image_path": "figures/2610.35066/figure-004.webp",
-              "kind": "figure",
-              "page": 8,
-              "width": 369
-            },
-            {
-              "caption": "Figure 8: Qualitative results of MEMVLN in the real world. Selected observations and actions from two G1 navigation rollouts, together with their navigation instructions.",
-              "figure_id": "figure-8-2",
-              "figure_number": "8",
-              "height": 535,
-              "image_path": "figures/2610.35066/figure-005.webp",
-              "kind": "figure",
-              "page": 25,
-              "width": 829
-            },
-            {
-              "caption": "Figure 6: Qualitative results of MEMVLN on R2R-CE.",
-              "figure_id": "figure-6-9",
-              "figure_number": "6",
-              "height": 1293,
-              "image_path": "figures/2610.35066/figure-006.webp",
-              "kind": "figure",
-              "page": 23,
-              "width": 822
-            },
-            {
-              "caption": "Figure 7: Qualitative results of MEMVLN on RxR-CE.",
-              "figure_id": "figure-7-16",
-              "figure_number": "7",
-              "height": 1121,
-              "image_path": "figures/2610.35066/figure-007.webp",
-              "kind": "figure",
-              "page": 24,
-              "width": 829
-            },
-            {
-              "caption": "Table 1: Evaluation results on VLN-CE R2R Val-Unseen split. “Pano.”, “Odo.”, and “S.RGB” denote panoramic view, odometry, and single RGB; at policy inference, MemVLN instead derives relative pose from executed actions. External Data counts fine-tuning examples beyond those derived from official R2R/RxR trajectories (e.g., EnvDrop (Tan et al., 2019)). Bold marks the best streaming result among methods restricted to those official navigation trajectories. Results are partially referenced from JanusVLN (Zeng et al., 2026).",
-              "figure_id": "table-1-1",
-              "figure_number": "1",
-              "height": 405,
-              "image_path": "figures/2610.35066/table-008.webp",
-              "kind": "table",
-              "page": 6,
-              "width": 824
-            },
-            {
-              "caption": "Table 2: Evaluation results on VLN-CE RxR Val-Unseen split. Settings follow Tab. 1 and JanusVLN (Zeng et al., 2026).",
-              "figure_id": "table-2-7",
-              "figure_number": "2",
-              "height": 259,
-              "image_path": "figures/2610.35066/table-009.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 822
-            },
-            {
-              "caption": "Table 11: Per-instruction real-world results. Each cell reports SR / CR (%) over five repeated trials for the corresponding instruction and method. Bold marks the best nonzero SR and lowest CR in each row.",
-              "figure_id": "table-11-3",
-              "figure_number": "11",
-              "height": 171,
-              "image_path": "figures/2610.35066/table-010.webp",
-              "kind": "table",
-              "page": 21,
-              "width": 436
-            },
-            {
-              "caption": "Table 9: Memory capacity ablations on R2R-CE and RxR-CE.",
-              "figure_id": "table-9-18",
-              "figure_number": "9",
-              "height": 329,
-              "image_path": "figures/2610.35066/table-011.webp",
-              "kind": "table",
-              "page": 20,
-              "width": 828
-            },
-            {
-              "caption": "Table 3: Ablations of memory (mem.), geometry (geo.), and auxiliary supervision (aux.).",
-              "figure_id": "table-3-6",
-              "figure_number": "3",
-              "height": 168,
-              "image_path": "figures/2610.35066/table-012.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 825
-            },
-            {
-              "caption": "Table 4: Memory capacity ablations on R2R Val-Unseen: bank size 𝑁𝑏 and token count 𝑁𝑚.",
-              "figure_id": "table-4-5",
-              "figure_number": "4",
-              "height": 127,
-              "image_path": "figures/2610.35066/table-013.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 823
-            },
-            {
-              "caption": "Table 8: Fixed-replay inference latency and peak resource usage on one RTX 4090. Latency statistics pool two fresh-process repeats of the same 102 fixed decisions; 𝑁 denotes timed observations rather than independent episodes. The 16-frame recent-context subset contains 168 timed observations per variant. Policy rate is 1000/mean latency (ms). Resource rows report the maximum across valid repeats. Process GPU is the peak PID-scoped memory reported by nvidia-smi, and RSS is the peak host resident set size of the evaluation process.",
-              "figure_id": "table-8-14",
-              "figure_number": "8",
-              "height": 323,
-              "image_path": "figures/2610.35066/table-014.webp",
-              "kind": "table",
-              "page": 19,
-              "width": 510
-            },
-            {
-              "caption": "Table 7: MEMVLN training hyperparameters.",
-              "figure_id": "table-7-13",
-              "figure_number": "7",
-              "height": 318,
-              "image_path": "figures/2610.35066/table-015.webp",
-              "kind": "table",
-              "page": 19,
-              "width": 409
-            },
-            {
-              "caption": "Table 6: Default memory module configuration.",
-              "figure_id": "table-6-15",
-              "figure_number": "6",
-              "height": 317,
-              "image_path": "figures/2610.35066/table-016.webp",
-              "kind": "table",
-              "page": 19,
-              "width": 408
-            },
-            {
-              "caption": "Table 5: Training data statistics. Navigation samples count step-wise action-prediction targets after action merging. Simulation sample counts are rounded to the nearest thousand.",
-              "figure_id": "table-5-8",
-              "figure_number": "5",
-              "height": 137,
-              "image_path": "figures/2610.35066/table-017.webp",
-              "kind": "table",
-              "page": 18,
-              "width": 825
-            },
-            {
-              "caption": "Table 10: Real-world evaluation instructions. We use the instruction IDs in subsequent results.",
-              "figure_id": "table-10-4",
-              "figure_number": "10",
-              "height": 36,
-              "image_path": "figures/2610.35066/table-018.webp",
-              "kind": "table",
-              "page": 21,
-              "width": 827
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-26T21:00:00-04:00",
-          "hero_figure": "figures/2610.35066/hero.webp",
+          "hero_figure": null,
           "novelty": 8,
           "pdf_url": "https://arxiv.org/pdf/2610.35066",
           "relevance": 9,
@@ -25754,111 +27095,10 @@
           "categories": [
             "cs.RO"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Fig. 2: Overview of ZEBRA",
-              "figure_id": "figure-2-7",
-              "figure_number": "2",
-              "height": 254,
-              "image_path": "figures/2610.33574/figure-001.webp",
-              "kind": "figure",
-              "page": 4,
-              "width": 748
-            },
-            {
-              "caption": "Fig. 3: Mission routes R1–R3 on the two maps.",
-              "figure_id": "figure-3-10",
-              "figure_number": "3",
-              "height": 637,
-              "image_path": "figures/2610.33574/figure-002.webp",
-              "kind": "figure",
-              "page": 5,
-              "width": 479
-            },
-            {
-              "caption": "Fig. 4: The three partitions, hospital left and office right.",
-              "figure_id": "figure-4-8",
-              "figure_number": "4",
-              "height": 500,
-              "image_path": "figures/2610.33574/figure-003.webp",
-              "kind": "figure",
-              "page": 5,
-              "width": 512
-            },
-            {
-              "caption": "Fig. 1: Zone-granular residency under a memory budget, the concept of ZEBRA",
-              "figure_id": "figure-1-1",
-              "figure_number": "1",
-              "height": 373,
-              "image_path": "figures/2610.33574/figure-004.webp",
-              "kind": "figure",
-              "page": 1,
-              "width": 402
-            },
-            {
-              "caption": "TABLE IV: Throughput of the concurrent model, tokens per second.",
-              "figure_id": "table-IV-3",
-              "figure_number": "IV",
-              "height": 204,
-              "image_path": "figures/2610.33574/table-005.webp",
-              "kind": "table",
-              "page": 6,
-              "width": 519
-            },
-            {
-              "caption": "TABLE II: Localization rate with respect to the unit of retrieval, mean over the three routes, percent of query frames with a pose.",
-              "figure_id": "table-II-4",
-              "figure_number": "II",
-              "height": 224,
-              "image_path": "figures/2610.33574/table-006.webp",
-              "kind": "table",
-              "page": 6,
-              "width": 1050
-            },
-            {
-              "caption": "TABLE III: Payload loaded and ATE RMSE by map, mean over the devices and budgets of Table II.",
-              "figure_id": "table-III-2",
-              "figure_number": "III",
-              "height": 246,
-              "image_path": "figures/2610.33574/table-007.webp",
-              "kind": "table",
-              "page": 6,
-              "width": 472
-            },
-            {
-              "caption": "TABLE VI: Admission at the boundary against prefetch guided by the route, reference partition, mean over three pairings at the residual budget.",
-              "figure_id": "table-VI-5",
-              "figure_number": "VI",
-              "height": 108,
-              "image_path": "figures/2610.33574/table-008.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 498
-            },
-            {
-              "caption": "TABLE V: Cubic chunk by side, mean over three pairings at the residual budget.",
-              "figure_id": "table-V-6",
-              "figure_number": "V",
-              "height": 108,
-              "image_path": "figures/2610.33574/table-009.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 406
-            },
-            {
-              "caption": "TABLE I: Devices, models, maps, and the residual budget given to the map, the memory the model leaves free. Model size is the resident size of the model. ∗Text-only.",
-              "figure_id": "table-I-9",
-              "figure_number": "I",
-              "height": 47,
-              "image_path": "figures/2610.33574/table-010.webp",
-              "kind": "table",
-              "page": 5,
-              "width": 512
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-26T21:00:00-04:00",
-          "hero_figure": "figures/2610.33574/hero.webp",
+          "hero_figure": null,
           "novelty": 7,
           "pdf_url": "https://arxiv.org/pdf/2610.33574",
           "relevance": 6,
@@ -25892,271 +27132,10 @@
           "categories": [
             "cs.RO"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Figure 4 Overview of MOON. Top: at deployment, the deviation judge fφ raises an alarm when the deviation score m̄t exceeds the conformal threshold τ , clearing empties the visual history, and the recovery policy πθ ,ψ acts in one greedy rollout. Bottom: in training, G rollouts are sampled from each alarm state and scored by the suffix-SPL reward, and their group-relative advantages update only the LoRA ψ . Scenes and the score inset show one episode of the trained system, while the sampled rollouts are schematic and the advantage bars come from a group resampled after training.",
-              "figure_id": "figure-4-1",
-              "figure_number": "4",
-              "height": 536,
-              "image_path": "figures/2610.33546/figure-001.webp",
-              "kind": "figure",
-              "page": 6,
-              "width": 982
-            },
-            {
-              "caption": "Figure 1 MOON learns when to forget and how to move on. Left: one paired episode in an unseen environment, in which the base fails and MOON recovers after the judge’s alarm (amber border), and the effect of clearing, which raises pooled success from 13.1% to 26.3% across 779 delayed states of four frozen policies. Middle: a deviation judge triggers history clearing and a trained recovery policy on a frozen 4B backbone. Right: R2R-CE and RxR-CE val-unseen results against recent leading monocular RGB models of Table 1, 4B versions where a model comes in several sizes, and zero-shot HM3D-OVON results against JanusVLN and NavFoM. Each radar axis is scaled to the range of the plotted models; labeled values are MOON’s.",
-              "figure_id": "figure-1-5",
-              "figure_number": "1",
-              "height": 325,
-              "image_path": "figures/2610.33546/figure-002.webp",
-              "kind": "figure",
-              "page": 2,
-              "width": 982
-            },
-            {
-              "caption": "Figure 7 Qualitative result on RxR-CE. Rows share frames until the alarm (amber border), after which MOON clears the history and the recovery policy acts; last column: end of each run.",
-              "figure_id": "figure-7-9",
-              "figure_number": "7",
-              "height": 418,
-              "image_path": "figures/2610.33546/figure-003.webp",
-              "kind": "figure",
-              "page": 10,
-              "width": 964
-            },
-            {
-              "caption": "Figure 2 Visual history helps on route but can hinder recovery. (a) Boxed steps are cleared. (b, c) Off route: delayed states. Bands and whiskers: 95% paired bootstrap intervals.",
-              "figure_id": "figure-2-16",
-              "figure_number": "2",
-              "height": 287,
-              "image_path": "figures/2610.33546/figure-004.webp",
-              "kind": "figure",
-              "page": 4,
-              "width": 876
-            },
-            {
-              "caption": "Figure 6 Training with cleared and retained history. pass@8 on the 128 alarm states of each GRPO iteration, the same states for both runs. Shaded: 95% Wilson intervals.",
-              "figure_id": "figure-6-21",
-              "figure_number": "6",
-              "height": 262,
-              "image_path": "figures/2610.33546/figure-005.webp",
-              "kind": "figure",
-              "page": 9,
-              "width": 306
-            },
-            {
-              "caption": "Figure 5 Judge alarms and their outcomes. Bars: share of base failures or successes with an alarm; colored: share rescued or broken; arrows: their difference, not an SR change.",
-              "figure_id": "figure-5-20",
-              "figure_number": "5",
-              "height": 245,
-              "image_path": "figures/2610.33546/figure-006.webp",
-              "kind": "figure",
-              "page": 9,
-              "width": 305
-            },
-            {
-              "caption": "Figure 10 Additional R2R-CE episodes (3 of 3), shown as in Figure 7.",
-              "figure_id": "figure-10-18",
-              "figure_number": "10",
-              "height": 833,
-              "image_path": "figures/2610.33546/figure-007.webp",
-              "kind": "figure",
-              "page": 27,
-              "width": 964
-            },
-            {
-              "caption": "Figure 3 Retained history keeps the policy from turning; after clearing, sampling finds more successes. (a) After a forward step, four policies pooled. (b) Onset states; oracle: the successful rollout. (c) Onset states whose retained greedy rollout failed. 95% CIs: bootstrap (a, c), Wilson (b).",
-              "figure_id": "figure-3-25",
-              "figure_number": "3",
-              "height": 230,
-              "image_path": "figures/2610.33546/figure-008.webp",
-              "kind": "figure",
-              "page": 5,
-              "width": 867
-            },
-            {
-              "caption": "Figure 8 Additional R2R-CE episodes (1 of 3) in which the frozen policy fails and MOON succeeds, shown as in Figure 7.",
-              "figure_id": "figure-8-2",
-              "figure_number": "8",
-              "height": 844,
-              "image_path": "figures/2610.33546/figure-009.webp",
-              "kind": "figure",
-              "page": 25,
-              "width": 964
-            },
-            {
-              "caption": "Figure 12 Additional RxR-CE episodes (2 of 3), shown as in Figure 7.",
-              "figure_id": "figure-12-6",
-              "figure_number": "12",
-              "height": 962,
-              "image_path": "figures/2610.33546/figure-010.webp",
-              "kind": "figure",
-              "page": 29,
-              "width": 964
-            },
-            {
-              "caption": "Figure 11 Additional RxR-CE episodes (1 of 3) in which the frozen policy fails and MOON succeeds, shown as in Figure 7.",
-              "figure_id": "figure-11-14",
-              "figure_number": "11",
-              "height": 941,
-              "image_path": "figures/2610.33546/figure-011.webp",
-              "kind": "figure",
-              "page": 28,
-              "width": 964
-            },
-            {
-              "caption": "Figure 13 Additional RxR-CE episodes (3 of 3), shown as in Figure 7.",
-              "figure_id": "figure-13-4",
-              "figure_number": "13",
-              "height": 877,
-              "image_path": "figures/2610.33546/figure-012.webp",
-              "kind": "figure",
-              "page": 30,
-              "width": 964
-            },
-            {
-              "caption": "Figure 9 Additional R2R-CE episodes (2 of 3), shown as in Figure 7.",
-              "figure_id": "figure-9-3",
-              "figure_number": "9",
-              "height": 845,
-              "image_path": "figures/2610.33546/figure-013.webp",
-              "kind": "figure",
-              "page": 26,
-              "width": 964
-            },
-            {
-              "caption": "Table 1 Comparison with prior methods on the R2R-CE and RxR-CE val-unseen splits. Bold and underline mark the best and second-best results in each column. Pano., Odo., Depth and S.RGB denote panoramic view, odometry, depth and single RGB input. †Recovery-oriented method.",
-              "figure_id": "table-1-15",
-              "figure_number": "1",
-              "height": 722,
-              "image_path": "figures/2610.33546/table-014.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 986
-            },
-            {
-              "caption": "Table 2 Core components.",
-              "figure_id": "table-2-22",
-              "figure_number": "2",
-              "height": 129,
-              "image_path": "figures/2610.33546/table-015.webp",
-              "kind": "table",
-              "page": 9,
-              "width": 348
-            },
-            {
-              "caption": "Table 8 Continuation rates per policy, in percent, with 95% episode-bootstrap intervals. States follow a forward step, and states where the expert returns no action are excluded. Pooled rows are the values in Figure 3a. Two on-route states each of NaVILA and Uni-NaVid have no swapped history, leaving 235 and 316 states (942 pooled).",
-              "figure_id": "table-8-17",
-              "figure_number": "8",
-              "height": 481,
-              "image_path": "figures/2610.33546/table-016.webp",
-              "kind": "table",
-              "page": 19,
-              "width": 818
-            },
-            {
-              "caption": "Table 10 Training configuration of the base policy NaVIDA-Qwen3VL.",
-              "figure_id": "table-10-24",
-              "figure_number": "10",
-              "height": 377,
-              "image_path": "figures/2610.33546/table-017.webp",
-              "kind": "table",
-              "page": 20,
-              "width": 936
-            },
-            {
-              "caption": "Table 15 Comparison on the HM3D-OVON val-unseen split. Results of other methods are taken from their papers, except VLFM, whose results are from Yokoyama et al. [42]. Bold and underline mark the best and second-best results. ∗Zero-shot evaluation, without training on HM3D-OVON. VLFM, DAgRL+OD and MTU3D also use depth and odometry, ABot-N0 uses panoramic RGB and NavFoM four cameras. †360 randomly sampled episodes.",
-              "figure_id": "table-15-19",
-              "figure_number": "15",
-              "height": 269,
-              "image_path": "figures/2610.33546/table-018.webp",
-              "kind": "table",
-              "page": 24,
-              "width": 382
-            },
-            {
-              "caption": "Table 7 Success-rate differences from current-frame-only, in points; a negative value is a deficit of the same size in the main text. Each cell gives the estimate and its pointwise 95% paired state-bootstrap interval. The default population is 779 delayed states. Route-only uses 420 eligible states. Pooled estimates weight states equally.",
-              "figure_id": "table-7-10",
-              "figure_number": "7",
-              "height": 842,
-              "image_path": "figures/2610.33546/table-019.webp",
-              "kind": "table",
-              "page": 18,
-              "width": 772
-            },
-            {
-              "caption": "Table 11 Training-side ablation on R2R-CE: SR at iterations 3, 9, 15 and 19, counted from 0. Start: where rollouts or demonstrations begin. Clear: whether they begin from cleared history; the row without it also retains the history at deployment. ∗No judge at deployment. GRPObinary: binary success reward instead of suffix-SPL. –: does not apply or was not run.",
-              "figure_id": "table-11-7",
-              "figure_number": "11",
-              "height": 221,
-              "image_path": "figures/2610.33546/table-020.webp",
-              "kind": "table",
-              "page": 22,
-              "width": 468
-            },
-            {
-              "caption": "Table 13 Alarm level. Alarms: share of all episodes; false alarms: share of base successes. †Reported level.",
-              "figure_id": "table-13-11",
-              "figure_number": "13",
-              "height": 267,
-              "image_path": "figures/2610.33546/table-021.webp",
-              "kind": "table",
-              "page": 23,
-              "width": 498
-            },
-            {
-              "caption": "Table 12 Counts behind Figure 5. Brackets: Wilson 95% intervals. RxR-CE recall includes 99 base failures whose goal lies on a disconnected part of the navigation mesh, and is 589/1,187 without them.",
-              "figure_id": "table-12-13",
-              "figure_number": "12",
-              "height": 172,
-              "image_path": "figures/2610.33546/table-022.webp",
-              "kind": "table",
-              "page": 23,
-              "width": 432
-            },
-            {
-              "caption": "Table 6 State counts for the analysis panels. After-deviation action observations include both onset and delayed states from some of the same episodes.",
-              "figure_id": "table-6-26",
-              "figure_number": "6",
-              "height": 162,
-              "image_path": "figures/2610.33546/table-023.webp",
-              "kind": "table",
-              "page": 16,
-              "width": 690
-            },
-            {
-              "caption": "Table 9 Offline coverage after eight samples on retained-greedy failures (80 onset states per policy). Values are percentages with 95% state-bootstrap intervals. The final column is the fraction with no successful cleared continuation among eight samples.",
-              "figure_id": "table-9-23",
-              "figure_number": "9",
-              "height": 141,
-              "image_path": "figures/2610.33546/table-024.webp",
-              "kind": "table",
-              "page": 20,
-              "width": 548
-            },
-            {
-              "caption": "Table 5 Parameters and latency",
-              "figure_id": "table-5-8",
-              "figure_number": "5",
-              "height": 93,
-              "image_path": "figures/2610.33546/table-025.webp",
-              "kind": "table",
-              "page": 10,
-              "width": 287
-            },
-            {
-              "caption": "Table 14 Judge query interval on R2R-CE. †Deployed interval.",
-              "figure_id": "table-14-12",
-              "figure_number": "14",
-              "height": 119,
-              "image_path": "figures/2610.33546/table-026.webp",
-              "kind": "table",
-              "page": 23,
-              "width": 418
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-26T21:00:00-04:00",
-          "hero_figure": "figures/2610.33546/hero.webp",
+          "hero_figure": null,
           "novelty": 8,
           "pdf_url": "https://arxiv.org/pdf/2610.33546",
           "relevance": 9,
@@ -26197,271 +27176,10 @@
             "cs.RO",
             "cs.CV"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Figure 2: ReSight architecture. The two agents access the same evidence memory through different interfaces. EDM converts exploration-derived solutions into tools, skills, and memory builders for reuse by the execution agent.",
-              "figure_id": "figure-2-18",
-              "figure_number": "2",
-              "height": 260,
-              "image_path": "figures/2610.33487/figure-001.webp",
-              "kind": "figure",
-              "page": 4,
-              "width": 686
-            },
-            {
-              "caption": "Figure 4: Examples of EDM capability expansion: (a) object localization, (b) interaction-object tracking, and (c) OCR sign retrieval. Columns show execution before mounting, the generated programs, and execution after mounting. Call counts are per illustrated run; full trajectories appear in Appendix E.",
-              "figure_id": "figure-4-7",
-              "figure_number": "4",
-              "height": 447,
-              "image_path": "figures/2610.33487/figure-002.webp",
-              "kind": "figure",
-              "page": 7,
-              "width": 808
-            },
-            {
-              "caption": "Figure 3: EDM on robot-memory booth counting. After text-based retrieval fails, the coding agent develops photo retrieval and verifies two booths. Executor replay during distillation reveals that revisits confuse counting, prompting pose-and-time merging; the mounted tool returns both booths and supporting frames in one call.",
-              "figure_id": "figure-3-26",
-              "figure_number": "3",
-              "height": 371,
-              "image_path": "figures/2610.33487/figure-003.webp",
-              "kind": "figure",
-              "page": 5,
-              "width": 812
-            },
-            {
-              "caption": "Figure 16: Robot patrol, held-out: independent phone-photo localization. Both executions answer correctly. In this paired run, EDM uses one tool call and two model requests, versus two tool calls and three model requests without EDM.",
-              "figure_id": "figure-16-15",
-              "figure_number": "16",
-              "height": 432,
-              "image_path": "figures/2610.33487/figure-004.webp",
-              "kind": "figure",
-              "page": 28,
-              "width": 788
-            },
-            {
-              "caption": "Figure 14: Robot patrol, held-out: room 805 sign. Both executions answer correctly; the mounted text index reduces the count from three model requests to two.",
-              "figure_id": "figure-14-20",
-              "figure_number": "14",
-              "height": 389,
-              "image_path": "figures/2610.33487/figure-005.webp",
-              "kind": "figure",
-              "page": 27,
-              "width": 788
-            },
-            {
-              "caption": "Figure 7: OC-NaVQA: red semi-truck. Both executions cite frame 67; EDM uses several views to estimate the truck’s position rather than returning the camera pose.",
-              "figure_id": "figure-7-23",
-              "figure_number": "7",
-              "height": 423,
-              "image_path": "figures/2610.33487/figure-006.webp",
-              "kind": "figure",
-              "page": 24,
-              "width": 788
-            },
-            {
-              "caption": "Figure 8: OC-NaVQA: green Lime scooters. The base execution misses the target. EDM’s presence scan narrows the candidate frames for image verification.",
-              "figure_id": "figure-8-22",
-              "figure_number": "8",
-              "height": 423,
-              "image_path": "figures/2610.33487/figure-007.webp",
-              "kind": "figure",
-              "page": 24,
-              "width": 788
-            },
-            {
-              "caption": "Figure 9: FindingDory: interaction time. The base execution cites a frame before placement; EDM identifies the interaction and cites evidence after placement.",
-              "figure_id": "figure-9-1",
-              "figure_number": "9",
-              "height": 424,
-              "image_path": "figures/2610.33487/figure-008.webp",
-              "kind": "figure",
-              "page": 25,
-              "width": 788
-            },
-            {
-              "caption": "Figure 10: FindingDory: the object with the longest rearrangement. The base execution estimates duration from retrieved frames; EDM ranks indexed interactions by duration and checks the selected object’s evidence. The repeated word “to” is retained from the original benchmark question.",
-              "figure_id": "figure-10-2",
-              "figure_number": "10",
-              "height": 423,
-              "image_path": "figures/2610.33487/figure-009.webp",
-              "kind": "figure",
-              "page": 25,
-              "width": 788
-            },
-            {
-              "caption": "Figure 13: Robot patrol, held-in: booth count. Under the same short prompt and reference photo, the base execution answers zero, while EDM identifies both booths (frames 442 and 152).",
-              "figure_id": "figure-13-21",
-              "figure_number": "13",
-              "height": 463,
-              "image_path": "figures/2610.33487/figure-010.webp",
-              "kind": "figure",
-              "page": 27,
-              "width": 788
-            },
-            {
-              "caption": "Figure 11: Robot patrol, held-in: Warmth Corner sign. The base execution selects an unrelated recognition wall; text lookup returns a frame with the legible sign.",
-              "figure_id": "figure-11-4",
-              "figure_number": "11",
-              "height": 396,
-              "image_path": "figures/2610.33487/figure-011.webp",
-              "kind": "figure",
-              "page": 26,
-              "width": 788
-            },
-            {
-              "caption": "Figure 15: Robot patrol, held-out: total distance walked. The base execution estimates 92.7 m from route fragments; EDM sums consecutive positions across 501 frames to obtain 111.0 m. The plotted trajectory is reconstructed from stored poses.",
-              "figure_id": "figure-15-14",
-              "figure_number": "15",
-              "height": 390,
-              "image_path": "figures/2610.33487/figure-012.webp",
-              "kind": "figure",
-              "page": 28,
-              "width": 788
-            },
-            {
-              "caption": "Figure 12: Robot patrol, held-in: farthest point. EDM computes the farthest frame from all 648 stored poses. The plotted trajectory is reconstructed from stored poses.",
-              "figure_id": "figure-12-3",
-              "figure_number": "12",
-              "height": 389,
-              "image_path": "figures/2610.33487/figure-013.webp",
-              "kind": "figure",
-              "page": 26,
-              "width": 788
-            },
-            {
-              "caption": "Figure 6: Mean online model requests per query. ReSight includes decision and finalization requests; RAVEN includes agent decisions and answer generation; DAAAM uses step-level request logs.",
-              "figure_id": "figure-6-13",
-              "figure_number": "6",
-              "height": 223,
-              "image_path": "figures/2610.33487/figure-014.webp",
-              "kind": "figure",
-              "page": 23,
-              "width": 805
-            },
-            {
-              "caption": "Figure 5: Mean online tokens per query (thousands). Gray denotes the base host and green its EDMmounted counterpart. The two benchmarks use separate horizontal scales.",
-              "figure_id": "figure-5-12",
-              "figure_number": "5",
-              "height": 223,
-              "image_path": "figures/2610.33487/figure-015.webp",
-              "kind": "figure",
-              "page": 23,
-              "width": 805
-            },
-            {
-              "caption": "Figure 17: Visiting and inspecting two phone booths on floor 8. After the memory query identifies two booths, the user asks: “Help me plan a route to visit these two phone booths right now and confirm in person whether anyone is there.” The robot visits booth B and then booth A, checks their current occupancy, and reports that both are empty.",
-              "figure_id": "figure-17-9",
-              "figure_number": "17",
-              "height": 156,
-              "image_path": "figures/2610.33487/figure-016.webp",
-              "kind": "figure",
-              "page": 29,
-              "width": 824
-            },
-            {
-              "caption": "Figure 18: Navigating to a photo-matched location on floor 1. After the memory query locates the reference photograph, the user asks: “Go there and wait for me.” The robot navigates to the retrieved viewpoint, checks a fresh camera image, and waits at the destination.",
-              "figure_id": "figure-18-8",
-              "figure_number": "18",
-              "height": 156,
-              "image_path": "figures/2610.33487/figure-017.webp",
-              "kind": "figure",
-              "page": 29,
-              "width": 824
-            },
-            {
-              "caption": "Table 3: FindingDory high-level success (%) on episodes 91–100 (596 queries). The first five rows are from RAVEN (Hu et al., 2026); Gemini is Gemini-2.5-Flash. Bold compares Sol configurations; orange denotes the Opus-5 exploration reference. Tokens/q reports mean input-plus-output tokens in thousands. Annotation-model results appear in Appendix C.5.",
-              "figure_id": "table-3-16",
-              "figure_number": "3",
-              "height": 329,
-              "image_path": "figures/2610.33487/table-018.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 827
-            },
-            {
-              "caption": "Table 2: OC-NaVQA results on 210 questions. The first four rows are from DAAAM (Gorlo et al., 2026a): Mini is GPT-5-mini; 2B/8B are NVILA-Lite models. RAVEN-Sol and ReSight-Sol† return camera poses. Bold compares Sol configurations. Orange denotes the Opus-5 exploration reference.",
-              "figure_id": "table-2-17",
-              "figure_number": "2",
-              "height": 313,
-              "image_path": "figures/2610.33487/table-019.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 831
-            },
-            {
-              "caption": "Table 1: GOAT-core SR@5 (%); no EDM. The first six rows are from MoM Table I (Zhou et al., 2026); HOV-SG averages two supported query types. Retrieval-only variants use no query-time VLM reasoning. Qwen/Sol denote annotation models (Appendix C.2); bold marks group bests.",
-              "figure_id": "table-1-6",
-              "figure_number": "1",
-              "height": 316,
-              "image_path": "figures/2610.33487/table-020.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 732
-            },
-            {
-              "caption": "Table 5: Real-robot memory queries, grouped into exploration and new tasks. Success is out of five runs; tool calls and input-plus-output tokens are per-run means. The last row aggregates 30 runs; bold marks pairwise bests. Queries and inputs: Appendix C.4.",
-              "figure_id": "table-5-25",
-              "figure_number": "5",
-              "height": 265,
-              "image_path": "figures/2610.33487/table-021.webp",
-              "kind": "table",
-              "page": 9,
-              "width": 766
-            },
-            {
-              "caption": "Table 4: Frozen-capability reuse on FindingDory episodes 81–90 (597 queries). EDM w/o Explore distills from the execution traces (Appendix C.3). High-level success (%); Tokens/q reports mean input-plus-output tokens in thousands.",
-              "figure_id": "table-4-24",
-              "figure_number": "4",
-              "height": 140,
-              "image_path": "figures/2610.33487/table-022.webp",
-              "kind": "table",
-              "page": 9,
-              "width": 848
-            },
-            {
-              "caption": "Table 8: Success (%) on FindingDory episodes 81–90 by the benchmark’s low-level query category; n is the number of queries.",
-              "figure_id": "table-8-5",
-              "figure_number": "8",
-              "height": 299,
-              "image_path": "figures/2610.33487/table-023.webp",
-              "kind": "table",
-              "page": 21,
-              "width": 614
-            },
-            {
-              "caption": "Table 6: Base execution interface for OC-NaVQA and FindingDory. Retrieval tools return text summaries; position recall requires camera poses.",
-              "figure_id": "table-6-11",
-              "figure_number": "6",
-              "height": 215,
-              "image_path": "figures/2610.33487/table-024.webp",
-              "kind": "table",
-              "page": 14,
-              "width": 798
-            },
-            {
-              "caption": "Table 7: Base retrieval limits per call and decision-round caps. EDM keeps each host’s limits unchanged. Added tools can return event summaries, frame ids, or rendered panels.",
-              "figure_id": "table-7-19",
-              "figure_number": "7",
-              "height": 154,
-              "image_path": "figures/2610.33487/table-025.webp",
-              "kind": "table",
-              "page": 19,
-              "width": 786
-            },
-            {
-              "caption": "Table 9: OC-NaVQA annotator replacement on 210 questions. All rows use the GPT-5.6-sol executor. Tokens/q reports mean online input-plus-output tokens in thousands. Green denotes configurations with EDM; bold marks column bests.",
-              "figure_id": "table-9-10",
-              "figure_number": "9",
-              "height": 38,
-              "image_path": "figures/2610.33487/table-026.webp",
-              "kind": "table",
-              "page": 22,
-              "width": 814
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-26T21:00:00-04:00",
-          "hero_figure": "figures/2610.33487/hero.webp",
+          "hero_figure": null,
           "novelty": 8,
           "pdf_url": "https://arxiv.org/pdf/2610.33487",
           "relevance": 9,
@@ -26499,211 +27217,10 @@
           "categories": [
             "cs.CV"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Figure 3: Overall Workflow of our method. Memory construction transforms multimodal trajectories into complementary episodic and latent memories. Given a query, memory adaptation selectively activates and integrates these memories by training-free routers to generate the answer.",
-              "figure_id": "figure-3-12",
-              "figure_number": "3",
-              "height": 354,
-              "image_path": "figures/2610.33019/figure-001.webp",
-              "kind": "figure",
-              "page": 4,
-              "width": 824
-            },
-            {
-              "caption": "Figure 4: Uniform hybrid configurations can degrade performance. Top: Increasing hybrid strength draws episodic-locked evidence toward misleading context. Bottom: Extra evidence attention load disrupts coherent latent reasoning, leading to selfcontradictions.",
-              "figure_id": "figure-4-19",
-              "figure_number": "4",
-              "height": 304,
-              "image_path": "figures/2610.33019/figure-002.webp",
-              "kind": "figure",
-              "page": 5,
-              "width": 562
-            },
-            {
-              "caption": "Figure 7: Comparison of Episodic and Hybrid under insufficient(zero and partial) and interfered retrieval.",
-              "figure_id": "figure-7-10",
-              "figure_number": "7",
-              "height": 213,
-              "image_path": "figures/2610.33019/figure-003.webp",
-              "kind": "figure",
-              "page": 8,
-              "width": 461
-            },
-            {
-              "caption": "Figure 8: Hyperparameter sensitivity of Hybrid Memory on a Mem-Gallery scenario across varying (a) LoRA rank, (b) number of adapted layers, and (c) training-set sampling seed.",
-              "figure_id": "figure-8-17",
-              "figure_number": "8",
-              "height": 219,
-              "image_path": "figures/2610.33019/figure-004.webp",
-              "kind": "figure",
-              "page": 9,
-              "width": 447
-            },
-            {
-              "caption": "Figure 6: Performance under different gold evidence amounts.",
-              "figure_id": "figure-6-8",
-              "figure_number": "6",
-              "height": 145,
-              "image_path": "figures/2610.33019/figure-005.webp",
-              "kind": "figure",
-              "page": 8,
-              "width": 289
-            },
-            {
-              "caption": "Figure 2: Failure cases of individual memory branches conducted on Mem-Gallery (Bei et al., 2026). Left: Episodic memory is limited by retrieval quality (omissions and distractions). Middle: Episodic memory is limited by contextual understanding (evidence integration and implicit alignment). Right: Latent memory fails to recover the specific details required by the query.",
-              "figure_id": "figure-2-6",
-              "figure_number": "2",
-              "height": 234,
-              "image_path": "figures/2610.33019/figure-006.webp",
-              "kind": "figure",
-              "page": 3,
-              "width": 826
-            },
-            {
-              "caption": "Figure 5: Distributions of first-token JSD and fullsequence confidence across winning samples for each memory paradigm.",
-              "figure_id": "figure-5-20",
-              "figure_number": "5",
-              "height": 300,
-              "image_path": "figures/2610.33019/figure-007.webp",
-              "kind": "figure",
-              "page": 5,
-              "width": 252
-            },
-            {
-              "caption": "Table 1: Main results on Mem-Gallery and LoCoMo. Comprehensive evaluation of memory frameworks using Qwen2.5-VL (3B and 7B) across F1, BLEU-1, EM, and LLM-Judge. In addition to text-only and multimodal baselines, we report the Vanilla Base (no memory), standalone Episodic and Latent modules, fixed Hybrid composition, and Adaptive routing.",
-              "figure_id": "table-1-4",
-              "figure_number": "1",
-              "height": 901,
-              "image_path": "figures/2610.33019/table-008.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 834
-            },
-            {
-              "caption": "Table 6: Train–test split statistics for the 20 scenarios in Mem-Gallery. The split is constructed independently within each scenario with random seed 42.",
-              "figure_id": "table-6-1",
-              "figure_number": "6",
-              "height": 495,
-              "image_path": "figures/2610.33019/table-009.webp",
-              "kind": "table",
-              "page": 15,
-              "width": 822
-            },
-            {
-              "caption": "Table 5: Summary of mathematical notations and definitions",
-              "figure_id": "table-5-5",
-              "figure_number": "5",
-              "height": 775,
-              "image_path": "figures/2610.33019/table-010.webp",
-              "kind": "table",
-              "page": 14,
-              "width": 830
-            },
-            {
-              "caption": "Table 8: Training configuration for latent memory optimization.",
-              "figure_id": "table-8-7",
-              "figure_number": "8",
-              "height": 424,
-              "image_path": "figures/2610.33019/table-011.webp",
-              "kind": "table",
-              "page": 18,
-              "width": 790
-            },
-            {
-              "caption": "Table 4: Average computational cost including Ingest latency per scene, QA latency and token usage per query.",
-              "figure_id": "table-4-16",
-              "figure_number": "4",
-              "height": 226,
-              "image_path": "figures/2610.33019/table-012.webp",
-              "kind": "table",
-              "page": 9,
-              "width": 367
-            },
-            {
-              "caption": "Table 13: Shared calibrated thresholds for each model–benchmark setting. τd is the normalized JSD threshold and τc is the confidence threshold.",
-              "figure_id": "table-13-2",
-              "figure_number": "13",
-              "height": 131,
-              "image_path": "figures/2610.33019/table-013.webp",
-              "kind": "table",
-              "page": 21,
-              "width": 346
-            },
-            {
-              "caption": "Table 12: Performance over 133 test questions from three scenes. Latent uses no retrieved evidence. For Hybrid, both methods receive identical fixed retrieved evidence at test time.",
-              "figure_id": "table-12-3",
-              "figure_number": "12",
-              "height": 231,
-              "image_path": "figures/2610.33019/table-014.webp",
-              "kind": "table",
-              "page": 21,
-              "width": 827
-            },
-            {
-              "caption": "Table 7: Model and inference settings used in our experiments.",
-              "figure_id": "table-7-15",
-              "figure_number": "7",
-              "height": 193,
-              "image_path": "figures/2610.33019/table-015.webp",
-              "kind": "table",
-              "page": 17,
-              "width": 798
-            },
-            {
-              "caption": "Table 2: Performance across task categories. Comparison of Latent, Episodic, and Hybrid across nine task categories in Mem-Gallery with 7B, highlighting task-dependent strengths.",
-              "figure_id": "table-2-11",
-              "figure_number": "2",
-              "height": 111,
-              "image_path": "figures/2610.33019/table-016.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 527
-            },
-            {
-              "caption": "Table 9: Sensitivity of Hybrid Memory to different model seeds in Scenario 1(Academic). The gain is measured against Episodic Memory (0.673).",
-              "figure_id": "table-9-13",
-              "figure_number": "9",
-              "height": 109,
-              "image_path": "figures/2610.33019/table-017.webp",
-              "kind": "table",
-              "page": 19,
-              "width": 406
-            },
-            {
-              "caption": "Table 10: Full results of the task-specific prompting ablation on Scenario 1 (Academic). ∆ denotes the LLM-Judge improvement of Hybrid Memory over Episodic Memory under the same prompting setting.",
-              "figure_id": "table-10-14",
-              "figure_number": "10",
-              "height": 142,
-              "image_path": "figures/2610.33019/table-018.webp",
-              "kind": "table",
-              "page": 19,
-              "width": 660
-            },
-            {
-              "caption": "Table 11: Complete open-answer analysis by category. Performance changes are percentage-point differences (Hybrid Memory−Episodic Memory) on the complete category test set. AR and CD are excluded.",
-              "figure_id": "table-11-18",
-              "figure_number": "11",
-              "height": 213,
-              "image_path": "figures/2610.33019/table-019.webp",
-              "kind": "table",
-              "page": 20,
-              "width": 830
-            },
-            {
-              "caption": "Table 3: Training-label leakage analysis. Seen(%) is the fraction of test gold answers occurring in same-scene training labels. Unseen@EM(%) is the fraction of exact-match predictions whose gold answer is absent from the training labels.",
-              "figure_id": "table-3-9",
-              "figure_number": "3",
-              "height": 118,
-              "image_path": "figures/2610.33019/table-020.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 337
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-26T21:00:00-04:00",
-          "hero_figure": "figures/2610.33019/hero.webp",
+          "hero_figure": null,
           "novelty": 7,
           "pdf_url": "https://arxiv.org/pdf/2610.33019",
           "relevance": 7,
@@ -26743,111 +27260,10 @@
           "categories": [
             "cs.RO"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Fig. 1. Fine-grained object (FO) manipulation with FOM-SAM3 guided policy. In contrast to category-level object manipulation, FO manipulation requires identifying and focusing on an object with specified attributes, category, brand, and model. The current methods using scene- and categorylevel visual conditioning are unable to handle FO manipulation tasks. Our framework leverages SAM3 for FO-level visual guidance, which can be extended to different FOs belonging to the same coarse category via persistent memory learning.",
-              "figure_id": "figure-1-1",
-              "figure_number": "1",
-              "height": 233,
-              "image_path": "figures/2609.21621/figure-001.webp",
-              "kind": "figure",
-              "page": 1,
-              "width": 514
-            },
-            {
-              "caption": "Fig. 6. Success rates of different methods in all real-robot evaluations.",
-              "figure_id": "figure-6-4",
-              "figure_number": "6",
-              "height": 162,
-              "image_path": "figures/2609.21621/figure-002.webp",
-              "kind": "figure",
-              "page": 6,
-              "width": 517
-            },
-            {
-              "caption": "Fig. 4. FO segmentation results on the FO-30 test set with the original SAM3 text prompting and the proposed FOM-SAM3. The red text indicates that the target FO is absent in the image.",
-              "figure_id": "figure-4-9",
-              "figure_number": "4",
-              "height": 465,
-              "image_path": "figures/2609.21621/figure-003.webp",
-              "kind": "figure",
-              "page": 5,
-              "width": 1052
-            },
-            {
-              "caption": "Fig. 7. Visualization of FSAE representations in the left view (a) and the right view (b). In each subfigure, the first row shows the boxes and mask given by FOM-SAM3. The second row visualizes the in-FO appearance features after unified PCA feature dimensionality reduction. The waypoint number on the top-left corner of each picture corresponds to that in the t-SNE map on the far right.",
-              "figure_id": "figure-7-6",
-              "figure_number": "7",
-              "height": 429,
-              "image_path": "figures/2609.21621/figure-004.webp",
-              "kind": "figure",
-              "page": 7,
-              "width": 1052
-            },
-            {
-              "caption": "Fig. 5. Real-robot platform, three actions, and experimental objects. DemoFO is the object used in teleoperated demonstration. Distractors are dissimilar objects from different coarse categories. SimilarFOs are visually confusing objects of the same category.",
-              "figure_id": "figure-5-2",
-              "figure_number": "5",
-              "height": 311,
-              "image_path": "figures/2609.21621/figure-005.webp",
-              "kind": "figure",
-              "page": 6,
-              "width": 1054
-            },
-            {
-              "caption": "Fig. 3. FOM-SAM3 guided policy with focused spatial-appearance encoding. Two FSAE versions are designed for DP and ACT, respectively. Here, SSP and TP stand for spatial softmax pooling and token projection, respectively.",
-              "figure_id": "figure-3-8",
-              "figure_number": "3",
-              "height": 292,
-              "image_path": "figures/2609.21621/figure-006.webp",
-              "kind": "figure",
-              "page": 4,
-              "width": 1054
-            },
-            {
-              "caption": "Fig. 2. Persistent FO memory learning for SAM3.",
-              "figure_id": "figure-2-7",
-              "figure_number": "2",
-              "height": 288,
-              "image_path": "figures/2609.21621/figure-007.webp",
-              "kind": "figure",
-              "page": 3,
-              "width": 1054
-            },
-            {
-              "caption": "TABLE I FO Perception Performances Based on Frozen SAM3 (%)",
-              "figure_id": "table-I-10",
-              "figure_number": "I",
-              "height": 275,
-              "image_path": "figures/2609.21621/table-008.webp",
-              "kind": "table",
-              "page": 5,
-              "width": 516
-            },
-            {
-              "caption": "TABLE II Success Rates of DemoFO Manipulation",
-              "figure_id": "table-II-5",
-              "figure_number": "II",
-              "height": 138,
-              "image_path": "figures/2609.21621/table-009.webp",
-              "kind": "table",
-              "page": 6,
-              "width": 525
-            },
-            {
-              "caption": "TABLE III Success Rates of NewFO Manipulation with Shared Policy",
-              "figure_id": "table-III-3",
-              "figure_number": "III",
-              "height": 77,
-              "image_path": "figures/2609.21621/table-010.webp",
-              "kind": "table",
-              "page": 6,
-              "width": 525
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-26T21:00:00-04:00",
-          "hero_figure": "figures/2609.21621/hero.webp",
+          "hero_figure": null,
           "novelty": 7,
           "pdf_url": "https://arxiv.org/pdf/2609.21621",
           "relevance": 8,
@@ -36459,5 +36875,5 @@
   "schema_version": 1,
   "subtopic_id": "embodied-memory",
   "topic_id": "adaptation-and-memory",
-  "total_paper_count": 346
+  "total_paper_count": 355
 }

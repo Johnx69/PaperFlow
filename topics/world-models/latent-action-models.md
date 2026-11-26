@@ -6,10 +6,14 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Latent Action Models
 
-**162 papers total**
+**166 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-25 | [ELMO: Emergent Representations In Imitation Learning Via Dynamic Hierarchical Action Chunking](https://arxiv.org/abs/2611.34741) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation; World Models: Latent Action Models | ELMO learns semantically grounded robot action representations end-to-end by dynamically chunking trajectories and conditioning decoding on observations. | 8 | 8 |
+| 2026-11-25 | [Long-Horizon Planning with Latent World Models via Graph Anchors](https://arxiv.org/abs/2611.34509) | Embodied AI: Robot Navigation, Robot Learning and Manipulation; World Models: Latent Action Models | Graph Anchors improve long-horizon latent-world-model planning by replacing distant goals with nearby targets along recorded trajectories, substantially improving manipulation and navigation success. | 9 | 8 |
+| 2026-11-25 | [Co-World Model for Human-Video-to-Robot Transfer via Co-Constructed Shared Latent Dynamics](https://arxiv.org/abs/2611.34302) | Embodied AI: Robot Learning and Manipulation, Learning from Human Videos; World Models: Latent Action Models | CoWM enables zero-shot transfer of skills from a single human video to robots by learning shared object-centric dynamics and grounding them through phase-aware control. | 9 | 9 |
+| 2026-11-25 | [DFLAT: Model-based Diffusion on Differentially Flat Spaces for Long-Horizon Trajectory Optimization](https://arxiv.org/abs/2611.33586) | Embodied AI: Robot Navigation; World Models: Latent Action Models | DFLAT enables fast, feasible long-horizon diffusion planning by denoising compact trajectory parameters in a differentially flat space. | 8 | 9 |
 | 2026-11-24 | [Learning World Models through Contrastive Identification of Actions](https://arxiv.org/abs/2611.32776) | World Models: Latent Action Models | Contrastive Identification of Actions (CIA) trains visual world models to preserve action-relevant information that standard inverse-dynamics regression can miss, improving planning success across five visual control benchmarks. | 9 | 8 |
 | 2026-11-24 | [Relation Before Action: Explicit Relation Modeling for Latent Action Pretraining](https://arxiv.org/abs/2611.32226) | Embodied AI: Robot Learning and Manipulation; World Models: Latent Action Models | RELACT improves latent action pretraining by modeling visual transition relations before abstracting them into compact, predictive actions. | 9 | 8 |
 | 2026-11-24 | [Learning Agent States for Latent Action Modeling](https://arxiv.org/abs/2611.32017) | Embodied AI: Robot Learning and Manipulation; World Models: Latent Action Models | Agent-State LAM learns compact representations focused on an agent’s evolving physical state, improving latent action learning for control and world-model prediction. | 8 | 8 |

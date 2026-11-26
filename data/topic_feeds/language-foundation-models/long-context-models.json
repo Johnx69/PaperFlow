@@ -1,6 +1,613 @@
 {
   "days": [
     {
+      "date": "2026-11-25",
+      "paper_count": 2,
+      "papers": [
+        {
+          "abstract": "Agent harnesses today manage context on the model's behalf: when the window fills, the harness triggers a compaction that summarizes the history. We study the alternative, \\emph{model-driven} context management, in which the model itself decides when and what to compact through a context API. We gave models control over their own context in \\nooa, NVIDIA's open source agent harness, and compared the two strategies on document research and machine learning engineering across context budgets from 8K to 512K tokens. Models that use the context API effectively reach higher accuracy, often with fewer input tokens, especially at tight budgets: \\textbf{GPT 6.1 nearly triples its score at a 32K budget} on OfficeQA Pro v2 (21\\%~$\\rightarrow$~56\\%), and \\textbf{Kimi gains with up to 41\\% fewer input tokens}. Models differ widely, however, in how often they use the API, how aggressively they compact, and when they start compacting, and prompt changes shift that timing. Finally, we show that \\textbf{inference engines can make model-driven edits cheaper}: by reusing the KV cache of the unchanged suffix after an edit, \\textbf{we cut prefill compute by up to 15\\% per request with no measurable change in accuracy}. Together, these results point to a new co-design frontier: models trained to manage their own context, served by inference engines that support KV cache editing.",
+          "arxiv_id": "2611.34147",
+          "arxiv_url": "https://arxiv.org/abs/2611.34147",
+          "authors": [
+            "Alessio Devoto, Avinash Vem, Tara Safavi, Sanjay Kariyappa, Yu-Hsuan Tseng, Paul Furgale, Ricardo Silveira Cabral"
+          ],
+          "bullets": [
+            "Replaces harness-triggered summarization with a context API that lets models decide when and what to compact.",
+            "Evaluated on document research and machine learning engineering across 8K–512K-token budgets.",
+            "Effective API use improves performance at tight budgets: GPT 6.1’s OfficeQA Pro v2 score rose from 21% to 56% at 32K tokens, while Kimi used up to 41% fewer input tokens.",
+            "Models vary widely in compaction frequency, aggressiveness, and timing; prompt changes also affect when compaction begins.",
+            "KV-cache reuse after context edits reduced prefill compute by up to 15% per request without measurable accuracy changes."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 8 | Context in use at the first compaction: median % of the context budget, with and without the timing instruction. Each point is the median over tasks of the first compaction decision in that task. It measures when a model starts compacting. A budget with no point means the model never compacted at that budget.",
+              "figure_id": "figure-8-8",
+              "figure_number": "8",
+              "height": 714,
+              "image_path": "figures/2611.34147/figure-001.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 926
+            },
+            {
+              "caption": "Figure 4 | Score vs. context budget, MLE-bench Lite, harness-driven vs. model-driven, by model. Mean over 22 tasks. Scores are leaderboard percentile (missing scores count as zero). Each point averages the verified runs at that budget.",
+              "figure_id": "figure-4-12",
+              "figure_number": "4",
+              "height": 709,
+              "image_path": "figures/2611.34147/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 925
+            },
+            {
+              "caption": "Figure 10 | Score vs. token usage, OfficeQA Pro v2, harness-driven vs. model-driven, by model. Cumulative input tokens; points at 8K–64K are labelled with their context budget. Cumulative input counts all input tokens, cached or not, at every turn. Points are ordered by tokens, so labels may not ascend. Runs below 95% trace coverage are excluded.",
+              "figure_id": "figure-10-7",
+              "figure_number": "10",
+              "height": 667,
+              "image_path": "figures/2611.34147/figure-003.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 925
+            },
+            {
+              "caption": "Figure 3 | Score vs. context budget, OfficeQA Pro v2, harness-driven vs. model-driven, by model. Score is passed tasks over all 90 trials, including errors. Points are equal-weight replicate means; bars span replicate min–max.",
+              "figure_id": "figure-3-9",
+              "figure_number": "3",
+              "height": 635,
+              "image_path": "figures/2611.34147/figure-004.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 925
+            },
+            {
+              "caption": "Figure 11 | Score vs. token usage, MLE-bench Lite, harness-driven vs. model-driven, by model. Total input + output tokens, points labelled with their context budget. Token usage is the total recorded input and output tokens per run, including repeated prompts. Lines join increasing budgets and may turn back in token usage. Kimi K3 points combine several context budgets using equal-weight averages.",
+              "figure_id": "figure-11-3",
+              "figure_number": "11",
+              "height": 736,
+              "image_path": "figures/2611.34147/figure-005.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 925
+            },
+            {
+              "caption": "Figure 1 | In harness-driven context management (top), the harness triggers compaction when context usage reaches a threshold. In model-driven context management (bottom), the model edits its own context along the way.",
+              "figure_id": "figure-1-4",
+              "figure_number": "1",
+              "height": 479,
+              "image_path": "figures/2611.34147/figure-006.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 950
+            },
+            {
+              "caption": "Figure 6 | Left: compression factor per compaction call, the input tokens of the request in which the model decided to compact divided by the input tokens of the next request, which also carries the executed cell’s output. A factor of 2× means the context was halved; below 1× means it grew. Boxes span the middle half of calls with the median inside, whiskers span the 5th to 95th percentile, and the axis is logarithmic. All confirmed compaction calls are pooled across context budgets. Right: share of",
+              "figure_id": "figure-6-5",
+              "figure_number": "6",
+              "height": 308,
+              "image_path": "figures/2611.34147/figure-007.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 919
+            },
+            {
+              "caption": "Figure 13 | Suffix KV reuse versus standard prefix caching, Qwen3.6-27B at 32K context, under model-driven (NOOA’s context API) and harness-driven (summarize, keep the last 10 events) context management. Left: reduction in prefilled input tokens per request. Right: change in reward, measured in each benchmark’s own metric (DeepSWE: fail-to-pass rate; MLE-bench Lite: mean leaderboard percentile; OfficeQA Pro: task score).",
+              "figure_id": "figure-13-10",
+              "figure_number": "13",
+              "height": 352,
+              "image_path": "figures/2611.34147/figure-008.webp",
+              "kind": "figure",
+              "page": 12,
+              "width": 864
+            },
+            {
+              "caption": "Figure 9 | Kimi K3: score vs. cumulative input tokens on OfficeQA Pro v2, each point labelled with its context budget. Cumulative input counts all input tokens, cached or not, at every turn.",
+              "figure_id": "figure-9-11",
+              "figure_number": "9",
+              "height": 410,
+              "image_path": "figures/2611.34147/figure-009.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 637
+            },
+            {
+              "caption": "Figure 5 | Models differ in how often they use the context API. Share of tasks with at least one compaction call, model-driven runs, all budgets.",
+              "figure_id": "figure-5-1",
+              "figure_number": "5",
+              "height": 222,
+              "image_path": "figures/2611.34147/figure-010.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 559
+            },
+            {
+              "caption": "Figure 7 | What models do under context pressure. Share of first-warning episodes by how they resolved, 64K context budget. When the context approaches its limit, we send the model a warning and observe how it responds.",
+              "figure_id": "figure-7-6",
+              "figure_number": "7",
+              "height": 197,
+              "image_path": "figures/2611.34147/figure-011.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 893
+            },
+            {
+              "caption": "Figure 12 | Compacting B shortens the prompt, but the summary and everything after it must be computed again.",
+              "figure_id": "figure-12-2",
+              "figure_number": "12",
+              "height": 220,
+              "image_path": "figures/2611.34147/figure-012.webp",
+              "kind": "figure",
+              "page": 11,
+              "width": 757
+            }
+          ],
+          "first_seen_at": "2026-11-25T21:00:00-05:00",
+          "hero_figure": "figures/2611.34147/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2611.34147",
+          "relevance": 7,
+          "selection_reason": "Model-driven context management and KV-cache reuse for efficient inference; relevant to LLM memory, long-context handling, and memory-efficient serving.",
+          "summary_status": "generated",
+          "title": "Letting Models Manage Their Own Context: Where We Stand",
+          "tldr": "Model-driven context management can substantially improve agent accuracy and token efficiency under tight context budgets, especially when inference engines support efficient KV-cache editing.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "llm-memory",
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Standard attention's key-value cache grows linearly with context length. Bounding it raises the question of what a sequence model should retain for long-context reasoning. We argue this choice should be learned, and introduce State Space Attention (SSA), which learns to keep a bounded set of past representations and reads them with standard attention. A learned scorer rescores every chunk against newly arriving context and the rest of memory. A fixed-context Transformer is then the special case that always keeps the most recent tokens. We train the scorer and reader jointly, either moving gradually from a differentiable soft weighting of memories to hard retention, or with hard retention from the start. To produce signal for the scorer, we generate supervised samples during training, a technique we call recovery. We compare SSA with recurrent models, bounded-memory attention methods, and full-attention Transformers across retrieval, variable tracking, multi-hop reasoning, and language modeling. On our retrieval and reasoning benchmarks, SSA matches or comes within a few points of full attention on most tasks, far outperforms a Transformer with the same readable budget on every long-context retrieval task we evaluate, and matches or outperforms one with about 4 times that budget, while using constant inference memory. The largest remaining gap to full attention at small language model scale is on RULER. SSA makes a fixed number of tokens useful over a longer context, and since it reads memory with standard attention, we propose that it can be stacked with KV cache eviction methods. We also pretrain and post-train 400M-parameter models and measure how SSA's training and inference costs scale with context length and model size. Together, these experiments examine the capabilities and limitations of learned memory retention for long-context sequence modeling.",
+          "arxiv_id": "2611.33625",
+          "arxiv_url": "https://arxiv.org/abs/2611.33625",
+          "authors": [
+            "Ege \\c{C}akar, Cengiz Pehlevan"
+          ],
+          "bullets": [
+            "Addresses the linear growth of standard attention’s key-value cache by learning context-dependent memory retention.",
+            "Uses a learned scorer to rescore memory chunks as new context arrives, while a standard attention reader accesses retained representations.",
+            "Trains retention jointly with reading using either gradual soft-to-hard selection or hard retention from the outset, aided by generated recovery supervision.",
+            "Across retrieval, variable tracking, reasoning, and language modeling, SSA substantially outperforms equal-budget bounded attention and can match or exceed attention with roughly four times its readable budget on retrieval tasks.",
+            "Its main remaining gap to full attention at small model scale is on RULER; the approach is evaluated across different training and inference context/model scales."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.CL"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 2: The scorer at one eviction decision, in the toy configuration of Figure 1. Each resident and the candidate has a summary token, which a linear head maps to a keep score; the lowest is evicted.",
+              "figure_id": "figure-2-24",
+              "figure_number": "2",
+              "height": 260,
+              "image_path": "figures/2611.33625/figure-001.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 499
+            },
+            {
+              "caption": "Figure 1: The bounded attention state at chunk step t, for a toy configuration with M = 4, w = 1, and C = 4. Top: the input, with each chunk colored by its role. Middle: the accessible set St, shared by all layers and heads. Bottom: the scorer rescores the candidate and the M residents and evicts the lowest-scoring chunk (here chunk 5).",
+              "figure_id": "figure-1-15",
+              "figure_number": "1",
+              "height": 240,
+              "image_path": "figures/2611.33625/figure-002.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 498
+            },
+            {
+              "caption": "Figure 3: SSA against a full-attention Transformer for our 400M configuration (4 heads of dimension 256), by context length. (a) Training time per update relative to the Transformer. (b) Peak training memory. (c) Decoding time per generated token. (d) Key–value cache held at inference. The soft phase runs out of memory at 64K.",
+              "figure_id": "figure-3-14",
+              "figure_number": "3",
+              "height": 441,
+              "image_path": "figures/2611.33625/figure-003.webp",
+              "kind": "figure",
+              "page": 34,
+              "width": 673
+            },
+            {
+              "caption": "Table 2: Final 400M post-training results. Each k-hop entry reports generated token accuracy excluding the null symbol (%). Transformer labels denote pretraining context → task-attention window. Metric definitions, training details, and forgetting results are provided in Appendix E.",
+              "figure_id": "table-2-37",
+              "figure_number": "2",
+              "height": 299,
+              "image_path": "figures/2611.33625/table-004.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 830
+            },
+            {
+              "caption": "Table 24: k-hop induction with the source block hidden in an 8K input: answer-token accuracy excluding the null symbol (%), overall and at 4 / 8 / 16 hops in parentheses. Chance is about 25%. Models train for 1,760 updates from the named checkpoint, except in the last block.",
+              "figure_id": "table-24-11",
+              "figure_number": "24",
+              "height": 378,
+              "image_path": "figures/2611.33625/table-005.webp",
+              "kind": "table",
+              "page": 29,
+              "width": 826
+            },
+            {
+              "caption": "Table 1: Held-out SlimPajama negative log-likelihood after 15B-token pretraining, evaluated at 2K and 8K segment lengths. Results use one seed; lower is better.",
+              "figure_id": "table-1-23",
+              "figure_number": "1",
+              "height": 224,
+              "image_path": "figures/2611.33625/table-006.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 464
+            },
+            {
+              "caption": "Table 10: Hybrids in the 3M suite: three GDN layers followed by one SSA layer, with one membership set for the SSA layer or one per head, and the same stack with a full-attention fourth layer (growing memory). Mean at the better learning rate; metrics and markers as in Table 9.",
+              "figure_id": "table-10-28",
+              "figure_number": "10",
+              "height": 458,
+              "image_path": "figures/2611.33625/table-007.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 682
+            },
+            {
+              "caption": "Table 9: SSA variants in the 3M suite: chunk membership shared across layers and heads (the SSA column of Table 8), independent per layer, or independent per layer and head, with FP32 keys and values and 14 retained chunks or BF16 and 30 chunks. Mean at the better learning rate; metrics as in Table 8. †One or more runs in the cell were stopped by the recovery liveness guard (no accepted candidate in 25 hard-phase epochs resulting in early termination) and are excluded. –: no completed run.",
+              "figure_id": "table-9-27",
+              "figure_number": "9",
+              "height": 459,
+              "image_path": "figures/2611.33625/table-008.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 660
+            },
+            {
+              "caption": "Table 3: Cued copying with a 3072-token context: greedy generation exact match (%). Details in App. B.",
+              "figure_id": "table-3-39",
+              "figure_number": "3",
+              "height": 192,
+              "image_path": "figures/2611.33625/table-009.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 548
+            },
+            {
+              "caption": "Table 4: Multi-hop induction at the 3M scale (N = 100, hop counts 0 to 16, fixed training set, no dropout): whole-sequence exact match (%), teacher-forced and greedy, mean [seed range] over three seeds at the learning rate from {10−4, 3 · 10−4} with the better teacher-forced mean. The Transformer rows have a single run per learning rate. GDN + full attention is three GDN layers followed by one full-attention layer (Table 10).",
+              "figure_id": "table-4-29",
+              "figure_number": "4",
+              "height": 253,
+              "image_path": "figures/2611.33625/table-010.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 627
+            },
+            {
+              "caption": "Table 18: Task forgetting over the full 1,760-update k-hop specialization. Values are changes in percentage points; negative values indicate degradation.",
+              "figure_id": "table-18-3",
+              "figure_number": "18",
+              "height": 348,
+              "image_path": "figures/2611.33625/table-011.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 830
+            },
+            {
+              "caption": "Table 32: SSA / Transformer ratio of peak training memory by model size and context length. “oom”: the SSA cell ran out of memory.",
+              "figure_id": "table-32-16",
+              "figure_number": "32",
+              "height": 202,
+              "image_path": "figures/2611.33625/table-012.webp",
+              "kind": "table",
+              "page": 33,
+              "width": 656
+            },
+            {
+              "caption": "Table 31: SSA / Transformer ratios by model size and context length: soft-phase training time per update, and time to read the prompt at inference. “oom”: the SSA cell ran out of memory.",
+              "figure_id": "table-31-18",
+              "figure_number": "31",
+              "height": 201,
+              "image_path": "figures/2611.33625/table-013.webp",
+              "kind": "table",
+              "page": 33,
+              "width": 656
+            },
+            {
+              "caption": "Table 29: Cost of SSA relative to a full-attention Transformer of the same shape and parameter count (SSA / Transformer; below 1 means SSA is cheaper), by model size (parameters outside the embedding table) and context length. Every shape uses attention heads of dimension 64. SSA reads 576 tokens at every context length. Training: time per update in the hard phase, without recovery. Decoding: time per generated token after the prompt. One GPU, protocol and further tables in App. F.",
+              "figure_id": "table-29-33",
+              "figure_number": "29",
+              "height": 201,
+              "image_path": "figures/2611.33625/table-014.webp",
+              "kind": "table",
+              "page": 32,
+              "width": 652
+            },
+            {
+              "caption": "Table 11: Analytical persistent state at 400M scale, batch size one. MiB denotes 220 bytes.",
+              "figure_id": "table-11-6",
+              "figure_number": "11",
+              "height": 171,
+              "image_path": "figures/2611.33625/table-015.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 432
+            },
+            {
+              "caption": "Table 12: Training budgets for the final 400M comparison. Learning rates are reader peak rates.",
+              "figure_id": "table-12-7",
+              "figure_number": "12",
+              "height": 143,
+              "image_path": "figures/2611.33625/table-016.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 448
+            },
+            {
+              "caption": "Table 13: 400M k-hop (N = 256) after specialization, by hop count: greedy whole-sequence exact match / token accuracy over all answer tokens (%). The main text reports token accuracy excluding the null symbol (Table 2).",
+              "figure_id": "table-13-12",
+              "figure_number": "13",
+              "height": 234,
+              "image_path": "figures/2611.33625/table-017.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 590
+            },
+            {
+              "caption": "Table 14: Original-size SSA after 1,560 post-training updates on the same 99,840 primary examples, with one seed. Accuracy metrics are percentages; lower perplexity is better. The global-recovery column is historical and also differs in implementation version and GPU/microbatch execution. Two same-seed reruns of the equal-family pilot reached 29.7 and 28.8 on MKVT at 2K (see text).",
+              "figure_id": "table-14-21",
+              "figure_number": "14",
+              "height": 212,
+              "image_path": "figures/2611.33625/table-018.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 436
+            },
+            {
+              "caption": "Table 15: Matched SSA pilots after 1,560 updates. Both use equal-family recovery. Accuracy metrics are percentages; lower perplexity is better.",
+              "figure_id": "table-15-36",
+              "figure_number": "15",
+              "height": 234,
+              "image_path": "figures/2611.33625/table-019.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 444
+            },
+            {
+              "caption": "Table 17: RULER task scores (%) after 7,800 mixed-task updates. Each task and context uses 500 test examples.",
+              "figure_id": "table-17-2",
+              "figure_number": "17",
+              "height": 379,
+              "image_path": "figures/2611.33625/table-020.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 452
+            },
+            {
+              "caption": "Table 16: SSA mixed-task refinement at matched cumulative update counts, before dedicated k-hop specialization. Both use equal-family recovery during refinement, though they differ in post-training pilot recovery settings (see the repository for more details).",
+              "figure_id": "table-16-1",
+              "figure_number": "16",
+              "height": 263,
+              "image_path": "figures/2611.33625/table-021.webp",
+              "kind": "table",
+              "page": 25,
+              "width": 518
+            },
+            {
+              "caption": "Table 5: Fresh-data multi-hop induction, both tested learning rates. Teacher-forced whole-sequence exact match (%), mean [range] of two completed seeds. These cells underlie learning-rate selection in Table 6.",
+              "figure_id": "table-5-31",
+              "figure_number": "5",
+              "height": 150,
+              "image_path": "figures/2611.33625/table-022.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 586
+            },
+            {
+              "caption": "Table 6: Multi-hop induction at 20M: teacher-forced whole-sequence exact match (%). Fresh data resamples the training set every epoch; with fresh data, SSA and the Transformers also use dropout 0.1, and GDN and HOLA use none. Details in App. B. laLTE was not run at 20M; at 3M it slightly trails SSA on this task (Table 4).",
+              "figure_id": "table-6-32",
+              "figure_number": "6",
+              "height": 150,
+              "image_path": "figures/2611.33625/table-023.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 582
+            },
+            {
+              "caption": "Table 7: Additional retention comparisons: greedy generation exact match (%), mean of completed seeds (three; for copy join, learned retention has two at 10−4) at the better of two learning rates. Each task uses identical reader capacity across the three policies.",
+              "figure_id": "table-7-30",
+              "figure_number": "7",
+              "height": 108,
+              "image_path": "figures/2611.33625/table-024.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 560
+            },
+            {
+              "caption": "Table 22: Training-free cache eviction on the post-trained 400M Transformers, at 8K (%). Each cell gives the 2K-pretrained / the 8K-pretrained Transformer. SSA is its own model (trainable scorer, Table 2).",
+              "figure_id": "table-22-35",
+              "figure_number": "22",
+              "height": 223,
+              "image_path": "figures/2611.33625/table-025.webp",
+              "kind": "table",
+              "page": 27,
+              "width": 806
+            },
+            {
+              "caption": "Table 8: laLTE versus SSA (shared, FP32, 14 chunks) in the 3M suite: mean at the better learning rate. MQAR is teacher-forced answer-character accuracy, WikiText is character perplexity (lower is better), and all other rows are greedy generation exact (%). Task definitions for all 3M-suite tasks are in our repository.",
+              "figure_id": "table-8-20",
+              "figure_number": "8",
+              "height": 419,
+              "image_path": "figures/2611.33625/table-026.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 356
+            },
+            {
+              "caption": "Table 34: Completed Transformer MKVT experiments. Solved cases have teacher-forced wholeanswer exact match ≥ 99% on 1024 fixed-target validation examples. Name randomization applies only during language training. The auxiliary source head uses task annotations and is reported as a separate supervised control.",
+              "figure_id": "table-34-13",
+              "figure_number": "34",
+              "height": 252,
+              "image_path": "figures/2611.33625/table-027.webp",
+              "kind": "table",
+              "page": 34,
+              "width": 564
+            },
+            {
+              "caption": "Table 27: Held-out perplexity at 8K with SSA’s 576-token budget (R = 36 chunks), by window size w, with memory kept by SSA’s scorer, by random eviction or by a reservoir sample. The last row reads no memory: a sliding window over the 35 most recent chunks. The learned-memory row at w = 1 is SSA’s original evaluation (Tables 2 and 26); the other learned-memory rows come from a probe on a different GPU type, on which the w = 1 values are 27.08 and 25.06.",
+              "figure_id": "table-27-8",
+              "figure_number": "27",
+              "height": 232,
+              "image_path": "figures/2611.33625/table-028.webp",
+              "kind": "table",
+              "page": 30,
+              "width": 572
+            },
+            {
+              "caption": "Table 33: Inference for our 400M configuration: decoding time per generated token, time to read the prompt, and key–value cache held.",
+              "figure_id": "table-33-17",
+              "figure_number": "33",
+              "height": 202,
+              "image_path": "figures/2611.33625/table-029.webp",
+              "kind": "table",
+              "page": 33,
+              "width": 640
+            },
+            {
+              "caption": "Table 19: Change in held-out language perplexity over the full 1,760-update specialization. Positive values indicate degradation.",
+              "figure_id": "table-19-4",
+              "figure_number": "19",
+              "height": 254,
+              "image_path": "figures/2611.33625/table-030.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 410
+            },
+            {
+              "caption": "Table 37: SSA MKVT at the end of training (epoch 339). Each arm contains twelve task–seed cases. Exact is fixed-final-task teacher-forced whole-answer exact on 1024 validation examples.",
+              "figure_id": "table-37-25",
+              "figure_number": "37",
+              "height": 160,
+              "image_path": "figures/2611.33625/table-031.webp",
+              "kind": "table",
+              "page": 36,
+              "width": 514
+            },
+            {
+              "caption": "Table 20: Generated 16-hop token accuracy (%), excluding the null symbol, at matched numbers of dedicated k-hop updates.",
+              "figure_id": "table-20-5",
+              "figure_number": "20",
+              "height": 130,
+              "image_path": "figures/2611.33625/table-032.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 390
+            },
+            {
+              "caption": "Table 30: Training cost of our 400M configuration (the 367M shape with 4 heads of dimension 256): time per update on one sequence, with the ratio to the Transformer in parentheses, and peak allocated memory. “oom”: the cell ran out of memory.",
+              "figure_id": "table-30-34",
+              "figure_number": "30",
+              "height": 202,
+              "image_path": "figures/2611.33625/table-033.webp",
+              "kind": "table",
+              "page": 32,
+              "width": 740
+            },
+            {
+              "caption": "Table 28: Time per update in the 400M training runs, with the ratio to the Transformer in parentheses. GPU types differ between rows.",
+              "figure_id": "table-28-38",
+              "figure_number": "28",
+              "height": 180,
+              "image_path": "figures/2611.33625/table-034.webp",
+              "kind": "table",
+              "page": 31,
+              "width": 814
+            },
+            {
+              "caption": "Table 25: Held-out perplexity of SSA with its learned retention rule and with two fixed rules forced at evaluation. The pretrained learned values are those of Table 1 (2.656 and 4.334 nats). The posttrained values come from a different GPU type than Table 2, changing the learned-rule NLL by under 0.2%.",
+              "figure_id": "table-25-10",
+              "figure_number": "25",
+              "height": 181,
+              "image_path": "figures/2611.33625/table-035.webp",
+              "kind": "table",
+              "page": 29,
+              "width": 782
+            },
+            {
+              "caption": "Table 23: Dynamic Memory Sparsification and Dynamic Context Pruning against SSA and the full-attention Transformer they start from, after the same 9,560 post-training updates (%, except perplexity). k-hop is N = 256; its token accuracy excludes the null symbol. DCP decides per layer, so its tokens per head are its tokens per layer.",
+              "figure_id": "table-23-22",
+              "figure_number": "23",
+              "height": 170,
+              "image_path": "figures/2611.33625/table-036.webp",
+              "kind": "table",
+              "page": 28,
+              "width": 830
+            },
+            {
+              "caption": "Table 35: MKVT language and retrieval budgets. The longer language phase adds training before the same retrieval budget.",
+              "figure_id": "table-35-19",
+              "figure_number": "35",
+              "height": 151,
+              "image_path": "figures/2611.33625/table-037.webp",
+              "kind": "table",
+              "page": 35,
+              "width": 710
+            },
+            {
+              "caption": "Table 36: Retrieval onset with extended language pretraining and randomized names. Onset means first-stage teacher-forced answer exact match ≥ 90%. Final success uses the separate fixed-target metric.",
+              "figure_id": "table-36-26",
+              "figure_number": "36",
+              "height": 139,
+              "image_path": "figures/2611.33625/table-038.webp",
+              "kind": "table",
+              "page": 36,
+              "width": 594
+            },
+            {
+              "caption": "Table 26: Held-out perplexity with query–key distances capped at the pretraining length, at evaluation only.",
+              "figure_id": "table-26-9",
+              "figure_number": "26",
+              "height": 88,
+              "image_path": "figures/2611.33625/table-039.webp",
+              "kind": "table",
+              "page": 30,
+              "width": 498
+            }
+          ],
+          "first_seen_at": "2026-11-25T21:00:00-05:00",
+          "hero_figure": "figures/2611.33625/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2611.33625",
+          "relevance": 8,
+          "selection_reason": "Learned bounded-memory retention for long-context sequence models; directly relevant to long-context modeling and memory efficiency.",
+          "summary_status": "generated",
+          "title": "State Space Attention: Learning Context-Dependent Memory Retention",
+          "tldr": "State Space Attention learns which past representations to retain in a bounded memory, enabling long-context reasoning with constant inference memory and performance often close to full attention.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "llm-memory",
+                "long-context-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-24",
       "paper_count": 4,
       "papers": [
@@ -17319,191 +17926,10 @@
             "cs.AI",
             "cs.CL"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Figure 2: Examples of poDFAs; the vertices are the states and the arrows are the transition functions δ. Figure (a) represents the transformer that outputs “1” as soon as the input word has entered the language L2 := aΣ∗bΣ∗ with (b) being the associated poDFA. Similarly, (c) depicts the transformer that recognizes the language L3 := aΣ∗bΣ∗aΣ∗ and (d) is its corresponding poDFA. Figure (e) is the poDFA A∆ of the difference function between these two transformers. Any disagreement sends the run to the absorbing final state ⊥.",
-              "figure_id": "figure-2-11",
-              "figure_number": "2",
-              "height": 341,
-              "image_path": "figures/2610.35715/figure-001.webp",
-              "kind": "figure",
-              "page": 4,
-              "width": 829
-            },
-            {
-              "caption": "Figure 5: Tradeoff between the training length and the sample size for one task of each language class: Alternating L6, Alphabet A15 and Induction Head IH 7. Evaluation at length 5 times the training length. Brown contouring around all cells with accuracy ≥ 0.75. Under this condition, the 3 cells with the smallest tokenbudget are framed.",
-              "figure_id": "figure-5-15",
-              "figure_number": "5",
-              "height": 239,
-              "image_path": "figures/2610.35715/figure-002.webp",
-              "kind": "figure",
-              "page": 9,
-              "width": 783
-            },
-            {
-              "caption": "Figure 3: Schematic error-budget limit lines with linear axes. At K = C, every budget can be respected with N ∼ O(sC) training samples. By length K = sC, at least half of the words have reached their terminal absorbing states, so each curve is within a factor 2 of its floor; further length gains saturate.",
-              "figure_id": "figure-3-5",
-              "figure_number": "3",
-              "height": 309,
-              "image_path": "figures/2610.35715/figure-003.webp",
-              "kind": "figure",
-              "page": 7,
-              "width": 402
-            },
-            {
-              "caption": "Figure 6: Impact of teacher’s size on data complexity. Lk probes teacher depth Lt; Ak jointly varies Ht, Dt, and |Σ|; IH k varies alphabet size, width requirements, and output dimension. Student backbones are fixed within each family, while K follows the task-specific coverage criterion.",
-              "figure_id": "figure-6-14",
-              "figure_number": "6",
-              "height": 565,
-              "image_path": "figures/2610.35715/figure-004.webp",
-              "kind": "figure",
-              "page": 56,
-              "width": 814
-            },
-            {
-              "caption": "Figure 7: Impact of teacher’s size on length complexity. Lk probes teacher depth Lt; Ak jointly varies Ht, Dt, and |Σ|; IH k varies alphabet size, width requirements, and output dimension. Tasks are compared at shared values of K, with N and student backbones fixed. For relative evaluations, early accuracy is sometimes high for tasks that are trivial on short words: words of length 3K or 5K might still be short and have a trivial target.",
-              "figure_id": "figure-7-2",
-              "figure_number": "7",
-              "height": 566,
-              "image_path": "figures/2610.35715/figure-005.webp",
-              "kind": "figure",
-              "page": 57,
-              "width": 812
-            },
-            {
-              "caption": "Figure 8: Impact of the student’s depth on length generalization. We vary Ls while holding Ds and Hs fixed.",
-              "figure_id": "figure-8-3",
-              "figure_number": "8",
-              "height": 566,
-              "image_path": "figures/2610.35715/figure-006.webp",
-              "kind": "figure",
-              "page": 58,
-              "width": 812
-            },
-            {
-              "caption": "Figure 10: Impact of the student’s head count on length generalization. We vary Hs while holding Ls and Ds fixed.",
-              "figure_id": "figure-10-17",
-              "figure_number": "10",
-              "height": 566,
-              "image_path": "figures/2610.35715/figure-007.webp",
-              "kind": "figure",
-              "page": 59,
-              "width": 812
-            },
-            {
-              "caption": "Figure 9: Impact of the student’s embedding dimension on length generalization. We vary Ds while holding Ls and Hs fixed.",
-              "figure_id": "figure-9-16",
-              "figure_number": "9",
-              "height": 566,
-              "image_path": "figures/2610.35715/figure-008.webp",
-              "kind": "figure",
-              "page": 59,
-              "width": 812
-            },
-            {
-              "caption": "Figure 12: Control experiment for L6, A15, and IH 7, with evaluation at relative test length 5K. The axis labelled N gives the total token budget of the dataset rather than the number of words.",
-              "figure_id": "figure-12-4",
-              "figure_number": "12",
-              "height": 246,
-              "image_path": "figures/2610.35715/figure-009.webp",
-              "kind": "figure",
-              "page": 62,
-              "width": 824
-            },
-            {
-              "caption": "Figure 4: Left: Impact of teacher’s size on length complexity. Larger teachers require training samples to be longer. The abscissa scale is linear, as suggested by theory. Right: Impact of teacher’s size on data complexity. Larger teachers require more training samples for similar length generalization performance. The abscissa scale is logarithmic, as suggested by theory. On both sides, the plotted tasks are respectively the Alternating L4, L5, L6, L7, the Alphabet A10, A12, A15, A20 and the Induction Head IH 5, IH 6, IH 7, IH 8.",
-              "figure_id": "figure-4-9",
-              "figure_number": "4",
-              "height": 204,
-              "image_path": "figures/2610.35715/figure-010.webp",
-              "kind": "figure",
-              "page": 8,
-              "width": 823
-            },
-            {
-              "caption": "Figure 1: Our results predict that increasing the length of the training words can be much more token-efficient than increasing their number; test accuracy for the language A15 (Sec. 5) on words five times longer than the training length. We highlight in red the highest-accuracy cell at five different training token budgets.",
-              "figure_id": "figure-1-1",
-              "figure_number": "1",
-              "height": 351,
-              "image_path": "figures/2610.35715/figure-011.webp",
-              "kind": "figure",
-              "page": 1,
-              "width": 364
-            },
-            {
-              "caption": "Figure 11: Tradeoff between training length and data complexity. One task of each family: L6, A15 and IH 7 to study the tradeoff between the two quantities.",
-              "figure_id": "figure-11-6",
-              "figure_number": "11",
-              "height": 1202,
-              "image_path": "figures/2610.35715/figure-012.webp",
-              "kind": "figure",
-              "page": 61,
-              "width": 827
-            },
-            {
-              "caption": "Figure 17: Tradeoff between training length and data complexity: evaluation on absolute lengths, from length 50 to length 500 with additive incrementation of 50. For their respective maximum token-budget threshold, highlighted in red are the 3 configurations that achieve the best accuracy.",
-              "figure_id": "figure-17-10",
-              "figure_number": "17",
-              "height": 1163,
-              "image_path": "figures/2610.35715/figure-013.webp",
-              "kind": "figure",
-              "page": 67,
-              "width": 827
-            },
-            {
-              "caption": "Figure 13: Tradeoff between training length and data complexity: evaluation on absolute lengths, from length 50 to length 500 with additive incrementation of 50.",
-              "figure_id": "figure-13-18",
-              "figure_number": "13",
-              "height": 1162,
-              "image_path": "figures/2610.35715/figure-014.webp",
-              "kind": "figure",
-              "page": 63,
-              "width": 827
-            },
-            {
-              "caption": "Figure 15: Tradeoff between training length and data complexity: evaluation on absolute lengths, from length 50 to length 500 with additive incrementation of 50. Red contouring for accuracy ≥ 0.75; highlighted in red are the 3 configurations under this constraint that have the smallest token-budget.",
-              "figure_id": "figure-15-8",
-              "figure_number": "15",
-              "height": 1162,
-              "image_path": "figures/2610.35715/figure-015.webp",
-              "kind": "figure",
-              "page": 65,
-              "width": 827
-            },
-            {
-              "caption": "Figure 18: Tradeoff between training length and data complexity: evaluation on relative lengths 1K, 2K, 3K, 4K, 5K, with K the training length of the involved cells configuration. For their respective maximum token-budget threshold, highlighted in red are the 3 configurations that achieve the best accuracy.",
-              "figure_id": "figure-18-13",
-              "figure_number": "18",
-              "height": 747,
-              "image_path": "figures/2610.35715/figure-016.webp",
-              "kind": "figure",
-              "page": 68,
-              "width": 827
-            },
-            {
-              "caption": "Figure 14: Tradeoff between training length and data complexity: evaluation on relative lengths 1K, 2K, 3K, 4K, 5K, with K the training length of the involved cells configuration.",
-              "figure_id": "figure-14-12",
-              "figure_number": "14",
-              "height": 746,
-              "image_path": "figures/2610.35715/figure-017.webp",
-              "kind": "figure",
-              "page": 64,
-              "width": 827
-            },
-            {
-              "caption": "Figure 16: Tradeoff between training length and data complexity: evaluation on relative lengths 1K, 2K, 3K, 4K, 5K, with K the training length of the involved cells configuration. Red contouring for accuracy ≥ 0.75; highlighted in red are the 3 configurations under this constraint that have the smallest tokenbudget.",
-              "figure_id": "figure-16-7",
-              "figure_number": "16",
-              "height": 746,
-              "image_path": "figures/2610.35715/figure-018.webp",
-              "kind": "figure",
-              "page": 66,
-              "width": 827
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-26T21:00:00-04:00",
-          "hero_figure": "figures/2610.35715/hero.webp",
+          "hero_figure": null,
           "novelty": 7,
           "pdf_url": "https://arxiv.org/pdf/2610.35715",
           "relevance": 5,
@@ -17539,101 +17965,10 @@
             "cs.AI",
             "cs.CV"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Figure 1: Comparison of context storage and retrieval mechanisms between existing methods and ours. Standard attention retains token-level keys and values and allows the query to attend directly to all preceding tokens, whereas Linear attention compresses the context into a shared recurrent state to alleviate the huge KV cache memory. RAVEN maintains M recurrent slots but routes every token to a fixed number K of slots. Our Factorized Write Routing (FWR) first uses a token-level gate zt to decide whether to write, and then allocates the retained token to a token-adaptive number Kt of slots. Both RAVEN and FWR read densely over all M slots, they differ in their write policies. The labels fi and di illustrate tokens that are relevant and irrelevant, respectively, to the future query q; these relevance labels are unavailable to the learned gate at inference time.",
-              "figure_id": "figure-1-6",
-              "figure_number": "1",
-              "height": 448,
-              "image_path": "figures/2610.34180/figure-001.webp",
-              "kind": "figure",
-              "page": 3,
-              "width": 941
-            },
-            {
-              "caption": "Figure 2: FWR separates token selection from slot allocation. A skipped token changes no slot; a kept token updates either a fixed or token-adaptive number of slots. Reading remains dense, so a query need not predict the write-time slot identity.",
-              "figure_id": "figure-2-7",
-              "figure_number": "2",
-              "height": 354,
-              "image_path": "figures/2610.34180/figure-002.webp",
-              "kind": "figure",
-              "page": 4,
-              "width": 361
-            },
-            {
-              "caption": "Table 3: Ten-seed mechanism comparison on LONGMEAN. Non-deterministic entries report mean ± standard deviation across matched seeds 1–10. Hyperparameters are fixed before test evaluation. Bold marks the highest deployable mean per task. Oracle methods (†) use ground-truth token-type labels and are diagnostic. Paired inference for five pre-specified contrasts appears in Appendix Table 7.",
-              "figure_id": "table-3-4",
-              "figure_number": "3",
-              "height": 381,
-              "image_path": "figures/2610.34180/table-003.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 906
-            },
-            {
-              "caption": "Table 2: Ten-seed comparison of two RAVEN write-allocation rules. Positive ∆ favors RAVEN-DENSE; “dense favored” means that the paired 95% confidence interval excludes zero. LONGMEAN averages only context lengths longer than training.",
-              "figure_id": "table-2-5",
-              "figure_number": "2",
-              "height": 306,
-              "image_path": "figures/2610.34180/table-004.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 852
-            },
-            {
-              "caption": "Table 7: Pre-specified paired contrasts across seeds 1–10 for the validation-selected configurations in Table 3. ∆ > 0 favors the first method. Confidence intervals are two-sided Student-t intervals over seed-wise differences. The three fixed-allocation contrasts hold K = 4 constant.",
-              "figure_id": "table-7-8",
-              "figure_number": "7",
-              "height": 154,
-              "image_path": "figures/2610.34180/table-005.webp",
-              "kind": "table",
-              "page": 12,
-              "width": 900
-            },
-            {
-              "caption": "Table 1: The tasks share the same key–value recall objective but differ in future-relevant information density.",
-              "figure_id": "table-1-1",
-              "figure_number": "1",
-              "height": 173,
-              "image_path": "figures/2610.34180/table-006.webp",
-              "kind": "table",
-              "page": 6,
-              "width": 397
-            },
-            {
-              "caption": "Table 5: Validation-selected configurations for the mechanism study in Table 3. These are configuration details, not additional test results.",
-              "figure_id": "table-5-3",
-              "figure_number": "5",
-              "height": 352,
-              "image_path": "figures/2610.34180/table-007.webp",
-              "kind": "table",
-              "page": 11,
-              "width": 438
-            },
-            {
-              "caption": "Table 4: The symmetric factorial design distinguishes token selection from slot allocation.",
-              "figure_id": "table-4-2",
-              "figure_number": "4",
-              "height": 194,
-              "image_path": "figures/2610.34180/table-008.webp",
-              "kind": "table",
-              "page": 11,
-              "width": 411
-            },
-            {
-              "caption": "Table 6: Auxiliary comparison of single-state and multi-state memory under the earlier prototype protocol. The metric is best validation accuracy, not the LONGMEAN test metric used in the main experiments. Three-run entries are mean ± standard deviation; rows without error bars contain one run. GLA-style is an internal lightweight gated baseline rather than an official GLA implementation. Bold marks the highest observed value within each pilot task, not a statistically established winner.",
-              "figure_id": "table-6-9",
-              "figure_number": "6",
-              "height": 207,
-              "image_path": "figures/2610.34180/table-009.webp",
-              "kind": "table",
-              "page": 12,
-              "width": 808
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-26T21:00:00-04:00",
-          "hero_figure": "figures/2610.34180/hero.webp",
+          "hero_figure": null,
           "novelty": 8,
           "pdf_url": "https://arxiv.org/pdf/2610.34180",
           "relevance": 7,
@@ -17669,221 +18004,10 @@
             "cs.CL",
             "cs.AI"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Figure 2: Overview of TreeFuse. (a) A single generation constructs a semantic hierarchy whose nodes are aligned to original source spans. (b) Structural–semantic scoring and fine-grained lexical attribution independently nominate nodes from this shared representation. (c) Their union is completed with ancestor nodes and used to prune the original tree. Retained nodes preserve their structural relations and complete local source text for answering.",
-              "figure_id": "figure-2-14",
-              "figure_number": "2",
-              "height": 288,
-              "image_path": "figures/2610.34146/figure-001.webp",
-              "kind": "figure",
-              "page": 4,
-              "width": 822
-            },
-            {
-              "caption": "Figure 3: Three paradigms for constructing an answer context. Flat methods organize text as independent units and retrieve, prune, or rewrite them; prior hierarchical methods build methoddependent trees and retrieve, expand, merge, or refine tree regions; TreeFuse constructs a reusable source-grounded semantic hierarchy from the full document, prunes it to an ancestor-closed retained subtree for each query, and serializes the complete local source spans while preserving the original parent–child relations and sibling order.",
-              "figure_id": "figure-3-5",
-              "figure_number": "3",
-              "height": 329,
-              "image_path": "figures/2610.34146/figure-002.webp",
-              "kind": "figure",
-              "page": 15,
-              "width": 818
-            },
-            {
-              "caption": "Figure 4: Compression–performance trade-off on Qasper, HotpotQA, and 2WikiMQA, averaged over Qwen3.8-Max, DeepSeek-V4-Pro, Kimi-K2.6, and GLM-5.3. Compression rate is the percentage of raw context characters removed. The vertical axis starts below 0% so Raw remains visible. Moving right indicates better QA-F1, whereas moving upward indicates stronger compression.",
-              "figure_id": "figure-4-20",
-              "figure_number": "4",
-              "height": 250,
-              "image_path": "figures/2610.34146/figure-003.webp",
-              "kind": "figure",
-              "page": 20,
-              "width": 812
-            },
-            {
-              "caption": "Figure 1: A schematic example contrasts full context with distractors, incomplete retrieval with missing support, and TREEFUSE’s focused context retaining both supporting statements.",
-              "figure_id": "figure-1-8",
-              "figure_number": "1",
-              "height": 375,
-              "image_path": "figures/2610.34146/figure-004.webp",
-              "kind": "figure",
-              "page": 2,
-              "width": 385
-            },
-            {
-              "caption": "Table 1: LongBench QA-F1 (three-run means). Overall averages four models; parentheses show changes from Raw. Bold/underline mark the best/second-best means.",
-              "figure_id": "table-1-1",
-              "figure_number": "1",
-              "height": 574,
-              "image_path": "figures/2610.34146/table-005.webp",
-              "kind": "table",
-              "page": 6,
-              "width": 828
-            },
-            {
-              "caption": "Table 7: Comparison with evaluated baselines and selected related methods. ‘Reuse’ denotes a document representation shared across queries. ‘Train’ denotes method-specific parameter updates.",
-              "figure_id": "table-7-4",
-              "figure_number": "7",
-              "height": 372,
-              "image_path": "figures/2610.34146/table-006.webp",
-              "kind": "table",
-              "page": 15,
-              "width": 827
-            },
-            {
-              "caption": "Table 9: Method settings. Entries marked as defaults refer to the implementation.",
-              "figure_id": "table-9-16",
-              "figure_number": "9",
-              "height": 296,
-              "image_path": "figures/2610.34146/table-007.webp",
-              "kind": "table",
-              "page": 17,
-              "width": 827
-            },
-            {
-              "caption": "Table 2: LaRA accuracy (%) averaged over three answer runs. Overall averages the four models, with changes from Raw in parentheses.",
-              "figure_id": "table-2-10",
-              "figure_number": "2",
-              "height": 211,
-              "image_path": "figures/2610.34146/table-008.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 415
-            },
-            {
-              "caption": "Table 12: Additional comparisons with adjusted baseline context lengths. LongBench reports mean QA-F1 across the three tasks and LaRA reports accuracy. Context is the mean percentage of rawcontext characters retained across the corresponding models and tasks.",
-              "figure_id": "table-12-7",
-              "figure_number": "12",
-              "height": 347,
-              "image_path": "figures/2610.34146/table-009.webp",
-              "kind": "table",
-              "page": 21,
-              "width": 827
-            },
-            {
-              "caption": "Table 14: Break-even thresholds and modeled reductions in proxy-weighted successful-path input work under the stated κ. Raw and TREEFUSE are Qwen3.6 input-token equivalents per question, including preprocessing for TREEFUSE. Percentages are computed from the displayed rounded proxy totals.",
-              "figure_id": "table-14-11",
-              "figure_number": "14",
-              "height": 409,
-              "image_path": "figures/2610.34146/table-010.webp",
-              "kind": "table",
-              "page": 22,
-              "width": 828
-            },
-            {
-              "caption": "Table 3: Evidence coverage, purity, and ECP (%). Overall QA-F1 is reused from Table 1.",
-              "figure_id": "table-3-9",
-              "figure_number": "3",
-              "height": 313,
-              "image_path": "figures/2610.34146/table-011.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 448
-            },
-            {
-              "caption": "Table 5: Effects of semantic units and hierarchy.",
-              "figure_id": "table-5-13",
-              "figure_number": "5",
-              "height": 167,
-              "image_path": "figures/2610.34146/table-012.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 415
-            },
-            {
-              "caption": "Table 4: Effects of semantic and lexical selection.",
-              "figure_id": "table-4-12",
-              "figure_number": "4",
-              "height": 165,
-              "image_path": "figures/2610.34146/table-013.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 415
-            },
-            {
-              "caption": "Table 6: Effects of tree-construction strategy.",
-              "figure_id": "table-6-18",
-              "figure_number": "6",
-              "height": 143,
-              "image_path": "figures/2610.34146/table-014.webp",
-              "kind": "table",
-              "page": 9,
-              "width": 415
-            },
-            {
-              "caption": "Table 15: Changes made by each ablation variant.",
-              "figure_id": "table-15-2",
-              "figure_number": "15",
-              "height": 294,
-              "image_path": "figures/2610.34146/table-015.webp",
-              "kind": "table",
-              "page": 25,
-              "width": 827
-            },
-            {
-              "caption": "Table 10: Models and context settings for the main baseline comparison.",
-              "figure_id": "table-10-15",
-              "figure_number": "10",
-              "height": 213,
-              "image_path": "figures/2610.34146/table-016.webp",
-              "kind": "table",
-              "page": 19,
-              "width": 827
-            },
-            {
-              "caption": "Table 11: Run-level variability for the main comparison. Each entry is the four-model Overall mean with its 95% Student-t interval over three decoding runs. The intervals characterize run variability on the fixed evaluation sample and contexts only.",
-              "figure_id": "table-11-19",
-              "figure_number": "11",
-              "height": 138,
-              "image_path": "figures/2610.34146/table-017.webp",
-              "kind": "table",
-              "page": 20,
-              "width": 828
-            },
-            {
-              "caption": "Table 13: Preprocessing input-token accounting. Construction and selection columns are perquestion Qwen3.6 inputs. D and N describe the indexed collection used to amortize preprocessing. Values are rounded.",
-              "figure_id": "table-13-6",
-              "figure_number": "13",
-              "height": 129,
-              "image_path": "figures/2610.34146/table-018.webp",
-              "kind": "table",
-              "page": 21,
-              "width": 827
-            },
-            {
-              "caption": "Table 16: Conditional evidence and answer differences with Qwen3.8-Max. Each cell reports ∆Span Recall in percentage points / ∆QA-F1 in score points. BM denotes approximate characterbudget matching.",
-              "figure_id": "table-16-3",
-              "figure_number": "16",
-              "height": 109,
-              "image_path": "figures/2610.34146/table-019.webp",
-              "kind": "table",
-              "page": 26,
-              "width": 828
-            },
-            {
-              "caption": "Table 17: Evidence retention for the Qasper weight-adjustment case. Span Recall and QA-F1 use a 0–100 scale; QA-F1 averages three Qwen3.8-Max answer runs. BM matches mean character budgets, not individual context lengths.",
-              "figure_id": "table-17-17",
-              "figure_number": "17",
-              "height": 109,
-              "image_path": "figures/2610.34146/table-020.webp",
-              "kind": "table",
-              "page": 27,
-              "width": 828
-            },
-            {
-              "caption": "Table 8: Principal interfaces used for construction, selection, and answering. Only fields relevant to the all-node selection path are shown.",
-              "figure_id": "table-8-21",
-              "figure_number": "8",
-              "height": 36,
-              "image_path": "figures/2610.34146/table-021.webp",
-              "kind": "table",
-              "page": 16,
-              "width": 827
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-26T21:00:00-04:00",
-          "hero_figure": "figures/2610.34146/hero.webp",
+          "hero_figure": null,
           "novelty": 7,
           "pdf_url": "https://arxiv.org/pdf/2610.34146",
           "relevance": 8,
@@ -17918,131 +18042,10 @@
             "cs.AI",
             "cs.DC"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Figure 7: Breakdown of one training step of the full GLM5.1 at 1M, first pipeline stage.",
-              "figure_id": "figure-7-9",
-              "figure_number": "7",
-              "height": 223,
-              "image_path": "figures/2610.32057/figure-001.webp",
-              "kind": "figure",
-              "page": 8,
-              "width": 487
-            },
-            {
-              "caption": "Figure 1: One training step of GLM-5.1 in Megatron-LM on 512 H20 GPUs (PP8×CP32×DP2 at 256K, PP8×CP64 at 512K, PP4×CP128 at 1M) with 8K tokens per GPU and full activation recomputation of every layer (Korthikanti et al., 2023), first pipeline stage. Step times exclude the pipeline wait, with the attention layer in color and the rest of the step in gray.",
-              "figure_id": "figure-1-6",
-              "figure_number": "1",
-              "height": 208,
-              "image_path": "figures/2610.32057/figure-002.webp",
-              "kind": "figure",
-              "page": 3,
-              "width": 476
-            },
-            {
-              "caption": "Figure 6: Full GLM-5.1 on 512 H20 GPUs from its released weights, with 8K tokens per GPU and 4M tokens per step; each sample is one sequence. The runs use PP8×CP32×DP2×EP64 at 256K, PP8×CP64×EP64 at 512K, and PP4×CP128×EP128 at 1M. Both systems force balanced MoE routing and use momentum-free SGD with MegatronLM’s distributed optimizer. Step times average steps 4 to 10.",
-              "figure_id": "figure-6-8",
-              "figure_number": "6",
-              "height": 259,
-              "image_path": "figures/2610.32057/figure-003.webp",
-              "kind": "figure",
-              "page": 8,
-              "width": 994
-            },
-            {
-              "caption": "Figure 3: A learned sparse attention layer in HyScale, drawn in the same lanes as Figure 2 (not to scale). Green numbers mark where each technique removes the inefficiency that Figure 2 marks in red. The forward pass selects while scoring with HyTopK, without writing the score table ( 1⃝), the recomputation rescores only the saved keys ( 2⃝), and, as a system optimization (§3.4), each CP collective runs behind computation that does not consume it.",
-              "figure_id": "figure-3-10",
-              "figure_number": "3",
-              "height": 304,
-              "image_path": "figures/2610.32057/figure-004.webp",
-              "kind": "figure",
-              "page": 4,
-              "width": 481
-            },
-            {
-              "caption": "Figure 8: CP scaling of one GLM-5.1 attention layer on H20. Panels (a) and (b) show strong scaling at 256K and 512K context, and (c) and (d) weak scaling at 8K and 16K queries per GPU. Layer time includes the forward pass, the recomputation, and the backward pass on the slowest rank.",
-              "figure_id": "figure-8-11",
-              "figure_number": "8",
-              "height": 367,
-              "image_path": "figures/2610.32057/figure-005.webp",
-              "kind": "figure",
-              "page": 9,
-              "width": 1012
-            },
-            {
-              "caption": "Figure 12: Sampling efficiency: share of failed queries at each buffer size. Labels count failures at HyTopK’s default 16K-slot buffer (red line).",
-              "figure_id": "figure-12-3",
-              "figure_number": "12",
-              "height": 417,
-              "image_path": "figures/2610.32057/figure-006.webp",
-              "kind": "figure",
-              "page": 11,
-              "width": 1014
-            },
-            {
-              "caption": "Figure 2: Execution of one learned sparse attention layer on one GPU in Megatron-LM under CP and full activation recomputation (not to scale), showing the materialized n×L score table ( 1⃝) and the repeated selection in recomputation ( 2⃝). Each row is one pass, with CP communication drawn below the computation.",
-              "figure_id": "figure-2-7",
-              "figure_number": "2",
-              "height": 302,
-              "image_path": "figures/2610.32057/figure-007.webp",
-              "kind": "figure",
-              "page": 3,
-              "width": 481
-            },
-            {
-              "caption": "Figure 9: Cumulative ablation of one GLM-5.1 layer on H20 at 8K queries per GPU.",
-              "figure_id": "figure-9-12",
-              "figure_number": "9",
-              "height": 251,
-              "image_path": "figures/2610.32057/figure-008.webp",
-              "kind": "figure",
-              "page": 9,
-              "width": 477
-            },
-            {
-              "caption": "Figure 10: Cumulative ablation of single CSA and QSA layers on 32 H800 GPUs.",
-              "figure_id": "figure-10-5",
-              "figure_number": "10",
-              "height": 251,
-              "image_path": "figures/2610.32057/figure-009.webp",
-              "kind": "figure",
-              "page": 10,
-              "width": 477
-            },
-            {
-              "caption": "Figure 11: End-to-end efficiency of HyTopK’s top-k selection for GLM-5.1 on one H20 GPU. Labels in (a) give HyTopK’s speedup over Megatron-LM with its default 1 GiB memory limit on the score table, and (b) is relative to HyTopK’s base selection time.",
-              "figure_id": "figure-11-4",
-              "figure_number": "11",
-              "height": 238,
-              "image_path": "figures/2610.32057/figure-010.webp",
-              "kind": "figure",
-              "page": 10,
-              "width": 479
-            },
-            {
-              "caption": "Figure 4: Costs of the policies in Table 1 for one GLM-5.1 layer on one GPU (L = 1M, n = 8K, k = 2048, HI = 32, dI = 128), on log axes. Operator-level policies lie on the top or right edge, and both variants of selection replay lie in the lower-left corner.",
-              "figure_id": "figure-4-2",
-              "figure_number": "4",
-              "height": 252,
-              "image_path": "figures/2610.32057/figure-011.webp",
-              "kind": "figure",
-              "page": 6,
-              "width": 406
-            },
-            {
-              "caption": "Table 1: Costs of selection recomputation policies for one layer on one GPU, in bytes beyond the layer input and in operations rerun. The upper policies are operator-level, and the lower two are selection replay.",
-              "figure_id": "table-1-1",
-              "figure_number": "1",
-              "height": 203,
-              "image_path": "figures/2610.32057/table-012.webp",
-              "kind": "table",
-              "page": 6,
-              "width": 415
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-26T21:00:00-04:00",
-          "hero_figure": "figures/2610.32057/hero.webp",
+          "hero_figure": null,
           "novelty": 8,
           "pdf_url": "https://arxiv.org/pdf/2610.32057",
           "relevance": 8,
@@ -22945,5 +22948,5 @@
   "schema_version": 1,
   "subtopic_id": "long-context-models",
   "topic_id": "language-foundation-models",
-  "total_paper_count": 190
+  "total_paper_count": 192
 }
