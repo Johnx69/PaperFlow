@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Video Diffusion
 
-**433 papers total**
+**434 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-26 | [TamedFlow: Trajectory-Aware Distillation for Teacher-Assisted Diffusion Sampling](https://arxiv.org/abs/2610.26025) | Video Generation and Understanding: Video Diffusion | TamedFlow closes the compression–adaptive-inference combination gap by training diffusion students for reliable multi-step rollouts and routing drafts to reduce teacher evaluations. | 7 | 8 |
 | 2026-11-25 | [AnyCam: Anything Can Represent Camera for Video Generation](https://arxiv.org/abs/2611.34944) | 3D Vision: 3D Foundation Models; Video Generation and Understanding: Video Diffusion | AnyCam enables camera-controlled video generation by using a reconstructed 3D anchor object to specify scale-aware, view-complete camera motion. | 9 | 8 |
 | 2026-11-25 | [Improving and Expanding Video Editing Capabilities Without Videos](https://arxiv.org/abs/2611.34941) | Video Generation and Understanding: Video Diffusion | I2VT transfers image-editing capabilities to video editors using only single images, improving existing tasks and enabling new edits while preserving temporal consistency. | 6 | 7 |
 | 2026-11-25 | [Guidance as Variance Matching](https://arxiv.org/abs/2611.34801) | Video Generation and Understanding: Video Diffusion | Guidance improves diffusion samples by restoring the data-level variance missing from posterior-mean predictions, enabling a closed-form, untuned scale rule. | 7 | 8 |

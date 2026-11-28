@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Spatial Intelligence
 
-**875 papers total**
+**876 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-26 | [GeoEdit: Adversarial De-Evidencing for Silent Geoprivacy Protection via Image Editing](https://arxiv.org/abs/2610.26194) | Multimodal Foundation Models: Spatial Intelligence | GeoEdit protects image geoprivacy by minimally editing high-risk geographic cues while preserving the scene’s overall meaning and shareability. | 6 | 7 |
 | 2026-11-25 | [Towards Closing the Performance Gap in Cross-Modal Place Recognition](https://arxiv.org/abs/2611.34877) | Embodied AI: Vision-Language Navigation; Multimodal Foundation Models: Spatial Intelligence | CrossPlace improves cross-modal place recognition by combining high-resolution visual tokens, a stronger text encoder, and token-level reranking to better match fine-grained image–text cues. | 7 | 7 |
 | 2026-11-25 | [BOP-Refer: Benchmark for Monocular 3D and 2D Object Grounding](https://arxiv.org/abs/2611.34862) | Multimodal Foundation Models: Spatial Intelligence | BOP-Refer benchmarks monocular 2D and 3D object grounding and finds that VLMs localize objects well in images but struggle substantially with metric-depth estimation. | 8 | 7 |
 | 2026-11-25 | [SceneDesigner3D: Agentic Evolutionary Search for Principled Rearrangement of 3D Indoor Scenes](https://arxiv.org/abs/2611.34783) | Multimodal Foundation Models: Spatial Intelligence; 3D Vision | SceneDesigner3D uses agentic evolutionary search to generate diverse, physically valid 3D indoor rearrangements that follow text prompts and interior-design principles. | 6 | 7 |

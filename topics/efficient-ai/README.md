@@ -6,10 +6,14 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Efficient AI
 
-**2744 papers total**
+**2748 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-26 | [Understanding Diffusion Acceleration: Methods, Trade-Offs, and Open Questions](https://arxiv.org/abs/2611.34056) | Efficient AI | A unified analysis of diffusion acceleration methods clarifies how they trade off generation quality, sampling cost, and latency across image, audio, and video synthesis. | 6 | 4 |
+| 2026-11-26 | [Ultra-Lightweight 3D Medical Image Segmentation via Knowledge Distillation in Label-Scarce Domains](https://arxiv.org/abs/2611.10033) | Efficient AI | Knowledge distillation compresses a large Mamba-based 3D segmentation model into a much smaller TinyUNet3D, retaining competitive accuracy and providing the greatest benefit when labeled data is scarce. | 6 | 5 |
+| 2026-11-26 | [GMD-Mamba: Lightweight 3D Medical Image Segmentation Using a Grouped Multi-Directional Mamba](https://arxiv.org/abs/2611.10032) | Efficient AI | GMD-Mamba delivers lightweight 3D medical image segmentation by combining grouped multi-directional scans with selective deep-stage Mamba processing. | 6 | 6 |
+| 2026-11-26 | [QRAE: Query-Relevant Attention Entropy for Context Compression in DeepSearch Agents](https://arxiv.org/abs/2611.07976) | Efficient AI: Token Pruning and Eviction | QRAE compresses DeepSearch contexts online by retaining only query-relevant retrieved chunks, improving success while reducing latency and token usage. | 8 | 7 |
 | 2026-11-25 | [Mixture-of-Loops Transformer](https://arxiv.org/abs/2611.34923) | Efficient AI: KV Cache and Memory Efficiency; Language Foundation Models: Large Language Models | MoLT improves the efficiency–expressivity trade-off of looped Transformers by selectively reusing key-value memories across loops, enabling efficient training and decoding without sacrificing quality. | 9 | 8 |
 | 2026-11-25 | [LiveVAE: Causal Window Attention Makes Efficient Streaming Video VAE](https://arxiv.org/abs/2611.34912) | Efficient AI: Efficient Attention, KV Cache and Memory Efficiency | LiveVAE accelerates both streaming video VAE encoding and decoding using causal local-window attention while preserving quality and compatibility with the pretrained latent space. | 6 | 7 |
 | 2026-11-25 | [ProbFaS: Probabilistic Video Frame Selection for MLLMs via Multi-Fidelity Calibration](https://arxiv.org/abs/2611.34903) | Video Generation and Understanding: Video Understanding; Efficient AI: Token Pruning and Eviction | ProbFaS improves long-video understanding by calibrating cheap frame–question scores with sparse MLLM judgments before selecting diverse, relevant frames. | 7 | 7 |

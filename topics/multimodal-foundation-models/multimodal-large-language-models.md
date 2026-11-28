@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Multimodal Large Language Models
 
-**1479 papers total**
+**1480 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-26 | [CASCADE: Constraint-Aware SCAffolded DEcomposition for Logical Anomaly Detection](https://arxiv.org/abs/2611.13820) | Multimodal Foundation Models: Multimodal Large Language Models | CASCADE improves few-shot logical anomaly detection by adapting the visual input to each constraint instead of repeatedly analyzing the same raw image. | 7 | 7 |
 | 2026-11-25 | [Can image generation help visual reasoning? An empirical study](https://arxiv.org/abs/2611.34935) | Multimodal Foundation Models: Multimodal Large Language Models | Generated helper images generally hurt rather than improve visual reasoning, though repeated edits can help on some tasks. | 6 | 6 |
 | 2026-11-25 | [Seeing the Right Context: Grounded On-Policy Distillation for Remote Sensing](https://arxiv.org/abs/2611.34700) | Multimodal Foundation Models: Multimodal Large Language Models, Spatial Intelligence | GeOPD improves remote-sensing VQA by distilling context-grounded teacher corrections into MLLMs using explicit spatial and visual evidence. | 6 | 6 |
 | 2026-11-25 | [PoVi: Agentic Poetry-to-Video Generation with Knowledge Grounding and Figurative Understanding](https://arxiv.org/abs/2611.34690) | Multimodal Foundation Models: Multimodal Large Language Models; Video Generation and Understanding: Video Diffusion | PoVi is a knowledge-grounded, agentic framework and benchmark that turns metaphorical, culturally informed poetry into coherent narrated videos. | 8 | 8 |

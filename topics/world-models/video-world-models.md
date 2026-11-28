@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Video World Models
 
-**464 papers total**
+**465 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-26 | [TrajWAM: An Efficient Trajectory-Guided World Action Model for Dynamic Robotic Manipulation](https://arxiv.org/abs/2610.25763) | Embodied AI: Robot Learning and Manipulation; World Models: Video World Models, Interactive World Models | TrajWAM improves dynamic robotic manipulation by explicitly predicting target-object trajectories to guide visual forecasting and fast one-step action generation. | 9 | 8 |
 | 2026-11-25 | [HOG-WAM: Improving Visual Robustness through Future Gradient Prediction](https://arxiv.org/abs/2611.34811) | Embodied AI: Robot Learning and Manipulation; World Models: Video World Models | HOG-WAM improves visual robustness in world-action models by training with auxiliary future HOG prediction while keeping the same RGB-to-action policy at inference. | 8 | 7 |
 | 2026-11-25 | [Was the Model Given the Right Action? Auditing and Repairing Action Interfaces in Navigation World Models](https://arxiv.org/abs/2611.34739) | World Models: Video World Models, Interactive World Models | Action-encoding mismatches can substantially distort navigation world-model evaluations, but auditing and repairing inputs improves accuracy without retraining. | 7 | 7 |
 | 2026-11-25 | [WorldInteract: Controllable Streaming Video Generation for Multi-Material Interactions](https://arxiv.org/abs/2611.34730) | World Models: Video World Models, Interactive World Models | WorldInteract enables controllable streaming video generation for diverse material interactions by combining learned material behaviors with physics-based contact responses. | 9 | 8 |

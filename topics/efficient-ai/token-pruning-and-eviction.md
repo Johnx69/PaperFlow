@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Token Pruning and Eviction
 
-**466 papers total**
+**467 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-26 | [QRAE: Query-Relevant Attention Entropy for Context Compression in DeepSearch Agents](https://arxiv.org/abs/2611.07976) | Efficient AI: Token Pruning and Eviction | QRAE compresses DeepSearch contexts online by retaining only query-relevant retrieved chunks, improving success while reducing latency and token usage. | 8 | 7 |
 | 2026-11-25 | [ProbFaS: Probabilistic Video Frame Selection for MLLMs via Multi-Fidelity Calibration](https://arxiv.org/abs/2611.34903) | Video Generation and Understanding: Video Understanding; Efficient AI: Token Pruning and Eviction | ProbFaS improves long-video understanding by calibrating cheap frame–question scores with sparse MLLM judgments before selecting diverse, relevant frames. | 7 | 7 |
 | 2026-11-25 | [Focus Only on What's Important: Training-Free Focus Maps for Frozen Vision Transformers in Long-Video Object Segmentation](https://arxiv.org/abs/2611.34863) | Video Generation and Understanding: Video Understanding; Efficient AI: Token Pruning and Eviction | A training-free focus-map policy for frozen ViTs preserves high-resolution processing around likely objects, improving long-video segmentation accuracy while reducing counted encoder FLOPs, though not necessarily end-to-end latency. | 8 | 7 |
 | 2026-11-25 | [DFly2: Turbocharging Long-Context Speculative Decoding by Sharing the Target's Sparsity](https://arxiv.org/abs/2611.34776) | Efficient AI: Token Pruning and Eviction, KV Cache and Memory Efficiency | DFly2 accelerates speculative decoding for sparse long-context models by reusing the target model’s KV cache and query-specific sparse attention selections, avoiding a separate drafter cache and scoring pass. | 8 | 7 |

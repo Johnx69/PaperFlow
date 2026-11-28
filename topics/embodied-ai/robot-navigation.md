@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Robot Navigation
 
-**959 papers total**
+**961 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-26 | [ThinkLocoManip: A Whole-Body Control Agentic Harness for Legged Loco-Manipulation](https://arxiv.org/abs/2610.34370) | Embodied AI: Robot Navigation, Robot Learning and Manipulation | ThinkLocoManip is an interleaved reasoning-and-acting framework that helps legged robots perform and recover from complex long-horizon loco-manipulation tasks. | 9 | 7 |
+| 2026-11-26 | [SkateNav: Learning Energy-Efficient Navigation through Adaptive Skating on Passive-Wheel Quadrupedal Robots](https://arxiv.org/abs/2610.25962) | Embodied AI: Robot Navigation, Robot Learning and Manipulation | SkateNav uses reinforcement learning to coordinate steering and adaptive push–glide timing for energy-efficient navigation on passive-wheel quadrupedal robots. | 9 | 7 |
 | 2026-11-25 | [MERLoc: Robust Robot Localization in Dynamic Environments with Pose-Based Retrieval over 3D Gaussian Splatting References](https://arxiv.org/abs/2611.34932) | Embodied AI: Robot Navigation | MERLoc improves robot localization in dynamic, changing environments by retrieving rendered 3D references using pose rather than appearance. | 6 | 6 |
 | 2026-11-25 | [One Ocean, Many Tasks: A Data-Grounded Simulation Suite and Benchmark for Marine Robotics](https://arxiv.org/abs/2611.34925) | Embodied AI: Robot Navigation | OneOcean is a data-grounded marine robotics simulator and benchmark for evaluating navigation, inspection, coordination, and pollution-response tasks under realistic ocean conditions. | 5 | 5 |
 | 2026-11-25 | [Memory Is Not Ground Truth: Revising Navigation Authority under Unreliable VLM Evidence for Persistent Semantic Navigation](https://arxiv.org/abs/2611.34915) | Embodied AI: Vision-Language Navigation, Robot Navigation; Adaptation and Memory: Embodied Memory | Robots should reduce a memory’s navigation authority after correlated detection failures without assuming the remembered object is absent. | 8 | 8 |

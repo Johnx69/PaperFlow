@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # World Models
 
-**1474 papers total**
+**1475 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-26 | [TrajWAM: An Efficient Trajectory-Guided World Action Model for Dynamic Robotic Manipulation](https://arxiv.org/abs/2610.25763) | Embodied AI: Robot Learning and Manipulation; World Models: Video World Models, Interactive World Models | TrajWAM improves dynamic robotic manipulation by explicitly predicting target-object trajectories to guide visual forecasting and fast one-step action generation. | 9 | 8 |
 | 2026-11-25 | [Real2SimLab: A Unified Platform for Real-to-Simulation Transfer](https://arxiv.org/abs/2611.34849) | Embodied AI; World Models | Real2SimLab unifies evaluation and training-data generation for methods that convert real-world videos into executable simulations. | 5 | 6 |
 | 2026-11-25 | [Not all world models can doubt: how training objective and architecture shape epistemic uncertainty in JEPA and RSSM world models](https://arxiv.org/abs/2611.34830) | World Models: Interactive World Models | Training objective and architecture strongly shape whether world models detect epistemic uncertainty: JEPA-based uncertainty preserves state deviations better than RSSM-based uncertainty in the studied tasks. | 8 | 7 |
 | 2026-11-25 | [HOG-WAM: Improving Visual Robustness through Future Gradient Prediction](https://arxiv.org/abs/2611.34811) | Embodied AI: Robot Learning and Manipulation; World Models: Video World Models | HOG-WAM improves visual robustness in world-action models by training with auxiliary future HOG prediction while keeping the same RGB-to-action policy at inference. | 8 | 7 |

@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Vision-Language-Action
 
-**1098 papers total**
+**1100 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-26 | [RoboDyna: A Benchmark for Evaluating Robotic Manipulation under Physically Grounded Dynamics](https://arxiv.org/abs/2611.26969) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation | RoboDyna benchmarks whether robotic manipulation policies can understand and act under realistic, evolving physical dynamics, revealing major gaps in current systems. | 8 | 6 |
+| 2026-11-26 | [Be My Eye: Learning to See Beyond a Robot's Own Perspective](https://arxiv.org/abs/2611.12295) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation | A task-oriented active context-sharing framework helps robots selectively exchange compact, decision-relevant information for better collaboration under limited communication. | 9 | 8 |
 | 2026-11-25 | [Cairn: Object-Centric 3D Trajectory Priors for Steering Frozen VLAs](https://arxiv.org/abs/2611.34914) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation | Cairn steers frozen vision-language-action models through displaced-object and obstacle scenarios using learned object-centric 3D trajectory priors, substantially improving manipulation success without fine-tuning. | 9 | 8 |
 | 2026-11-25 | [FineDex: Bridging Fine-Grained Human-Object Interaction Generation to Dexterous Humanoid Manipulation](https://arxiv.org/abs/2611.34884) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation, Learning from Human Videos; Adaptation and Memory: Test-Time Learning | FineDex generates finger-level human–object interactions from detailed instructions and turns them into executable dexterous robot manipulation strategies. | 8 | 8 |
 | 2026-11-25 | [RePace: Reasoning about Demonstration Speedup for Faster Vision-Language-Action Policies](https://arxiv.org/abs/2611.34864) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation | RePace uses language-model reasoning to adaptively speed up different parts of vision-language-action demonstrations, producing faster policies without deployment-time speed selection. | 9 | 7 |
