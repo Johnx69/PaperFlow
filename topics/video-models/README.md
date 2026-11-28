@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Video Generation and Understanding
 
-**1354 papers total**
+**1355 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-27 | [Reframing Video Inverse Tone Mapping as Blind Posterior Inference via Latent Luminance Supervision](https://arxiv.org/abs/2611.15146) | Video Generation and Understanding: Video Diffusion | The paper reframes SDR-to-HDR video conversion as blind posterior inference and reduces tone-operator-dependent luminance bias using latent luminance supervision and operator-aware training. | 6 | 8 |
 | 2026-11-26 | [TamedFlow: Trajectory-Aware Distillation for Teacher-Assisted Diffusion Sampling](https://arxiv.org/abs/2610.26025) | Video Generation and Understanding: Video Diffusion | TamedFlow closes the compression–adaptive-inference combination gap by training diffusion students for reliable multi-step rollouts and routing drafts to reduce teacher evaluations. | 7 | 8 |
 | 2026-11-25 | [AnyCam: Anything Can Represent Camera for Video Generation](https://arxiv.org/abs/2611.34944) | 3D Vision: 3D Foundation Models; Video Generation and Understanding: Video Diffusion | AnyCam enables camera-controlled video generation by using a reconstructed 3D anchor object to specify scale-aware, view-complete camera motion. | 9 | 8 |
 | 2026-11-25 | [Tracking Any Point with Agentic Visual Reasoning](https://arxiv.org/abs/2611.34943) | Video Generation and Understanding: Video Understanding | AgenTAP uses agentic visual reasoning to track physical points through video, including periods when they disappear and reappear. | 6 | 8 |

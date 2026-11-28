@@ -6,10 +6,13 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Adaptation and Memory
 
-**1787 papers total**
+**1790 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-27 | [How Well Do Vision-Language Scene Graphs Serve as Memory for Embodied Question Answering?](https://arxiv.org/abs/2611.34745) | Embodied AI; Adaptation and Memory: Embodied Memory | Vision-language scene graphs retain useful but unreliable memory for embodied QA, so evaluation should measure answerability—not accuracy alone. | 7 | 7 |
+| 2026-11-27 | [FEAST: Fair and Efficient Adaptive Sampling for Task-Free On-Policy Learning](https://arxiv.org/abs/2611.33827) | Efficient AI; Adaptation and Memory: Continual and Online Learning | FEAST improves fair and efficient on-policy learning by protecting sampling opportunities for weaker capabilities while focusing computation on informative prompts. | 5 | 7 |
+| 2026-11-27 | [LVMem: Image-Augmented Memory for Long-Horizon Question Answering](https://arxiv.org/abs/2610.27104) | Embodied AI; Multimodal Foundation Models: Spatial Intelligence; Adaptation and Memory: Embodied Memory | LVMem improves long-horizon robotic question answering by linking object-centric memory descriptions to selected images for adaptive visual retrieval. | 7 | 7 |
 | 2026-11-25 | [Memory Is Not Ground Truth: Revising Navigation Authority under Unreliable VLM Evidence for Persistent Semantic Navigation](https://arxiv.org/abs/2611.34915) | Embodied AI: Vision-Language Navigation, Robot Navigation; Adaptation and Memory: Embodied Memory | Robots should reduce a memory’s navigation authority after correlated detection failures without assuming the remembered object is absent. | 8 | 8 |
 | 2026-11-25 | [FineDex: Bridging Fine-Grained Human-Object Interaction Generation to Dexterous Humanoid Manipulation](https://arxiv.org/abs/2611.34884) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation, Learning from Human Videos; Adaptation and Memory: Test-Time Learning | FineDex generates finger-level human–object interactions from detailed instructions and turns them into executable dexterous robot manipulation strategies. | 8 | 8 |
 | 2026-11-25 | [Maco-RL: Scaling Agent Capabilities with Mixed-Task Reinforcement Learning](https://arxiv.org/abs/2611.34703) | Adaptation and Memory: Continual and Online Learning; Language Foundation Models: Large Language Models | Maco-RL scales mixed-task reinforcement learning by stabilizing multi-domain rollouts and allocating sampling toward both capability growth and retention. | 7 | 8 |

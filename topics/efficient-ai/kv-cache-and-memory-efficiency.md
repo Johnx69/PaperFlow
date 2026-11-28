@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # KV Cache and Memory Efficiency
 
-**730 papers total**
+**731 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-27 | [Reconstruction-Optimized Expert Pruning for Mixture-of-Experts Language Models](https://arxiv.org/abs/2610.27123) | Efficient AI: KV Cache and Memory Efficiency; Language Foundation Models: Large Language Models | OptEP prunes MoE experts by optimizing which experts best reconstruct the original layer output, preserving more task performance under aggressive pruning. | 7 | 7 |
 | 2026-11-25 | [Mixture-of-Loops Transformer](https://arxiv.org/abs/2611.34923) | Efficient AI: KV Cache and Memory Efficiency; Language Foundation Models: Large Language Models | MoLT improves the efficiency–expressivity trade-off of looped Transformers by selectively reusing key-value memories across loops, enabling efficient training and decoding without sacrificing quality. | 9 | 8 |
 | 2026-11-25 | [LiveVAE: Causal Window Attention Makes Efficient Streaming Video VAE](https://arxiv.org/abs/2611.34912) | Efficient AI: Efficient Attention, KV Cache and Memory Efficiency | LiveVAE accelerates both streaming video VAE encoding and decoding using causal local-window attention while preserving quality and compatibility with the pretrained latent space. | 6 | 7 |
 | 2026-11-25 | [DFly2: Turbocharging Long-Context Speculative Decoding by Sharing the Target's Sparsity](https://arxiv.org/abs/2611.34776) | Efficient AI: Token Pruning and Eviction, KV Cache and Memory Efficiency | DFly2 accelerates speculative decoding for sparse long-context models by reusing the target model’s KV cache and query-specific sparse attention selections, avoiding a separate drafter cache and scoring pass. | 8 | 7 |

@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Continual and Online Learning
 
-**773 papers total**
+**774 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-27 | [FEAST: Fair and Efficient Adaptive Sampling for Task-Free On-Policy Learning](https://arxiv.org/abs/2611.33827) | Efficient AI; Adaptation and Memory: Continual and Online Learning | FEAST improves fair and efficient on-policy learning by protecting sampling opportunities for weaker capabilities while focusing computation on informative prompts. | 5 | 7 |
 | 2026-11-25 | [Maco-RL: Scaling Agent Capabilities with Mixed-Task Reinforcement Learning](https://arxiv.org/abs/2611.34703) | Adaptation and Memory: Continual and Online Learning; Language Foundation Models: Large Language Models | Maco-RL scales mixed-task reinforcement learning by stabilizing multi-domain rollouts and allocating sampling toward both capability growth and retention. | 7 | 8 |
 | 2026-11-25 | [Tune for Retention, Not Just Gain: SFT Forgets Far Less than You Think](https://arxiv.org/abs/2611.34579) | Adaptation and Memory: Continual and Online Learning | Catastrophic forgetting in SFT is often a hyperparameter problem: tuning for both task gains and retention can preserve prior capabilities with little forgetting, sometimes matching on-policy SDFT. | 6 | 7 |
 | 2026-11-25 | [CHASE: Curiosity-Guided Skill Acquisition for Embodied Task Execution](https://arxiv.org/abs/2611.34416) | Embodied AI: Robot Learning and Manipulation; Adaptation and Memory: Continual and Online Learning | CHASE enables robots to resolve uncertainty and acquire missing skills on demand while executing tasks in partially observed environments. | 9 | 7 |

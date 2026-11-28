@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Robot Learning and Manipulation
 
-**3032 papers total**
+**3034 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-27 | [Can Visual World Models See Force?](https://arxiv.org/abs/2611.34422) | Embodied AI: Robot Learning and Manipulation; World Models: Video World Models | Visual foundation models can often detect contact but generally fail to represent the magnitude and changes of interaction force. | 8 | 8 |
+| 2026-11-27 | [Learning to Be Different: Component Specialization for Compositional Diffusion Policies](https://arxiv.org/abs/2610.27194) | Embodied AI: Robot Learning and Manipulation | A score-decorrelation loss makes compositional diffusion-policy components specialize into distinct, interpretable functions without sacrificing multitask performance. | 8 | 7 |
 | 2026-11-26 | [ScaleEvals: Scaling Generalist Policy Evaluation through Reset-Free Autonomous Play](https://arxiv.org/abs/2611.28411) | Embodied AI: Robot Learning and Manipulation | ScaleEvals enables scalable, reset-free evaluation of generalist robot policies through autonomous physical play, reducing human effort while providing interpretable and predictive performance rankings. | 8 | 7 |
 | 2026-11-26 | [RoboDyna: A Benchmark for Evaluating Robotic Manipulation under Physically Grounded Dynamics](https://arxiv.org/abs/2611.26969) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation | RoboDyna benchmarks whether robotic manipulation policies can understand and act under realistic, evolving physical dynamics, revealing major gaps in current systems. | 8 | 6 |
 | 2026-11-26 | [Be My Eye: Learning to See Beyond a Robot's Own Perspective](https://arxiv.org/abs/2611.12295) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation | A task-oriented active context-sharing framework helps robots selectively exchange compact, decision-relevant information for better collaboration under limited communication. | 9 | 8 |

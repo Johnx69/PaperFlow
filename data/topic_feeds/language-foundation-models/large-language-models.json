@@ -1,6 +1,1257 @@
 {
   "days": [
     {
+      "date": "2026-11-27",
+      "paper_count": 4,
+      "papers": [
+        {
+          "abstract": "Dense linear probes assess task readability from language model (LM) representations, but do not directly reveal how many features suffice for prediction. We measure readout sparsity with \\(k^*\\), the smallest feature count found by a fixed search protocol that recovers 95% of dense-probe AUROC above chance. We evaluate 19 LMs from five labs on 14 core tasks. Ten base models give the nine reliably readable tasks similar feature counts and nearly the same order. This agreement extends to the selected features themselves, which on three tasks show cross-model response correspondence beyond class-mean differences and a label-correlation-matched null. Instruction-tuned deployment selectively reduces \\(k^*\\), with both weights and input format contributing. In controlled synthetic experiments across 20 models, successfully learned targets admit single-feature readouts, whereas readable controls require tens of features. Reference-model \\(k^*\\) is associated with label requirements across eight students, following an empirical scaling of \\(N^*\\propto(k^*)^{0.65}\\). After continual learning, saved heads can fail while linear readability remains high, and recovery requires fewer labels than initial task learning under the tested procedures. Pruning reduces linear readability, with wider pre-pruning readouts generally associated with larger losses. These findings distinguish task readability from readout sparsity and establish their complementary value for predicting learning requirements and diagnosing LM changes.",
+          "arxiv_id": "2610.27724",
+          "arxiv_url": "https://arxiv.org/abs/2610.27724",
+          "authors": [
+            "Kaiyang Wan",
+            "Yuxia Wang"
+          ],
+          "bullets": [
+            "Introduces k*, the smallest number of features needed to recover 95% of dense-probe AUROC above chance, separating task readability from sparsity.",
+            "Across 19 models and 14 tasks, base models show similar feature counts and feature organization for reliably readable tasks.",
+            "Instruction tuning selectively lowers k*, while continual learning and pruning can disrupt or reduce linear readability.",
+            "Synthetic experiments show successfully learned targets can have single-feature readouts, whereas readable controls typically require many features.",
+            "Reference-model k* predicts students’ label requirements, following an empirical scaling relationship across eight students."
+          ],
+          "categories": [
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Task readout measurements reveal cross-model structure, its dependence on training, and implications for task learning and model modification.",
+              "figure_id": "figure-1-13",
+              "figure_number": "1",
+              "height": 639,
+              "image_path": "figures/2610.27724/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 824
+            },
+            {
+              "caption": "Figure 8: Match rate for every model pair on intent classification. Each bar is the fraction of that pair’s shared intents whose one-to-one feature match exceeds the label-correlation-matched null’s 99th percentile. The dashed line marks the 1% rate the null allows, and every pair clears it. Dots mark cross-lab pairs. Pairs containing Gemma-3-270M occupy most of the lower half.",
+              "figure_id": "figure-8-63",
+              "figure_number": "8",
+              "height": 677,
+              "image_path": "figures/2610.27724/figure-002.webp",
+              "kind": "figure",
+              "page": 48,
+              "width": 827
+            },
+            {
+              "caption": "Figure 12: Saved heads fail while new probes keep reading harmfulness along the common chain. Each panel follows one model through the chain that trains harmfulness, then sentiment, then jailbreak detection, with three chain seeds. Gold circles give the AUROC of the harmfulness head saved after step 1 and evaluated on each later backbone without refitting. Blue squares give the dense-probe ceiling of new probes fitted on the frozen backbone after each step, and step 0 denotes the pretrained model. Markers show the median over the three chain seeds and whiskers span the seed range. The dashed line marks chance. The arrow and the labels report the final losses of Equation 64 from the seed medians. Head losses are 0.55, 0.56, 0.59 and 0.56 for Gemma-3-1B, Gemma-3-4B, Llama-3.1-8B and Qwen3-8B, and the ceiling losses are −0.009, −0.001, 0.002 and −0.001, where a negative value means that the final ceiling exceeds the pretrained ceiling. Over every step and seed of these twelve chains the largest harmfulness ceiling loss stays below 0.010.",
+              "figure_id": "figure-12-40",
+              "figure_number": "12",
+              "height": 513,
+              "image_path": "figures/2610.27724/figure-003.webp",
+              "kind": "figure",
+              "page": 82,
+              "width": 829
+            },
+            {
+              "caption": "Figure 10: Synthetic readout ksyn for every target and control in the 20 main-grid models. Each marker is one model. Within each query family, gold diamonds show the supervised target, blue circles show the control that shares the factor count but answers a coin, and black bars mark the median over models. (a) Raw basis. Every target reads at ksyn = 1 in all 20 models, and the control medians are 37, 53.5, 60.5, 52.5, 30, and 29 for thr2, thr4, thr8, thr16, and2, and and4. (b) PCA basis. Every target again reads at 1 in all 20 models, and the control medians are 31.5, 48, 64, 32, 30, and 16. The xor2 control passes the readability gate in none of the 20 models in either basis and appears as open markers in the band at the top. No control reaches a count of one in any model.",
+              "figure_id": "figure-10-24",
+              "figure_number": "10",
+              "height": 382,
+              "image_path": "figures/2610.27724/figure-004.webp",
+              "kind": "figure",
+              "page": 66,
+              "width": 826
+            },
+            {
+              "caption": "Figure 6: Reading a local count off one probe cell. Each panel shows Gemma-2-9B on one task at the window layer where seed 1 attains its smallest local count. The dark curve is the prefix curve Arank(k) of seed 1, the thin curves are the other four seeds at the same layer, and the hollow diamonds are the L1 path candidates of seed 1 placed at their support sizes, with supports above 1024 lying outside the axis. The solid horizontal line marks the threshold τc of Equation 4, the dotted horizontal line marks the dense ceiling Cc over all window layers and seeds, and the dashed vertical line marks the local count of Equation 5, the smallest qualifying size on either path. The gray vertical line and each title give the task-level count of Table 11, the median over five seeds after neighbor confirmation (Appendix A.1.6). (a) Intent classification, class account blocked, layer 13, ceiling 0.9997, τc = 0.975. The prefix curve qualifies at k∗ = 2, layer 17 ties at 2, and the task-level count of 4 is the median over 20 class decisions. (b) Jailbreak detection, layer 17, ceiling 0.9999, τc = 0.975. An L1 support of 6 qualifies before the prefix grid point 8, and neighbor confirmation with layer 20 returns 8. (c) Sentiment, layer 20, ceiling 0.980, τc = 0.956. An L1 support of 71 qualifies before the prefix grid point 128, layers 17 and 24 need 128 for this seed, and the task-level median over seeds is 72. (d) Harmfulness, layer 20, ceiling 0.979, τc = 0.955. An L1 support of 137 qualifies, while layers 17 and 24 need 341 and 342, so neighbor confirmation returns 341.",
+              "figure_id": "figure-6-6",
+              "figure_number": "6",
+              "height": 611,
+              "image_path": "figures/2610.27724/figure-005.webp",
+              "kind": "figure",
+              "page": 25,
+              "width": 827
+            },
+            {
+              "caption": "Figure 7: Local counts across depth on Gemma-2-9B and the five-seed window inside them. Each panel shows one task in the mean-pooled representation. The blue line traces the preliminary single-seed sweep on the full training split over the ten grid layers, giving at each layer the median local count over class decisions under the sweep’s ceiling for each decision. An open circle at the ∞ tick marks a layer where no candidate qualified, which happens at layer 5 for sentiment and for harmfulness detection. The shaded band covers the layers of the five-seed measurement, which are 24 to 35 for language identification, 9 to 20 for intent classification and banking intent, 13 to 24 for jailbreak detection, 17 to 28 for harmfulness detection, and the five-layer follow-up 13 to 28 for sentiment. Inside the band, small gold dots give the median local count over class decisions for each seed under the common ceiling of the window, gold diamonds give the median of the five seeds at each layer, and the black line gives the reported count after neighbor confirmation and the medians over class decisions and seeds. The reported counts read 1, 4, 8, 16, 72, and 341, and the median dense ceilings over class decisions read 1.000, 1.000, 1.000, 0.997, 0.980, and 0.979, in panel order. The five seeds spread by at most one count at the window layers of language identification, intent classification, and jailbreak detection, and they spread from 61 to 128 at layer 17 for sentiment. Neighbor confirmation keeps single-layer minima out of the reported count, as at layer 17 for jailbreak detection, where the seed median of 7 sits below the reported 8, and at layer 20 for harmfulness detection, where the seed median of 141 sits below the reported 341. The sweep and the five-seed medians differ most for harmfulness detection at window layers 17 and 20, where the single-seed sweep reads 149 and 164 and the five-seed medians read 341 and 141.",
+              "figure_id": "figure-7-36",
+              "figure_number": "7",
+              "height": 532,
+              "image_path": "figures/2610.27724/figure-006.webp",
+              "kind": "figure",
+              "page": 28,
+              "width": 829
+            },
+            {
+              "caption": "Figure 5: Feature counts anticipate label requirements and pruning vulnerability, while dense probes reveal retained linear readability after saved-head failure.",
+              "figure_id": "figure-5-43",
+              "figure_number": "5",
+              "height": 186,
+              "image_path": "figures/2610.27724/figure-007.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 827
+            },
+            {
+              "caption": "Figure 4: Target queries receive correct training answers and control queries receive independent random answers, while probes predict the true aggregate values for both.",
+              "figure_id": "figure-4-2",
+              "figure_number": "4",
+              "height": 138,
+              "image_path": "figures/2610.27724/figure-008.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 829
+            },
+            {
+              "caption": "Table 36: Architecture and optimization of the controlled synthetic models. The main 20-model grid uses these settings. Section A.3.4 covers the auxiliary width, duration, and trajectory runs.",
+              "figure_id": "table-36-32",
+              "figure_number": "36",
+              "height": 423,
+              "image_path": "figures/2610.27724/table-009.webp",
+              "kind": "table",
+              "page": 65,
+              "width": 682
+            },
+            {
+              "caption": "Table 2: The main protocol at a glance. Each setting holds for all 19 models and 24 tasks unless the middle column states otherwise, and the last column names the section that defines and justifies it.",
+              "figure_id": "table-2-33",
+              "figure_number": "2",
+              "height": 570,
+              "image_path": "figures/2610.27724/table-010.webp",
+              "kind": "table",
+              "page": 18,
+              "width": 790
+            },
+            {
+              "caption": "Table 1: Claim-to-evidence map for Section 2. Each row pairs one statement of the main text with its formal object in this appendix and with the quantity that supports it.",
+              "figure_id": "table-1-51",
+              "figure_number": "1",
+              "height": 650,
+              "image_path": "figures/2610.27724/table-011.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 790
+            },
+            {
+              "caption": "Table 3: Task statistics. Each row is one task, and each class decision is probed separately. Train and test give the sizes of the pools shared by every model, and the positive rate is the fraction of positives in the training pool, as a range for tasks with several class decisions. The split column states whether the test pool is the source’s test split, its development split, or a 20% hold-out formed as in Section A.1.3. The lower block lists the ten additional tasks evaluated only on Gemma-2-9B.",
+              "figure_id": "table-3-8",
+              "figure_number": "3",
+              "height": 440,
+              "image_path": "figures/2610.27724/table-012.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 830
+            },
+            {
+              "caption": "Table 7: Why each design choice was made, and what changing it does. Task order is the Spearman correlation of Equation 23 between task-level k∗ under a variant and under the main protocol, as a median over the 19 models. Appendix A.2.2 reports every control in full.",
+              "figure_id": "table-7-22",
+              "figure_number": "7",
+              "height": 539,
+              "image_path": "figures/2610.27724/table-013.webp",
+              "kind": "table",
+              "page": 34,
+              "width": 798
+            },
+            {
+              "caption": "Table 42: Label requirements underlying the shared-exponent fit. Columns identify the eight students (G for Gemma 3, L for Llama 3.2, Q for Qwen 3, O for OLMo 2). Counts are rounded for display, and ≤ 16 denotes a left-censored requirement that the regression excludes. Rows contain all 16 contributing tasks, and the reference model is Gemma 2 9B.",
+              "figure_id": "table-42-27",
+              "figure_number": "42",
+              "height": 409,
+              "image_path": "figures/2610.27724/table-014.webp",
+              "kind": "table",
+              "page": 74,
+              "width": 648
+            },
+            {
+              "caption": "Table 22: Per-intent match rates on intent classification. The match rate is the fraction of the pairs holding a support for that intent whose observed match exceeds the null’s 99th percentile. Support is the median over models of the two supports’ mean size in features.",
+              "figure_id": "table-22-49",
+              "figure_number": "22",
+              "height": 290,
+              "image_path": "figures/2610.27724/table-015.webp",
+              "kind": "table",
+              "page": 49,
+              "width": 829
+            },
+            {
+              "caption": "Table 13: Text-side readings of the nine readable tasks and the cross-model order they leave unexplained. Columns s(k) give the prefix score of Equation 30 on TF-IDF features of the raw text, the fraction of the text-only ceiling reached within k terms, and the text ceiling is that representation’s dense-probe AUROC. Rows are ordered by the median k∗ over the ten base models, rounded for display. The first summary row is the median over models of the Spearman correlation between each model’s k∗ and the column, and the second is the median over the 30 cross-lab pairs of the partial rank correlation of Equation 26 with the column as the control, against 0.929 without control.",
+              "figure_id": "table-13-44",
+              "figure_number": "13",
+              "height": 302,
+              "image_path": "figures/2610.27724/table-016.webp",
+              "kind": "table",
+              "page": 40,
+              "width": 748
+            },
+            {
+              "caption": "Table 21: Where feature correspondence can be tested and what it shows. The upper block reports the three tasks the matching test covers. Matching runs over the eight base models with an SAE suite, and one test is one model pair on one class decision. The dictionary columns report the median over three models of a held-out class decision’s recovery and of its same-size randomdictionary null. The double dagger marks tool selection, whose four class decisions give a leaveone-out dictionary of a median 10 features, so its recovery reflects the power of the protocol rather than a negative result. The lower block lists the remaining core tasks with the number of the eight models that hold a support. Sections A.2.4 and A.2.5 give the per-pair and per-model readings.",
+              "figure_id": "table-21-30",
+              "figure_number": "21",
+              "height": 271,
+              "image_path": "figures/2610.27724/table-017.webp",
+              "kind": "table",
+              "page": 46,
+              "width": 829
+            },
+            {
+              "caption": "Table 6: Models and probed layers. Blocks is the number of transformer blocks and d the residual width. Layer ℓ denotes the residual stream after block ℓ, with blocks indexed from 0, and the listed layers form the grid of the preliminary sweep. IT marks base models whose instruction-tuned counterpart is also in the study and probed on the same layers. The SAE suite and Features columns name the suite used for the SAE representation and give its dictionary size.",
+              "figure_id": "table-6-52",
+              "figure_number": "6",
+              "height": 267,
+              "image_path": "figures/2610.27724/table-018.webp",
+              "kind": "table",
+              "page": 32,
+              "width": 830
+            },
+            {
+              "caption": "Table 30: Claims of Section 4 and their evidence. Each row names the claim, the place in this appendix that reports it, and the statistic that carries it. Seed ranges in the last column are minima and maxima over five seed-level task counts, not confidence intervals.",
+              "figure_id": "table-30-3",
+              "figure_number": "30",
+              "height": 541,
+              "image_path": "figures/2610.27724/table-019.webp",
+              "kind": "table",
+              "page": 57,
+              "width": 790
+            },
+            {
+              "caption": "Table 8: Uncertainty and missingness conventions. Each quantity is interpreted at its actual unit of analysis, and the paper never combines quantities with different units.",
+              "figure_id": "table-8-29",
+              "figure_number": "8",
+              "height": 540,
+              "image_path": "figures/2610.27724/table-020.webp",
+              "kind": "table",
+              "page": 35,
+              "width": 790
+            },
+            {
+              "caption": "Table 10: Claims of Section 3 and the evidence behind each. The last column names the statistic and the reference value against which the main text reads each claim.",
+              "figure_id": "table-10-60",
+              "figure_number": "10",
+              "height": 517,
+              "image_path": "figures/2610.27724/table-021.webp",
+              "kind": "table",
+              "page": 37,
+              "width": 790
+            },
+            {
+              "caption": "Table 56: Ingredients needed to reproduce each application result. Task pools are those of Table 3, reference counts and ceilings come from Algorithm 2 on Gemma-2-9B unless a subsection states otherwise, and every run evaluates on the fixed test split of its task.",
+              "figure_id": "table-56-55",
+              "figure_number": "56",
+              "height": 482,
+              "image_path": "figures/2610.27724/table-022.webp",
+              "kind": "table",
+              "page": 88,
+              "width": 802
+            },
+            {
+              "caption": "Table 40: Claim-to-evidence map for Section 5. Each row names a main-text claim, the subsection that defines its estimator, the display that reports it, and the statistic that carries it. The last two rows are intervention claims whose tested rules did not outperform their uniform and random baselines, and we report them with the same level of detail as the three predictive claims.",
+              "figure_id": "table-40-1",
+              "figure_number": "40",
+              "height": 474,
+              "image_path": "figures/2610.27724/table-023.webp",
+              "kind": "table",
+              "page": 70,
+              "width": 802
+            },
+            {
+              "caption": "Table 9: Which estimator belongs to which experiment. The main estimator is defined in Algorithms 1 and 2, and the appendix in the last column specifies each variant.",
+              "figure_id": "table-9-47",
+              "figure_number": "9",
+              "height": 431,
+              "image_path": "figures/2610.27724/table-024.webp",
+              "kind": "table",
+              "page": 36,
+              "width": 802
+            },
+            {
+              "caption": "Table 26: Ablating a language’s k∗ support at the original magnitude. Baseline and treatment are gap values under the script readout of Equation 38. The corrected column restates the treatment after discounting replies in a same-script neighbor language, for the cells where we recorded that diagnostic. The last column reports whether the treatment’s 95% bootstrap interval separates from all four controls, three frequency-matched and one equal-norm, under the script readout.",
+              "figure_id": "table-26-7",
+              "figure_number": "26",
+              "height": 332,
+              "image_path": "figures/2610.27724/table-025.webp",
+              "kind": "table",
+              "page": 53,
+              "width": 830
+            },
+            {
+              "caption": "Table 41: Adaptation settings of the three procedures. Sequential updates train all backbone weights, whereas initial learning and recovery train rank-16 LoRA adapters and a head. The recovery label grid of four budgets from 16 to 1024 is coarser than the eight-point initial-learning grid, and Section A.4.7 states how this difference enters the comparison.",
+              "figure_id": "table-41-21",
+              "figure_number": "41",
+              "height": 330,
+              "image_path": "figures/2610.27724/table-026.webp",
+              "kind": "table",
+              "page": 71,
+              "width": 768
+            },
+            {
+              "caption": "Table 55: Complete support-protection comparison. Gemma 2 9B with Wanda. Protected dimensions count the distinct residual coordinates in P , actual sparsity is sact of Equation 70, and a dash marks a value that was not recorded. Task columns give post-pruning dense-probe ceilings, maximized over the evaluation layers. All three requested sparsities and all five arms are shown.",
+              "figure_id": "table-55-39",
+              "figure_number": "55",
+              "height": 386,
+              "image_path": "figures/2610.27724/table-027.webp",
+              "kind": "table",
+              "page": 87,
+              "width": 656
+            },
+            {
+              "caption": "Table 27: Corrected in-language reply rates under scaled ablation. Each treatment column has an equal-norm random direction at the same scale, reported in the last column in the same order. The 16× column enters no conclusion because its noise control also destroys the behavior.",
+              "figure_id": "table-27-25",
+              "figure_number": "27",
+              "height": 276,
+              "image_path": "figures/2610.27724/table-028.webp",
+              "kind": "table",
+              "page": 54,
+              "width": 830
+            },
+            {
+              "caption": "Table 25: Leave-one-out dictionary recovery. Recovery, the null, and own overlap are medians over class decisions, and the minimum is the lowest recovery of any class decision.",
+              "figure_id": "table-25-62",
+              "figure_number": "25",
+              "height": 270,
+              "image_path": "figures/2610.27724/table-029.webp",
+              "kind": "table",
+              "page": 52,
+              "width": 830
+            },
+            {
+              "caption": "Table 37: Synthetic readout versus the main estimator. The two estimators share standardization, feature ranking, the probe objective, the regularization grid, and the L1 path of Appendix A.1.5.",
+              "figure_id": "table-37-31",
+              "figure_number": "37",
+              "height": 267,
+              "image_path": "figures/2610.27724/table-030.webp",
+              "kind": "table",
+              "page": 65,
+              "width": 790
+            },
+            {
+              "caption": "Table 46: What each learning control tests. Distinct controls address distinct alternative explanations, and no single control identifies the cause of the relation between counts and requirements.",
+              "figure_id": "table-46-42",
+              "figure_number": "46",
+              "height": 260,
+              "image_path": "figures/2610.27724/table-031.webp",
+              "kind": "table",
+              "page": 77,
+              "width": 790
+            },
+            {
+              "caption": "Table 11: Tasks outside the common high-ceiling subset. Each cell shows the unrounded k∗ followed by the dense-probe ceiling in small type. Muted counts have a ceiling C ≤ 0.90 and are not interpreted as reliable task sizes, and ∞ means that no tested support qualifies. Together with Figure 2a, these rows cover all 14 core tasks on the ten base models.",
+              "figure_id": "table-11-19",
+              "figure_number": "11",
+              "height": 271,
+              "image_path": "figures/2610.27724/table-032.webp",
+              "kind": "table",
+              "page": 39,
+              "width": 640
+            },
+            {
+              "caption": "Table 38: Target and control readouts in the complete main toy grid. Each entry is the median count over readable models, followed by readable coverage. A dash indicates no model above the ceiling gate, not a large finite count. Raw and PCA bases are separate measurements.",
+              "figure_id": "table-38-23",
+              "figure_number": "38",
+              "height": 249,
+              "image_path": "figures/2610.27724/table-033.webp",
+              "kind": "table",
+              "page": 66,
+              "width": 486
+            },
+            {
+              "caption": "Table 53: Magnitude recovery endpoints across models. Median test AUROC at 1,024 labels over the available LoRA recovery seeds. A dash denotes an unavailable endpoint. These arms are separate from the single-model Gemma 3 1B ceiling comparison in Table 51.",
+              "figure_id": "table-53-16",
+              "figure_number": "53",
+              "height": 137,
+              "image_path": "figures/2610.27724/table-034.webp",
+              "kind": "table",
+              "page": 86,
+              "width": 440
+            },
+            {
+              "caption": "Table 52: Wanda recovery endpoints across models. Median test AUROC at 1,024 labels over the available LoRA recovery seeds. A dash denotes an unavailable endpoint. These arms are separate from the single-model Gemma 3 1B ceiling comparison in Table 51.",
+              "figure_id": "table-52-10",
+              "figure_number": "52",
+              "height": 413,
+              "image_path": "figures/2610.27724/table-035.webp",
+              "kind": "table",
+              "page": 85,
+              "width": 432
+            },
+            {
+              "caption": "Table 50: Correlation of pre-pruning counts with ceiling losses. Cells give Spearman ρ between the six baseline counts and the unrounded ceiling losses of Equation 67. At 60% to 90% sparsity, the small number beside each correlation gives the Benjamini–Hochberg q over those 32 conditions. Each one-sided test enumerates all 6! = 720 permutations. Low-sparsity correlations are descriptive, and at 30% sparsity every maximum ceiling loss is below 0.007.",
+              "figure_id": "table-50-64",
+              "figure_number": "50",
+              "height": 226,
+              "image_path": "figures/2610.27724/table-036.webp",
+              "kind": "table",
+              "page": 84,
+              "width": 698
+            },
+            {
+              "caption": "Table 18: Probe-family and capacity controls on Gemma-2-9B. The MLP column reports k∗ at the linear arm’s threshold. The last column is the highest test AUROC reached at any k on the grid after permuting the training labels. This control uses one seed, the full training split, and one layer per task, so its absolute values differ from the five-seed values of Table 11.",
+              "figure_id": "table-18-53",
+              "figure_number": "18",
+              "height": 206,
+              "image_path": "figures/2610.27724/table-037.webp",
+              "kind": "table",
+              "page": 44,
+              "width": 718
+            },
+            {
+              "caption": "Table 5: Test-split precision of the 1025 class-decision ceilings. The standard error is Equation 20 at the ceiling with the test class counts of the class decision, the worst-case radius is Equation 18 at δ = 0.05, and the gap is 0.05 (Cc − 0.5). Readable class decisions are those with Cc > 0.90.",
+              "figure_id": "table-5-61",
+              "figure_number": "5",
+              "height": 210,
+              "image_path": "figures/2610.27724/table-038.webp",
+              "kind": "table",
+              "page": 31,
+              "width": 694
+            },
+            {
+              "caption": "Table 12: Spearman correlation between two models’ k∗ orderings over the 14 core tasks. Each entry is the median over pairs with the minimum and maximum in brackets, and n is the number of pairs. The three treatments differ only in how they handle cells with no finite k∗ or a ceiling below 0.90.",
+              "figure_id": "table-12-20",
+              "figure_number": "12",
+              "height": 167,
+              "image_path": "figures/2610.27724/table-039.webp",
+              "kind": "table",
+              "page": 39,
+              "width": 826
+            },
+            {
+              "caption": "Table 32: Every gated task on Gemma-2-9B. Counts are medians over five seeds with the seed range in brackets where the five seed-level counts differ. The ratio is the base count divided by the instruction-tuned count, as in Equation 40, and 1.00 marks an unchanged count.",
+              "figure_id": "table-32-58",
+              "figure_number": "32",
+              "height": 274,
+              "image_path": "figures/2610.27724/table-040.webp",
+              "kind": "table",
+              "page": 59,
+              "width": 456
+            },
+            {
+              "caption": "Table 35: Factor subsets of the 18 aggregate queries. Factors are numbered from 0 to 31. Target and control instances of a family use subsets of equal size. The eight-factor threshold pair shares factors 16 to 19, which forms the overlap control of Section A.3.4.",
+              "figure_id": "table-35-12",
+              "figure_number": "35",
+              "height": 252,
+              "image_path": "figures/2610.27724/table-041.webp",
+              "kind": "table",
+              "page": 62,
+              "width": 468
+            },
+            {
+              "caption": "Table 4: Every local count behind one reported cell. Harmfulness detection on Gemma-2-9B. The left block gives the dense-probe test AUROC at each window layer and seed, and the right block gives the local count of Equation 5 at the common threshold. The last row applies neighbor confirmation of Equation 14 within each seed. Every local count in this cell comes from the L1 path.",
+              "figure_id": "table-4-18",
+              "figure_number": "4",
+              "height": 189,
+              "image_path": "figures/2610.27724/table-042.webp",
+              "kind": "table",
+              "page": 29,
+              "width": 606
+            },
+            {
+              "caption": "Table 15: Effect of a random rotation on k∗. Entries are medians over the three rotations, and the intent row is additionally a median over the 20 class decisions. The factor column is the median over cells of each cell’s own ratio, which is why it does not equal the ratio of the two preceding columns.",
+              "figure_id": "table-15-26",
+              "figure_number": "15",
+              "height": 186,
+              "image_path": "figures/2610.27724/table-043.webp",
+              "kind": "table",
+              "page": 42,
+              "width": 590
+            },
+            {
+              "caption": "Table 29: Sufficiency without exclusivity on harmfulness detection. Each cell gives the test AUROC of a probe on the top n coordinates alone, followed by the refitted dense AUROC after pinning those coordinates to their training means. The last row gives the dense AUROC with nothing pinned.",
+              "figure_id": "table-29-57",
+              "figure_number": "29",
+              "height": 186,
+              "image_path": "figures/2610.27724/table-044.webp",
+              "kind": "table",
+              "page": 56,
+              "width": 564
+            },
+            {
+              "caption": "Table 34: Seed ranges and ceilings for the four-cell design. Brackets give the minimum and maximum over five seed-level task counts, not confidence intervals. Restricting to the shared layers reproduces every median, with layers 17, 20, 24, 28 for harmfulness and 20, 24, 28 for fact checking.",
+              "figure_id": "table-34-15",
+              "figure_number": "34",
+              "height": 227,
+              "image_path": "figures/2610.27724/table-045.webp",
+              "kind": "table",
+              "page": 61,
+              "width": 452
+            },
+            {
+              "caption": "Table 39: Readouts at saved training checkpoints. Four-layer width-256 transformer, training seed 0, query-token raw basis. Dashes mark failed readability gates. The checkpoints locate changes only at sampled times, and they cannot exclude a transition between observations.",
+              "figure_id": "table-39-50",
+              "figure_number": "39",
+              "height": 180,
+              "image_path": "figures/2610.27724/table-046.webp",
+              "kind": "table",
+              "page": 68,
+              "width": 560
+            },
+            {
+              "caption": "Table 31: Selectivity across all nine base/IT pairs. Rank correlations compare base counts with base/IT count ratios over tasks that pass the ceiling gate on both sides. Harmfulness columns show the deployment comparison, which combines weights and input format. Ratios are descriptive and share the base count with the predictor, as Proposition 3 shows.",
+              "figure_id": "table-31-59",
+              "figure_number": "31",
+              "height": 252,
+              "image_path": "figures/2610.27724/table-047.webp",
+              "kind": "table",
+              "page": 59,
+              "width": 386
+            },
+            {
+              "caption": "Table 23: Median z before and after reducing every support to 20 features. The upper group matches at full size and the lower group, the four intents with supports of 50 or more, does not.",
+              "figure_id": "table-23-48",
+              "figure_number": "23",
+              "height": 211,
+              "image_path": "figures/2610.27724/table-048.webp",
+              "kind": "table",
+              "page": 49,
+              "width": 432
+            },
+            {
+              "caption": "Table 51: Pruning ceilings and recovery at 1,024 labels. Gemma 3 1B with Wanda, median LoRA recovery AUROC across three seeds. The gap is the ceiling minus the recovery AUROC, computed before rounding. These are finite-budget observations, not asymptotic limits.",
+              "figure_id": "table-51-11",
+              "figure_number": "51",
+              "height": 224,
+              "image_path": "figures/2610.27724/table-049.webp",
+              "kind": "table",
+              "page": 85,
+              "width": 390
+            },
+            {
+              "caption": "Table 54: Adapter versus full-parameter recovery. Gemma 3 1B with Wanda at 1,024 labels, median AUROC across seeds. Full-parameter and LoRA runs use their respective default learning rates, so the comparison is between procedures and not a capacity-only ablation.",
+              "figure_id": "table-54-17",
+              "figure_number": "54",
+              "height": 224,
+              "image_path": "figures/2610.27724/table-050.webp",
+              "kind": "table",
+              "page": 86,
+              "width": 382
+            },
+            {
+              "caption": "Table 16: Effect of paraphrasing the test inputs. Each entry is a ceiling followed by k∗, with Gemma-2-9B as the instrument. The factor is the ratio of the two k∗ values.",
+              "figure_id": "table-16-4",
+              "figure_number": "16",
+              "height": 179,
+              "image_path": "figures/2610.27724/table-051.webp",
+              "kind": "table",
+              "page": 43,
+              "width": 468
+            },
+            {
+              "caption": "Table 33: Harmfulness detection across Gemma sizes. Counts are medians over five seeds, and brackets give the seed range. The ratios repeat Table 31 at one decimal.",
+              "figure_id": "table-33-35",
+              "figure_number": "33",
+              "height": 183,
+              "image_path": "figures/2610.27724/table-052.webp",
+              "kind": "table",
+              "page": 60,
+              "width": 432
+            },
+            {
+              "caption": "Table 19: Task order under estimator variants. Each entry is a Spearman correlation against the main protocol over the 14 core tasks, summarized over the 19 models.",
+              "figure_id": "table-19-54",
+              "figure_number": "19",
+              "height": 136,
+              "image_path": "figures/2610.27724/table-053.webp",
+              "kind": "table",
+              "page": 44,
+              "width": 518
+            },
+            {
+              "caption": "Table 44: Shared fit and task-level uncertainty. The percentile interval uses 10,000 task-block bootstrap draws with multiplicities retained. Held-out error leaves whole task blocks out.",
+              "figure_id": "table-44-14",
+              "figure_number": "44",
+              "height": 158,
+              "image_path": "figures/2610.27724/table-054.webp",
+              "kind": "table",
+              "page": 75,
+              "width": 440
+            },
+            {
+              "caption": "Table 20: Fraction of its own ceiling each representation reaches within k features. Entries are medians over the 24 tasks of the prefix score of Equation 30, the model is Gemma-2-9B, and the p value comes from a two-sided Wilcoxon signed-rank test over tasks.",
+              "figure_id": "table-20-34",
+              "figure_number": "20",
+              "height": 88,
+              "image_path": "figures/2610.27724/table-055.webp",
+              "kind": "table",
+              "page": 45,
+              "width": 490
+            },
+            {
+              "caption": "Table 45: Fixed-budget incremental validity on ten high-ceiling tasks. Partial rank correlations with student AUROC at 256 labels, where x | z denotes predictor x with control z and bag of words denotes the text-only ceiling of Appendix A.2.3. The residual-permutation p values are not adjusted for multiplicity. These controls use the single-seed counts of the preliminary sweep and the requested 256-label runs, as specified in Appendix A.4.5, which also reports the N∗-level control.",
+              "figure_id": "table-45-41",
+              "figure_number": "45",
+              "height": 459,
+              "image_path": "figures/2610.27724/table-056.webp",
+              "kind": "table",
+              "page": 77,
+              "width": 415
+            },
+            {
+              "caption": "Table 49: Harmfulness recovery curves after the common three-task chain. We first aggregate the three recovery seeds within each final backbone and then report the median and range over three chain seeds. These endpoints supplement the label requirements in Table 48.",
+              "figure_id": "table-49-46",
+              "figure_number": "49",
+              "height": 412,
+              "image_path": "figures/2610.27724/table-057.webp",
+              "kind": "table",
+              "page": 81,
+              "width": 442
+            },
+            {
+              "caption": "Table 28: All seven fitted refusal configurations. Control collapse is the mean reduction in gap across that arm’s random controls. Configurations vary in edit type, layer, and activation pooling. A configuration is separated when its treated interval overlaps no control interval.",
+              "figure_id": "table-28-37",
+              "figure_number": "28",
+              "height": 197,
+              "image_path": "figures/2610.27724/table-058.webp",
+              "kind": "table",
+              "page": 55,
+              "width": 830
+            },
+            {
+              "caption": "Table 17: Decomposition of the paraphrase expansion by Equation 28. The count columns give k∗ for each train and test combination, and the factor columns multiply to the factor of Table 16.",
+              "figure_id": "table-17-5",
+              "figure_number": "17",
+              "height": 189,
+              "image_path": "figures/2610.27724/table-059.webp",
+              "kind": "table",
+              "page": 43,
+              "width": 830
+            },
+            {
+              "caption": "Table 14: What each protocol choice moves. The upper block changes the representation or the inputs and the lower block changes the estimator. Effects on k∗ are multiplicative factors, effects on the ceiling are absolute AUROC changes, and effects on task order are Spearman correlations against the main protocol, computed over 22 cells for the rotation and over the 14 tasks for the estimator variants. Two tasks do not define an order, so the chat-template row reports none.",
+              "figure_id": "table-14-56",
+              "figure_number": "14",
+              "height": 186,
+              "image_path": "figures/2610.27724/table-060.webp",
+              "kind": "table",
+              "page": 41,
+              "width": 830
+            },
+            {
+              "caption": "Table 48: Recovering harmfulness detection after the same three-task sequence requires fewer labels than initial learning. Both curves are read on the recovery grid of 16 to 1024 labels. The target is the AUROC at which initial learning attains 95% of its gain above chance at 1024 labels, and the first requirement columns give the labels that each procedure needs to reach it. Recovery values give the median and, in brackets, the range over three chain seeds. The last two columns give recovery N∗ against its own endpoint and initial N∗ on the full grid of 16 to 4096 labels.",
+              "figure_id": "table-48-45",
+              "figure_number": "48",
+              "height": 135,
+              "image_path": "figures/2610.27724/table-061.webp",
+              "kind": "table",
+              "page": 81,
+              "width": 714
+            },
+            {
+              "caption": "Table 24: Median match rate by the scale of the pair. The three groups partition the 28 pairs. A pair enters a task’s column only when that task has at least one test for it.",
+              "figure_id": "table-24-38",
+              "figure_number": "24",
+              "height": 112,
+              "image_path": "figures/2610.27724/table-062.webp",
+              "kind": "table",
+              "page": 50,
+              "width": 572
+            },
+            {
+              "caption": "Table 43: Student-specific descriptive fits. Each slope comes from a separate regression on the uncensored tasks of that student. By Proposition 8 the shared exponent of Equation 57 is a weighted average of these slopes, and the shared fit remains the primary analysis.",
+              "figure_id": "table-43-28",
+              "figure_number": "43",
+              "height": 225,
+              "image_path": "figures/2610.27724/table-063.webp",
+              "kind": "table",
+              "page": 74,
+              "width": 252
+            },
+            {
+              "caption": "Table 47: Budget allocation replay relative to uniform allocation. Ratios below one use fewer labels under the replay accounting. Only settings in which the uniform, pilot, count, and predictedrequirement policies all reach the target enter the 18-setting summary, and the oracle policy is excluded because its exact requirements are undefined for left-censored tasks.",
+              "figure_id": "table-47-9",
+              "figure_number": "47",
+              "height": 112,
+              "image_path": "figures/2610.27724/table-064.webp",
+              "kind": "table",
+              "page": 79,
+              "width": 410
+            }
+          ],
+          "first_seen_at": "2026-11-27T21:00:00-05:00",
+          "hero_figure": "figures/2610.27724/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2610.27724",
+          "relevance": 7,
+          "selection_reason": "Analyzes task information organization in LMs using readout sparsity and linear probes, distinguishing task readability from feature count.",
+          "summary_status": "generated",
+          "title": "How Language Models Organize Task Information",
+          "tldr": "Language models often encode tasks with similarly organized, sparse feature readouts, and readout sparsity helps predict learning requirements and diagnose model changes.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "large-language-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Large language models are deployed globally, yet safety alignment and evaluation remain concentrated in English: harmful requests refused in English can elicit unsafe completions when translated into low-resource languages. We evaluate ten widely deployed LLMs across 79 languages (English plus 78 low-resource) under a translation-bypass threat model, using a metric conditioned on English safety, which separates translation bypass from unsafety already present in English. English safety does not transfer reliably: conditioned on safe English completions, mean bypass rates range from 21.9% to 44.4%. Bypass risk concentrates in a subset of language families, a pattern broadly shared across models. The shared ordering is confounded with translation degeneracy, but its variation across models is significant and survives every control we apply. We also show that per-model bypass rates do not identify a stable ranking: nine of ten models change rank across three conditioning schemes that estimate the same quantity, with no change to any underlying response.",
+          "arxiv_id": "2610.27304",
+          "arxiv_url": "https://arxiv.org/abs/2610.27304",
+          "authors": [
+            "Jalil Alva",
+            "David Harper",
+            "Abigail E. Thornton",
+            "Rafael S. Villalobos Alva",
+            "Leonardo Kenji Minemura Suazo",
+            "Konstantinos Karageorgos",
+            "Diego Velazquez",
+            "Sergio A. Serrano",
+            "Marvin Vargas Flores",
+            "Aaron Schliem",
+            "Fernando F. Migone"
+          ],
+          "bullets": [
+            "Evaluated 10 LLMs across English and 78 low-resource languages under a translation-bypass threat model.",
+            "Among requests answered safely in English, 21.9%–44.4% elicited unsafe completions after translation.",
+            "Bypass risk clusters in some language families, though the pattern is partly confounded by translation quality or degeneracy.",
+            "Model-specific variation remains significant after controls, but model rankings are unstable across conditioning schemes.",
+            "The study highlights a global safety-evaluation gap rather than a single stable model ranking."
+          ],
+          "categories": [
+            "cs.CL",
+            "cs.AI",
+            "cs.CR",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 3: Model × language family heatmap of within-model deviations in bypass rate (percentage points vs. that model’s EN-safe mean), with per-model family-spread summary.",
+              "figure_id": "figure-3-1",
+              "figure_number": "3",
+              "height": 339,
+              "image_path": "figures/2610.27304/figure-001.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 632
+            },
+            {
+              "caption": "Figure 2: English baseline and translation bypass conditioned on EN-safe prompts. Left: each model’s English safe rate with EN-safe prompt count N . Right: mean bypass rate (red bars) and attack success thresholds at ≥20% (triangles) and ≥50% (squares) of low-resource languages unsafe.",
+              "figure_id": "figure-2-13",
+              "figure_number": "2",
+              "height": 312,
+              "image_path": "figures/2610.27304/figure-002.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 632
+            },
+            {
+              "caption": "Figure 1: Pipeline of the Unsafe Evaluation.",
+              "figure_id": "figure-1-6",
+              "figure_number": "1",
+              "height": 131,
+              "image_path": "figures/2610.27304/figure-003.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 500
+            },
+            {
+              "caption": "Figure 4: Prompt fixed-effects bypass regression (EN-safe subset). Odds ratios of low-resource unsafe outcomes relative to Claude-Sonnet-4 (OR = 1), with 95% confidence intervals.",
+              "figure_id": "figure-4-4",
+              "figure_number": "4",
+              "height": 410,
+              "image_path": "figures/2610.27304/figure-004.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 582
+            },
+            {
+              "caption": "Table 2: Safety categories and definitions.",
+              "figure_id": "table-2-3",
+              "figure_number": "2",
+              "height": 500,
+              "image_path": "figures/2610.27304/table-005.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 814
+            },
+            {
+              "caption": "Table 1: Prompt-response examples. Ellipses and bracketed descriptions indicate omitted content.",
+              "figure_id": "table-1-2",
+              "figure_number": "1",
+              "height": 379,
+              "image_path": "figures/2610.27304/table-006.webp",
+              "kind": "table",
+              "page": 11,
+              "width": 772
+            },
+            {
+              "caption": "Table 3: Prompt request categories and definitions.",
+              "figure_id": "table-3-12",
+              "figure_number": "3",
+              "height": 263,
+              "image_path": "figures/2610.27304/table-007.webp",
+              "kind": "table",
+              "page": 12,
+              "width": 790
+            },
+            {
+              "caption": "Table 4: Language metadata.",
+              "figure_id": "table-4-5",
+              "figure_number": "4",
+              "height": 894,
+              "image_path": "figures/2610.27304/table-008.webp",
+              "kind": "table",
+              "page": 13,
+              "width": 614
+            },
+            {
+              "caption": "Table 10: Per-language degeneracy and bypass rates, ordered by degeneracy rate (descending).",
+              "figure_id": "table-10-11",
+              "figure_number": "10",
+              "height": 458,
+              "image_path": "figures/2610.27304/table-009.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 694
+            },
+            {
+              "caption": "Table 6: Bypass rates and ranks across conditioning schemes. Rank 1 = highest bypass rate.",
+              "figure_id": "table-6-15",
+              "figure_number": "6",
+              "height": 254,
+              "image_path": "figures/2610.27304/table-010.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 752
+            },
+            {
+              "caption": "Table 9: Model×family interaction under degeneracy controls. All tests: ∆df = 63.",
+              "figure_id": "table-9-10",
+              "figure_number": "9",
+              "height": 157,
+              "image_path": "figures/2610.27304/table-011.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 706
+            },
+            {
+              "caption": "Table 12: Count of low-resource languages by family. Rows listing multiple families indicate ties in count. Coverage is concentrated: two families hold 30 of the 78 languages, while 13 families contribute three or fewer.",
+              "figure_id": "table-12-8",
+              "figure_number": "12",
+              "height": 254,
+              "image_path": "figures/2610.27304/table-012.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 702
+            },
+            {
+              "caption": "Table 11: Unique prompt counts by category.",
+              "figure_id": "table-11-7",
+              "figure_number": "11",
+              "height": 333,
+              "image_path": "figures/2610.27304/table-013.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 472
+            },
+            {
+              "caption": "Table 7: Spearman rank correlations between conditioning schemes.",
+              "figure_id": "table-7-14",
+              "figure_number": "7",
+              "height": 111,
+              "image_path": "figures/2610.27304/table-014.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 532
+            },
+            {
+              "caption": "Table 8: Degeneracy indicators and prevalence in the EN-safe frame.",
+              "figure_id": "table-8-9",
+              "figure_number": "8",
+              "height": 150,
+              "image_path": "figures/2610.27304/table-015.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 664
+            }
+          ],
+          "first_seen_at": "2026-11-27T21:00:00-05:00",
+          "hero_figure": "figures/2610.27304/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2610.27304",
+          "relevance": 7,
+          "selection_reason": "Evaluates safety bypass via translation in LLMs across low-resource languages, investigating cross-lingual safety alignment and transferability.",
+          "summary_status": "generated",
+          "title": "Global Security Blind Spots: Translation as a Safety Bypass in Low-Resource Languages",
+          "tldr": "Safety refusals in English often fail to transfer to low-resource languages, creating substantial translation-based bypass risks across widely deployed LLMs.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "large-language-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Inference-time harnesses, i.e., external procedures that call a model many times and keep state across calls, can substantially improve model capabilities. In this paper, we investigate the benefits of using such harnesses and the extent to which these benefits can be internalized through training. More precisely, we conceptualize a harness $\\mathcal{A}$ as an arbitrary wrapper around a base model $M$ and attempt to distill a student model from the harness's traces. Empirically we find that, even with simple scaffolds and small models, the inference-time harness significantly outperforms a distilled student. We then prove that such a gap is due to a fundamental representational limitation: inference-time harnesses can compute a closure of their per-call primitive that is $\\NL$-complete even when the primitive is a trivial $\\AC^0$ lookup, and that no fixed-depth forward pass can represent under the widely believed conjecture that $\\NL\\not\\subseteq\\TC^0$. Our theory suggests that expanding the representational capacity of the student relative to the task at hand, e.g., by enlarging the model, making the task easier, or lengthening its chain-of-thought, is necessary to close the gap, which we verify empirically. Finally, we scale to an agentic harness on competition math, where the same gap reappears. Overall, our results show that a harness confers on the base model a profound gain in representational power, one that training a same-class student on its traces cannot transfer back into the weights.",
+          "arxiv_id": "2610.27157",
+          "arxiv_url": "https://arxiv.org/abs/2610.27157",
+          "authors": [
+            "Jingchu Gai",
+            "Adam Block",
+            "Andrej Risteski"
+          ],
+          "bullets": [
+            "The paper studies whether repeated model calls with external state can be internalized by training a student on scaffold traces.",
+            "Even simple scaffolds and small models substantially outperform distilled students, with the gap also appearing in an agentic competition-math setting.",
+            "Theoretically, a harness can compute an NL-complete closure from an AC⁰ primitive, beyond the capabilities of fixed-depth forward passes under the conjecture NL ⊄ TC⁰.",
+            "Closing the gap requires increasing the student’s effective capacity, such as through a larger model, easier tasks, or longer chain-of-thought.",
+            "The limitation is scope-dependent: the representational separation relies on the stated complexity-theoretic conjecture and fixed-depth student architecture."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 7: Fine-tuned A* students stay at the base model. Fine-tuning the base model on A* traces (Sokoban). For every clean-data ratio, number of iterations and amount of data, the student stays close to the base model and well below the teacher (dashed).",
+              "figure_id": "figure-7-1",
+              "figure_number": "7",
+              "height": 566,
+              "image_path": "figures/2610.27157/figure-001.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 984
+            },
+            {
+              "caption": "Figure 5: Larger trees widen the gap. (a) Teacher and student accuracy on Qwen3-1.7B per tree shape (d, L). (b) Trace length and gain over the base model on QED-Nano.",
+              "figure_id": "figure-5-13",
+              "figure_number": "5",
+              "height": 893,
+              "image_path": "figures/2610.27157/figure-002.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 982
+            },
+            {
+              "caption": "Figure 6: No fine-tuning setting reaches the teacher. A same-size student fine-tuned on VGB traces (Sokoban, MC-oracle score, score tokens kept). Top row: clean-data ratio (a), number of iterations (b) and number of traces (c). Bottom row: the clean-data sweep repeated with training puzzles drawn from Pα, for α = 0.25 (d), 0.50 (e) and 0.75 (f). Dashed lines mark the teacher.",
+              "figure_id": "figure-6-5",
+              "figure_number": "6",
+              "height": 794,
+              "image_path": "figures/2610.27157/figure-003.webp",
+              "kind": "figure",
+              "page": 14,
+              "width": 984
+            },
+            {
+              "caption": "Figure 1: Same-size students cannot recover the teacher. ID (blue) / OOD (magenta) accuracy of the base model and the two students; dashed lines denote the teacher.",
+              "figure_id": "figure-1-6",
+              "figure_number": "1",
+              "height": 225,
+              "image_path": "figures/2610.27157/figure-004.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 952
+            },
+            {
+              "caption": "Figure 12: No distillation setting reaches the teacher, and only the teacher gains from more calls. Branching distillation on Qwen3-1.7B. Top row: clean-data ratio (a), number of traces (b) and number of epochs (c); the teacher is dashed and the base model dotted. Bottom row: number of calls per problem for every tree shape (d, L) (d), and accuracy with the shapes sorted by the teacher’s accuracy (e).",
+              "figure_id": "figure-12-4",
+              "figure_number": "12",
+              "height": 465,
+              "image_path": "figures/2610.27157/figure-005.webp",
+              "kind": "figure",
+              "page": 22,
+              "width": 944
+            },
+            {
+              "caption": "Figure 8: From-scratch students stay far below the teacher. Students trained from scratch, with VGB in the top row and A* search in the bottom row. No seed, trace source or rough change in size brings either student close to its teacher (dashed; VGB 0.765/0.605, A* 0.99/0.98).",
+              "figure_id": "figure-8-16",
+              "figure_number": "8",
+              "height": 410,
+              "image_path": "figures/2610.27157/figure-006.webp",
+              "kind": "figure",
+              "page": 16,
+              "width": 944
+            },
+            {
+              "caption": "Figure 3: A long enough chain-of-thought matches the scaffold. (a) The task. (b) Accuracy against the training chain-of-thought length L; the dashed line marks the phase transition.",
+              "figure_id": "figure-3-15",
+              "figure_number": "3",
+              "height": 222,
+              "image_path": "figures/2610.27157/figure-007.webp",
+              "kind": "figure",
+              "page": 5,
+              "width": 970
+            },
+            {
+              "caption": "Figure 4: Illustration of the directed s–t reachability task. (a) The path-finding task. (b) With an AC0 edge oracle, a harness decides it in polynomial time. (c) A model with a bounded chain-of-thought cannot.",
+              "figure_id": "figure-4-3",
+              "figure_number": "4",
+              "height": 195,
+              "image_path": "figures/2610.27157/figure-008.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 968
+            },
+            {
+              "caption": "Figure 10: Accuracy increases with size at every clean ratio and checkpoint. The sweeps of Figure 9 shown separately for each clean-data ratio and each checkpoint. Within each block, the rows are A*, VGB-Sokoban and VGB-Dyck from top to bottom.",
+              "figure_id": "figure-10-10",
+              "figure_number": "10",
+              "height": 834,
+              "image_path": "figures/2610.27157/figure-009.webp",
+              "kind": "figure",
+              "page": 19,
+              "width": 944
+            },
+            {
+              "caption": "Figure 13: A larger backbone closes the gap. (a) Student accuracy with the 1.7B and 4B backbones. (b) Student accuracy with LoRA ranks 16 and 64 and with full fine-tuning. (c) Gain of the harness over the base model on QED-Nano for each shape. Only the 40-call shape has a gain whose interval excludes zero, and its trace is much longer than the context window.",
+              "figure_id": "figure-13-12",
+              "figure_number": "13",
+              "height": 219,
+              "image_path": "figures/2610.27157/figure-010.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 944
+            },
+            {
+              "caption": "Figure 2: Bigger students and a simpler scaffold narrow the gap. (a) The two scaffolds. (b) Accuracy against the student’s parameter count. (c) Accuracy against the distribution the traces were drawn from; dashed lines mark the teacher.",
+              "figure_id": "figure-2-9",
+              "figure_number": "2",
+              "height": 199,
+              "image_path": "figures/2610.27157/figure-011.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 970
+            },
+            {
+              "caption": "Figure 11: The same phase transition on an easier task. (a) The verifier-backtracking harness with K=16. (b) Accuracy against the training chain-of-thought length L for nops=10.",
+              "figure_id": "figure-11-2",
+              "figure_number": "11",
+              "height": 229,
+              "image_path": "figures/2610.27157/figure-012.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 968
+            },
+            {
+              "caption": "Figure 9: Larger students close the gap on Sokoban. Best accuracy at each scale in the two Sokoban settings.",
+              "figure_id": "figure-9-7",
+              "figure_number": "9",
+              "height": 185,
+              "image_path": "figures/2610.27157/figure-013.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 944
+            },
+            {
+              "caption": "Table 1: The 12 student scales of Section 3.1, plus large. VGB is run on the 8 scales from tiny to m_plus; A* search and Dyck use all of them.",
+              "figure_id": "table-1-11",
+              "figure_number": "1",
+              "height": 184,
+              "image_path": "figures/2610.27157/table-014.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 552
+            },
+            {
+              "caption": "Table 3: The five tree shapes we run and the median length of their full traces.",
+              "figure_id": "table-3-8",
+              "figure_number": "3",
+              "height": 152,
+              "image_path": "figures/2610.27157/table-015.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 490
+            },
+            {
+              "caption": "Table 2: Full results of simple-BT distillation on Dyck, in one pass and with the student’s own <BT> tokens. Figure 2c in the main text uses the <BT> rows of the distilled students.",
+              "figure_id": "table-2-14",
+              "figure_number": "2",
+              "height": 198,
+              "image_path": "figures/2610.27157/table-016.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 772
+            }
+          ],
+          "first_seen_at": "2026-11-27T21:00:00-05:00",
+          "hero_figure": "figures/2610.27157/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2610.27157",
+          "relevance": 6,
+          "selection_reason": "Analyzes inference-time harnesses versus distilled students for LLMs with representational separations; relevant to LLM reasoning and inference-time methods.",
+          "summary_status": "generated",
+          "title": "Understanding the Benefits of Scaffolds through Computational Separations",
+          "tldr": "Inference-time scaffolds can provide representational power that same-class student models cannot fully absorb through distillation.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "large-language-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        },
+        {
+          "abstract": "Mixture-of-Experts (MoE) models reduce computation through sparse expert activation, but deployment still requires storing a large number of expert parameters. We study post-training expert pruning using task-domain calibration data as a subset-selection problem: given a pretrained MoE layer, select a fixed number of experts that best reconstruct its original output. Exact subset search is combinatorial and becomes intractable for modern MoE models with many experts per layer. We develop OptEP, a scalable continuous relaxation that directly optimizes differentiable expert-selection variables, followed by a lightweight reconstruction-based update of the retained expert weights. Across multiple MoE architectures and tasks spanning mathematical reasoning and code generation, our approach improves over the strongest existing expert-pruning baselines, with absolute accuracy gains of up to 15.05% on Qwen3-30B-A3B, 14.55% on Qwen3-235B-A22B, 11.06% on GLM-4.5-Air, and 16.20% on Mixtral-8x7B. The improvements are particularly pronounced under aggressive pruning, demonstrating that reconstruction-driven expert selection and weight adaptation can preserve substantially more of the original model's performance while reducing the number of retained experts.",
+          "arxiv_id": "2610.27123",
+          "arxiv_url": "https://arxiv.org/abs/2610.27123",
+          "authors": [
+            "Jelena Markovic-Voronov",
+            "Petros Prastakos",
+            "Kayhan Behdin",
+            "Jincheng Cao",
+            "Zhipeng Wang",
+            "Shayan Mohajer Hamidi",
+            "Yuanda Xu",
+            "Zhengze Zhou",
+            "Wenhui Zhu",
+            "Rahul Mazumder"
+          ],
+          "bullets": [
+            "Addresses the storage burden of large MoE models despite sparse expert activation.",
+            "Formulates expert pruning as selecting a fixed-size subset using task-domain calibration data.",
+            "Uses a scalable continuous relaxation for expert selection, followed by lightweight reconstruction-based updates to retained weights.",
+            "Improves over existing pruning baselines across reasoning and code-generation tasks, with reported gains up to 16.20%.",
+            "Benefits are especially pronounced when pruning aggressively."
+          ],
+          "categories": [
+            "cs.LG",
+            "cs.AI"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Table 3: Expert pruning results for GLM-4.5-Air on math (MATH-500 pass1) and coding (LiveCodeBench pass1). Results are mean accuracy in % over three calibration seeds.",
+              "figure_id": "table-3-8",
+              "figure_number": "3",
+              "height": 294,
+              "image_path": "figures/2610.27123/table-001.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 660
+            },
+            {
+              "caption": "Table 1: Expert pruning results for Qwen3-30B-A3B on math (MATH-500 pass@1) and coding (LiveCodeBench pass@1). Results are mean accuracy in % over three calibration seeds.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 293,
+              "image_path": "figures/2610.27123/table-002.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 660
+            },
+            {
+              "caption": "Table 2: Expert pruning results for Qwen3-235B-A22B on math (MATH-500 pass@1) and coding (LiveCodeBench pass@1). Results are mean accuracy in % over three calibration seeds.",
+              "figure_id": "table-2-9",
+              "figure_number": "2",
+              "height": 293,
+              "image_path": "figures/2610.27123/table-003.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 660
+            },
+            {
+              "caption": "Table 4: Expert pruning results for Mixtral-8x7B-v0.1 on math (GSM8K flexible extraction) and coding (MBPP standard pass@1). Results are mean accuracy in % over five seeds.",
+              "figure_id": "table-4-7",
+              "figure_number": "4",
+              "height": 333,
+              "image_path": "figures/2610.27123/table-004.webp",
+              "kind": "table",
+              "page": 8,
+              "width": 494
+            },
+            {
+              "caption": "Table 5: Expert pruning on Qwen3-30B-A3B, evaluated on MATH-500. Results are mean accuracy ± standard error over three calibration seeds.",
+              "figure_id": "table-5-10",
+              "figure_number": "5",
+              "height": 361,
+              "image_path": "figures/2610.27123/table-005.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 636
+            },
+            {
+              "caption": "Table 6: Expert pruning on Qwen3-30B-A3B, evaluated on LiveCodeBench v4–v5. Results are mean accuracy ± standard error over three calibration seeds.",
+              "figure_id": "table-6-11",
+              "figure_number": "6",
+              "height": 360,
+              "image_path": "figures/2610.27123/table-006.webp",
+              "kind": "table",
+              "page": 20,
+              "width": 636
+            },
+            {
+              "caption": "Table 7: Expert pruning on Qwen3-235B-A22B, evaluated on MATH-500. Results are mean accuracy ± standard error over three calibration seeds.",
+              "figure_id": "table-7-1",
+              "figure_number": "7",
+              "height": 361,
+              "image_path": "figures/2610.27123/table-007.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 636
+            },
+            {
+              "caption": "Table 8: Expert pruning on Qwen3-235B-A22B, evaluated on LiveCodeBench v4–v5. Results are mean accuracy ± standard error over three calibration seeds.",
+              "figure_id": "table-8-2",
+              "figure_number": "8",
+              "height": 360,
+              "image_path": "figures/2610.27123/table-008.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 636
+            },
+            {
+              "caption": "Table 9: Expert pruning on GLM-4.5-Air, evaluated on MATH-500. Results are mean accuracy ± standard error over three calibration seeds.",
+              "figure_id": "table-9-4",
+              "figure_number": "9",
+              "height": 361,
+              "image_path": "figures/2610.27123/table-009.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 636
+            },
+            {
+              "caption": "Table 10: Expert pruning on GLM-4.5-Air, evaluated on LiveCodeBench v4–v5. Results are mean accuracy ± standard error over three calibration seeds.",
+              "figure_id": "table-10-5",
+              "figure_number": "10",
+              "height": 360,
+              "image_path": "figures/2610.27123/table-010.webp",
+              "kind": "table",
+              "page": 22,
+              "width": 636
+            },
+            {
+              "caption": "Table 11: Expert pruning results for Mixtral-8x7B-v0.1 on math (GSM8K flexible extraction) and coding (MBPP standard pass@1). Results are mean accuracy ± standard error in % over five seeds.",
+              "figure_id": "table-11-6",
+              "figure_number": "11",
+              "height": 463,
+              "image_path": "figures/2610.27123/table-011.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 852
+            }
+          ],
+          "first_seen_at": "2026-11-27T21:00:00-05:00",
+          "hero_figure": "figures/2610.27123/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2610.27123",
+          "relevance": 7,
+          "selection_reason": "Post-training expert pruning for MoE LLMs via reconstruction-based subset selection; directly relevant to efficient LLM deployment and memory reduction.",
+          "summary_status": "generated",
+          "title": "Reconstruction-Optimized Expert Pruning for Mixture-of-Experts Language Models",
+          "tldr": "OptEP prunes MoE experts by optimizing which experts best reconstruct the original layer output, preserving more task performance under aggressive pruning.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "kv-cache-and-memory-efficiency"
+              ],
+              "topic_id": "efficient-ai"
+            },
+            {
+              "subtopic_ids": [
+                "large-language-models"
+              ],
+              "topic_id": "language-foundation-models"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-25",
       "paper_count": 41,
       "papers": [
@@ -162442,221 +163693,10 @@
             "cs.LG",
             "cs.AI"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Figure 5: Multi-Steering on power and coordination traits; Orthogonal Parametrized (solid) versus α-iterative (left) and parameterized (right), both dashed.",
-              "figure_id": "figure-5-18",
-              "figure_number": "5",
-              "height": 369,
-              "image_path": "figures/2610.37517/figure-001.webp",
-              "kind": "figure",
-              "page": 9,
-              "width": 742
-            },
-            {
-              "caption": "Figure 1: Steered text generations after adding sycophancy and warmth steering vectors to an LLM and where these generations lie in the representation space.",
-              "figure_id": "figure-1-8",
-              "figure_number": "1",
-              "height": 300,
-              "image_path": "figures/2610.37517/figure-002.webp",
-              "kind": "figure",
-              "page": 2,
-              "width": 736
-            },
-            {
-              "caption": "Figure 3: Parameterized Steering; Plot of comparison of α-iterative vs parameterized steering.",
-              "figure_id": "figure-3-21",
-              "figure_number": "3",
-              "height": 248,
-              "image_path": "figures/2610.37517/figure-003.webp",
-              "kind": "figure",
-              "page": 5,
-              "width": 825
-            },
-            {
-              "caption": "Figure 7: The solid region shows the best clipped segment of each steering result that we identify as the steerable region.",
-              "figure_id": "figure-7-4",
-              "figure_number": "7",
-              "height": 364,
-              "image_path": "figures/2610.37517/figure-004.webp",
-              "kind": "figure",
-              "page": 15,
-              "width": 832
-            },
-            {
-              "caption": "Figure 4: Activations projected onto the span of steering vectors for coordination and power (correlation = 0.87), before and after orthogonalization and parameterization.",
-              "figure_id": "figure-4-1",
-              "figure_number": "4",
-              "height": 231,
-              "image_path": "figures/2610.37517/figure-005.webp",
-              "kind": "figure",
-              "page": 6,
-              "width": 729
-            },
-            {
-              "caption": "Figure 2: avg_score on held out data before and after learning steering interval on train data.",
-              "figure_id": "figure-2-16",
-              "figure_number": "2",
-              "height": 210,
-              "image_path": "figures/2610.37517/figure-006.webp",
-              "kind": "figure",
-              "page": 4,
-              "width": 710
-            },
-            {
-              "caption": "Figure 6: Positive and negative activations projected onto the warmth and sycophancy vectors",
-              "figure_id": "figure-6-10",
-              "figure_number": "6",
-              "height": 206,
-              "image_path": "figures/2610.37517/figure-007.webp",
-              "kind": "figure",
-              "page": 10,
-              "width": 643
-            },
-            {
-              "caption": "Figure 9: Positive and negative activations projected onto the warmth and sycophancy vectors",
-              "figure_id": "figure-9-17",
-              "figure_number": "9",
-              "height": 256,
-              "image_path": "figures/2610.37517/figure-008.webp",
-              "kind": "figure",
-              "page": 24,
-              "width": 803
-            },
-            {
-              "caption": "Figure 8: Effect of steering at different layers in Qwen 3 8B",
-              "figure_id": "figure-8-7",
-              "figure_number": "8",
-              "height": 281,
-              "image_path": "figures/2610.37517/figure-009.webp",
-              "kind": "figure",
-              "page": 21,
-              "width": 475
-            },
-            {
-              "caption": "Table 2: Multi-steering sensitivity on average_score for the α trait. Lower is better. Our methods: parameterized (Pα, Pβ) and orthogonal parameterized (OPα, OPβ). ∆AI denotes AI−OPα.",
-              "figure_id": "table-2-15",
-              "figure_number": "2",
-              "height": 312,
-              "image_path": "figures/2610.37517/table-010.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 826
-            },
-            {
-              "caption": "Table 4: Percent_steered across bias datasets and steering methods compared with MAT-Steer (our rows: Llama 3.1 8B Instruct, layer 14).",
-              "figure_id": "table-4-9",
-              "figure_number": "4",
-              "height": 233,
-              "image_path": "figures/2610.37517/table-011.webp",
-              "kind": "table",
-              "page": 10,
-              "width": 400
-            },
-            {
-              "caption": "Table 6: Mean conditional standard deviation of percent_steered across β while α is held fixed. Lower is better. Our methods are parameterized steering (Pα, Pβ) and orthogonal parameterized steering (OPα, OPβ). ∆AI denotes AI − OPα.",
-              "figure_id": "table-6-20",
-              "figure_number": "6",
-              "height": 279,
-              "image_path": "figures/2610.37517/table-012.webp",
-              "kind": "table",
-              "page": 20,
-              "width": 826
-            },
-            {
-              "caption": "Table 3: Multi-steering range of average_score in α trait. Higher is better. ∆AI denotes OP-AI and ∆P denotes OP-P",
-              "figure_id": "table-3-14",
-              "figure_number": "3",
-              "height": 339,
-              "image_path": "figures/2610.37517/table-013.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 827
-            },
-            {
-              "caption": "Table 1: Sycophancy (parameter α) and warmth (β) steering performance across various methods (AI = traditional α-iterative; our OAI as orthogonal AI; and our OP as orthogonal parameterized.",
-              "figure_id": "table-1-11",
-              "figure_number": "1",
-              "height": 90,
-              "image_path": "figures/2610.37517/table-014.webp",
-              "kind": "table",
-              "page": 3,
-              "width": 822
-            },
-            {
-              "caption": "Table 7: Multi-steering range of percent_steered in α trait. Higher is better. ∆AI denotes OP-AI and ∆P denotes OP-P.",
-              "figure_id": "table-7-19",
-              "figure_number": "7",
-              "height": 303,
-              "image_path": "figures/2610.37517/table-015.webp",
-              "kind": "table",
-              "page": 20,
-              "width": 827
-            },
-            {
-              "caption": "Table 5: Shortened trait names used throughout the appendix tables.",
-              "figure_id": "table-5-3",
-              "figure_number": "5",
-              "height": 129,
-              "image_path": "figures/2610.37517/table-016.webp",
-              "kind": "table",
-              "page": 15,
-              "width": 394
-            },
-            {
-              "caption": "Table 13: Automated diagnostics on the complete synthetic warmth dataset. The semantic review measures consistency with supplied reference specifications rather than external factual correctness or human judgment. Embedding-based results use 768-dimensional ModernBERT-base representations. Predictive evaluations use five-fold cross-validation grouped by recorded factual core. Majority-class baselines are 40% and 20% for the three- and five-class tasks, respectively.",
-              "figure_id": "table-13-2",
-              "figure_number": "13",
-              "height": 275,
-              "image_path": "figures/2610.37517/table-017.webp",
-              "kind": "table",
-              "page": 26,
-              "width": 827
-            },
-            {
-              "caption": "Table 8: Qwen3-8B multi-steering range of average_score in the α trait. Higher is better. ∆AI denotes OP − AI and ∆P denotes OP − P.",
-              "figure_id": "table-8-5",
-              "figure_number": "8",
-              "height": 177,
-              "image_path": "figures/2610.37517/table-018.webp",
-              "kind": "table",
-              "page": 21,
-              "width": 827
-            },
-            {
-              "caption": "Table 9: Qwen3-8B multi-steering range of percent_steered in the α trait. Higher is better. ∆AI denotes OP − AI and ∆P denotes OP − P.",
-              "figure_id": "table-9-6",
-              "figure_number": "9",
-              "height": 177,
-              "image_path": "figures/2610.37517/table-019.webp",
-              "kind": "table",
-              "page": 21,
-              "width": 827
-            },
-            {
-              "caption": "Table 11: LLM-as-a-judge multi-steering range of percent_steered in the α trait. Higher is better. ∆AI denotes OP − AI and ∆P denotes OP − P.",
-              "figure_id": "table-11-12",
-              "figure_number": "11",
-              "height": 177,
-              "image_path": "figures/2610.37517/table-020.webp",
-              "kind": "table",
-              "page": 23,
-              "width": 827
-            },
-            {
-              "caption": "Table 12: LLM-as-a-judge multi-steering range of average_score in the α trait. Higher is better. ∆AI denotes OP − AI and ∆P denotes OP − P.",
-              "figure_id": "table-12-13",
-              "figure_number": "12",
-              "height": 177,
-              "image_path": "figures/2610.37517/table-021.webp",
-              "kind": "table",
-              "page": 23,
-              "width": 827
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-28T21:00:00-04:00",
-          "hero_figure": "figures/2610.37517/hero.webp",
+          "hero_figure": null,
           "novelty": 7,
           "pdf_url": "https://arxiv.org/pdf/2610.37517",
           "relevance": 7,
@@ -162692,131 +163732,10 @@
             "cs.AI",
             "cs.CL"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Figure 4 Evaluation results after baseline training, training on randomly filtered data, training on the LLM-as-a-judge filtered dataset, training on data filtered with the method of He et al., and training on SafeTulu. All values are percentages, reported as mean ± standard error. Lower is better on GCG & ActorBreaker attack success rate and ORBench over-refusal rate, while higher accuracy is better on all capability metrics. Across all models, training on SafeTulu decreases ASR while preserving comparable capability.",
-              "figure_id": "figure-4-2",
-              "figure_number": "4",
-              "height": 673,
-              "image_path": "figures/2610.37481/figure-001.webp",
-              "kind": "figure",
-              "page": 11,
-              "width": 832
-            },
-            {
-              "caption": "Figure 1 Detection AUC against embedding wall-clock time for each optimization strategy. Restricting backpropagation to the last four transformer blocks gives the best balance of embedding quality and speed.",
-              "figure_id": "figure-1-1",
-              "figure_number": "1",
-              "height": 596,
-              "image_path": "figures/2610.37481/figure-002.webp",
-              "kind": "figure",
-              "page": 6,
-              "width": 986
-            },
-            {
-              "caption": "Figure 2 Probability that a randomly selected insecure-code example receives a higher gradient-similarity score than a randomly selected secure-code example (ROC-AUC), before and after insecure-code fine-tuning. This measures score ordering, not the frequency of harmful responses.",
-              "figure_id": "figure-2-8",
-              "figure_number": "2",
-              "height": 442,
-              "image_path": "figures/2610.37481/figure-003.webp",
-              "kind": "figure",
-              "page": 8,
-              "width": 832
-            },
-            {
-              "caption": "Figure 3 SafeTulu construction: score Tulu 3 examples against unsafe SafeRLHF responses, remove the 20% with the highest gradient similarity, and train and evaluate on the retained 80%.",
-              "figure_id": "figure-3-11",
-              "figure_number": "3",
-              "height": 264,
-              "image_path": "figures/2610.37481/figure-004.webp",
-              "kind": "figure",
-              "page": 9,
-              "width": 832
-            },
-            {
-              "caption": "Table 1 Evaluation results after baseline training, training on randomly filtered data, training on the LLM-as-a-judge filtered dataset, training on data filtered with the method of He et al., and training on SafeTulu, for Qwen 3 1.7B, Llama 3.2 1B, Olmo 2 1B, and the larger Llama 3.1 8B. All values are percentages, reported as mean ± standard error. Lower is better on GCG & ActorBreaker attack success rate and ORBench over-refusal rate, while higher accuracy is better on all capability metrics. Across all models, including at the 8B scale, training on SafeTulu decreases ASR while preserving comparable capability.",
-              "figure_id": "table-1-7",
-              "figure_number": "1",
-              "height": 1083,
-              "image_path": "figures/2610.37481/table-005.webp",
-              "kind": "table",
-              "page": 18,
-              "width": 986
-            },
-            {
-              "caption": "Table 2 Fraction of each Tulu 3 subset removed by each method under a 20% budget, with math subsets highlighted. While the LLM judge removes math at a roughly flat rate, gradient filtering varies its rates, indicating it is finding a signal beyond surface level content.",
-              "figure_id": "table-2-10",
-              "figure_number": "2",
-              "height": 446,
-              "image_path": "figures/2610.37481/table-006.webp",
-              "kind": "table",
-              "page": 19,
-              "width": 744
-            },
-            {
-              "caption": "Table 4 Examples of removed and kept documents from each subset. Responses are truncated to their distinguishing parts.",
-              "figure_id": "table-4-12",
-              "figure_number": "4",
-              "height": 694,
-              "image_path": "figures/2610.37481/table-007.webp",
-              "kind": "table",
-              "page": 20,
-              "width": 1000
-            },
-            {
-              "caption": "Table 3 Relative rate (RR) of each feature among removed vs kept documents. We observe trends such as removing tool-execution failures and simple coding tasks at a higher rate.",
-              "figure_id": "table-3-9",
-              "figure_number": "3",
-              "height": 308,
-              "image_path": "figures/2610.37481/table-008.webp",
-              "kind": "table",
-              "page": 19,
-              "width": 986
-            },
-            {
-              "caption": "Table 8 Gradient-embedding AUC across non-fine-tuned Qwen2.5-Coder model sizes. The gradient signal increases up to 14B, suggesting that smaller models may have a sharper gradient signal than larger models.",
-              "figure_id": "table-8-4",
-              "figure_number": "8",
-              "height": 184,
-              "image_path": "figures/2610.37481/table-009.webp",
-              "kind": "table",
-              "page": 25,
-              "width": 340
-            },
-            {
-              "caption": "Table 5 The percentage that the data removed by gradient filtering is shorter than the kept documents for every major subset. The percentage is only large for half (6/11) of the major subsets, indicating that gradient filtering is not simply optimizing for shorter length examples.",
-              "figure_id": "table-5-5",
-              "figure_number": "5",
-              "height": 341,
-              "image_path": "figures/2610.37481/table-010.webp",
-              "kind": "table",
-              "page": 21,
-              "width": 464
-            },
-            {
-              "caption": "Table 7 Cross-model transfer of the emergent-misalignment gradient signal. Matched AUC uses harmful target responses produced by the same model family as the embedding model, while Transfer AUC replaces them with responses from the other fine-tuned model family. The embedding model used is important: models’ gradient representations do not necessarily transfer to different models’ responses.",
-              "figure_id": "table-7-3",
-              "figure_number": "7",
-              "height": 187,
-              "image_path": "figures/2610.37481/table-011.webp",
-              "kind": "table",
-              "page": 25,
-              "width": 986
-            },
-            {
-              "caption": "Table 6 GCG attack success rate (%) vs. the fraction of training data removed, for training Llama 3.2 1B after LLM-as-ajudge filtering and gradient-based filtering. Values are mean ± standard error; lower is better.",
-              "figure_id": "table-6-6",
-              "figure_number": "6",
-              "height": 146,
-              "image_path": "figures/2610.37481/table-012.webp",
-              "kind": "table",
-              "page": 22,
-              "width": 548
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-28T21:00:00-04:00",
-          "hero_figure": "figures/2610.37481/hero.webp",
+          "hero_figure": null,
           "novelty": 7,
           "pdf_url": "https://arxiv.org/pdf/2610.37481",
           "relevance": 7,
@@ -162851,381 +163770,10 @@
             "cs.CL",
             "cs.AI"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Figure 1: A useful novelty module must catch a nonnovel copy while keeping a novel idea. We reword n = 95 published papers into 380 new-looking proposals (four disguises each) and plant the original papers in the pool. Of these disguises (Table 1), CLAIMNOV correctly rejects 367 and names the source in 366, and it rejects only 1.5% of the 400 later-realized ideas. We show ScholarEval at its default rule (best threshold in Appendix K).",
-              "figure_id": "figure-1-1",
-              "figure_number": "1",
-              "height": 541,
-              "image_path": "figures/2610.36511/figure-001.webp",
-              "kind": "figure",
-              "page": 1,
-              "width": 458
-            },
-            {
-              "caption": "Figure 2: CLAIMNOV extracts typed contribution claims from a proposal P , retrieves same-dimension claims from the pool, rates the extent to which each covers P ’s claims, aggregates these into one novelty score, and gives a full claim-level novelty profile to a verdict judge.",
-              "figure_id": "figure-2-32",
-              "figure_number": "2",
-              "height": 500,
-              "image_path": "figures/2610.36511/figure-002.webp",
-              "kind": "figure",
-              "page": 4,
-              "width": 458
-            },
-            {
-              "caption": "Table 6: What each pipeline passes downstream after its novelty check.",
-              "figure_id": "table-6-24",
-              "figure_number": "6",
-              "height": 310,
-              "image_path": "figures/2610.36511/table-003.webp",
-              "kind": "table",
-              "page": 14,
-              "width": 959
-            },
-            {
-              "caption": "Table 4: Novelty judgments embedded in surveyed AI-scientist pipelines. Pool controllable: where an external module can replace the native judgment.",
-              "figure_id": "table-4-29",
-              "figure_number": "4",
-              "height": 1249,
-              "image_path": "figures/2610.36511/table-004.webp",
-              "kind": "table",
-              "page": 13,
-              "width": 961
-            },
-            {
-              "caption": "Table 1: Evaluation results on whole-proposal data for all checks, where every check is run with Sonnet 4.6 as its judge (excluding ARC, which is lexical). Caught and Src. out count rejections of the n = 380 disguised proposals with the source in and out of the pool; Named counts rejections that name the source; FA is on the 400 later-realized ideas. J and ∆ are defined in §4.5; see Table 17 for 95% cluster-bootstrap intervals. †Decision rule set by us (Appendix B); best in-sample thresholds are in Appendix K. For AI Scientist v1, “Named” counts any of up to three papers. Note here the fixed-depth row is equivalent to the main row because the scaled depth is also 10 on 20-paper disguise pools. Bold: best, underline: second best, ablation rows excluded.",
-              "figure_id": "table-1-19",
-              "figure_number": "1",
-              "height": 381,
-              "image_path": "figures/2610.36511/table-005.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 933
-            },
-            {
-              "caption": "Table 5: Standalone novelty judges.",
-              "figure_id": "table-5-23",
-              "figure_number": "5",
-              "height": 318,
-              "image_path": "figures/2610.36511/table-006.webp",
-              "kind": "table",
-              "page": 14,
-              "width": 933
-            },
-            {
-              "caption": "Table 9: Cost per proposal at list price and median latency of the final judge call (Sonnet 4.6), measured over 948 CLAIMNOV and 446 CoI-Agent calls. ARC makes no model call.",
-              "figure_id": "table-9-13",
-              "figure_number": "9",
-              "height": 113,
-              "image_path": "figures/2610.36511/table-007.webp",
-              "kind": "table",
-              "page": 15,
-              "width": 361
-            },
-            {
-              "caption": "Table 2: Claim-level prior art (n=160, Sonnet 4.6 judge). Rej. acc./Rej. rej.: rejection rate on the 62 ICLR-accepted and 96 ICLR-rejected proposals (lower is better only for accepted proposals). Names B: share whose top-ranked paper is the reviewer’s B. On pass: same, counting only passed proposals. Note most existing checks name a paper only when rejecting. The bottom rows pair a verdict with the pool paper nearest to the whole proposal by dense embedding or BM25 to separate final verdict and attribution. — means no paper returned. Bold: best, underline: second.",
-              "figure_id": "table-2-31",
-              "figure_number": "2",
-              "height": 367,
-              "image_path": "figures/2610.36511/table-008.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 461
-            },
-            {
-              "caption": "Table 3: Hybrid proposals (n=100, Sonnet 4.6 judge). Names B: the top-ranked paper is the spliced paper B (as in Table 2). On pass: B is named and the proposal passes. —: no paper returned. Bold: best, underline: second.",
-              "figure_id": "table-3-30",
-              "figure_number": "3",
-              "height": 363,
-              "image_path": "figures/2610.36511/table-009.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 458
-            },
-            {
-              "caption": "Table 7: Systems included in and excluded from the audit.",
-              "figure_id": "table-7-11",
-              "figure_number": "7",
-              "height": 411,
-              "image_path": "figures/2610.36511/table-010.webp",
-              "kind": "table",
-              "page": 15,
-              "width": 457
-            },
-            {
-              "caption": "Table 12: Rejections on the 36 label-clean pairs. Names B: for CLAIMNOV, B in the profile at level 3 or above.",
-              "figure_id": "table-12-34",
-              "figure_number": "12",
-              "height": 1186,
-              "image_path": "figures/2610.36511/table-011.webp",
-              "kind": "table",
-              "page": 19,
-              "width": 458
-            },
-            {
-              "caption": "Table 10: Sandboxed search and decision rule of each adapter.",
-              "figure_id": "table-10-14",
-              "figure_number": "10",
-              "height": 495,
-              "image_path": "figures/2610.36511/table-012.webp",
-              "kind": "table",
-              "page": 15,
-              "width": 460
-            },
-            {
-              "caption": "Table 8: How the shared proposal is passed to each check’s native input.",
-              "figure_id": "table-8-12",
-              "figure_number": "8",
-              "height": 244,
-              "image_path": "figures/2610.36511/table-013.webp",
-              "kind": "table",
-              "page": 15,
-              "width": 457
-            },
-            {
-              "caption": "Table 11: Raw agreement and Cohen’s κ between the first two annotators.",
-              "figure_id": "table-11-33",
-              "figure_number": "11",
-              "height": 111,
-              "image_path": "figures/2610.36511/table-014.webp",
-              "kind": "table",
-              "page": 19,
-              "width": 373
-            },
-            {
-              "caption": "Table 14: Attribution on the claim-disputed set by dimension of the disputed claim (top) and by relation type (bottom). Extracted: a claim was extracted in that dimension.",
-              "figure_id": "table-14-37",
-              "figure_number": "14",
-              "height": 207,
-              "image_path": "figures/2610.36511/table-015.webp",
-              "kind": "table",
-              "page": 20,
-              "width": 444
-            },
-            {
-              "caption": "Table 13: Rejections of the later-realized ideas annotators confirm as novel and of those they judge already done.",
-              "figure_id": "table-13-35",
-              "figure_number": "13",
-              "height": 269,
-              "image_path": "figures/2610.36511/table-016.webp",
-              "kind": "table",
-              "page": 20,
-              "width": 339
-            },
-            {
-              "caption": "Table 15: CLAIMNOV ablations.",
-              "figure_id": "table-15-36",
-              "figure_number": "15",
-              "height": 194,
-              "image_path": "figures/2610.36511/table-017.webp",
-              "kind": "table",
-              "page": 20,
-              "width": 454
-            },
-            {
-              "caption": "Table 19: Run-to-run stability on 474 byte-identical items, and clustered tests.",
-              "figure_id": "table-19-17",
-              "figure_number": "19",
-              "height": 388,
-              "image_path": "figures/2610.36511/table-018.webp",
-              "kind": "table",
-              "page": 21,
-              "width": 454
-            },
-            {
-              "caption": "Table 20: Rank of the relevant paper (B, or the source) in each ranking.",
-              "figure_id": "table-20-18",
-              "figure_number": "20",
-              "height": 302,
-              "image_path": "figures/2610.36511/table-019.webp",
-              "kind": "table",
-              "page": 21,
-              "width": 377
-            },
-            {
-              "caption": "Table 16: Disguises caught per rung (100 each, all 400 disguises). Bold: best, underline: second.",
-              "figure_id": "table-16-15",
-              "figure_number": "16",
-              "height": 227,
-              "image_path": "figures/2610.36511/table-020.webp",
-              "kind": "table",
-              "page": 21,
-              "width": 461
-            },
-            {
-              "caption": "Table 21: Profile papers at the top coverage levels, and how many are the relevant paper. Level 4 or above fires for 9 of 400 later-realized ideas.",
-              "figure_id": "table-21-16",
-              "figure_number": "21",
-              "height": 133,
-              "image_path": "figures/2610.36511/table-021.webp",
-              "kind": "table",
-              "page": 21,
-              "width": 394
-            },
-            {
-              "caption": "Table 22: Further robustness checks. Pilot items excluded: items used to choose the verdict question, judge tier and thresholds. CoI: CoI-Agent.",
-              "figure_id": "table-22-21",
-              "figure_number": "22",
-              "height": 298,
-              "image_path": "figures/2610.36511/table-022.webp",
-              "kind": "table",
-              "page": 22,
-              "width": 392
-            },
-            {
-              "caption": "Table 24: Non-Claude verdict judges. Profile: the judge reads the claim profile. Abstr.: it reads the top-8 abstracts. Subset: prompts byte-identical to the Sonnet 4.6 runs.",
-              "figure_id": "table-24-22",
-              "figure_number": "24",
-              "height": 240,
-              "image_path": "figures/2610.36511/table-023.webp",
-              "kind": "table",
-              "page": 22,
-              "width": 446
-            },
-            {
-              "caption": "Table 23: False alarms (%) on later-realized ideas under alternative labels. gpt-5: ideas a gpt-5 labeler confirms as novel. Agree: Opus and gpt-5 agree. −101: excluding 101 ideas a whole-idea pass called already done.",
-              "figure_id": "table-23-20",
-              "figure_number": "23",
-              "height": 250,
-              "image_path": "figures/2610.36511/table-024.webp",
-              "kind": "table",
-              "page": 22,
-              "width": 356
-            },
-            {
-              "caption": "Table 27: Sorter-matched ideas and the main sets. + abstr.: the verdict reads the profile and the eight nearest abstracts.",
-              "figure_id": "table-27-26",
-              "figure_number": "27",
-              "height": 152,
-              "image_path": "figures/2610.36511/table-025.webp",
-              "kind": "table",
-              "page": 23,
-              "width": 457
-            },
-            {
-              "caption": "Table 25: Simpler baselines on the full sets. Similarity thresholds are cross-validated, and ScholarEval’s is the best threshold on the evaluation data.",
-              "figure_id": "table-25-28",
-              "figure_number": "25",
-              "height": 173,
-              "image_path": "figures/2610.36511/table-026.webp",
-              "kind": "table",
-              "page": 23,
-              "width": 393
-            },
-            {
-              "caption": "Table 26: Catch with pools enlarged from 20 to about 200 papers (40 sources). CoI-Agent is run on rungs 3 and 4 only.",
-              "figure_id": "table-26-27",
-              "figure_number": "26",
-              "height": 164,
-              "image_path": "figures/2610.36511/table-027.webp",
-              "kind": "table",
-              "page": 23,
-              "width": 369
-            },
-            {
-              "caption": "Table 28: In-the-loop pilot on 40 ideas, per committed idea.",
-              "figure_id": "table-28-25",
-              "figure_number": "28",
-              "height": 111,
-              "image_path": "figures/2610.36511/table-028.webp",
-              "kind": "table",
-              "page": 23,
-              "width": 377
-            },
-            {
-              "caption": "Table 34: Prompt context versus judge tier (30 gold and 30 distractor pairs).",
-              "figure_id": "table-34-5",
-              "figure_number": "34",
-              "height": 208,
-              "image_path": "figures/2610.36511/table-029.webp",
-              "kind": "table",
-              "page": 25,
-              "width": 452
-            },
-            {
-              "caption": "Table 32: Recall of reviewer-named prior work by query and candidate representation.",
-              "figure_id": "table-32-2",
-              "figure_number": "32",
-              "height": 206,
-              "image_path": "figures/2610.36511/table-030.webp",
-              "kind": "table",
-              "page": 25,
-              "width": 447
-            },
-            {
-              "caption": "Table 35: AUC of the graded score separating novel from established claims. Titled: the shipped retrieval representation.",
-              "figure_id": "table-35-6",
-              "figure_number": "35",
-              "height": 227,
-              "image_path": "figures/2610.36511/table-031.webp",
-              "kind": "table",
-              "page": 25,
-              "width": 348
-            },
-            {
-              "caption": "Table 31: Recall of reviewer-named prior work, with the target paper’s references as distractors.",
-              "figure_id": "table-31-4",
-              "figure_number": "31",
-              "height": 218,
-              "image_path": "figures/2610.36511/table-032.webp",
-              "kind": "table",
-              "page": 25,
-              "width": 361
-            },
-            {
-              "caption": "Table 30: Extraction against a 20-paper human ground truth (two runs per configuration). Bold: shipped. † Fleiss’ κ. cov.: reviewer-named contributions covered, of 75.",
-              "figure_id": "table-30-7",
-              "figure_number": "30",
-              "height": 167,
-              "image_path": "figures/2610.36511/table-033.webp",
-              "kind": "table",
-              "page": 25,
-              "width": 443
-            },
-            {
-              "caption": "Table 33: Share of sorter-matched ideas whose matched paper enters the profile, by retrieval depth.",
-              "figure_id": "table-33-3",
-              "figure_number": "33",
-              "height": 136,
-              "image_path": "figures/2610.36511/table-034.webp",
-              "kind": "table",
-              "page": 25,
-              "width": 458
-            },
-            {
-              "caption": "Table 38: Pilot calibration of decision rules (t: threshold on N(P ), ko: knockout level, ∗: shipped). N2: catch on 20 disputed pairs. (a): catch on 106 already-done ideas. (b) FA: false alarms on 32 decoys.",
-              "figure_id": "table-38-10",
-              "figure_number": "38",
-              "height": 355,
-              "image_path": "figures/2610.36511/table-035.webp",
-              "kind": "table",
-              "page": 26,
-              "width": 427
-            },
-            {
-              "caption": "Table 36: Graded entailment against the human majority label (37 pairs). The human row is agreement between annotators.",
-              "figure_id": "table-36-9",
-              "figure_number": "36",
-              "height": 248,
-              "image_path": "figures/2610.36511/table-036.webp",
-              "kind": "table",
-              "page": 26,
-              "width": 377
-            },
-            {
-              "caption": "Table 37: Win rate of a reviewer-praised claim over its sibling claims.",
-              "figure_id": "table-37-8",
-              "figure_number": "37",
-              "height": 92,
-              "image_path": "figures/2610.36511/table-037.webp",
-              "kind": "table",
-              "page": 26,
-              "width": 457
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-28T21:00:00-04:00",
-          "hero_figure": "figures/2610.36511/hero.webp",
+          "hero_figure": null,
           "novelty": 7,
           "pdf_url": "https://arxiv.org/pdf/2610.36511",
           "relevance": 7,
@@ -163260,161 +163808,10 @@
             "cs.LG",
             "cs.AI"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Figure 2: Overview of MPOPD. Left: Standard on-policy distillation suffers from compounding teacher–student mismatch, where student rollouts continuously drift beyond the teacher-reachable region and receive unreliable supervision. Right: MPOPD derives a tilted target as a geometric mixture of the student and teacher, and trains a proposal policy to approximate it.",
-              "figure_id": "figure-2-6",
-              "figure_number": "2",
-              "height": 319,
-              "image_path": "figures/2610.36477/figure-001.webp",
-              "kind": "figure",
-              "page": 3,
-              "width": 730
-            },
-            {
-              "caption": "Figure 3: Case study on Minerva Math (id 141). We show selected snippets from the raw model outputs. OPD is counted as correct but reaches our 16.4k-token generation limit with repeated final-answer patterns. EOPD also reaches this limit and fails with degenerate spurious behavior.",
-              "figure_id": "figure-3-3",
-              "figure_number": "3",
-              "height": 711,
-              "image_path": "figures/2610.36477/figure-002.webp",
-              "kind": "figure",
-              "page": 7,
-              "width": 806
-            },
-            {
-              "caption": "Figure 4: Training efficiency comparison. Left: wall-clock training time across methods. Right: step-time breakdown into rollout generation, model training, rollout scoring, and other overhead.",
-              "figure_id": "figure-4-8",
-              "figure_number": "4",
-              "height": 113,
-              "image_path": "figures/2610.36477/figure-003.webp",
-              "kind": "figure",
-              "page": 8,
-              "width": 760
-            },
-            {
-              "caption": "Figure 10: Multi-baseline case study on OlympiadBench id 2783. Ours gives the shortest correct response among the compared methods; OPD, ExOPD, and EOPD solve the problem but exhaust a 16.4k-token generation budget after the answer.",
-              "figure_id": "figure-10-5",
-              "figure_number": "10",
-              "height": 437,
-              "image_path": "figures/2610.36477/figure-004.webp",
-              "kind": "figure",
-              "page": 34,
-              "width": 830
-            },
-            {
-              "caption": "Figure 1: Teacher–student mismatch compounds under OPD. Upper: 10th-percentile similarity between the two completions drops by 0.24 from its peak, while our method remains stable. Lower: fraction of prompts on which the former scores > 0.10 (solid) or > 0.20 (dashed) below the latter in PRM score; the former reaches ∼24% by the end of training, while our method keeps it near zero.",
-              "figure_id": "figure-1-2",
-              "figure_number": "1",
-              "height": 357,
-              "image_path": "figures/2610.36477/figure-005.webp",
-              "kind": "figure",
-              "page": 2,
-              "width": 334
-            },
-            {
-              "caption": "Figure 6: Distillation with a larger teacher and student. Bars show macro-average accuracy (%) over eight math benchmarks after two training epochs with Qwen3-30B-A3B-Instruct-2507 as the teacher. “Ours” denotes MPOPD.",
-              "figure_id": "figure-6-1",
-              "figure_number": "6",
-              "height": 315,
-              "image_path": "figures/2610.36477/figure-006.webp",
-              "kind": "figure",
-              "page": 21,
-              "width": 819
-            },
-            {
-              "caption": "Figure 8: Multi-baseline case study on Minerva Math id 141. Ours preserves the simple invariant: proton uud contributes one down quark and each neutron udd contributes two. The four baselines",
-              "figure_id": "figure-8-12",
-              "figure_number": "8",
-              "height": 508,
-              "image_path": "figures/2610.36477/figure-007.webp",
-              "kind": "figure",
-              "page": 32,
-              "width": 830
-            },
-            {
-              "caption": "Figure 7: Multi-baseline case study on Minerva Math id 128. The qualitative advantage is not just shorter length: Ours preserves answer extractability after the correct reasoning step, while all four baselines shown lose the parseable final answer.",
-              "figure_id": "figure-7-14",
-              "figure_number": "7",
-              "height": 466,
-              "image_path": "figures/2610.36477/figure-008.webp",
-              "kind": "figure",
-              "page": 31,
-              "width": 830
-            },
-            {
-              "caption": "Figure 9: Multi-baseline case study on OlympiadBench id 2548. Ours follows a short symbolic path and keeps the domain constraint; every one of the four baseline rows shown fails to produce a parsed answer after much longer output.",
-              "figure_id": "figure-9-7",
-              "figure_number": "9",
-              "height": 420,
-              "image_path": "figures/2610.36477/figure-009.webp",
-              "kind": "figure",
-              "page": 33,
-              "width": 830
-            },
-            {
-              "caption": "Table 3: Comparison with OPD using extra student updates on Qwen3-4B-Base math benchmarks. K denotes the number of model update steps performed in each training round.",
-              "figure_id": "table-3-9",
-              "figure_number": "3",
-              "height": 186,
-              "image_path": "figures/2610.36477/table-010.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 493
-            },
-            {
-              "caption": "Table 5: Training configuration across domains. Settings shared across all domains are marked with “–”.",
-              "figure_id": "table-5-11",
-              "figure_number": "5",
-              "height": 297,
-              "image_path": "figures/2610.36477/table-011.webp",
-              "kind": "table",
-              "page": 17,
-              "width": 706
-            },
-            {
-              "caption": "Table 4: Effect of the coefficient η on selected Qwen3-4B-Base math benchmarks. Scores are reported as accuracy (%).",
-              "figure_id": "table-4-13",
-              "figure_number": "4",
-              "height": 135,
-              "image_path": "figures/2610.36477/table-012.webp",
-              "kind": "table",
-              "page": 9,
-              "width": 341
-            },
-            {
-              "caption": "Table 6: Decoding budgets and termination behavior. Results are macro-averaged over eight math benchmarks. Accuracy and rates are percentages; K denotes thousands of tokens. In (a), the best and second-best student accuracies are bolded and underlined, respectively.",
-              "figure_id": "table-6-10",
-              "figure_number": "6",
-              "height": 525,
-              "image_path": "figures/2610.36477/table-013.webp",
-              "kind": "table",
-              "page": 19,
-              "width": 828
-            },
-            {
-              "caption": "Table 7: Proposal approximation and effective KL radius. (a) Mean approximation KLs on the teacher top-16 support and rank correlations of displacement from the student. (b) Percentiles of KL(q∗∥π) on the full vocabulary.",
-              "figure_id": "table-7-15",
-              "figure_number": "7",
-              "height": 444,
-              "image_path": "figures/2610.36477/table-014.webp",
-              "kind": "table",
-              "page": 20,
-              "width": 828
-            },
-            {
-              "caption": "Table 8: Impact of the teacher support size. Scores are accuracy (%); Avg. is the macro-average over eight math benchmarks. Best and second-best accuracies are bolded and underlined, respectively.",
-              "figure_id": "table-8-4",
-              "figure_number": "8",
-              "height": 134,
-              "image_path": "figures/2610.36477/table-015.webp",
-              "kind": "table",
-              "page": 22,
-              "width": 828
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-28T21:00:00-04:00",
-          "hero_figure": "figures/2610.36477/hero.webp",
+          "hero_figure": null,
           "novelty": 8,
           "pdf_url": "https://arxiv.org/pdf/2610.36477",
           "relevance": 8,
@@ -163449,171 +163846,10 @@
             "cs.IR",
             "cs.AI"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Figure 2: Overview of SCI. (a) Shared entities connect source documents into a document graphwith static transition probabilities. (b) CEP adjusts transition probabilities using the original question, computes strongest path support𝑀𝑖 (𝑣) from query-relevant starting points, and calibrates candidate scores using the background visitation distribution 𝑏𝑄 (𝑣). It collects documents and builds a map. (c) The agent uses the map and previews to choose actions: verify collected source text with read and bash, expand from an anchor to address an information gap with graphexpand(a,q), or initiate global retrieval with graphsearch.",
-              "figure_id": "figure-2-12",
-              "figure_number": "2",
-              "height": 441,
-              "image_path": "figures/2610.36134/figure-001.webp",
-              "kind": "figure",
-              "page": 3,
-              "width": 1036
-            },
-            {
-              "caption": "Figure 6: Gold document rankings under PPR and CEP. (a) Rank pairs within the top 1,000 under both methods, with medians computed over all 2,407 rank pairs. (b) Proportions of rank wins and ties across all rank pairs.",
-              "figure_id": "figure-6-14",
-              "figure_number": "6",
-              "height": 262,
-              "image_path": "figures/2610.36134/figure-002.webp",
-              "kind": "figure",
-              "page": 8,
-              "width": 489
-            },
-            {
-              "caption": "Figure 7: Two local expansion cases on BrowseComp-Plus, with full questions, abbreviated tool calls, and returned map excerpts. Quotes reproduce source text. R denotes the interaction turn. Bracketed numbers are corpus document IDs.",
-              "figure_id": "figure-7-16",
-              "figure_number": "7",
-              "height": 747,
-              "image_path": "figures/2610.36134/figure-003.webp",
-              "kind": "figure",
-              "page": 12,
-              "width": 1052
-            },
-            {
-              "caption": "Figure 1: Illustrative comparison of graph diffusion retrieval and contrastive evidence paths retrieval.",
-              "figure_id": "figure-1-1",
-              "figure_number": "1",
-              "height": 258,
-              "image_path": "figures/2610.36134/figure-004.webp",
-              "kind": "figure",
-              "page": 1,
-              "width": 498
-            },
-            {
-              "caption": "Figure 3: Corpus scaling results. (a) Accuracy of SCI and RARG++. (b)Mean tool time of graphsearch and graphexpand.",
-              "figure_id": "figure-3-4",
-              "figure_number": "3",
-              "height": 239,
-              "image_path": "figures/2610.36134/figure-005.webp",
-              "kind": "figure",
-              "page": 6,
-              "width": 487
-            },
-            {
-              "caption": "Figure 5: Evolution of evidence coverage. Coverage after the initial search versus cumulative coverage over the full agent trajectory.",
-              "figure_id": "figure-5-7",
-              "figure_number": "5",
-              "height": 242,
-              "image_path": "figures/2610.36134/figure-006.webp",
-              "kind": "figure",
-              "page": 7,
-              "width": 475
-            },
-            {
-              "caption": "Figure 4: CEP component ablation. (a) Initial workspace gold recall across retrieval budgets. (b) Top10 preview gold recall.",
-              "figure_id": "figure-4-9",
-              "figure_number": "4",
-              "height": 199,
-              "image_path": "figures/2610.36134/figure-007.webp",
-              "kind": "figure",
-              "page": 7,
-              "width": 490
-            },
-            {
-              "caption": "Table 11: Reference comparison of graph-based RAG methods and SCI. Cost is the total generation cost in USD for 100 queries. For a fair cost comparison among agents, we only report costs for agent methods.",
-              "figure_id": "table-11-5",
-              "figure_number": "11",
-              "height": 292,
-              "image_path": "figures/2610.36134/table-008.webp",
-              "kind": "table",
-              "page": 11,
-              "width": 506
-            },
-            {
-              "caption": "Table 1: Main results on BrowseComp-Plus with a 100K-document corpus. Turns and Tools are averaged per question. Cost is the total generation cost in USD for all 830 queries. Bold indicates the best values.",
-              "figure_id": "table-1-2",
-              "figure_number": "1",
-              "height": 329,
-              "image_path": "figures/2610.36134/table-009.webp",
-              "kind": "table",
-              "page": 6,
-              "width": 1056
-            },
-            {
-              "caption": "Table 8: SCI retrieval parameters.",
-              "figure_id": "table-8-10",
-              "figure_number": "8",
-              "height": 298,
-              "image_path": "figures/2610.36134/table-010.webp",
-              "kind": "table",
-              "page": 10,
-              "width": 506
-            },
-            {
-              "caption": "Table 3: Retrieval algorithm ablation on BrowseComp-Plus. Gold recall (%) is measured after initial retrieval. PCST returns a selected subtree rather than a ranked list, so Top10 preview recall is not reported.",
-              "figure_id": "table-3-8",
-              "figure_number": "3",
-              "height": 200,
-              "image_path": "figures/2610.36134/table-011.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 422
-            },
-            {
-              "caption": "Table 2: Main results on TREC-COVID with GPT-6-Luna. Turns and Tools are averaged per query. Cost is the total generation cost for 50 queries. Best values are bold.",
-              "figure_id": "table-2-3",
-              "figure_number": "2",
-              "height": 183,
-              "image_path": "figures/2610.36134/table-012.webp",
-              "kind": "table",
-              "page": 6,
-              "width": 454
-            },
-            {
-              "caption": "Table 10: Supplementary agent comparison on 100 BrowseComp-Plus queries.",
-              "figure_id": "table-10-6",
-              "figure_number": "10",
-              "height": 263,
-              "image_path": "figures/2610.36134/table-013.webp",
-              "kind": "table",
-              "page": 11,
-              "width": 506
-            },
-            {
-              "caption": "Table 6: Mean degree and proportion of highly connected nodes among documents retrieved by PPR and CEP.",
-              "figure_id": "table-6-15",
-              "figure_number": "6",
-              "height": 136,
-              "image_path": "figures/2610.36134/table-014.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 506
-            },
-            {
-              "caption": "Table 9: Generation pricing in USD permillion tokens. GPT-6Luna tiers refer to input tokens per request. DeepSeek-V4.1Flash uses off-peak rates.",
-              "figure_id": "table-9-11",
-              "figure_number": "9",
-              "height": 126,
-              "image_path": "figures/2610.36134/table-015.webp",
-              "kind": "table",
-              "page": 10,
-              "width": 506
-            },
-            {
-              "caption": "Table 5: Gold documents newly added to the workspace or first shown in the map from the existing workspace by local expansion. The last two columns count documents later accessed via read and via read or bash, respectively.",
-              "figure_id": "table-5-13",
-              "figure_number": "5",
-              "height": 87,
-              "image_path": "figures/2610.36134/table-016.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 506
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-28T21:00:00-04:00",
-          "hero_figure": "figures/2610.36134/hero.webp",
+          "hero_figure": null,
           "novelty": 7,
           "pdf_url": "https://arxiv.org/pdf/2610.36134",
           "relevance": 7,
@@ -163650,141 +163886,10 @@
             "hep-th",
             "quant-ph"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Figure 1: Overview. From trained NNs (left), the critical exponents of grokking are obtained via two complementary routes. RG route (top): each hidden neuron carries a spin si, its squared weight norm, while each neuron pair is connected by a coupling Jij derived from the loss Hessian. Ordering the neurons on a chain using the Fiedler vector of this coupling graph enables adjacent neurons to be merged into blocks, where a linear fit of the coarsened couplings yields yt and yh, from which five critical exponents follow (Sections 3.2–3.3). Direct route (bottom): a physical dictionary uses the training epoch as an effective temperature, weight decay as conjugate field, and ensemble fluctuations as proxies for susceptibility and heat capacity, with power-law fits of these observables yielding the direct exponents (Sections 3.1 and 4). The two independent estimates agree within 1–10% (right).",
-              "figure_id": "figure-1-6",
-              "figure_number": "1",
-              "height": 352,
-              "image_path": "figures/2610.36113/figure-001.webp",
-              "kind": "figure",
-              "page": 2,
-              "width": 1014
-            },
-            {
-              "caption": "Figure 6: Steps 1–8 on a toy graph of ten vertices (an illustration, not data from the trained NN). The toy weights decay with the distance between hidden positions on a line, up to multiplicative noise, and the vertex labels are shuffled. (A) The weighted graph; the width and darkness of an edge increase with Aij , and the colour of a vertex is its Fiedler coordinate v2,i. (B) The adjacency matrix in the original order (darker is larger; the diagonal is not used). (C) The Fiedler vector places the vertices on a line with unequal spacing (top); keeping only the ranks π(i) gives a chain of equally spaced sites (bottom). (D) The same matrix in Fiedler order, in which the large entries lie near the diagonal. (E) Adjacent sites of the chain are merged into the blocks B1, . . . , B5 (b = 2); K1 and K2 are the mean couplings between first and second neighbours on the chain (green and pink arcs), and K ′ 1 and K ′ 2 are the same quantities on the chain of blocks. (F) In matrix form, with |Jij | = Aij , the blocks are the 2 × 2 cells separated by white lines, and K1 and K2 are the means of the first and second off-diagonal bands (green and pink outlines). (G) The block couplings J ′ BB′ of Equation (8), each the sum of one 2× 2 cell, with the bands that give K ′ 1 and K ′ 2. For the NN, the corresponding matrices are shown in Figure 3.",
-              "figure_id": "figure-6-8",
-              "figure_number": "6",
-              "height": 532,
-              "image_path": "figures/2610.36113/figure-002.webp",
-              "kind": "figure",
-              "page": 13,
-              "width": 1004
-            },
-            {
-              "caption": "Figure 4: The measured local RG flow. Colour gives the size of the step. Black dots are the 65 measured coordinates. The orange and blue lines are the magnetic and thermal eigendirections of T; both point away from the center because |Λ| > 1. The star is the grokking center (ec, λc) = (145, 15). The regression that produced T is shown in Figure 9 (Appendix E).",
-              "figure_id": "figure-4-7",
-              "figure_number": "4",
-              "height": 448,
-              "image_path": "figures/2610.36113/figure-003.webp",
-              "kind": "figure",
-              "page": 7,
-              "width": 527
-            },
-            {
-              "caption": "Figure 8: Finite-size collapse of the modulus scan across 350 confirmation runs (N = 500). (A) Mean test accuracy against reduced epoch t, centered at mean pseudo-transition ⟨e50⟩p. (B) Collapse achieved against rescaled coordinate x = tp1/νRG . (C) Collapse cost function versus candidate scaling exponents, highlighting the minimum near νRG. (D) Scaling of mean pseudo-transition epoch against p, comparing unconstrained power-law fitting with a fixed 1/νRG decay exponent.",
-              "figure_id": "figure-8-12",
-              "figure_number": "8",
-              "height": 693,
-              "image_path": "figures/2610.36113/figure-004.webp",
-              "kind": "figure",
-              "page": 17,
-              "width": 1004
-            },
-            {
-              "caption": "Figure 7: Distance profile at ec = 145: mean |Jij | versus normalized distance across 40 equal bins for Fiedler and random orderings.",
-              "figure_id": "figure-7-3",
-              "figure_number": "7",
-              "height": 382,
-              "image_path": "figures/2610.36113/figure-005.webp",
-              "kind": "figure",
-              "page": 15,
-              "width": 546
-            },
-            {
-              "caption": "Figure 2: Ensemble dynamics. (A) Train and test accuracy and the order parameter ⟨S⟩ over the 30 runs. (B) Susceptibility χS = Varr S and heat-capacity proxy CH = VarrHloss. The dotted line marks the χS peak at e = 118; the dash-dotted line marks ec = 145.",
-              "figure_id": "figure-2-11",
-              "figure_number": "2",
-              "height": 600,
-              "image_path": "figures/2610.36113/figure-006.webp",
-              "kind": "figure",
-              "page": 4,
-              "width": 483
-            },
-            {
-              "caption": "Figure 3: Validation of the constructed real space at ec = 145. Left pair: |Jij | averaged over 20 × 20-neuron blocks, in the original neuron order and after Fiedler ordering, on a common colour scale. Right: mean |Jij | between neuron pairs at a given normalized Fiedler distance, compared with a random ordering of the same matrix.",
-              "figure_id": "figure-3-1",
-              "figure_number": "3",
-              "height": 251,
-              "image_path": "figures/2610.36113/figure-007.webp",
-              "kind": "figure",
-              "page": 6,
-              "width": 1016
-            },
-            {
-              "caption": "Figure 5: Direct fits for the five critical exponents: α, β, and γ (top), ν (bottom left), and δ (bottom right).",
-              "figure_id": "figure-5-10",
-              "figure_number": "5",
-              "height": 235,
-              "image_path": "figures/2610.36113/figure-008.webp",
-              "kind": "figure",
-              "page": 8,
-              "width": 686
-            },
-            {
-              "caption": "Figure 9: The regression behind the local RG map T of equation (11). (A) The 65 coupling coordinates Kn = (K1,K2)n of the parameter cloud (13 epochs × 5 weight decays), coloured and sized by the Gaussian weight wn of equation (10); the ring marks the grokking center (ec, λc) = (145, 15), which carries weight 1. (B, C) Observed block coordinates K ′ 1 and K ′ 2 against the values c+TKn returned by the weighted affine fit, with the identity line. The fit is local: points far from the center have negligible weight and are shown only to indicate the extent of the cloud.",
-              "figure_id": "figure-9-13",
-              "figure_number": "9",
-              "height": 363,
-              "image_path": "figures/2610.36113/figure-009.webp",
-              "kind": "figure",
-              "page": 20,
-              "width": 997
-            },
-            {
-              "caption": "Figure 10: Eigendirections of T and control tangents on the coupling plane. Grey points: the 65-point parameter cloud; star: the grokking center (ec, λc) = (145, 15). The orange and blue lines are the right eigendirections v+ and v− through the center; the arrows are the unit tangents ∂K/∂e and ∂K/∂λ obtained by regressing the cloud on the two control coordinates.",
-              "figure_id": "figure-10-5",
-              "figure_number": "10",
-              "height": 463,
-              "image_path": "figures/2610.36113/figure-010.webp",
-              "kind": "figure",
-              "page": 21,
-              "width": 491
-            },
-            {
-              "caption": "Table 1: Critical exponents from direct estimates and from the local RG. Relative difference is |direct−RG|/RG.",
-              "figure_id": "table-1-9",
-              "figure_number": "1",
-              "height": 458,
-              "image_path": "figures/2610.36113/table-011.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 998
-            },
-            {
-              "caption": "Table 2: Notation.",
-              "figure_id": "table-2-2",
-              "figure_number": "2",
-              "height": 982,
-              "image_path": "figures/2610.36113/table-012.webp",
-              "kind": "table",
-              "page": 11,
-              "width": 1002
-            },
-            {
-              "caption": "Table 3: Dictionary between the standard scaling analysis and the trained NN. Every entry in the right column is an operational definition, not an identity; the assumptions behind each are discussed in the text.",
-              "figure_id": "table-3-4",
-              "figure_number": "3",
-              "height": 414,
-              "image_path": "figures/2610.36113/table-013.webp",
-              "kind": "table",
-              "page": 21,
-              "width": 1010
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-28T21:00:00-04:00",
-          "hero_figure": "figures/2610.36113/hero.webp",
+          "hero_figure": null,
           "novelty": 8,
           "pdf_url": "https://arxiv.org/pdf/2610.36113",
           "relevance": 8,
@@ -163819,121 +163924,10 @@
             "cs.CR",
             "cs.AI"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Figure 1: Overview of benign and malicious MCP workflows. The left panel contrasts normal tool use with an injected workflow that adds an unauthorized logging call. The middle panel shows the corresponding tool-invocation traces: the malicious trace includes an additional save_logs call while producing a similar user-visible response. The right panel shows the attack in the Claude user interface.",
-              "figure_id": "figure-1-1",
-              "figure_number": "1",
-              "height": 331,
-              "image_path": "figures/2610.36108/figure-001.webp",
-              "kind": "figure",
-              "page": 2,
-              "width": 1048
-            },
-            {
-              "caption": "Figure 2: Illustrative MCP tool definition. The function takes a name and an optional style parameter to generate a greeting. Annotations show the complete definition; the injectionsurface study evaluates the tool name, parameter name, default value, and description.",
-              "figure_id": "figure-2-4",
-              "figure_number": "2",
-              "height": 192,
-              "image_path": "figures/2610.36108/figure-002.webp",
-              "kind": "figure",
-              "page": 3,
-              "width": 436
-            },
-            {
-              "caption": "Figure 3: (a) Attack success rate (ASR) for Tool Binding placed in the tool name (Func), parameter name (Var), default value (Def), or description (Desc), evaluated on GitHub MCP with GPT-4o. (b) ASR for description-based Tool Binding (Desc as TB) combined with five Trigger (Trig), Justification (Just), or Pressure (Pres) variants. Bars 1–5 are ordered from highest to lowest ASR within each component group.",
-              "figure_id": "figure-3-8",
-              "figure_number": "3",
-              "height": 166,
-              "image_path": "figures/2610.36108/figure-003.webp",
-              "kind": "figure",
-              "page": 4,
-              "width": 481
-            },
-            {
-              "caption": "Figure 4: Successful Log-To-Leak attack on Cursor. After completing the legitimate GitHub task, the agent automatically invokes the attacker-controlled save_logs tool.",
-              "figure_id": "figure-4-9",
-              "figure_number": "4",
-              "height": 327,
-              "image_path": "figures/2610.36108/figure-004.webp",
-              "kind": "figure",
-              "page": 9,
-              "width": 264
-            },
-            {
-              "caption": "Table 3: Results on the two MCP-Universe task sets. For each model, the white row reports the vanilla baseline and the gray row reports Log-To-Leak. A dash indicates that conditional LA is undefined because no successful logging call occurred.",
-              "figure_id": "table-3-7",
-              "figure_number": "3",
-              "height": 600,
-              "image_path": "figures/2610.36108/table-005.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 868
-            },
-            {
-              "caption": "Table 2: Results on the three custom task sets. For each model, the white row reports the vanilla baseline and the gray row reports Log-To-Leak.",
-              "figure_id": "table-2-2",
-              "figure_number": "2",
-              "height": 867,
-              "image_path": "figures/2610.36108/table-006.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 868
-            },
-            {
-              "caption": "Table 5: Controlled ablation groups and their best observed ASR.",
-              "figure_id": "table-5-6",
-              "figure_number": "5",
-              "height": 210,
-              "image_path": "figures/2610.36108/table-007.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 482
-            },
-            {
-              "caption": "Table 6: Residual attack performance under three defenses on GitHub MCP with GPT-4o. Lower ASR and LA indicate stronger protection.",
-              "figure_id": "table-6-10",
-              "figure_number": "6",
-              "height": 173,
-              "image_path": "figures/2610.36108/table-008.webp",
-              "kind": "table",
-              "page": 9,
-              "width": 506
-            },
-            {
-              "caption": "Table 4: Comparison with prompt-injection baselines on GitHub MCP with GPT-4o.",
-              "figure_id": "table-4-5",
-              "figure_number": "4",
-              "height": 156,
-              "image_path": "figures/2610.36108/table-009.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 506
-            },
-            {
-              "caption": "Table 1: Task-set summary for each MCP server.",
-              "figure_id": "table-1-11",
-              "figure_number": "1",
-              "height": 161,
-              "image_path": "figures/2610.36108/table-010.webp",
-              "kind": "table",
-              "page": 5,
-              "width": 448
-            },
-            {
-              "caption": "Table 7: Instruction-detection predictions for benign MCP metadata and Log-To-Leak injections [40].",
-              "figure_id": "table-7-3",
-              "figure_number": "7",
-              "height": 150,
-              "image_path": "figures/2610.36108/table-011.webp",
-              "kind": "table",
-              "page": 10,
-              "width": 472
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-28T21:00:00-04:00",
-          "hero_figure": "figures/2610.36108/hero.webp",
+          "hero_figure": null,
           "novelty": 7,
           "pdf_url": "https://arxiv.org/pdf/2610.36108",
           "relevance": 7,
@@ -163969,91 +163963,10 @@
             "cs.AI",
             "cs.CL"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Figure 1: Overview of Fin-SD. The student is sampled on a training problem and judged against the ground truth. On failures, a frozen copy of the student receives the query, the failing trajectory, and the answer, and returns the first faulty step 𝑘 , a short critique ℎ, and an error type; pure arithmetic slips are dropped without a gradient. The trajectory is truncated immediately before k, so both policies condition on the on-policy prefix before the localized error, with the frozen teacher also receiving ℎ. The student minimizes the per-token KL between the two next-token distributions over an L = 100 rollout. At each epoch boundary, the failure set is re-mined and the teacher re-frozen.",
-              "figure_id": "figure-1-8",
-              "figure_number": "1",
-              "height": 379,
-              "image_path": "figures/2610.36082/figure-001.webp",
-              "kind": "figure",
-              "page": 3,
-              "width": 582
-            },
-            {
-              "caption": "Figure 3: Accuracy relative to the base model on the FinanceReasoning Hard subset, including baselines and ablations. Points are mean differences in percentage points; bars are 𝑡-based 95% confidence intervals. All configurations are 𝑛 = 5 seeds except SFT (𝑛 = 3); base is 𝑛 = 5 independent runs. The SFT interval extends to −16.10 and is clipped at the axis limit (arrow).",
-              "figure_id": "figure-3-2",
-              "figure_number": "3",
-              "height": 300,
-              "image_path": "figures/2610.36082/figure-002.webp",
-              "kind": "figure",
-              "page": 6,
-              "width": 453
-            },
-            {
-              "caption": "Figure 2: One item from the training corpus, carried through the three generation phases of Section 4.1 and then through the localization and truncation of Section 3.2.",
-              "figure_id": "figure-2-3",
-              "figure_number": "2",
-              "height": 754,
-              "image_path": "figures/2610.36082/figure-003.webp",
-              "kind": "figure",
-              "page": 5,
-              "width": 506
-            },
-            {
-              "caption": "Table 1: Student fine-tuning hyperparameters.",
-              "figure_id": "table-1-1",
-              "figure_number": "1",
-              "height": 569,
-              "image_path": "figures/2610.36082/table-004.webp",
-              "kind": "table",
-              "page": 6,
-              "width": 390
-            },
-            {
-              "caption": "Table 4: FinTrust compliance evaluation.",
-              "figure_id": "table-4-4",
-              "figure_number": "4",
-              "height": 273,
-              "image_path": "figures/2610.36082/table-005.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 468
-            },
-            {
-              "caption": "Table 5: Ablation grid: Mean ± SD over five seeds.",
-              "figure_id": "table-5-5",
-              "figure_number": "5",
-              "height": 141,
-              "image_path": "figures/2610.36082/table-006.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 450
-            },
-            {
-              "caption": "Table 2: Fin-SD against the three baselines. Mean ± SD over seeds, with 95% confidence intervals.",
-              "figure_id": "table-2-7",
-              "figure_number": "2",
-              "height": 138,
-              "image_path": "figures/2610.36082/table-007.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 852
-            },
-            {
-              "caption": "Table 3: MMLU-Pro.",
-              "figure_id": "table-3-6",
-              "figure_number": "3",
-              "height": 106,
-              "image_path": "figures/2610.36082/table-008.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 368
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-28T21:00:00-04:00",
-          "hero_figure": "figures/2610.36082/hero.webp",
+          "hero_figure": null,
           "novelty": 8,
           "pdf_url": "https://arxiv.org/pdf/2610.36082",
           "relevance": 8,
@@ -164094,91 +164007,10 @@
             "cs.SE",
             "cs.AI"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Fig. 3. No-tools change G (left, transformed minus untransformed accuracy under no-tools) and assistance effect ∆′ on transformed programs (right, encouraged-tools minus no-tools) by recipe and fault type, per model, in percentage points, with 95% intervals. The rightmost column gives no-tools accuracy in percent on the matched untransformed (in gray) and transformed programs.",
-              "figure_id": "figure-3-4",
-              "figure_number": "3",
-              "height": 383,
-              "image_path": "figures/2610.36015/figure-001.webp",
-              "kind": "figure",
-              "page": 7,
-              "width": 1052
-            },
-            {
-              "caption": "Fig. 1. Study design. From 150 LeetCodeDataset reference programs P , we seed one single-line fault per fault type to obtain faulty programs M and rewrite P and M alike with five transformation recipes. Admitted pairs (M,M ′) preserve the passing behavior of P , the failing assertion of M , and the restorable fault at line L′. Three LLM agents then localize every fault under three tool-use settings (Conditions A–F).",
-              "figure_id": "figure-1-1",
-              "figure_number": "1",
-              "height": 349,
-              "image_path": "figures/2610.36015/figure-002.webp",
-              "kind": "figure",
-              "page": 1,
-              "width": 1100
-            },
-            {
-              "caption": "Fig. 2. A seeded fault in an untransformed faulty program (left) and in its transformed counterpart (right). Lines marked − belong to the reference programs, and lines marked + to the faulty programs. The State and literals recipe rewrites literals and splits the faulty statement across lines 6 to 8, moving the mutated expression from line 5 to line 6.",
-              "figure_id": "figure-2-2",
-              "figure_number": "2",
-              "height": 192,
-              "image_path": "figures/2610.36015/figure-003.webp",
-              "kind": "figure",
-              "page": 2,
-              "width": 517
-            },
-            {
-              "caption": "TABLE IV TOOL USE IN THE TOOL-ENABLED SETTINGS ON UNTRANSFORMED AND TRANSFORMED PROGRAMS. THE FIRST TWO ROWS PER MODEL GIVE THE SHARES OF EPISODES WITH AT LEAST ONE DEBUGGER ACTION AND OF EPISODES WITH PROBE RUNS BUT NO DEBUGGER ACTION. THE NEXT TWO GIVE THE MEAN NUMBERS OF DEBUGGER ACTIONS AND PROBE RUNS PER EPISODE. THE LAST THREE GIVE THE SHARES OF DEBUGGER ACTIONS THAT MANAGE BREAKPOINTS, STEP, AND INSPECT STATE.",
-              "figure_id": "table-IV-6",
-              "figure_number": "IV",
-              "height": 487,
-              "image_path": "figures/2610.36015/table-004.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 488
-            },
-            {
-              "caption": "TABLE I CONSTRUCTED PROGRAMS. PROGRAMS GIVES ADMITTED OUT OF ATTEMPTED. LOC AND CC GIVE MEDIANS WITH INTERQUARTILE RANGES, AND FOR TRANSFORMED PROGRAMS THE MEDIAN CHANGE FROM THE UNTRANSFORMED FAULTY PROGRAM, IN PERCENT FOR LOC. KEPT IS THE MEDIAN SHARE OF PRESERVED FOUR-TOKEN SEQUENCES.",
-              "figure_id": "table-I-7",
-              "figure_number": "I",
-              "height": 559,
-              "image_path": "figures/2610.36015/table-005.webp",
-              "kind": "table",
-              "page": 4,
-              "width": 505
-            },
-            {
-              "caption": "TABLE III EPISODE COST. TOKENS AND WALL TIME ARE MEANS PER EPISODE, AND MONETARY COST IS THE MEAN COST OF 1,000 EPISODES, ESTIMATED FOR QWEN 3.8 FROM A PROVIDER’S LIST PRICES. THE LAST TWO COLUMNS DIVIDE ENCOURAGED-TOOLS BY NO-TOOLS.",
-              "figure_id": "table-III-5",
-              "figure_number": "III",
-              "height": 263,
-              "image_path": "figures/2610.36015/table-006.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 940
-            },
-            {
-              "caption": "TABLE II TOP-1 LOCALIZATION ACCURACY IN PERCENT UNDER STATEMENT-LEVEL GRADING. NO-TOOLS CHANGE IS TRANSFORMED MINUS UNTRANSFORMED STATIC ACCURACY (G), EFFECT IS ENCOURAGED-TOOLS MINUS NO-TOOLS (∆ AND ∆′ ON UN-/TRANSFORMED PROGRAMS), AND DIFFERENCE IS I = ∆′ −∆, ALL IN PERCENTAGE POINTS. UNTRANSFORMED ACCURACIES WEIGHT EACH PROGRAM BY ITS NUMBER OF MATCHED TRANSFORMED VERSIONS, AS G AND ∆ DO. BRACKETS GIVE 95% INTERVALS. FIG. 3 BREAKS G AND ∆′ DOWN BY RECIPE AND FAULT TYPE.",
-              "figure_id": "table-II-3",
-              "figure_number": "II",
-              "height": 179,
-              "image_path": "figures/2610.36015/table-007.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 1018
-            },
-            {
-              "caption": "TABLE V DISCRETIONARY USE. MEAN PER-CASE ACCURACY DIFFERENCES BETWEEN DISCRETIONARY-TOOLS AND THE OTHER TWO SETTINGS, AND THE SLOPES β1 OF THE PER-CASE ASSISTANCE EFFECT ON THE RANK OF PROBE RUNS AND OF DEBUGGER ACTIONS UNDER DISCRETIONARY-TOOLS (SECTION III-D), ALL IN PERCENTAGE POINTS. BRACKETS GIVE 95% INTERVALS. A DAGGER MARKS A SLOPE WITHOUT AN INTERVAL AND A DASH A SLOPE THAT IS NOT REPORTED.",
-              "figure_id": "table-V-8",
-              "figure_number": "V",
-              "height": 122,
-              "image_path": "figures/2610.36015/table-008.webp",
-              "kind": "table",
-              "page": 9,
-              "width": 520
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-28T21:00:00-04:00",
-          "hero_figure": "figures/2610.36015/hero.webp",
+          "hero_figure": null,
           "novelty": 7,
           "pdf_url": "https://arxiv.org/pdf/2610.36015",
           "relevance": 8,
@@ -164218,21 +164050,10 @@
             "cs.LG",
             "cs.CL"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Table 7: Training hyperparameters for the six methods of Section 3. Values are read verbatim from the configuration files in the released codebase. Hyperparameters shared across methods (sampling seed 42, batch size 16 or 32, maximum response length, system prompt) are listed in Appendix C.",
-              "figure_id": "table-7-1",
-              "figure_number": "7",
-              "height": 868,
-              "image_path": "figures/2610.29555/table-001.webp",
-              "kind": "table",
-              "page": 17,
-              "width": 1126
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-28T21:00:00-04:00",
-          "hero_figure": "figures/2610.29555/hero.webp",
+          "hero_figure": null,
           "novelty": 7,
           "pdf_url": "https://arxiv.org/pdf/2610.29555",
           "relevance": 8,
@@ -164269,201 +164090,10 @@
             "cs.CL",
             "cs.LG"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Figure 3: Why the last tokens matter in Qwen3. (a) The account. (b) Attention each token receives from the query that predicts the first answer token (log scale). (c) Increase in the loss of the model’s own answer when one attention path is blocked: the first answer token needs the last two prompt tokens to see the instruction and documents; the stop token needs the answer to see those two tokens. (d) Damage left after repairing one band of layers when the last eight tokens run two experts: the mean increase in the answer’s NLL as a share of the increase with no repair, over 300 prompts. A value above 100% means that the partial repair made the loss larger; the 95% prompt-bootstrap interval of this ratio excludes 100% for experts kept in layers 0–3 (120% [103, 141]) and 44–47 (113% [105, 121]) and for the clean state restored in layers 8–11 (126% [107, 148]). Repairing one band mixes repaired and reduced computation, a state the model sees under neither condition. The ratio is of means, which a few prompts dominate.",
-              "figure_id": "figure-3-19",
-              "figure_number": "3",
-              "height": 518,
-              "image_path": "figures/2610.22454/figure-001.webp",
-              "kind": "figure",
-              "page": 5,
-              "width": 995
-            },
-            {
-              "caption": "Figure 2: Which tokens need their experts (Qwen3-30B-A3B, HotpotQA F1 against the unmodified model). (a) Keeping the last N prompt tokens full: the two-token boundary accounts for much of the format effect; a 32-token tail preserves the question as well. (b) The same number of full tokens placed last, first, or at random on this template. (c) Reducing only the named tokens to two experts: the damage of the last eight is the damage of the last two, which are redundant with each other.",
-              "figure_id": "figure-2-9",
-              "figure_number": "2",
-              "height": 397,
-              "image_path": "figures/2610.22454/figure-002.webp",
-              "kind": "figure",
-              "page": 3,
-              "width": 994
-            },
-            {
-              "caption": "Figure 1: Form and content separate. Qwen3-30B-A3B, HotpotQA, 2,000 questions; change against the unmodified model. (a, b) Reducing every prompt token mostly lowers precision; reducing only the last eight tokens lowers only precision; reducing all but the last eight lowers recall and precision alike. (c) The answer lengthens exactly when the last tokens are reduced.",
-              "figure_id": "figure-1-8",
-              "figure_number": "1",
-              "height": 399,
-              "image_path": "figures/2610.22454/figure-003.webp",
-              "kind": "figure",
-              "page": 3,
-              "width": 988
-            },
-            {
-              "caption": "Figure 4: Prompt roles and expert budgets. Left: the tokens each rule reduces in the illustrated prompt; generated tokens retain all experts. Right: segment loss density measured with an exploratory label-free probe (Supplement S3.4; thresholds not prospectively validated), relative to segment token share; task segments carry far more of the model’s answer loss than their share of tokens. For simplicity panel (a) draws the demonstrations as wholly reduced under Interface-Full; the serving rule reduces only the documents inside them.",
-              "figure_id": "figure-4-10",
-              "figure_number": "4",
-              "height": 482,
-              "image_path": "figures/2610.22454/figure-004.webp",
-              "kind": "figure",
-              "page": 18,
-              "width": 995
-            },
-            {
-              "caption": "Figure 5: Where the loss is made, by model family. HotpotQA F1 against each unmodified model when the named prompt tokens run half of their experts (2,000 questions, 95% intervals). The head is the chat prefix, the instruction and the two demonstrations. Which end carries the loss differs by model; with 32 tokens kept at each end (rightmost bar, the KeepEnds rule) no model shows a detectable loss on this task (Qwen1.5’s F1 rises).",
-              "figure_id": "figure-5-1",
-              "figure_number": "5",
-              "height": 588,
-              "image_path": "figures/2610.22454/figure-005.webp",
-              "kind": "figure",
-              "page": 25,
-              "width": 996
-            },
-            {
-              "caption": "Figure 6: The effect follows the answer boundary. (a) Reducing only the last two tokens (the last eight for the prompt end under reasoning) to 8 → 2 in four settings: it damages precision whenever those tokens are followed directly by the answer, and not when generated reasoning separates them from it (shaded). (b) With reasoning on, a prompt reduced to four experts is not separated from the unmodified model by the 95% interval in this earlier run; that alone does not establish equivalence. At two experts, prompt reduction again changes answer form.",
-              "figure_id": "figure-6-2",
-              "figure_number": "6",
-              "height": 373,
-              "image_path": "figures/2610.22454/figure-006.webp",
-              "kind": "figure",
-              "page": 25,
-              "width": 994
-            },
-            {
-              "caption": "Table 3: Where the full-expert budget goes (vLLM 0.31, F1 points, task-averaged, 95% bootstrap intervals over questions unless marked 90%). Batches: joint (760 prompts, H100, exploratory), neg. (negative control), interf. (interface), place. (placement; H200), A100 (2,000 long-system HotpotQA questions). Status: pri/sec prespecified primary/secondary, post post hoc; the prespecified equivalence margins were ±2. Seven placements of the negative control: one in neg., one in interf., five in place.",
-              "figure_id": "table-3-4",
-              "figure_number": "3",
-              "height": 371,
-              "image_path": "figures/2610.22454/table-007.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 1002
-            },
-            {
-              "caption": "Table 9: Cycle-1 TTFT by prompt length (joint batch, Qwen3-30B-A3B): median per-prompt ratio to the unmodified model. LongBench: 360 prompts, median 10.9K tokens; HotpotQA: 400 prompts, medians 1.8K and 2.3K for the two layouts. One server start per method; no interval across starts. Throughput was not measured by length.",
-              "figure_id": "table-9-18",
-              "figure_number": "9",
-              "height": 231,
-              "image_path": "figures/2610.22454/table-008.webp",
-              "kind": "table",
-              "page": 20,
-              "width": 448
-            },
-            {
-              "caption": "Table 5: Quality and latency in one batch (Qwen3-30B-A3B, vLLM 0.31, one H100, 760 marked prompts, 8 → 4 on reduced tokens). Slots: routed-expert work relative to the unmodified model. Quality: F1 change against the unmodified model on the marked prompts (task-averaged, 95% interval; a positive value means a higher score than the reference row, so the unmarked prompt scores 0.39 above the marked one). 90%: the 90% interval that decides non-inferiority (≥: lower bound above −1). Interface-Full minus: the same-question difference between Interface-Full and that method. Latency columns: median per-prompt ratio to the unmodified model in the same cycle. 760: cycle 1, all prompts, the same prompts as the quality column. 128: cycles 2 / 3 (restarted servers) on a fixed timing subset of 16 prompts per task, which over-weights long LongBench prompts (median prompt 7.6K tokens in the subset against 2.6K over all 760 prompts); TTFT and end-to-end latency are measured one request at a time, throughput at concurrency four. Full cycle-1 ratios are in Appendix G.",
-              "figure_id": "table-5-7",
-              "figure_number": "5",
-              "height": 99,
-              "image_path": "figures/2610.22454/table-009.webp",
-              "kind": "table",
-              "page": 14,
-              "width": 1002
-            },
-            {
-              "caption": "Table 4: Further results of the direct-test batch. Scores and answer NLL averaged over the 200 questions; F1 of each condition’s greedy generation.",
-              "figure_id": "table-4-15",
-              "figure_number": "4",
-              "height": 368,
-              "image_path": "figures/2610.22454/table-010.webp",
-              "kind": "table",
-              "page": 12,
-              "width": 577
-            },
-            {
-              "caption": "Table 12: Interface batch, per task: change against the unmodified model (F1 points). Descriptive only. DeepSeek rows: standard / instruction-in-the-middle HotpotQA.",
-              "figure_id": "table-12-6",
-              "figure_number": "12",
-              "height": 254,
-              "image_path": "figures/2610.22454/table-011.webp",
-              "kind": "table",
-              "page": 22,
-              "width": 860
-            },
-            {
-              "caption": "Table 7: Where each claim comes from. Quality and latency come from the same mask, implementation and prompts only in the joint batch. Other rows are separate batches, each compared with its own unmodified model.",
-              "figure_id": "table-7-13",
-              "figure_number": "7",
-              "height": 779,
-              "image_path": "figures/2610.22454/table-012.webp",
-              "kind": "table",
-              "page": 19,
-              "width": 890
-            },
-            {
-              "caption": "Table 13: Placement batch (vLLM 0.31, one H200, quality only, F1 points). Unadjusted 95% bootstrap intervals; p is Holm-adjusted within each model over the listed secondary comparisons. Rows marked descr. are descriptive. First k full: the first k prompt tokens at full experts, the rest uniform; last k full likewise at the end.",
-              "figure_id": "table-13-11",
-              "figure_number": "13",
-              "height": 481,
-              "image_path": "figures/2610.22454/table-013.webp",
-              "kind": "table",
-              "page": 23,
-              "width": 960
-            },
-            {
-              "caption": "Table 1: Where the loss is made, by family (HotpotQA, half the experts, earlier unmarked batch; change against the unmodified model with 95% intervals; DeepSeek’s 8–32 comes from the vLLM 0.31 prefix sweep of Section 3.3). Qwen1.5’s loss is measured by containment (whether the gold answer appears), since its F1 rises.",
-              "figure_id": "table-1-12",
-              "figure_number": "1",
-              "height": 119,
-              "image_path": "figures/2610.22454/table-014.webp",
-              "kind": "table",
-              "page": 4,
-              "width": 1002
-            },
-            {
-              "caption": "Table 8: Joint batch, cycle 1 (all 760 prompts): median TTFT ratio, median end-to-end ratio and throughput ratio at concurrency four, each against the unmodified model in the same cycle.",
-              "figure_id": "table-8-14",
-              "figure_number": "8",
-              "height": 254,
-              "image_path": "figures/2610.22454/table-015.webp",
-              "kind": "table",
-              "page": 19,
-              "width": 527
-            },
-            {
-              "caption": "Table 6: Negative-control batch (Qwen3-30B-A3B, vLLM 0.31, one H100, 2,098 marked prompts, 8 → 4, quality only). F1 differences on seven QA datasets, equally weighted; code is edit similarity. Intervals are unadjusted 95% bootstrap intervals with HotpotQA questions resampled across their three layouts; p is Holm-adjusted over the six prespecified secondary comparisons. The last three rows were added after the data were seen and are not part of the correction.",
-              "figure_id": "table-6-3",
-              "figure_number": "6",
-              "height": 298,
-              "image_path": "figures/2610.22454/table-016.webp",
-              "kind": "table",
-              "page": 15,
-              "width": 627
-            },
-            {
-              "caption": "Table 11: Interface batch (vLLM 0.31, one H100, quality only, F1 points). Unadjusted 95% bootstrap intervals; p is Holm-adjusted within each model over the listed secondary comparisons. Both primaries are undecided under their prespecified rules (Appendix I). Header only: the eight-token assistant header full and the rest of Interface-Full’s budget at random in the documents. No header: the Interface-Full mask with the header reduced and its budget moved into the documents. The last three rows are post hoc.",
-              "figure_id": "table-11-5",
-              "figure_number": "11",
-              "height": 175,
-              "image_path": "figures/2610.22454/table-017.webp",
-              "kind": "table",
-              "page": 22,
-              "width": 860
-            },
-            {
-              "caption": "Table 14: Reducing single spans, by family (family batch, HotpotQA, 2,000 questions, half of each model’s experts; change against the unmodified model with 95% intervals). F1, except containment for Qwen1.5, whose F1 rises under reduction. “Only X”: X reduced, every other prompt token full; “keep X”: X full, every other prompt token reduced. The head is the chat prefix, the instruction and the two demonstrations. Qwen3’s single-token rows come from a separate batch (Section 3.2).",
-              "figure_id": "table-14-17",
-              "figure_number": "14",
-              "height": 37,
-              "image_path": "figures/2610.22454/table-018.webp",
-              "kind": "table",
-              "page": 24,
-              "width": 1002
-            },
-            {
-              "caption": "Table 15: What a loss of form looks like. HotpotQA answers of the unmodified model, with every prompt token at half of its experts, and under KeepEnds. The reduced model still finds the answer; it no longer gives “only the short answer”.",
-              "figure_id": "table-15-16",
-              "figure_number": "15",
-              "height": 37,
-              "image_path": "figures/2610.22454/table-019.webp",
-              "kind": "table",
-              "page": 24,
-              "width": 998
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-28T21:00:00-04:00",
-          "hero_figure": "figures/2610.22454/hero.webp",
+          "hero_figure": null,
           "novelty": 7,
           "pdf_url": "https://arxiv.org/pdf/2610.22454",
           "relevance": 8,
@@ -164504,121 +164134,10 @@
           "categories": [
             "cs.LG"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Figure 1: Overview of LEAD. LEAD consists of three steps: Lookahead, Cross Scoring, and Harmonious Modulation. Refer to Section 3.1 for the details.",
-              "figure_id": "figure-1-4",
-              "figure_number": "1",
-              "height": 465,
-              "image_path": "figures/2610.18256/figure-001.webp",
-              "kind": "figure",
-              "page": 3,
-              "width": 814
-            },
-            {
-              "caption": "Figure 3: Evaluation dynamics on the scientific-reasoning suite. Top row: in-domain mean@16 on the training domain. Bottom row: out-of-domain mean@16, averaged over the three domains that were not used for training.",
-              "figure_id": "figure-3-10",
-              "figure_number": "3",
-              "height": 316,
-              "image_path": "figures/2610.18256/figure-002.webp",
-              "kind": "figure",
-              "page": 12,
-              "width": 818
-            },
-            {
-              "caption": "Figure 2: Reward curve during training on Chemistry and Materials Science datasets of the scientific-reasoning suite.",
-              "figure_id": "figure-2-9",
-              "figure_number": "2",
-              "height": 171,
-              "image_path": "figures/2610.18256/figure-003.webp",
-              "kind": "figure",
-              "page": 12,
-              "width": 818
-            },
-            {
-              "caption": "Table 2: Out-of-domain results across the scientific-reasoning and interactive-agent suites. Each result is the averaged performance of the model trained on the corresponding domain while evaluated on the remaining domains of the same suite. Bold indicates the best result among the four training methods and underline the second best.",
-              "figure_id": "table-2-7",
-              "figure_number": "2",
-              "height": 337,
-              "image_path": "figures/2610.18256/table-004.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 823
-            },
-            {
-              "caption": "Table 1: In-domain results across the scientific-reasoning and interactive-agent suites. Each result is evaluated on the test split of the same domain used for training. Maximum mean@16 (%) and success rate (%) is reported on the scientific-reasoning and interactive-agent suites, respectively. Base is the untrained model and is listed for reference and excluded from the ranking. Bold indicates the best result among the four training methods and underline the second best. On the scientificreasoning suite, both the training and the test splits are curated as described in Appendix B, and all methods use the same curated splits.",
-              "figure_id": "table-1-1",
-              "figure_number": "1",
-              "height": 334,
-              "image_path": "figures/2610.18256/table-005.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 823
-            },
-            {
-              "caption": "Table 3: Ablation study on the scientific-reasoning suite (Qwen3-4B). In-domain is the maximum mean@16 (%) reached during training on that domain; out-of-domain is the accuracy of the same model on the remaining three domains, averaged over the last three evaluation checkpoints. Bold indicates the best result in each column and underline the second best.",
-              "figure_id": "table-3-11",
-              "figure_number": "3",
-              "height": 308,
-              "image_path": "figures/2610.18256/table-006.webp",
-              "kind": "table",
-              "page": 9,
-              "width": 823
-            },
-            {
-              "caption": "Table 6: Method-specific hyperparameters. Training hyperparameters for GRPO, SDPO, RLSD, and LEAD.",
-              "figure_id": "table-6-3",
-              "figure_number": "6",
-              "height": 227,
-              "image_path": "figures/2610.18256/table-007.webp",
-              "kind": "table",
-              "page": 14,
-              "width": 660
-            },
-            {
-              "caption": "Table 7: Curated cases of Physics domain.",
-              "figure_id": "table-7-8",
-              "figure_number": "7",
-              "height": 1160,
-              "image_path": "figures/2610.18256/table-008.webp",
-              "kind": "table",
-              "page": 17,
-              "width": 825
-            },
-            {
-              "caption": "Table 5: Curation results for the SciKnowEval L3 reasoning subset. Unchanged denotes items whose original question, options, and ground-truth label are retained. Relabelled denotes items for which the ground-truth letter is corrected while the question and options remain unchanged. Rewritten denotes items for which both models agree that none of the provided options is correct and derive the same answer; the labelled option is then replaced with the derived answer. Removed denotes items for which the two models reach inconsistent judgments.",
-              "figure_id": "table-5-6",
-              "figure_number": "5",
-              "height": 127,
-              "image_path": "figures/2610.18256/table-009.webp",
-              "kind": "table",
-              "page": 13,
-              "width": 748
-            },
-            {
-              "caption": "Table 8: Curated cases of Chemistry and Materials Science domains.",
-              "figure_id": "table-8-5",
-              "figure_number": "8",
-              "height": 794,
-              "image_path": "figures/2610.18256/table-010.webp",
-              "kind": "table",
-              "page": 18,
-              "width": 768
-            },
-            {
-              "caption": "Table 4: Wall-clock time per training step (seconds), scientific-reasoning suite with Qwen3-4B, averaged over the four domains. Generation is the rollout stage; Update covers the teacher forward passes, the log-probability recomputation and the policy update.",
-              "figure_id": "table-4-2",
-              "figure_number": "4",
-              "height": 194,
-              "image_path": "figures/2610.18256/table-011.webp",
-              "kind": "table",
-              "page": 10,
-              "width": 708
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-28T21:00:00-04:00",
-          "hero_figure": "figures/2610.18256/hero.webp",
+          "hero_figure": null,
           "novelty": 8,
           "pdf_url": "https://arxiv.org/pdf/2610.18256",
           "relevance": 8,
@@ -226226,5 +225745,5 @@
   "schema_version": 1,
   "subtopic_id": "large-language-models",
   "topic_id": "language-foundation-models",
-  "total_paper_count": 2311
+  "total_paper_count": 2315
 }

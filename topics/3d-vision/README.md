@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # 3D Vision
 
-**1143 papers total**
+**1145 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-27 | [CrystalAR: Autoregressive Modeling for Symmetric Crystal Generation](https://arxiv.org/abs/2610.27762) | 3D Vision: 3D Foundation Models | CrystalAR unifies symmetry-template and crystal-structure generation through autoregressive, symmetry-conditioned discrete spatial decisions. | 8 | 8 |
+| 2026-11-27 | [MatchCityLoc: Aerial Localization in LoD City Models via Surface Normal Matching](https://arxiv.org/abs/2610.27110) | Embodied AI; 3D Vision | MatchCityLoc localizes UAVs in textureless LoD city models by matching image-derived surface normals to rendered model normals and refining the pose with PnP. | 6 | 6 |
 | 2026-11-25 | [AnyCam: Anything Can Represent Camera for Video Generation](https://arxiv.org/abs/2611.34944) | 3D Vision: 3D Foundation Models; Video Generation and Understanding: Video Diffusion | AnyCam enables camera-controlled video generation by using a reconstructed 3D anchor object to specify scale-aware, view-complete camera motion. | 9 | 8 |
 | 2026-11-25 | [LuxAvatar: Real-Time Relightable Head Avatars via Causal Neural Shading of 3D Intrinsic Proxies](https://arxiv.org/abs/2611.34940) | 3D Vision; Video Generation and Understanding: Autoregressive Video Models | LuxAvatar enables real-time, controllable head animation and relighting from a single portrait by combining an intrinsic 3D Gaussian proxy with a distilled causal neural shader. | 5 | 7 |
 | 2026-11-25 | [A Mesh for Every Moment](https://arxiv.org/abs/2611.34939) | 3D Vision | MEMO reconstructs detailed, per-frame meshes of complete dynamic scenes from synchronized multi-camera video, including scenes with large and fast motion. | 5 | 7 |

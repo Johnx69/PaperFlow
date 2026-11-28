@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Vision-Language-Action
 
-**1100 papers total**
+**1101 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-27 | [What Would Removing This Corruption Change? Failure Attribution for Vision-Language-Action Models](https://arxiv.org/abs/2610.27277) | Embodied AI: Vision-Language-Action | A factorized risk model estimates which visual corruptions most contribute to VLA failure and the benefit of removing them, without clean-image pairs or counterfactual rollouts. | 9 | 9 |
 | 2026-11-26 | [RoboDyna: A Benchmark for Evaluating Robotic Manipulation under Physically Grounded Dynamics](https://arxiv.org/abs/2611.26969) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation | RoboDyna benchmarks whether robotic manipulation policies can understand and act under realistic, evolving physical dynamics, revealing major gaps in current systems. | 8 | 6 |
 | 2026-11-26 | [Be My Eye: Learning to See Beyond a Robot's Own Perspective](https://arxiv.org/abs/2611.12295) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation | A task-oriented active context-sharing framework helps robots selectively exchange compact, decision-relevant information for better collaboration under limited communication. | 9 | 8 |
 | 2026-11-25 | [Cairn: Object-Centric 3D Trajectory Priors for Steering Frozen VLAs](https://arxiv.org/abs/2611.34914) | Embodied AI: Vision-Language-Action, Robot Learning and Manipulation | Cairn steers frozen vision-language-action models through displaced-object and obstacle scenarios using learned object-centric 3D trajectory priors, substantially improving manipulation success without fine-tuning. | 9 | 8 |

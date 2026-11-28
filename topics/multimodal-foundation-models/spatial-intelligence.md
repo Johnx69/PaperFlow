@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Spatial Intelligence
 
-**876 papers total**
+**878 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-27 | [Steering Vision-Language Models for Visual-Contextual Privacy in Location Disclosure](https://arxiv.org/abs/2610.27323) | Multimodal Foundation Models: Spatial Intelligence | An inference-time routing and steering method helps vision-language models disclose geolocation only at the level justified by an image’s visual context. | 8 | 8 |
+| 2026-11-27 | [LVMem: Image-Augmented Memory for Long-Horizon Question Answering](https://arxiv.org/abs/2610.27104) | Embodied AI; Multimodal Foundation Models: Spatial Intelligence; Adaptation and Memory: Embodied Memory | LVMem improves long-horizon robotic question answering by linking object-centric memory descriptions to selected images for adaptive visual retrieval. | 7 | 7 |
 | 2026-11-26 | [GeoEdit: Adversarial De-Evidencing for Silent Geoprivacy Protection via Image Editing](https://arxiv.org/abs/2610.26194) | Multimodal Foundation Models: Spatial Intelligence | GeoEdit protects image geoprivacy by minimally editing high-risk geographic cues while preserving the scene’s overall meaning and shareability. | 6 | 7 |
 | 2026-11-25 | [Towards Closing the Performance Gap in Cross-Modal Place Recognition](https://arxiv.org/abs/2611.34877) | Embodied AI: Vision-Language Navigation; Multimodal Foundation Models: Spatial Intelligence | CrossPlace improves cross-modal place recognition by combining high-resolution visual tokens, a stronger text encoder, and token-level reranking to better match fine-grained image–text cues. | 7 | 7 |
 | 2026-11-25 | [BOP-Refer: Benchmark for Monocular 3D and 2D Object Grounding](https://arxiv.org/abs/2611.34862) | Multimodal Foundation Models: Spatial Intelligence | BOP-Refer benchmarks monocular 2D and 3D object grounding and finds that VLMs localize objects well in images but struggle substantially with metric-depth estimation. | 8 | 7 |

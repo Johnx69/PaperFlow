@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Multimodal Foundation Models
 
-**2534 papers total**
+**2536 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-27 | [Steering Vision-Language Models for Visual-Contextual Privacy in Location Disclosure](https://arxiv.org/abs/2610.27323) | Multimodal Foundation Models: Spatial Intelligence | An inference-time routing and steering method helps vision-language models disclose geolocation only at the level justified by an image’s visual context. | 8 | 8 |
+| 2026-11-27 | [LVMem: Image-Augmented Memory for Long-Horizon Question Answering](https://arxiv.org/abs/2610.27104) | Embodied AI; Multimodal Foundation Models: Spatial Intelligence; Adaptation and Memory: Embodied Memory | LVMem improves long-horizon robotic question answering by linking object-centric memory descriptions to selected images for adaptive visual retrieval. | 7 | 7 |
 | 2026-11-26 | [CASCADE: Constraint-Aware SCAffolded DEcomposition for Logical Anomaly Detection](https://arxiv.org/abs/2611.13820) | Multimodal Foundation Models: Multimodal Large Language Models | CASCADE improves few-shot logical anomaly detection by adapting the visual input to each constraint instead of repeatedly analyzing the same raw image. | 7 | 7 |
 | 2026-11-26 | [GeoEdit: Adversarial De-Evidencing for Silent Geoprivacy Protection via Image Editing](https://arxiv.org/abs/2610.26194) | Multimodal Foundation Models: Spatial Intelligence | GeoEdit protects image geoprivacy by minimally editing high-risk geographic cues while preserving the scene’s overall meaning and shareability. | 6 | 7 |
 | 2026-11-25 | [Can image generation help visual reasoning? An empirical study](https://arxiv.org/abs/2611.34935) | Multimodal Foundation Models: Multimodal Large Language Models | Generated helper images generally hurt rather than improve visual reasoning, though repeated edits can help on some tasks. | 6 | 6 |

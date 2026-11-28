@@ -1,6 +1,392 @@
 {
   "days": [
     {
+      "date": "2026-11-27",
+      "paper_count": 2,
+      "papers": [
+        {
+          "abstract": "End-to-end (E2E) autonomous driving models achieve strong planning performance but remain largely opaque, limiting observability and trust. We apply mechanistic interpretability to E2E driving by training Sparse Autoencoders (SAEs) on the internal activations of a simple, single-camera end-to-end path planning model. Unsupervised clustering of SAE latents reveals interpretable structure aligned with route intent, vehicle speed, and braking behavior, recovering route intent with 98.3% accuracy without supervision. Through paired counterfactual image edits, we further show that specific SAE features are visually grounded and systematically respond to scene changes such as traffic light state and stop sign presence. Steering individual SAE latents produces predictable, monotonic changes in planner outputs including lateral displacement, curvature, and braking. Finally, we demonstrate a practical application of these representations: we build a lightweight adapter trained on SAE latents that reduces trajectory selection error by 3.44%, outperforming an equivalent adapter that omits SAE latents, confirming that the sparse representation captures useful information for interpretability. Code and visualizations are available at https://mgagvani.github.io/mechanistic-interpretability-for-e2e-driving/",
+          "arxiv_id": "2610.41185",
+          "arxiv_url": "https://arxiv.org/abs/2610.41185",
+          "authors": [
+            "Manav Gagvani",
+            "Benjamin Namikas",
+            "Sivamurugan Velmurugan",
+            "Nysa Kumar",
+            "Shrey Sharma",
+            "Thomas Peterson",
+            "Pratyush Mathur",
+            "Hyunseo Chang",
+            "Rohan Paleja"
+          ],
+          "bullets": [
+            "The study targets the opacity of end-to-end autonomous-driving models, which limits observability and trust.",
+            "SAEs are trained on activations from a simple single-camera path-planning model; clustering reveals interpretable latent structure.",
+            "SAE latents recover route intent with 98.3% accuracy without supervision and respond to visual changes such as traffic lights and stop signs.",
+            "Intervening on individual latents causes predictable changes in lateral displacement, curvature, and braking.",
+            "An adapter using SAE latents reduces trajectory selection error by 3.44%, indicating the representations are useful beyond explanation."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.CV",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Model Architecture. Our Simple Monocular Trajectory Scorer (SMTS) uses only the front camera, past ego state, and route intent as input. Past state and intent initialize a query token, which attends to adapted visual tokens through four transformer blocks. The final query predicts candidate control sequences, rolls them out into future trajectories using a kinematic motion model, and scores each trajectory with a learned proposal scorer. A supervised depth head is used as an auxiliary training output.",
+              "figure_id": "figure-1-8",
+              "figure_number": "1",
+              "height": 206,
+              "image_path": "figures/2610.41185/figure-001.webp",
+              "kind": "figure",
+              "page": 3,
+              "width": 748
+            },
+            {
+              "caption": "Figure 9: Representative failure modes of the counterfactual editing pipeline. (a) Unrealistic edit: an oddly placed stop sign is added, and the editor warps the scene and deletes parked cars. (b) Irrelevant object edit: a pedestrian is added on the right sidewalk, away from the intended driving path. (c) Visible edit, weak trajectory change: a clear stop sign is added, yet the predicted path shortens only slightly relative to the original. Note that blue/red curves are the selected planner proposals before/after the edit and the dashed green curve is the ground truth future trajectory.",
+              "figure_id": "figure-9-5",
+              "figure_number": "9",
+              "height": 636,
+              "image_path": "figures/2610.41185/figure-002.webp",
+              "kind": "figure",
+              "page": 21,
+              "width": 814
+            },
+            {
+              "caption": "Figure 2: Unsupervised SAE feature clusters. Left: Pairwise Pearson correlation matrix of binarized SAE latent activations. Features are ordered by connected components, revealing four major clusters. Right: Cluster-level summaries for the connected components obtained at τ = 0.35, including cluster size, dominant route intent, and standardized driving/model statistics for the scenes that most strongly activate each cluster. The clusters separate left- and right-turn behavior from driving straight, while the two straight clusters further separate low-speed and high-speed scenes.",
+              "figure_id": "figure-2-1",
+              "figure_number": "2",
+              "height": 316,
+              "image_path": "figures/2610.41185/figure-003.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 829
+            },
+            {
+              "caption": "Figure 3: Counterfactual visual edits reveal visually grounded SAE features. Each row shows a paired intervention in which the front-facing image is edited while ego history and route intent are held fixed. From left to right, columns show the original image, edited image, largest normalized changes in SAE feature activations, and the selected trajectory before and after the edit. Top: changing green traffic lights to red produces large shifts in a small set of SAE features and changes the selected trajectory from forward motion to stopping. Bottom: inserting a stop sign reduces the selected trajectory displacement.",
+              "figure_id": "figure-3-7",
+              "figure_number": "3",
+              "height": 481,
+              "image_path": "figures/2610.41185/figure-004.webp",
+              "kind": "figure",
+              "page": 7,
+              "width": 829
+            },
+            {
+              "caption": "Figure 4: SAE features have aligned steering effects. Each panel compares counterfactual visual sensitivity with latent steering. Each point is an SAE feature selected among the most responsive features for that edit. The x-axis shows the feature’s normalized signed activation change under the visual edit, while the y-axis shows the standardized change in braking magnitude when the same feature is manually increased through latent steering. Across green-to-red traffic light edits, added stop signs, and added pedestrians, relevant features show a consistent positive alignment between visual response and expected braking behavior.",
+              "figure_id": "figure-4-11",
+              "figure_number": "4",
+              "height": 279,
+              "image_path": "figures/2610.41185/figure-005.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 829
+            },
+            {
+              "caption": "Figure 6: Data scaling. Selected trajectory ADE@5s on the WOD-E2E validation split as a function of training set size. SMTS shows more consistent gains from additional training data than the compared trajectory scoring baselines and achieves the lowest error overall.",
+              "figure_id": "figure-6-3",
+              "figure_number": "6",
+              "height": 376,
+              "image_path": "figures/2610.41185/figure-006.webp",
+              "kind": "figure",
+              "page": 15,
+              "width": 612
+            },
+            {
+              "caption": "Figure 8: Additional counterfactual visual edit examples. Each row shows the original front camera image, the edited image, the top 5 SAE feature activation changes for that edit direction (normalized ∆zi), and the planner’s predicted trajectory before (blue) and after (red) the edit. Stop-inducing edits shorten or brake the predicted path; red→green extends it.",
+              "figure_id": "figure-8-18",
+              "figure_number": "8",
+              "height": 645,
+              "image_path": "figures/2610.41185/figure-007.webp",
+              "kind": "figure",
+              "page": 20,
+              "width": 818
+            },
+            {
+              "caption": "Figure 7: Highest activating validation scene for each feature cluster. The clusters capture distinct combinations of route intent and vehicle motion.",
+              "figure_id": "figure-7-9",
+              "figure_number": "7",
+              "height": 254,
+              "image_path": "figures/2610.41185/figure-008.webp",
+              "kind": "figure",
+              "page": 18,
+              "width": 826
+            },
+            {
+              "caption": "Figure 10: Mean control score for each block 3 feature cluster and planner statistic. Clusters differ in their secondary controlled statistics.",
+              "figure_id": "figure-10-16",
+              "figure_number": "10",
+              "height": 482,
+              "image_path": "figures/2610.41185/figure-009.webp",
+              "kind": "figure",
+              "page": 24,
+              "width": 788
+            },
+            {
+              "caption": "Figure 5: SAE-based scorer correction improves trajectory selection. The scoring adapter modifies proposal scores using SAE latents while leaving the base planner and generated proposal set fixed. Each example shows a case where score correction changes the selected trajectory to a lowererror proposal. Left: The adapted scorer selects a trajectory that turns further into the side lane rather than continuing straight. Center: The adapted scorer selects a higher-speed left-turn trajectory instead of a slower trajectory that cuts across the lane. Right: The adapted scorer selects a stationary trajectory at a red light instead of accelerating into the intersection from a turn lane.",
+              "figure_id": "figure-5-17",
+              "figure_number": "5",
+              "height": 221,
+              "image_path": "figures/2610.41185/figure-010.webp",
+              "kind": "figure",
+              "page": 9,
+              "width": 826
+            },
+            {
+              "caption": "Table 2: WOD-E2E test-set Rater Feedback Score by scene subset (higher is better). All models are re-trained on the same 250,000-sample training subset and scored by the private WOD-E2E test set evaluator.",
+              "figure_id": "table-2-19",
+              "figure_number": "2",
+              "height": 307,
+              "image_path": "figures/2610.41185/table-011.webp",
+              "kind": "table",
+              "page": 16,
+              "width": 504
+            },
+            {
+              "caption": "Table 6: Metrics recorded at each intervention level.",
+              "figure_id": "table-6-4",
+              "figure_number": "6",
+              "height": 348,
+              "image_path": "figures/2610.41185/table-012.webp",
+              "kind": "table",
+              "page": 21,
+              "width": 614
+            },
+            {
+              "caption": "Table 9: Scorer adapter ablations on WOD-E2E validation. ADE values report relative reduction from the base scorer. The dense-query control replaces SAE latents with the original block-3 activation, while the random-init control replaces the pretrained SAE encoder with an encoder of matched architecture and parameter count trained on the downstream objective.",
+              "figure_id": "table-9-2",
+              "figure_number": "9",
+              "height": 140,
+              "image_path": "figures/2610.41185/table-013.webp",
+              "kind": "table",
+              "page": 26,
+              "width": 677
+            },
+            {
+              "caption": "Table 1: Share of SAE latent variance explained by each input.",
+              "figure_id": "table-1-6",
+              "figure_number": "1",
+              "height": 109,
+              "image_path": "figures/2610.41185/table-014.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 786
+            },
+            {
+              "caption": "Table 5: Counterfactual visual edit dataset summary. The four directions above are those used in the main edit sensitivity analysis. A further 136 edits in other categories were also generated (add traffic light 46, yellow to green 41, remove stop sign 25, remove pedestrian 14, remove traffic light 7, move stop sign 3), resulting in 615 edited images in total.",
+              "figure_id": "table-5-12",
+              "figure_number": "5",
+              "height": 173,
+              "image_path": "figures/2610.41185/table-015.webp",
+              "kind": "table",
+              "page": 19,
+              "width": 270
+            },
+            {
+              "caption": "Table 8: Agreement between naturally occurring activation and output associations and positive intervention responses. Pearson and Spearman columns measure the relationship across features between natural association strength and the effect of intervening on SAE features.",
+              "figure_id": "table-8-15",
+              "figure_number": "8",
+              "height": 150,
+              "image_path": "figures/2610.41185/table-016.webp",
+              "kind": "table",
+              "page": 24,
+              "width": 477
+            },
+            {
+              "caption": "Table 4: Block-3 SAE cluster summaries at the primary threshold τ = 0.35. Intent and standardized scene statistics are computed over each cluster’s top 50 validation scenes by activation.",
+              "figure_id": "table-4-13",
+              "figure_number": "4",
+              "height": 131,
+              "image_path": "figures/2610.41185/table-017.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 873
+            },
+            {
+              "caption": "Table 3: Sensitivity of block 3 SAE feature clusters to the co-activation correlation threshold. Cluster sizes are reported in descending order. Intent purity is measured among each cluster’s top 50 validation scenes by activation.",
+              "figure_id": "table-3-14",
+              "figure_number": "3",
+              "height": 108,
+              "image_path": "figures/2610.41185/table-018.webp",
+              "kind": "table",
+              "page": 17,
+              "width": 847
+            },
+            {
+              "caption": "Table 7: Top robust block-3 SAE feature for each planner statistic. Effect sizes are normalized by the validation-set standard deviation of the corresponding statistic.",
+              "figure_id": "table-7-10",
+              "figure_number": "7",
+              "height": 150,
+              "image_path": "figures/2610.41185/table-019.webp",
+              "kind": "table",
+              "page": 23,
+              "width": 842
+            }
+          ],
+          "first_seen_at": "2026-11-27T21:00:00-05:00",
+          "hero_figure": "figures/2610.41185/hero.webp",
+          "novelty": 7,
+          "pdf_url": "https://arxiv.org/pdf/2610.41185",
+          "relevance": 8,
+          "selection_reason": "Applies SAE-based mechanistic interpretability to an end-to-end driving planner, relevant to learned robot navigation and planning.",
+          "summary_status": "generated",
+          "title": "Mechanistic Interpretability for End-to-End Self-Driving",
+          "tldr": "Sparse Autoencoders make an end-to-end driving planner more interpretable by exposing controllable features linked to route intent, speed, braking, and scene cues.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        },
+        {
+          "abstract": "Hamilton-Jacobi (HJ) reachability analysis offers formal safety guarantees for control systems, but training accurate neural certificates remains difficult, particularly when unsafe regions are hard to characterize. We propose a verification-guided training framework that addresses this by using probabilistic enumeration of safety constraints to detect forward-invariance violations, i.e., states where the learned certificate incorrectly classifies unsafe behavior. This produces a compact, targeted set of counterexamples that more precisely captures the failure boundary than inputs generated by standard adversarial attack methods. Crucially, using this representation to fine-tune a pretrained HJ value function yields larger certified regions and reduces certification time across all tested benchmarks. We further introduce a shielding mechanism based on the refined certificates to enforce safety constraints at deployment time. We evaluate the proposed safety filter in a realistic, physics-based Isaac Sim environment and through real-world autonomous racing experiments, achieving zero safety constraint violations compared to a nominal controller and a backup policy based on Linear Quadratic Regulation (LQR). These results demonstrate the effectiveness of the proposed shielding mechanism in ensuring safe operation under high-speed, safety-critical conditions.",
+          "arxiv_id": "2610.27870",
+          "arxiv_url": "https://arxiv.org/abs/2610.27870",
+          "authors": [
+            "Mihaela-Larisa Clement",
+            "Tosca Pierro",
+            "Ezio Bartocci",
+            "Luca Marzari"
+          ],
+          "bullets": [
+            "Targets forward-invariance violations to identify where learned certificates misclassify unsafe behavior.",
+            "Uses probabilistic constraint enumeration to generate compact, focused counterexamples instead of standard adversarial inputs.",
+            "Fine-tuning a pretrained HJ value function produces larger certified regions and reduces certification time across tested benchmarks.",
+            "Introduces a certificate-based safety shield evaluated in Isaac Sim and real-world autonomous racing.",
+            "The shield achieved zero safety constraint violations against a nominal controller and an LQR backup policy in the reported experiments."
+          ],
+          "categories": [
+            "cs.RO",
+            "cs.LG"
+          ],
+          "figure_status": "ready",
+          "figures": [
+            {
+              "caption": "Figure 1: Overview of the proposed enumeration-guided training and online safety filter pipeline.",
+              "figure_id": "figure-1-2",
+              "figure_number": "1",
+              "height": 337,
+              "image_path": "figures/2610.27870/figure-001.webp",
+              "kind": "figure",
+              "page": 2,
+              "width": 976
+            },
+            {
+              "caption": "Figure 2: Comparison between PGD attack and approximate enumeration of unsafe regions (coverage c = 95%) for a pretrained V (x) on a toy example.",
+              "figure_id": "figure-2-7",
+              "figure_number": "2",
+              "height": 367,
+              "image_path": "figures/2610.27870/figure-002.webp",
+              "kind": "figure",
+              "page": 4,
+              "width": 783
+            },
+            {
+              "caption": "Figure 4: Comparison of best-seed certified regions for PGD+MILP and Enum+MILP on the CartPole task.",
+              "figure_id": "figure-4-6",
+              "figure_number": "4",
+              "height": 350,
+              "image_path": "figures/2610.27870/figure-003.webp",
+              "kind": "figure",
+              "page": 8,
+              "width": 444
+            },
+            {
+              "caption": "Figure 5: RoboRacer deployment of the proposed safety filter. (a) Trajectories showing an obstacle-free reference run and a run with six obstacles. The blue dashed curve denotes the planned path, while blue and green segments indicate nominal and safety-filter control, respectively. (b) Left- and right-passing maneuvers with camera views and corresponding local trajectories. The planner selects the passing side based on available room, while the safety filter checks steering commands. Negative room annotations indicate unavailable sides. Max V (x) denotes the maximum value Vθ(f(xt, ut)) of the nominal successors rejected by the filter.",
+              "figure_id": "figure-5-4",
+              "figure_number": "5",
+              "height": 170,
+              "image_path": "figures/2610.27870/figure-004.webp",
+              "kind": "figure",
+              "page": 10,
+              "width": 979
+            },
+            {
+              "caption": "Figure 3: Block diagram of the safety filter via neural HJ certificates.",
+              "figure_id": "figure-3-1",
+              "figure_number": "3",
+              "height": 208,
+              "image_path": "figures/2610.27870/figure-005.webp",
+              "kind": "figure",
+              "page": 6,
+              "width": 783
+            },
+            {
+              "caption": "Table 1: Overview of the considered benchmarks.",
+              "figure_id": "table-1-3",
+              "figure_number": "1",
+              "height": 155,
+              "image_path": "figures/2610.27870/table-006.webp",
+              "kind": "table",
+              "page": 7,
+              "width": 502
+            },
+            {
+              "caption": "Table 2: PGD+MILP vs. Enum+MILP on Cersyve [7] and RobotRacer benchmarks. Results are averaged over three random seeds.",
+              "figure_id": "table-2-10",
+              "figure_number": "2",
+              "height": 143,
+              "image_path": "figures/2610.27870/table-007.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 979
+            },
+            {
+              "caption": "Table 4: Verification scalability on Pendulum Task with increasing value-network size 2x32 (first row), 2x64 (second row).",
+              "figure_id": "table-4-8",
+              "figure_number": "4",
+              "height": 152,
+              "image_path": "figures/2610.27870/table-008.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 610
+            },
+            {
+              "caption": "Table 3: Ablation on the source of counterexamples.",
+              "figure_id": "table-3-9",
+              "figure_number": "3",
+              "height": 115,
+              "image_path": "figures/2610.27870/table-009.webp",
+              "kind": "table",
+              "page": 9,
+              "width": 618
+            },
+            {
+              "caption": "Table 5: RoboRacer simulation over 5 randomized obstacle placements (mean ± std). Min. Clear.: minimum distance kept to obstacle, negative on collision.",
+              "figure_id": "table-5-5",
+              "figure_number": "5",
+              "height": 96,
+              "image_path": "figures/2610.27870/table-010.webp",
+              "kind": "table",
+              "page": 10,
+              "width": 548
+            }
+          ],
+          "first_seen_at": "2026-11-27T21:00:00-05:00",
+          "hero_figure": "figures/2610.27870/hero.webp",
+          "novelty": 8,
+          "pdf_url": "https://arxiv.org/pdf/2610.27870",
+          "relevance": 8,
+          "selection_reason": "Introduces enumeration-guided training for neural Hamilton-Jacobi safety certificates, improving safety guarantees and certification time for autonomous racing.",
+          "summary_status": "generated",
+          "title": "Enumeration-Guided Training of Neural Hamilton-Jacobi Safety Certificates",
+          "tldr": "Enumeration-guided counterexamples improve neural Hamilton-Jacobi safety certificates and enable effective deployment-time shielding.",
+          "topic_assignments": [
+            {
+              "subtopic_ids": [
+                "robot-navigation"
+              ],
+              "topic_id": "embodied-ai"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-11-26",
       "paper_count": 2,
       "papers": [
@@ -64369,91 +64755,10 @@
             "cs.RO",
             "cs.AI"
           ],
-          "figure_status": "ready",
-          "figures": [
-            {
-              "caption": "Fig. 2. Overview of REACH. (A) A bidirectional motion-tracking policy connects crouched bipedal locomotion and crawling. (B) The history-conditioned asymmetric actor–critic encodes proprioceptive histories, predicts future observations and body velocity, and uses privileged information only for critic training. (C) A model-based planner converts LiDAR point clouds into locomotion and height commands. (D) Real-world trials demonstrate crawling through consecutive low-clearance obstacles.",
-              "figure_id": "figure-2-5",
-              "figure_number": "2",
-              "height": 323,
-              "image_path": "figures/2610.36546/figure-001.webp",
-              "kind": "figure",
-              "page": 3,
-              "width": 960
-            },
-            {
-              "caption": "Fig. 3. Real-world evaluation of the complementary locomotion capabilities enabled by REACH. (A) Variable-height bipedal walking continuously adjusts body height to traverse an 80 cm-clearance obstacle. (B) Quadrupedal crawling enables robust multi-contact traversal through passages as low as 40 cm. (C) Bidirectional transitions between bipedal standing and quadrupedal crawling enable the robot to enter and exit low-clearance obstacles under different locomotion modes.",
-              "figure_id": "figure-3-8",
-              "figure_number": "3",
-              "height": 395,
-              "image_path": "figures/2610.36546/figure-002.webp",
-              "kind": "figure",
-              "page": 5,
-              "width": 1002
-            },
-            {
-              "caption": "Fig. 4. Low-level locomotion ablations. (a,b) Mean terrain-curriculum level over training iterations. (c,d) Absolute command-tracking errors (median, IQR, 10th–90th percentiles; descriptive, not confidence intervals). †: crawling variants with no curriculum progress—low yaw-rate error should not be read as successful locomotion.",
-              "figure_id": "figure-4-2",
-              "figure_number": "4",
-              "height": 345,
-              "image_path": "figures/2610.36546/figure-003.webp",
-              "kind": "figure",
-              "page": 7,
-              "width": 470
-            },
-            {
-              "caption": "Fig. 5. Bidirectional transition success over 25 trials per direction. The first three configurations are evaluated in MuJoCo; the hatched FULL (REAL) bars denote deployment of the unchanged full policy on the Unitree G1.",
-              "figure_id": "figure-5-3",
-              "figure_number": "5",
-              "height": 179,
-              "image_path": "figures/2610.36546/figure-004.webp",
-              "kind": "figure",
-              "page": 7,
-              "width": 383
-            },
-            {
-              "caption": "TABLE II REWARD TERMS FOR VARIABLE-HEIGHT BIPEDAL WALKING.",
-              "figure_id": "table-II-4",
-              "figure_number": "II",
-              "height": 304,
-              "image_path": "figures/2610.36546/table-005.webp",
-              "kind": "table",
-              "page": 7,
-              "width": 512
-            },
-            {
-              "caption": "TABLE III REWARD TERMS FOR VARIABLE-HEIGHT HUMANOID CRAWLING.",
-              "figure_id": "table-III-6",
-              "figure_number": "III",
-              "height": 258,
-              "image_path": "figures/2610.36546/table-006.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 512
-            },
-            {
-              "caption": "TABLE IV ADDITIONAL REWARD TERMS FOR BIDIRECTIONAL MOTION TRACKING.",
-              "figure_id": "table-IV-7",
-              "figure_number": "IV",
-              "height": 253,
-              "image_path": "figures/2610.36546/table-007.webp",
-              "kind": "table",
-              "page": 8,
-              "width": 512
-            },
-            {
-              "caption": "TABLE I ABLATION VARIANTS FOR DIFFERENT LOCOMOTION MODES.",
-              "figure_id": "table-I-1",
-              "figure_number": "I",
-              "height": 129,
-              "image_path": "figures/2610.36546/table-008.webp",
-              "kind": "table",
-              "page": 6,
-              "width": 512
-            }
-          ],
+          "figure_status": "archived",
+          "figures": [],
           "first_seen_at": "2026-10-28T21:00:00-04:00",
-          "hero_figure": "figures/2610.36546/hero.webp",
+          "hero_figure": null,
           "novelty": 8,
           "pdf_url": "https://arxiv.org/pdf/2610.36546",
           "relevance": 8,
@@ -87603,5 +87908,5 @@
   "schema_version": 1,
   "subtopic_id": "robot-navigation",
   "topic_id": "embodied-ai",
-  "total_paper_count": 961
+  "total_paper_count": 963
 }

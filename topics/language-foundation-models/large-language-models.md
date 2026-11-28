@@ -6,10 +6,14 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Large Language Models
 
-**2311 papers total**
+**2315 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-27 | [How Language Models Organize Task Information](https://arxiv.org/abs/2610.27724) | Language Foundation Models: Large Language Models | Language models often encode tasks with similarly organized, sparse feature readouts, and readout sparsity helps predict learning requirements and diagnose model changes. | 7 | 7 |
+| 2026-11-27 | [Global Security Blind Spots: Translation as a Safety Bypass in Low-Resource Languages](https://arxiv.org/abs/2610.27304) | Language Foundation Models: Large Language Models | Safety refusals in English often fail to transfer to low-resource languages, creating substantial translation-based bypass risks across widely deployed LLMs. | 7 | 8 |
+| 2026-11-27 | [Understanding the Benefits of Scaffolds through Computational Separations](https://arxiv.org/abs/2610.27157) | Language Foundation Models: Large Language Models | Inference-time scaffolds can provide representational power that same-class student models cannot fully absorb through distillation. | 6 | 7 |
+| 2026-11-27 | [Reconstruction-Optimized Expert Pruning for Mixture-of-Experts Language Models](https://arxiv.org/abs/2610.27123) | Efficient AI: KV Cache and Memory Efficiency; Language Foundation Models: Large Language Models | OptEP prunes MoE experts by optimizing which experts best reconstruct the original layer output, preserving more task performance under aggressive pruning. | 7 | 7 |
 | 2026-11-25 | [Mixture-of-Loops Transformer](https://arxiv.org/abs/2611.34923) | Efficient AI: KV Cache and Memory Efficiency; Language Foundation Models: Large Language Models | MoLT improves the efficiency–expressivity trade-off of looped Transformers by selectively reusing key-value memories across loops, enabling efficient training and decoding without sacrificing quality. | 9 | 8 |
 | 2026-11-25 | [Repairing the Trustworthiness of Distilled Language Models](https://arxiv.org/abs/2611.34831) | Language Foundation Models: Large Language Models | A targeted PBRF-based repair method improves trustworthiness in distilled language models without requiring the original distillation data or substantially harming performance. | 7 | 6 |
 | 2026-11-25 | [Routeability Before Routing: Routeability Audit Protocol (RAP) and RouteabilityBench for Audited LLM Model Selection](https://arxiv.org/abs/2611.34825) | Language Foundation Models: Large Language Models | RAP and RouteabilityBench audit whether an LLM benchmark–portfolio contains enough prompt-level variation for routing gains to be meaningful before comparing routers. | 6 | 6 |

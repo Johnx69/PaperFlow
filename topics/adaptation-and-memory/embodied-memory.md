@@ -6,10 +6,12 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Embodied Memory
 
-**355 papers total**
+**357 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-27 | [How Well Do Vision-Language Scene Graphs Serve as Memory for Embodied Question Answering?](https://arxiv.org/abs/2611.34745) | Embodied AI; Adaptation and Memory: Embodied Memory | Vision-language scene graphs retain useful but unreliable memory for embodied QA, so evaluation should measure answerability—not accuracy alone. | 7 | 7 |
+| 2026-11-27 | [LVMem: Image-Augmented Memory for Long-Horizon Question Answering](https://arxiv.org/abs/2610.27104) | Embodied AI; Multimodal Foundation Models: Spatial Intelligence; Adaptation and Memory: Embodied Memory | LVMem improves long-horizon robotic question answering by linking object-centric memory descriptions to selected images for adaptive visual retrieval. | 7 | 7 |
 | 2026-11-25 | [Memory Is Not Ground Truth: Revising Navigation Authority under Unreliable VLM Evidence for Persistent Semantic Navigation](https://arxiv.org/abs/2611.34915) | Embodied AI: Vision-Language Navigation, Robot Navigation; Adaptation and Memory: Embodied Memory | Robots should reduce a memory’s navigation authority after correlated detection failures without assuming the remembered object is absent. | 8 | 8 |
 | 2026-11-25 | [HoMe: Toward Practical Harness Optimization of Memory Systems for AI Assistants](https://arxiv.org/abs/2611.34624) | Adaptation and Memory: Embodied Memory; Language Foundation Models: LLM Memory | HoMe is an evaluation-driven framework that automatically improves AI-assistant memory harnesses while reducing optimization cost and query-time token use. | 7 | 7 |
 | 2026-11-25 | [Procedure Inference as Memory: Learning Recruiter Decision Procedures from OKF-Structured Episodes in Multi-Session Hiring Assistants](https://arxiv.org/abs/2611.34576) | Adaptation and Memory: Embodied Memory; Language Foundation Models: LLM Memory | Structured episodic memory and learned decision procedures help multi-session hiring assistants track evolving recruiter preferences while reducing context use and conversation length. | 7 | 7 |

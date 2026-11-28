@@ -6,10 +6,11 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # 3D Foundation Models
 
-**407 papers total**
+**408 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-27 | [CrystalAR: Autoregressive Modeling for Symmetric Crystal Generation](https://arxiv.org/abs/2610.27762) | 3D Vision: 3D Foundation Models | CrystalAR unifies symmetry-template and crystal-structure generation through autoregressive, symmetry-conditioned discrete spatial decisions. | 8 | 8 |
 | 2026-11-25 | [AnyCam: Anything Can Represent Camera for Video Generation](https://arxiv.org/abs/2611.34944) | 3D Vision: 3D Foundation Models; Video Generation and Understanding: Video Diffusion | AnyCam enables camera-controlled video generation by using a reconstructed 3D anchor object to specify scale-aware, view-complete camera motion. | 9 | 8 |
 | 2026-11-25 | [PostMesh: Self-Rewarded Preference Post-Training for Flow-Based Artist Mesh Generation](https://arxiv.org/abs/2611.34319) | 3D Vision: 3D Foundation Models | PostMesh self-improves fast flow-based artist mesh generators using reward-based preference post-training, achieving quality comparable to slower autoregressive methods without artist-labeled ground truth. | 8 | 8 |
 | 2026-11-25 | [ReMeDi: Single-Image PBR Material Estimation via Reparameterization between Metal and Dielectric Hypotheses](https://arxiv.org/abs/2611.34284) | 3D Vision: 3D Foundation Models | ReMeDi improves single-image PBR material estimation by explicitly aligning base color with the surface’s metalness hypothesis. | 8 | 8 |

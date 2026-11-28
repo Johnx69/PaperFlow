@@ -6,10 +6,13 @@ SOURCE: configs/topics.yaml + data/papers.json
 
 # Efficient AI
 
-**2748 papers total**
+**2751 papers total**
 
 | Date | Paper | Topics | TL;DR | Rel. | Nov. |
 |---|---|---|---|---:|---:|
+| 2026-11-27 | [SPGSR: A Small Pixel-Space Generator for One-Step Super-Resolution](https://arxiv.org/abs/2611.34418) | Efficient AI | SPGSR delivers competitive one-step super-resolution with a compact 31.8M-parameter pixel-space generator guided by frozen DINOv2 features. | 6 | 7 |
+| 2026-11-27 | [FEAST: Fair and Efficient Adaptive Sampling for Task-Free On-Policy Learning](https://arxiv.org/abs/2611.33827) | Efficient AI; Adaptation and Memory: Continual and Online Learning | FEAST improves fair and efficient on-policy learning by protecting sampling opportunities for weaker capabilities while focusing computation on informative prompts. | 5 | 7 |
+| 2026-11-27 | [Reconstruction-Optimized Expert Pruning for Mixture-of-Experts Language Models](https://arxiv.org/abs/2610.27123) | Efficient AI: KV Cache and Memory Efficiency; Language Foundation Models: Large Language Models | OptEP prunes MoE experts by optimizing which experts best reconstruct the original layer output, preserving more task performance under aggressive pruning. | 7 | 7 |
 | 2026-11-26 | [Understanding Diffusion Acceleration: Methods, Trade-Offs, and Open Questions](https://arxiv.org/abs/2611.34056) | Efficient AI | A unified analysis of diffusion acceleration methods clarifies how they trade off generation quality, sampling cost, and latency across image, audio, and video synthesis. | 6 | 4 |
 | 2026-11-26 | [Ultra-Lightweight 3D Medical Image Segmentation via Knowledge Distillation in Label-Scarce Domains](https://arxiv.org/abs/2611.10033) | Efficient AI | Knowledge distillation compresses a large Mamba-based 3D segmentation model into a much smaller TinyUNet3D, retaining competitive accuracy and providing the greatest benefit when labeled data is scarce. | 6 | 5 |
 | 2026-11-26 | [GMD-Mamba: Lightweight 3D Medical Image Segmentation Using a Grouped Multi-Directional Mamba](https://arxiv.org/abs/2611.10032) | Efficient AI | GMD-Mamba delivers lightweight 3D medical image segmentation by combining grouped multi-directional scans with selective deep-stage Mamba processing. | 6 | 6 |
